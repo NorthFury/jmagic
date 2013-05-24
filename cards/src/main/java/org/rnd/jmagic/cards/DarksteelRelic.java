@@ -15,6 +15,6 @@ public final class DarksteelRelic extends Card
 
 		// Darksteel Relic is indestructible. (Effects that say "destroy" don't
 		// destroy it.)
-		this.addAbility(new org.rnd.jmagic.abilities.Indestructible(state, this.getName()));
+		this.addAbility(new org.rnd.jmagic.abilities.keywords.Indestructible(state));
 	}
 }

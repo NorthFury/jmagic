@@ -59,7 +59,7 @@ public final class PhylacteryLich extends Card
 		this.addAbility(new PhylacteryLichAbility0(state));
 
 		// Phylactery Lich is indestructible.
-		this.addAbility(new org.rnd.jmagic.abilities.Indestructible(state, this.getName()));
+		this.addAbility(new org.rnd.jmagic.abilities.keywords.Indestructible(state));
 
 		// When you control no permanents with phylactery counters on them,
 		// sacrifice Phylactery Lich.

@@ -284,6 +284,7 @@ public class CardShell
 		newKeywords.put("Hexproof", simpleInstantiation(Hexproof.class));
 		newKeywords.put("Hideaway", simpleInstantiation(Hideaway.class));
 		newKeywords.put("Horsemanship", simpleInstantiation(Horsemanship.class));
+		newKeywords.put("Indestructible", simpleInstantiation(Indestructible.class));
 		newKeywords.put("Infect", simpleInstantiation(Infect.class));
 		newKeywords.put("Intimidate", simpleInstantiation(Intimidate.class));
 		newKeywords.put("Islandwalk", simpleInstantiation(Landwalk.Islandwalk.class));
@@ -349,11 +350,13 @@ public class CardShell
 		// Not really keywords
 		newKeywords.put("This enters the battlefield tapped.", withThisNameInstantiation(EntersTheBattlefieldTapped.class));
 		newKeywords.put("This can't block.", withThisNameInstantiation(CantBlock.class));
-		newKeywords.put("This is indestructible.", withThisNameInstantiation(Indestructible.class));
 		newKeywords.put("This is unblockable.", withThisNameInstantiation(Unblockable.class));
 		/* This doesn't work because it has a comma */
 		// keywords.put("If this is in your opening hand, you may begin the game with it on the battlefield.",
 		// withThisNameInstantiation(LeylineAbility.class));
+
+		// backwards compatibility
+		newKeywords.put("This is indestructible.", simpleInstantiation(Indestructible.class));
 
 		for(java.util.Map.Entry<String, String> entry: newKeywords.entrySet())
 			keywords.put(java.util.regex.Pattern.compile(entry.getKey(), java.util.regex.Pattern.CASE_INSENSITIVE), entry.getValue());

@@ -2369,20 +2369,16 @@ public class Convenience
 	}
 
 	/**
-	 * Creates a {@link org.rnd.jmagic.engine.ContinuousEffect.Part} that
-	 * prohibits destroying permanents.
+	 * Creates a {@link org.rnd.jmagic.engine.ContinuousEffect.Part} that grants
+	 * the {@link org.rnd.jmagic.abilities.keywords.Indestructible} keyword to
+	 * each of the given objects.
 	 * 
 	 * @param who What permanents shouldn't be destroyed
 	 * @return The {@link org.rnd.jmagic.engine.ContinuousEffect.Part}
 	 */
 	public static ContinuousEffect.Part indestructible(SetGenerator who)
 	{
-		SimpleEventPattern destroy = new SimpleEventPattern(EventType.DESTROY_ONE_PERMANENT);
-		destroy.put(EventType.Parameter.PERMANENT, who);
-
-		ContinuousEffect.Part part = new ContinuousEffect.Part(ContinuousEffectType.PROHIBIT);
-		part.parameters.put(ContinuousEffectType.Parameter.PROHIBITION, Identity.instance(destroy));
-		return part;
+		return addAbilityToObject(who, org.rnd.jmagic.abilities.keywords.Indestructible.class);
 	}
 
 	public static ZoneChangePattern landfall()
