@@ -563,7 +563,7 @@ public abstract class JUnitTest
 	protected final SanitizedPlayLandAction getLandForTheTurnAction(Class<? extends GameObject> land)
 	{
 		for(SanitizedPlayLandAction choice: this.choices.getAll(SanitizedPlayLandAction.class))
-			if(choice.isPerTurnAction && this.game.actualState.get(choice.land).getClass() == land)
+			if(this.game.actualState.get(choice.land).getClass() == land)
 				return choice;
 		fail("Failed to find SanitizedPlayLandAction(" + land.getSimpleName() + ")");
 		return null;
