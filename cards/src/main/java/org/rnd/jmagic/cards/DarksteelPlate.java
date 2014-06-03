@@ -26,7 +26,7 @@ public final class DarksteelPlate extends Card
 		super(state);
 
 		// Darksteel Plate is indestructible.
-		this.addAbility(new org.rnd.jmagic.abilities.Indestructible(state, this.getName()));
+		this.addAbility(new org.rnd.jmagic.abilities.keywords.Indestructible(state));
 
 		// Equipped creature is indestructible.
 		this.addAbility(new DarksteelPlateAbility1(state));

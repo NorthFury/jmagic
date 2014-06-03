@@ -47,7 +47,7 @@ public final class PredatorOoze extends Card
 		this.setToughness(1);
 
 		// Predator Ooze is indestructible.
-		this.addAbility(new org.rnd.jmagic.abilities.Indestructible(state, this.getName()));
+		this.addAbility(new org.rnd.jmagic.abilities.keywords.Indestructible(state));
 
 		// Whenever Predator Ooze attacks, put a +1/+1 counter on it.
 		this.addAbility(new PredatorOozeAbility1(state));

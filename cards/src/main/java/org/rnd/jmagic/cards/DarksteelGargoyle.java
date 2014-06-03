@@ -18,6 +18,6 @@ public final class DarksteelGargoyle extends Card
 		this.setToughness(3);
 
 		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
-		this.addAbility(new org.rnd.jmagic.abilities.Indestructible(state, this.getName()));
+		this.addAbility(new org.rnd.jmagic.abilities.keywords.Indestructible(state));
 	}
 }

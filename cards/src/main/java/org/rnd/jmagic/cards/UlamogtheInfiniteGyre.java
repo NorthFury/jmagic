@@ -42,7 +42,7 @@ public final class UlamogtheInfiniteGyre extends Card
 		this.addAbility(new org.rnd.jmagic.abilities.keywords.Annihilator.Final(state, 4));
 
 		// Ulamog is indestructible.
-		this.addAbility(new org.rnd.jmagic.abilities.Indestructible(state, "Ulamog"));
+		this.addAbility(new org.rnd.jmagic.abilities.keywords.Indestructible(state));
 
 		// When Ulamog is put into a graveyard from anywhere, its owner shuffles
 		// his or her graveyard into his or her library.

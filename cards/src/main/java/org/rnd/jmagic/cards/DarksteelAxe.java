@@ -28,7 +28,7 @@ public final class DarksteelAxe extends Card
 
 		// Darksteel Axe is indestructible. (Effects that say "destroy" don't
 		// destroy it.)
-		this.addAbility(new org.rnd.jmagic.abilities.Indestructible(state, this.getName()));
+		this.addAbility(new org.rnd.jmagic.abilities.keywords.Indestructible(state));
 
 		// Equipped creature gets +2/+0.
 		this.addAbility(new DarksteelAxeAbility1(state));
