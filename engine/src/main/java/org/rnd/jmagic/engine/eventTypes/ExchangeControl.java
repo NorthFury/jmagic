@@ -18,7 +18,7 @@ public final class ExchangeControl extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		return this.attemptEvents(event, this.getEvents(game, parameters));
 	}
@@ -33,7 +33,7 @@ public final class ExchangeControl extends EventType
 		return true;
 	}
 
-	private java.util.Set<Event> getEvents(Game game, java.util.Map<Parameter, Set> parameters)
+	private java.util.Set<Event> getEvents(Game game, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		java.util.Set<GameObject> objects = parameters.get(Parameter.OBJECT).getAll(GameObject.class);
 
@@ -52,10 +52,10 @@ public final class ExchangeControl extends EventType
 			controlPart.parameters.put(ContinuousEffectType.Parameter.OBJECT, Identity.instance(objectTwo));
 			controlPart.parameters.put(ContinuousEffectType.Parameter.PLAYER, Identity.instance(controllerOne));
 
-			java.util.Map<Parameter, Set> controlParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> controlParameters = new java.util.HashMap<Parameter, MagicSet>();
 			controlParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
-			controlParameters.put(Parameter.EFFECT, new Set(controlPart));
-			controlParameters.put(Parameter.EXPIRES, new Set(Empty.instance()));
+			controlParameters.put(Parameter.EFFECT, new MagicSet(controlPart));
+			controlParameters.put(Parameter.EXPIRES, new MagicSet(Empty.instance()));
 			ret.add(createEvent(game, controllerOne + " gains control of " + objectTwo + ".", EventType.CREATE_FLOATING_CONTINUOUS_EFFECT, controlParameters));
 		}
 
@@ -64,10 +64,10 @@ public final class ExchangeControl extends EventType
 			controlPart.parameters.put(ContinuousEffectType.Parameter.OBJECT, Identity.instance(objectOne));
 			controlPart.parameters.put(ContinuousEffectType.Parameter.PLAYER, Identity.instance(controllerTwo));
 
-			java.util.Map<Parameter, Set> controlParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> controlParameters = new java.util.HashMap<Parameter, MagicSet>();
 			controlParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
-			controlParameters.put(Parameter.EFFECT, new Set(controlPart));
-			controlParameters.put(Parameter.EXPIRES, new Set(Empty.instance()));
+			controlParameters.put(Parameter.EFFECT, new MagicSet(controlPart));
+			controlParameters.put(Parameter.EXPIRES, new MagicSet(Empty.instance()));
 			ret.add(createEvent(game, controllerTwo + " gains control of " + objectOne + ".", EventType.CREATE_FLOATING_CONTINUOUS_EFFECT, controlParameters));
 		}
 
@@ -75,7 +75,7 @@ public final class ExchangeControl extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		event.setResult(Empty.set);
 

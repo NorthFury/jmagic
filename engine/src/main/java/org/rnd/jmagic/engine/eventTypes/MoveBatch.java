@@ -18,7 +18,7 @@ public final class MoveBatch extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		for(ZoneChange change: parameters.get(Parameter.TARGET).getAll(ZoneChange.class))
 		{
@@ -40,7 +40,7 @@ public final class MoveBatch extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		java.util.Set<ZoneChange> successfulZoneChanges = new java.util.HashSet<ZoneChange>();
 
@@ -66,7 +66,7 @@ public final class MoveBatch extends EventType
 		if(game.hasStarted())
 		{
 			players.remove(null);
-			players = game.actualState.apnapOrder(new Set(players));
+			players = game.actualState.apnapOrder(new MagicSet(players));
 			if(controlledChanges.containsKey(null))
 				players.add(null);
 		}
@@ -113,7 +113,7 @@ public final class MoveBatch extends EventType
 				boolean fromBattlefield = from.equals(game.physicalState.battlefield());
 				boolean fromStack = from.equals(game.physicalState.stack());
 
-				Set attachments = new Set();
+				MagicSet attachments = new MagicSet();
 				// If this is on the battlefield and was attached to
 				// something, detach it.
 				if(fromBattlefield && moveOut.getAttachedTo() != -1)
@@ -123,7 +123,7 @@ public final class MoveBatch extends EventType
 					attachments.add(game.actualState.getByIDObject(attachmentID));
 				if(!attachments.isEmpty())
 				{
-					java.util.Map<Parameter, Set> detachParameters = new java.util.HashMap<Parameter, Set>();
+					java.util.Map<Parameter, MagicSet> detachParameters = new java.util.HashMap<Parameter, MagicSet>();
 					detachParameters.put(EventType.Parameter.OBJECT, attachments);
 					createEvent(game, "Unattach " + attachments + ".", EventType.UNATTACH, detachParameters).perform(event, false);
 				}
@@ -168,7 +168,7 @@ public final class MoveBatch extends EventType
 							couldAttach = false;
 						else
 						{
-							Set choices = enchantKeyword.filter.evaluate(game, moveIn);
+							MagicSet choices = enchantKeyword.filter.evaluate(game, moveIn);
 							// Can't attach to something moving at the same
 							// time as the Aura
 							choices.removeAll(newObjects);
@@ -176,9 +176,9 @@ public final class MoveBatch extends EventType
 								couldAttach = false;
 							else
 							{
-								java.util.Map<Parameter, Set> attachParameters = new java.util.HashMap<Parameter, Set>();
-								attachParameters.put(Parameter.OBJECT, new Set(moveIn));
-								attachParameters.put(Parameter.PLAYER, new Set(moveIn.getController(moveIn.state)));
+								java.util.Map<Parameter, MagicSet> attachParameters = new java.util.HashMap<Parameter, MagicSet>();
+								attachParameters.put(Parameter.OBJECT, new MagicSet(moveIn));
+								attachParameters.put(Parameter.PLAYER, new MagicSet(moveIn.getController(moveIn.state)));
 								attachParameters.put(Parameter.CHOICE, choices);
 								createEvent(game, "Attach " + moveIn + " to an object or player.", EventType.ATTACH_TO_CHOICE, attachParameters).perform(event, false);
 							}
@@ -222,9 +222,9 @@ public final class MoveBatch extends EventType
 					Player controller = game.actualState.get(movement.controllerID);
 					moveIn.setController(controller);
 
-					java.util.Map<EventType.Parameter, Set> controlParameters = new java.util.HashMap<EventType.Parameter, Set>();
-					controlParameters.put(Parameter.OBJECT, new Set(moveIn));
-					controlParameters.put(Parameter.TARGET, new Set(controller));
+					java.util.Map<EventType.Parameter, MagicSet> controlParameters = new java.util.HashMap<EventType.Parameter, MagicSet>();
+					controlParameters.put(Parameter.OBJECT, new MagicSet(moveIn));
+					controlParameters.put(Parameter.TARGET, new MagicSet(controller));
 					controlParameters.put(Parameter.ATTACKER, Empty.set);
 					createEvent(game, controller + " controls " + moveIn + ".", CHANGE_CONTROL, controlParameters).perform(event, false);
 
@@ -235,9 +235,9 @@ public final class MoveBatch extends EventType
 				{
 					Player oldController = game.actualState.get(moveOut.controllerID);
 
-					java.util.Map<EventType.Parameter, Set> controlParameters = new java.util.HashMap<EventType.Parameter, Set>();
-					controlParameters.put(Parameter.OBJECT, new Set(moveOut));
-					controlParameters.put(Parameter.PLAYER, new Set(oldController));
+					java.util.Map<EventType.Parameter, MagicSet> controlParameters = new java.util.HashMap<EventType.Parameter, MagicSet>();
+					controlParameters.put(Parameter.OBJECT, new MagicSet(moveOut));
+					controlParameters.put(Parameter.PLAYER, new MagicSet(oldController));
 					createEvent(game, "No one controls " + moveOut + ".", CHANGE_CONTROL, controlParameters).perform(event, false);
 
 					if(!toBattlefield)
@@ -258,7 +258,7 @@ public final class MoveBatch extends EventType
 							if(part.type.layer() == ContinuousEffectType.Layer.RULE_CHANGE || part.type.affects() == null)
 								continue;
 
-							Set affectedObjects = part.parameters.get(part.type.affects()).evaluate(game, null);
+							MagicSet affectedObjects = part.parameters.get(part.type.affects()).evaluate(game, null);
 							if(affectedObjects.contains(original))
 								partsToModify.add(part);
 						}
@@ -308,7 +308,7 @@ public final class MoveBatch extends EventType
 					// was cast use information about the spell that became
 					// that permanent.
 					{
-						Set newAbilities = new Set(moveIn.getNonStaticAbilities());
+						MagicSet newAbilities = new MagicSet(moveIn.getNonStaticAbilities());
 						for(NonStaticAbility ability: moveOut.getNonStaticAbilities())
 						{
 							Linkable.Manager originalManager = ability.getLinkManager();
@@ -328,7 +328,7 @@ public final class MoveBatch extends EventType
 							}
 						}
 
-						newAbilities = new Set(moveIn.getStaticAbilities());
+						newAbilities = new MagicSet(moveIn.getStaticAbilities());
 						for(StaticAbility ability: moveOut.getStaticAbilities())
 						{
 							Linkable.Manager originalManager = ability.getLinkManager();

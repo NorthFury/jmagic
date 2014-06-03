@@ -26,16 +26,16 @@ public final class HiveMind extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
-			Set cause = parameters.get(Parameter.CAUSE);
-			Set toCopy = parameters.get(Parameter.OBJECT);
+			MagicSet cause = parameters.get(Parameter.CAUSE);
+			MagicSet toCopy = parameters.get(Parameter.OBJECT);
 			for(Player player: event.state.apnapOrder(parameters.get(Parameter.PLAYER)))
 			{
-				java.util.Map<Parameter, Set> newParameters = new java.util.HashMap<Parameter, Set>();
+				java.util.Map<Parameter, MagicSet> newParameters = new java.util.HashMap<Parameter, MagicSet>();
 				newParameters.put(Parameter.CAUSE, cause);
 				newParameters.put(Parameter.OBJECT, toCopy);
-				newParameters.put(Parameter.PLAYER, new Set(player));
+				newParameters.put(Parameter.PLAYER, new MagicSet(player));
 				createEvent(game, player + " copies " + toCopy + " and may choose new targets for it.", EventType.COPY_SPELL_OR_ABILITY, newParameters).perform(event, true);
 
 			}

@@ -29,19 +29,19 @@ public final class MalakirBloodwitch extends Card
 		 * @eparam RESULT empty
 		 */
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
-			Set trigger = parameters.get(Parameter.CAUSE);
-			Set you = parameters.get(Parameter.PLAYER);
-			Set opponents = parameters.get(Parameter.TARGET);
-			Set number = parameters.get(Parameter.NUMBER);
+			MagicSet trigger = parameters.get(Parameter.CAUSE);
+			MagicSet you = parameters.get(Parameter.PLAYER);
+			MagicSet opponents = parameters.get(Parameter.TARGET);
+			MagicSet number = parameters.get(Parameter.NUMBER);
 
 			// keys are player IDs
 			java.util.Map<Integer, Integer> lifeTotals = new java.util.HashMap<Integer, Integer>();
 			for(Player p: game.actualState.players)
 				lifeTotals.put(p.ID, p.lifeTotal);
 
-			java.util.Map<Parameter, Set> loseLifeParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> loseLifeParameters = new java.util.HashMap<Parameter, MagicSet>();
 			loseLifeParameters.put(Parameter.CAUSE, trigger);
 			loseLifeParameters.put(Parameter.PLAYER, opponents);
 			loseLifeParameters.put(Parameter.NUMBER, number);
@@ -56,10 +56,10 @@ public final class MalakirBloodwitch extends Card
 					lifeLostThisWay += (previousLifeTotal - p.lifeTotal);
 			}
 
-			java.util.Map<Parameter, Set> gainLifeParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> gainLifeParameters = new java.util.HashMap<Parameter, MagicSet>();
 			gainLifeParameters.put(Parameter.CAUSE, trigger);
 			gainLifeParameters.put(Parameter.PLAYER, you);
-			gainLifeParameters.put(Parameter.NUMBER, new Set(lifeLostThisWay));
+			gainLifeParameters.put(Parameter.NUMBER, new MagicSet(lifeLostThisWay));
 			Event gainLife = createEvent(game, "You gain life equal to the life lost this way", EventType.GAIN_LIFE, gainLifeParameters);
 			gainLife.perform(event, true);
 

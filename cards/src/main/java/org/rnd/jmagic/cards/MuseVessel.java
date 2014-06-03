@@ -48,10 +48,10 @@ public final class MuseVessel extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			Player you = parameters.get(Parameter.PLAYER).getOne(Player.class);
-			Set objects = parameters.get(Parameter.OBJECT);
+			MagicSet objects = parameters.get(Parameter.OBJECT);
 
 			java.util.Collection<GameObject> chosen = you.sanitizeAndChoose(game.actualState, 1, objects.getAll(GameObject.class), PlayerInterface.ChoiceType.OBJECTS, REASON);
 

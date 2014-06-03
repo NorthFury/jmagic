@@ -97,29 +97,29 @@ public final class Devour extends Keyword
 			}
 
 			@Override
-			public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+			public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 			{
 				event.setResult(Empty.set);
 
-				Set thisCreature = parameters.get(Parameter.OBJECT);
-				Set player = parameters.get(Parameter.PLAYER);
-				Set choices = parameters.get(Parameter.CHOICE);
+				MagicSet thisCreature = parameters.get(Parameter.OBJECT);
+				MagicSet player = parameters.get(Parameter.PLAYER);
+				MagicSet choices = parameters.get(Parameter.CHOICE);
 
-				java.util.Map<Parameter, Set> sacrificeParameters = new java.util.HashMap<Parameter, Set>();
+				java.util.Map<Parameter, MagicSet> sacrificeParameters = new java.util.HashMap<Parameter, MagicSet>();
 				sacrificeParameters.put(Parameter.CAUSE, thisCreature);
-				sacrificeParameters.put(Parameter.NUMBER, new Set(new org.rnd.util.NumberRange(0, null)));
+				sacrificeParameters.put(Parameter.NUMBER, new MagicSet(new org.rnd.util.NumberRange(0, null)));
 				sacrificeParameters.put(Parameter.CHOICE, choices);
 				sacrificeParameters.put(Parameter.PLAYER, player);
 				Event sacrifice = createEvent(game, "You may sacrifice any number of creatures", EventType.SACRIFICE_CHOICE, sacrificeParameters);
 				sacrifice.perform(event, true);
-				Set sacrificed = sacrifice.getResult();
+				MagicSet sacrificed = sacrifice.getResult();
 
 				int N = parameters.get(Parameter.NUMBER).getOne(Integer.class);
 
-				java.util.Map<Parameter, Set> counterParameters = new java.util.HashMap<Parameter, Set>();
+				java.util.Map<Parameter, MagicSet> counterParameters = new java.util.HashMap<Parameter, MagicSet>();
 				counterParameters.put(Parameter.CAUSE, thisCreature);
-				counterParameters.put(Parameter.COUNTER, new Set(Counter.CounterType.PLUS_ONE_PLUS_ONE));
-				counterParameters.put(Parameter.NUMBER, new Set(N * sacrificed.size()));
+				counterParameters.put(Parameter.COUNTER, new MagicSet(Counter.CounterType.PLUS_ONE_PLUS_ONE));
+				counterParameters.put(Parameter.NUMBER, new MagicSet(N * sacrificed.size()));
 				counterParameters.put(Parameter.OBJECT, thisCreature);
 				Event counters = createEvent(game, "This permanent enters the battlefield with " + N + " +1/+1 counters on it for each creature sacrificed this way.", EventType.PUT_COUNTERS, counterParameters);
 				counters.perform(event, true);

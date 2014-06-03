@@ -18,7 +18,7 @@ public final class PlayLand extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		Player player = parameters.get(Parameter.PLAYER).getOne(Player.class);
 		Turn currentTurn = game.actualState.currentTurn();
@@ -30,7 +30,7 @@ public final class PlayLand extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		GameObject land = parameters.get(Parameter.LAND).getOne(GameObject.class);
 		Player player = parameters.get(Parameter.PLAYER).getOne(Player.class);
@@ -48,18 +48,18 @@ public final class PlayLand extends EventType
 			return false;
 		}
 
-		java.util.Map<Parameter, Set> playParameters = new java.util.HashMap<Parameter, Set>();
-		playParameters.put(Parameter.CAUSE, new Set(game));
-		playParameters.put(Parameter.CONTROLLER, new Set(player));
-		playParameters.put(Parameter.OBJECT, new Set(land));
+		java.util.Map<Parameter, MagicSet> playParameters = new java.util.HashMap<Parameter, MagicSet>();
+		playParameters.put(Parameter.CAUSE, new MagicSet(game));
+		playParameters.put(Parameter.CONTROLLER, new MagicSet(player));
+		playParameters.put(Parameter.OBJECT, new MagicSet(land));
 		Event putOntoBattlefield = createEvent(game, player + " puts " + land + " onto the battlefield.", PUT_ONTO_BATTLEFIELD, playParameters);
 		putOntoBattlefield.perform(event, true);
 
 		GameObject playedLand = game.actualState.get(putOntoBattlefield.getResult().getOne(ZoneChange.class).newObjectID);
 
-		java.util.Map<Parameter, Set> playFlagParameters = new java.util.HashMap<Parameter, Set>();
-		playFlagParameters.put(Parameter.PLAYER, new Set(player));
-		playFlagParameters.put(Parameter.OBJECT, new Set(playedLand));
+		java.util.Map<Parameter, MagicSet> playFlagParameters = new java.util.HashMap<Parameter, MagicSet>();
+		playFlagParameters.put(Parameter.PLAYER, new MagicSet(player));
+		playFlagParameters.put(Parameter.OBJECT, new MagicSet(playedLand));
 		createEvent(game, player + " plays " + land + ".", BECOMES_PLAYED, playFlagParameters).perform(event, false);
 
 		event.setResult(putOntoBattlefield.getResultGenerator());

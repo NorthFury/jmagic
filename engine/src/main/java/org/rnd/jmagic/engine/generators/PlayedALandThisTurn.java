@@ -62,7 +62,7 @@ public class PlayedALandThisTurn extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
 		Turn currentTurn = state.currentTurn();
 		if(currentTurn == null)

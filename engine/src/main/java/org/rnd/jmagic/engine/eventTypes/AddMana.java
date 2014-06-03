@@ -24,9 +24,9 @@ public final class AddMana extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
-		Set result = new Set();
+		MagicSet result = new MagicSet();
 		Identified producer = parameters.get(Parameter.SOURCE).getOne(Identified.class);
 		java.util.Set<Color> colors = parameters.get(Parameter.MANA).getAll(Color.class);
 		java.util.Set<ManaSymbol.ManaType> types = parameters.get(Parameter.MANA).getAll(ManaSymbol.ManaType.class);

@@ -22,7 +22,7 @@ public class Domain extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
 		Player player = this.players.evaluate(state, thisObject).getOne(Player.class);
 		if(player == null)
@@ -40,6 +40,6 @@ public class Domain extends SetGenerator
 				types.removeAll(object.getSubTypes());
 
 		int basicLandTypes = SubType.getBasicLandTypes().size();
-		return new Set(basicLandTypes - types.size());
+		return new MagicSet(basicLandTypes - types.size());
 	}
 }

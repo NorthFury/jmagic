@@ -9,7 +9,7 @@ public interface Linkable
 	public static class Manager implements Cloneable
 	{
 		/** Fields to store the linked ability */
-		private Set linkInformation;
+		private MagicSet linkInformation;
 		private java.util.Map<Class<? extends Linkable>, Integer> links;
 
 		public Manager()
@@ -21,7 +21,7 @@ public interface Linkable
 		public void addLinkInformation(Object o)
 		{
 			if(this.linkInformation == null)
-				this.linkInformation = new Set();
+				this.linkInformation = new MagicSet();
 			this.linkInformation.add(o);
 		}
 
@@ -33,7 +33,7 @@ public interface Linkable
 				Manager ret = (Manager)super.clone();
 
 				if(this.linkInformation != null)
-					ret.linkInformation = new Set(this.linkInformation);
+					ret.linkInformation = new MagicSet(this.linkInformation);
 				ret.links = new java.util.HashMap<Class<? extends Linkable>, Integer>(this.links);
 
 				return ret;
@@ -68,11 +68,11 @@ public interface Linkable
 		 * link. ZoneChange are replaced with the new object in the change and
 		 * GameObject which are ghosts aren't returned.
 		 */
-		public Set getLinkInformation(GameState state)
+		public MagicSet getLinkInformation(GameState state)
 		{
 			if(this.linkInformation == null)
 				return null;
-			Set ret = org.rnd.jmagic.engine.generators.Identity.instance(this.linkInformation).evaluate(state, null);
+			MagicSet ret = org.rnd.jmagic.engine.generators.Identity.instance(this.linkInformation).evaluate(state, null);
 			for(GameObject go: ret.getAll(GameObject.class))
 				if(go.isGhost())
 					ret.remove(go);
@@ -92,7 +92,7 @@ public interface Linkable
 			if(this.links.containsKey(linkClass))
 			{
 				this.links.put(linkClass, ((Identified)link).ID);
-				this.linkInformation = new Set();
+				this.linkInformation = new MagicSet();
 			}
 			else
 				throw new UnsupportedOperationException("Attempting to link an instance of an ability of an unregistered class");

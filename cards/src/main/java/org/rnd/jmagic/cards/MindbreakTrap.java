@@ -85,10 +85,10 @@ public final class MindbreakTrap extends Card
 		}
 
 		@Override
-		public Set evaluate(GameState state, Identified thisObject)
+		public MagicSet evaluate(GameState state, Identified thisObject)
 		{
 			java.util.Map<Integer, Integer> flagValue = state.getTracker(SpellCount.class).getValue(state);
-			Set players = this.who.evaluate(state, thisObject);
+			MagicSet players = this.who.evaluate(state, thisObject);
 
 			int count = 0;
 			for(Player player: players.getAll(Player.class))
@@ -98,7 +98,7 @@ public final class MindbreakTrap extends Card
 					if(value > count)
 						count = value;
 				}
-			return new Set(count);
+			return new MagicSet(count);
 		}
 	}
 

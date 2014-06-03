@@ -17,7 +17,7 @@ public final class RainofThorns extends Card
 
 		// Choose one or more \u2014 Destroy target artifact; destroy target
 		// enchantment; and/or destroy target land.
-		this.setNumModes(new Set(new org.rnd.util.NumberRange(1, null)));
+		this.setNumModes(new MagicSet(new org.rnd.util.NumberRange(1, null)));
 
 		{
 			SetGenerator target = targetedBy(this.addTarget(1, ArtifactPermanents.instance(), "target artifact"));

@@ -22,9 +22,9 @@ public class ManaColorPattern implements SetPattern
 	}
 
 	@Override
-	public boolean match(GameState state, Identified thisObject, Set set)
+	public boolean match(GameState state, Identified thisObject, MagicSet set)
 	{
-		Set colors = this.colors.evaluate(state, thisObject);
+		MagicSet colors = this.colors.evaluate(state, thisObject);
 		for(ManaSymbol m: set.getAll(ManaSymbol.class))
 			for(Color c: m.colors)
 				if(colors.contains(c))

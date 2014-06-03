@@ -47,13 +47,13 @@ public final class SpellCopy extends GameObject implements Castable
 	 * @return The countered object.
 	 */
 	@Override
-	public GameObject counterThisObject(Set counterer)
+	public GameObject counterThisObject(MagicSet counterer)
 	{
 		return this.counterThisObject(counterer, this.getOwner(this.game.physicalState).getGraveyard(this.game.physicalState));
 	}
 
 	@Override
-	public GameObject counterThisObject(Set counterer, Zone counterTo)
+	public GameObject counterThisObject(MagicSet counterer, Zone counterTo)
 	{
 		SetGenerator thisObject = IdentifiedWithID.instance(this.ID);
 
@@ -139,7 +139,7 @@ public final class SpellCopy extends GameObject implements Castable
 				if(part.type.layer() == ContinuousEffectType.Layer.RULE_CHANGE || part.type.affects() == null)
 					continue;
 
-				Set affectedObjects = part.parameters.get(part.type.affects()).evaluate(this.game, null);
+				MagicSet affectedObjects = part.parameters.get(part.type.affects()).evaluate(this.game, null);
 				if(affectedObjects.contains(this))
 					partsToModify.add(part);
 			}

@@ -20,9 +20,9 @@ public class ZoneContaining extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		Set ret = new Set();
+		MagicSet ret = new MagicSet();
 		for(GameObject o: this.what.evaluate(state, thisObject).getAll(GameObject.class))
 			if(-1 != o.zoneID)
 				ret.add(state.get(o.zoneID));

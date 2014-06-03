@@ -30,16 +30,16 @@ public final class WildEvocation extends Card
 			}
 
 			@Override
-			public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+			public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 			{
 				Player player = parameters.get(Parameter.PLAYER).getOne(Player.class);
 				GameObject card = parameters.get(Parameter.OBJECT).getOne(GameObject.class);
 
-				java.util.Map<Parameter, Set> castParameters = new java.util.HashMap<Parameter, Set>();
+				java.util.Map<Parameter, MagicSet> castParameters = new java.util.HashMap<Parameter, MagicSet>();
 				castParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
-				castParameters.put(Parameter.PLAYER, new Set(player));
+				castParameters.put(Parameter.PLAYER, new MagicSet(player));
 				castParameters.put(Parameter.ALTERNATE_COST, Empty.set);
-				castParameters.put(Parameter.OBJECT, new Set(card));
+				castParameters.put(Parameter.OBJECT, new MagicSet(card));
 				Event cast = createEvent(game, player + " casts " + card, PLAY_CARD, castParameters);
 				if(!cast.attempt(event))
 				{

@@ -18,9 +18,9 @@ public class StartingLifeTotalOf extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
 		// TODO : MAKE THIS CORRECT!
-		return new Set(20);
+		return new MagicSet(20);
 	}
 }

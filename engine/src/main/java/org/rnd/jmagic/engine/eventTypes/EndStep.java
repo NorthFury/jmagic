@@ -18,7 +18,7 @@ public final class EndStep extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		game.physicalState.setPreviousStep(parameters.get(Parameter.STEP).getOne(Step.class));
 		createEvent(game, "Empty all mana pools.", EventType.EMPTY_ALL_MANA_POOLS, null).perform(event, false);

@@ -21,7 +21,7 @@ public final class MoveCounters extends EventType
 	// back through the repository and find it.
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		GameObject from = parameters.get(Parameter.FROM).getOne(GameObject.class);
 		GameObject to = parameters.get(Parameter.TO).getOne(GameObject.class);
@@ -35,7 +35,7 @@ public final class MoveCounters extends EventType
 			type = parameters.get(Parameter.COUNTER).getOne(Counter.CounterType.class);
 
 		boolean success = true;
-		Set result = new Set();
+		MagicSet result = new MagicSet();
 
 		if(number < 1)
 		{
@@ -43,19 +43,19 @@ public final class MoveCounters extends EventType
 			return true;
 		}
 
-		java.util.Map<Parameter, Set> removeParameters = new java.util.HashMap<Parameter, Set>();
+		java.util.Map<Parameter, MagicSet> removeParameters = new java.util.HashMap<Parameter, MagicSet>();
 		removeParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
-		removeParameters.put(Parameter.COUNTER, new Set(type));
-		removeParameters.put(Parameter.NUMBER, new Set(number));
-		removeParameters.put(Parameter.OBJECT, new Set(from));
+		removeParameters.put(Parameter.COUNTER, new MagicSet(type));
+		removeParameters.put(Parameter.NUMBER, new MagicSet(number));
+		removeParameters.put(Parameter.OBJECT, new MagicSet(from));
 		Event removeEvent = createEvent(game, "Remove counters from " + from.getName(), EventType.REMOVE_COUNTERS, removeParameters);
 		success = removeEvent.perform(event, false) && success;
 
-		java.util.Map<Parameter, Set> addParameters = new java.util.HashMap<Parameter, Set>();
+		java.util.Map<Parameter, MagicSet> addParameters = new java.util.HashMap<Parameter, MagicSet>();
 		addParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
-		addParameters.put(Parameter.COUNTER, new Set(type));
-		addParameters.put(Parameter.NUMBER, new Set(removeEvent.getResult().size()));
-		addParameters.put(Parameter.OBJECT, new Set(to));
+		addParameters.put(Parameter.COUNTER, new MagicSet(type));
+		addParameters.put(Parameter.NUMBER, new MagicSet(removeEvent.getResult().size()));
+		addParameters.put(Parameter.OBJECT, new MagicSet(to));
 		Event addEvent = createEvent(game, "Put counters on " + to.getName(), EventType.PUT_COUNTERS, addParameters);
 		success = addEvent.perform(event, false) && success;
 

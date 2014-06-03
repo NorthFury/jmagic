@@ -28,7 +28,7 @@ public final class FleshAllergy extends Card
 		}
 
 		@Override
-		public Set evaluate(GameState state, Identified thisObject)
+		public MagicSet evaluate(GameState state, Identified thisObject)
 		{
 			return IdentifiedWithID.instance(state.getTracker(CreaturesKilled.class).getValue(state)).evaluate(state, thisObject);
 		}

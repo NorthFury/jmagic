@@ -20,23 +20,23 @@ public final class SearchLibraryAndPutOnTop extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
-		Set cause = parameters.get(Parameter.CAUSE);
-		Set player = parameters.get(Parameter.PLAYER);
+		MagicSet cause = parameters.get(Parameter.CAUSE);
+		MagicSet player = parameters.get(Parameter.PLAYER);
 
-		java.util.Map<Parameter, Set> searchParameters = new java.util.HashMap<Parameter, Set>();
+		java.util.Map<Parameter, MagicSet> searchParameters = new java.util.HashMap<Parameter, MagicSet>();
 		searchParameters.put(Parameter.CAUSE, cause);
 		searchParameters.put(Parameter.PLAYER, player);
 		searchParameters.put(Parameter.NUMBER, ONE);
-		searchParameters.put(Parameter.CARD, new Set(player.getOne(Player.class).getLibrary(game.actualState)));
+		searchParameters.put(Parameter.CARD, new MagicSet(player.getOne(Player.class).getLibrary(game.actualState)));
 		if(parameters.containsKey(Parameter.TYPE))
 			searchParameters.put(Parameter.TYPE, parameters.get(Parameter.TYPE));
 		Event search = createEvent(game, "Search your library for a card.", SEARCH, searchParameters);
 		search.perform(event, false);
-		Set searchedFor = search.getResult();
+		MagicSet searchedFor = search.getResult();
 
-		java.util.Map<Parameter, Set> shuffleParameters = new java.util.HashMap<Parameter, Set>();
+		java.util.Map<Parameter, MagicSet> shuffleParameters = new java.util.HashMap<Parameter, MagicSet>();
 		shuffleParameters.put(Parameter.CAUSE, cause);
 		shuffleParameters.put(Parameter.PLAYER, player);
 		createEvent(game, "Shuffle your library.", SHUFFLE_LIBRARY, shuffleParameters).perform(event, true);
@@ -45,9 +45,9 @@ public final class SearchLibraryAndPutOnTop extends EventType
 
 		if(found != null)
 		{
-			Set putOnTop = new Set(game.actualState.<GameObject>get(found.getPhysical().futureSelf));
+			MagicSet putOnTop = new MagicSet(game.actualState.<GameObject>get(found.getPhysical().futureSelf));
 
-			java.util.Map<Parameter, Set> moveParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> moveParameters = new java.util.HashMap<Parameter, MagicSet>();
 			moveParameters.put(Parameter.CAUSE, cause);
 			moveParameters.put(Parameter.INDEX, ONE);
 			moveParameters.put(Parameter.OBJECT, putOnTop);

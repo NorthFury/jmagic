@@ -162,7 +162,7 @@ public class Planechase extends GameType.SimpleGameTypeRule
 	private final static SetGenerator topPlanarCard = new SetGenerator()
 	{
 		@Override
-		public Set evaluate(GameState state, Identified thisObject)
+		public MagicSet evaluate(GameState state, Identified thisObject)
 		{
 			SetGenerator topPlane = topPlanarCardGenerators.get(state.game);
 			if(null == topPlane)
@@ -175,7 +175,7 @@ public class Planechase extends GameType.SimpleGameTypeRule
 	private final static SetGenerator planarDeck = new SetGenerator()
 	{
 		@Override
-		public Set evaluate(GameState state, Identified thisObject)
+		public MagicSet evaluate(GameState state, Identified thisObject)
 		{
 			SetGenerator topPlane = planarDeckGenerators.get(state.game);
 			if(null == topPlane)
@@ -215,29 +215,29 @@ public class Planechase extends GameType.SimpleGameTypeRule
 		this.topPlane = new SetGenerator()
 		{
 			@Override
-			public Set evaluate(GameState state, Identified thisObject)
+			public MagicSet evaluate(GameState state, Identified thisObject)
 			{
 				Zone commandZone = state.commandZone();
 				if(null != commandZone)
 					for(GameObject object: commandZone.objects)
 						if(Planechase.this.planeIDs.contains(object.ID))
-							return new Set(object);
+							return new MagicSet(object);
 				return Empty.set;
 			}
 		};
 		this.planarDeckGenerator = new SetGenerator()
 		{
 			@Override
-			public Set evaluate(GameState state, Identified thisObject)
+			public MagicSet evaluate(GameState state, Identified thisObject)
 			{
-				Set ret = null;
+				MagicSet ret = null;
 				Zone commandZone = state.commandZone();
 				if(null != commandZone)
 					for(GameObject object: commandZone.objects)
 						if(Planechase.this.planeIDs.contains(object.ID))
 							// This code purposefully ignores the first plane
-							if(ret == null)
-								ret = new Set();
+														if(ret == null)
+								ret = new MagicSet();
 							else
 								ret.add(object);
 				return (ret == null ? Empty.set : ret);
@@ -388,7 +388,7 @@ public class Planechase extends GameType.SimpleGameTypeRule
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			parameters.put(Parameter.OBJECT, Intersect.instance(HasType.instance(Type.PLANE), InZone.instance(CommandZone.instance())).evaluate(state, effect.getSourceObject()));
 			parameters.put(Parameter.PLAYER, PlanarController.instance().evaluate(state, effect.getSourceObject()));
@@ -416,16 +416,16 @@ public class Planechase extends GameType.SimpleGameTypeRule
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
-			java.util.Map<Parameter, Set> newParameters = new java.util.HashMap<Parameter, Set>(parameters);
+			java.util.Map<Parameter, MagicSet> newParameters = new java.util.HashMap<Parameter, MagicSet>(parameters);
 
 			class LazySetGeneratorWrapper extends SetGenerator
 			{
 				public SetGenerator wrapped = null;
 
 				@Override
-				public Set evaluate(GameState state, Identified thisObject)
+				public MagicSet evaluate(GameState state, Identified thisObject)
 				{
 					if(this.wrapped == null)
 						return Empty.set;
@@ -435,7 +435,7 @@ public class Planechase extends GameType.SimpleGameTypeRule
 
 			LazySetGeneratorWrapper expires = new LazySetGeneratorWrapper();
 
-			newParameters.put(EventType.Parameter.EXPIRES, new Set(expires));
+			newParameters.put(EventType.Parameter.EXPIRES, new MagicSet(expires));
 			Event fceEvent = createEvent(game, event.getName(), EventType.CREATE_FLOATING_CONTINUOUS_EFFECT, newParameters);
 			if(fceEvent.perform(event, false))
 			{
@@ -461,7 +461,7 @@ public class Planechase extends GameType.SimpleGameTypeRule
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			PlanarDie rollDie = PlanarDie.rollDie();
 			event.setResult(Identity.instance(rollDie));
@@ -483,13 +483,13 @@ public class Planechase extends GameType.SimpleGameTypeRule
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
-			Set commandZone = new Set(game.actualState.commandZone());
-			Set previousPlane = topPlanarCard.evaluate(game, null);
+			MagicSet commandZone = new MagicSet(game.actualState.commandZone());
+			MagicSet previousPlane = topPlanarCard.evaluate(game, null);
 
-			java.util.Map<Parameter, Set> moveParameters = new java.util.HashMap<Parameter, Set>();
-			moveParameters.put(Parameter.CAUSE, new Set(game));
+			java.util.Map<Parameter, MagicSet> moveParameters = new java.util.HashMap<Parameter, MagicSet>();
+			moveParameters.put(Parameter.CAUSE, new MagicSet(game));
 			moveParameters.put(Parameter.TO, commandZone);
 			moveParameters.put(Parameter.INDEX, NEGATIVE_ONE);
 			moveParameters.put(Parameter.OBJECT, previousPlane);
@@ -498,8 +498,8 @@ public class Planechase extends GameType.SimpleGameTypeRule
 
 			// The only way to get the reveal to have the right duration is to
 			// make the plane the cause.
-			Set newPlane = topPlanarCard.evaluate(game, null);
-			java.util.Map<Parameter, Set> revealParameters = new java.util.HashMap<Parameter, Set>();
+			MagicSet newPlane = topPlanarCard.evaluate(game, null);
+			java.util.Map<Parameter, MagicSet> revealParameters = new java.util.HashMap<Parameter, MagicSet>();
 			revealParameters.put(Parameter.CAUSE, newPlane);
 			revealParameters.put(Parameter.OBJECT, newPlane);
 			createEvent(game, "Move the top card of your planar deck off your planar deck and turn it face up.", EventType.REVEAL, revealParameters).perform(event, true);
@@ -524,7 +524,7 @@ public class Planechase extends GameType.SimpleGameTypeRule
 		}
 
 		@Override
-		public Set evaluate(GameState state, Identified thisObject)
+		public MagicSet evaluate(GameState state, Identified thisObject)
 		{
 			if(state.getTracker(UntilAPlayerPlaneswalks.class).getValue(state).contains(this.effectID))
 				return NonEmpty.set;
@@ -692,7 +692,7 @@ public class Planechase extends GameType.SimpleGameTypeRule
 		}
 
 		@Override
-		public Set evaluate(GameState state, Identified thisObject)
+		public MagicSet evaluate(GameState state, Identified thisObject)
 		{
 			Turn currentTurn = state.currentTurn();
 			if(currentTurn == null)
@@ -713,7 +713,7 @@ public class Planechase extends GameType.SimpleGameTypeRule
 				// For now, just return an empty set
 				return Empty.set;
 			}
-			return new Set(controller);
+			return new MagicSet(controller);
 		}
 	}
 }

@@ -27,16 +27,16 @@ public final class JacesArchivist extends Card
 		}
 
 		@Override
-		public Set evaluate(GameState state, Identified thisObject)
+		public MagicSet evaluate(GameState state, Identified thisObject)
 		{
 			int max = 0;
 			@SuppressWarnings("unchecked") java.util.Map<?, Identity> map = this.map.evaluate(state, thisObject).getOne(java.util.Map.class);
 			for(Identity value: map.values())
 			{
-				Set mapValue = value.evaluate(state, thisObject);
+				MagicSet mapValue = value.evaluate(state, thisObject);
 				max = Math.max(max, mapValue.size());
 			}
-			return new Set(max);
+			return new MagicSet(max);
 		}
 	}
 

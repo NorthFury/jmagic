@@ -24,7 +24,7 @@ public final class CoatofArms extends Card
 			}
 
 			@Override
-			public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+			public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 			{
 				java.util.Map<GameObject, Integer> sharedTypes = new java.util.HashMap<GameObject, Integer>();
 

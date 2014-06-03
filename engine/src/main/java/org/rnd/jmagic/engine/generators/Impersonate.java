@@ -27,7 +27,7 @@ public class Impersonate extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
 		Identified newThisObject = this.newContext.evaluate(state, thisObject).getOne(Identified.class);
 		return this.generator.evaluate(state, thisObject).getOne(SetGenerator.class).evaluate(state, newThisObject);

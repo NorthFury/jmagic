@@ -27,15 +27,15 @@ public final class Scalpelexis extends Card
 			}
 
 			@Override
-			public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+			public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 			{
 				boolean ret = true;
-				Set cause = parameters.get(EventType.Parameter.CAUSE);
+				MagicSet cause = parameters.get(EventType.Parameter.CAUSE);
 				Zone library = parameters.get(EventType.Parameter.PLAYER).getOne(Player.class).getLibrary(game.actualState);
 
 				millLoop: while(true)
 				{
-					Set exile = new Set();
+					MagicSet exile = new MagicSet();
 
 					for(int i = 1; i <= 4; i++)
 					{
@@ -44,9 +44,9 @@ public final class Scalpelexis extends Card
 							exile.add(card);
 					}
 
-					java.util.Map<EventType.Parameter, Set> millParameters = new java.util.HashMap<EventType.Parameter, Set>();
+					java.util.Map<EventType.Parameter, MagicSet> millParameters = new java.util.HashMap<EventType.Parameter, MagicSet>();
 					millParameters.put(EventType.Parameter.CAUSE, cause);
-					millParameters.put(EventType.Parameter.TO, new Set(game.actualState.exileZone()));
+					millParameters.put(EventType.Parameter.TO, new MagicSet(game.actualState.exileZone()));
 					millParameters.put(EventType.Parameter.OBJECT, exile);
 					Event millEvent = createEvent(game, "That player exiles the top four cards of his or her library.", EventType.MOVE_OBJECTS, millParameters);
 

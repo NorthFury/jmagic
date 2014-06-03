@@ -18,10 +18,10 @@ public final class DistributeDamage extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		GameObject source = parameters.get(Parameter.SOURCE).getOne(GameObject.class);
-		Set takers = parameters.get(Parameter.TAKER);
+		MagicSet takers = parameters.get(Parameter.TAKER);
 		boolean unpreventable = parameters.containsKey(Parameter.PREVENT);
 
 		for(Target takerTarget: takers.getAll(Target.class))

@@ -12,9 +12,9 @@ public class TriggerDamage extends SetGenerator
 		return new TriggerDamage(what);
 	}
 
-	public static Set get(EventTriggeredAbility ability)
+	public static MagicSet get(EventTriggeredAbility ability)
 	{
-		return new Set(ability.damageCause);
+		return new MagicSet(ability.damageCause);
 	}
 
 	private final SetGenerator abilities;
@@ -25,12 +25,12 @@ public class TriggerDamage extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		Set ret = new Set();
+		MagicSet ret = new MagicSet();
 		for(EventTriggeredAbility ability: this.abilities.evaluate(state, thisObject).getAll(EventTriggeredAbility.class))
 		{
-			Set cause = TriggerDamage.get(ability);
+			MagicSet cause = TriggerDamage.get(ability);
 			if(null != cause)
 				ret.addAll(cause);
 		}

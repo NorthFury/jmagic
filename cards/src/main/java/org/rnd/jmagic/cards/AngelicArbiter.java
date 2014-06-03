@@ -31,10 +31,10 @@ public final class AngelicArbiter extends Card
 				}
 
 				@Override
-				public Set evaluate(GameState state, Identified thisObject)
+				public MagicSet evaluate(GameState state, Identified thisObject)
 				{
 					CastTracker tracker = state.getTracker(CastTracker.class);
-					Set ret = new Set();
+					MagicSet ret = new MagicSet();
 					for(int i: tracker.getValue(state))
 						ret.add(state.get(i));
 					return ret;
@@ -117,10 +117,10 @@ public final class AngelicArbiter extends Card
 				}
 
 				@Override
-				public Set evaluate(GameState state, Identified thisObject)
+				public MagicSet evaluate(GameState state, Identified thisObject)
 				{
 					AttackTracker tracker = state.getTracker(AttackTracker.class);
-					Set ret = new Set();
+					MagicSet ret = new MagicSet();
 					for(int i: tracker.getValue(state))
 						ret.add(state.get(i));
 					return ret;

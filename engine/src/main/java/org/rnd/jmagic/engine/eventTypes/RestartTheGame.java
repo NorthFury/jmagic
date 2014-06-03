@@ -18,7 +18,7 @@ public final class RestartTheGame extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		org.rnd.jmagic.sanitized.SanitizedEvent sanitized = new org.rnd.jmagic.sanitized.SanitizedEvent(event, "Restart the game");
 		for(Player player: game.actualState.players)
@@ -62,7 +62,7 @@ public final class RestartTheGame extends EventType
 				firstPlayer = newPlayer;
 		}
 
-		Set exemptFromRestart = parameters.get(Parameter.OBJECT);
+		MagicSet exemptFromRestart = parameters.get(Parameter.OBJECT);
 
 		// 713.2. All _Magic_ cards involved in the game that was restarted
 		// when it ended, including phased-out permanents and nontraditional

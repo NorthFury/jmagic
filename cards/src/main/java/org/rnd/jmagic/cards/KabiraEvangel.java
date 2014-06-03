@@ -27,7 +27,7 @@ public final class KabiraEvangel extends Card
 		}
 
 		@Override
-		public void makeChoices(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public void makeChoices(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			Player you = parameters.get(Parameter.PLAYER).getOne(Player.class);
 			Color color = you.chooseColor(parameters.get(Parameter.CAUSE).getOne(NonStaticAbility.class).getSourceID());
@@ -35,11 +35,11 @@ public final class KabiraEvangel extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
-			Set cause = parameters.get(Parameter.CAUSE);
+			MagicSet cause = parameters.get(Parameter.CAUSE);
 			Player you = parameters.get(Parameter.PLAYER).getOne(Player.class);
-			Set allies = parameters.get(Parameter.OBJECT);
+			MagicSet allies = parameters.get(Parameter.OBJECT);
 
 			Color color = event.getChoices(you).getOne(Color.class);
 
@@ -47,9 +47,9 @@ public final class KabiraEvangel extends Card
 			protection.parameters.put(ContinuousEffectType.Parameter.OBJECT, Identity.instance(allies));
 			protection.parameters.put(ContinuousEffectType.Parameter.ABILITY, Identity.instance(new org.rnd.jmagic.abilities.keywords.Protection.AbilityFactory(color)));
 
-			java.util.Map<Parameter, Set> fceParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> fceParameters = new java.util.HashMap<Parameter, MagicSet>();
 			fceParameters.put(Parameter.CAUSE, cause);
-			fceParameters.put(Parameter.EFFECT, new Set(protection));
+			fceParameters.put(Parameter.EFFECT, new MagicSet(protection));
 			createEvent(game, "Allies you control gain protection from the chosen color until end of turn", EventType.CREATE_FLOATING_CONTINUOUS_EFFECT, fceParameters).perform(event, true);
 
 			event.setResult(Empty.set);

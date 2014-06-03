@@ -21,9 +21,9 @@ public class HasConvertedManaCost extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		Set ret = new Set();
+		MagicSet ret = new MagicSet();
 
 		java.util.Set<Integer> numbers = this.numbers.evaluate(state, thisObject).getAll(Integer.class);
 		org.rnd.util.NumberRange range = this.numbers.evaluate(state, thisObject).getOne(org.rnd.util.NumberRange.class);

@@ -24,7 +24,7 @@ public final class TerrorofKruinPass extends AlternateCard
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			for(GameObject object: parameters.get(Parameter.OBJECT).getAll(GameObject.class))
 			{

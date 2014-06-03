@@ -72,9 +72,9 @@ public class TokenSource extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		Set ret = new Set();
+		MagicSet ret = new MagicSet();
 		java.util.Map<Integer, Integer> values = state.getTracker(Tracker.class).getValue(state);
 		for(Token t: this.what.evaluate(state, thisObject).getAll(Token.class))
 			if(values.containsKey(t.ID))

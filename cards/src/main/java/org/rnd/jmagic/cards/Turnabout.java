@@ -28,7 +28,7 @@ public final class Turnabout extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			event.setResult(Empty.set);
 
@@ -45,9 +45,9 @@ public final class Turnabout extends Card
 			untapEvent.parameters.put(Parameter.CAUSE, Identity.instance(parameters.get(Parameter.CAUSE)));
 			untapEvent.parameters.put(Parameter.OBJECT, Intersect.instance(objects, Tapped.instance()));
 
-			java.util.Map<Parameter, Set> mayParameters = new java.util.HashMap<Parameter, Set>();
-			mayParameters.put(Parameter.PLAYER, new Set(chooser));
-			mayParameters.put(Parameter.EVENT, new Set(tapEvent, untapEvent));
+			java.util.Map<Parameter, MagicSet> mayParameters = new java.util.HashMap<Parameter, MagicSet>();
+			mayParameters.put(Parameter.PLAYER, new MagicSet(chooser));
+			mayParameters.put(Parameter.EVENT, new MagicSet(tapEvent, untapEvent));
 			return createEvent(game, "Tap all untapped permanents of the chosen type target player controls, or untap all tapped permanents of that type that player controls.", EventType.CHOOSE_AND_PERFORM, mayParameters).perform(event, false);
 		}
 	};

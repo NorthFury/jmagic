@@ -31,7 +31,7 @@ public class SimpleSetPattern implements SetPattern
 	 * elements
 	 */
 	@Override
-	public boolean match(GameState state, Identified object, Set set)
+	public boolean match(GameState state, Identified object, MagicSet set)
 	{
 		return !Intersect.get(set, this.pattern.evaluate(state, object)).isEmpty();
 	}

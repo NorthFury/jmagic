@@ -18,7 +18,7 @@ public final class Regenerate extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		// 701.11. Regenerate
 		// 701.11a If the effect of a resolving spell or ability regenerates
@@ -34,10 +34,10 @@ public final class Regenerate extends EventType
 		// "Regenerate [permanent]" means "Instead remove all damage marked
 		// on [permanent] and tap it. If it's an attacking or blocking
 		// creature, remove it from combat."
-		Set ret = new Set();
-		Set removeFromCombat = new Set();
+		MagicSet ret = new MagicSet();
+		MagicSet removeFromCombat = new MagicSet();
 
-		Set objects = parameters.get(Parameter.OBJECT);
+		MagicSet objects = parameters.get(Parameter.OBJECT);
 		for(GameObject object: objects.getAll(GameObject.class))
 		{
 			GameObject physicalObject = object.getPhysical();
@@ -49,14 +49,14 @@ public final class Regenerate extends EventType
 			ret.add(object);
 		}
 
-		java.util.Map<Parameter, Set> tapParameters = new java.util.HashMap<Parameter, Set>();
+		java.util.Map<Parameter, MagicSet> tapParameters = new java.util.HashMap<Parameter, MagicSet>();
 		tapParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 		tapParameters.put(Parameter.OBJECT, objects);
 		createEvent(game, "Tap " + objects, EventType.TAP_PERMANENTS, tapParameters).perform(event, false);
 
 		if(!removeFromCombat.isEmpty())
 		{
-			java.util.Map<Parameter, Set> removeParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> removeParameters = new java.util.HashMap<Parameter, MagicSet>();
 			removeParameters.put(Parameter.OBJECT, removeFromCombat);
 			createEvent(game, "Remove " + removeFromCombat + " from combat", EventType.REMOVE_FROM_COMBAT, removeParameters).perform(event, false);
 		}

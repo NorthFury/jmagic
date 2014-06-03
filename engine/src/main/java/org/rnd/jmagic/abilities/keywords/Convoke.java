@@ -75,7 +75,7 @@ public final class Convoke extends Keyword
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			GameObject object = parameters.get(Parameter.OBJECT).getOne(GameObject.class);
 			CostCollection costCollection = parameters.get(Parameter.COST).getOne(CostCollection.class);
@@ -96,7 +96,7 @@ public final class Convoke extends Keyword
 					// tapped this way"... but at the time that cost reductions
 					// are applied, there are no creatures tapped, just
 					// creatures chosen.
-					Set chosenCreatures = tapCost.getChoices(object.getController(state));
+					MagicSet chosenCreatures = tapCost.getChoices(object.getController(state));
 					ManaPool costReduction = new ManaPool();
 					for(GameObject tapped: chosenCreatures.getAll(GameObject.class))
 					{
@@ -106,7 +106,7 @@ public final class Convoke extends Keyword
 						costReduction.add(forThisCreature);
 					}
 
-					state.manaCostReductions.put(new Set(object), costReduction);
+					state.manaCostReductions.put(new MagicSet(object), costReduction);
 				}
 			}
 		}

@@ -18,17 +18,17 @@ public final class GainLife extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		int lifeGain = Sum.get(parameters.get(Parameter.NUMBER));
 		if(lifeGain <= 0)
 			return true;
 
-		Set players = parameters.get(Parameter.PLAYER);
+		MagicSet players = parameters.get(Parameter.PLAYER);
 		for(Player player: players.getAll(Player.class))
 		{
-			java.util.HashMap<Parameter, Set> newParameters = new java.util.HashMap<Parameter, Set>(parameters);
-			newParameters.put(Parameter.PLAYER, new Set(player));
+			java.util.HashMap<Parameter, MagicSet> newParameters = new java.util.HashMap<Parameter, MagicSet>(parameters);
+			newParameters.put(Parameter.PLAYER, new MagicSet(player));
 			Event gainLifeOnePlayer = createEvent(game, player + " loses " + lifeGain + " life", GAIN_LIFE_ONE_PLAYER, newParameters);
 			if(!gainLifeOnePlayer.attempt(event))
 				return false;
@@ -38,7 +38,7 @@ public final class GainLife extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		int lifeGain = Sum.get(parameters.get(Parameter.NUMBER));
 		if(lifeGain <= 0)
@@ -47,12 +47,12 @@ public final class GainLife extends EventType
 			return true;
 		}
 
-		Set result = new Set();
-		Set players = parameters.get(Parameter.PLAYER);
+		MagicSet result = new MagicSet();
+		MagicSet players = parameters.get(Parameter.PLAYER);
 		for(Player player: players.getAll(Player.class))
 		{
-			java.util.HashMap<Parameter, Set> newParameters = new java.util.HashMap<Parameter, Set>(parameters);
-			newParameters.put(Parameter.PLAYER, new Set(player));
+			java.util.HashMap<Parameter, MagicSet> newParameters = new java.util.HashMap<Parameter, MagicSet>(parameters);
+			newParameters.put(Parameter.PLAYER, new MagicSet(player));
 			Event gain = createEvent(game, player + " gains " + lifeGain + " life", GAIN_LIFE_ONE_PLAYER, newParameters);
 			gain.perform(event, false);
 			result.addAll(gain.getResult());

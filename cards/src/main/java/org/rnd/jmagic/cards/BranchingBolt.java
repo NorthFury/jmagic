@@ -16,7 +16,7 @@ public final class BranchingBolt extends Card
 	{
 		super(state);
 
-		this.setNumModes(new Set(new org.rnd.util.NumberRange(1, 2)));
+		this.setNumModes(new MagicSet(new org.rnd.util.NumberRange(1, 2)));
 
 		// Choose one or both \u2014 Branching Bolt deals 3 damage to target
 		// creature with flying; and/or Branching Bolt deals 3 damage to target

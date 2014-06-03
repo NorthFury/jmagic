@@ -33,7 +33,7 @@ public final class Nyxathid extends Card
 			}
 
 			@Override
-			public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+			public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 			{
 				Player player = parameters.get(Parameter.PLAYER).getOne(Player.class);
 				java.util.List<Player> named = player.sanitizeAndChoose(game.actualState, 1, parameters.get(Parameter.CHOICE).getAll(Player.class), PlayerInterface.ChoiceType.PLAYER, REASON);

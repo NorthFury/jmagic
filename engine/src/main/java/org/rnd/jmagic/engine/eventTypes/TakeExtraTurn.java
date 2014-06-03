@@ -21,7 +21,7 @@ public final class TakeExtraTurn extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		Player player = parameters.get(Parameter.PLAYER).getOne(Player.class);
 
@@ -29,7 +29,7 @@ public final class TakeExtraTurn extends EventType
 		if(parameters.containsKey(Parameter.NUMBER))
 			number = Sum.get(parameters.get(Parameter.NUMBER));
 
-		Set result = new Set();
+		MagicSet result = new MagicSet();
 		for(int i = 0; i < number; i++)
 			result.add(game.physicalState.addExtraTurn(player));
 
@@ -44,10 +44,10 @@ public final class TakeExtraTurn extends EventType
 					ContinuousEffect.Part part = new ContinuousEffect.Part(ContinuousEffectType.REPLACEMENT_EFFECT);
 					part.parameters.put(ContinuousEffectType.Parameter.OBJECT, Identity.instance(skipReplacement));
 
-					java.util.Map<Parameter, Set> skipParameters = new java.util.HashMap<Parameter, Set>();
+					java.util.Map<Parameter, MagicSet> skipParameters = new java.util.HashMap<Parameter, MagicSet>();
 					skipParameters.put(EventType.Parameter.CAUSE, parameters.get(Parameter.CAUSE));
-					skipParameters.put(EventType.Parameter.EFFECT, new Set(part));
-					skipParameters.put(EventType.Parameter.EXPIRES, new Set(Empty.instance()));
+					skipParameters.put(EventType.Parameter.EFFECT, new MagicSet(part));
+					skipParameters.put(EventType.Parameter.EXPIRES, new MagicSet(Empty.instance()));
 					skipParameters.put(EventType.Parameter.USES, ONE);
 					Event skipStep = createEvent(game, "Skip " + step.name() + " step of extra turn.", EventType.CREATE_FLOATING_CONTINUOUS_EFFECT, skipParameters);
 

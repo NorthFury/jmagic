@@ -25,18 +25,18 @@ public final class Unearth extends Keyword
 			}
 
 			@Override
-			public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+			public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 			{
 				Event moveEvent;
 				boolean ret = true;
 
-				Set cause = parameters.get(EventType.Parameter.CAUSE);
-				Set controller = parameters.get(EventType.Parameter.CONTROLLER);
-				Set thisCard = parameters.get(EventType.Parameter.OBJECT);
+				MagicSet cause = parameters.get(EventType.Parameter.CAUSE);
+				MagicSet controller = parameters.get(EventType.Parameter.CONTROLLER);
+				MagicSet thisCard = parameters.get(EventType.Parameter.OBJECT);
 
 				// Return this card from your graveyard to play.
 				{
-					java.util.Map<EventType.Parameter, Set> moveParameters = new java.util.HashMap<EventType.Parameter, Set>();
+					java.util.Map<EventType.Parameter, MagicSet> moveParameters = new java.util.HashMap<EventType.Parameter, MagicSet>();
 					moveParameters.put(EventType.Parameter.CAUSE, cause);
 					moveParameters.put(EventType.Parameter.CONTROLLER, controller);
 					moveParameters.put(EventType.Parameter.OBJECT, thisCard);
@@ -52,10 +52,10 @@ public final class Unearth extends Keyword
 					part.parameters.put(ContinuousEffectType.Parameter.OBJECT, Identity.instance(it));
 					part.parameters.put(ContinuousEffectType.Parameter.ABILITY, Identity.instance(new org.rnd.jmagic.engine.SimpleAbilityFactory(Haste.class)));
 
-					java.util.Map<EventType.Parameter, Set> hasteParameters = new java.util.HashMap<EventType.Parameter, Set>();
+					java.util.Map<EventType.Parameter, MagicSet> hasteParameters = new java.util.HashMap<EventType.Parameter, MagicSet>();
 					hasteParameters.put(EventType.Parameter.CAUSE, cause);
-					hasteParameters.put(EventType.Parameter.EFFECT, new Set(part));
-					hasteParameters.put(EventType.Parameter.EXPIRES, new Set(Empty.instance()));
+					hasteParameters.put(EventType.Parameter.EFFECT, new MagicSet(part));
+					hasteParameters.put(EventType.Parameter.EXPIRES, new MagicSet(Empty.instance()));
 					Event hasteEvent = createEvent(game, "It gains haste", EventType.CREATE_FLOATING_CONTINUOUS_EFFECT, hasteParameters);
 					ret = hasteEvent.perform(event, true) && ret;
 				}
@@ -72,10 +72,10 @@ public final class Unearth extends Keyword
 					exileFactory.parameters.put(EventType.Parameter.OBJECT, Identity.instance(it));
 
 					// Delayed trigger parameter map
-					java.util.Map<EventType.Parameter, Set> trigParameters = new java.util.HashMap<EventType.Parameter, Set>();
+					java.util.Map<EventType.Parameter, MagicSet> trigParameters = new java.util.HashMap<EventType.Parameter, MagicSet>();
 					trigParameters.put(EventType.Parameter.CAUSE, cause);
-					trigParameters.put(EventType.Parameter.EVENT, new Set(eot));
-					trigParameters.put(EventType.Parameter.EFFECT, new Set(exileFactory));
+					trigParameters.put(EventType.Parameter.EVENT, new MagicSet(eot));
+					trigParameters.put(EventType.Parameter.EFFECT, new MagicSet(exileFactory));
 					Event triggerEvent = createEvent(game, "Exile it at the beginning of the next end step.", EventType.CREATE_DELAYED_TRIGGER, trigParameters);
 					ret = triggerEvent.perform(event, true) && ret;
 				}
@@ -87,10 +87,10 @@ public final class Unearth extends Keyword
 
 					ContinuousEffect.Part part = replacementEffectPart(rfgEffect);
 
-					java.util.Map<EventType.Parameter, Set> replacementParameters = new java.util.HashMap<EventType.Parameter, Set>();
+					java.util.Map<EventType.Parameter, MagicSet> replacementParameters = new java.util.HashMap<EventType.Parameter, MagicSet>();
 					replacementParameters.put(EventType.Parameter.CAUSE, cause);
-					replacementParameters.put(EventType.Parameter.EFFECT, new Set(part));
-					replacementParameters.put(EventType.Parameter.EXPIRES, new Set(Empty.instance()));
+					replacementParameters.put(EventType.Parameter.EFFECT, new MagicSet(part));
+					replacementParameters.put(EventType.Parameter.EXPIRES, new MagicSet(Empty.instance()));
 					Event replacementEvent = createEvent(game, "If it would leave the battlefield, exile it instead of putting it anywhere else", EventType.CREATE_FLOATING_CONTINUOUS_EFFECT, replacementParameters);
 					ret = replacementEvent.perform(event, true) && ret;
 				}

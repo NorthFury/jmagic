@@ -18,7 +18,7 @@ public final class Proliferate extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		// 701.23. Proliferate
 		//
@@ -31,7 +31,7 @@ public final class Proliferate extends EventType
 		// one kind of counter, the player who is proliferating chooses
 		// which kind of counter to add.
 
-		Set hasCounters = Intersect.instance(Union.instance(Permanents.instance(), Players.instance()), HasCounters.instance()).evaluate(game, null);
+		MagicSet hasCounters = Intersect.instance(Union.instance(Permanents.instance(), Players.instance()), HasCounters.instance()).evaluate(game, null);
 
 		boolean ret = true;
 
@@ -67,10 +67,10 @@ public final class Proliferate extends EventType
 					ret = false;
 				else
 				{
-					java.util.HashMap<Parameter, Set> putCounterParameters = new java.util.HashMap<Parameter, Set>();
+					java.util.HashMap<Parameter, MagicSet> putCounterParameters = new java.util.HashMap<Parameter, MagicSet>();
 					putCounterParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
-					putCounterParameters.put(Parameter.COUNTER, new Set(newCounter));
-					putCounterParameters.put(Parameter.OBJECT, new Set(i));
+					putCounterParameters.put(Parameter.COUNTER, new MagicSet(newCounter));
+					putCounterParameters.put(Parameter.OBJECT, new MagicSet(i));
 					Event putCounter = createEvent(game, "Put a " + newCounter + " counter on " + i + ".", PUT_COUNTERS, putCounterParameters);
 					if(!putCounter.perform(event, false))
 						ret = false;

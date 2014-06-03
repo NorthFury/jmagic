@@ -59,9 +59,9 @@ public final class DrawnThisTurn extends SetGenerator
 	}
 
 	@Override
-	public org.rnd.jmagic.engine.Set evaluate(GameState state, Identified thisObject)
+	public org.rnd.jmagic.engine.MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		Set ret = new Set();
+		MagicSet ret = new MagicSet();
 		for(ZoneChange z: state.getTracker(DrawnThisTurn.DrawTracker.class).getValue(state))
 			ret.add(state.get(z.newObjectID));
 		return ret;

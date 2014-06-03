@@ -18,7 +18,7 @@ public final class SacrificePermanents extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		int battlefield = game.actualState.battlefield().ID;
 		int controller = parameters.get(Parameter.PLAYER).getOne(Player.class).ID;
@@ -37,10 +37,10 @@ public final class SacrificePermanents extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
-		Set cause = parameters.get(Parameter.CAUSE);
-		Set result = new Set();
+		MagicSet cause = parameters.get(Parameter.CAUSE);
+		MagicSet result = new MagicSet();
 		Player player = parameters.get(Parameter.PLAYER).getOne(Player.class);
 		int playerID = player.ID;
 
@@ -50,10 +50,10 @@ public final class SacrificePermanents extends EventType
 			if(permanent.controllerID != playerID)
 				continue;
 
-			java.util.Map<Parameter, Set> sacParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> sacParameters = new java.util.HashMap<Parameter, MagicSet>();
 			sacParameters.put(Parameter.CAUSE, cause);
-			sacParameters.put(Parameter.PLAYER, new Set(player));
-			sacParameters.put(Parameter.PERMANENT, new Set(permanent));
+			sacParameters.put(Parameter.PLAYER, new MagicSet(player));
+			sacParameters.put(Parameter.PERMANENT, new MagicSet(permanent));
 			Event sacrifice = createEvent(game, permanent.getActual().getOwner(game.actualState) + " sacrifices " + permanent + ".", EventType.SACRIFICE_ONE_PERMANENT, sacParameters);
 			if(!sacrifice.perform(event, false))
 				allSacrificed = false;

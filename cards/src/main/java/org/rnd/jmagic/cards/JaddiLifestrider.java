@@ -26,23 +26,23 @@ public final class JaddiLifestrider extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			event.setResult(Empty.set);
 
-			java.util.Map<Parameter, Set> tapParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> tapParameters = new java.util.HashMap<Parameter, MagicSet>();
 			tapParameters.putAll(parameters);
-			tapParameters.put(Parameter.NUMBER, new Set(new org.rnd.util.NumberRange(0, null)));
+			tapParameters.put(Parameter.NUMBER, new MagicSet(new org.rnd.util.NumberRange(0, null)));
 			Event tap = createEvent(game, "You may tap any number of untapped creatures you control.", EventType.TAP_CHOICE, tapParameters);
 			tap.perform(event, true);
-			Set tappedThisWay = tap.getResult();
+			MagicSet tappedThisWay = tap.getResult();
 
-			Set cause = parameters.get(Parameter.CAUSE);
-			Set you = parameters.get(Parameter.PLAYER);
-			java.util.Map<Parameter, Set> lifeParameters = new java.util.HashMap<Parameter, Set>();
+			MagicSet cause = parameters.get(Parameter.CAUSE);
+			MagicSet you = parameters.get(Parameter.PLAYER);
+			java.util.Map<Parameter, MagicSet> lifeParameters = new java.util.HashMap<Parameter, MagicSet>();
 			lifeParameters.put(Parameter.CAUSE, cause);
 			lifeParameters.put(Parameter.PLAYER, you);
-			lifeParameters.put(Parameter.NUMBER, new Set(2 * tappedThisWay.size()));
+			lifeParameters.put(Parameter.NUMBER, new MagicSet(2 * tappedThisWay.size()));
 			Event gainLife = createEvent(game, "You gain 2 life for each creature tapped this way.", GAIN_LIFE, lifeParameters);
 			gainLife.perform(event, true);
 

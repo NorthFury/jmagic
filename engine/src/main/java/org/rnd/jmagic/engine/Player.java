@@ -230,9 +230,9 @@ public final class Player extends Identified implements AttachableTo, Attackable
 
 		int maximumChoices = chooseParameters.choices.size();
 		if(maximumChoices < Minimum.get(chooseParameters.number))
-			chooseParameters.number = new Set(maximumChoices);
+			chooseParameters.number = new MagicSet(maximumChoices);
 		else if(!chooseParameters.allowMultiples)
-			chooseParameters.number = Intersect.get(chooseParameters.number, new Set(new org.rnd.util.NumberRange(0, maximumChoices)));
+			chooseParameters.number = Intersect.get(chooseParameters.number, new MagicSet(new org.rnd.util.NumberRange(0, maximumChoices)));
 
 		// This if-block is very important, because during these events, the
 		// objects have been moved, and are likely not visible to the player
@@ -269,7 +269,7 @@ public final class Player extends Identified implements AttachableTo, Attackable
 				p.comm.alertWaiting(null);
 
 			// Make sure the right number of choices were chosen
-			if(Intersect.get(chooseParameters.number, new Set(chosen.size())).isEmpty())
+			if(Intersect.get(chooseParameters.number, new MagicSet(chosen.size())).isEmpty())
 			{
 				choicesValid = false;
 				continue;
@@ -702,10 +702,10 @@ public final class Player extends Identified implements AttachableTo, Attackable
 	 * s in the set will be ignored.
 	 * @return If <code>numPiles</code> is less than 1, an empty collection; if
 	 * it's 1, a collection containing <code>object</code>; for any other
-	 * number, a collection of {@link Set}s where each {@link Set} in the
+	 * number, a collection of {@link MagicSet}s where each {@link MagicSet} in the
 	 * collection is a pile.
 	 */
-	public java.util.Collection<Pile> separateIntoPiles(int numPiles, Set objects)
+	public java.util.Collection<Pile> separateIntoPiles(int numPiles, MagicSet objects)
 	{
 		if(numPiles < 1)
 			return java.util.Collections.emptySet();
@@ -723,7 +723,7 @@ public final class Player extends Identified implements AttachableTo, Attackable
 		newPile.addAll(objectsInNewPile);
 		ret.add(newPile);
 
-		Set theRest = new Set(objects);
+		MagicSet theRest = new MagicSet(objects);
 		theRest.removeAll(objectsInNewPile);
 		ret.addAll(this.separateIntoPiles(numPiles - 1, theRest));
 		return ret;

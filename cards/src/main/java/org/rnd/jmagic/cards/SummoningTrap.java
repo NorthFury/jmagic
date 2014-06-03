@@ -110,7 +110,7 @@ public final class SummoningTrap extends Card
 				int castingPlayerID = flagValue.get(countered.ID);
 				Player castingPlayer = state.get(castingPlayerID);
 
-				Set opponentsOfCaster = OpponentsOf.get(state, castingPlayer);
+				MagicSet opponentsOfCaster = OpponentsOf.get(state, castingPlayer);
 				return opponentsOfCaster.contains(counteringPlayer);
 			}
 
@@ -145,9 +145,9 @@ public final class SummoningTrap extends Card
 		}
 
 		@Override
-		public Set evaluate(GameState state, Identified thisObject)
+		public MagicSet evaluate(GameState state, Identified thisObject)
 		{
-			Set ret = new Set();
+			MagicSet ret = new MagicSet();
 
 			for(int ID: state.getTracker(CounterspellTracker.class).getValue(state))
 				ret.add(state.get(ID));

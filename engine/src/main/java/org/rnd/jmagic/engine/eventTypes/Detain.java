@@ -19,7 +19,7 @@ public final class Detain extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		GameObject cause = parameters.get(EventType.Parameter.CAUSE).getOne(GameObject.class);
 		SetGenerator expires = Not.instance(Intersect.instance(Identity.instance(cause), DetainGenerator.instance()));
@@ -43,10 +43,10 @@ public final class Detain extends EventType
 			ContinuousEffect.Part prohibition = new ContinuousEffect.Part(ContinuousEffectType.PROHIBIT);
 			prohibition.parameters.put(ContinuousEffectType.Parameter.PROHIBITION, Identity.instance(prohibitPattern));
 
-			java.util.Map<Parameter, Set> lookParameters = new java.util.HashMap<Parameter, Set>();
-			lookParameters.put(Parameter.CAUSE, new Set(cause));
-			lookParameters.put(Parameter.EFFECT, new Set(attack, block, prohibition));
-			lookParameters.put(Parameter.EXPIRES, new Set(expires));
+			java.util.Map<Parameter, MagicSet> lookParameters = new java.util.HashMap<Parameter, MagicSet>();
+			lookParameters.put(Parameter.CAUSE, new MagicSet(cause));
+			lookParameters.put(Parameter.EFFECT, new MagicSet(attack, block, prohibition));
+			lookParameters.put(Parameter.EXPIRES, new MagicSet(expires));
 			createEvent(game, event.getName(), CREATE_FLOATING_CONTINUOUS_EFFECT, lookParameters).perform(event, false);
 		}
 

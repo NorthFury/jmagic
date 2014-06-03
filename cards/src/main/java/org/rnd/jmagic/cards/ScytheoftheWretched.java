@@ -27,27 +27,27 @@ public final class ScytheoftheWretched extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			event.setResult(Empty.set);
 
-			Set ability = parameters.get(Parameter.CAUSE);
-			Set controller = parameters.get(Parameter.CONTROLLER);
+			MagicSet ability = parameters.get(Parameter.CAUSE);
+			MagicSet controller = parameters.get(Parameter.CONTROLLER);
 
 			ZoneChange triggerEvent = parameters.get(Parameter.EVENT).getOne(ZoneChange.class);
-			Set thatCard = new Set(game.actualState.get(triggerEvent.newObjectID));
+			MagicSet thatCard = new MagicSet(game.actualState.get(triggerEvent.newObjectID));
 
-			java.util.Map<Parameter, Set> moveParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> moveParameters = new java.util.HashMap<Parameter, MagicSet>();
 			moveParameters.put(Parameter.CAUSE, ability);
 			moveParameters.put(Parameter.CONTROLLER, controller);
 			moveParameters.put(Parameter.OBJECT, thatCard);
 			Event putOntoBattlefield = createEvent(game, "Return that card to the battlefield under your control", EventType.PUT_ONTO_BATTLEFIELD, moveParameters);
 			putOntoBattlefield.perform(event, true);
-			Set thatCreature = NewObjectOf.instance(putOntoBattlefield.getResultGenerator()).evaluate(game, null);
+			MagicSet thatCreature = NewObjectOf.instance(putOntoBattlefield.getResultGenerator()).evaluate(game, null);
 
-			Set scythe = parameters.get(Parameter.SOURCE);
+			MagicSet scythe = parameters.get(Parameter.SOURCE);
 
-			java.util.Map<Parameter, Set> attachParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> attachParameters = new java.util.HashMap<Parameter, MagicSet>();
 			attachParameters.put(Parameter.OBJECT, scythe);
 			attachParameters.put(Parameter.TARGET, thatCreature);
 			Event attach = createEvent(game, "Attach Scythe of the Wretched to that creature.", ATTACH, attachParameters);

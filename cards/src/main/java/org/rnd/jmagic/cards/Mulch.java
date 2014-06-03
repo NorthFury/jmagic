@@ -24,29 +24,29 @@ public final class Mulch extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
-			Set topFour = parameters.get(Parameter.OBJECT);
-			Set lands = new Set();
+			MagicSet topFour = parameters.get(Parameter.OBJECT);
+			MagicSet lands = new MagicSet();
 			for(GameObject o: topFour.getAll(GameObject.class))
 				if(o.getTypes().contains(Type.LAND))
 					lands.add(o);
 
-			Set mulch = parameters.get(Parameter.CAUSE);
+			MagicSet mulch = parameters.get(Parameter.CAUSE);
 			Player you = parameters.get(Parameter.PLAYER).getOne(Player.class);
 
-			java.util.Map<Parameter, Set> handParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> handParameters = new java.util.HashMap<Parameter, MagicSet>();
 			handParameters.put(Parameter.CAUSE, mulch);
-			handParameters.put(Parameter.TO, new Set(you.getHand(game.actualState)));
+			handParameters.put(Parameter.TO, new MagicSet(you.getHand(game.actualState)));
 			handParameters.put(Parameter.OBJECT, lands);
 			Event moveToHand = createEvent(game, "Put all land cards revealed this way into your hand", MOVE_OBJECTS, handParameters);
 			moveToHand.perform(event, false);
 
 			you = you.getActual();
 			topFour.removeAll(lands);
-			java.util.Map<Parameter, Set> graveyardParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> graveyardParameters = new java.util.HashMap<Parameter, MagicSet>();
 			graveyardParameters.put(Parameter.CAUSE, mulch);
-			graveyardParameters.put(Parameter.TO, new Set(you.getGraveyard(game.actualState)));
+			graveyardParameters.put(Parameter.TO, new MagicSet(you.getGraveyard(game.actualState)));
 			graveyardParameters.put(Parameter.OBJECT, topFour);
 			Event moveToGraveyard = createEvent(game, "Put all other cards revealed this way into your graveyard", MOVE_OBJECTS, graveyardParameters);
 			moveToGraveyard.perform(event, false);

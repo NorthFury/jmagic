@@ -12,7 +12,7 @@ public final class YouControlPattern implements SetPattern
 	}
 
 	@Override
-	public boolean match(GameState state, Identified thisObject, Set set)
+	public boolean match(GameState state, Identified thisObject, MagicSet set)
 	{
 		for(GameObject o: set.getAll(GameObject.class))
 		{

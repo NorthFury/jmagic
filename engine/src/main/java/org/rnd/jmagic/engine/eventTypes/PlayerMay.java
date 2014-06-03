@@ -18,9 +18,9 @@ public final class PlayerMay extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
-		Set eventParameter = parameters.get(Parameter.EVENT);
+		MagicSet eventParameter = parameters.get(Parameter.EVENT);
 		Event mayEvent = eventParameter.getOne(EventFactory.class).createEvent(game, event.getSource());
 
 		Linkable link = eventParameter.getOne(Linkable.class);
@@ -42,7 +42,7 @@ public final class PlayerMay extends EventType
 
 		java.util.List<Answer> choice = chooser.choose(chooseParameters);
 
-		Set result = new Set();
+		MagicSet result = new MagicSet();
 		for(Answer response: choice)
 			result.add(response);
 		event.setResult(Identity.instance(result));

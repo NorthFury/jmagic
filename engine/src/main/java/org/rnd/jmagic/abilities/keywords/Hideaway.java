@@ -41,9 +41,9 @@ public abstract class Hideaway extends Keyword
 			}
 
 			@Override
-			public Set evaluate(GameState state, Identified thisObject)
+			public MagicSet evaluate(GameState state, Identified thisObject)
 			{
-				Set ret = new Set();
+				MagicSet ret = new MagicSet();
 
 				java.util.Map<Integer, Integer> exiledBy = state.getTracker(ExiledBy.class).getValue(state);
 				if(exiledBy.containsKey(thisObject.ID))
@@ -109,11 +109,11 @@ public abstract class Hideaway extends Keyword
 			@Override
 			protected void update(GameState state, Event event)
 			{
-				Set objects = event.parametersNow.get(EventType.Parameter.OBJECT).evaluate(state, null);
+				MagicSet objects = event.parametersNow.get(EventType.Parameter.OBJECT).evaluate(state, null);
 				if(objects.isEmpty())
 					return;
 
-				Set players = event.parametersNow.get(EventType.Parameter.TARGET).evaluate(state, null);
+				MagicSet players = event.parametersNow.get(EventType.Parameter.TARGET).evaluate(state, null);
 				if(players.isEmpty())
 					return;
 

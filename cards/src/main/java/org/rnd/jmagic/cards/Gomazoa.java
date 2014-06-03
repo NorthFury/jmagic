@@ -25,24 +25,24 @@ public final class Gomazoa extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
-			Set cause = parameters.get(Parameter.CAUSE);
-			Set stuff = parameters.get(Parameter.OBJECT);
+			MagicSet cause = parameters.get(Parameter.CAUSE);
+			MagicSet stuff = parameters.get(Parameter.OBJECT);
 
-			java.util.Map<Parameter, Set> moveParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> moveParameters = new java.util.HashMap<Parameter, MagicSet>();
 			moveParameters.put(Parameter.CAUSE, cause);
 			moveParameters.put(Parameter.INDEX, NEGATIVE_ONE);
 			moveParameters.put(Parameter.OBJECT, stuff);
 			Event move = createEvent(game, "Put Gomazoa and each creature it's blocking on top of their owners' libraries", PUT_INTO_LIBRARY, moveParameters);
 			move.perform(event, true);
-			Set moved = move.getResult();
+			MagicSet moved = move.getResult();
 
-			Set owners = new Set();
+			MagicSet owners = new MagicSet();
 			for(ZoneChange z: moved.getAll(ZoneChange.class))
 				owners.add(game.actualState.<GameObject>get(z.oldObjectID).getOwner(game.actualState));
 
-			java.util.Map<Parameter, Set> shuffleParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> shuffleParameters = new java.util.HashMap<Parameter, MagicSet>();
 			shuffleParameters.put(Parameter.CAUSE, cause);
 			shuffleParameters.put(Parameter.PLAYER, owners);
 			Event shuffle = createEvent(game, "Those players shuffle their libraries", EventType.SHUFFLE_LIBRARY, shuffleParameters);

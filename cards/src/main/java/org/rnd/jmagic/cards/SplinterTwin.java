@@ -24,14 +24,14 @@ public final class SplinterTwin extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
-			Set thatCreature = parameters.get(Parameter.OBJECT);
+			MagicSet thatCreature = parameters.get(Parameter.OBJECT);
 			EventFactory exile = exile(Identity.instance(thatCreature), "Exile that token");
-			java.util.Map<Parameter, Set> triggerParameters = new java.util.HashMap<Parameter, Set>();
-			triggerParameters.put(EventType.Parameter.CAUSE, new Set(event.getSource()));
-			triggerParameters.put(EventType.Parameter.EVENT, new Set(atTheBeginningOfTheEndStep()));
-			triggerParameters.put(EventType.Parameter.EFFECT, new Set(exile));
+			java.util.Map<Parameter, MagicSet> triggerParameters = new java.util.HashMap<Parameter, MagicSet>();
+			triggerParameters.put(EventType.Parameter.CAUSE, new MagicSet(event.getSource()));
+			triggerParameters.put(EventType.Parameter.EVENT, new MagicSet(atTheBeginningOfTheEndStep()));
+			triggerParameters.put(EventType.Parameter.EFFECT, new MagicSet(exile));
 			Event delayedTrigger = createEvent(game, "Exile that token at the beginning of the next end step.", EventType.CREATE_DELAYED_TRIGGER, triggerParameters);
 			delayedTrigger.perform(event, true);
 

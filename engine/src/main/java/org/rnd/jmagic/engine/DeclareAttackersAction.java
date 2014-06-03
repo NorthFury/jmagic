@@ -232,7 +232,7 @@ public class DeclareAttackersAction extends PlayerAction
 
 		for(AttackingCost cost: this.game.actualState.attackingCosts)
 		{
-			Set thisCost = cost.evaluate(attackers);
+			MagicSet thisCost = cost.evaluate(attackers);
 			if(thisCost == null)
 				continue;
 

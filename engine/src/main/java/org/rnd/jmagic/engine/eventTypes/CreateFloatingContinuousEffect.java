@@ -18,7 +18,7 @@ public final class CreateFloatingContinuousEffect extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		GameObject cause = parameters.get(Parameter.CAUSE).getOne(GameObject.class);
 
@@ -40,7 +40,7 @@ public final class CreateFloatingContinuousEffect extends EventType
 		}
 		if(parameters.containsKey(Parameter.PREVENT))
 		{
-			Set prevent = parameters.get(Parameter.PREVENT);
+			MagicSet prevent = parameters.get(Parameter.PREVENT);
 			SetGenerator whoTo = prevent.getOne(SetGenerator.class);
 			if(whoTo == null)
 				throw new IllegalStateException("PREVENT parameter of '" + event + "' didn't contain a SetGenerator.");
@@ -74,7 +74,7 @@ public final class CreateFloatingContinuousEffect extends EventType
 				for(java.util.Map.Entry<ContinuousEffectType.Parameter, SetGenerator> parameter: part.parameters.entrySet())
 				{
 					ContinuousEffectType.Parameter parameterName = parameter.getKey();
-					Set evaluation = parameter.getValue().evaluate(game, cause);
+					MagicSet evaluation = parameter.getValue().evaluate(game, cause);
 
 					SetGenerator newParameter = Identity.instance(evaluation);
 					part.parameters.put(parameterName, newParameter);

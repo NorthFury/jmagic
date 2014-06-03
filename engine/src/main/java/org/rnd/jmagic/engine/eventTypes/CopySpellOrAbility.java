@@ -18,17 +18,17 @@ public final class CopySpellOrAbility extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		Player controller = null;
 		if(parameters.containsKey(Parameter.PLAYER))
 			controller = parameters.get(Parameter.PLAYER).getOne(Player.class);
 
-		Set controllerSet = null;
+		MagicSet controllerSet = null;
 		if(controller != null)
-			controllerSet = new Set(controller);
+			controllerSet = new MagicSet(controller);
 
-		Set result = new Set();
+		MagicSet result = new MagicSet();
 
 		int number = (parameters.containsKey(Parameter.NUMBER) ? Sum.get(parameters.get(Parameter.NUMBER)) : 1);
 
@@ -76,13 +76,13 @@ public final class CopySpellOrAbility extends EventType
 			{
 				Zone toZone = entry.getValue().getZone();
 
-				java.util.Map<Parameter, Set> moveParameters = new java.util.HashMap<Parameter, Set>();
+				java.util.Map<Parameter, MagicSet> moveParameters = new java.util.HashMap<Parameter, MagicSet>();
 				moveParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 				if(controllerSet != null)
 					moveParameters.put(Parameter.CONTROLLER, controllerSet);
-				moveParameters.put(Parameter.OBJECT, new Set(entry.getKey()));
-				moveParameters.put(Parameter.SOURCE, new Set(entry.getValue()));
-				moveParameters.put(Parameter.TO, new Set(toZone));
+				moveParameters.put(Parameter.OBJECT, new MagicSet(entry.getKey()));
+				moveParameters.put(Parameter.SOURCE, new MagicSet(entry.getValue()));
+				moveParameters.put(Parameter.TO, new MagicSet(toZone));
 
 				Event movedCopies = createEvent(game, "Put " + entry.getKey() + " onto " + toZone + ".", EventType.PUT_INTO_ZONE_AS_A_COPY_OF, moveParameters);
 				movedCopies.perform(event, true);
@@ -122,9 +122,9 @@ public final class CopySpellOrAbility extends EventType
 						becomesTargetFactory.parameters.put(Parameter.OBJECT, Identity.instance(copy));
 						becomesTargetFactory.parameters.put(Parameter.TARGET, IdentifiedWithID.instance(targets));
 
-						java.util.Map<Parameter, Set> targetParameters = new java.util.HashMap<Parameter, Set>();
-						targetParameters.put(Parameter.IF, new Set(mayFactory));
-						targetParameters.put(Parameter.ELSE, new Set(becomesTargetFactory));
+						java.util.Map<Parameter, MagicSet> targetParameters = new java.util.HashMap<Parameter, MagicSet>();
+						targetParameters.put(Parameter.IF, new MagicSet(mayFactory));
+						targetParameters.put(Parameter.ELSE, new MagicSet(becomesTargetFactory));
 						Event mayEvent = createEvent(game, "You may choose new targets for " + copy, EventType.IF_EVENT_THEN_ELSE, targetParameters);
 
 						mayEvent.perform(event, false);

@@ -65,7 +65,7 @@ public final class Miracle extends Keyword
 			if(what.ownerID != who.ID)
 				return false;
 
-			Set drawnThisTurn = DrawnThisTurn.instance().evaluate(state, object);
+			MagicSet drawnThisTurn = DrawnThisTurn.instance().evaluate(state, object);
 			for(GameObject drawn: drawnThisTurn.getAll(GameObject.class))
 				if((drawn.ownerID == who.ID) && (drawn.ID != what.ID))
 					return false;

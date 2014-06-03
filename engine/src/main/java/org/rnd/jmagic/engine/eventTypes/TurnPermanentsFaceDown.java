@@ -18,7 +18,7 @@ public final class TurnPermanentsFaceDown extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		java.util.Set<GameObject> result = new java.util.HashSet<GameObject>();
 		for(GameObject o: parameters.get(Parameter.OBJECT).getAll(GameObject.class))

@@ -19,7 +19,7 @@ public final class AssignCombatDamage extends EventType
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		event.setResult(Empty.set);
 

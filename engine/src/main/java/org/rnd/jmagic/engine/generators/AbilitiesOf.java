@@ -17,10 +17,10 @@ public class AbilitiesOf extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		Set ret = new Set();
-		Set evaluation = this.what.evaluate(state, thisObject);
+		MagicSet ret = new MagicSet();
+		MagicSet evaluation = this.what.evaluate(state, thisObject);
 		for(CanHaveAbilities object: evaluation.getAll(CanHaveAbilities.class))
 		{
 			ret.addAll(object.getNonStaticAbilities());

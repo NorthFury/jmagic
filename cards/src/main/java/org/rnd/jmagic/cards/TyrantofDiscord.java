@@ -27,9 +27,9 @@ public final class TyrantofDiscord extends Card
 		}
 
 		@Override
-		public Set evaluate(GameState state, Identified thisObject)
+		public MagicSet evaluate(GameState state, Identified thisObject)
 		{
-			Set zcs = this.zoneChanges.evaluate(state, thisObject);
+			MagicSet zcs = this.zoneChanges.evaluate(state, thisObject);
 			if(zcs.isEmpty())
 				return Empty.set;
 

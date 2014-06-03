@@ -55,7 +55,7 @@ public final class CagedSun extends Card
 		{
 			if(!this.mana.match(event, object, state))
 				return false;
-			Set colors = this.color.evaluate(state, object);
+			MagicSet colors = this.color.evaluate(state, object);
 			for(ManaSymbol m: event.getResult().getAll(ManaSymbol.class))
 				for(Color c: m.colors)
 					if(colors.contains(c))

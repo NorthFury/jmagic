@@ -17,9 +17,9 @@ public class Permanents extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		Set ret = new Set();
+		MagicSet ret = new MagicSet();
 		for(GameObject object: state.battlefield().objects)
 			ret.add(state.get(object.ID));
 		return ret;

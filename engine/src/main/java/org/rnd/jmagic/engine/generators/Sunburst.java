@@ -21,12 +21,12 @@ public class Sunburst extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
 		java.util.Set<Color> colors = new java.util.HashSet<Color>();
 		for(ManaSymbol s: MANA_SPENT_ON_THIS.evaluate(state, thisObject).getAll(ManaSymbol.class))
 			colors.addAll(s.colors);
-		return new Set(colors.size());
+		return new MagicSet(colors.size());
 	}
 
 	@Override

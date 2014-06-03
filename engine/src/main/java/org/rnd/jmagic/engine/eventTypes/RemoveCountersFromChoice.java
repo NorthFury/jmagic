@@ -20,7 +20,7 @@ public final class RemoveCountersFromChoice extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		Counter.CounterType type = parameters.get(Parameter.COUNTER).getOne(Counter.CounterType.class);
 		int number = 1;
@@ -38,7 +38,7 @@ public final class RemoveCountersFromChoice extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		Player player = parameters.get(Parameter.PLAYER).getOne(Player.class);
 		Counter.CounterType type = parameters.get(Parameter.COUNTER).getOne(Counter.CounterType.class);

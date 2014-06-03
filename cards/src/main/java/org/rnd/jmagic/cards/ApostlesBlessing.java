@@ -28,7 +28,7 @@ public final class ApostlesBlessing extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			event.setResult(Empty.set);
 
@@ -70,9 +70,9 @@ public final class ApostlesBlessing extends Card
 			part.parameters.put(ContinuousEffectType.Parameter.OBJECT, Identity.instance(parameters.get(Parameter.TARGET)));
 			part.parameters.put(ContinuousEffectType.Parameter.ABILITY, Identity.instance(new org.rnd.jmagic.engine.SimpleAbilityFactory(ability)));
 
-			java.util.Map<Parameter, Set> fceParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> fceParameters = new java.util.HashMap<Parameter, MagicSet>();
 			fceParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
-			fceParameters.put(Parameter.EFFECT, new Set(part));
+			fceParameters.put(Parameter.EFFECT, new MagicSet(part));
 			Event protection = createEvent(game, "Target artifact or creature you control gains protection from artifact or the color of your choice until end of turn.", EventType.CREATE_FLOATING_CONTINUOUS_EFFECT, fceParameters);
 			protection.perform(event, false);
 

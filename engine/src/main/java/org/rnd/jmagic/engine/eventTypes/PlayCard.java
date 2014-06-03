@@ -18,7 +18,7 @@ public final class PlayCard extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		Player player = parameters.get(Parameter.PLAYER).getOne(Player.class);
 		GameObject object = parameters.get(Parameter.OBJECT).getOne(GameObject.class);
@@ -27,10 +27,10 @@ public final class PlayCard extends EventType
 		{
 			for(PlayLandAction action: game.createPlayLandActions(player, object))
 			{
-				java.util.Map<Parameter, Set> landParameters = new java.util.HashMap<Parameter, Set>();
-				landParameters.put(Parameter.ACTION, new Set(action));
-				landParameters.put(Parameter.PLAYER, new Set(player));
-				landParameters.put(Parameter.LAND, new Set(object));
+				java.util.Map<Parameter, MagicSet> landParameters = new java.util.HashMap<Parameter, MagicSet>();
+				landParameters.put(Parameter.ACTION, new MagicSet(action));
+				landParameters.put(Parameter.PLAYER, new MagicSet(player));
+				landParameters.put(Parameter.LAND, new MagicSet(object));
 				Event playLand = createEvent(game, player + " plays " + object + ".", PLAY_LAND, landParameters);
 				if(playLand.attempt(event))
 					return true;
@@ -38,9 +38,9 @@ public final class PlayCard extends EventType
 			return false;
 		}
 
-		java.util.Map<Parameter, Set> castParameters = new java.util.HashMap<Parameter, Set>();
-		castParameters.put(Parameter.PLAYER, new Set(player));
-		castParameters.put(Parameter.OBJECT, new Set(object));
+		java.util.Map<Parameter, MagicSet> castParameters = new java.util.HashMap<Parameter, MagicSet>();
+		castParameters.put(Parameter.PLAYER, new MagicSet(player));
+		castParameters.put(Parameter.OBJECT, new MagicSet(object));
 		if(parameters.containsKey(Parameter.ALTERNATE_COST))
 			castParameters.put(Parameter.ALTERNATE_COST, parameters.get(Parameter.ALTERNATE_COST));
 		Event castEvent = createEvent(game, player + " casts " + object + ".", CAST_SPELL_OR_ACTIVATE_ABILITY, castParameters);
@@ -48,7 +48,7 @@ public final class PlayCard extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		Identified cause = parameters.get(Parameter.CAUSE).getOne(Identified.class);
 		int sourceID = (cause == null ? 0 : cause.ID);

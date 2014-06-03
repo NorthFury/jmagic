@@ -60,14 +60,14 @@ public abstract class NonStaticAbility extends GameObject implements Linkable
 	}
 
 	@Override
-	public NonStaticAbility counterThisObject(Set counterer)
+	public NonStaticAbility counterThisObject(MagicSet counterer)
 	{
 		this.game.physicalState.stack().remove(this);
 		return this;
 	}
 
 	@Override
-	public NonStaticAbility counterThisObject(Set counterer, Zone counterTo)
+	public NonStaticAbility counterThisObject(MagicSet counterer, Zone counterTo)
 	{
 		this.game.physicalState.stack().remove(this);
 		return this;

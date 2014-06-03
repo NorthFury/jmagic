@@ -18,29 +18,29 @@ public final class PutOntoBattlefieldUnderOwnerControl extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
-		java.util.Map<Player, Set> ownerMap = new java.util.HashMap<Player, Set>();
+		java.util.Map<Player, MagicSet> ownerMap = new java.util.HashMap<Player, MagicSet>();
 		for(GameObject object: parameters.get(Parameter.OBJECT).getAll(GameObject.class))
 		{
 			Player owner = object.getOwner(game.actualState);
 			if(ownerMap.containsKey(owner))
 				ownerMap.get(owner).add(object);
 			else
-				ownerMap.put(owner, new Set(object));
+				ownerMap.put(owner, new MagicSet(object));
 		}
 
 		boolean allMoved = true;
-		Set cause = parameters.get(Parameter.CAUSE);
-		Set result = new Set();
-		for(java.util.Map.Entry<Player, Set> entry: ownerMap.entrySet())
+		MagicSet cause = parameters.get(Parameter.CAUSE);
+		MagicSet result = new MagicSet();
+		for(java.util.Map.Entry<Player, MagicSet> entry: ownerMap.entrySet())
 		{
 			Player owner = entry.getKey();
-			Set move = entry.getValue();
+			MagicSet move = entry.getValue();
 
-			java.util.Map<Parameter, Set> moveParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> moveParameters = new java.util.HashMap<Parameter, MagicSet>();
 			moveParameters.put(Parameter.CAUSE, cause);
-			moveParameters.put(Parameter.CONTROLLER, new Set(owner));
+			moveParameters.put(Parameter.CONTROLLER, new MagicSet(owner));
 			moveParameters.put(Parameter.OBJECT, move);
 			Event putOntoBattlefield = createEvent(game, "Put " + move + " onto the battlefield.", PUT_ONTO_BATTLEFIELD, moveParameters);
 

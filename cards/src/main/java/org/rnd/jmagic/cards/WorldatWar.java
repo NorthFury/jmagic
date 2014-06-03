@@ -27,18 +27,18 @@ public final class WorldatWar extends Card
 		}
 
 		@Override
-		public Set evaluate(GameState state, Identified thisObject)
+		public MagicSet evaluate(GameState state, Identified thisObject)
 		{
 			for(Phase phase: state.currentTurn().phasesRan)
 				if(phase.type == Phase.PhaseType.POSTCOMBAT_MAIN)
 					return Empty.set;
 
 			if(state.currentPhase().type == Phase.PhaseType.POSTCOMBAT_MAIN)
-				return new Set(state.currentPhase());
+				return new MagicSet(state.currentPhase());
 
 			for(Phase phase: state.currentTurn().phases)
 				if(phase.type == Phase.PhaseType.POSTCOMBAT_MAIN)
-					return new Set(phase);
+					return new MagicSet(phase);
 
 			return Empty.set;
 		}

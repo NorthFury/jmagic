@@ -18,7 +18,7 @@ public final class PutIntoGraveyard extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		for(GameObject object: parameters.get(Parameter.OBJECT).getAll(GameObject.class))
 			if(object.isGhost())
@@ -27,7 +27,7 @@ public final class PutIntoGraveyard extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		boolean allMoved = true;
 
@@ -38,29 +38,29 @@ public final class PutIntoGraveyard extends EventType
 			return true;
 		}
 
-		java.util.Map<Zone, Set> objectMap = new java.util.HashMap<Zone, Set>();
+		java.util.Map<Zone, MagicSet> objectMap = new java.util.HashMap<Zone, MagicSet>();
 		for(GameObject object: objects)
 		{
-			Set mappedSet = null;
+			MagicSet mappedSet = null;
 			Zone targetGraveyard = object.getOwner(game.actualState).getGraveyard(game.actualState);
 			if(objectMap.containsKey(targetGraveyard))
 				mappedSet = objectMap.get(targetGraveyard);
 			else
-				mappedSet = new Set();
+				mappedSet = new MagicSet();
 
 			mappedSet.add(object);
 			objectMap.put(targetGraveyard, mappedSet);
 		}
 
-		Set result = new Set();
-		for(java.util.Map.Entry<Zone, Set> toEntry: objectMap.entrySet())
+		MagicSet result = new MagicSet();
+		for(java.util.Map.Entry<Zone, MagicSet> toEntry: objectMap.entrySet())
 		{
 			Zone to = toEntry.getKey();
-			Set theseObjects = toEntry.getValue();
+			MagicSet theseObjects = toEntry.getValue();
 
-			java.util.Map<Parameter, Set> moveParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> moveParameters = new java.util.HashMap<Parameter, MagicSet>();
 			moveParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
-			moveParameters.put(Parameter.TO, new Set(to));
+			moveParameters.put(Parameter.TO, new MagicSet(to));
 			moveParameters.put(Parameter.OBJECT, theseObjects);
 
 			Event moveEvent = createEvent(game, "Put " + theseObjects + " into " + to + ".", EventType.MOVE_OBJECTS, moveParameters);

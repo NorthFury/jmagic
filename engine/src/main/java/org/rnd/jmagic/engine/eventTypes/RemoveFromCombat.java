@@ -18,11 +18,11 @@ public final class RemoveFromCombat extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
-		Set results = new Set();
+		MagicSet results = new MagicSet();
 
-		Set objectsAndPlayers = parameters.get(Parameter.OBJECT);
+		MagicSet objectsAndPlayers = parameters.get(Parameter.OBJECT);
 		for(GameObject o: objectsAndPlayers.getAll(GameObject.class))
 		{
 			if(o.isGhost())

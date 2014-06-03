@@ -20,9 +20,9 @@ public class InZone extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		Set ret = new Set();
+		MagicSet ret = new MagicSet();
 		for(Zone z: this.zones.evaluate(state, thisObject).getAll(Zone.class))
 			ret.addAll(z.objects);
 		return ret;

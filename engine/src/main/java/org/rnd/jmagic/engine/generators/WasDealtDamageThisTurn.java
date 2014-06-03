@@ -21,7 +21,7 @@ public class WasDealtDamageThisTurn extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
 		Tracker<java.util.Map<Integer, java.util.Set<Integer>>> flag = state.getTracker(DealtDamageByThisTurn.DealtDamageByTracker.class);
 
@@ -29,7 +29,7 @@ public class WasDealtDamageThisTurn extends SetGenerator
 		for(java.util.Set<Integer> damagers: flag.getValue(state).values())
 			ids.addAll(damagers);
 
-		Set ret = new Set();
+		MagicSet ret = new MagicSet();
 		for(Integer id: ids)
 			ret.add(state.get(id));
 

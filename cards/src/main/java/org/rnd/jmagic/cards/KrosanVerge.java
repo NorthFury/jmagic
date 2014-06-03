@@ -25,28 +25,28 @@ public final class KrosanVerge extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
-			Set cause = parameters.get(Parameter.CAUSE);
+			MagicSet cause = parameters.get(Parameter.CAUSE);
 			Player player = parameters.get(Parameter.PLAYER).getOne(Player.class);
 
-			Set object = new Set();
+			MagicSet object = new MagicSet();
 
 			for(SubType type: new SubType[] {SubType.FOREST, SubType.PLAINS})
 			{
-				java.util.Map<Parameter, Set> searchParameters = new java.util.HashMap<Parameter, Set>();
+				java.util.Map<Parameter, MagicSet> searchParameters = new java.util.HashMap<Parameter, MagicSet>();
 				searchParameters.put(Parameter.CAUSE, cause);
-				searchParameters.put(Parameter.PLAYER, new Set(player));
+				searchParameters.put(Parameter.PLAYER, new MagicSet(player));
 				searchParameters.put(Parameter.NUMBER, ONE);
-				searchParameters.put(Parameter.CARD, new Set(player.getLibrary(game.actualState)));
-				searchParameters.put(Parameter.TYPE, new Set(Intersect.instance(HasSubType.instance(type), Cards.instance())));
+				searchParameters.put(Parameter.CARD, new MagicSet(player.getLibrary(game.actualState)));
+				searchParameters.put(Parameter.TYPE, new MagicSet(Intersect.instance(HasSubType.instance(type), Cards.instance())));
 
 				Event searchEvent = createEvent(game, "Search your library", EventType.SEARCH, searchParameters);
 				searchEvent.perform(event, true);
 
-				java.util.Map<Parameter, Set> shuffleParameters = new java.util.HashMap<Parameter, Set>();
+				java.util.Map<Parameter, MagicSet> shuffleParameters = new java.util.HashMap<Parameter, MagicSet>();
 				shuffleParameters.put(Parameter.CAUSE, cause);
-				shuffleParameters.put(Parameter.PLAYER, new Set(player));
+				shuffleParameters.put(Parameter.PLAYER, new MagicSet(player));
 
 				Event shuffleEvent = createEvent(game, player + " shuffles their library", EventType.SHUFFLE_LIBRARY, shuffleParameters);
 				shuffleEvent.perform(event, true);
@@ -57,14 +57,14 @@ public final class KrosanVerge extends Card
 					object.add(game.actualState.get(oldObject.getPhysical().futureSelf));
 			}
 
-			java.util.Map<Parameter, Set> ontoBattlefieldTappedParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> ontoBattlefieldTappedParameters = new java.util.HashMap<Parameter, MagicSet>();
 			ontoBattlefieldTappedParameters.put(Parameter.CAUSE, cause);
-			ontoBattlefieldTappedParameters.put(Parameter.CONTROLLER, new Set(player));
+			ontoBattlefieldTappedParameters.put(Parameter.CONTROLLER, new MagicSet(player));
 			ontoBattlefieldTappedParameters.put(Parameter.OBJECT, object);
 			Event putOntoBattlefieldTapped = createEvent(game, "Put " + object + " onto the battlefield tapped", EventType.PUT_ONTO_BATTLEFIELD_TAPPED, ontoBattlefieldTappedParameters);
 
 			boolean ret = putOntoBattlefieldTapped.perform(event, true);
-			Set movedObjects = NewObjectOf.instance(putOntoBattlefieldTapped.getResultGenerator()).evaluate(game, null);
+			MagicSet movedObjects = NewObjectOf.instance(putOntoBattlefieldTapped.getResultGenerator()).evaluate(game, null);
 			event.setResult(Identity.instance(movedObjects));
 			return ret;
 		}

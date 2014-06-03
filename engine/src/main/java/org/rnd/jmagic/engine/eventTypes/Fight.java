@@ -18,7 +18,7 @@ public final class Fight extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		java.util.Set<GameObject> fighters = new java.util.HashSet<GameObject>();
 
@@ -40,20 +40,20 @@ public final class Fight extends EventType
 		java.util.Iterator<GameObject> iterator = fighters.iterator();
 
 		GameObject one = iterator.next();
-		Set oneSet = new Set(one);
+		MagicSet oneSet = new MagicSet(one);
 
 		GameObject two = iterator.next();
-		Set twoSet = new Set(two);
+		MagicSet twoSet = new MagicSet(two);
 
-		java.util.Map<Parameter, Set> oneParameters = new java.util.HashMap<Parameter, Set>();
+		java.util.Map<Parameter, MagicSet> oneParameters = new java.util.HashMap<Parameter, MagicSet>();
 		oneParameters.put(Parameter.SOURCE, oneSet);
-		oneParameters.put(Parameter.NUMBER, new Set(one.getPower()));
+		oneParameters.put(Parameter.NUMBER, new MagicSet(one.getPower()));
 		oneParameters.put(Parameter.TAKER, twoSet);
 		Event oneDamage = createEvent(game, one + " deals damage equal to its power to " + two, EventType.DEAL_DAMAGE_EVENLY, oneParameters);
 
-		java.util.Map<Parameter, Set> twoParameters = new java.util.HashMap<Parameter, Set>();
+		java.util.Map<Parameter, MagicSet> twoParameters = new java.util.HashMap<Parameter, MagicSet>();
 		twoParameters.put(Parameter.SOURCE, twoSet);
-		twoParameters.put(Parameter.NUMBER, new Set(two.getPower()));
+		twoParameters.put(Parameter.NUMBER, new MagicSet(two.getPower()));
 		twoParameters.put(Parameter.TAKER, oneSet);
 		Event twoDamage = createEvent(game, two + " deals damage equal to its power to " + one, EventType.DEAL_DAMAGE_EVENLY, twoParameters);
 

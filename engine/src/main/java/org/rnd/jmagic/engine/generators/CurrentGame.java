@@ -20,8 +20,8 @@ public class CurrentGame extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		return new Set(state.game);
+		return new MagicSet(state.game);
 	}
 }

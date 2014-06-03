@@ -18,22 +18,22 @@ public final class PutOntoBattlefieldChoiceAttachedTo extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
-		Set cause = parameters.get(Parameter.CAUSE);
-		Set controller = parameters.get(Parameter.CONTROLLER);
-		Set objects = parameters.get(Parameter.OBJECT);
+		MagicSet cause = parameters.get(Parameter.CAUSE);
+		MagicSet controller = parameters.get(Parameter.CONTROLLER);
+		MagicSet objects = parameters.get(Parameter.OBJECT);
 		int number = 1;
 		if(parameters.containsKey(Parameter.NUMBER))
 			number = Sum.get(parameters.get(Parameter.NUMBER));
-		Set target = parameters.get(Parameter.TARGET);
+		MagicSet target = parameters.get(Parameter.TARGET);
 
 		int successes = 0;
 		for(GameObject object: objects.getAll(GameObject.class))
 		{
-			java.util.Map<Parameter, Set> putOntoBattlefieldParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> putOntoBattlefieldParameters = new java.util.HashMap<Parameter, MagicSet>();
 			putOntoBattlefieldParameters.put(Parameter.CAUSE, cause);
-			putOntoBattlefieldParameters.put(Parameter.OBJECT, new Set(object));
+			putOntoBattlefieldParameters.put(Parameter.OBJECT, new MagicSet(object));
 			putOntoBattlefieldParameters.put(Parameter.CONTROLLER, controller);
 			putOntoBattlefieldParameters.put(Parameter.TARGET, target);
 			Event putOntoBattlefield = createEvent(game, "Put " + object + " onto the battlefield attached to " + target, PUT_ONTO_BATTLEFIELD_ATTACHED_TO, putOntoBattlefieldParameters);
@@ -49,11 +49,11 @@ public final class PutOntoBattlefieldChoiceAttachedTo extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
-		Set cause = parameters.get(Parameter.CAUSE);
+		MagicSet cause = parameters.get(Parameter.CAUSE);
 		Player controller = parameters.get(Parameter.CONTROLLER).getOne(Player.class);
-		Set objects = parameters.get(Parameter.OBJECT);
+		MagicSet objects = parameters.get(Parameter.OBJECT);
 		int number = 1;
 		if(parameters.containsKey(Parameter.NUMBER))
 			number = Sum.get(parameters.get(Parameter.NUMBER));
@@ -70,12 +70,12 @@ public final class PutOntoBattlefieldChoiceAttachedTo extends EventType
 		if(choices.size() != number)
 			allChosen = false;
 
-		Set stuffToPutOntoBattlefield = new Set(choices);
-		Set target = parameters.get(Parameter.TARGET);
+		MagicSet stuffToPutOntoBattlefield = new MagicSet(choices);
+		MagicSet target = parameters.get(Parameter.TARGET);
 
-		java.util.Map<Parameter, Set> putOntoBattlefieldParameters = new java.util.HashMap<Parameter, Set>();
+		java.util.Map<Parameter, MagicSet> putOntoBattlefieldParameters = new java.util.HashMap<Parameter, MagicSet>();
 		putOntoBattlefieldParameters.put(Parameter.CAUSE, cause);
-		putOntoBattlefieldParameters.put(Parameter.CONTROLLER, new Set(controller));
+		putOntoBattlefieldParameters.put(Parameter.CONTROLLER, new MagicSet(controller));
 		putOntoBattlefieldParameters.put(Parameter.OBJECT, stuffToPutOntoBattlefield);
 		putOntoBattlefieldParameters.put(Parameter.TARGET, target);
 		Event putOntoBattlefield = createEvent(game, "Put " + stuffToPutOntoBattlefield + " onto the battlefield attached to " + target, PUT_ONTO_BATTLEFIELD_ATTACHED_TO, putOntoBattlefieldParameters);

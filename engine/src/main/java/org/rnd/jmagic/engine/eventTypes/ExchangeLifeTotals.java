@@ -18,7 +18,7 @@ public final class ExchangeLifeTotals extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		return this.attemptEvents(event, this.getEvents(game, parameters));
 	}
@@ -33,7 +33,7 @@ public final class ExchangeLifeTotals extends EventType
 		return true;
 	}
 
-	private java.util.Set<Event> getEvents(Game game, java.util.Map<Parameter, Set> parameters)
+	private java.util.Set<Event> getEvents(Game game, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		java.util.Set<Player> players = parameters.get(Parameter.PLAYER).getAll(Player.class);
 
@@ -46,16 +46,16 @@ public final class ExchangeLifeTotals extends EventType
 		int lifeOne = playerOne.lifeTotal;
 		int lifeTwo = playerTwo.lifeTotal;
 
-		java.util.Map<Parameter, Set> parametersOne = new java.util.HashMap<Parameter, Set>();
+		java.util.Map<Parameter, MagicSet> parametersOne = new java.util.HashMap<Parameter, MagicSet>();
 		parametersOne.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
-		parametersOne.put(Parameter.NUMBER, new Set(lifeTwo));
-		parametersOne.put(Parameter.PLAYER, new Set(playerOne));
+		parametersOne.put(Parameter.NUMBER, new MagicSet(lifeTwo));
+		parametersOne.put(Parameter.PLAYER, new MagicSet(playerOne));
 		Event eventOne = createEvent(game, playerOne + "'s life total becomes " + lifeTwo, EventType.SET_LIFE, parametersOne);
 
-		java.util.Map<Parameter, Set> parametersTwo = new java.util.HashMap<Parameter, Set>();
+		java.util.Map<Parameter, MagicSet> parametersTwo = new java.util.HashMap<Parameter, MagicSet>();
 		parametersTwo.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
-		parametersTwo.put(Parameter.NUMBER, new Set(lifeOne));
-		parametersTwo.put(Parameter.PLAYER, new Set(playerTwo));
+		parametersTwo.put(Parameter.NUMBER, new MagicSet(lifeOne));
+		parametersTwo.put(Parameter.PLAYER, new MagicSet(playerTwo));
 		Event eventTwo = createEvent(game, playerTwo + "'s life total becomes " + lifeOne, EventType.SET_LIFE, parametersTwo);
 
 		java.util.Set<Event> ret = new java.util.HashSet<Event>();
@@ -65,7 +65,7 @@ public final class ExchangeLifeTotals extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		event.setResult(Empty.set);
 

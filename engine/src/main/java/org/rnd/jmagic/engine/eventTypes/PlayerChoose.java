@@ -18,10 +18,10 @@ public final class PlayerChoose extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		Player player = parameters.get(Parameter.PLAYER).getOne(Player.class);
-		Set choices = parameters.get(Parameter.CHOICE);
+		MagicSet choices = parameters.get(Parameter.CHOICE);
 		org.rnd.util.NumberRange number = getRange(parameters.get(Parameter.NUMBER));
 		PlayerInterface.ChoiceType type = parameters.get(Parameter.TYPE).getOne(PlayerInterface.ChoiceType.class);
 		PlayerInterface.ChooseReason reason = parameters.get(Parameter.TYPE).getOne(PlayerInterface.ChooseReason.class);
@@ -31,7 +31,7 @@ public final class PlayerChoose extends EventType
 		if(parameters.containsKey(Parameter.OBJECT))
 			chooseParameters.thisID = parameters.get(Parameter.OBJECT).getOne(GameObject.class).ID;
 
-		Set result = new Set();
+		MagicSet result = new MagicSet();
 		java.util.List<Object> choice = player.sanitizeAndChoose(game.actualState, choices, chooseParameters);
 
 		if(parameters.containsKey(Parameter.ORDERED))

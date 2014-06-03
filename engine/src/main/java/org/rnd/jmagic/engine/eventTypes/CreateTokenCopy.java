@@ -18,7 +18,7 @@ public final class CreateTokenCopy extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		GameObject original = parameters.get(Parameter.OBJECT).getOne(GameObject.class);
 		if(original == null)
@@ -27,7 +27,7 @@ public final class CreateTokenCopy extends EventType
 			return false;
 		}
 
-		Set tokenCopies = new Set();
+		MagicSet tokenCopies = new MagicSet();
 
 		// 110.5a A token is both owned and controlled by the player
 		// under whose control it entered the battlefield.
@@ -37,11 +37,11 @@ public final class CreateTokenCopy extends EventType
 		if(parameters.containsKey(Parameter.NUMBER))
 			number = Sum.get(parameters.get(Parameter.NUMBER));
 
-		java.util.Map<Parameter, Set> tokenParameters = new java.util.HashMap<Parameter, Set>();
-		tokenParameters.put(EventType.Parameter.ABILITY, new Set());
-		tokenParameters.put(EventType.Parameter.NAME, new Set(""));
-		tokenParameters.put(EventType.Parameter.NUMBER, new Set(number));
-		tokenParameters.put(EventType.Parameter.CONTROLLER, new Set(owner));
+		java.util.Map<Parameter, MagicSet> tokenParameters = new java.util.HashMap<Parameter, MagicSet>();
+		tokenParameters.put(EventType.Parameter.ABILITY, new MagicSet());
+		tokenParameters.put(EventType.Parameter.NAME, new MagicSet(""));
+		tokenParameters.put(EventType.Parameter.NUMBER, new MagicSet(number));
+		tokenParameters.put(EventType.Parameter.CONTROLLER, new MagicSet(owner));
 		Event createTokens = createEvent(game, "", CREATE_TOKEN, tokenParameters);
 
 		if(createTokens.perform(event, false))
@@ -55,19 +55,19 @@ public final class CreateTokenCopy extends EventType
 				game.actualState.put(copy);
 			}
 
-		Set result = new Set();
+		MagicSet result = new MagicSet();
 		boolean status = true;
 
 		for(GameObject tokenCopy: tokenCopies.getAll(GameObject.class))
 		{
-			java.util.Map<Parameter, Set> putAsCopyParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> putAsCopyParameters = new java.util.HashMap<Parameter, MagicSet>();
 			putAsCopyParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 			putAsCopyParameters.put(Parameter.CONTROLLER, parameters.get(Parameter.CONTROLLER));
-			putAsCopyParameters.put(Parameter.OBJECT, new Set(tokenCopy));
+			putAsCopyParameters.put(Parameter.OBJECT, new MagicSet(tokenCopy));
 			putAsCopyParameters.put(Parameter.SOURCE, parameters.get(Parameter.OBJECT));
 			if(parameters.containsKey(Parameter.TYPE))
 				putAsCopyParameters.put(Parameter.TYPE, parameters.get(Parameter.TYPE));
-			putAsCopyParameters.put(Parameter.TO, new Set(game.actualState.battlefield()));
+			putAsCopyParameters.put(Parameter.TO, new MagicSet(game.actualState.battlefield()));
 			Event putAsCopy = createEvent(game, "Put " + (number == 1 ? "a token" : number + " tokens") + " onto the battlefield copying " + original + ".", EventType.PUT_INTO_ZONE_AS_A_COPY_OF, putAsCopyParameters);
 			if(!putAsCopy.perform(event, false))
 				status = false;

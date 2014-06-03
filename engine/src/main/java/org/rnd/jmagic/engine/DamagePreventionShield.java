@@ -31,7 +31,7 @@ public class DamagePreventionShield extends DamageReplacementEffect
 	{
 		DamageAssignment.Batch batch = new DamageAssignment.Batch();
 
-		Set targets = this.target.evaluate(context.game, this.getSourceObject(context.state));
+		MagicSet targets = this.target.evaluate(context.game, this.getSourceObject(context.state));
 		for(DamageAssignment assignment: damageAssignments)
 			if(targets.contains(context.state.get(assignment.takerID)))
 				batch.add(assignment);

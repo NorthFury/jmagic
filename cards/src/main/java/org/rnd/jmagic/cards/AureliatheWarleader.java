@@ -77,11 +77,11 @@ public final class AureliatheWarleader extends Card
 		}
 
 		@Override
-		public Set evaluate(GameState state, Identified thisObject)
+		public MagicSet evaluate(GameState state, Identified thisObject)
 		{
 			java.util.Map<Integer, Integer> trackerValue = state.getTracker(AttackTracker.class).getValue(state);
 			GameObject attacker = this.who.evaluate(state, thisObject).getOne(GameObject.class);
-			return new Set(trackerValue.get(attacker.ID));
+			return new MagicSet(trackerValue.get(attacker.ID));
 		}
 	}
 

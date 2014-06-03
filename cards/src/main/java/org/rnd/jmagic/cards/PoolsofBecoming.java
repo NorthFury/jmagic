@@ -29,25 +29,25 @@ public final class PoolsofBecoming extends Card
 			}
 
 			@Override
-			public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+			public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 			{
-				Set cause = parameters.get(EventType.Parameter.CAUSE);
+				MagicSet cause = parameters.get(EventType.Parameter.CAUSE);
 				Player player = parameters.get(EventType.Parameter.PLAYER).getOne(Player.class);
 				Zone targetsHand = player.getHand(game.actualState);
-				Set targetsLibrary = new Set(player.getLibrary(game.actualState));
+				MagicSet targetsLibrary = new MagicSet(player.getLibrary(game.actualState));
 
-				java.util.Map<EventType.Parameter, Set> moveParams = new java.util.HashMap<EventType.Parameter, Set>();
+				java.util.Map<EventType.Parameter, MagicSet> moveParams = new java.util.HashMap<EventType.Parameter, MagicSet>();
 				moveParams.put(EventType.Parameter.CAUSE, cause);
 				moveParams.put(EventType.Parameter.TO, targetsLibrary);
 				moveParams.put(EventType.Parameter.INDEX, NEGATIVE_ONE);
-				moveParams.put(EventType.Parameter.OBJECT, new Set(targetsHand.objects));
+				moveParams.put(EventType.Parameter.OBJECT, new MagicSet(targetsHand.objects));
 				Event libraryEvent = createEvent(game, "Put the cards from your hand on the bottom of your library in any order.", EventType.MOVE_OBJECTS, moveParams);
 				boolean ret = libraryEvent.perform(event, true);
 
-				java.util.Map<EventType.Parameter, Set> drawParams = new java.util.HashMap<EventType.Parameter, Set>();
+				java.util.Map<EventType.Parameter, MagicSet> drawParams = new java.util.HashMap<EventType.Parameter, MagicSet>();
 				drawParams.put(EventType.Parameter.CAUSE, cause);
-				drawParams.put(EventType.Parameter.PLAYER, new Set(player));
-				drawParams.put(EventType.Parameter.NUMBER, new Set(libraryEvent.getResult().size()));
+				drawParams.put(EventType.Parameter.PLAYER, new MagicSet(player));
+				drawParams.put(EventType.Parameter.NUMBER, new MagicSet(libraryEvent.getResult().size()));
 				Event drawEvent = createEvent(game, "Then draw that many cards.", EventType.DRAW_CARDS, drawParams);
 				ret = drawEvent.perform(event, true) && ret;
 
@@ -88,12 +88,12 @@ public final class PoolsofBecoming extends Card
 			}
 
 			@Override
-			public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+			public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 			{
-				Set objects = parameters.get(Parameter.OBJECT);
-				Set cause = parameters.get(Parameter.CAUSE);
+				MagicSet objects = parameters.get(Parameter.OBJECT);
+				MagicSet cause = parameters.get(Parameter.CAUSE);
 
-				java.util.Map<Parameter, Set> revealParameters = new java.util.HashMap<Parameter, Set>();
+				java.util.Map<Parameter, MagicSet> revealParameters = new java.util.HashMap<Parameter, MagicSet>();
 				revealParameters.put(Parameter.CAUSE, cause);
 				revealParameters.put(Parameter.OBJECT, objects);
 				Event revealEvent = createEvent(game, "Reveal the top three cards of your planar deck.", EventType.REVEAL, revealParameters);
@@ -104,7 +104,7 @@ public final class PoolsofBecoming extends Card
 				for(GameObject object: objects.getAll(GameObject.class))
 				{
 					object = object.getActual();
-					for(EventTriggeredAbility ability: new Set(object.getNonStaticAbilities()).getAll(EventTriggeredAbility.class))
+					for(EventTriggeredAbility ability: new MagicSet(object.getNonStaticAbilities()).getAll(EventTriggeredAbility.class))
 					{
 						SetGenerator canTrigger = ability.canTrigger;
 						ability.canTrigger = NonEmpty.instance();
@@ -113,9 +113,9 @@ public final class PoolsofBecoming extends Card
 					}
 				}
 
-				Set commandZone = new Set(game.actualState.commandZone());
+				MagicSet commandZone = new MagicSet(game.actualState.commandZone());
 
-				java.util.Map<Parameter, Set> shuffleParameters = new java.util.HashMap<Parameter, Set>();
+				java.util.Map<Parameter, MagicSet> shuffleParameters = new java.util.HashMap<Parameter, MagicSet>();
 				shuffleParameters.put(Parameter.CAUSE, cause);
 				shuffleParameters.put(Parameter.TO, commandZone);
 				shuffleParameters.put(Parameter.INDEX, NEGATIVE_ONE);

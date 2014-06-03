@@ -16,7 +16,7 @@ public final class PreventCombatDamageDealtToOrBy extends DamageReplacementEffec
 	@Override
 	public DamageAssignment.Batch match(Event context, DamageAssignment.Batch damageAssignments)
 	{
-		Set who = this.who.evaluate(this.game, this.getSourceObject(this.game.actualState));
+		MagicSet who = this.who.evaluate(this.game, this.getSourceObject(this.game.actualState));
 
 		DamageAssignment.Batch ret = new DamageAssignment.Batch();
 		for(DamageAssignment assignment: damageAssignments)

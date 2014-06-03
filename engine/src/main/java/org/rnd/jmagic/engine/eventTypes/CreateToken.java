@@ -18,10 +18,10 @@ public final class CreateToken extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
-		Set ret = new Set();
-		Set abilities = parameters.get(Parameter.ABILITY);
+		MagicSet ret = new MagicSet();
+		MagicSet abilities = parameters.get(Parameter.ABILITY);
 		String name = parameters.get(Parameter.NAME).getOne(String.class);
 		int number = Sum.get(parameters.get(Parameter.NUMBER));
 		for(int i = 0; i < number; ++i)

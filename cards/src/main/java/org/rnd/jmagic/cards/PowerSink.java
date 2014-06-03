@@ -32,12 +32,12 @@ public final class PowerSink extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
-			Set cause = parameters.get(Parameter.CAUSE);
-			Set target = parameters.get(Parameter.TARGET);
+			MagicSet cause = parameters.get(Parameter.CAUSE);
+			MagicSet target = parameters.get(Parameter.TARGET);
 
-			java.util.Map<Parameter, Set> counterParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> counterParameters = new java.util.HashMap<Parameter, MagicSet>();
 			counterParameters.put(Parameter.CAUSE, cause);
 			counterParameters.put(Parameter.OBJECT, target);
 			Event counter = createEvent(game, "Counter " + target, COUNTER, counterParameters);
@@ -45,7 +45,7 @@ public final class PowerSink extends Card
 
 			Player player = parameters.get(Parameter.PLAYER).getOne(Player.class);
 
-			Set toTap = new Set();
+			MagicSet toTap = new MagicSet();
 			objects: for(GameObject object: parameters.get(Parameter.OBJECT).getAll(GameObject.class))
 				for(NonStaticAbility ability: object.getActual().getNonStaticAbilities())
 					if(ability.isManaAbility())
@@ -54,16 +54,16 @@ public final class PowerSink extends Card
 						continue objects;
 					}
 
-			java.util.Map<Parameter, Set> tapParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> tapParameters = new java.util.HashMap<Parameter, MagicSet>();
 			tapParameters.put(Parameter.CAUSE, cause);
 			tapParameters.put(Parameter.OBJECT, toTap);
 			Event tap = createEvent(game, "Tap all lands with mana abilities " + player + " controls", TAP_PERMANENTS, tapParameters);
 			tap.perform(event, true);
 
 			player = player.getActual();
-			java.util.Map<Parameter, Set> emptyParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> emptyParameters = new java.util.HashMap<Parameter, MagicSet>();
 			emptyParameters.put(Parameter.CAUSE, cause);
-			emptyParameters.put(Parameter.PLAYER, new Set(player));
+			emptyParameters.put(Parameter.PLAYER, new MagicSet(player));
 			Event empty = createEvent(game, "Empty " + player + "'s mana pool", EMPTY_MANA_POOL, emptyParameters);
 			empty.perform(event, true);
 

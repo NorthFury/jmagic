@@ -17,9 +17,9 @@ public class Cards extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		Set ret = new Set();
+		MagicSet ret = new MagicSet();
 
 		for(GameObject card: state.getAll(Card.class))
 			if(!card.isGhost() && card.zoneID != -1)

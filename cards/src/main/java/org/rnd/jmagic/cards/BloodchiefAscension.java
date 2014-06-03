@@ -43,35 +43,35 @@ public final class BloodchiefAscension extends Card
 		}
 
 		@Override
-		public boolean attempt(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
-			Set opponent = parameters.get(Parameter.TARGET);
-			java.util.Map<Parameter, Set> lossParameters = new java.util.HashMap<Parameter, Set>();
+			MagicSet opponent = parameters.get(Parameter.TARGET);
+			java.util.Map<Parameter, MagicSet> lossParameters = new java.util.HashMap<Parameter, MagicSet>();
 			lossParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 			lossParameters.put(Parameter.PLAYER, opponent);
-			lossParameters.put(Parameter.NUMBER, new Set(2));
+			lossParameters.put(Parameter.NUMBER, new MagicSet(2));
 			Event loss = createEvent(game, opponent + " loses 2 life", LOSE_LIFE, lossParameters);
 			return loss.attempt(event);
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
-			Set cause = parameters.get(Parameter.CAUSE);
-			Set opponent = parameters.get(Parameter.TARGET);
-			Set you = parameters.get(Parameter.PLAYER);
+			MagicSet cause = parameters.get(Parameter.CAUSE);
+			MagicSet opponent = parameters.get(Parameter.TARGET);
+			MagicSet you = parameters.get(Parameter.PLAYER);
 
-			java.util.Map<Parameter, Set> lossParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> lossParameters = new java.util.HashMap<Parameter, MagicSet>();
 			lossParameters.put(Parameter.CAUSE, cause);
 			lossParameters.put(Parameter.PLAYER, opponent);
-			lossParameters.put(Parameter.NUMBER, new Set(2));
+			lossParameters.put(Parameter.NUMBER, new MagicSet(2));
 			Event loss = createEvent(game, opponent + " loses 2 life", LOSE_LIFE, lossParameters);
 			loss.perform(event, true);
 
-			java.util.Map<Parameter, Set> gainParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> gainParameters = new java.util.HashMap<Parameter, MagicSet>();
 			gainParameters.put(Parameter.CAUSE, cause);
 			gainParameters.put(Parameter.PLAYER, you);
-			gainParameters.put(Parameter.NUMBER, new Set(2));
+			gainParameters.put(Parameter.NUMBER, new MagicSet(2));
 			Event gain = createEvent(game, "You gain 2 life", GAIN_LIFE, gainParameters);
 			gain.perform(event, true);
 

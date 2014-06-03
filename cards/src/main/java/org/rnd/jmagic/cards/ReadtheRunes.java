@@ -27,7 +27,7 @@ public final class ReadtheRunes extends Card
 		}
 
 		@Override
-		public Set evaluate(GameState state, Identified thisObject)
+		public MagicSet evaluate(GameState state, Identified thisObject)
 		{
 			Event e = ((GameObject)thisObject).getEffectGenerated(state, this.factory);
 			if(e == null)
@@ -36,15 +36,15 @@ public final class ReadtheRunes extends Card
 			return evaluateChildren(state, e);
 		}
 
-		private Set evaluateChildren(GameState state, Event parent)
+		private MagicSet evaluateChildren(GameState state, Event parent)
 		{
-			Set ret = new Set();
+			MagicSet ret = new MagicSet();
 			for(Event child: parent.children.keySet())
 				ret.addAll(evaluateChildren(state, child));
 
 			if(parent.type == EventType.DRAW_ONE_CARD)
 			{
-				Set zc = parent.getResult();
+				MagicSet zc = parent.getResult();
 				int drawnID = zc.getOne(ZoneChange.class).newObjectID;
 				ret.add(state.<GameObject>get(drawnID));
 			}

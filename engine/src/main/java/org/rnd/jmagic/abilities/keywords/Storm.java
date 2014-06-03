@@ -85,13 +85,13 @@ public final class Storm extends Keyword
 		}
 
 		@Override
-		public Set evaluate(GameState state, Identified thisObject)
+		public MagicSet evaluate(GameState state, Identified thisObject)
 		{
 			GameObject whichSpell = this.what.evaluate(state, thisObject).getOne(GameObject.class);
 
 			java.util.List<Integer> flagValue = state.getTracker(StormTracker.class).getValue(state);
 			int count = flagValue.indexOf(whichSpell.ID);
-			return count == -1 ? ZERO : new Set(count);
+			return count == -1 ? ZERO : new MagicSet(count);
 		}
 	}
 

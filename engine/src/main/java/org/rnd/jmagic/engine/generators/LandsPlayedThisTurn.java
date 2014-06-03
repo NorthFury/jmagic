@@ -71,9 +71,9 @@ public final class LandsPlayedThisTurn extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		Set ret = new Set();
+		MagicSet ret = new MagicSet();
 		java.util.Set<Player> players = this.who.evaluate(state, thisObject).getAll(Player.class);
 		java.util.Map<Integer, Integer> playedLandCounts = state.getTracker(LandsPlayedTracker.class).getValue(state);
 		for(Player player: players)

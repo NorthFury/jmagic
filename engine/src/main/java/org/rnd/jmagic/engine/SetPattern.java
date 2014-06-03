@@ -13,7 +13,7 @@ public interface SetPattern
 	public static final SetPattern ALWAYS_MATCH = new SetPattern()
 	{
 		@Override
-		public boolean match(GameState state, Identified thisObject, Set set)
+		public boolean match(GameState state, Identified thisObject, MagicSet set)
 		{
 			return true;
 		}
@@ -28,7 +28,7 @@ public interface SetPattern
 	public static final SetPattern CASTABLE = new SetPattern()
 	{
 		@Override
-		public boolean match(GameState state, Identified thisObject, Set set)
+		public boolean match(GameState state, Identified thisObject, MagicSet set)
 		{
 			return (null != Identity.instance(set).evaluate(state, thisObject).getOne(Castable.class));
 		}
@@ -43,7 +43,7 @@ public interface SetPattern
 	public static final SetPattern EVERYTHING = new SetPattern()
 	{
 		@Override
-		public boolean match(GameState state, Identified thisObject, Set set)
+		public boolean match(GameState state, Identified thisObject, MagicSet set)
 		{
 			// "Everything" isn't "nothing".
 			return !set.isEmpty();
@@ -58,7 +58,7 @@ public interface SetPattern
 	public static final SetPattern NEVER_MATCH = new SetPattern()
 	{
 		@Override
-		public boolean match(GameState state, Identified thisObject, Set set)
+		public boolean match(GameState state, Identified thisObject, MagicSet set)
 		{
 			return false;
 		}
@@ -73,9 +73,9 @@ public interface SetPattern
 	public static final SetPattern NON_MANA_ACTIVATED_ABILITIES = new SetPattern()
 	{
 		@Override
-		public boolean match(GameState state, Identified thisObject, Set set)
+		public boolean match(GameState state, Identified thisObject, MagicSet set)
 		{
-			Set mostRecent = Identity.instance(set).evaluate(state, thisObject);
+			MagicSet mostRecent = Identity.instance(set).evaluate(state, thisObject);
 			for(ActivatedAbility object: mostRecent.getAll(ActivatedAbility.class))
 				if(!object.isManaAbility())
 					return true;
@@ -97,7 +97,7 @@ public interface SetPattern
 	 * @param set The set to match against.
 	 * @return Whether the given set matches this pattern.
 	 */
-	public boolean match(GameState state, Identified thisObject, Set set);
+	public boolean match(GameState state, Identified thisObject, MagicSet set);
 
 	/**
 	 * Protects this SetPattern from text change effects.

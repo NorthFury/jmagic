@@ -18,7 +18,7 @@ public final class IfEventThenElse extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		Event ifEvent = parameters.get(Parameter.IF).getOne(EventFactory.class).createEvent(game, event.getSource());
 		ifEvent.isCost = true;
@@ -35,7 +35,7 @@ public final class IfEventThenElse extends EventType
 
 			Event thenEvent = parameters.get(Parameter.THEN).getOne(EventFactory.class).createEvent(game, event.getSource());
 			boolean status = thenEvent.perform(event, true);
-			Set result = thenEvent.getResult();
+			MagicSet result = thenEvent.getResult();
 			event.setResult(Identity.instance(result));
 			return status;
 		}
@@ -48,7 +48,7 @@ public final class IfEventThenElse extends EventType
 
 		Event elseEvent = parameters.get(Parameter.ELSE).getOne(EventFactory.class).createEvent(game, event.getSource());
 		boolean status = elseEvent.perform(event, true);
-		Set result = elseEvent.getResult();
+		MagicSet result = elseEvent.getResult();
 		event.setResult(Identity.instance(result));
 		return status;
 	}

@@ -18,7 +18,7 @@ public final class DiscardCards extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		for(GameObject object: parameters.get(Parameter.CARD).getAll(Card.class))
 		{
@@ -33,15 +33,15 @@ public final class DiscardCards extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		boolean allDiscarded = true;
-		Set result = new Set();
+		MagicSet result = new MagicSet();
 		for(GameObject card: parameters.get(Parameter.CARD).getAll(Card.class))
 		{
-			java.util.Map<Parameter, Set> discardParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> discardParameters = new java.util.HashMap<Parameter, MagicSet>();
 			discardParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
-			discardParameters.put(Parameter.CARD, new Set(card));
+			discardParameters.put(Parameter.CARD, new MagicSet(card));
 			Event discard = createEvent(game, card.getActual().getOwner(game.actualState) + " discards " + card + ".", DISCARD_ONE_CARD, discardParameters);
 			if(!discard.perform(event, false))
 				allDiscarded = false;

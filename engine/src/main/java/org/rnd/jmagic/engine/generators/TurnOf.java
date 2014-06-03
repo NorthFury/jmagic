@@ -20,9 +20,9 @@ public class TurnOf extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		Set returnValue = new Set();
+		MagicSet returnValue = new MagicSet();
 
 		for(Player player: this.players.evaluate(state, thisObject).getAll(Player.class))
 		{

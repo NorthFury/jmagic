@@ -17,9 +17,9 @@ public class NameOf extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		Set ret = new Set();
+		MagicSet ret = new MagicSet();
 		for(Identified i: this.what.evaluate(state, thisObject).getAll(Identified.class))
 			ret.add(i.getName());
 		return ret;

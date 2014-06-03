@@ -49,19 +49,19 @@ public final class SphinxAmbassador extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
-			Set cause = parameters.get(Parameter.CAUSE);
+			MagicSet cause = parameters.get(Parameter.CAUSE);
 			Player you = parameters.get(Parameter.PLAYER).getOne(Player.class);
 			Player target = parameters.get(Parameter.TARGET).getOne(Player.class);
 			java.util.Set<String> names = parameters.get(Parameter.CHOICE).getAll(String.class);
 
 			// search that player's library for a card,
-			java.util.Map<Parameter, Set> searchParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> searchParameters = new java.util.HashMap<Parameter, MagicSet>();
 			searchParameters.put(Parameter.CAUSE, cause);
-			searchParameters.put(Parameter.PLAYER, new Set(you));
+			searchParameters.put(Parameter.PLAYER, new MagicSet(you));
 			searchParameters.put(Parameter.NUMBER, ONE);
-			searchParameters.put(Parameter.CARD, new Set(target.getLibrary(game.actualState)));
+			searchParameters.put(Parameter.CARD, new MagicSet(target.getLibrary(game.actualState)));
 			Event search = createEvent(game, "Search that player's library for a card.", SEARCH, searchParameters);
 			search.perform(event, true);
 
@@ -71,7 +71,7 @@ public final class SphinxAmbassador extends Card
 			String namedCard = choice.get(0);
 
 			// If you searched for a creature card that isn't the named card,
-			Set searchResult = search.getResult();
+			MagicSet searchResult = search.getResult();
 			GameObject searchedFor = searchResult.getOne(GameObject.class);
 			if(searchedFor.getTypes().contains(Type.CREATURE) && !searchedFor.getName().equals(namedCard))
 			{
@@ -81,17 +81,17 @@ public final class SphinxAmbassador extends Card
 				ontoFieldParameters.put(Parameter.CONTROLLER, Identity.instance(you));
 				ontoFieldParameters.put(Parameter.OBJECT, Identity.instance(searchedFor));
 
-				java.util.Map<Parameter, Set> mayParameters = new java.util.HashMap<Parameter, Set>();
+				java.util.Map<Parameter, MagicSet> mayParameters = new java.util.HashMap<Parameter, MagicSet>();
 				mayParameters.put(Parameter.CAUSE, cause);
-				mayParameters.put(Parameter.PLAYER, new Set(you));
-				mayParameters.put(Parameter.EVENT, new Set(new EventFactory(PUT_ONTO_BATTLEFIELD, ontoFieldParameters, "Put it onto the battlefield under your control.")));
+				mayParameters.put(Parameter.PLAYER, new MagicSet(you));
+				mayParameters.put(Parameter.EVENT, new MagicSet(new EventFactory(PUT_ONTO_BATTLEFIELD, ontoFieldParameters, "Put it onto the battlefield under your control.")));
 				createEvent(game, "You may put it onto the battlefield under your control.", PLAYER_MAY, mayParameters).perform(event, true);
 			}
 
 			// Then that player shuffles his or her library.
-			java.util.Map<Parameter, Set> shuffleParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> shuffleParameters = new java.util.HashMap<Parameter, MagicSet>();
 			shuffleParameters.put(Parameter.CAUSE, cause);
-			shuffleParameters.put(Parameter.PLAYER, new Set(target));
+			shuffleParameters.put(Parameter.PLAYER, new MagicSet(target));
 			createEvent(game, "That player shuffles his or her library.", SHUFFLE_LIBRARY, shuffleParameters).perform(event, true);
 
 			event.setResult(Empty.set);

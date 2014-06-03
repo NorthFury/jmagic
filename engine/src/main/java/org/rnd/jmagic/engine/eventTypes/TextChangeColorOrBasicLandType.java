@@ -18,7 +18,7 @@ public final class TextChangeColorOrBasicLandType extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		GameObject thisObject = event.getSource();
 		Player you = thisObject.getController(thisObject.state);
@@ -51,11 +51,11 @@ public final class TextChangeColorOrBasicLandType extends EventType
 		part.parameters.put(ContinuousEffectType.Parameter.FROM, Identity.instance(from));
 		part.parameters.put(ContinuousEffectType.Parameter.TO, Identity.instance(to));
 
-		java.util.Map<Parameter, Set> newParameters = new java.util.HashMap<Parameter, Set>();
+		java.util.Map<Parameter, MagicSet> newParameters = new java.util.HashMap<Parameter, MagicSet>();
 		newParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
-		newParameters.put(Parameter.EFFECT, new Set(part));
+		newParameters.put(Parameter.EFFECT, new MagicSet(part));
 		if(parameters.containsKey(Parameter.EFFECT))
-			newParameters.put(Parameter.EXPIRES, new Set(parameters.get(Parameter.EFFECT).getOne(SetGenerator.class)));
+			newParameters.put(Parameter.EXPIRES, new MagicSet(parameters.get(Parameter.EFFECT).getOne(SetGenerator.class)));
 		Event textChange = createEvent(game, "Change the text of target permanent by replacing all instances of one color word with another or one basic land type with another.", CREATE_FLOATING_CONTINUOUS_EFFECT, newParameters);
 
 		textChange.perform(event, true);

@@ -18,7 +18,7 @@ public final class RevealChoice extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		int number = 1;
 		if(parameters.containsKey(Parameter.NUMBER))
@@ -28,7 +28,7 @@ public final class RevealChoice extends EventType
 	}
 
 	@Override
-	public void makeChoices(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public void makeChoices(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		java.util.Set<GameObject> objects = parameters.get(Parameter.OBJECT).getAll(GameObject.class);
 		org.rnd.util.NumberRange number;
@@ -45,12 +45,12 @@ public final class RevealChoice extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
-		Set cause = parameters.get(Parameter.CAUSE);
-		Set choices = event.getChoices(parameters.get(Parameter.PLAYER).getOne(Player.class));
+		MagicSet cause = parameters.get(Parameter.CAUSE);
+		MagicSet choices = event.getChoices(parameters.get(Parameter.PLAYER).getOne(Player.class));
 
-		java.util.Map<Parameter, Set> revealParameters = new java.util.HashMap<Parameter, Set>();
+		java.util.Map<Parameter, MagicSet> revealParameters = new java.util.HashMap<Parameter, MagicSet>();
 		revealParameters.put(Parameter.CAUSE, cause);
 		revealParameters.put(Parameter.OBJECT, choices);
 		if(parameters.containsKey(Parameter.EFFECT))

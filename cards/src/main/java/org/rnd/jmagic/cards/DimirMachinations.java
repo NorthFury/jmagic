@@ -27,27 +27,27 @@ public final class DimirMachinations extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			event.setResult(Empty.set);
 
-			Set cause = parameters.get(Parameter.CAUSE);
+			MagicSet cause = parameters.get(Parameter.CAUSE);
 			Player player = parameters.get(Parameter.PLAYER).getOne(Player.class);
 			Player target = parameters.get(Parameter.TARGET).getOne(Player.class);
 
-			Set cards = parameters.get(Parameter.CARD);
+			MagicSet cards = parameters.get(Parameter.CARD);
 
-			java.util.Map<Parameter, Set> lookParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> lookParameters = new java.util.HashMap<Parameter, MagicSet>();
 			lookParameters.put(Parameter.CAUSE, cause);
 			lookParameters.put(EventType.Parameter.OBJECT, cards);
-			lookParameters.put(EventType.Parameter.PLAYER, new Set(player));
+			lookParameters.put(EventType.Parameter.PLAYER, new MagicSet(player));
 			createEvent(game, "Look at the top three cards of " + target + "'s library", LOOK, lookParameters).perform(event, true);
 
-			java.util.Map<Parameter, Set> exileParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> exileParameters = new java.util.HashMap<Parameter, MagicSet>();
 			exileParameters.put(EventType.Parameter.CAUSE, cause);
-			exileParameters.put(EventType.Parameter.NUMBER, new Set(new org.rnd.util.NumberRange(0, cards.size())));
+			exileParameters.put(EventType.Parameter.NUMBER, new MagicSet(new org.rnd.util.NumberRange(0, cards.size())));
 			exileParameters.put(EventType.Parameter.OBJECT, cards);
-			exileParameters.put(EventType.Parameter.PLAYER, new Set(player));
+			exileParameters.put(EventType.Parameter.PLAYER, new MagicSet(player));
 			Event exile = createEvent(game, "Exile any number of those cards", EXILE_CHOICE, exileParameters);
 			exile.perform(event, true);
 
@@ -56,7 +56,7 @@ public final class DimirMachinations extends Card
 			{
 				// If the player looking owns the library being looked at, we
 				// can do this the easy way ...
-				java.util.Map<Parameter, Set> moveParameters = new java.util.HashMap<Parameter, Set>();
+				java.util.Map<Parameter, MagicSet> moveParameters = new java.util.HashMap<Parameter, MagicSet>();
 				moveParameters.put(EventType.Parameter.CAUSE, cause);
 				moveParameters.put(EventType.Parameter.INDEX, ONE);
 				moveParameters.put(EventType.Parameter.OBJECT, cards);
@@ -79,10 +79,10 @@ public final class DimirMachinations extends Card
 
 				for(GameObject o: ordered)
 				{
-					java.util.Map<Parameter, Set> moveParameters = new java.util.HashMap<Parameter, Set>();
+					java.util.Map<Parameter, MagicSet> moveParameters = new java.util.HashMap<Parameter, MagicSet>();
 					moveParameters.put(EventType.Parameter.CAUSE, cause);
 					moveParameters.put(EventType.Parameter.INDEX, ONE);
-					moveParameters.put(EventType.Parameter.OBJECT, new Set(o));
+					moveParameters.put(EventType.Parameter.OBJECT, new MagicSet(o));
 					Event move = createEvent(game, "Put a card back.", EventType.PUT_INTO_LIBRARY, moveParameters);
 					move.perform(event, true);
 				}

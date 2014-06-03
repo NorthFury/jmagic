@@ -20,10 +20,10 @@ public class CurrentTurn extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
 		if(state.currentTurn() != null)
-			return new Set(state.currentTurn());
+			return new MagicSet(state.currentTurn());
 		return Empty.set;
 	}
 }

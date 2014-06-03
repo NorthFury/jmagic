@@ -27,26 +27,26 @@ public final class GiftsUngiven extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			Player you = parameters.get(Parameter.PLAYER).getOne(Player.class);
 			Zone library = you.getLibrary(game.actualState);
 
 			while(true)
 			{
-				java.util.Map<Parameter, Set> searchParameters = new java.util.HashMap<Parameter, Set>();
-				searchParameters.put(Parameter.CAUSE, new Set(event.getSource()));
-				searchParameters.put(Parameter.PLAYER, new Set(you));
-				searchParameters.put(Parameter.NUMBER, new Set(4));
-				searchParameters.put(Parameter.CARD, new Set(library));
+				java.util.Map<Parameter, MagicSet> searchParameters = new java.util.HashMap<Parameter, MagicSet>();
+				searchParameters.put(Parameter.CAUSE, new MagicSet(event.getSource()));
+				searchParameters.put(Parameter.PLAYER, new MagicSet(you));
+				searchParameters.put(Parameter.NUMBER, new MagicSet(4));
+				searchParameters.put(Parameter.CARD, new MagicSet(library));
 				// adding a redundant type parameter to keep the search
 				// "restricted"
 				// -- this means they can fail to find.
-				searchParameters.put(Parameter.TYPE, new Set(Identity.instance(library.objects)));
+				searchParameters.put(Parameter.TYPE, new MagicSet(Identity.instance(library.objects)));
 				Event search = createEvent(game, "Search your library for four cards with different names.", EventType.SEARCH, searchParameters);
 				search.perform(event, false);
 
-				Set found = search.getResult();
+				MagicSet found = search.getResult();
 				java.util.Collection<String> names = new java.util.HashSet<String>();
 				boolean differentNames = true;
 				for(GameObject o: found.getAll(GameObject.class))

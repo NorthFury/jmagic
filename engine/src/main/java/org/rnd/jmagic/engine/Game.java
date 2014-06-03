@@ -348,7 +348,7 @@ public class Game
 				return ret;
 
 			SetGenerator planeswalkerPermanents = Intersect.instance(Permanents.instance(), HasType.instance(Type.PLANESWALKER));
-			Set playersWithWalkers = ControllerOf.instance(planeswalkerPermanents).evaluate(this.game, null);
+			MagicSet playersWithWalkers = ControllerOf.instance(planeswalkerPermanents).evaluate(this.game, null);
 
 			for(DamageAssignment damage: damageAssignments)
 			{
@@ -360,7 +360,7 @@ public class Game
 
 				// the source of damage must be controlled by an
 				// opponent of that player
-				Set opponents = OpponentsOf.get(this.game.actualState, (Player)taker);
+				MagicSet opponents = OpponentsOf.get(this.game.actualState, (Player)taker);
 				Player controller = context.state.<GameObject>get(damage.sourceID).getController(this.game.actualState);
 				if(!opponents.contains(controller))
 					continue;
@@ -418,12 +418,12 @@ public class Game
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> emptyParameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> emptyParameters)
 		{
-			Set stateBasedActions = new Set();
-			Set moveToGraveyard = new Set();
-			Set detach = new Set();
-			Set destroy = new Set();
+			MagicSet stateBasedActions = new MagicSet();
+			MagicSet moveToGraveyard = new MagicSet();
+			MagicSet detach = new MagicSet();
+			MagicSet destroy = new MagicSet();
 			java.util.Map<Player, java.util.Set<LoseReason>> playersLosing = new java.util.HashMap<Player, java.util.Set<LoseReason>>();
 
 			// 704.5a If a player has 0 or less life, he or she loses the game.
@@ -1835,7 +1835,7 @@ public class Game
 		// turn order does the same. Once each player has made a
 		// declaration, all players who decided to take mulligans do so at
 		// the same time.
-		Set canMulligan = new Set(this.physicalState.players);
+		MagicSet canMulligan = new MagicSet(this.physicalState.players);
 		while(!canMulligan.isEmpty())
 		{
 			Event mulliganEvent = new Event(this.physicalState, canMulligan + " choose whether to mulligan.", EventType.MULLIGAN_SIMULTANEOUS);

@@ -68,20 +68,20 @@ public class DamageDealtToThisTurn extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
 		Turn currentTurn = state.currentTurn();
 		if(currentTurn == null)
-			return new Set(0);
+			return new MagicSet(0);
 
 		int total = 0;
-		Set what = this.what.evaluate(state, thisObject);
+		MagicSet what = this.what.evaluate(state, thisObject);
 
 		java.util.Map<Integer, Integer> flagValue = state.getTracker(Tracker.class).getValue(state);
 		for(Identified i: what.getAll(Identified.class))
 			if(flagValue.containsKey(i.ID))
 				total += flagValue.get(i.ID);
 
-		return new Set(total);
+		return new MagicSet(total);
 	}
 }

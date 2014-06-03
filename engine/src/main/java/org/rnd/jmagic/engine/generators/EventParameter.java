@@ -29,9 +29,9 @@ public class EventParameter extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		Set ret = new Set();
+		MagicSet ret = new MagicSet();
 		for(Event event: this.events.evaluate(state, thisObject).getAll(Event.class))
 			if(event.parametersNow != null && event.parametersNow.containsKey(this.type))
 			{
@@ -47,7 +47,7 @@ public class EventParameter extends SetGenerator
 		// Otherwise, return them.
 		if(this.evaluate)
 		{
-			Set newRet = new Set();
+			MagicSet newRet = new MagicSet();
 
 			for(SetGenerator generator: ret.getAll(SetGenerator.class))
 				newRet.addAll(generator.evaluate(state, thisObject));

@@ -8,18 +8,18 @@ public class NonLandCardNames extends SetGenerator
 
 	// I really don't want to do this work twice, so we'll store the result here
 	// the first time.
-	private static Set set = null;
+	private static MagicSet set = null;
 
 	public static NonLandCardNames instance()
 	{
 		return _instance;
 	}
 
-	public static Set get()
+	public static MagicSet get()
 	{
 		if(set == null)
 		{
-			Set ret = new Set();
+			MagicSet ret = new MagicSet();
 			cardLoop: for(Class<? extends Card> card: org.rnd.jmagic.CardLoader.getAllCards())
 			{
 				Types types = card.getAnnotation(Types.class);
@@ -35,7 +35,7 @@ public class NonLandCardNames extends SetGenerator
 						ret.add(name.value());
 				}
 			}
-			set = new Set.Unmodifiable(ret);
+			set = new MagicSet.Unmodifiable(ret);
 		}
 		return set;
 	}
@@ -46,7 +46,7 @@ public class NonLandCardNames extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
 		return get();
 	}

@@ -20,9 +20,9 @@ public class Count extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		return new Set(this.set.evaluate(state, thisObject).size());
+		return new MagicSet(this.set.evaluate(state, thisObject).size());
 	}
 
 	@Override

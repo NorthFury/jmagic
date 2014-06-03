@@ -107,7 +107,7 @@ public class ShortcutInterface extends SimplePlayerInterface
 				}
 
 				org.rnd.jmagic.engine.PlayerInterface.ChooseParameters<T> newParams = new ChooseParameters<T>(parameterObject);
-				newParams.number = new org.rnd.jmagic.engine.Set(new org.rnd.util.NumberRange(0, 1));
+				newParams.number = new org.rnd.jmagic.engine.MagicSet(new org.rnd.util.NumberRange(0, 1));
 				java.util.List<Integer> chosen = super.choose(newParams);
 
 				if(!chosen.isEmpty())

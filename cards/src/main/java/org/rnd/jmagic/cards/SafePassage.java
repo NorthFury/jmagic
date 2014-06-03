@@ -25,7 +25,7 @@ public final class SafePassage extends Card
 		{
 			DamageAssignment.Batch ret = new DamageAssignment.Batch();
 
-			Set valid = Union.instance(You.instance(), CREATURES_YOU_CONTROL).evaluate(context.state, this.getSourceObject(context.state));
+			MagicSet valid = Union.instance(You.instance(), CREATURES_YOU_CONTROL).evaluate(context.state, this.getSourceObject(context.state));
 
 			for(DamageAssignment damage: damageAssignments)
 				if(valid.contains(context.state.get(damage.takerID)))

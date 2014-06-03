@@ -21,9 +21,9 @@ public final class CreateRegenerationShield extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
-		Set result = new Set();
+		MagicSet result = new MagicSet();
 		for(GameObject object: parameters.get(Parameter.OBJECT).getAll(GameObject.class))
 		{
 			SetGenerator thisObject = IdentifiedWithID.instance(object.ID);
@@ -40,9 +40,9 @@ public final class CreateRegenerationShield extends EventType
 
 			ContinuousEffect.Part part = replacementEffectPart(regenerate);
 
-			java.util.Map<Parameter, Set> FCEparameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> FCEparameters = new java.util.HashMap<Parameter, MagicSet>();
 			FCEparameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
-			FCEparameters.put(Parameter.EFFECT, new Set(part));
+			FCEparameters.put(Parameter.EFFECT, new MagicSet(part));
 			FCEparameters.put(Parameter.USES, ONE);
 			Event createShield = createEvent(game, "Create regeneration shields", EventType.CREATE_FLOATING_CONTINUOUS_EFFECT, FCEparameters);
 			createShield.perform(event, false);

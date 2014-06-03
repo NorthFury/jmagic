@@ -18,9 +18,9 @@ public final class CreateTokenOnBattlefield extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
-		Set newObjects = new Set();
+		MagicSet newObjects = new MagicSet();
 
 		// 110.5a A token is both owned and controlled by the player under
 		// whose control it entered the battlefield.
@@ -36,7 +36,7 @@ public final class CreateTokenOnBattlefield extends EventType
 		java.util.Set<Color> colors = null;
 		java.util.List<SubType> subTypes = null;
 		java.util.Set<Type> types = parameters.get(Parameter.TYPE).getAll(Type.class);
-		Set abilities = null;
+		MagicSet abilities = null;
 		String name = null;
 
 		if(parameters.containsKey(Parameter.SUPERTYPE))
@@ -68,7 +68,7 @@ public final class CreateTokenOnBattlefield extends EventType
 		if(parameters.containsKey(Parameter.ABILITY))
 			abilities = parameters.get(Parameter.ABILITY);
 		else
-			abilities = new Set();
+			abilities = new MagicSet();
 
 		if(parameters.containsKey(Parameter.NAME))
 			name = parameters.get(Parameter.NAME).getOne(String.class);
@@ -108,11 +108,11 @@ public final class CreateTokenOnBattlefield extends EventType
 			name = nameBuilder.toString();
 		}
 
-		java.util.Map<Parameter, Set> tokenParameters = new java.util.HashMap<Parameter, Set>();
+		java.util.Map<Parameter, MagicSet> tokenParameters = new java.util.HashMap<Parameter, MagicSet>();
 		tokenParameters.put(EventType.Parameter.ABILITY, abilities);
-		tokenParameters.put(EventType.Parameter.NAME, new Set(name));
-		tokenParameters.put(EventType.Parameter.NUMBER, new Set(number));
-		tokenParameters.put(EventType.Parameter.CONTROLLER, new Set(owner));
+		tokenParameters.put(EventType.Parameter.NAME, new MagicSet(name));
+		tokenParameters.put(EventType.Parameter.NUMBER, new MagicSet(number));
+		tokenParameters.put(EventType.Parameter.CONTROLLER, new MagicSet(owner));
 		Event createTokens = createEvent(game, "", CREATE_TOKEN, tokenParameters);
 
 		if(createTokens.perform(event, false))
@@ -140,7 +140,7 @@ public final class CreateTokenOnBattlefield extends EventType
 		// triggers/effects
 		game.refreshActualState();
 
-		java.util.Map<Parameter, Set> moveParameters = tokenParameters;
+		java.util.Map<Parameter, MagicSet> moveParameters = tokenParameters;
 		moveParameters.put(Parameter.OBJECT, newObjects);
 		moveParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 		moveParameters.put(Parameter.CONTROLLER, parameters.get(Parameter.CONTROLLER));

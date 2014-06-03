@@ -111,9 +111,9 @@ public final class Prowl extends Keyword
 			}
 
 			@Override
-			public Set evaluate(GameState state, Identified thisObject)
+			public MagicSet evaluate(GameState state, Identified thisObject)
 			{
-				Set ret = new Set();
+				MagicSet ret = new MagicSet();
 
 				java.util.Set<Player> controllers = this.controller.evaluate(state, thisObject).getAll(Player.class);
 				java.util.Map<Integer, java.util.Set<SubType>> trackerValue = state.getTracker(TypesDealingCombatDamageToPlayers.class).getValue(state);

@@ -17,15 +17,15 @@ public class ChosenFor extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		Set ret = new Set();
+		MagicSet ret = new MagicSet();
 		for(Linkable link: this.what.evaluate(state, thisObject).getAll(Linkable.class))
 		{
 			Identified i = (Identified)link;
 			if(i.isActivatedAbility() || i.isTriggeredAbility())
 				link = (((NonStaticAbility)i).getPrintedVersion(state));
-			Set linkInformation = link.getLinkManager().getLinkInformation(state);
+			MagicSet linkInformation = link.getLinkManager().getLinkInformation(state);
 			if(linkInformation != null)
 				ret.addAll(Identity.instance(linkInformation).evaluate(state, null));
 		}

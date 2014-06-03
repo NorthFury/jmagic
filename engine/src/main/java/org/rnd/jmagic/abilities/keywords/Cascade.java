@@ -34,11 +34,11 @@ public final class Cascade extends Keyword
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
-			Set cascade = parameters.get(Parameter.CAUSE);
+			MagicSet cascade = parameters.get(Parameter.CAUSE);
 			int cmc = Sum.get(parameters.get(Parameter.NUMBER));
-			Set you = parameters.get(Parameter.PLAYER);
+			MagicSet you = parameters.get(Parameter.PLAYER);
 			event.setResult(Empty.set);
 
 			GameObject hitCard = null;
@@ -47,10 +47,10 @@ public final class Cascade extends Keyword
 			Zone library = player.getLibrary(game.actualState);
 			while(!library.objects.isEmpty())
 			{
-				java.util.Map<Parameter, Set> exileParameters = new java.util.HashMap<Parameter, Set>();
+				java.util.Map<Parameter, MagicSet> exileParameters = new java.util.HashMap<Parameter, MagicSet>();
 				exileParameters.put(Parameter.CAUSE, cascade);
-				exileParameters.put(Parameter.TO, new Set(game.actualState.exileZone()));
-				exileParameters.put(Parameter.OBJECT, new Set(library.objects.get(0)));
+				exileParameters.put(Parameter.TO, new MagicSet(game.actualState.exileZone()));
+				exileParameters.put(Parameter.OBJECT, new MagicSet(library.objects.get(0)));
 				Event exile = createEvent(game, "Exile the top card of your library", EventType.MOVE_OBJECTS, exileParameters);
 
 				exile.perform(event, true);
@@ -68,19 +68,19 @@ public final class Cascade extends Keyword
 
 			if(hitCard != null)
 			{
-				java.util.Map<Parameter, Set> mayParameters = new java.util.HashMap<Parameter, Set>();
+				java.util.Map<Parameter, MagicSet> mayParameters = new java.util.HashMap<Parameter, MagicSet>();
 				mayParameters.put(Parameter.CAUSE, cascade);
 				mayParameters.put(Parameter.PLAYER, you);
-				mayParameters.put(Parameter.OBJECT, new Set(hitCard));
+				mayParameters.put(Parameter.OBJECT, new MagicSet(hitCard));
 				Event mayCast = createEvent(game, "You may cast " + hitCard + " without paying its mana cost.", PLAY_WITHOUT_PAYING_MANA_COSTS, mayParameters);
 
 				mayCast.perform(event, true);
 			}
 
-			java.util.Map<Parameter, Set> bottomParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> bottomParameters = new java.util.HashMap<Parameter, MagicSet>();
 			bottomParameters.put(Parameter.CAUSE, cascade);
-			bottomParameters.put(Parameter.INDEX, new Set(-1));
-			bottomParameters.put(Parameter.OBJECT, new Set(cardsExiledThisWay));
+			bottomParameters.put(Parameter.INDEX, new MagicSet(-1));
+			bottomParameters.put(Parameter.OBJECT, new MagicSet(cardsExiledThisWay));
 			bottomParameters.put(Parameter.RANDOM, Empty.set);
 			Event bottom = createEvent(game, "Put the rest of those cards on the bottom of your libarary in a random order", EventType.PUT_INTO_LIBRARY, bottomParameters);
 			bottom.perform(event, true);

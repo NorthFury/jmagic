@@ -18,17 +18,17 @@ public final class PlayerMayPayX extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
-		Set causeParameter = parameters.get(Parameter.CAUSE);
+		MagicSet causeParameter = parameters.get(Parameter.CAUSE);
 		GameObject cause = causeParameter.getOne(GameObject.class);
 
-		Set playerParameter = parameters.get(Parameter.PLAYER);
+		MagicSet playerParameter = parameters.get(Parameter.PLAYER);
 		Player player = playerParameter.getOne(Player.class);
 		player.mayActivateManaAbilities();
 		player = player.getActual();
 
-		Set manaParameter = parameters.get(Parameter.MANA);
+		MagicSet manaParameter = parameters.get(Parameter.MANA);
 		ManaPool additional = manaParameter == null ? new ManaPool() : new ManaPool(manaParameter.getAll(ManaSymbol.class));
 		if(!player.pool.pays(game.actualState, additional))
 		{
@@ -61,17 +61,17 @@ public final class PlayerMayPayX extends EventType
 				cause.getActual().setValueOfX(X);
 				cause.getPhysical().setValueOfX(X);
 				valid = true;
-				event.setResult(new Set(X));
+				event.setResult(new MagicSet(X));
 			}
 		}
 
 		ManaPool cost = new ManaPool("X");
 		cost.addAll(additional);
 
-		java.util.Map<Parameter, Set> payParameters = new java.util.HashMap<Parameter, Set>();
+		java.util.Map<Parameter, MagicSet> payParameters = new java.util.HashMap<Parameter, MagicSet>();
 		payParameters.put(EventType.Parameter.CAUSE, causeParameter);
 		payParameters.put(EventType.Parameter.PLAYER, playerParameter);
-		payParameters.put(EventType.Parameter.COST, new Set(cost));
+		payParameters.put(EventType.Parameter.COST, new MagicSet(cost));
 		Event pay = createEvent(game, "Pay (X)", PAY_MANA, payParameters);
 		pay.perform(event, false);
 

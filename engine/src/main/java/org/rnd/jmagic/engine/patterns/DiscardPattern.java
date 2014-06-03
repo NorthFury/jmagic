@@ -32,7 +32,7 @@ public class DiscardPattern implements ZoneChangePattern
 		// it should be the new object, but I don't think that would work for
 		// Madness (a replacement effect)
 		int objectID = zoneChange.oldObjectID;
-		Set object = new Set(state.get(objectID));
+		MagicSet object = new MagicSet(state.get(objectID));
 		return this.what.match(state, thisObject, object);
 	}
 

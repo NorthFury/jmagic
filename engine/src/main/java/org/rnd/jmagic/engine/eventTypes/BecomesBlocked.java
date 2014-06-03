@@ -18,9 +18,9 @@ public final class BecomesBlocked extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
-		Set attackers = parameters.get(Parameter.ATTACKER);
+		MagicSet attackers = parameters.get(Parameter.ATTACKER);
 
 		for(GameObject attacker: attackers.getAll(GameObject.class))
 		{
@@ -34,8 +34,8 @@ public final class BecomesBlocked extends EventType
 
 		for(GameObject blocker: parameters.get(Parameter.DEFENDER).getAll(GameObject.class))
 		{
-			Set blockerSet = new Set(blocker);
-			java.util.Map<Parameter, Set> blockedParameters = new java.util.HashMap<Parameter, Set>();
+			MagicSet blockerSet = new MagicSet(blocker);
+			java.util.Map<Parameter, MagicSet> blockedParameters = new java.util.HashMap<Parameter, MagicSet>();
 			blockedParameters.put(Parameter.ATTACKER, attackers);
 			blockedParameters.put(Parameter.DEFENDER, blockerSet);
 			createEvent(game, blockerSet + " blocks " + attackers, EventType.BECOMES_BLOCKED_BY_ONE, blockedParameters).perform(event, false);

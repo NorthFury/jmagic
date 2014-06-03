@@ -18,16 +18,16 @@ public final class ShuffleLibrary extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
-		Set result = new Set();
-		Set cause = parameters.get(Parameter.CAUSE);
+		MagicSet result = new MagicSet();
+		MagicSet cause = parameters.get(Parameter.CAUSE);
 
 		for(Player player: parameters.get(Parameter.PLAYER).getAll(Player.class))
 		{
-			java.util.Map<Parameter, Set> shuffleParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> shuffleParameters = new java.util.HashMap<Parameter, MagicSet>();
 			shuffleParameters.put(Parameter.CAUSE, cause);
-			shuffleParameters.put(Parameter.PLAYER, new Set(player));
+			shuffleParameters.put(Parameter.PLAYER, new MagicSet(player));
 			Event shuffleOne = createEvent(game, player + " shuffles their library.", EventType.SHUFFLE_ONE_LIBRARY, shuffleParameters);
 			if(shuffleOne.perform(event, false))
 				result.addAll(shuffleOne.getResult());

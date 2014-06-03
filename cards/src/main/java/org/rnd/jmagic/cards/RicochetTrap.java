@@ -78,9 +78,9 @@ public final class RicochetTrap extends Card
 		}
 
 		@Override
-		public Set evaluate(GameState state, Identified thisObject)
+		public MagicSet evaluate(GameState state, Identified thisObject)
 		{
-			Set opponents = OpponentsOf.get(state, ((GameObject)thisObject).getController(state));
+			MagicSet opponents = OpponentsOf.get(state, ((GameObject)thisObject).getController(state));
 
 			java.util.Collection<Integer> trackerValue = state.getTracker(BlueSpellsCast.class).getValue(state);
 			for(int id: trackerValue)

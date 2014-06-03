@@ -78,7 +78,7 @@ public final class VengefulArchon extends Card
 			}
 
 			@Override
-			public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+			public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 			{
 				final Player target = parameters.get(Parameter.TARGET).getOne(Player.class);
 				final int number = Sum.get(parameters.get(Parameter.NUMBER));
@@ -87,10 +87,10 @@ public final class VengefulArchon extends Card
 
 				ContinuousEffect.Part part = replacementEffectPart(replacement);
 
-				java.util.Map<Parameter, Set> fceParameters = new java.util.HashMap<Parameter, Set>();
+				java.util.Map<Parameter, MagicSet> fceParameters = new java.util.HashMap<Parameter, MagicSet>();
 				fceParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
-				fceParameters.put(Parameter.EFFECT, new Set(part));
-				fceParameters.put(Parameter.DAMAGE, new Set(number));
+				fceParameters.put(Parameter.EFFECT, new MagicSet(part));
+				fceParameters.put(Parameter.DAMAGE, new MagicSet(number));
 				Event createFce = createEvent(game, "Prevent the next X damage that would be dealt to you this turn. If damage is prevented this way, Vengeful Archon deals that much damage to target player.", CREATE_FLOATING_CONTINUOUS_EFFECT, fceParameters);
 				createFce.perform(event, true);
 

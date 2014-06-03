@@ -13,12 +13,12 @@ public class SimpleGroupingPattern implements GroupingPattern
 	}
 
 	@Override
-	public java.util.Set<Set> match(Set set, Identified thisObject, GameState state)
+	public java.util.Set<MagicSet> match(MagicSet set, Identified thisObject, GameState state)
 	{
-		java.util.Set<Set> ret = new java.util.HashSet<Set>();
+		java.util.Set<MagicSet> ret = new java.util.HashSet<MagicSet>();
 
 		for(Object object: Intersect.instance(this.generator, Identity.instance(set)).evaluate(state, thisObject))
-			ret.add(new Set(object));
+			ret.add(new MagicSet(object));
 
 		return ret;
 	}

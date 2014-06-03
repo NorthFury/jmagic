@@ -31,14 +31,14 @@ public final class Sleep extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
-			Set cause = parameters.get(Parameter.CAUSE);
+			MagicSet cause = parameters.get(Parameter.CAUSE);
 			Player player = parameters.get(Parameter.PLAYER).getOne(Player.class);
-			Set thoseCreatures = Intersect.instance(ControlledBy.instance(Identity.instance(player)), CreaturePermanents.instance()).evaluate(game, null);
+			MagicSet thoseCreatures = Intersect.instance(ControlledBy.instance(Identity.instance(player)), CreaturePermanents.instance()).evaluate(game, null);
 
 			// Tap all creatures target player controls.
-			java.util.Map<Parameter, Set> tapParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> tapParameters = new java.util.HashMap<Parameter, MagicSet>();
 			tapParameters.put(Parameter.CAUSE, cause);
 			tapParameters.put(Parameter.OBJECT, thoseCreatures);
 			createEvent(game, "Tap all creatures that player controls.", TAP_PERMANENTS, tapParameters).perform(event, true);
@@ -52,10 +52,10 @@ public final class Sleep extends Card
 			SetGenerator thatPlayersUntap = UntapStepOf.instance(Identity.instance(player));
 			SetGenerator untapStepOver = Intersect.instance(PreviousStep.instance(), thatPlayersUntap);
 
-			java.util.Map<Parameter, Set> noUntapParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> noUntapParameters = new java.util.HashMap<Parameter, MagicSet>();
 			noUntapParameters.put(EventType.Parameter.CAUSE, cause);
-			noUntapParameters.put(EventType.Parameter.EFFECT, new Set(part));
-			noUntapParameters.put(EventType.Parameter.EXPIRES, new Set(untapStepOver));
+			noUntapParameters.put(EventType.Parameter.EFFECT, new MagicSet(part));
+			noUntapParameters.put(EventType.Parameter.EXPIRES, new MagicSet(untapStepOver));
 			createEvent(game, "Those creatures don't untap during that player's next untap step.", CREATE_FLOATING_CONTINUOUS_EFFECT, noUntapParameters).perform(event, true);
 
 			event.setResult(Empty.set);

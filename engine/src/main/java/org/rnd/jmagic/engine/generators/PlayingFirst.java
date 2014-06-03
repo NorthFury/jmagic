@@ -20,10 +20,10 @@ public class PlayingFirst extends org.rnd.jmagic.engine.SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
 		if(state.playingFirstID == -1)
 			return Empty.set;
-		return new Set(state.<Player>get(state.playingFirstID));
+		return new MagicSet(state.<Player>get(state.playingFirstID));
 	}
 }

@@ -18,7 +18,7 @@ public final class DeclareAttackers extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		Player attacker = game.actualState.currentTurn().getOwner(game.actualState);
 
@@ -29,7 +29,7 @@ public final class DeclareAttackers extends EventType
 			// Fix the actual state in case declaring attackers failed
 			game.refreshActualState();
 
-		Set attackers = new Set();
+		MagicSet attackers = new MagicSet();
 		for(int attackerID: declareAttackersAction.attackerIDs)
 			attackers.add(game.actualState.getByIDObject(attackerID));
 		event.setResult(Identity.instance(attackers));

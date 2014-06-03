@@ -18,7 +18,7 @@ public final class PutOntoBattlefieldTapped extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		for(GameObject object: parameters.get(Parameter.OBJECT).getAll(GameObject.class))
 			if(object.isGhost())
@@ -27,7 +27,7 @@ public final class PutOntoBattlefieldTapped extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		Event putOntoBattlefield = createEvent(game, "Put " + parameters.get(Parameter.OBJECT) + " onto the battlefield.", PUT_ONTO_BATTLEFIELD, parameters);
 		boolean status = putOntoBattlefield.perform(event, false);

@@ -17,7 +17,7 @@ public final class RemoveCountersChoice extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		java.util.Set<Counter> counters = parameters.get(Parameter.COUNTER).getAll(Counter.class);
 
@@ -33,7 +33,7 @@ public final class RemoveCountersChoice extends EventType
 	}
 
 	@Override
-	public void makeChoices(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public void makeChoices(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		Player player = parameters.get(Parameter.PLAYER).getOne(Player.class);
 		java.util.Set<Counter> counters = parameters.get(Parameter.COUNTER).getAll(Counter.class);
@@ -52,28 +52,28 @@ public final class RemoveCountersChoice extends EventType
 		}
 		else
 		{
-			choice.addAll(player.choose(new PlayerInterface.ChooseParameters<Counter>(new Set(number), new java.util.LinkedList<Counter>(counters), PlayerInterface.ChoiceType.STRING, PlayerInterface.ChooseReason.CHOOSE_COUNTERS)));
+			choice.addAll(player.choose(new PlayerInterface.ChooseParameters<Counter>(new MagicSet(number), new java.util.LinkedList<Counter>(counters), PlayerInterface.ChoiceType.STRING, PlayerInterface.ChooseReason.CHOOSE_COUNTERS)));
 			event.allChoicesMade = true;
 			event.putChoices(player, choice);
 		}
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		Player player = parameters.get(Parameter.PLAYER).getOne(Player.class);
-		Set choice = event.getChoices(player);
+		MagicSet choice = event.getChoices(player);
 
 		boolean allRemoved = true;
 
-		Set object = parameters.get(Parameter.OBJECT);
-		Set result = new Set();
+		MagicSet object = parameters.get(Parameter.OBJECT);
+		MagicSet result = new MagicSet();
 		for(Counter counter: choice.getAll(Counter.class))
 		{
-			java.util.Map<Parameter, Set> counterParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> counterParameters = new java.util.HashMap<Parameter, MagicSet>();
 			counterParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
-			counterParameters.put(Parameter.COUNTER, new Set(counter.getType()));
-			counterParameters.put(Parameter.OBJECT, new Set(game.actualState.get(counter.sourceID)));
+			counterParameters.put(Parameter.COUNTER, new MagicSet(counter.getType()));
+			counterParameters.put(Parameter.OBJECT, new MagicSet(game.actualState.get(counter.sourceID)));
 			Event removeCounter = createEvent(game, "Remove a " + counter + " from " + object + ".", EventType.REMOVE_ONE_COUNTER, counterParameters);
 			boolean status = removeCounter.perform(event, false);
 			if(!status)

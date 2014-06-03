@@ -157,11 +157,11 @@ abstract public class Keyword extends Identified implements Sanitizable
 		return java.util.Collections.emptyList();
 	}
 
-	public Set getAbilitiesGranted()
+	public MagicSet getAbilitiesGranted()
 	{
 		if(this.abilitiesGranted == null)
 			return null;
-		Set ret = new Set();
+		MagicSet ret = new MagicSet();
 		for(Integer abilityID: this.abilitiesGranted)
 			ret.add(this.state.get(abilityID));
 		return ret;

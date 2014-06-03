@@ -231,7 +231,7 @@ abstract public class GameObject extends Identified implements AttachableTo, Att
 		super(state);
 
 		this.characteristics = new Characteristics();
-		this.characteristics.numModes = new Set(new org.rnd.util.NumberRange(1, 1));
+		this.characteristics.numModes = new MagicSet(new org.rnd.util.NumberRange(1, 1));
 
 		this.alternateCosts = null;
 		this.attachments = new java.util.HashSet<Integer>();
@@ -508,10 +508,10 @@ abstract public class GameObject extends Identified implements AttachableTo, Att
 		if(this.characteristics.types.contains(Type.CREATURE))
 			return false;
 
-		if(targetObject.cantBeAttachedBy().match(game.actualState, (Identified)targetObject, new Set(this)))
+		if(targetObject.cantBeAttachedBy().match(game.actualState, (Identified)targetObject, new MagicSet(this)))
 			return false;
 
-		if(this.cantBeAttachedTo().match(game.actualState, this, new Set(targetObject)))
+		if(this.cantBeAttachedTo().match(game.actualState, this, new MagicSet(targetObject)))
 			return false;
 
 		if(this.characteristics.subTypes.contains(SubType.AURA))
@@ -704,7 +704,7 @@ abstract public class GameObject extends Identified implements AttachableTo, Att
 	 * @return The countered object.
 	 * 
 	 */
-	public GameObject counterThisObject(Set counterer)
+	public GameObject counterThisObject(MagicSet counterer)
 	{
 		throw new UnsupportedOperationException("counterThisObject(Set) called on a class that does not define it");
 	}
@@ -716,7 +716,7 @@ abstract public class GameObject extends Identified implements AttachableTo, Att
 	 * @param counterTo Where the object will go when it is countered.
 	 * @return The countered object.
 	 */
-	public GameObject counterThisObject(Set counterer, Zone counterTo)
+	public GameObject counterThisObject(MagicSet counterer, Zone counterTo)
 	{
 		throw new UnsupportedOperationException("counter(Set,Zone) called on a class that does not define it");
 	}
@@ -982,7 +982,7 @@ abstract public class GameObject extends Identified implements AttachableTo, Att
 	{
 		if(this.definedX == null)
 			return -1;
-		Set Xset = this.definedX.evaluate(this.game, this);
+		MagicSet Xset = this.definedX.evaluate(this.game, this);
 		return Sum.get(Xset);
 	}
 
@@ -1095,7 +1095,7 @@ abstract public class GameObject extends Identified implements AttachableTo, Att
 		return new IDList<NonStaticAbility>(this.state, this.characteristics.nonStaticAbilities, false);
 	}
 
-	public Set getNumModes()
+	public MagicSet getNumModes()
 	{
 		return this.characteristics.numModes;
 	}
@@ -1555,7 +1555,7 @@ abstract public class GameObject extends Identified implements AttachableTo, Att
 				while(i.hasNext())
 				{
 					Target chosenTarget = i.next();
-					Set legalTargetsNow = chosenTarget.legalChoicesNow(this.game, this);
+					MagicSet legalTargetsNow = chosenTarget.legalChoicesNow(this.game, this);
 					java.util.Set<Target> targetSet = new java.util.HashSet<Target>();
 
 					for(Identified targetObject: legalTargetsNow.getAll(Identified.class))
@@ -1662,7 +1662,7 @@ abstract public class GameObject extends Identified implements AttachableTo, Att
 
 				int previousTarget = -1;
 
-				Set legalTargetsNow = target.legalChoicesNow(this.game, this);
+				MagicSet legalTargetsNow = target.legalChoicesNow(this.game, this);
 				java.util.Set<Target> targetSet = new java.util.HashSet<Target>();
 
 				for(Identified potentialTarget: legalTargetsNow.getAll(Identified.class))
@@ -1914,7 +1914,7 @@ abstract public class GameObject extends Identified implements AttachableTo, Att
 		this.timestamp = this.game.physicalState.getNextAvailableTimestamp();
 	}
 
-	public void setNumModes(Set numModes)
+	public void setNumModes(MagicSet numModes)
 	{
 		this.characteristics.numModes = numModes;
 	}
@@ -2020,7 +2020,7 @@ abstract public class GameObject extends Identified implements AttachableTo, Att
 			target.getModes().add(newMode);
 		}
 
-		Set grantedByKeywords = new Set();
+		MagicSet grantedByKeywords = new MagicSet();
 		for(Keyword k: this.getKeywordAbilities())
 			grantedByKeywords.addAll(k.getAbilitiesGranted());
 

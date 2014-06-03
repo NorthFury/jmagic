@@ -50,10 +50,10 @@ public abstract class TimeSpiralStorageLand extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
-			Set source = parameters.get(Parameter.SOURCE);
-			Set you = parameters.get(Parameter.PLAYER);
+			MagicSet source = parameters.get(Parameter.SOURCE);
+			MagicSet you = parameters.get(Parameter.PLAYER);
 
 			int amount = parameters.get(Parameter.NUMBER).getOne(Integer.class);
 			ManaSymbol manaSymbol = parameters.get(Parameter.MANA).getOne(ManaSymbol.class);
@@ -63,10 +63,10 @@ public abstract class TimeSpiralStorageLand extends Card
 				mana.append(manaSymbol);
 
 			String eventName = "Add X mana in any combination of " + manaSymbol + " to your mana pool.";
-			java.util.Map<Parameter, Set> manaParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> manaParameters = new java.util.HashMap<Parameter, MagicSet>();
 			manaParameters.put(Parameter.SOURCE, source);
 			manaParameters.put(Parameter.PLAYER, you);
-			manaParameters.put(Parameter.MANA, new Set(new ManaPool(mana.toString())));
+			manaParameters.put(Parameter.MANA, new MagicSet(new ManaPool(mana.toString())));
 			Event makeMana = createEvent(game, eventName, ADD_MANA, manaParameters);
 			makeMana.perform(event, true);
 

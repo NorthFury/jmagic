@@ -99,9 +99,9 @@ public final class CathedralMembrane extends Card
 		}
 
 		@Override
-		public Set evaluate(GameState state, Identified thisObject)
+		public MagicSet evaluate(GameState state, Identified thisObject)
 		{
-			Set ret = new Set();
+			MagicSet ret = new MagicSet();
 
 			BlockTracker tracker = state.getTracker(BlockTracker.class);
 			java.util.Map<Integer, java.util.Set<Integer>> values = tracker.getValue(state);

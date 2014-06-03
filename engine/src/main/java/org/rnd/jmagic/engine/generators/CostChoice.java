@@ -20,11 +20,11 @@ public class CostChoice extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		Set players = this.who.evaluate(state, thisObject);
+		MagicSet players = this.who.evaluate(state, thisObject);
 
-		Set ret = new Set();
+		MagicSet ret = new MagicSet();
 		if(thisObject.isGameObject())
 		{
 			GameObject o = (GameObject)thisObject;

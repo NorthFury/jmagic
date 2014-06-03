@@ -29,9 +29,9 @@ public final class NemesisTrap extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
-			Set target = parameters.get(Parameter.TARGET);
+			MagicSet target = parameters.get(Parameter.TARGET);
 			GameObject targeted = target.getOne(GameObject.class);
 
 			// We will be killing this creature, THEN copying it. In order for
@@ -43,10 +43,10 @@ public final class NemesisTrap extends Card
 			Event exile = exile(Identity.instance(target), "Exile target attacking creature.").createEvent(game, event.getSource());
 			exile.perform(event, true);
 
-			Set cause = parameters.get(Parameter.CAUSE);
-			Set you = parameters.get(Parameter.PLAYER);
+			MagicSet cause = parameters.get(Parameter.CAUSE);
+			MagicSet you = parameters.get(Parameter.PLAYER);
 
-			java.util.Map<Parameter, Set> tokenParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> tokenParameters = new java.util.HashMap<Parameter, MagicSet>();
 			tokenParameters.put(Parameter.CAUSE, cause);
 			tokenParameters.put(Parameter.CONTROLLER, you);
 			tokenParameters.put(Parameter.OBJECT, target);
@@ -58,10 +58,10 @@ public final class NemesisTrap extends Card
 
 			EventFactory exileTheToken = exile(Identity.instance(created), "Exile it");
 
-			java.util.Map<Parameter, Set> triggerParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> triggerParameters = new java.util.HashMap<Parameter, MagicSet>();
 			triggerParameters.put(Parameter.CAUSE, cause);
-			triggerParameters.put(Parameter.EVENT, new Set(atTheBeginningOfTheEndStep()));
-			triggerParameters.put(Parameter.EFFECT, new Set(exileTheToken));
+			triggerParameters.put(Parameter.EVENT, new MagicSet(atTheBeginningOfTheEndStep()));
+			triggerParameters.put(Parameter.EFFECT, new MagicSet(exileTheToken));
 			Event exileLater = createEvent(game, "Exile it at the beginning of the next end step.", EventType.CREATE_DELAYED_TRIGGER, triggerParameters);
 			exileLater.perform(event, true);
 

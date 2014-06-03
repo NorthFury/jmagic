@@ -16,9 +16,9 @@ public class Intersect extends SetGenerator
 		return ret;
 	}
 
-	static public Set get(Set a, Set b)
+	static public MagicSet get(MagicSet a, MagicSet b)
 	{
-		Set ret = new Set(a);
+		MagicSet ret = new MagicSet(a);
 		ret.retainAll(b);
 
 		java.util.Set<Integer> bNumbers = b.getAll(Integer.class);
@@ -81,7 +81,7 @@ public class Intersect extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
 		return Intersect.get(this.a.evaluate(state, thisObject), this.b.evaluate(state, thisObject));
 	}

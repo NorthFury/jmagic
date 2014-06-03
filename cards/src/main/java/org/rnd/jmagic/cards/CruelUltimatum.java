@@ -28,19 +28,19 @@ public final class CruelUltimatum extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
-			Set ultimatum = parameters.get(Parameter.CAUSE);
+			MagicSet ultimatum = parameters.get(Parameter.CAUSE);
 			Player you = parameters.get(Parameter.PLAYER).getOne(Player.class);
 			java.util.Set<GameObject> cards = parameters.get(Parameter.CHOICE).getAll(GameObject.class);
 
 			java.util.List<GameObject> choice = you.sanitizeAndChoose(game.actualState, 1, cards, PlayerInterface.ChoiceType.OBJECTS, REASON);
 
 			Zone hand = you.getHand(game.actualState);
-			java.util.Map<Parameter, Set> handParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> handParameters = new java.util.HashMap<Parameter, MagicSet>();
 			handParameters.put(Parameter.CAUSE, ultimatum);
-			handParameters.put(Parameter.OBJECT, new Set(choice));
-			handParameters.put(Parameter.TO, new Set(hand));
+			handParameters.put(Parameter.OBJECT, new MagicSet(choice));
+			handParameters.put(Parameter.TO, new MagicSet(hand));
 			createEvent(game, "Return " + choice + " to " + hand + ".", EventType.MOVE_OBJECTS, handParameters).perform(event, false);
 
 			event.setResult(Empty.set);

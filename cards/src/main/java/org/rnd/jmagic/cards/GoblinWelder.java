@@ -27,7 +27,7 @@ public final class GoblinWelder extends Card
 		}
 
 		@Override
-		public Set evaluate(GameState state, Identified thisObject)
+		public MagicSet evaluate(GameState state, Identified thisObject)
 		{
 			for(Target t: this.targets.evaluate(state, thisObject).getAll(Target.class))
 				if(!t.isLegal(state.game, (GameObject)thisObject))

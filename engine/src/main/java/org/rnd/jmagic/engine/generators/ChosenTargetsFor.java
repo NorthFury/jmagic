@@ -26,9 +26,9 @@ public class ChosenTargetsFor extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		Set ret = new Set();
+		MagicSet ret = new MagicSet();
 
 		for(GameObject o: this.what.evaluate(state, thisObject).getAll(GameObject.class))
 			for(Target t: this.targets.evaluate(state, thisObject).getAll(Target.class))
@@ -41,7 +41,7 @@ public class ChosenTargetsFor extends SetGenerator
 				}
 				else
 				{
-					Set legalChoices;
+					MagicSet legalChoices;
 					if(org.rnd.jmagic.abilities.keywords.Overload.WasOverloaded.get(o))
 						legalChoices = t.legalChoices.evaluate(state.game, o);
 					else

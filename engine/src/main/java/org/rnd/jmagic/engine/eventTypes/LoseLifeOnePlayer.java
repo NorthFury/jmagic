@@ -18,7 +18,7 @@ public final class LoseLifeOnePlayer extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		int lifeLoss = Sum.get(parameters.get(Parameter.NUMBER));
 

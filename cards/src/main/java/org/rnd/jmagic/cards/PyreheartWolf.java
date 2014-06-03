@@ -28,7 +28,7 @@ public final class PyreheartWolf extends Card
 		}
 
 		@Override
-		public Set evaluate(GameState state, Identified thisObject)
+		public MagicSet evaluate(GameState state, Identified thisObject)
 		{
 			for(GameObject object: this.creatures.evaluate(state, thisObject).getAll(GameObject.class))
 			{

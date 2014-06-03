@@ -18,7 +18,7 @@ public final class PutOntoBattlefield extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		for(GameObject object: parameters.get(Parameter.OBJECT).getAll(GameObject.class))
 			if(object.isGhost())
@@ -27,12 +27,12 @@ public final class PutOntoBattlefield extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
-		java.util.Map<Parameter, Set> newParameters = new java.util.HashMap<Parameter, Set>();
+		java.util.Map<Parameter, MagicSet> newParameters = new java.util.HashMap<Parameter, MagicSet>();
 		newParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 		newParameters.put(Parameter.CONTROLLER, parameters.get(Parameter.CONTROLLER));
-		newParameters.put(Parameter.ZONE, new Set(game.physicalState.battlefield()));
+		newParameters.put(Parameter.ZONE, new MagicSet(game.physicalState.battlefield()));
 		newParameters.put(Parameter.OBJECT, parameters.get(Parameter.OBJECT));
 		if(parameters.containsKey(Parameter.RESOLVING))
 			newParameters.put(Parameter.RESOLVING, Empty.set);

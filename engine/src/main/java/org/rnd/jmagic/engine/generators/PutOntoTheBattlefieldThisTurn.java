@@ -50,7 +50,7 @@ public class PutOntoTheBattlefieldThisTurn extends SetGenerator
 		@Override
 		protected void update(GameState state, Event event)
 		{
-			Set objects = event.getResult(state);
+			MagicSet objects = event.getResult(state);
 			for(GameObject o: objects.getAll(GameObject.class))
 				this.IDs.add(o.ID);
 		}
@@ -69,13 +69,13 @@ public class PutOntoTheBattlefieldThisTurn extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
 		Turn currentTurn = state.currentTurn();
 		if(currentTurn == null)
 			return Empty.set;
 
-		Set ret = new Set();
+		MagicSet ret = new MagicSet();
 		for(int ID: state.getTracker(BirthTracker.class).getValue(state))
 			ret.add(state.get(ID));
 		return ret;

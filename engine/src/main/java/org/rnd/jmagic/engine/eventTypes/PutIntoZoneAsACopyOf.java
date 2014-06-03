@@ -18,7 +18,7 @@ public final class PutIntoZoneAsACopyOf extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		for(GameObject object: parameters.get(Parameter.OBJECT).getAll(GameObject.class))
 			if(object.isGhost())
@@ -27,18 +27,18 @@ public final class PutIntoZoneAsACopyOf extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
-		Set cause = parameters.get(Parameter.CAUSE);
+		MagicSet cause = parameters.get(Parameter.CAUSE);
 		GameObject object = parameters.get(Parameter.OBJECT).getOne(GameObject.class);
-		Set to = parameters.get(Parameter.TO);
+		MagicSet to = parameters.get(Parameter.TO);
 
-		java.util.Map<Parameter, Set> moveParameters = new java.util.HashMap<Parameter, Set>();
+		java.util.Map<Parameter, MagicSet> moveParameters = new java.util.HashMap<Parameter, MagicSet>();
 		moveParameters.put(Parameter.CAUSE, cause);
 		moveParameters.put(Parameter.TO, to);
 		if(parameters.containsKey(Parameter.CONTROLLER))
 			moveParameters.put(Parameter.CONTROLLER, parameters.get(Parameter.CONTROLLER));
-		moveParameters.put(Parameter.OBJECT, new Set(object));
+		moveParameters.put(Parameter.OBJECT, new MagicSet(object));
 		Event move = createEvent(game, "Move " + object + " to " + to, EventType.MOVE_OBJECTS, moveParameters);
 		boolean ret = move.perform(event, false);
 		if(!ret)
@@ -47,7 +47,7 @@ public final class PutIntoZoneAsACopyOf extends EventType
 		ZoneChange movement = move.getResult().getOne(ZoneChange.class);
 		event.setResult(Identity.instance(movement));
 
-		Set source = parameters.get(Parameter.SOURCE);
+		MagicSet source = parameters.get(Parameter.SOURCE);
 
 		ContinuousEffect.Part part = new ContinuousEffect.Part(ContinuousEffectType.COPY_OBJECT);
 		part.parameters.put(ContinuousEffectType.Parameter.OBJECT, NewObjectOf.instance(Identity.instance(movement)));

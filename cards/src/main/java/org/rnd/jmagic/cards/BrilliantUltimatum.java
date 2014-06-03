@@ -28,7 +28,7 @@ public final class BrilliantUltimatum extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			Event exile = exile(Identity.instance(parameters.get(Parameter.CARD)), "Exile the top five cards of your library").createEvent(game, event.getSource());
 			exile.perform(event, true);
@@ -37,15 +37,15 @@ public final class BrilliantUltimatum extends Card
 			java.util.Set<Player> opponents = OpponentsOf.get(game.actualState, you).getAll(Player.class);
 			Player anOpponent = you.sanitizeAndChoose(game.actualState, 1, opponents, PlayerInterface.ChoiceType.PLAYER, PlayerInterface.ChooseReason.AN_OPPONENT).iterator().next();
 
-			Set thoseCards = NewObjectOf.instance(exile.getResultGenerator()).evaluate(game, null);
+			MagicSet thoseCards = NewObjectOf.instance(exile.getResultGenerator()).evaluate(game, null);
 			java.util.Collection<Pile> piles = anOpponent.separateIntoPiles(2, thoseCards);
 
 			Pile chosenPile = you.sanitizeAndChoose(game.actualState, 1, piles, PlayerInterface.ChoiceType.PILE, REASON).iterator().next();
 
-			java.util.Map<Parameter, Set> playParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> playParameters = new java.util.HashMap<Parameter, MagicSet>();
 			playParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
-			playParameters.put(Parameter.PLAYER, new Set(you));
-			playParameters.put(Parameter.OBJECT, new Set(chosenPile));
+			playParameters.put(Parameter.PLAYER, new MagicSet(you));
+			playParameters.put(Parameter.OBJECT, new MagicSet(chosenPile));
 			Event playStuff = createEvent(game, "You may play any number of cards from one of those piles without paying their mana costs.", PLAY_WITHOUT_PAYING_MANA_COSTS, playParameters);
 			playStuff.perform(event, true);
 

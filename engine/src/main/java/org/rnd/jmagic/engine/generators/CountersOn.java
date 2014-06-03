@@ -21,18 +21,18 @@ public class CountersOn extends SetGenerator
 	private final SetGenerator what;
 	private Counter.CounterType type;
 
-	public static Set get(GameObject what, Counter.CounterType type)
+	public static MagicSet get(GameObject what, Counter.CounterType type)
 	{
-		Set ret = new Set();
+		MagicSet ret = new MagicSet();
 		for(Counter counter: what.counters)
 			if(counter.getType() == type)
 				ret.add(counter);
 		return ret;
 	}
 
-	public static Set get(Player what, Counter.CounterType type)
+	public static MagicSet get(Player what, Counter.CounterType type)
 	{
-		Set ret = new Set();
+		MagicSet ret = new MagicSet();
 		for(Counter counter: what.counters)
 			if(counter.getType() == type)
 				ret.add(counter);
@@ -46,10 +46,10 @@ public class CountersOn extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		Set ret = new Set();
-		Set objects = this.what.evaluate(state, thisObject);
+		MagicSet ret = new MagicSet();
+		MagicSet objects = this.what.evaluate(state, thisObject);
 		for(GameObject object: objects.getAll(GameObject.class))
 		{
 			if(this.type == null)

@@ -33,19 +33,19 @@ public class Blocking extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		Set allBlockers = Blocking.get(state);
+		MagicSet allBlockers = Blocking.get(state);
 		if(this.what == null)
 			return allBlockers;
 
 		java.util.Set<Integer> attackerIDs = new java.util.HashSet<Integer>();
-		Set evaluateWhat = this.what.evaluate(state, thisObject);
+		MagicSet evaluateWhat = this.what.evaluate(state, thisObject);
 		for(GameObject o: evaluateWhat.getAll(GameObject.class))
 			attackerIDs.add(o.ID);
 
 		java.util.Set<GameObject> blockingTheseAttackers = allBlockers.getAll(GameObject.class);
-		Set ret = new Set();
+		MagicSet ret = new MagicSet();
 
 		// For each blocker, if it is blocking a specified attacker, add it to
 		// the return
@@ -60,9 +60,9 @@ public class Blocking extends SetGenerator
 		return ret;
 	}
 
-	public static Set get(GameState state)
+	public static MagicSet get(GameState state)
 	{
-		Set ret = new Set();
+		MagicSet ret = new MagicSet();
 		for(GameObject o: state.battlefield())
 			if(!o.getBlockingIDs().isEmpty())
 				ret.add(o);

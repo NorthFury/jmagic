@@ -30,7 +30,7 @@ public final class PithingNeedle extends Card
 			}
 
 			@Override
-			public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+			public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 			{
 				Player player = parameters.get(Parameter.PLAYER).getOne(Player.class);
 				java.util.List<String> named = player.choose(1, parameters.get(Parameter.CHOICE).getAll(String.class), PlayerInterface.ChoiceType.STRING, PlayerInterface.ChooseReason.NAME_A_CARD);

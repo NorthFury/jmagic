@@ -28,31 +28,31 @@ public final class MerfolkWayfinder extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
-			Set topThree = parameters.get(Parameter.OBJECT);
+			MagicSet topThree = parameters.get(Parameter.OBJECT);
 
-			Set islands = new Set();
-			Set others = new Set();
+			MagicSet islands = new MagicSet();
+			MagicSet others = new MagicSet();
 			for(GameObject o: topThree.getAll(GameObject.class))
 				if(o.getSubTypes().contains(SubType.ISLAND))
 					islands.add(o);
 				else
 					others.add(o);
 
-			Set cause = parameters.get(Parameter.CAUSE);
+			MagicSet cause = parameters.get(Parameter.CAUSE);
 			Player you = parameters.get(Parameter.PLAYER).getOne(Player.class);
-			Set hand = new Set(you.getHand(game.actualState));
+			MagicSet hand = new MagicSet(you.getHand(game.actualState));
 
-			java.util.Map<Parameter, Set> handParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> handParameters = new java.util.HashMap<Parameter, MagicSet>();
 			handParameters.put(Parameter.CAUSE, cause);
 			handParameters.put(Parameter.TO, hand);
 			handParameters.put(Parameter.OBJECT, islands);
 			Event handMove = createEvent(game, "Put all Island cards revealed this way into your hand", MOVE_OBJECTS, handParameters);
 
-			java.util.Map<Parameter, Set> bottomParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> bottomParameters = new java.util.HashMap<Parameter, MagicSet>();
 			bottomParameters.put(Parameter.CAUSE, cause);
-			bottomParameters.put(Parameter.INDEX, new Set(-1));
+			bottomParameters.put(Parameter.INDEX, new MagicSet(-1));
 			bottomParameters.put(Parameter.OBJECT, others);
 			Event bottomMove = createEvent(game, "Put all Island cards revealed this way into your hand", PUT_INTO_LIBRARY, bottomParameters);
 

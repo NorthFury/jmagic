@@ -18,7 +18,7 @@ public final class DiscardTo extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		// get the number of cards out of the parameter
 		int numberOfCards = Sum.get(parameters.get(Parameter.NUMBER));
@@ -26,10 +26,10 @@ public final class DiscardTo extends EventType
 		if(numberOfCards < 0)
 			numberOfCards = 0;
 
-		Set cause = parameters.get(Parameter.CAUSE);
+		MagicSet cause = parameters.get(Parameter.CAUSE);
 
 		boolean allDiscarded = true;
-		Set result = new Set();
+		MagicSet result = new MagicSet();
 
 		// get the player out of the actee and get the ID's of the cards in
 		// their hand
@@ -39,10 +39,10 @@ public final class DiscardTo extends EventType
 			if(numberToDiscard <= 0)
 				continue;
 
-			java.util.Map<Parameter, Set> discardParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> discardParameters = new java.util.HashMap<Parameter, MagicSet>();
 			discardParameters.put(Parameter.CAUSE, cause);
-			discardParameters.put(Parameter.PLAYER, new Set(player));
-			discardParameters.put(Parameter.NUMBER, new Set(numberToDiscard));
+			discardParameters.put(Parameter.PLAYER, new MagicSet(player));
+			discardParameters.put(Parameter.NUMBER, new MagicSet(numberToDiscard));
 
 			Event discard = createEvent(game, player + " discards " + numberToDiscard + " card" + (numberToDiscard == 1 ? "" : "s."), DISCARD_CHOICE, discardParameters);
 			if(!discard.perform(event, false))

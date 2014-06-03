@@ -40,9 +40,9 @@ public class DivideBy extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		Set ret = new Set();
+		MagicSet ret = new MagicSet();
 		java.util.Set<Integer> denominators = this.denominator.evaluate(state, thisObject).getAll(Integer.class);
 		for(Integer n: this.numerator.evaluate(state, thisObject).getAll(Integer.class))
 			for(Integer d: denominators)

@@ -124,7 +124,7 @@ public class DealtDamageByThisTurn extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
 		Tracker<java.util.Map<Integer, java.util.Set<Integer>>> flag = null;
 		if(this.combatDamage)
@@ -135,7 +135,7 @@ public class DealtDamageByThisTurn extends SetGenerator
 		java.util.Map<Integer, java.util.Set<Integer>> flagValue = flag.getValue(state);
 
 		java.util.Set<Integer> ids = new java.util.HashSet<Integer>();
-		Set what = this.what.evaluate(state, thisObject);
+		MagicSet what = this.what.evaluate(state, thisObject);
 		for(GameObject dealer: what.getAll(GameObject.class))
 			if(flagValue.containsKey(dealer.ID))
 			{

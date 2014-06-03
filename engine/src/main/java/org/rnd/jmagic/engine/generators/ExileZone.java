@@ -20,8 +20,8 @@ public class ExileZone extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		return new Set(state.exileZone());
+		return new MagicSet(state.exileZone());
 	}
 }

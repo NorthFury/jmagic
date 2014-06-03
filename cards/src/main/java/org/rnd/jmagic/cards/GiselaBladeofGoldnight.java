@@ -30,7 +30,7 @@ public final class GiselaBladeofGoldnight extends Card
 				for(DamageAssignment assignment: damageAssignments)
 				{
 					Identified taker = context.state.get(assignment.takerID);
-					Set opponents = OpponentsOf.get(context.state, ((Controllable)this.getSourceObject(context.state)).getController(context.state));
+					MagicSet opponents = OpponentsOf.get(context.state, ((Controllable)this.getSourceObject(context.state)).getController(context.state));
 					if(taker.isPlayer())
 					{
 						if(opponents.contains(taker))

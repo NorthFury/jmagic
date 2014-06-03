@@ -21,10 +21,10 @@ public class ManaInPool extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		Set what = this.what.evaluate(state, thisObject);
-		Set ret = new Set();
+		MagicSet what = this.what.evaluate(state, thisObject);
+		MagicSet ret = new MagicSet();
 		for(Player player: what.getAll(Player.class))
 			ret.addAll(player.pool);
 		for(ManaPool pool: what.getAll(ManaPool.class))

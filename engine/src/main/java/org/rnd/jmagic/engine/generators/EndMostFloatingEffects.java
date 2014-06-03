@@ -21,7 +21,7 @@ public class EndMostFloatingEffects extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
 		if(state.currentTurn().endEffects)
 			return NonEmpty.set;

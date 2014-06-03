@@ -17,7 +17,7 @@ public final class PreventAllFrom extends DamageReplacementEffect
 	public DamageAssignment.Batch match(Event context, DamageAssignment.Batch damageAssignments)
 	{
 		DamageAssignment.Batch ret = new DamageAssignment.Batch();
-		Set from = this.from.evaluate(context.game, this.getSourceObject(context.state));
+		MagicSet from = this.from.evaluate(context.game, this.getSourceObject(context.state));
 		for(DamageAssignment damage: damageAssignments)
 			if(from.contains(context.state.get(damage.sourceID)))
 				ret.add(damage);

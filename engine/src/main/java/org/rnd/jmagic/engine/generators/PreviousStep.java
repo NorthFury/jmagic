@@ -20,10 +20,10 @@ public class PreviousStep extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
 		if(state.previousStep() != null)
-			return new Set(state.previousStep());
+			return new MagicSet(state.previousStep());
 		return Empty.set;
 	}
 }

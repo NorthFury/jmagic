@@ -20,7 +20,7 @@ public final class Clash extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		// 701.20. Clash
 		//
@@ -34,10 +34,10 @@ public final class Clash extends EventType
 		// a higher converted mana cost than all other cards revealed in
 		// that clash.
 
-		Set players = parameters.get(Parameter.PLAYER);
-		Set revealed = TopCards.instance(1, LibraryOf.instance(Identity.instance(players))).evaluate(game, null);
+		MagicSet players = parameters.get(Parameter.PLAYER);
+		MagicSet revealed = TopCards.instance(1, LibraryOf.instance(Identity.instance(players))).evaluate(game, null);
 
-		java.util.Map<Parameter, Set> revealParameters = new java.util.HashMap<Parameter, Set>();
+		java.util.Map<Parameter, MagicSet> revealParameters = new java.util.HashMap<Parameter, MagicSet>();
 		revealParameters.put(EventType.Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 		revealParameters.put(EventType.Parameter.OBJECT, revealed);
 		Event revealEvent = createEvent(game, "Each player clashing reveals the top card of his or her library.", EventType.REVEAL, revealParameters);

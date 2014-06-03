@@ -21,7 +21,7 @@ public final class VizkopaConfessor extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			Player player = parameters.get(Parameter.PLAYER).getOne(Player.class);
 			int number = player.chooseNumber(new org.rnd.util.NumberRange(0, player.lifeTotal), "Pay any amount of life.");

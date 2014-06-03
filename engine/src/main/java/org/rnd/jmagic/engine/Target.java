@@ -219,7 +219,7 @@ public class Target implements Cloneable, Sanitizable
 		if(this.targetID == -1)
 			return false;
 
-		Set legalChoicesNow = this.legalChoicesNow(game, thisObject);
+		MagicSet legalChoicesNow = this.legalChoicesNow(game, thisObject);
 
 		for(GameObject object: legalChoicesNow.getAll(GameObject.class))
 			if((this.targetID == object.ID) && !object.isGhost())
@@ -244,14 +244,14 @@ public class Target implements Cloneable, Sanitizable
 	 * this object will not be in the returned set.
 	 * @return A set describing the legal choices for this target.
 	 */
-	public Set legalChoicesNow(Game game, GameObject targeting)
+	public MagicSet legalChoicesNow(Game game, GameObject targeting)
 	{
-		Set ret = this.legalChoices.evaluate(game, targeting);
+		MagicSet ret = this.legalChoices.evaluate(game, targeting);
 
 		java.util.Collection<Targetable> toRemove = new java.util.LinkedList<Targetable>();
 		for(Targetable t: ret.getAll(Targetable.class))
 		{
-			if(t.cantBeTheTargetOf().match(game.actualState, (Identified)t, new Set(targeting)))
+			if(t.cantBeTheTargetOf().match(game.actualState, (Identified)t, new MagicSet(targeting)))
 				toRemove.add(t);
 		}
 		ret.removeAll(toRemove);

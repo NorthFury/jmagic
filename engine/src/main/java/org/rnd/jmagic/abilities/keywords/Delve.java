@@ -37,7 +37,7 @@ public final class Delve extends Keyword
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			EventFactory exile = new EventFactory(EventType.EXILE_CHOICE, "Exile any number of cards from your graveyard");
 			exile.parameters.put(EventType.Parameter.CAUSE, This.instance());
@@ -68,7 +68,7 @@ public final class Delve extends Keyword
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			GameObject object = parameters.get(Parameter.OBJECT).getOne(GameObject.class);
 
@@ -88,14 +88,14 @@ public final class Delve extends Keyword
 					// exiled this way"... but at the time that cost reductions
 					// are applied, there are no creatures tapped, just
 					// creatures chosen.
-					Set chosenCards = exileCost.getChoices(object.getController(state));
+					MagicSet chosenCards = exileCost.getChoices(object.getController(state));
 					ManaPool costReduction = new ManaPool("(" + chosenCards.size() + ")");
 
 					// TODO : 702.63b Multiple instances of delve on the same
 					// spell are redundant.
 					// If a spell has multiple instances of delve, this apply
 					// method will be called for each of them.
-					state.manaCostReductions.put(new Set(object), costReduction);
+					state.manaCostReductions.put(new MagicSet(object), costReduction);
 				}
 			}
 		}

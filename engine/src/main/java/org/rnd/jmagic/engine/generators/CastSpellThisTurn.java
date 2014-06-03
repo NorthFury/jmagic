@@ -70,10 +70,10 @@ public class CastSpellThisTurn extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
 		Tracker flag = state.getTracker(Tracker.class);
-		Set ret = new Set();
+		MagicSet ret = new MagicSet();
 		for(Integer i: flag.getValue(state))
 			ret.add(state.get(i));
 		return ret;

@@ -21,13 +21,13 @@ public class SplitOnOwner extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		java.util.Map<Integer, Set> whoControlsWhat = new java.util.HashMap<Integer, Set>();
+		java.util.Map<Integer, MagicSet> whoControlsWhat = new java.util.HashMap<Integer, MagicSet>();
 		for(Player p: state.players)
-			whoControlsWhat.put(p.ID, new Set());
+			whoControlsWhat.put(p.ID, new MagicSet());
 		for(GameObject object: this.what.evaluate(state, thisObject).getAll(GameObject.class))
 			whoControlsWhat.get(object.ownerID).add(object);
-		return new Set(whoControlsWhat.values());
+		return new MagicSet(whoControlsWhat.values());
 	}
 }

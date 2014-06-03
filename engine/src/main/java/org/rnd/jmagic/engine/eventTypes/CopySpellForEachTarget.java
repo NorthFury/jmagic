@@ -18,7 +18,7 @@ public final class CopySpellForEachTarget extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		boolean ret = true;
 
@@ -43,18 +43,18 @@ public final class CopySpellForEachTarget extends EventType
 				return false;
 		}
 
-		Set targets = toChange.legalChoicesNow(game, object);
+		MagicSet targets = toChange.legalChoicesNow(game, object);
 		targets.remove(game.actualState.get(toChange.targetID));
 
 		if(parameters.containsKey(Parameter.TARGET))
 			targets = Intersect.get(targets, parameters.get(Parameter.TARGET));
 
-		java.util.Map<Parameter, Set> copyParameters = new java.util.HashMap<Parameter, Set>();
+		java.util.Map<Parameter, MagicSet> copyParameters = new java.util.HashMap<Parameter, MagicSet>();
 		copyParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
-		copyParameters.put(Parameter.PLAYER, new Set(object.getController(game.actualState)));
-		copyParameters.put(Parameter.OBJECT, new Set(object));
+		copyParameters.put(Parameter.PLAYER, new MagicSet(object.getController(game.actualState)));
+		copyParameters.put(Parameter.OBJECT, new MagicSet(object));
 		copyParameters.put(Parameter.TARGET, Empty.set);
-		copyParameters.put(Parameter.NUMBER, new Set(targets.size()));
+		copyParameters.put(Parameter.NUMBER, new MagicSet(targets.size()));
 		Event copyEvent = createEvent(game, "Copy the spell for each other possible target.", EventType.COPY_SPELL_OR_ABILITY, copyParameters);
 		copyEvent.perform(event, false);
 

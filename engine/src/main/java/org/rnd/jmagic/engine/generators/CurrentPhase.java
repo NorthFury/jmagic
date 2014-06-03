@@ -20,10 +20,10 @@ public class CurrentPhase extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
 		if(state.currentPhase() != null)
-			return new Set(state.currentPhase());
+			return new MagicSet(state.currentPhase());
 		return Empty.set;
 	}
 }

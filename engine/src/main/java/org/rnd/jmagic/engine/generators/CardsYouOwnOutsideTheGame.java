@@ -17,7 +17,7 @@ public class CardsYouOwnOutsideTheGame extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
 		return state.game.getWishboard().evaluate(state, thisObject);
 	}

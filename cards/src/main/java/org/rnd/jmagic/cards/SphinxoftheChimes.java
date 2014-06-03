@@ -27,14 +27,14 @@ public final class SphinxoftheChimes extends Card
 		}
 
 		@Override
-		public boolean attempt(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			Player player = parameters.get(Parameter.PLAYER).getOne(Player.class);
 			Zone hand = player.getHand(game.actualState);
 			if(hand.objects.size() < 2)
 				return false;
 
-			Set cause = parameters.get(Parameter.CAUSE);
+			MagicSet cause = parameters.get(Parameter.CAUSE);
 			java.util.ListIterator<GameObject> i = hand.objects.listIterator();
 			while(i.hasNext())
 			{
@@ -48,9 +48,9 @@ public final class SphinxoftheChimes extends Card
 					if(!firstCard.getName().equals(secondCard.getName()))
 						continue;
 
-					java.util.Map<Parameter, Set> discardParameters = new java.util.HashMap<Parameter, Set>();
+					java.util.Map<Parameter, MagicSet> discardParameters = new java.util.HashMap<Parameter, MagicSet>();
 					discardParameters.put(Parameter.CAUSE, cause);
-					discardParameters.put(Parameter.CARD, new Set(firstCard, secondCard));
+					discardParameters.put(Parameter.CARD, new MagicSet(firstCard, secondCard));
 					Event discard = createEvent(game, "Discard two cards named " + firstCard, EventType.DISCARD_CARDS, discardParameters);
 					if(discard.attempt(event))
 						return true;
@@ -61,7 +61,7 @@ public final class SphinxoftheChimes extends Card
 		}
 
 		@Override
-		public void makeChoices(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public void makeChoices(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			Player player = parameters.get(Parameter.PLAYER).getOne(Player.class);
 
@@ -83,12 +83,12 @@ public final class SphinxoftheChimes extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			Player you = parameters.get(Parameter.PLAYER).getOne(Player.class);
-			Set discardThese = event.getChoices(you);
+			MagicSet discardThese = event.getChoices(you);
 
-			java.util.Map<Parameter, Set> discardParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> discardParameters = new java.util.HashMap<Parameter, MagicSet>();
 			discardParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 			discardParameters.put(Parameter.CARD, discardThese);
 			Event discard = createEvent(game, "Discard " + discardThese, DISCARD_CARDS, discardParameters);

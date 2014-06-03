@@ -25,7 +25,7 @@ public final class VendilionClique extends Card
 	public static EventType CARD_NAPPING = new EventType("CARD_NAPPING")
 	{
 		@Override
-		public boolean attempt(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			Player target = parameters.get(Parameter.TARGET).getOne(Player.class);
 			for(GameObject card: target.getHand(game.actualState).objects)
@@ -41,9 +41,9 @@ public final class VendilionClique extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
-			Set cause = parameters.get(Parameter.CAUSE);
+			MagicSet cause = parameters.get(Parameter.CAUSE);
 			Player you = parameters.get(Parameter.PLAYER).getOne(Player.class);
 			Player target = parameters.get(Parameter.TARGET).getOne(Player.class);
 
@@ -52,26 +52,26 @@ public final class VendilionClique extends Card
 			for(GameObject card: target.getHand(game.actualState).objects)
 				if(!card.getTypes().contains(Type.LAND))
 					nonlandCards.add(card);
-			Set chosen = new Set(you.sanitizeAndChoose(game.actualState, 1, nonlandCards, PlayerInterface.ChoiceType.OBJECTS, REASON));
+			MagicSet chosen = new MagicSet(you.sanitizeAndChoose(game.actualState, 1, nonlandCards, PlayerInterface.ChoiceType.OBJECTS, REASON));
 
 			// If you do, that player reveals the chosen card,
-			java.util.Map<Parameter, Set> revealParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> revealParameters = new java.util.HashMap<Parameter, MagicSet>();
 			revealParameters.put(Parameter.CAUSE, cause);
 			revealParameters.put(Parameter.OBJECT, chosen);
 			createEvent(game, "That player reveals that card", REVEAL, revealParameters).perform(event, true);
 
 			// puts it on the bottom of his or her library,
-			java.util.Map<Parameter, Set> moveParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> moveParameters = new java.util.HashMap<Parameter, MagicSet>();
 			moveParameters.put(Parameter.CAUSE, cause);
 			moveParameters.put(Parameter.INDEX, NEGATIVE_ONE);
 			moveParameters.put(Parameter.OBJECT, chosen);
 			createEvent(game, "That player puts that card on the bottom of his or her library", PUT_INTO_LIBRARY, moveParameters).perform(event, true);
 
 			// then draws a card.
-			java.util.Map<Parameter, Set> drawParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> drawParameters = new java.util.HashMap<Parameter, MagicSet>();
 			drawParameters.put(Parameter.CAUSE, cause);
 			drawParameters.put(Parameter.NUMBER, ONE);
-			drawParameters.put(Parameter.PLAYER, new Set(target));
+			drawParameters.put(Parameter.PLAYER, new MagicSet(target));
 			createEvent(game, "That player draws a card", DRAW_CARDS, drawParameters).perform(event, true);
 
 			event.setResult(Empty.set);
@@ -94,17 +94,17 @@ public final class VendilionClique extends Card
 		 * @eparam TARGET the target of Clique's ability
 		 */
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
-			Set cause = parameters.get(Parameter.CAUSE);
+			MagicSet cause = parameters.get(Parameter.CAUSE);
 			Player you = parameters.get(Parameter.PLAYER).getOne(Player.class);
 			Player target = parameters.get(Parameter.TARGET).getOne(Player.class);
 
 			// look at target player's hand.
-			java.util.Map<Parameter, Set> lookParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> lookParameters = new java.util.HashMap<Parameter, MagicSet>();
 			lookParameters.put(Parameter.CAUSE, cause);
-			lookParameters.put(Parameter.OBJECT, new Set(target.getHand(game.actualState).objects));
-			lookParameters.put(Parameter.PLAYER, new Set(you));
+			lookParameters.put(Parameter.OBJECT, new MagicSet(target.getHand(game.actualState).objects));
+			lookParameters.put(Parameter.PLAYER, new MagicSet(you));
 			createEvent(game, "Look at target player's hand", LOOK, lookParameters).perform(event, true);
 			you = you.getActual();
 			target = target.getActual();
@@ -115,9 +115,9 @@ public final class VendilionClique extends Card
 			napParameters.put(Parameter.TARGET, Identity.instance(target));
 
 			// You may...
-			java.util.Map<Parameter, Set> mayParameters = new java.util.HashMap<Parameter, Set>();
-			mayParameters.put(Parameter.PLAYER, new Set(you));
-			mayParameters.put(Parameter.EVENT, new Set(new EventFactory(CARD_NAPPING, napParameters, "Choose a nonland card from it.  That player reveals the chosen card, puts it on the bottom of his or her library, then draws a card.")));
+			java.util.Map<Parameter, MagicSet> mayParameters = new java.util.HashMap<Parameter, MagicSet>();
+			mayParameters.put(Parameter.PLAYER, new MagicSet(you));
+			mayParameters.put(Parameter.EVENT, new MagicSet(new EventFactory(CARD_NAPPING, napParameters, "Choose a nonland card from it.  That player reveals the chosen card, puts it on the bottom of his or her library, then draws a card.")));
 			createEvent(game, "You may choose a nonland card from it.  If you do, that player reveals the chosen card, puts it on the bottom of his or her library, then draws a card.", PLAYER_MAY, mayParameters).perform(event, true);
 
 			event.setResult(Empty.set);

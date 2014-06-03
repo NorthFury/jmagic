@@ -24,29 +24,29 @@ public final class BeastHunt extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
-			Set topThree = parameters.get(Parameter.OBJECT);
-			Set creatures = new Set();
+			MagicSet topThree = parameters.get(Parameter.OBJECT);
+			MagicSet creatures = new MagicSet();
 			for(GameObject o: topThree.getAll(GameObject.class))
 				if(o.getTypes().contains(Type.CREATURE))
 					creatures.add(o);
 
-			Set beastHunt = parameters.get(Parameter.CAUSE);
+			MagicSet beastHunt = parameters.get(Parameter.CAUSE);
 			Player you = parameters.get(Parameter.PLAYER).getOne(Player.class);
 
-			java.util.Map<Parameter, Set> handParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> handParameters = new java.util.HashMap<Parameter, MagicSet>();
 			handParameters.put(Parameter.CAUSE, beastHunt);
-			handParameters.put(Parameter.TO, new Set(you.getHand(game.actualState)));
+			handParameters.put(Parameter.TO, new MagicSet(you.getHand(game.actualState)));
 			handParameters.put(Parameter.OBJECT, creatures);
 			Event moveToHand = createEvent(game, "Put all creature cards revealed this way into your hand", MOVE_OBJECTS, handParameters);
 			moveToHand.perform(event, false);
 
 			you = you.getActual();
 			topThree.removeAll(creatures);
-			java.util.Map<Parameter, Set> graveyardParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> graveyardParameters = new java.util.HashMap<Parameter, MagicSet>();
 			graveyardParameters.put(Parameter.CAUSE, beastHunt);
-			graveyardParameters.put(Parameter.TO, new Set(you.getGraveyard(game.actualState)));
+			graveyardParameters.put(Parameter.TO, new MagicSet(you.getGraveyard(game.actualState)));
 			graveyardParameters.put(Parameter.OBJECT, topThree);
 			Event moveToGraveyard = createEvent(game, "Put all other cards revealed this way into your graveyard", MOVE_OBJECTS, handParameters);
 			moveToGraveyard.perform(event, false);

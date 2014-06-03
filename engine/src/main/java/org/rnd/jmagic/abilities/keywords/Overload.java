@@ -106,7 +106,7 @@ public final class Overload extends Keyword
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			for(GameObject object: parameters.get(ContinuousEffectType.Parameter.OBJECT).getAll(GameObject.class))
 			{
@@ -146,7 +146,7 @@ public final class Overload extends Keyword
 		}
 
 		@Override
-		public Set evaluate(GameState state, Identified thisObject)
+		public MagicSet evaluate(GameState state, Identified thisObject)
 		{
 			for(GameObject object: this.what.evaluate(state, thisObject).getAll(GameObject.class))
 				if(get(object))

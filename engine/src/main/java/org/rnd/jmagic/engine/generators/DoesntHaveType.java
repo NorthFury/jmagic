@@ -10,9 +10,9 @@ public class DoesntHaveType extends SetGenerator
 {
 	private static final java.util.Map<Type, DoesntHaveType> _instances = new java.util.HashMap<Type, DoesntHaveType>();
 
-	public static Set get(GameState state, java.util.Collection<Type> types)
+	public static MagicSet get(GameState state, java.util.Collection<Type> types)
 	{
-		Set ret = new Set();
+		MagicSet ret = new MagicSet();
 		items: for(GameObject item: state.getAllObjects())
 		{
 			for(Type type: types)
@@ -53,7 +53,7 @@ public class DoesntHaveType extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
 		return get(state, this.type.evaluate(state, thisObject).getAll(Type.class));
 	}

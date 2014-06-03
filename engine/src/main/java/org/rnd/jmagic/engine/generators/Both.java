@@ -23,13 +23,13 @@ public class Both extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		Set evalA = this.a.evaluate(state, thisObject);
+		MagicSet evalA = this.a.evaluate(state, thisObject);
 		if(evalA.isEmpty())
 			return Empty.set;
 
-		Set evalB = this.b.evaluate(state, thisObject);
+		MagicSet evalB = this.b.evaluate(state, thisObject);
 		if(evalB.isEmpty())
 			return Empty.set;
 

@@ -24,12 +24,12 @@ public class ExemptionsFor extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		Set ret = new Set();
+		MagicSet ret = new MagicSet();
 		if(state.abilityExemptions.containsKey(this.from.getName()))
 		{
-			java.util.Map<Integer, Set> exemptions = state.abilityExemptions.get(this.from.getName());
+			java.util.Map<Integer, MagicSet> exemptions = state.abilityExemptions.get(this.from.getName());
 			for(Identified object: this.what.evaluate(state, thisObject).getAll(Identified.class))
 				if(exemptions.containsKey(object.ID))
 					ret.addAll(exemptions.get(object.ID));

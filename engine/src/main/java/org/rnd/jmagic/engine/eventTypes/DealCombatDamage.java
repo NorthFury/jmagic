@@ -18,7 +18,7 @@ public final class DealCombatDamage extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		event.addDamage(parameters.get(Parameter.TARGET).getAll(DamageAssignment.class));
 

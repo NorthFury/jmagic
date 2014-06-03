@@ -91,7 +91,7 @@ public class Werewolves
 		}
 
 		@Override
-		public Set evaluate(GameState state, Identified thisObject)
+		public MagicSet evaluate(GameState state, Identified thisObject)
 		{
 			Tracker tracker = state.getTracker(Tracker.class);
 			if(tracker.getValue(state).isEmpty())
@@ -117,7 +117,7 @@ public class Werewolves
 		}
 
 		@Override
-		public Set evaluate(GameState state, Identified thisObject)
+		public MagicSet evaluate(GameState state, Identified thisObject)
 		{
 			Tracker tracker = state.getTracker(Tracker.class);
 

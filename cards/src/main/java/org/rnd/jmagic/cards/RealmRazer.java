@@ -42,11 +42,11 @@ public final class RealmRazer extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
-			Set cause = new Set(event.getSource());
+			MagicSet cause = new MagicSet(event.getSource());
 
-			java.util.Map<Parameter, Set> moveParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> moveParameters = new java.util.HashMap<Parameter, MagicSet>();
 			moveParameters.put(EventType.Parameter.CAUSE, cause);
 			moveParameters.put(EventType.Parameter.OBJECT, parameters.get(Parameter.OBJECT));
 			Event putOntoBattlefield = createEvent(game, "Return the exiled cards to the battlefield under their owners' control", EventType.PUT_ONTO_BATTLEFIELD_UNDER_OWNER_CONTROL, moveParameters);
@@ -60,7 +60,7 @@ public final class RealmRazer extends Card
 				change.events.add(tap);
 			}
 
-			event.setResult(new Set());
+			event.setResult(new MagicSet());
 			return true;
 		}
 

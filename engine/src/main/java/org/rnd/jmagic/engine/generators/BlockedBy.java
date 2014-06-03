@@ -20,10 +20,10 @@ public class BlockedBy extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		Set evaluateWhat = this.what.evaluate(state, thisObject);
-		Set ret = new Set();
+		MagicSet evaluateWhat = this.what.evaluate(state, thisObject);
+		MagicSet ret = new MagicSet();
 
 		for(GameObject blocker: evaluateWhat.getAll(GameObject.class))
 			for(int blockerID: blocker.getBlockingIDs())

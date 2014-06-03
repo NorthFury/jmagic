@@ -28,7 +28,7 @@ public final class ArtificialEvolution extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			GameObject thisObject = event.getSource();
 			Player you = thisObject.getController(thisObject.state);
@@ -46,9 +46,9 @@ public final class ArtificialEvolution extends Card
 			part.parameters.put(ContinuousEffectType.Parameter.FROM, Identity.instance(from));
 			part.parameters.put(ContinuousEffectType.Parameter.TO, Identity.instance(to));
 
-			java.util.Map<Parameter, Set> textChangeParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> textChangeParameters = new java.util.HashMap<Parameter, MagicSet>();
 			textChangeParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
-			textChangeParameters.put(Parameter.EFFECT, new Set(part));
+			textChangeParameters.put(Parameter.EFFECT, new MagicSet(part));
 			Event textChange = createEvent(game, "Change the text of target spell or permanent by replacing all instances of one creature type with another. The new creature type can't be Wall.", EventType.CREATE_FLOATING_CONTINUOUS_EFFECT, textChangeParameters);
 			if(parameters.containsKey(Parameter.EFFECT))
 				textChange.parameters.put(Parameter.EXPIRES, Identity.instance(parameters.get(Parameter.EFFECT).getOne(SetGenerator.class)));

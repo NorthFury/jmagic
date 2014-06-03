@@ -33,11 +33,11 @@ public class HasCounterOfType extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		Set ret = new Set();
+		MagicSet ret = new MagicSet();
 		java.util.Set<Counter.CounterType> types = new java.util.HashSet<Counter.CounterType>();
-		Set counters = this.counter.evaluate(state, thisObject);
+		MagicSet counters = this.counter.evaluate(state, thisObject);
 		for(Counter counter: counters.getAll(Counter.class))
 			types.add(counter.getType());
 		for(Counter.CounterType type: counters.getAll(Counter.CounterType.class))

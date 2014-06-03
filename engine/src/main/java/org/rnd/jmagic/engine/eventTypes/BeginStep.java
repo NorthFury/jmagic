@@ -18,7 +18,7 @@ public final class BeginStep extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		Step step = parameters.get(Parameter.STEP).getOne(Step.class);
 		game.physicalState.setCurrentStep(step);

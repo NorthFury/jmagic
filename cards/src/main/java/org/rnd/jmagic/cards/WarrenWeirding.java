@@ -32,9 +32,9 @@ public final class WarrenWeirding extends Card
 		}
 
 		@Override
-		public Set evaluate(GameState state, Identified thisObject)
+		public MagicSet evaluate(GameState state, Identified thisObject)
 		{
-			Set ret = new Set();
+			MagicSet ret = new MagicSet();
 			if(thisObject.isGameObject())
 			{
 				GameObject o = (GameObject)thisObject;
@@ -45,7 +45,7 @@ public final class WarrenWeirding extends Card
 					{
 						for(Player player: state.players)
 						{
-							Set choices = effectGenerated.getChoices(player);
+							MagicSet choices = effectGenerated.getChoices(player);
 							if(null != choices)
 								ret.addAll(choices);
 						}
@@ -71,9 +71,9 @@ public final class WarrenWeirding extends Card
 		}
 
 		@Override
-		public Set evaluate(GameState state, Identified thisObject)
+		public MagicSet evaluate(GameState state, Identified thisObject)
 		{
-			Set ret = new Set();
+			MagicSet ret = new MagicSet();
 			for(GameObject o: this.what.evaluate(state, thisObject).getAll(GameObject.class))
 			{
 				if(o.getSubTypes().contains(SubType.GOBLIN))

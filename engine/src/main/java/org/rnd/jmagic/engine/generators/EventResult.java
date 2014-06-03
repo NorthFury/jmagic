@@ -20,9 +20,9 @@ public class EventResult extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		Set ret = new Set();
+		MagicSet ret = new MagicSet();
 		for(Event event: this.events.evaluate(state, thisObject).getAll(Event.class))
 			ret.addAll(event.getResult(state));
 		return ret;
@@ -37,7 +37,7 @@ public class EventResult extends SetGenerator
 		{
 			if(event.parameters.containsKey(EventType.Parameter.CHOICE))
 			{
-				Set choices = event.parameters.get(EventType.Parameter.CHOICE).evaluate(game, thisObject);
+				MagicSet choices = event.parameters.get(EventType.Parameter.CHOICE).evaluate(game, thisObject);
 
 				ret.addAll(choices.getAll(ManaSymbol.ManaType.class));
 

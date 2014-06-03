@@ -32,9 +32,9 @@ public class Attacking extends SetGenerator
 		this.what = what;
 	}
 
-	public static Set get(GameState state)
+	public static MagicSet get(GameState state)
 	{
-		Set ret = new Set();
+		MagicSet ret = new MagicSet();
 		for(GameObject o: state.battlefield())
 			if(-1 != o.getAttackingID())
 				ret.add(o);
@@ -42,14 +42,14 @@ public class Attacking extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		Set allAttackers = Attacking.get(state);
+		MagicSet allAttackers = Attacking.get(state);
 		if(this.what == null)
 			return allAttackers;
 
 		java.util.Set<Integer> beingAttackedIDs = new java.util.HashSet<Integer>();
-		Set evaluateWhat = this.what.evaluate(state, thisObject);
+		MagicSet evaluateWhat = this.what.evaluate(state, thisObject);
 		for(GameObject o: evaluateWhat.getAll(GameObject.class))
 			if(o.getTypes().contains(Type.PLANESWALKER))
 				beingAttackedIDs.add(o.ID);
@@ -65,6 +65,6 @@ public class Attacking extends SetGenerator
 				objectIterator.remove();
 		}
 
-		return new Set(attackingThisPlayer);
+		return new MagicSet(attackingThisPlayer);
 	}
 }

@@ -21,10 +21,10 @@ public class ControllerOf extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		Set ret = new Set();
-		Set objects = this.objects.evaluate(state, thisObject);
+		MagicSet ret = new MagicSet();
+		MagicSet objects = this.objects.evaluate(state, thisObject);
 		for(Controllable o: objects.getAll(Controllable.class))
 			ret.add(state.<Player>get(o.getController(state).ID));
 		for(ZoneChange zc: objects.getAll(ZoneChange.class))

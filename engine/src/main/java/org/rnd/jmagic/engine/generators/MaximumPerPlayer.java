@@ -46,7 +46,7 @@ public class MaximumPerPlayer extends SetGenerator
 		@Override
 		protected void update(GameState state, Event event)
 		{
-			Set objects = event.getResult(state);
+			MagicSet objects = event.getResult(state);
 			for(GameObject o: objects.getAll(GameObject.class))
 			{
 				int controllerID = o.getController(state).ID;
@@ -73,9 +73,9 @@ public class MaximumPerPlayer extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		Set players = this.players.evaluate(state, thisObject);
+		MagicSet players = this.players.evaluate(state, thisObject);
 		java.util.Map<Integer, Integer> flag = state.getTracker(this.tracker).getValue(state);
 		int count = 0;
 
@@ -86,6 +86,6 @@ public class MaximumPerPlayer extends SetGenerator
 				if(value > count)
 					count = value;
 			}
-		return new Set(count);
+		return new MagicSet(count);
 	}
 }

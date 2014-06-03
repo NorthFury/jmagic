@@ -24,7 +24,7 @@ public class SanitizedCharacteristics implements java.io.Serializable
 
 	public java.util.List<SanitizedMode> modes;
 	public java.util.List<SanitizedMode> selectedModes;
-	public Set numModes;
+	public MagicSet numModes;
 	public final java.util.Map<SanitizedTarget, java.util.List<SanitizedTarget>> chosenTargets;
 
 	// this method takes a game state because it needs to get the keyword

@@ -18,7 +18,7 @@ public final class BecomesPlayed extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		GameObject played = parameters.get(Parameter.OBJECT).getOne(GameObject.class);
 		if(played.isManaAbility())

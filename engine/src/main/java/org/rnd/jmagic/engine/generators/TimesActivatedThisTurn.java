@@ -20,10 +20,10 @@ public class TimesActivatedThisTurn extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		Set ret = new Set();
-		Set abilities = this.abilities.evaluate(state, thisObject);
+		MagicSet ret = new MagicSet();
+		MagicSet abilities = this.abilities.evaluate(state, thisObject);
 		for(ActivatedAbility ability: abilities.getAll(ActivatedAbility.class))
 			ret.add(ability.timesActivatedThisTurn());
 		return ret;

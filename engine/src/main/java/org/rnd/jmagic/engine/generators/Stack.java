@@ -20,8 +20,8 @@ public class Stack extends org.rnd.jmagic.engine.SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		return new Set(state.stack());
+		return new MagicSet(state.stack());
 	}
 }

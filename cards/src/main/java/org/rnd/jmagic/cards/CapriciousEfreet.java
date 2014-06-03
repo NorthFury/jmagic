@@ -28,7 +28,7 @@ public final class CapriciousEfreet extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			java.util.List<GameObject> objects = new java.util.LinkedList<GameObject>(parameters.get(Parameter.PERMANENT).getAll(GameObject.class));
 			if(objects.isEmpty())
@@ -37,9 +37,9 @@ public final class CapriciousEfreet extends Card
 			java.util.Collections.shuffle(objects);
 			GameObject destroyThis = objects.get(0);
 
-			java.util.Map<Parameter, Set> destroyParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> destroyParameters = new java.util.HashMap<Parameter, MagicSet>();
 			destroyParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
-			destroyParameters.put(Parameter.PERMANENT, new Set(destroyThis));
+			destroyParameters.put(Parameter.PERMANENT, new MagicSet(destroyThis));
 			Event destroy = createEvent(game, "Destroy one of them at random.", DESTROY_PERMANENTS, destroyParameters);
 			boolean ret = destroy.perform(event, false);
 

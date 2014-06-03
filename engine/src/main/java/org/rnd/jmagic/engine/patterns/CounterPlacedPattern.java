@@ -65,7 +65,7 @@ public class CounterPlacedPattern implements EventPattern
 
 		if(this.objectFilter != null)
 		{
-			Set gettingCounters = event.parameters.get(EventType.Parameter.OBJECT).evaluate(state, object);
+			MagicSet gettingCounters = event.parameters.get(EventType.Parameter.OBJECT).evaluate(state, object);
 			if(!this.objectFilter.match(state, object, gettingCounters))
 				return false;
 		}

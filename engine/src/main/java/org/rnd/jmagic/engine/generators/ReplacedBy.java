@@ -21,11 +21,11 @@ public class ReplacedBy extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		Set ret = new Set();
+		MagicSet ret = new MagicSet();
 
-		Set evaluation = this.effect.evaluate(state, thisObject);
+		MagicSet evaluation = this.effect.evaluate(state, thisObject);
 
 		for(EventReplacementEffect e: evaluation.getAll(EventReplacementEffect.class))
 			ret.add(e.isReplacing());

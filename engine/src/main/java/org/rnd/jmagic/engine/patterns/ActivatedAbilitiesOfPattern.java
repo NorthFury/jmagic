@@ -26,9 +26,9 @@ public class ActivatedAbilitiesOfPattern implements SetPattern
 	}
 
 	@Override
-	public boolean match(GameState state, Identified thisObject, Set set)
+	public boolean match(GameState state, Identified thisObject, MagicSet set)
 	{
-		Set currentObjects = this.objects.evaluate(state, thisObject);
+		MagicSet currentObjects = this.objects.evaluate(state, thisObject);
 		for(ActivatedAbility a: set.getAll(ActivatedAbility.class))
 			if(currentObjects.contains(a.getSource(state)) && (this.includeManaAbilities || !a.isManaAbility()))
 				return true;

@@ -17,19 +17,19 @@ public final class PutOntoBattlefieldChoice extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
-		Set cause = parameters.get(Parameter.CAUSE);
-		Set controller = parameters.get(Parameter.CONTROLLER);
-		Set objects = parameters.get(Parameter.OBJECT);
+		MagicSet cause = parameters.get(Parameter.CAUSE);
+		MagicSet controller = parameters.get(Parameter.CONTROLLER);
+		MagicSet objects = parameters.get(Parameter.OBJECT);
 		int number = getRange(parameters.get(Parameter.NUMBER)).getLower(0);
 
 		int successes = 0;
 		for(GameObject object: objects.getAll(GameObject.class))
 		{
-			java.util.Map<Parameter, Set> putOntoBattlefieldParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> putOntoBattlefieldParameters = new java.util.HashMap<Parameter, MagicSet>();
 			putOntoBattlefieldParameters.put(Parameter.CAUSE, cause);
-			putOntoBattlefieldParameters.put(Parameter.OBJECT, new Set(object));
+			putOntoBattlefieldParameters.put(Parameter.OBJECT, new MagicSet(object));
 			putOntoBattlefieldParameters.put(Parameter.CONTROLLER, controller);
 			Event putOntoBattlefield = createEvent(game, "Put " + object + " onto the battlefield", PUT_ONTO_BATTLEFIELD, putOntoBattlefieldParameters);
 			if(putOntoBattlefield.attempt(event))
@@ -44,7 +44,7 @@ public final class PutOntoBattlefieldChoice extends EventType
 	}
 
 	@Override
-	public void makeChoices(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public void makeChoices(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		java.util.Set<GameObject> choices = parameters.get(Parameter.OBJECT).getAll(GameObject.class);
 		Player chooser;
@@ -84,9 +84,9 @@ public final class PutOntoBattlefieldChoice extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
-		Set cause = parameters.get(Parameter.CAUSE);
+		MagicSet cause = parameters.get(Parameter.CAUSE);
 		Player controller = parameters.get(Parameter.CONTROLLER).getOne(Player.class);
 
 		Player chooser;
@@ -95,11 +95,11 @@ public final class PutOntoBattlefieldChoice extends EventType
 		else
 			chooser = controller;
 
-		Set stuffToPutOntoBattlefield = event.getChoices(chooser);
+		MagicSet stuffToPutOntoBattlefield = event.getChoices(chooser);
 
-		java.util.Map<Parameter, Set> putOntoBattlefieldParameters = new java.util.HashMap<Parameter, Set>();
+		java.util.Map<Parameter, MagicSet> putOntoBattlefieldParameters = new java.util.HashMap<Parameter, MagicSet>();
 		putOntoBattlefieldParameters.put(Parameter.CAUSE, cause);
-		putOntoBattlefieldParameters.put(Parameter.CONTROLLER, new Set(controller));
+		putOntoBattlefieldParameters.put(Parameter.CONTROLLER, new MagicSet(controller));
 		putOntoBattlefieldParameters.put(Parameter.OBJECT, stuffToPutOntoBattlefield);
 		Event putOntoBattlefield = createEvent(game, "Put " + stuffToPutOntoBattlefield + " onto the battlefield", PUT_ONTO_BATTLEFIELD, putOntoBattlefieldParameters);
 

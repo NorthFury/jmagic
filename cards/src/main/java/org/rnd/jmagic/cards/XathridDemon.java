@@ -28,43 +28,43 @@ public final class XathridDemon extends Card
 			}
 
 			@Override
-			public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+			public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 			{
 				event.setResult(Empty.set);
 
-				Set cause = parameters.get(EventType.Parameter.CAUSE);
+				MagicSet cause = parameters.get(EventType.Parameter.CAUSE);
 				EventTriggeredAbility ability = cause.getOne(EventTriggeredAbility.class);
 				GameObject creature = (GameObject)(ability.getSource(game.actualState));
 				Player controller = ability.getController(ability.state);
 
-				java.util.Map<EventType.Parameter, Set> sacParameters = new java.util.HashMap<EventType.Parameter, Set>();
+				java.util.Map<EventType.Parameter, MagicSet> sacParameters = new java.util.HashMap<EventType.Parameter, MagicSet>();
 				sacParameters.put(EventType.Parameter.CAUSE, cause);
 				sacParameters.put(EventType.Parameter.NUMBER, ONE);
 				sacParameters.put(EventType.Parameter.CHOICE, RelativeComplement.instance(ControlledBy.instance(Identity.instance(controller)), Identity.instance(creature)).evaluate(game, null));
-				sacParameters.put(EventType.Parameter.PLAYER, new Set(controller));
+				sacParameters.put(EventType.Parameter.PLAYER, new MagicSet(controller));
 				Event sacEvent = createEvent(game, "Sacrifice a creature other than Xathrid Demon.", EventType.SACRIFICE_CHOICE, sacParameters);
 
-				java.util.Map<EventType.Parameter, Set> lifeParameters = new java.util.HashMap<EventType.Parameter, Set>();
+				java.util.Map<EventType.Parameter, MagicSet> lifeParameters = new java.util.HashMap<EventType.Parameter, MagicSet>();
 				lifeParameters.put(EventType.Parameter.CAUSE, cause);
 
 				if(sacEvent.perform(event, true))
 				{
-					Set sacrificed = OldObjectOf.instance(sacEvent.getResultGenerator()).evaluate(game.actualState, null);
+					MagicSet sacrificed = OldObjectOf.instance(sacEvent.getResultGenerator()).evaluate(game.actualState, null);
 
 					lifeParameters.put(EventType.Parameter.PLAYER, OpponentsOf.get(game.physicalState, controller));
-					lifeParameters.put(EventType.Parameter.NUMBER, new Set(sacrificed.getOne(GameObject.class).getPower()));
+					lifeParameters.put(EventType.Parameter.NUMBER, new MagicSet(sacrificed.getOne(GameObject.class).getPower()));
 					Event lifeEvent = createEvent(game, "Each opponent loses life equal to the sacrificed creature's power.", EventType.LOSE_LIFE, lifeParameters);
 					return lifeEvent.perform(event, false);
 				}
 
-				java.util.Map<EventType.Parameter, Set> tapParameters = new java.util.HashMap<EventType.Parameter, Set>();
+				java.util.Map<EventType.Parameter, MagicSet> tapParameters = new java.util.HashMap<EventType.Parameter, MagicSet>();
 				tapParameters.put(EventType.Parameter.CAUSE, cause);
-				tapParameters.put(EventType.Parameter.OBJECT, new Set(creature));
+				tapParameters.put(EventType.Parameter.OBJECT, new MagicSet(creature));
 				Event tapEvent = createEvent(game, "Tap Xathrid Demon.", EventType.TAP_PERMANENTS, tapParameters);
 				boolean tapped = tapEvent.perform(event, false);
 
-				lifeParameters.put(EventType.Parameter.PLAYER, new Set(controller));
-				lifeParameters.put(EventType.Parameter.NUMBER, new Set(7));
+				lifeParameters.put(EventType.Parameter.PLAYER, new MagicSet(controller));
+				lifeParameters.put(EventType.Parameter.NUMBER, new MagicSet(7));
 				Event lifeEvent = createEvent(game, "You lose 7 life.", EventType.LOSE_LIFE, lifeParameters);
 				return lifeEvent.perform(event, false) && tapped;
 			}

@@ -27,15 +27,15 @@ public final class ConsumingVapors extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			event.setResult(Empty.set);
 
-			Set cause = parameters.get(Parameter.CAUSE);
-			Set creatures = parameters.get(Parameter.OBJECT);
-			Set target = parameters.get(Parameter.TARGET);
+			MagicSet cause = parameters.get(Parameter.CAUSE);
+			MagicSet creatures = parameters.get(Parameter.OBJECT);
+			MagicSet target = parameters.get(Parameter.TARGET);
 
-			java.util.Map<Parameter, Set> sacParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> sacParameters = new java.util.HashMap<Parameter, MagicSet>();
 			sacParameters.put(Parameter.CAUSE, cause);
 			sacParameters.put(Parameter.NUMBER, ONE);
 			sacParameters.put(Parameter.CHOICE, creatures);
@@ -48,12 +48,12 @@ public final class ConsumingVapors extends Card
 				return true;
 
 			GameObject thatCreature = game.actualState.get(sacResult.oldObjectID);
-			Set you = parameters.get(Parameter.PLAYER);
+			MagicSet you = parameters.get(Parameter.PLAYER);
 
-			java.util.Map<Parameter, Set> gainParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> gainParameters = new java.util.HashMap<Parameter, MagicSet>();
 			gainParameters.put(Parameter.CAUSE, cause);
 			gainParameters.put(Parameter.PLAYER, you);
-			gainParameters.put(Parameter.NUMBER, new Set(thatCreature.getToughness()));
+			gainParameters.put(Parameter.NUMBER, new MagicSet(thatCreature.getToughness()));
 			Event gainLife = createEvent(game, "You gain life equal to that creature's toughness.", EventType.GAIN_LIFE, gainParameters);
 			gainLife.perform(event, true);
 

@@ -34,7 +34,7 @@ public final class CoalitionRelic extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			GameObject coalitionRelic = parameters.get(Parameter.SOURCE).getOne(GameObject.class);
 			int num = CountersOn.get(coalitionRelic, Counter.CounterType.CHARGE).size();

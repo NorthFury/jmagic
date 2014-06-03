@@ -26,7 +26,7 @@ public final class DivineDeflection extends Card
 		public DamageAssignment.Batch match(Event context, DamageAssignment.Batch damageAssignments)
 		{
 			Player you = ((GameObject)this.getSourceObject(context.game.actualState)).getController(context.game.actualState);
-			Set yourPermanents = ControlledBy.instance(Identity.instance(you)).evaluate(context.game, this.getSourceObject(context.game.actualState));
+			MagicSet yourPermanents = ControlledBy.instance(Identity.instance(you)).evaluate(context.game, this.getSourceObject(context.game.actualState));
 
 			DamageAssignment.Batch ret = new DamageAssignment.Batch();
 			for(DamageAssignment damage: damageAssignments)
@@ -79,7 +79,7 @@ public final class DivineDeflection extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			final Identified target = parameters.get(Parameter.TARGET).getOne(Identified.class);
 
@@ -87,10 +87,10 @@ public final class DivineDeflection extends Card
 
 			ContinuousEffect.Part part = replacementEffectPart(replacement);
 
-			java.util.Map<Parameter, Set> fceParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> fceParameters = new java.util.HashMap<Parameter, MagicSet>();
 			fceParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
-			fceParameters.put(Parameter.EFFECT, new Set(part));
-			fceParameters.put(Parameter.DAMAGE, new Set(Sum.get(parameters.get(Parameter.NUMBER))));
+			fceParameters.put(Parameter.EFFECT, new MagicSet(part));
+			fceParameters.put(Parameter.DAMAGE, new MagicSet(Sum.get(parameters.get(Parameter.NUMBER))));
 			Event createFce = createEvent(game, "Prevent the next X damage that would be dealt to you and/or permanents you control this turn. If damage is prevented this way, Divine Deflection deals that much damage to target creature or player.", CREATE_FLOATING_CONTINUOUS_EFFECT, fceParameters);
 			createFce.perform(event, true);
 

@@ -87,7 +87,7 @@ public class Characteristics implements Sanitizable, Cloneable
 	protected CostCollection alternateCost;
 	protected java.util.Collection<CostCollection> optionalAdditionalCostsChosen;
 	public java.util.List<Mode> selectedModes;
-	public Set numModes;
+	public MagicSet numModes;
 	protected int valueOfX;
 	protected int sourceID;
 
@@ -117,7 +117,7 @@ public class Characteristics implements Sanitizable, Cloneable
 		this.alternateCost = null;
 		this.optionalAdditionalCostsChosen = new java.util.LinkedList<CostCollection>();
 		this.selectedModes = new java.util.LinkedList<Mode>();
-		this.numModes = new Set(new org.rnd.util.NumberRange(1, 1));
+		this.numModes = new MagicSet(new org.rnd.util.NumberRange(1, 1));
 		this.valueOfX = -1;
 		this.sourceID = 0;
 	}
@@ -206,7 +206,7 @@ public class Characteristics implements Sanitizable, Cloneable
 		// // Remove any abilities that weren't copied
 		// }
 
-		Set allAbilities = new Set(abilitiesCopied.values());
+		MagicSet allAbilities = new MagicSet(abilitiesCopied.values());
 
 		// Set up the links for the physical versions of all the abilities
 		for(Linkable link: allAbilities.getAll(Linkable.class))
@@ -283,7 +283,7 @@ public class Characteristics implements Sanitizable, Cloneable
 		ret.alternateCost = this.alternateCost;
 		ret.optionalAdditionalCostsChosen = new java.util.LinkedList<CostCollection>(this.optionalAdditionalCostsChosen);
 		ret.selectedModes = new java.util.LinkedList<Mode>(this.selectedModes);
-		ret.numModes = new Set(this.numModes);
+		ret.numModes = new MagicSet(this.numModes);
 
 		ret.chosenTargets = new java.util.HashMap<Target, java.util.List<Target>>(this.chosenTargets);
 		for(java.util.Map.Entry<Target, java.util.List<Target>> entry: this.chosenTargets.entrySet())

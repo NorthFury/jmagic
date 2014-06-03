@@ -12,9 +12,9 @@ public class RelativeComplement extends SetGenerator
 		return new RelativeComplement(a, b);
 	}
 
-	static public Set get(Set a, Set b)
+	static public MagicSet get(MagicSet a, MagicSet b)
 	{
-		Set ret = new Set(a);
+		MagicSet ret = new MagicSet(a);
 		ret.removeAll(b);
 		return ret;
 	}
@@ -29,7 +29,7 @@ public class RelativeComplement extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
 		return RelativeComplement.get(this.a.evaluate(state, thisObject), this.b.evaluate(state, thisObject));
 	}

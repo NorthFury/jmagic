@@ -27,7 +27,7 @@ public class TopMost extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
 		int N = this.N.evaluate(state, thisObject).getOne(Integer.class);
 		if(N == 0)
@@ -37,7 +37,7 @@ public class TopMost extends SetGenerator
 		java.util.Set<GameObject> cards = this.cards.evaluate(state, thisObject).getAll(GameObject.class);
 
 		int count = 0;
-		Set ret = new Set();
+		MagicSet ret = new MagicSet();
 		for(GameObject card: zone.objects)
 		{
 			ret.add(card);

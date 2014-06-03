@@ -18,13 +18,13 @@ public final class LoseGame extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		Game.LoseReason reason = parameters.get(Parameter.CAUSE).getOne(Game.LoseReason.class);
 		if(reason == null)
 			throw new RuntimeException("LOSE_GAME called without a Game.LoseReason");
 
-		Set players = parameters.get(Parameter.PLAYER);
+		MagicSet players = parameters.get(Parameter.PLAYER);
 
 		org.rnd.jmagic.sanitized.SanitizedEvent sanitized = new org.rnd.jmagic.sanitized.SanitizedEvent(event, players.toString() + " lost the game");
 		for(Player player: game.actualState.players)

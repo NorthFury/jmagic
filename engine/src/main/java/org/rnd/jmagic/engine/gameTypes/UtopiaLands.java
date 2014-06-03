@@ -16,7 +16,7 @@ public class UtopiaLands extends GameType.SimpleGameTypeRule
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			ContinuousEffectType.REMOVE_ABILITY_FROM_OBJECT.apply(state, effect, parameters);
 		}
@@ -38,7 +38,7 @@ public class UtopiaLands extends GameType.SimpleGameTypeRule
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			ContinuousEffectType.ADD_ABILITY_TO_OBJECT.apply(state, effect, parameters);
 		}

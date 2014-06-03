@@ -25,15 +25,15 @@ public final class Terastodon extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			event.setResult(Empty.set);
 
-			Set targets = parameters.get(Parameter.OBJECT);
+			MagicSet targets = parameters.get(Parameter.OBJECT);
 			Event destroy = destroy(Identity.instance(targets), "Destroy up to three target noncreature permanents").createEvent(game, event.getSource());
 			destroy.perform(event, true);
 
-			Set cause = parameters.get(Parameter.CAUSE);
+			MagicSet cause = parameters.get(Parameter.CAUSE);
 			for(java.util.Map.Entry<Event.IndexedZone, java.util.Set<GameObject>> objectMoved: destroy.getObjectsMoved(game.actualState).entrySet())
 			{
 				Zone zone = game.actualState.get(objectMoved.getKey().zoneID);
@@ -45,14 +45,14 @@ public final class Terastodon extends Card
 						{
 							Player controller = pastSelf.getController(game.actualState);
 
-							java.util.Map<Parameter, Set> tokenParameters = new java.util.HashMap<Parameter, Set>();
+							java.util.Map<Parameter, MagicSet> tokenParameters = new java.util.HashMap<Parameter, MagicSet>();
 							tokenParameters.put(Parameter.CAUSE, cause);
-							tokenParameters.put(Parameter.COLOR, new Set(Color.GREEN));
-							tokenParameters.put(Parameter.CONTROLLER, new Set(controller));
-							tokenParameters.put(Parameter.POWER, new Set(3));
-							tokenParameters.put(Parameter.SUBTYPE, new Set((Object)java.util.Collections.singletonList(SubType.ELEPHANT)));
-							tokenParameters.put(Parameter.TOUGHNESS, new Set(3));
-							tokenParameters.put(Parameter.TYPE, new Set(Type.CREATURE));
+							tokenParameters.put(Parameter.COLOR, new MagicSet(Color.GREEN));
+							tokenParameters.put(Parameter.CONTROLLER, new MagicSet(controller));
+							tokenParameters.put(Parameter.POWER, new MagicSet(3));
+							tokenParameters.put(Parameter.SUBTYPE, new MagicSet((Object)java.util.Collections.singletonList(SubType.ELEPHANT)));
+							tokenParameters.put(Parameter.TOUGHNESS, new MagicSet(3));
+							tokenParameters.put(Parameter.TYPE, new MagicSet(Type.CREATURE));
 							Event makeToken = createEvent(game, controller + " puts a 3/3 green Elephant creature token onto the battlefield", EventType.CREATE_TOKEN_ON_BATTLEFIELD, tokenParameters);
 							makeToken.perform(event, true);
 						}

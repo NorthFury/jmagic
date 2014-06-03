@@ -17,11 +17,11 @@ public final class PutOntoBattlefieldAndChoose extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		Player player = parameters.get(Parameter.CONTROLLER).getOne(Player.class);
 		int number = parameters.get(Parameter.NUMBER).getOne(Integer.class);
-		Set choices = parameters.get(Parameter.CHOICE);
+		MagicSet choices = parameters.get(Parameter.CHOICE);
 		PlayerInterface.ChoiceType type = parameters.get(Parameter.TYPE).getOne(PlayerInterface.ChoiceType.class);
 		PlayerInterface.ChooseReason description = parameters.get(Parameter.TYPE).getOne(PlayerInterface.ChooseReason.class);
 		java.util.List<Object> result = player.sanitizeAndChoose(game.actualState, number, choices, type, description);
@@ -36,7 +36,7 @@ public final class PutOntoBattlefieldAndChoose extends EventType
 			}
 		}
 
-		java.util.Map<Parameter, Set> moveParameters = new java.util.HashMap<Parameter, Set>();
+		java.util.Map<Parameter, MagicSet> moveParameters = new java.util.HashMap<Parameter, MagicSet>();
 		moveParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 		moveParameters.put(Parameter.CONTROLLER, parameters.get(Parameter.CONTROLLER));
 		moveParameters.put(Parameter.OBJECT, parameters.get(Parameter.OBJECT));

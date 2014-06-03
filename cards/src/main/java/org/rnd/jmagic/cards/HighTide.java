@@ -21,7 +21,7 @@ public final class HighTide extends Card
 		parameters.put(EventType.Parameter.SOURCE, ABILITY_SOURCE_OF_THIS);
 		parameters.put(EventType.Parameter.MANA, Identity.instance(new ManaPool("U")));
 		parameters.put(EventType.Parameter.PLAYER, EventParameter.instance(TriggerEvent.instance(This.instance()), EventType.Parameter.PLAYER));
-		Set manaEvent = new Set(new EventFactory(EventType.ADD_MANA, parameters, "That player adds (U) to his or her mana pool."));
+		MagicSet manaEvent = new MagicSet(new EventFactory(EventType.ADD_MANA, parameters, "That player adds (U) to his or her mana pool."));
 
 		EventType.ParameterMap triggerParameters = new EventType.ParameterMap();
 		triggerParameters.put(EventType.Parameter.CAUSE, This.instance());

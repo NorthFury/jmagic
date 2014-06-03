@@ -49,7 +49,7 @@ public class UntilNextTurn extends SetGenerator
 		{
 			if(event.type == this.eventType)
 			{
-				Set cause = event.parametersNow.get(EventType.Parameter.CAUSE).evaluate(state, null);
+				MagicSet cause = event.parametersNow.get(EventType.Parameter.CAUSE).evaluate(state, null);
 				for(GameObject o: cause.getAll(GameObject.class))
 				{
 					Player controller = o.getController(state);
@@ -81,9 +81,9 @@ public class UntilNextTurn extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		Set ret = new Set();
+		MagicSet ret = new MagicSet();
 		EventAndBeginTurnTracker tracker = state.getTracker(this.trackerClass);
 		for(java.util.Map.Entry<Integer, java.util.Set<Integer>> entry: tracker.getValue(state).entrySet())
 			for(Integer id: entry.getValue())

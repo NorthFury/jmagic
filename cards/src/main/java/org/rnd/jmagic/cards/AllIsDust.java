@@ -25,19 +25,19 @@ public final class AllIsDust extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
-			Set cause = parameters.get(Parameter.CAUSE);
-			for(Set objects: parameters.get(Parameter.OBJECT).getAll(Set.class))
+			MagicSet cause = parameters.get(Parameter.CAUSE);
+			for(MagicSet objects: parameters.get(Parameter.OBJECT).getAll(MagicSet.class))
 			{
 				if(objects.isEmpty())
 					continue;
 
 				Player controller = objects.getOne(GameObject.class).getController(game.actualState);
 
-				java.util.Map<Parameter, Set> sacrificeParameters = new java.util.HashMap<Parameter, Set>();
+				java.util.Map<Parameter, MagicSet> sacrificeParameters = new java.util.HashMap<Parameter, MagicSet>();
 				sacrificeParameters.put(Parameter.CAUSE, cause);
-				sacrificeParameters.put(Parameter.PLAYER, new Set(controller));
+				sacrificeParameters.put(Parameter.PLAYER, new MagicSet(controller));
 				sacrificeParameters.put(Parameter.PERMANENT, objects);
 				Event sacrifice = createEvent(game, controller + " sacrifices all colored permanents he or she controls", EventType.SACRIFICE_PERMANENTS, sacrificeParameters);
 				sacrifice.perform(event, false);

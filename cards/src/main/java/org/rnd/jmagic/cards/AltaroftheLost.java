@@ -14,7 +14,7 @@ public final class AltaroftheLost extends Card
 	public static final class Flashbacked implements SetPattern
 	{
 		@Override
-		public boolean match(GameState state, Identified thisObject, Set set)
+		public boolean match(GameState state, Identified thisObject, MagicSet set)
 		{
 			for(GameObject o: set.getAll(GameObject.class))
 			{

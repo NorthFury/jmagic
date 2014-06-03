@@ -114,20 +114,20 @@ public class SimpleZoneChangePattern implements ZoneChangePattern
 	@Override
 	public boolean match(ZoneChange zoneChange, Identified thisObject, GameState state)
 	{
-		Set from = new Set(state.get(zoneChange.sourceZoneID));
+		MagicSet from = new MagicSet(state.get(zoneChange.sourceZoneID));
 		if(!this.from.match(state, thisObject, from))
 			return false;
 
-		Set to = new Set(state.get(zoneChange.destinationZoneID));
+		MagicSet to = new MagicSet(state.get(zoneChange.destinationZoneID));
 		if(!this.to.match(state, thisObject, to))
 			return false;
 
-		Set who = (zoneChange.controllerID == -1 ? new Set() : new Set(state.get(zoneChange.controllerID)));
+		MagicSet who = (zoneChange.controllerID == -1 ? new MagicSet() : new MagicSet(state.get(zoneChange.controllerID)));
 		if(!this.who.match(state, thisObject, who))
 			return false;
 
 		int objectID = this.oldObject ? zoneChange.oldObjectID : zoneChange.newObjectID;
-		Set object = new Set(state.get(objectID));
+		MagicSet object = new MagicSet(state.get(objectID));
 		return this.what.match(state, thisObject, object);
 	}
 }

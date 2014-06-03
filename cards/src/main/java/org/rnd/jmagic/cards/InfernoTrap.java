@@ -80,14 +80,14 @@ public final class InfernoTrap extends Card
 		}
 
 		@Override
-		public Set evaluate(GameState state, Identified thisObject)
+		public MagicSet evaluate(GameState state, Identified thisObject)
 		{
 			WhoDealtDamageTracker flag = state.getTracker(WhoDealtDamageTracker.class);
 
 			java.util.Map<Integer, java.util.Set<Integer>> flagValue = flag.getValue(state);
 
 			java.util.Set<Integer> ids = new java.util.HashSet<Integer>();
-			Set what = this.what.evaluate(state, thisObject);
+			MagicSet what = this.what.evaluate(state, thisObject);
 			for(GameObject taker: what.getAll(GameObject.class))
 			{
 				java.util.Set<Integer> dealtDamageToThis = flagValue.get(taker.ID);

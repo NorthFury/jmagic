@@ -28,23 +28,23 @@ public final class Cipher extends Keyword
 		}
 
 		@Override
-		public boolean attempt(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			return !parameters.get(Parameter.CHOICE).isEmpty();
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			GameObject thisCard = event.getSource();
 			Player you = thisCard.getController(game.actualState);
-			Set creaturesYouControl = parameters.get(Parameter.CHOICE);
+			MagicSet creaturesYouControl = parameters.get(Parameter.CHOICE);
 			GameObject chosen = you.sanitizeAndChoose(game.actualState, 1, creaturesYouControl.getAll(GameObject.class), PlayerInterface.ChoiceType.OBJECTS, REASON).get(0);
 
 			Event exile = exile(This.instance(), "Exile this card").createEvent(game, thisCard);
 			exile.perform(event, true);
 
-			event.setResult(new Set(chosen));
+			event.setResult(new MagicSet(chosen));
 			return true;
 		}
 	};
@@ -157,7 +157,7 @@ public final class Cipher extends Keyword
 		}
 
 		@Override
-		public Set evaluate(GameState state, Identified thisObject)
+		public MagicSet evaluate(GameState state, Identified thisObject)
 		{
 			GameObject spellCard = this.spellCard.evaluate(state, thisObject).getOne(GameObject.class);
 			java.util.Map<Integer, Integer> trackerValue = state.getTracker(EncodeTracker.class).getValue(state);
@@ -165,7 +165,7 @@ public final class Cipher extends Keyword
 			{
 				GameObject encoded = state.getByIDObject(trackerValue.get(spellCard.ID));
 				if(encoded != null)
-					return new Set(encoded);
+					return new MagicSet(encoded);
 			}
 			return Empty.set;
 		}

@@ -18,7 +18,7 @@ public final class BeginTurn extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		Turn turn = parameters.get(Parameter.TURN).getOne(Turn.class);
 		game.physicalState.setCurrentTurn(turn);

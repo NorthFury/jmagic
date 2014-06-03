@@ -23,12 +23,12 @@ public final class Hellfire extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			SetGenerator nonBlackCreatures = RelativeComplement.instance(HasType.instance(Type.CREATURE), HasColor.instance(Color.BLACK));
 			SetGenerator nonBlackCreaturePermanents = Intersect.instance(nonBlackCreatures, InZone.instance(Battlefield.instance()));
 
-			java.util.Map<Parameter, Set> destroyParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> destroyParameters = new java.util.HashMap<Parameter, MagicSet>();
 			destroyParameters.put(EventType.Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 			destroyParameters.put(EventType.Parameter.PERMANENT, nonBlackCreaturePermanents.evaluate(game, null));
 			Event destroyEvent = createEvent(game, "Destroy all nonblack creatures.", EventType.DESTROY_PERMANENTS, destroyParameters);
@@ -47,10 +47,10 @@ public final class Hellfire extends Card
 					}
 			}
 
-			java.util.Map<Parameter, Set> damageParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> damageParameters = new java.util.HashMap<Parameter, MagicSet>();
 			damageParameters.put(EventType.Parameter.SOURCE, parameters.get(Parameter.CAUSE));
-			damageParameters.put(EventType.Parameter.NUMBER, new Set(damage));
-			damageParameters.put(EventType.Parameter.TAKER, new Set(event.getSource().getController(event.state)));
+			damageParameters.put(EventType.Parameter.NUMBER, new MagicSet(damage));
+			damageParameters.put(EventType.Parameter.TAKER, new MagicSet(event.getSource().getController(event.state)));
 			Event damageEvent = createEvent(game, "Hellfire deals X plus 3 damage to you, where X is the number of creatures put into all graveyards this way.", EventType.DEAL_DAMAGE_EVENLY, damageParameters);
 			boolean damageDealt = damageEvent.perform(event, true);
 

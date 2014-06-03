@@ -25,7 +25,7 @@ public class JMagicTextPane extends javax.swing.JTextPane
 		caret.setUpdatePolicy(javax.swing.text.DefaultCaret.NEVER_UPDATE);
 	}
 
-	public static String getModeChoiceText(org.rnd.jmagic.engine.Set number)
+	public static String getModeChoiceText(org.rnd.jmagic.engine.MagicSet number)
 	{
 		Integer lower = Minimum.get(number);
 		Integer upper = Maximum.get(number);

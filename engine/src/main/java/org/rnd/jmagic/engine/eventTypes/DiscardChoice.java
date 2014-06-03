@@ -18,10 +18,10 @@ public final class DiscardChoice extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		int successes = 0;
-		Set cause = parameters.get(Parameter.CAUSE);
+		MagicSet cause = parameters.get(Parameter.CAUSE);
 		int required = 1;
 		if(parameters.containsKey(Parameter.NUMBER))
 			required = Sum.get(parameters.get(Parameter.NUMBER));
@@ -32,14 +32,14 @@ public final class DiscardChoice extends EventType
 			if(parameters.containsKey(Parameter.CHOICE))
 				cards = parameters.get(Parameter.CHOICE).getAll(Card.class);
 			else
-				cards = new Set(player.getHand(game.actualState).objects).getAll(Card.class);
+				cards = new MagicSet(player.getHand(game.actualState).objects).getAll(Card.class);
 
 			successes = 0;
 			for(Card thisCard: cards)
 			{
-				java.util.Map<Parameter, Set> newParameters = new java.util.HashMap<Parameter, Set>();
+				java.util.Map<Parameter, MagicSet> newParameters = new java.util.HashMap<Parameter, MagicSet>();
 				newParameters.put(Parameter.CAUSE, cause);
-				newParameters.put(Parameter.CARD, new Set(thisCard));
+				newParameters.put(Parameter.CARD, new MagicSet(thisCard));
 				if(createEvent(game, thisCard.getOwner(game.actualState) + " discards " + thisCard + ".", DISCARD_ONE_CARD, newParameters).attempt(event))
 					successes++;
 
@@ -53,7 +53,7 @@ public final class DiscardChoice extends EventType
 	}
 
 	@Override
-	public void makeChoices(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public void makeChoices(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		int numberOfCards = 1;
 		if(parameters.containsKey(Parameter.NUMBER))
@@ -71,7 +71,7 @@ public final class DiscardChoice extends EventType
 		for(Player player: parameters.get(Parameter.PLAYER).getAll(Player.class))
 		{
 			if(!specificChoices)
-				cardsInHand = new Set(player.getHand(game.actualState).objects).getAll(Card.class);
+				cardsInHand = new MagicSet(player.getHand(game.actualState).objects).getAll(Card.class);
 
 			java.util.Collection<Card> choices = player.sanitizeAndChoose(game.actualState, numberOfCards, cardsInHand, PlayerInterface.ChoiceType.OBJECTS, PlayerInterface.ChooseReason.DISCARD);
 			if(choices.size() != numberOfCards)
@@ -81,17 +81,17 @@ public final class DiscardChoice extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		boolean allDiscarded = event.allChoicesMade;
-		Set cause = parameters.get(Parameter.CAUSE);
-		Set result = new Set();
+		MagicSet cause = parameters.get(Parameter.CAUSE);
+		MagicSet result = new MagicSet();
 
 		for(Player player: parameters.get(Parameter.PLAYER).getAll(Player.class))
 		{
-			Set discardThese = event.getChoices(player);
+			MagicSet discardThese = event.getChoices(player);
 
-			java.util.Map<Parameter, Set> discardParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> discardParameters = new java.util.HashMap<Parameter, MagicSet>();
 			discardParameters.put(Parameter.CAUSE, cause);
 			discardParameters.put(Parameter.CARD, discardThese);
 			Event discard = createEvent(game, player + " discards " + discardThese + ".", DISCARD_CARDS, discardParameters);

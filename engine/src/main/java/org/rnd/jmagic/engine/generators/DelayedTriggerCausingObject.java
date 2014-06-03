@@ -17,9 +17,9 @@ public class DelayedTriggerCausingObject extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		Set ret = new Set();
+		MagicSet ret = new MagicSet();
 		for(DelayedTrigger t: this.ofWhat.evaluate(state, thisObject).getAll(DelayedTrigger.class))
 			ret.add(t.getCausingObject(state));
 		return ret;

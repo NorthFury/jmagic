@@ -39,7 +39,7 @@ public class MultipleSetPattern implements SetPattern
 	 * on how this pattern was constructed.
 	 */
 	@Override
-	public boolean match(GameState state, Identified thisObject, Set set)
+	public boolean match(GameState state, Identified thisObject, MagicSet set)
 	{
 		if(this.all)
 		{

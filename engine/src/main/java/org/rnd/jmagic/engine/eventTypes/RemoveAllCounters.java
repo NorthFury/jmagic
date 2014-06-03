@@ -18,10 +18,10 @@ public final class RemoveAllCounters extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
-		Set result = new Set();
-		Set types = parameters.get(Parameter.COUNTER);
+		MagicSet result = new MagicSet();
+		MagicSet types = parameters.get(Parameter.COUNTER);
 
 		for(GameObject object: parameters.get(Parameter.OBJECT).getAll(GameObject.class))
 		{
@@ -30,10 +30,10 @@ public final class RemoveAllCounters extends EventType
 			{
 				if(types == null || types.contains(counter.getType()))
 				{
-					java.util.Map<Parameter, Set> counterParameters = new java.util.HashMap<Parameter, Set>();
+					java.util.Map<Parameter, MagicSet> counterParameters = new java.util.HashMap<Parameter, MagicSet>();
 					counterParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
-					counterParameters.put(Parameter.COUNTER, new Set(counter.getType()));
-					counterParameters.put(Parameter.OBJECT, new Set(object));
+					counterParameters.put(Parameter.COUNTER, new MagicSet(counter.getType()));
+					counterParameters.put(Parameter.OBJECT, new MagicSet(object));
 					Event removeCounter = createEvent(game, "Remove a " + counter.getType() + " from " + object + ".", EventType.REMOVE_ONE_COUNTER, counterParameters);
 					removeEvents.add(removeCounter);
 				}

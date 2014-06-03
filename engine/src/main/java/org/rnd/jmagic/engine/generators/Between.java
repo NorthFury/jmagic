@@ -54,10 +54,10 @@ public class Between extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
 		Integer lowerNumber = this.lowerBound.evaluate(state, thisObject).getOne(Integer.class);
 		Integer upperNumber = this.upperBound.evaluate(state, thisObject).getOne(Integer.class);
-		return new Set(new org.rnd.util.NumberRange(lowerNumber, upperNumber));
+		return new MagicSet(new org.rnd.util.NumberRange(lowerNumber, upperNumber));
 	}
 }

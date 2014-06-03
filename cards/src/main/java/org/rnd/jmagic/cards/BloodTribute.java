@@ -27,18 +27,18 @@ public final class BloodTribute extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
 
-			Set cause = parameters.get(Parameter.CAUSE);
+			MagicSet cause = parameters.get(Parameter.CAUSE);
 			Player target = parameters.get(Parameter.TARGET).getOne(Player.class);
 			int lifeTotalBefore = target.lifeTotal;
 			int number = DivideBy.get(lifeTotalBefore, 2, true);
 
-			java.util.Map<Parameter, Set> loseLifeParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> loseLifeParameters = new java.util.HashMap<Parameter, MagicSet>();
 			loseLifeParameters.put(Parameter.CAUSE, cause);
-			loseLifeParameters.put(Parameter.PLAYER, new Set(target));
-			loseLifeParameters.put(Parameter.NUMBER, new Set(number));
+			loseLifeParameters.put(Parameter.PLAYER, new MagicSet(target));
+			loseLifeParameters.put(Parameter.NUMBER, new MagicSet(number));
 			Event loseLife = createEvent(game, "Target opponent loses half his or her life, rounded up", EventType.LOSE_LIFE, loseLifeParameters);
 			loseLife.perform(event, true);
 
@@ -47,10 +47,10 @@ public final class BloodTribute extends Card
 				target = target.getActual();
 				int lifeLostThisWay = lifeTotalBefore - target.lifeTotal;
 
-				java.util.Map<Parameter, Set> gainLifeParameters = new java.util.HashMap<Parameter, Set>();
+				java.util.Map<Parameter, MagicSet> gainLifeParameters = new java.util.HashMap<Parameter, MagicSet>();
 				gainLifeParameters.put(Parameter.CAUSE, cause);
 				gainLifeParameters.put(Parameter.PLAYER, parameters.get(Parameter.PLAYER));
-				gainLifeParameters.put(Parameter.NUMBER, new Set(lifeLostThisWay));
+				gainLifeParameters.put(Parameter.NUMBER, new MagicSet(lifeLostThisWay));
 				Event gainLife = createEvent(game, "You gain life equal to the life lost this way.", EventType.GAIN_LIFE, gainLifeParameters);
 				gainLife.perform(event, true);
 			}

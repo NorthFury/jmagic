@@ -22,9 +22,9 @@ public class SubTypePattern implements SetPattern
 	}
 
 	@Override
-	public boolean match(GameState state, Identified thisObject, Set set)
+	public boolean match(GameState state, Identified thisObject, MagicSet set)
 	{
-		Set subtypes = this.subtypes.evaluate(state, thisObject);
+		MagicSet subtypes = this.subtypes.evaluate(state, thisObject);
 		for(GameObject object: set.getAll(GameObject.class))
 			for(SubType s: object.getSubTypes())
 				if(subtypes.contains(s))

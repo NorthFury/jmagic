@@ -18,7 +18,7 @@ public final class MoveChoice extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		boolean hidden = parameters.containsKey(Parameter.HIDDEN);
 		int required = getRange(parameters.get(Parameter.NUMBER)).getLower(0);
@@ -26,8 +26,8 @@ public final class MoveChoice extends EventType
 		java.util.Set<GameObject> chosen = new java.util.HashSet<GameObject>();
 		for(GameObject object: parameters.get(Parameter.OBJECT).getAll(GameObject.class))
 		{
-			java.util.Map<Parameter, Set> newParameters = new java.util.HashMap<Parameter, Set>(parameters);
-			newParameters.put(Parameter.OBJECT, new Set(object));
+			java.util.Map<Parameter, MagicSet> newParameters = new java.util.HashMap<Parameter, MagicSet>(parameters);
+			newParameters.put(Parameter.OBJECT, new MagicSet(object));
 			if(hidden)
 				newParameters.put(Parameter.HIDDEN, NonEmpty.set);
 			if(createEvent(game, "Move " + object + ".", MOVE_OBJECTS, newParameters).attempt(event))
@@ -42,7 +42,7 @@ public final class MoveChoice extends EventType
 	}
 
 	@Override
-	public void makeChoices(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public void makeChoices(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		Player player = parameters.get(Parameter.PLAYER).getOne(Player.class);
 		org.rnd.util.NumberRange number = getRange(parameters.get(Parameter.NUMBER));
@@ -60,14 +60,14 @@ public final class MoveChoice extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
-		Set chosen = event.getChoices(parameters.get(Parameter.PLAYER).getOne(Player.class));
+		MagicSet chosen = event.getChoices(parameters.get(Parameter.PLAYER).getOne(Player.class));
 		boolean status = true;
 
 		if(!chosen.isEmpty())
 		{
-			java.util.Map<Parameter, Set> moveParameters = new java.util.HashMap<Parameter, Set>(parameters);
+			java.util.Map<Parameter, MagicSet> moveParameters = new java.util.HashMap<Parameter, MagicSet>(parameters);
 			moveParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 			moveParameters.put(Parameter.TO, parameters.get(Parameter.TO));
 			moveParameters.put(Parameter.OBJECT, chosen);

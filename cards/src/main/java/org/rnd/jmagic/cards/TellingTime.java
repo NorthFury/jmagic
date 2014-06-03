@@ -31,29 +31,29 @@ public final class TellingTime extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
-			Set thisCard = parameters.get(Parameter.CAUSE);
-			Set topThree = parameters.get(Parameter.CARD);
-			Set you = parameters.get(Parameter.PLAYER);
+			MagicSet thisCard = parameters.get(Parameter.CAUSE);
+			MagicSet topThree = parameters.get(Parameter.CARD);
+			MagicSet you = parameters.get(Parameter.PLAYER);
 
-			java.util.Map<Parameter, Set> lookParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> lookParameters = new java.util.HashMap<Parameter, MagicSet>();
 			lookParameters.put(Parameter.CAUSE, thisCard);
 			lookParameters.put(Parameter.OBJECT, topThree);
 			lookParameters.put(Parameter.PLAYER, you);
 			createEvent(game, "Look at the top three cards of your library", LOOK, lookParameters).perform(event, false);
 
 			Player player = you.getOne(Player.class);
-			Set library = new Set(player.getLibrary(game.actualState));
+			MagicSet library = new MagicSet(player.getLibrary(game.actualState));
 
 			java.util.List<?> handChoice = player.sanitizeAndChoose(game.actualState, 1, topThree, PlayerInterface.ChoiceType.OBJECTS, FIRST_REASON);
-			java.util.Map<Parameter, Set> handParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> handParameters = new java.util.HashMap<Parameter, MagicSet>();
 			handParameters.put(Parameter.CAUSE, thisCard);
-			handParameters.put(Parameter.OBJECT, new Set(handChoice.get(0)));
-			handParameters.put(Parameter.TO, new Set(player.getHand(game.actualState)));
+			handParameters.put(Parameter.OBJECT, new MagicSet(handChoice.get(0)));
+			handParameters.put(Parameter.TO, new MagicSet(player.getHand(game.actualState)));
 			Event putIntoHand = createEvent(game, "Put one of those cards into your hand", MOVE_OBJECTS, handParameters);
 
-			Set otherTwo = new Set();
+			MagicSet otherTwo = new MagicSet();
 			for(GameObject object: topThree.getAll(GameObject.class))
 				if(!handChoice.contains(object))
 					otherTwo.add(object);
@@ -63,19 +63,19 @@ public final class TellingTime extends Card
 			if(!otherTwo.isEmpty())
 			{
 				java.util.List<?> topChoice = player.sanitizeAndChoose(game.actualState, 1, otherTwo, PlayerInterface.ChoiceType.OBJECTS, SECOND_REASON);
-				java.util.Map<Parameter, Set> topParameters = new java.util.HashMap<Parameter, Set>();
+				java.util.Map<Parameter, MagicSet> topParameters = new java.util.HashMap<Parameter, MagicSet>();
 				topParameters.put(Parameter.CAUSE, thisCard);
-				topParameters.put(Parameter.OBJECT, new Set(topChoice.get(0)));
+				topParameters.put(Parameter.OBJECT, new MagicSet(topChoice.get(0)));
 				topParameters.put(Parameter.TO, library);
 				topParameters.put(Parameter.INDEX, ONE);
 				putOnTop = createEvent(game, "Put one on top of your library", MOVE_OBJECTS, topParameters);
 
-				Set lastCard = new Set();
+				MagicSet lastCard = new MagicSet();
 				for(GameObject object: otherTwo.getAll(GameObject.class))
 					if(!topChoice.contains(object))
 						lastCard.add(object);
 
-				java.util.Map<Parameter, Set> bottomParameters = new java.util.HashMap<Parameter, Set>();
+				java.util.Map<Parameter, MagicSet> bottomParameters = new java.util.HashMap<Parameter, MagicSet>();
 				bottomParameters.put(Parameter.CAUSE, thisCard);
 				bottomParameters.put(Parameter.OBJECT, lastCard);
 				bottomParameters.put(Parameter.TO, library);

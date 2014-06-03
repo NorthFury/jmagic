@@ -15,7 +15,7 @@ public final class RumblingAftershocks extends Card
 	public static final class KickedSpells implements SetPattern
 	{
 		@Override
-		public boolean match(GameState state, Identified thisObject, Set set)
+		public boolean match(GameState state, Identified thisObject, MagicSet set)
 		{
 			for(GameObject object: set.getAll(GameObject.class))
 			{
@@ -51,7 +51,7 @@ public final class RumblingAftershocks extends Card
 		}
 
 		@Override
-		public Set evaluate(GameState state, Identified thisObject)
+		public MagicSet evaluate(GameState state, Identified thisObject)
 		{
 			int timesKicked = 0;
 			for(GameObject object: this.spells.evaluate(state, thisObject).getAll(GameObject.class))
@@ -65,7 +65,7 @@ public final class RumblingAftershocks extends Card
 			}
 			if(timesKicked == 0)
 				return Empty.set;
-			return new Set.Unmodifiable(timesKicked);
+			return new MagicSet.Unmodifiable(timesKicked);
 		}
 	}
 

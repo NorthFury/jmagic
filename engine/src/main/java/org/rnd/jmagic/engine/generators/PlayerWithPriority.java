@@ -20,12 +20,12 @@ public class PlayerWithPriority extends org.rnd.jmagic.engine.SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
 		Player playerWithPriority = state.getPlayerWithPriority();
 		if(playerWithPriority == null)
 			return Empty.set;
 
-		return new Set(playerWithPriority);
+		return new MagicSet(playerWithPriority);
 	}
 }

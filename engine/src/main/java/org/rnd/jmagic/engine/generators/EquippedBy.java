@@ -21,7 +21,7 @@ public class EquippedBy extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
 		java.util.Set<Integer> attachments = new java.util.HashSet<Integer>();
 		for(GameObject o: this.what.evaluate(state, thisObject).getAll(GameObject.class))

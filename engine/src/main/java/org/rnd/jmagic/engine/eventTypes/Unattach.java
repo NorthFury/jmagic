@@ -18,9 +18,9 @@ public final class Unattach extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
-		Set ret = new Set();
+		MagicSet ret = new MagicSet();
 		for(GameObject o: parameters.get(Parameter.OBJECT).getAll(GameObject.class))
 		{
 			AttachableTo previouslyAttachedTo = (AttachableTo)game.actualState.get(o.getAttachedTo());

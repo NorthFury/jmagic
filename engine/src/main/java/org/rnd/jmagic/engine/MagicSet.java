@@ -14,7 +14,7 @@ package org.rnd.jmagic.engine;
  * 
  * The other main difference is that only one NumberRange may appear in a Set.
  */
-public class Set implements java.util.Set<Object>, java.io.Serializable
+public class MagicSet implements java.util.Set<Object>, java.io.Serializable
 {
 	/**
 	 * A special java.util.Set is required to hold multiple instances of Integer
@@ -130,7 +130,7 @@ public class Set implements java.util.Set<Object>, java.io.Serializable
 	 * Unmodifiable is a special Set that can't be modified, but otherwise acts
 	 * like a Set.
 	 */
-	public static class Unmodifiable extends Set
+	public static class Unmodifiable extends MagicSet
 	{
 		private static final long serialVersionUID = 1L;
 
@@ -149,7 +149,7 @@ public class Set implements java.util.Set<Object>, java.io.Serializable
 			this.store = java.util.Collections.singleton(o);
 		}
 
-		public Unmodifiable(Set s)
+		public Unmodifiable(MagicSet s)
 		{
 			this.store = java.util.Collections.unmodifiableSet(s.store);
 		}
@@ -160,7 +160,7 @@ public class Set implements java.util.Set<Object>, java.io.Serializable
 	private static final long serialVersionUID = 1L;
 
 	/** Constructs an empty Set. */
-	public Set()
+	public MagicSet()
 	{
 		this.store = new java.util.HashSet<Object>();
 	}
@@ -170,7 +170,7 @@ public class Set implements java.util.Set<Object>, java.io.Serializable
 	 * 
 	 * @param c The collection.
 	 */
-	public Set(java.util.Collection<?> c)
+	public MagicSet(java.util.Collection<?> c)
 	{
 		this();
 		if(null == c)
@@ -198,7 +198,7 @@ public class Set implements java.util.Set<Object>, java.io.Serializable
 	 * 
 	 * @param c The array.
 	 */
-	public Set(Object... c)
+	public MagicSet(Object... c)
 	{
 		this();
 		if(null == c)
@@ -328,9 +328,9 @@ public class Set implements java.util.Set<Object>, java.io.Serializable
 			return true;
 		if(obj == null)
 			return false;
-		if(!(obj instanceof Set))
+		if(!(obj instanceof MagicSet))
 			return false;
-		Set other = (Set)obj;
+		MagicSet other = (MagicSet)obj;
 		if(this.store == null)
 		{
 			if(other.store != null)

@@ -28,11 +28,11 @@ public final class MindFuneral extends Card
 		}
 
 		@Override
-		public Set evaluate(GameState state, Identified thisObject)
+		public MagicSet evaluate(GameState state, Identified thisObject)
 		{
-			Set ret = new Set();
+			MagicSet ret = new MagicSet();
 
-			Set objects = this.objects.evaluate(state, thisObject);
+			MagicSet objects = this.objects.evaluate(state, thisObject);
 
 			for(Zone zone: this.zones.evaluate(state, thisObject).getAll(Zone.class))
 			{

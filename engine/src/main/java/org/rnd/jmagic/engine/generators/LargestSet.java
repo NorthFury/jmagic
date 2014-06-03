@@ -21,10 +21,10 @@ public class LargestSet extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		Set ret = new Set();
-		for(Set set: this.what.evaluate(state, thisObject).getAll(Set.class))
+		MagicSet ret = new MagicSet();
+		for(MagicSet set: this.what.evaluate(state, thisObject).getAll(MagicSet.class))
 			if(set.size() > ret.size())
 				ret = set;
 		return ret;

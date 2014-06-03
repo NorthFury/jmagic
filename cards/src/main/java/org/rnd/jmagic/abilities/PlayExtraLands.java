@@ -22,7 +22,7 @@ public abstract class PlayExtraLands extends StaticAbility
 		}
 
 		@Override
-		public Set evaluate(GameState state, Identified thisObject)
+		public MagicSet evaluate(GameState state, Identified thisObject)
 		{
 			if(state.currentTurn() == null)
 				return NonEmpty.instance().evaluate(state, thisObject);

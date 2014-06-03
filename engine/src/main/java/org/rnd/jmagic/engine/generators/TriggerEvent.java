@@ -20,11 +20,11 @@ public class TriggerEvent extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		Set ret = new Set();
+		MagicSet ret = new MagicSet();
 
-		Set eventTriggeredAbilities = this.eventTriggeredAbilities.evaluate(state, thisObject);
+		MagicSet eventTriggeredAbilities = this.eventTriggeredAbilities.evaluate(state, thisObject);
 		for(EventTriggeredAbility eta: eventTriggeredAbilities.getAll(EventTriggeredAbility.class))
 		{
 			Event cause = state.get(eta.eventCause);

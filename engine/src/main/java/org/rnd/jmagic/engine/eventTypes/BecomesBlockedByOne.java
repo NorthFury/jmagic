@@ -18,7 +18,7 @@ public final class BecomesBlockedByOne extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		int blockerID = parameters.get(Parameter.DEFENDER).getOne(GameObject.class).ID;
 		for(GameObject attacker: parameters.get(Parameter.ATTACKER).getAll(GameObject.class))

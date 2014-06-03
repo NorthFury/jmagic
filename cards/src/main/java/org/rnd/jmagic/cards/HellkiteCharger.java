@@ -26,24 +26,24 @@ public final class HellkiteCharger extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
-			Set cause = parameters.get(Parameter.CAUSE);
-			Set untap = parameters.get(Parameter.OBJECT);
+			MagicSet cause = parameters.get(Parameter.CAUSE);
+			MagicSet untap = parameters.get(Parameter.OBJECT);
 
-			java.util.Map<Parameter, Set> untapParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> untapParameters = new java.util.HashMap<Parameter, MagicSet>();
 			untapParameters.put(Parameter.CAUSE, cause);
 			untapParameters.put(Parameter.OBJECT, untap);
 			createEvent(game, "Untap all attacking creatures", EventType.UNTAP_PERMANENTS, untapParameters).perform(event, true);
 
 			java.util.List<Phase.PhaseType> combatPhaseList = new java.util.LinkedList<Phase.PhaseType>();
 			combatPhaseList.add(Phase.PhaseType.COMBAT);
-			Set combatPhaseSet = new Set();
+			MagicSet combatPhaseSet = new MagicSet();
 			combatPhaseSet.add(combatPhaseList);
 
-			java.util.Map<Parameter, Set> combatParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> combatParameters = new java.util.HashMap<Parameter, MagicSet>();
 			combatParameters.put(Parameter.CAUSE, cause);
-			combatParameters.put(Parameter.TARGET, new Set(game.actualState.currentPhase()));
+			combatParameters.put(Parameter.TARGET, new MagicSet(game.actualState.currentPhase()));
 			combatParameters.put(Parameter.PHASE, combatPhaseSet);
 			createEvent(game, "There is an additional combat phase", EventType.TAKE_EXTRA_PHASE, combatParameters).perform(event, true);
 

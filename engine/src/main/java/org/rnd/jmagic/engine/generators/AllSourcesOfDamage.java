@@ -41,9 +41,9 @@ public class AllSourcesOfDamage extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		Set ret = new Set();
+		MagicSet ret = new MagicSet();
 
 		// a permanent;
 		for(GameObject object: state.battlefield().objects)

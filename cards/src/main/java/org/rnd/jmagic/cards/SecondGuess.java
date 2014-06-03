@@ -26,12 +26,12 @@ public final class SecondGuess extends Card
 		}
 
 		@Override
-		public Set evaluate(GameState state, Identified thisObject)
+		public MagicSet evaluate(GameState state, Identified thisObject)
 		{
 			java.util.List<Integer> spells = state.getTracker(org.rnd.jmagic.abilities.keywords.Storm.StormTracker.class).getValue(state);
 			if(spells.size() < this.n)
 				return Empty.set;
-			return new Set(state.get(spells.get(this.n - 1)));
+			return new MagicSet(state.get(spells.get(this.n - 1)));
 		}
 	}
 

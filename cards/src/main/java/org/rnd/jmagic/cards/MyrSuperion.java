@@ -75,9 +75,9 @@ public final class MyrSuperion extends Card
 		}
 
 		@Override
-		public Set evaluate(GameState state, Identified thisObject)
+		public MagicSet evaluate(GameState state, Identified thisObject)
 		{
-			return new Set(state.getTracker(Tracker.class).getValue(state));
+			return new MagicSet(state.getTracker(Tracker.class).getValue(state));
 		}
 	}
 

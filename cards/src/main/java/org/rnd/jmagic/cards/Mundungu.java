@@ -27,20 +27,20 @@ public final class Mundungu extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			event.setResult(Empty.set);
 
-			Set playerParameter = parameters.get(Parameter.PLAYER);
+			MagicSet playerParameter = parameters.get(Parameter.PLAYER);
 			Player player = playerParameter.getOne(Player.class);
 			player.mayActivateManaAbilities();
 
 			if(player.pool.isEmpty())
 				return false;
 
-			java.util.Map<Parameter, Set> lifeParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> lifeParameters = new java.util.HashMap<Parameter, MagicSet>();
 			lifeParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
-			lifeParameters.put(Parameter.PLAYER, new Set(player));
+			lifeParameters.put(Parameter.PLAYER, new MagicSet(player));
 			lifeParameters.put(Parameter.NUMBER, ONE);
 			Event payLife = createEvent(game, player + " pays 1 life", EventType.PAY_LIFE, lifeParameters);
 			if(!payLife.attempt(event))
@@ -52,9 +52,9 @@ public final class Mundungu extends Card
 			factory.parameters.put(Parameter.COST, Identity.instance(cost));
 			factory.parameters.put(Parameter.PLAYER, Identity.instance(playerParameter));
 
-			java.util.Map<Parameter, Set> mayPayParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> mayPayParameters = new java.util.HashMap<Parameter, MagicSet>();
 			mayPayParameters.put(Parameter.PLAYER, playerParameter);
-			mayPayParameters.put(Parameter.EVENT, new Set(factory));
+			mayPayParameters.put(Parameter.EVENT, new MagicSet(factory));
 			Event mayPay = createEvent(game, player + " may pay (1)", PLAYER_MAY, mayPayParameters);
 			boolean ret = mayPay.perform(event, false);
 			if(!ret)

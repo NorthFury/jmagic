@@ -22,7 +22,7 @@ public class LandfallForSpells extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
 		int controller = state.<GameObject>get(thisObject.ID).controllerID;
 		java.util.Map<Integer, Integer> flagValue = state.getTracker(LandsPutOntoTheBattlefieldThisTurnCounter.class).getValue(state);

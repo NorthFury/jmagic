@@ -19,9 +19,9 @@ public class ListGet extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		Set ret = new Set();
+		MagicSet ret = new MagicSet();
 		for(java.util.List<?> list: this.list.evaluate(state, thisObject).getAll(java.util.List.class))
 			if(list.size() > this.index)
 				ret.add(list.get(this.index));

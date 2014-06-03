@@ -18,7 +18,7 @@ public final class DealDamageEvenly extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		GameObject source = parameters.get(Parameter.SOURCE).getOne(GameObject.class);
 		int damageAmount = Sum.get(parameters.get(Parameter.NUMBER));

@@ -18,7 +18,7 @@ public class Maximum extends SetGenerator
 	 * bound is positive infinity; otherwise, the greatest Integer or upper
 	 * bound of a NumberRange
 	 */
-	public static Integer get(Set numbers)
+	public static Integer get(MagicSet numbers)
 	{
 		Integer max = null;
 
@@ -46,11 +46,11 @@ public class Maximum extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
 		Integer maximum = Maximum.get(this.numbers.evaluate(state, thisObject));
 		if(maximum == null)
-			return new Set();
-		return new Set(maximum);
+			return new MagicSet();
+		return new MagicSet(maximum);
 	}
 }

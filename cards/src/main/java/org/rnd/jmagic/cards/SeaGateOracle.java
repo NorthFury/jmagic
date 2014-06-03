@@ -30,29 +30,29 @@ public final class SeaGateOracle extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
-			Set thisCard = parameters.get(Parameter.CAUSE);
-			Set topOne = parameters.get(Parameter.CARD);
-			Set you = parameters.get(Parameter.PLAYER);
+			MagicSet thisCard = parameters.get(Parameter.CAUSE);
+			MagicSet topOne = parameters.get(Parameter.CARD);
+			MagicSet you = parameters.get(Parameter.PLAYER);
 
-			java.util.Map<Parameter, Set> lookParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> lookParameters = new java.util.HashMap<Parameter, MagicSet>();
 			lookParameters.put(Parameter.CAUSE, thisCard);
 			lookParameters.put(Parameter.OBJECT, topOne);
 			lookParameters.put(Parameter.PLAYER, you);
 			createEvent(game, "Look at the top two cards of your library", LOOK, lookParameters).perform(event, false);
 
 			Player player = you.getOne(Player.class);
-			Set library = new Set(player.getLibrary(game.actualState));
+			MagicSet library = new MagicSet(player.getLibrary(game.actualState));
 
 			java.util.List<?> handChoice = player.sanitizeAndChoose(game.actualState, 1, topOne, PlayerInterface.ChoiceType.OBJECTS, REASON);
-			java.util.Map<Parameter, Set> handParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> handParameters = new java.util.HashMap<Parameter, MagicSet>();
 			handParameters.put(Parameter.CAUSE, thisCard);
-			handParameters.put(Parameter.OBJECT, new Set(handChoice.get(0)));
-			handParameters.put(Parameter.TO, new Set(player.getHand(game.actualState)));
+			handParameters.put(Parameter.OBJECT, new MagicSet(handChoice.get(0)));
+			handParameters.put(Parameter.TO, new MagicSet(player.getHand(game.actualState)));
 			Event putIntoHand = createEvent(game, "Put one of those cards into your hand", MOVE_OBJECTS, handParameters);
 
-			Set otherOne = new Set();
+			MagicSet otherOne = new MagicSet();
 			for(GameObject object: topOne.getAll(GameObject.class))
 				if(!handChoice.contains(object))
 					otherOne.add(object);
@@ -60,7 +60,7 @@ public final class SeaGateOracle extends Card
 			Event putOnBottom = null;
 			if(!otherOne.isEmpty())
 			{
-				java.util.Map<Parameter, Set> bottomParameters = new java.util.HashMap<Parameter, Set>();
+				java.util.Map<Parameter, MagicSet> bottomParameters = new java.util.HashMap<Parameter, MagicSet>();
 				bottomParameters.put(Parameter.CAUSE, thisCard);
 				bottomParameters.put(Parameter.OBJECT, otherOne);
 				bottomParameters.put(Parameter.TO, library);

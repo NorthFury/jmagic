@@ -43,25 +43,25 @@ public final class QuestfortheHolyRelic extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
-			Set cause = parameters.get(Parameter.CAUSE);
-			Set you = parameters.get(Parameter.PLAYER);
+			MagicSet cause = parameters.get(Parameter.CAUSE);
+			MagicSet you = parameters.get(Parameter.PLAYER);
 
-			java.util.Map<Parameter, Set> searchParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> searchParameters = new java.util.HashMap<Parameter, MagicSet>();
 			searchParameters.put(Parameter.CAUSE, cause);
 			searchParameters.put(Parameter.PLAYER, you);
-			searchParameters.put(Parameter.NUMBER, new Set(1));
-			searchParameters.put(Parameter.TYPE, new Set(HasSubType.instance(SubType.EQUIPMENT)));
-			searchParameters.put(Parameter.TO, new Set(game.actualState.battlefield()));
+			searchParameters.put(Parameter.NUMBER, new MagicSet(1));
+			searchParameters.put(Parameter.TYPE, new MagicSet(HasSubType.instance(SubType.EQUIPMENT)));
+			searchParameters.put(Parameter.TO, new MagicSet(game.actualState.battlefield()));
 			searchParameters.put(Parameter.CONTROLLER, you);
 			Event search = createEvent(game, "Search your library for an Equipment card and put it onto the battlefield, then shuffle your library", SEARCH_LIBRARY_AND_PUT_INTO, searchParameters);
 			search.perform(event, true);
 
-			Set thatEquipment = search.getResult();
-			Set yourCreatures = parameters.get(Parameter.CHOICE);
+			MagicSet thatEquipment = search.getResult();
+			MagicSet yourCreatures = parameters.get(Parameter.CHOICE);
 
-			java.util.Map<Parameter, Set> attachParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> attachParameters = new java.util.HashMap<Parameter, MagicSet>();
 			attachParameters.put(Parameter.OBJECT, thatEquipment);
 			attachParameters.put(Parameter.PLAYER, you);
 			attachParameters.put(Parameter.CHOICE, yourCreatures);

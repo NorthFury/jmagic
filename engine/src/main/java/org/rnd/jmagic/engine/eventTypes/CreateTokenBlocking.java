@@ -17,7 +17,7 @@ public final class CreateTokenBlocking extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		Event putOntoBattlefield = createEvent(game, "Put a token onto the battlefield.", CREATE_TOKEN_ON_BATTLEFIELD, parameters);
 		boolean status = putOntoBattlefield.perform(event, true);

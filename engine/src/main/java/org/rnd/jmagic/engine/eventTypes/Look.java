@@ -18,14 +18,14 @@ public final class Look extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
-		Set objects = parameters.get(Parameter.OBJECT);
+		MagicSet objects = parameters.get(Parameter.OBJECT);
 		java.util.Set<GameObject> gameObjects = objects.getAll(GameObject.class);
 		for(Zone z: objects.getAll(Zone.class))
 			gameObjects.addAll(z.objects);
 		java.util.Set<Player> players = parameters.get(Parameter.PLAYER).getAll(Player.class);
-		Set ret = new Set();
+		MagicSet ret = new MagicSet();
 
 		for(Player player: players)
 		{
@@ -59,10 +59,10 @@ public final class Look extends EventType
 		part.parameters.put(ContinuousEffectType.Parameter.OBJECT, Identity.instance(objects));
 		part.parameters.put(ContinuousEffectType.Parameter.PLAYER, Identity.instance(players));
 
-		java.util.Map<Parameter, Set> lookParameters = new java.util.HashMap<Parameter, Set>();
-		lookParameters.put(Parameter.CAUSE, new Set(cause));
-		lookParameters.put(Parameter.EFFECT, new Set(part));
-		lookParameters.put(Parameter.EXPIRES, new Set(expiration));
+		java.util.Map<Parameter, MagicSet> lookParameters = new java.util.HashMap<Parameter, MagicSet>();
+		lookParameters.put(Parameter.CAUSE, new MagicSet(cause));
+		lookParameters.put(Parameter.EFFECT, new MagicSet(part));
+		lookParameters.put(Parameter.EXPIRES, new MagicSet(expiration));
 		createEvent(game, event.getName(), CREATE_FLOATING_CONTINUOUS_EFFECT, lookParameters).perform(event, false);
 
 		event.setResult(Identity.instance(ret));

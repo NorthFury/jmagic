@@ -16,7 +16,7 @@ public final class FissureVent extends Card
 		super(state);
 
 		// Choose one or both \u2014
-		this.setNumModes(new Set(new org.rnd.util.NumberRange(1, 2)));
+		this.setNumModes(new MagicSet(new org.rnd.util.NumberRange(1, 2)));
 
 		// Destroy target artifact;
 		{

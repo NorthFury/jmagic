@@ -30,20 +30,20 @@ public final class ChandraAblaze extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
-			Set ability = parameters.get(Parameter.CAUSE);
-			Set you = parameters.get(Parameter.PLAYER);
-			Set cards = parameters.get(Parameter.CARD);
+			MagicSet ability = parameters.get(Parameter.CAUSE);
+			MagicSet you = parameters.get(Parameter.PLAYER);
+			MagicSet cards = parameters.get(Parameter.CARD);
 
-			java.util.Map<Parameter, Set> discardParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> discardParameters = new java.util.HashMap<Parameter, MagicSet>();
 			discardParameters.put(Parameter.CAUSE, ability);
 			discardParameters.put(Parameter.PLAYER, you);
 			discardParameters.put(Parameter.CHOICE, cards);
 			Event discard = createEvent(game, "Discard a card", DISCARD_CHOICE, discardParameters);
 			discard.perform(event, true);
 
-			Set discarded = NewObjectOf.instance(discard.getResultGenerator()).evaluate(game.actualState, null);
+			MagicSet discarded = NewObjectOf.instance(discard.getResultGenerator()).evaluate(game.actualState, null);
 			boolean red = false;
 			for(GameObject o: discarded.getAll(GameObject.class))
 				if(o.getColors().contains(Color.RED))
@@ -51,12 +51,12 @@ public final class ChandraAblaze extends Card
 
 			if(red)
 			{
-				Set chandra = parameters.get(Parameter.SOURCE);
-				Set target = parameters.get(Parameter.TARGET);
+				MagicSet chandra = parameters.get(Parameter.SOURCE);
+				MagicSet target = parameters.get(Parameter.TARGET);
 
-				java.util.Map<Parameter, Set> damageParameters = new java.util.HashMap<Parameter, Set>();
+				java.util.Map<Parameter, MagicSet> damageParameters = new java.util.HashMap<Parameter, MagicSet>();
 				damageParameters.put(Parameter.SOURCE, chandra);
-				damageParameters.put(Parameter.NUMBER, new Set(4));
+				damageParameters.put(Parameter.NUMBER, new MagicSet(4));
 				damageParameters.put(Parameter.TAKER, target);
 				Event damage = createEvent(game, "Chandra Ablaze deals 4 damage to target creature or player", DEAL_DAMAGE_EVENLY, damageParameters);
 				damage.perform(event, true);

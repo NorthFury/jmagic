@@ -18,7 +18,7 @@ public final class MillCards extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		int number = Sum.get(parameters.get(Parameter.NUMBER));
 
@@ -30,25 +30,25 @@ public final class MillCards extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		boolean allMilled = true;
-		Set cause = parameters.get(Parameter.CAUSE);
+		MagicSet cause = parameters.get(Parameter.CAUSE);
 		int num = Sum.get(parameters.get(Parameter.NUMBER));
 
 		if(num < 0)
 			num = 0;
 
-		Set result = new Set();
+		MagicSet result = new MagicSet();
 
 		for(Player player: parameters.get(Parameter.PLAYER).getAll(Player.class))
 		{
 			Zone graveyard = player.getGraveyard(game.actualState);
 			Zone library = player.getLibrary(game.actualState);
-			Set topCards = TopCards.get(num, library);
-			java.util.Map<Parameter, Set> moveParameters = new java.util.HashMap<Parameter, Set>();
+			MagicSet topCards = TopCards.get(num, library);
+			java.util.Map<Parameter, MagicSet> moveParameters = new java.util.HashMap<Parameter, MagicSet>();
 			moveParameters.put(Parameter.CAUSE, cause);
-			moveParameters.put(Parameter.TO, new Set(graveyard));
+			moveParameters.put(Parameter.TO, new MagicSet(graveyard));
 			moveParameters.put(Parameter.OBJECT, topCards);
 
 			Event move = createEvent(game, "Put " + topCards + " into " + graveyard + ".", MOVE_OBJECTS, moveParameters);

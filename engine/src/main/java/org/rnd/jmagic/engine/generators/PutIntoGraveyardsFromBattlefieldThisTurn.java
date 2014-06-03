@@ -91,13 +91,13 @@ public class PutIntoGraveyardsFromBattlefieldThisTurn extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
 		Turn currentTurn = state.currentTurn();
 		if(currentTurn == null)
 			return Empty.set;
 
-		Set ret = new Set();
+		MagicSet ret = new MagicSet();
 		for(java.util.Set<Integer> ids: state.getTracker(DeathTracker.class).getValue(state).values())
 			for(int ID: ids)
 				ret.add(state.get(ID));

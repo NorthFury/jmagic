@@ -25,9 +25,9 @@ public class StepOf extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		Set returnValue = new Set();
+		MagicSet returnValue = new MagicSet();
 		for(Player player: this.playersAndTurns.evaluate(state, thisObject).getAll(Player.class))
 		{
 			if((state.currentStep() != null) && (state.currentStep().ownerID == player.ID) && (state.currentStep().type == this.stepType))
@@ -59,13 +59,13 @@ public class StepOf extends SetGenerator
 		return returnValue;
 	}
 
-	private void handleTurn(Turn turn, Set returnValue)
+	private void handleTurn(Turn turn, MagicSet returnValue)
 	{
 		handlePhases(turn, returnValue);
 		handlePhases(turn.phasesRan, returnValue);
 	}
 
-	private void handlePhases(java.lang.Iterable<Phase> phases, Set returnValue)
+	private void handlePhases(java.lang.Iterable<Phase> phases, MagicSet returnValue)
 	{
 		for(Phase phase: phases)
 			if(phase.type == this.phaseType)
@@ -75,7 +75,7 @@ public class StepOf extends SetGenerator
 			}
 	}
 
-	private void handleSteps(java.lang.Iterable<Step> steps, Set returnValue)
+	private void handleSteps(java.lang.Iterable<Step> steps, MagicSet returnValue)
 	{
 		for(Step step: steps)
 			if(step.type == this.stepType)

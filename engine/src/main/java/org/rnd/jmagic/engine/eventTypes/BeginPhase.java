@@ -18,7 +18,7 @@ public final class BeginPhase extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		Phase phase = parameters.get(Parameter.PHASE).getOne(Phase.class);
 		game.physicalState.setCurrentPhase(phase);

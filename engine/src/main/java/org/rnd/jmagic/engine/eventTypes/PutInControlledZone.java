@@ -18,7 +18,7 @@ public final class PutInControlledZone extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		for(GameObject object: parameters.get(Parameter.OBJECT).getAll(GameObject.class))
 			if(object.isGhost())
@@ -27,11 +27,11 @@ public final class PutInControlledZone extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		boolean allMoved = true;
 
-		Set objects = parameters.get(Parameter.OBJECT);
+		MagicSet objects = parameters.get(Parameter.OBJECT);
 		if(objects.isEmpty())
 		{
 			event.setResult(Empty.set);
@@ -41,18 +41,18 @@ public final class PutInControlledZone extends EventType
 		boolean resolvingParameterPresent = parameters.containsKey(Parameter.RESOLVING);
 
 		boolean faceDownParameterPresent = parameters.containsKey(Parameter.FACE_DOWN);
-		Set faceDownParameter = null;
+		MagicSet faceDownParameter = null;
 		if(faceDownParameterPresent)
 			faceDownParameter = parameters.get(Parameter.FACE_DOWN);
 
-		Set cause = parameters.get(Parameter.CAUSE);
-		Set controller = parameters.get(Parameter.CONTROLLER);
+		MagicSet cause = parameters.get(Parameter.CAUSE);
+		MagicSet controller = parameters.get(Parameter.CONTROLLER);
 		Zone controlledZone = parameters.get(Parameter.ZONE).getOne(Zone.class);
-		Set result = new Set();
+		MagicSet result = new MagicSet();
 
-		java.util.Map<Parameter, Set> moveParameters = new java.util.HashMap<Parameter, Set>();
+		java.util.Map<Parameter, MagicSet> moveParameters = new java.util.HashMap<Parameter, MagicSet>();
 		moveParameters.put(Parameter.CAUSE, cause);
-		moveParameters.put(Parameter.TO, new Set(controlledZone));
+		moveParameters.put(Parameter.TO, new MagicSet(controlledZone));
 		moveParameters.put(Parameter.OBJECT, objects);
 		moveParameters.put(Parameter.CONTROLLER, controller);
 		if(parameters.containsKey(Parameter.INDEX))

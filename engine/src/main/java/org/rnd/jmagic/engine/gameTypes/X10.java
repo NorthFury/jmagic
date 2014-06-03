@@ -47,10 +47,10 @@ public class X10 extends GameType.SimpleGameTypeRule
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
-			Set cardParameter = parameters.get(Parameter.CARD);
-			Set cards = new Set();
+			MagicSet cardParameter = parameters.get(Parameter.CARD);
+			MagicSet cards = new MagicSet();
 			for(Zone library: cardParameter.getAll(Zone.class))
 			{
 				if(!library.isLibrary())

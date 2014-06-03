@@ -292,16 +292,16 @@ public final class Suspend extends Keyword
 			}
 
 			@Override
-			public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+			public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 			{
 				event.setResult(Empty.set);
 
-				Set objectSet = parameters.get(Parameter.OBJECT);
+				MagicSet objectSet = parameters.get(Parameter.OBJECT);
 				int number = Sum.get(parameters.get(Parameter.NUMBER));
 
-				java.util.Map<Parameter, Set> exileParameters = new java.util.HashMap<Parameter, Set>();
-				exileParameters.put(Parameter.CAUSE, new Set(game));
-				exileParameters.put(Parameter.TO, new Set(game.actualState.exileZone()));
+				java.util.Map<Parameter, MagicSet> exileParameters = new java.util.HashMap<Parameter, MagicSet>();
+				exileParameters.put(Parameter.CAUSE, new MagicSet(game));
+				exileParameters.put(Parameter.TO, new MagicSet(game.actualState.exileZone()));
 				exileParameters.put(Parameter.OBJECT, objectSet);
 				Event putOntoBattlefield = createEvent(game, "Exile " + objectSet + ".", EventType.MOVE_OBJECTS, exileParameters);
 				boolean moveStatus = putOntoBattlefield.perform(event, false);

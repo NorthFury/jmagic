@@ -28,23 +28,23 @@ public final class KalitasBloodchiefofGhet extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
-			Set cause = parameters.get(Parameter.CAUSE);
-			Set target = parameters.get(Parameter.OBJECT);
+			MagicSet cause = parameters.get(Parameter.CAUSE);
+			MagicSet target = parameters.get(Parameter.OBJECT);
 
 			GameObject targetObject = target.getOne(GameObject.class);
 			int targetID = targetObject.ID;
 			int power = targetObject.getPower();
 			int toughness = targetObject.getToughness();
 
-			java.util.Map<Parameter, Set> destroyParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> destroyParameters = new java.util.HashMap<Parameter, MagicSet>();
 			destroyParameters.put(Parameter.CAUSE, cause);
 			destroyParameters.put(Parameter.PERMANENT, target);
 			Event destroy = createEvent(game, "Destroy target creature.", EventType.DESTROY_PERMANENTS, destroyParameters);
 			destroy.perform(event, true);
 
-			Set you = parameters.get(Parameter.PLAYER);
+			MagicSet you = parameters.get(Parameter.PLAYER);
 			for(java.util.Map.Entry<Event.IndexedZone, java.util.Set<GameObject>> objectMoved: destroy.getObjectsMoved(game.actualState).entrySet())
 			{
 				Zone zone = game.actualState.get(objectMoved.getKey().zoneID);
@@ -52,14 +52,14 @@ public final class KalitasBloodchiefofGhet extends Card
 					for(GameObject moved: objectMoved.getValue())
 						if(moved.pastSelf == targetID)
 						{
-							java.util.Map<Parameter, Set> tokenParameters = new java.util.HashMap<Parameter, Set>();
+							java.util.Map<Parameter, MagicSet> tokenParameters = new java.util.HashMap<Parameter, MagicSet>();
 							tokenParameters.put(Parameter.CAUSE, cause);
-							tokenParameters.put(Parameter.COLOR, new Set(Color.BLACK));
+							tokenParameters.put(Parameter.COLOR, new MagicSet(Color.BLACK));
 							tokenParameters.put(Parameter.CONTROLLER, you);
 							tokenParameters.put(Parameter.NUMBER, ONE);
 							tokenParameters.put(Parameter.POWER, ZERO);
-							tokenParameters.put(Parameter.SUBTYPE, new Set((Object)(java.util.Arrays.asList(SubType.VAMPIRE))));
-							tokenParameters.put(Parameter.TYPE, new Set(Type.CREATURE));
+							tokenParameters.put(Parameter.SUBTYPE, new MagicSet((Object)(java.util.Arrays.asList(SubType.VAMPIRE))));
+							tokenParameters.put(Parameter.TYPE, new MagicSet(Type.CREATURE));
 							tokenParameters.put(Parameter.TOUGHNESS, ZERO);
 							Event makeToken = createEvent(game, "Put a black Vampire creature token onto the battlefield. Its power is equal to that creature's power and its toughness is equal to that creature's toughness.", EventType.CREATE_TOKEN_ON_BATTLEFIELD, tokenParameters);
 
@@ -68,14 +68,14 @@ public final class KalitasBloodchiefofGhet extends Card
 							// comes into play should see this creature's
 							// "actual" power.
 							makeToken.perform(event, false);
-							Set token = makeToken.getResult();
+							MagicSet token = makeToken.getResult();
 
 							ContinuousEffect.Part part = setPowerAndToughness(Identity.instance(token), power, toughness);
 
-							java.util.Map<Parameter, Set> setPTParameters = new java.util.HashMap<Parameter, Set>();
+							java.util.Map<Parameter, MagicSet> setPTParameters = new java.util.HashMap<Parameter, MagicSet>();
 							setPTParameters.put(Parameter.CAUSE, cause);
-							setPTParameters.put(Parameter.EFFECT, new Set(part));
-							setPTParameters.put(Parameter.EXPIRES, new Set(Empty.instance()));
+							setPTParameters.put(Parameter.EFFECT, new MagicSet(part));
+							setPTParameters.put(Parameter.EXPIRES, new MagicSet(Empty.instance()));
 							Event setPT = createEvent(game, "Its power is equal to that creature's power and its toughness is equal to that creature's toughness.", EventType.CREATE_FLOATING_CONTINUOUS_EFFECT, setPTParameters);
 							setPT.perform(event, false);
 

@@ -16,9 +16,9 @@ public abstract class ExaltedBase extends EventTriggeredAbility
 		}
 
 		@Override
-		public boolean match(GameState state, Identified object, Set set)
+		public boolean match(GameState state, Identified object, MagicSet set)
 		{
-			Set attackers = Attacking.instance().evaluate(state, object);
+			MagicSet attackers = Attacking.instance().evaluate(state, object);
 			if(attackers.size() != 1)
 				return false;
 

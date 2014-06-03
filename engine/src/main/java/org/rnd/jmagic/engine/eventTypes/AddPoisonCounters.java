@@ -18,7 +18,7 @@ public final class AddPoisonCounters extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		java.util.Set<Counter> counters = new java.util.HashSet<Counter>();
 		int number = Sum.get(parameters.get(Parameter.NUMBER));

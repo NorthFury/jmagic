@@ -56,7 +56,7 @@ public final class GauntletofPower extends Card
 			}
 
 			@Override
-			public boolean match(GameState state, Identified thisObject, Set set)
+			public boolean match(GameState state, Identified thisObject, MagicSet set)
 			{
 				// BECOMES_PLAYED.OBJECT is guaranteed to
 				// only have one object in it.
@@ -70,12 +70,12 @@ public final class GauntletofPower extends Card
 				if(!ability.costsTap)
 					return false;
 
-				if(!this.what.match(state, thisObject, new Set(ability.getSource(state))))
+				if(!this.what.match(state, thisObject, new MagicSet(ability.getSource(state))))
 					return false;
 
 				for(ManaSymbol m: ability.getManaAdded())
 				{
-					if(this.colors.match(state, thisObject, new Set(m.getColors())))
+					if(this.colors.match(state, thisObject, new MagicSet(m.getColors())))
 						return true;
 				}
 				return false;

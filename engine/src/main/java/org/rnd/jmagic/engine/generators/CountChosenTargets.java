@@ -19,7 +19,7 @@ public class CountChosenTargets extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
 		int i = 0;
 		java.util.Set<Target> targets = this.targets.evaluate(state, thisObject).getAll(Target.class);
@@ -27,7 +27,7 @@ public class CountChosenTargets extends SetGenerator
 			for(Target target: targets)
 				if(o.getChosenTargets().containsKey(target))
 					i += o.getChosenTargets().get(target).size();
-		return new Set(i);
+		return new MagicSet(i);
 	}
 
 }

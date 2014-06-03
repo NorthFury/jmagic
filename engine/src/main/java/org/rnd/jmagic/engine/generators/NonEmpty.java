@@ -7,7 +7,7 @@ import org.rnd.jmagic.engine.*;
  */
 public class NonEmpty extends SetGenerator
 {
-	public static final Set set = new Set.Unmodifiable(new Object());
+	public static final MagicSet set = new MagicSet.Unmodifiable(new Object());
 	private static final SetGenerator _instance = new NonEmpty();
 
 	private NonEmpty()
@@ -21,7 +21,7 @@ public class NonEmpty extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
 		return set;
 	}

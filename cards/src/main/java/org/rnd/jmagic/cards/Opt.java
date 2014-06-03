@@ -28,14 +28,14 @@ public final class Opt extends Card
 		 * @eparam RESULT: empty
 		 */
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
-			Set cause = parameters.get(Parameter.CAUSE);
-			Set topCard = parameters.get(Parameter.OBJECT);
-			Set you = parameters.get(Parameter.PLAYER);
-			Set library = parameters.get(Parameter.ZONE);
+			MagicSet cause = parameters.get(Parameter.CAUSE);
+			MagicSet topCard = parameters.get(Parameter.OBJECT);
+			MagicSet you = parameters.get(Parameter.PLAYER);
+			MagicSet library = parameters.get(Parameter.ZONE);
 
-			java.util.Map<Parameter, Set> lookParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> lookParameters = new java.util.HashMap<Parameter, MagicSet>();
 			lookParameters.put(Parameter.CAUSE, cause);
 			lookParameters.put(Parameter.OBJECT, topCard);
 			lookParameters.put(Parameter.PLAYER, you);
@@ -46,9 +46,9 @@ public final class Opt extends Card
 			moveParameters.put(Parameter.TO, Identity.instance(library));
 			moveParameters.put(Parameter.INDEX, numberGenerator(-1));
 			moveParameters.put(Parameter.OBJECT, Identity.instance(topCard));
-			Set move = new Set(new EventFactory(MOVE_OBJECTS, moveParameters, "Put that card on the bottom of your library."));
+			MagicSet move = new MagicSet(new EventFactory(MOVE_OBJECTS, moveParameters, "Put that card on the bottom of your library."));
 
-			java.util.Map<Parameter, Set> mayParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> mayParameters = new java.util.HashMap<Parameter, MagicSet>();
 			mayParameters.put(Parameter.PLAYER, you);
 			mayParameters.put(Parameter.EVENT, move);
 			createEvent(game, "You may put that card on the bottom of your library.", PLAYER_MAY, mayParameters).perform(event, false);

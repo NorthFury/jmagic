@@ -14,10 +14,10 @@ public class OpponentsOf extends SetGenerator
 
 	private final SetGenerator players;
 
-	public static Set get(GameState state, Player subject)
+	public static MagicSet get(GameState state, Player subject)
 	{
 		// we don't support teams yet, so...
-		Set ret = new Set();
+		MagicSet ret = new MagicSet();
 		if(subject == null)
 			return ret;
 		for(Player player: Players.get(state).getAll(Player.class))
@@ -36,7 +36,7 @@ public class OpponentsOf extends SetGenerator
 
 	// This will only return the opponents of a single player in the set
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
 		return OpponentsOf.get(state, this.players.evaluate(state, thisObject).getOne(Player.class));
 	}

@@ -18,15 +18,15 @@ public final class Reveal extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
-		Set objectParameter = parameters.get(Parameter.OBJECT);
+		MagicSet objectParameter = parameters.get(Parameter.OBJECT);
 		java.util.Set<GameObject> objects = objectParameter.getAll(GameObject.class);
 		for(Zone z: objectParameter.getAll(Zone.class))
 			objects.addAll(z.objects);
-		Set ret = new Set();
+		MagicSet ret = new MagicSet();
 
-		Set cause = parameters.get(Parameter.CAUSE);
+		MagicSet cause = parameters.get(Parameter.CAUSE);
 		for(GameObject object: objects)
 		{
 			// Change the visibleTo property of the actual object. The FCE
@@ -56,10 +56,10 @@ public final class Reveal extends EventType
 		ContinuousEffect.Part part = new ContinuousEffect.Part(ContinuousEffectType.REVEAL);
 		part.parameters.put(ContinuousEffectType.Parameter.OBJECT, Identity.instance(ret));
 
-		java.util.Map<Parameter, Set> revealParameters = new java.util.HashMap<Parameter, Set>();
+		java.util.Map<Parameter, MagicSet> revealParameters = new java.util.HashMap<Parameter, MagicSet>();
 		revealParameters.put(Parameter.CAUSE, cause);
-		revealParameters.put(Parameter.EFFECT, new Set(part));
-		revealParameters.put(Parameter.EXPIRES, new Set(expiration));
+		revealParameters.put(Parameter.EFFECT, new MagicSet(part));
+		revealParameters.put(Parameter.EXPIRES, new MagicSet(expiration));
 		createEvent(game, event.getName(), CREATE_FLOATING_CONTINUOUS_EFFECT, revealParameters).perform(event, false);
 
 		event.setResult(Identity.instance(ret));

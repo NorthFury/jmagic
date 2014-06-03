@@ -37,8 +37,8 @@ public class PlayerCanPlaySorcerySpeed extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		return new Set(get(state));
+		return new MagicSet(get(state));
 	}
 }

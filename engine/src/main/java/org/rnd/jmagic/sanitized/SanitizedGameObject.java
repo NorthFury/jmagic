@@ -87,7 +87,7 @@ public class SanitizedGameObject extends SanitizedIdentified
 		java.util.Collection<Object> otherLinks = new java.util.LinkedList<Object>();
 		for(NonStaticAbility a: go.getNonStaticAbilities())
 		{
-			Set linkInformation = a.getLinkManager().getLinkInformation(a.state);
+			MagicSet linkInformation = a.getLinkManager().getLinkInformation(a.state);
 			if(linkInformation != null)
 			{
 				java.util.Set<Identified> objects = linkInformation.getAll(Identified.class);
@@ -99,7 +99,7 @@ public class SanitizedGameObject extends SanitizedIdentified
 		}
 		for(StaticAbility a: go.getStaticAbilities())
 		{
-			Set linkInformation = a.getLinkManager().getLinkInformation(a.state);
+			MagicSet linkInformation = a.getLinkManager().getLinkInformation(a.state);
 			if(linkInformation != null)
 			{
 				java.util.Set<Identified> objects = linkInformation.getAll(Identified.class);

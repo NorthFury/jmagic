@@ -78,7 +78,7 @@ public final class Entwine extends Keyword
 			this.costCollection = costs;
 			this.costName = costName;
 
-			Set newCosts = new Set(costs.manaCost);
+			MagicSet newCosts = new MagicSet(costs.manaCost);
 			newCosts.addAll(costs.events);
 
 			ContinuousEffect.Part part = new ContinuousEffect.Part(ContinuousEffectType.COST_ADDITION);

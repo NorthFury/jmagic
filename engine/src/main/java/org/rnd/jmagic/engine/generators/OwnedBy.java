@@ -20,9 +20,9 @@ public class OwnedBy extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		Set ret = new Set();
+		MagicSet ret = new MagicSet();
 		java.util.Set<Integer> owners = new java.util.HashSet<Integer>();
 		for(Player player: this.owner.evaluate(state, thisObject).getAll(Player.class))
 			owners.add(player.ID);

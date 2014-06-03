@@ -23,7 +23,7 @@ public class WasEvoked extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
 		for(GameObject object: this.what.evaluate(state, thisObject).getAll(GameObject.class))
 		{

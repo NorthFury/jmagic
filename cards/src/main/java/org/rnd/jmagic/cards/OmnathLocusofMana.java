@@ -38,11 +38,11 @@ public final class OmnathLocusofMana extends Card
 		}
 
 		@Override
-		public Set evaluate(GameState state, Identified thisObject)
+		public MagicSet evaluate(GameState state, Identified thisObject)
 		{
 			Player you = ((GameObject)thisObject).getController(state);
 			Color green = _green.evaluate(state, thisObject).getOne(Color.class);
-			Set ret = new Set();
+			MagicSet ret = new MagicSet();
 			for(ManaSymbol m: you.pool)
 				if(m.colors.contains(green))
 					ret.add(m);

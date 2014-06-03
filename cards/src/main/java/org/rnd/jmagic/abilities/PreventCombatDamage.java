@@ -24,7 +24,7 @@ public class PreventCombatDamage extends DamageReplacementEffect
 	public DamageAssignment.Batch match(Event context, DamageAssignment.Batch damageAssignments)
 	{
 		DamageAssignment.Batch ret = new DamageAssignment.Batch();
-		Set fromWho = null;
+		MagicSet fromWho = null;
 		if(this.fromWho != null)
 			fromWho = this.fromWho.evaluate(context.state, this.getSourceObject(context.state));
 		for(DamageAssignment assignment: damageAssignments)

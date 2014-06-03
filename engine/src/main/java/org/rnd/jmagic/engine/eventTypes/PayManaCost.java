@@ -18,7 +18,7 @@ public final class PayManaCost extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		GameObject object = parameters.get(Parameter.OBJECT).getOne(GameObject.class);
 		if(object == null || object.getManaCost() != null)
@@ -34,7 +34,7 @@ public final class PayManaCost extends EventType
 	}
 
 	@Override
-	public void makeChoices(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public void makeChoices(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		GameObject o = parameters.get(Parameter.OBJECT).getOne(GameObject.class);
 		if(o == null)
@@ -54,7 +54,7 @@ public final class PayManaCost extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		event.setResult(Empty.set);
 
@@ -69,11 +69,11 @@ public final class PayManaCost extends EventType
 				return false;
 		if(!cost.manaCost.isEmpty())
 		{
-			java.util.Map<Parameter, Set> manaParameters = new java.util.HashMap<Parameter, Set>();
-			manaParameters.put(Parameter.CAUSE, new Set(o));
-			manaParameters.put(Parameter.OBJECT, new Set(o));
-			manaParameters.put(Parameter.PLAYER, new Set(p));
-			manaParameters.put(Parameter.COST, new Set(cost.manaCost));
+			java.util.Map<Parameter, MagicSet> manaParameters = new java.util.HashMap<Parameter, MagicSet>();
+			manaParameters.put(Parameter.CAUSE, new MagicSet(o));
+			manaParameters.put(Parameter.OBJECT, new MagicSet(o));
+			manaParameters.put(Parameter.PLAYER, new MagicSet(p));
+			manaParameters.put(Parameter.COST, new MagicSet(cost.manaCost));
 			Event payMana = createEvent(game, p + " pays " + cost.manaCost, EventType.PAY_MANA, manaParameters);
 			if(!payMana.perform(event, true))
 				return false;

@@ -18,7 +18,7 @@ public final class CreateEmblem extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		// 113.2. An effect that creates an emblem is written
 		// "[Player] gets an emblem with [ability]." This means that
@@ -32,7 +32,7 @@ public final class CreateEmblem extends EventType
 
 		if(parameters.containsKey(Parameter.ABILITY))
 		{
-			Set abilities = parameters.get(Parameter.ABILITY);
+			MagicSet abilities = parameters.get(Parameter.ABILITY);
 			keywords = abilities.getAllClasses(Keyword.class);
 			nonStaticAbilities = abilities.getAllClasses(NonStaticAbility.class);
 			staticAbilities = abilities.getAllClasses(StaticAbility.class);

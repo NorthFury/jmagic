@@ -73,7 +73,7 @@ public class LoyaltyActivatedThisTurn extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
 		Counter counter = state.getTracker(Counter.class);
 		if(counter == null)

@@ -30,13 +30,13 @@ public final class Doomgape extends Card
 			}
 
 			@Override
-			public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+			public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 			{
 				event.setResult(Empty.set);
 
 				Player player = parameters.get(Parameter.PLAYER).getOne(Player.class);
 
-				java.util.Map<Parameter, Set> sacParameters = new java.util.HashMap<Parameter, Set>();
+				java.util.Map<Parameter, MagicSet> sacParameters = new java.util.HashMap<Parameter, MagicSet>();
 				sacParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 				sacParameters.put(Parameter.NUMBER, ONE);
 				sacParameters.put(Parameter.CHOICE, CreaturePermanents.instance().evaluate(game, null));
@@ -48,10 +48,10 @@ public final class Doomgape extends Card
 
 				if(sacced && null != sacrificedCreature)
 				{
-					java.util.Map<Parameter, Set> lifeParameters = new java.util.HashMap<Parameter, Set>();
+					java.util.Map<Parameter, MagicSet> lifeParameters = new java.util.HashMap<Parameter, MagicSet>();
 					lifeParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 					lifeParameters.put(Parameter.PLAYER, parameters.get(Parameter.PLAYER));
-					lifeParameters.put(Parameter.NUMBER, new Set(sacrificedCreature.getToughness()));
+					lifeParameters.put(Parameter.NUMBER, new MagicSet(sacrificedCreature.getToughness()));
 					Event lifeEvent = createEvent(game, player + " gains " + sacrificedCreature.getToughness() + " life.", EventType.GAIN_LIFE, lifeParameters);
 					lifeEvent.perform(event, true);
 				}

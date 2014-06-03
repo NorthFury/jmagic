@@ -164,7 +164,7 @@ public abstract class JUnitTest
 				return ret;
 			}
 
-			JUnitTest.this.choices = new Set(parameterObject.choices);
+			JUnitTest.this.choices = new MagicSet(parameterObject.choices);
 			JUnitTest.this.choiceType = parameterObject.type;
 			JUnitTest.this.choosingPlayerID = JUnitTest.this.playerIDs[this.playerNum];
 			Object response = JUnitTest.this.getResponse();
@@ -219,7 +219,7 @@ public abstract class JUnitTest
 				return;
 			}
 
-			JUnitTest.this.choices = new Set(targets);
+			JUnitTest.this.choices = new MagicSet(targets);
 			JUnitTest.this.choosingPlayerID = JUnitTest.this.playerIDs[this.playerNum];
 			JUnitTest.this.<Object>getResponse();
 			JUnitTest.this.choices = null;
@@ -247,7 +247,7 @@ public abstract class JUnitTest
 	@Rule
 	public JMagicTestWatcher testWatcher;
 
-	protected volatile Set choices;
+	protected volatile MagicSet choices;
 
 	private volatile boolean choicesReady;
 

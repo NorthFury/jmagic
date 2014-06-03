@@ -22,7 +22,7 @@ public abstract class AsThisEntersTheBattlefieldChooseAColor extends StaticAbili
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			Player player = parameters.get(Parameter.PLAYER).getOne(Player.class);
 			Linkable link = parameters.get(Parameter.SOURCE).getOne(Linkable.class).getPhysical();

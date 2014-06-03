@@ -18,7 +18,7 @@ public final class DiscardRandom extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		int numDiscard = Sum.get(parameters.get(Parameter.NUMBER));
 
@@ -41,15 +41,15 @@ public final class DiscardRandom extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		// get the number of cards out of the parameter
 		int numberOfCards = Sum.get(parameters.get(Parameter.NUMBER));
 
-		Set cause = parameters.get(Parameter.CAUSE);
+		MagicSet cause = parameters.get(Parameter.CAUSE);
 
 		boolean allDiscarded = true;
-		Set result = new Set();
+		MagicSet result = new MagicSet();
 
 		java.util.List<GameObject> cardsInHand = null;
 		if(parameters.containsKey(Parameter.CARD))
@@ -74,14 +74,14 @@ public final class DiscardRandom extends EventType
 
 			// choose n cards randomly
 			java.util.Collections.shuffle(cardsInHand);
-			Set discardThese = new Set();
+			MagicSet discardThese = new MagicSet();
 			while(discardThese.size() < numberOfCards && 0 < cardsInHand.size())
 				discardThese.add(cardsInHand.remove(0));
 			if(discardThese.size() < numberOfCards)
 				allDiscarded = false;
 
 			// perform the discard event
-			java.util.Map<Parameter, Set> discardParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> discardParameters = new java.util.HashMap<Parameter, MagicSet>();
 			discardParameters.put(Parameter.CAUSE, cause);
 			discardParameters.put(Parameter.CARD, discardThese);
 			Event discard = createEvent(game, player + " discards " + discardThese + ".", DISCARD_CARDS, discardParameters);

@@ -24,9 +24,9 @@ public final class DoubleMana extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
-		Set result = new Set();
+		MagicSet result = new MagicSet();
 		boolean success = true;
 
 		for(Player player: parameters.get(Parameter.PLAYER).getAll(Player.class))
@@ -53,10 +53,10 @@ public final class DoubleMana extends EventType
 				}
 			}
 
-			java.util.Map<Parameter, Set> manaParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> manaParameters = new java.util.HashMap<Parameter, MagicSet>();
 			manaParameters.put(Parameter.SOURCE, parameters.get(Parameter.SOURCE));
-			manaParameters.put(Parameter.MANA, new Set(newMana));
-			manaParameters.put(Parameter.PLAYER, new Set(player));
+			manaParameters.put(Parameter.MANA, new MagicSet(newMana));
+			manaParameters.put(Parameter.PLAYER, new MagicSet(player));
 			Event manaEvent = createEvent(game, "Add " + newMana + " to " + player.getName() + "'s mana pool.", EventType.ADD_MANA, manaParameters);
 			success = (manaEvent.perform(event, false) && success);
 			result.addAll(manaEvent.getResult());

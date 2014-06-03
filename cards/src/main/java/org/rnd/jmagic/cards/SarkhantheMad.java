@@ -83,15 +83,15 @@ public final class SarkhantheMad extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
-			Set taker = parameters.get(Parameter.TAKER);
+			MagicSet taker = parameters.get(Parameter.TAKER);
 			for(GameObject dragon: parameters.get(Parameter.SOURCE).getAll(GameObject.class))
 			{
-				java.util.Map<Parameter, Set> oneDragonDamageParameters = new java.util.HashMap<Parameter, Set>();
-				oneDragonDamageParameters.put(Parameter.SOURCE, new Set(dragon));
+				java.util.Map<Parameter, MagicSet> oneDragonDamageParameters = new java.util.HashMap<Parameter, MagicSet>();
+				oneDragonDamageParameters.put(Parameter.SOURCE, new MagicSet(dragon));
 				oneDragonDamageParameters.put(Parameter.TAKER, taker);
-				oneDragonDamageParameters.put(Parameter.NUMBER, new Set(dragon.getPower()));
+				oneDragonDamageParameters.put(Parameter.NUMBER, new MagicSet(dragon.getPower()));
 				createEvent(game, dragon + " deals " + dragon.getPower() + " damage to " + taker + ".", DEAL_DAMAGE_EVENLY, oneDragonDamageParameters).perform(event, false);
 			}
 			event.setResult(Empty.set);

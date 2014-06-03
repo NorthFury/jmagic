@@ -18,7 +18,7 @@ public final class PutIntoHandChoice extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		org.rnd.util.NumberRange requiredRange = getRange(parameters.get(Parameter.NUMBER));
 		int required = requiredRange.getLower();
@@ -27,22 +27,22 @@ public final class PutIntoHandChoice extends EventType
 			return true;
 
 		int successes = required;
-		Set cause = parameters.get(Parameter.CAUSE);
-		Set cards = parameters.get(Parameter.CHOICE);
+		MagicSet cause = parameters.get(Parameter.CAUSE);
+		MagicSet cards = parameters.get(Parameter.CHOICE);
 
 		for(Player player: parameters.get(Parameter.PLAYER).getAll(Player.class))
 		{
 			// reset this players successes to zero
 			successes = 0;
-			Set failedCards = new Set();
+			MagicSet failedCards = new MagicSet();
 
 			while(!cards.isEmpty())
 			{
 				GameObject thisCard = cards.getOne(GameObject.class);
 				cards.remove(thisCard);
-				java.util.Map<Parameter, Set> newParameters = new java.util.HashMap<Parameter, Set>();
+				java.util.Map<Parameter, MagicSet> newParameters = new java.util.HashMap<Parameter, MagicSet>();
 				parameters.put(Parameter.CAUSE, cause);
-				parameters.put(Parameter.CARD, new Set(thisCard));
+				parameters.put(Parameter.CARD, new MagicSet(thisCard));
 
 				// if the player can bounce the card, increment successes.
 				// otherwise, give other players the chance to bounce the
@@ -71,7 +71,7 @@ public final class PutIntoHandChoice extends EventType
 	}
 
 	@Override
-	public void makeChoices(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public void makeChoices(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		org.rnd.util.NumberRange number = getRange(parameters.get(Parameter.NUMBER));
 		java.util.Set<GameObject> choiceParameter = parameters.get(Parameter.CHOICE).getAll(GameObject.class);
@@ -88,19 +88,19 @@ public final class PutIntoHandChoice extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		boolean allBounced = event.allChoicesMade;
-		Set cause = parameters.get(Parameter.CAUSE);
-		Set result = new Set();
+		MagicSet cause = parameters.get(Parameter.CAUSE);
+		MagicSet result = new MagicSet();
 
 		// get the player out of the parameter
 		for(Player player: parameters.get(Parameter.PLAYER).getAll(Player.class))
 		{
-			Set bounceThese = event.getChoices(player);
+			MagicSet bounceThese = event.getChoices(player);
 
 			// perform the bounce event
-			java.util.Map<Parameter, Set> bounceParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> bounceParameters = new java.util.HashMap<Parameter, MagicSet>();
 			bounceParameters.put(Parameter.CAUSE, cause);
 			bounceParameters.put(Parameter.PERMANENT, bounceThese);
 			Event bounceEvent = createEvent(game, player + " returns " + bounceThese + " to owners hand.", PUT_INTO_HAND, bounceParameters);

@@ -17,9 +17,9 @@ public class Tokens extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		Set ret = new Set();
+		MagicSet ret = new MagicSet();
 
 		for(GameObject o: state.getAll(Token.class))
 			if(!o.isGhost())

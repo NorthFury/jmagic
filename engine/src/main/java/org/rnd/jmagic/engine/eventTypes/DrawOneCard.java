@@ -18,7 +18,7 @@ public final class DrawOneCard extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		Player player = parameters.get(Parameter.PLAYER).getOne(Player.class);
 		Zone library = player.getLibrary(game.actualState);
@@ -31,10 +31,10 @@ public final class DrawOneCard extends EventType
 		}
 
 		Zone hand = player.getHand(game.actualState);
-		java.util.Map<Parameter, Set> moveParameters = new java.util.HashMap<Parameter, Set>();
+		java.util.Map<Parameter, MagicSet> moveParameters = new java.util.HashMap<Parameter, MagicSet>();
 		moveParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
-		moveParameters.put(Parameter.TO, new Set(hand));
-		moveParameters.put(Parameter.OBJECT, new Set(library.objects.get(0)));
+		moveParameters.put(Parameter.TO, new MagicSet(hand));
+		moveParameters.put(Parameter.OBJECT, new MagicSet(library.objects.get(0)));
 		Event move = createEvent(game, "Put " + library.objects.get(0) + " into " + hand + ".", MOVE_OBJECTS, moveParameters);
 		move.perform(event, false);
 

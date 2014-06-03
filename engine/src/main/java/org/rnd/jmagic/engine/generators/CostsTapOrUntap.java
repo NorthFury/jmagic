@@ -21,9 +21,9 @@ public class CostsTapOrUntap extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		Set ret = new Set();
+		MagicSet ret = new MagicSet();
 		for(ActivatedAbility ability: this.what.evaluate(state, thisObject).getAll(ActivatedAbility.class))
 			if(ability.costsTap || ability.costsUntap)
 				ret.add(ability);

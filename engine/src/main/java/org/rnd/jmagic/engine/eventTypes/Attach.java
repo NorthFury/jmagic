@@ -18,7 +18,7 @@ public final class Attach extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		AttachableTo targetObject = parameters.get(Parameter.TARGET).getOne(AttachableTo.class);
 
@@ -33,7 +33,7 @@ public final class Attach extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		boolean attachedAll = true;
 		java.util.Set<GameObject> attachments = parameters.get(Parameter.OBJECT).getAll(GameObject.class);
@@ -48,7 +48,7 @@ public final class Attach extends EventType
 		// a collection of things that are already attached to the specified
 		// object or player
 		java.util.Collection<Integer> reAttachments = new java.util.LinkedList<Integer>();
-		Set detachables = new Set();
+		MagicSet detachables = new MagicSet();
 		for(GameObject o: attachments)
 			if(o.getAttachedTo() != -1)
 			{
@@ -72,7 +72,7 @@ public final class Attach extends EventType
 
 		if(!detachables.isEmpty())
 		{
-			java.util.Map<Parameter, Set> detachParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> detachParameters = new java.util.HashMap<Parameter, MagicSet>();
 			detachParameters.put(Parameter.OBJECT, detachables);
 			createEvent(game, "Unattach before attaching", EventType.UNATTACH, detachParameters).perform(event, false);
 		}

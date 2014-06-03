@@ -31,9 +31,9 @@ public class PlayerByID extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		Set ret = new Set();
+		MagicSet ret = new MagicSet();
 		for(Integer n: this.IDs)
 			ret.add(state.get(n));
 		return ret;

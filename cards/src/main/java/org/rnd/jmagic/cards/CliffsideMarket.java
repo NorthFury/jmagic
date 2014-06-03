@@ -29,9 +29,9 @@ public final class CliffsideMarket extends Card
 		}
 
 		@Override
-		public Set evaluate(GameState state, Identified thisObject)
+		public MagicSet evaluate(GameState state, Identified thisObject)
 		{
-			Set ret = new Set();
+			MagicSet ret = new MagicSet();
 
 			java.util.List<GameObject> targets = new java.util.LinkedList<GameObject>(Permanents.instance().evaluate(state, thisObject).getAll(GameObject.class));
 

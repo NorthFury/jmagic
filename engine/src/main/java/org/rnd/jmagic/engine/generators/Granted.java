@@ -21,9 +21,9 @@ public class Granted extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		Set ret = new Set();
+		MagicSet ret = new MagicSet();
 
 		for(NonStaticAbility a: this.what.evaluate(state, thisObject).getAll(NonStaticAbility.class))
 			if(a.grantedByID != -1)

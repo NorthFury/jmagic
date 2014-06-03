@@ -18,7 +18,7 @@ public final class TransformOnePermanent extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		GameObject object = parameters.get(Parameter.OBJECT).getOne(GameObject.class);
 		GameObject physical = object.getPhysical();

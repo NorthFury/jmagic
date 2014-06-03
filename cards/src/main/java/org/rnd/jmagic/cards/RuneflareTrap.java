@@ -23,7 +23,7 @@ public final class RuneflareTrap extends Card
 		@Override
 		protected void update(GameState state, Event event)
 		{
-			Set movements = event.getResult(state);
+			MagicSet movements = event.getResult(state);
 			for(ZoneChange zc: movements.getAll(ZoneChange.class))
 			{
 

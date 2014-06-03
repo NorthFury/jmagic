@@ -18,7 +18,7 @@ public final class PlayerMayCast extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		GameObject spell = parameters.get(Parameter.OBJECT).getOne(GameObject.class);
 		Player player = parameters.get(Parameter.PLAYER).getOne(Player.class);
@@ -35,7 +35,7 @@ public final class PlayerMayCast extends EventType
 		if(answer == Answer.YES)
 			if(action.saveStateAndPerform())
 			{
-				event.setResult(new Set(game.actualState.get(spell.getActual().futureSelf)));
+				event.setResult(new MagicSet(game.actualState.get(spell.getActual().futureSelf)));
 				return true;
 			}
 

@@ -19,9 +19,9 @@ public final class Scrambleverse extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
-			Set cause = new Set(event.getSource());
+			MagicSet cause = new MagicSet(event.getSource());
 
 			java.util.Random rnd = new java.util.Random();
 			java.util.List<Player> players = new java.util.ArrayList<Player>(game.actualState.players);
@@ -30,7 +30,7 @@ public final class Scrambleverse extends Card
 				if(i.next().outOfGame)
 					i.remove();
 
-			Set nonlandPermanents = parameters.get(Parameter.OBJECT);
+			MagicSet nonlandPermanents = parameters.get(Parameter.OBJECT);
 			for(GameObject o: nonlandPermanents.getAll(GameObject.class))
 			{
 				Player p = players.get(rnd.nextInt(players.size()));
@@ -39,10 +39,10 @@ public final class Scrambleverse extends Card
 				part.parameters.put(ContinuousEffectType.Parameter.OBJECT, Identity.instance(o));
 				part.parameters.put(ContinuousEffectType.Parameter.PLAYER, Identity.instance(p));
 
-				java.util.Map<Parameter, Set> effectParameters = new java.util.HashMap<Parameter, Set>();
+				java.util.Map<Parameter, MagicSet> effectParameters = new java.util.HashMap<Parameter, MagicSet>();
 				effectParameters.put(Parameter.CAUSE, cause);
-				effectParameters.put(Parameter.EFFECT, new Set(part));
-				effectParameters.put(Parameter.EXPIRES, new Set(Empty.instance()));
+				effectParameters.put(Parameter.EFFECT, new MagicSet(part));
+				effectParameters.put(Parameter.EXPIRES, new MagicSet(Empty.instance()));
 				Event effect = createEvent(game, p + " gains control of " + o, EventType.CREATE_FLOATING_CONTINUOUS_EFFECT, effectParameters);
 				effect.perform(event, false);
 			}

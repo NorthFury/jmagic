@@ -20,8 +20,8 @@ public class Battlefield extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		return new Set(state.battlefield());
+		return new MagicSet(state.battlefield());
 	}
 }

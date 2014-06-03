@@ -77,7 +77,7 @@ public final class BludgeonBrawl extends Card
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			java.util.Set<GameObject> objects = parameters.get(Parameter.OBJECT).getAll(GameObject.class);
 

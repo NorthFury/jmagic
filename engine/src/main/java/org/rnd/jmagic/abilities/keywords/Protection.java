@@ -97,9 +97,9 @@ public abstract class Protection extends Keyword
 		}
 
 		@Override
-		public Set evaluate(GameState state, Identified thisObject)
+		public MagicSet evaluate(GameState state, Identified thisObject)
 		{
-			Set ret = new Set();
+			MagicSet ret = new MagicSet();
 			for(Color c: this.colors.evaluate(state, thisObject).getAll(Color.class))
 				ret.add(new Protection.AbilityFactory(c));
 			return ret;
@@ -218,7 +218,7 @@ public abstract class Protection extends Keyword
 				DamageAssignment.Batch ret = new DamageAssignment.Batch();
 				Identified thisObject = context.game.actualState.get(ProtectionStatic.this.sourceID);
 				for(DamageAssignment damage: damageAssignments)
-					if(damage.takerID == thisObject.ID && ProtectionStatic.this.getQuality().match(context.game.actualState, thisObject, new Set(context.state.get(damage.sourceID))))
+					if(damage.takerID == thisObject.ID && ProtectionStatic.this.getQuality().match(context.game.actualState, thisObject, new MagicSet(context.state.get(damage.sourceID))))
 						ret.add(damage);
 				return ret;
 			}
@@ -246,7 +246,7 @@ public abstract class Protection extends Keyword
 			}
 
 			@Override
-			public boolean match(GameState state, Identified thisObject, Set set)
+			public boolean match(GameState state, Identified thisObject, MagicSet set)
 			{
 				for(NonStaticAbility a: set.getAll(NonStaticAbility.class))
 					set.add(a.getSource(state));

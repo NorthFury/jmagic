@@ -18,7 +18,7 @@ public final class PutOntoBattlefieldAttachedTo extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		GameObject target = parameters.get(Parameter.TARGET).getOne(GameObject.class);
 
@@ -37,7 +37,7 @@ public final class PutOntoBattlefieldAttachedTo extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		for(GameObject attachment: parameters.get(Parameter.OBJECT).getAll(GameObject.class))
 		{

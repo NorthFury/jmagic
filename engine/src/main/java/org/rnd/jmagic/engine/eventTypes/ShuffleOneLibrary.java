@@ -18,9 +18,9 @@ public final class ShuffleOneLibrary extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
-		Set result = new Set();
+		MagicSet result = new MagicSet();
 
 		Player player = parameters.get(Parameter.PLAYER).getOne(Player.class);
 		Zone actualLibrary = player.getLibrary(game.actualState);

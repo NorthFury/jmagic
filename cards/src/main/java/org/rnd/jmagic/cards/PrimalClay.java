@@ -47,7 +47,7 @@ public final class PrimalClay extends Card
 
 			SetGenerator chosen = EffectResult.instance(choice);
 			java.util.Collection<?> artifactCreature = java.util.EnumSet.of(Type.ARTIFACT, Type.CREATURE);
-			Set wall = new Set();
+			MagicSet wall = new MagicSet();
 			wall.addAll(artifactCreature);
 			wall.add(SubType.WALL);
 

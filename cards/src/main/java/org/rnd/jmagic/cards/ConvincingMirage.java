@@ -32,7 +32,7 @@ public final class ConvincingMirage extends Card
 			}
 
 			@Override
-			public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+			public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 			{
 				Player player = parameters.get(Parameter.PLAYER).getOne(Player.class);
 				java.util.List<SubType> chosen = player.choose(1, SubType.getBasicLandTypes(), PlayerInterface.ChoiceType.ENUM, PlayerInterface.ChooseReason.CHOOSE_BASIC_LAND_TYPE);

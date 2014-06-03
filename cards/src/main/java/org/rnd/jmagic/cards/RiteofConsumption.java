@@ -25,11 +25,11 @@ public final class RiteofConsumption extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			event.setResult(Empty.set);
 
-			Set target = parameters.get(Parameter.TARGET);
+			MagicSet target = parameters.get(Parameter.TARGET);
 			int amount = parameters.get(Parameter.NUMBER).getOne(Integer.class);
 			Event damage = spellDealDamage(amount, Identity.instance(target), "Rite of Consumption deals damage equal to the sacrificed creature's power to target player.").createEvent(game, event.getSource());
 			damage.perform(event, true);

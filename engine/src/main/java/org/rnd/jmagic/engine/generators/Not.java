@@ -21,7 +21,7 @@ public class Not extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
 		if(this.what.evaluate(state, thisObject).isEmpty())
 			return NonEmpty.set;

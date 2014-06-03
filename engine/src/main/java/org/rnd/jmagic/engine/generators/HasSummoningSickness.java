@@ -21,13 +21,13 @@ public class HasSummoningSickness extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
 		java.util.Set<Integer> summoningSickIDs = new java.util.HashSet<Integer>();
 		for(java.util.Collection<Integer> objectIDs: state.summoningSick.values())
 			summoningSickIDs.addAll(objectIDs);
 
-		Set ret = new Set();
+		MagicSet ret = new MagicSet();
 		objects: for(Integer objectID: summoningSickIDs)
 			if(state.containsIdentified(objectID))
 			{

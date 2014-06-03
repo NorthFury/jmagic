@@ -22,7 +22,7 @@ public abstract class SetGenerator
 	 * a resolving spell or ability, or a player with shroud)
 	 * @return The generated Set
 	 */
-	public final Set evaluate(Game game, Identified thisObject)
+	public final MagicSet evaluate(Game game, Identified thisObject)
 	{
 		return this.evaluate(game.actualState, thisObject);
 	}
@@ -43,7 +43,7 @@ public abstract class SetGenerator
 	 * a resolving spell or ability, or a player with shroud)
 	 * @return The generated Set
 	 */
-	public abstract Set evaluate(GameState state, Identified thisObject);
+	public abstract MagicSet evaluate(GameState state, Identified thisObject);
 
 	/**
 	 * Determines what color objects (or colors of mana objects) this set

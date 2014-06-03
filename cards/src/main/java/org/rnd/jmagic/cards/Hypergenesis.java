@@ -22,9 +22,9 @@ public final class Hypergenesis extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
-			Set hypergenesis = parameters.get(Parameter.CAUSE);
+			MagicSet hypergenesis = parameters.get(Parameter.CAUSE);
 
 			Player you = parameters.get(Parameter.PLAYER).getOne(Player.class);
 			java.util.List<Player> players = game.actualState.getPlayerCycle(you);
@@ -33,7 +33,7 @@ public final class Hypergenesis extends Card
 				boolean noOnePutACardOntoTheBattlefield = true;
 				for(Player player: players)
 				{
-					Set available = new Set();
+					MagicSet available = new MagicSet();
 					for(GameObject card: player.getHand(game.actualState).objects)
 						if(card.getTypes().contains(Type.ARTIFACT) || card.getTypes().contains(Type.CREATURE) || card.getTypes().contains(Type.ENCHANTMENT) || card.getTypes().contains(Type.LAND))
 							available.add(card);
@@ -43,9 +43,9 @@ public final class Hypergenesis extends Card
 					putOntoBattlefield.parameters.put(Parameter.CONTROLLER, Identity.instance(player));
 					putOntoBattlefield.parameters.put(Parameter.OBJECT, Identity.instance(available));
 
-					java.util.Map<Parameter, Set> mayParameters = new java.util.HashMap<Parameter, Set>();
-					mayParameters.put(Parameter.PLAYER, new Set(player));
-					mayParameters.put(Parameter.EVENT, new Set(putOntoBattlefield));
+					java.util.Map<Parameter, MagicSet> mayParameters = new java.util.HashMap<Parameter, MagicSet>();
+					mayParameters.put(Parameter.PLAYER, new MagicSet(player));
+					mayParameters.put(Parameter.EVENT, new MagicSet(putOntoBattlefield));
 					Event mayPut = createEvent(game, player + " may put an artifact, creature, enchantment, or land card from his or her hand onto the battlefield.", PLAYER_MAY, mayParameters);
 					mayPut.perform(event, true);
 

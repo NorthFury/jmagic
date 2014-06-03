@@ -72,9 +72,9 @@ public final class KiraGreatGlassSpinner extends Card
 		}
 
 		@Override
-		public org.rnd.jmagic.engine.Set evaluate(GameState state, Identified thisObject)
+		public org.rnd.jmagic.engine.MagicSet evaluate(GameState state, Identified thisObject)
 		{
-			Set ret = new Set();
+			MagicSet ret = new MagicSet();
 			for(int ID: state.getTracker(Tracker.class).getValue(state))
 				ret.add(state.get(ID));
 			return ret;

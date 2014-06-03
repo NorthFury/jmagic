@@ -28,7 +28,7 @@ public final class WildMongrel extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			event.setResult(Empty.set);
 
@@ -36,14 +36,14 @@ public final class WildMongrel extends Card
 			if(color == null)
 				return false;
 
-			Set object = parameters.get(Parameter.OBJECT);
+			MagicSet object = parameters.get(Parameter.OBJECT);
 
 			ContinuousEffect.Part colorPart = new ContinuousEffect.Part(ContinuousEffectType.SET_COLOR);
 			colorPart.parameters.put(ContinuousEffectType.Parameter.OBJECT, Identity.instance(object));
 			colorPart.parameters.put(ContinuousEffectType.Parameter.COLOR, Identity.instance(color));
-			Set effects = new Set(colorPart, modifyPowerAndToughness(Identity.instance(object), +1, +1));
+			MagicSet effects = new MagicSet(colorPart, modifyPowerAndToughness(Identity.instance(object), +1, +1));
 
-			java.util.Map<Parameter, Set> fceParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> fceParameters = new java.util.HashMap<Parameter, MagicSet>();
 			fceParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 			fceParameters.put(Parameter.EFFECT, effects);
 			Event fceEvent = createEvent(game, object + " gets +1/+1 and becomes " + color.toString() + " until end of turn.", EventType.CREATE_FLOATING_CONTINUOUS_EFFECT, fceParameters);

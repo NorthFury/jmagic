@@ -10,9 +10,9 @@ public class ZoneChangeContaining extends SimpleSetPattern
 	}
 
 	@Override
-	public boolean match(GameState state, Identified object, Set set)
+	public boolean match(GameState state, Identified object, MagicSet set)
 	{
-		Set newSet = new Set(set);
+		MagicSet newSet = new MagicSet(set);
 		for(ZoneChange change: set.getAll(ZoneChange.class))
 		{
 			newSet.add(state.get(change.oldObjectID));

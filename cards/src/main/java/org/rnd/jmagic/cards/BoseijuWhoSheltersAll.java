@@ -92,9 +92,9 @@ public final class BoseijuWhoSheltersAll extends Card
 		}
 
 		@Override
-		public Set evaluate(GameState state, Identified thisObject)
+		public MagicSet evaluate(GameState state, Identified thisObject)
 		{
-			Set ret = new Set();
+			MagicSet ret = new MagicSet();
 
 			java.util.Collection<Integer> trackerValue = state.getTracker(BoseijuTracker.class).getValue(state);
 			for(int id: trackerValue)

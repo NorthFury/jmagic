@@ -29,29 +29,29 @@ public final class WorldlyCounsel extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
-			Set thisCard = parameters.get(Parameter.CAUSE);
-			Set topX = parameters.get(Parameter.CARD);
-			Set you = parameters.get(Parameter.PLAYER);
+			MagicSet thisCard = parameters.get(Parameter.CAUSE);
+			MagicSet topX = parameters.get(Parameter.CARD);
+			MagicSet you = parameters.get(Parameter.PLAYER);
 
-			java.util.Map<Parameter, Set> lookParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> lookParameters = new java.util.HashMap<Parameter, MagicSet>();
 			lookParameters.put(Parameter.CAUSE, thisCard);
 			lookParameters.put(Parameter.OBJECT, topX);
 			lookParameters.put(Parameter.PLAYER, you);
 			createEvent(game, "Look at the top X cards of your library, where X is the number of basic land types among lands you control", LOOK, lookParameters).perform(event, true);
 
 			Player player = you.getOne(Player.class).getActual();
-			Set library = new Set(player.getLibrary(game.actualState));
+			MagicSet library = new MagicSet(player.getLibrary(game.actualState));
 
 			java.util.List<?> handChoice = player.sanitizeAndChoose(game.actualState, 1, topX, PlayerInterface.ChoiceType.OBJECTS, REASON);
-			java.util.Map<Parameter, Set> handParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> handParameters = new java.util.HashMap<Parameter, MagicSet>();
 			handParameters.put(Parameter.CAUSE, thisCard);
-			handParameters.put(Parameter.OBJECT, new Set(handChoice.get(0)));
-			handParameters.put(Parameter.TO, new Set(player.getHand(game.actualState)));
+			handParameters.put(Parameter.OBJECT, new MagicSet(handChoice.get(0)));
+			handParameters.put(Parameter.TO, new MagicSet(player.getHand(game.actualState)));
 			Event putIntoHand = createEvent(game, "Put one of those cards into your hand", MOVE_OBJECTS, handParameters);
 
-			Set others = new Set();
+			MagicSet others = new MagicSet();
 			for(GameObject object: topX.getAll(GameObject.class))
 				if(!handChoice.contains(object))
 					others.add(object);
@@ -59,7 +59,7 @@ public final class WorldlyCounsel extends Card
 			Event putOnBottom = null;
 			if(!others.isEmpty())
 			{
-				java.util.Map<Parameter, Set> bottomParameters = new java.util.HashMap<Parameter, Set>();
+				java.util.Map<Parameter, MagicSet> bottomParameters = new java.util.HashMap<Parameter, MagicSet>();
 				bottomParameters.put(Parameter.CAUSE, thisCard);
 				bottomParameters.put(Parameter.OBJECT, others);
 				bottomParameters.put(Parameter.TO, library);

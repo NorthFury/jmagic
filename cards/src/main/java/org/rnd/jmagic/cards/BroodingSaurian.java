@@ -5,7 +5,7 @@ import static org.rnd.jmagic.Convenience.*;
 import java.util.*;
 
 import org.rnd.jmagic.engine.*;
-import org.rnd.jmagic.engine.Set;
+import org.rnd.jmagic.engine.MagicSet;
 import org.rnd.jmagic.engine.generators.*;
 
 @Name("Brooding Saurian")
@@ -28,7 +28,7 @@ public final class BroodingSaurian extends Card
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, Map<Parameter, MagicSet> parameters)
 		{
 			for(GameObject o: parameters.get(Parameter.OBJECT).getAll(GameObject.class))
 				o.setController(o.getOwner(state));

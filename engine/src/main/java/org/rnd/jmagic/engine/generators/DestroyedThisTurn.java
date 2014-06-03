@@ -40,7 +40,7 @@ public class DestroyedThisTurn extends SetGenerator
 		@Override
 		protected void update(GameState state, Event event)
 		{
-			Set object = OldObjectOf.instance(event.getResultGenerator()).evaluate(state, null);
+			MagicSet object = OldObjectOf.instance(event.getResultGenerator()).evaluate(state, null);
 			Identified cause = event.parameters.get(EventType.Parameter.CAUSE).evaluate(state, event.getSource()).getOne(Identified.class);
 
 			// If the cause is the game, use 0.
@@ -64,10 +64,10 @@ public class DestroyedThisTurn extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
 		java.util.Set<Integer> ids = state.getTracker(DestroyedTracker.class).getValue(state).keySet();
-		Set ret = new Set();
+		MagicSet ret = new MagicSet();
 
 		for(Integer id: ids)
 			ret.add(state.get(id));

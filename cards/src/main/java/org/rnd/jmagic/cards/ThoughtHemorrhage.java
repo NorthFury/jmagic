@@ -25,17 +25,17 @@ public final class ThoughtHemorrhage extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			Player you = parameters.get(Parameter.PLAYER).getOne(Player.class);
 			String chosenName = you.choose(1, NonLandCardNames.get().getAll(String.class), PlayerInterface.ChoiceType.STRING, PlayerInterface.ChooseReason.NAME_A_NONLAND_CARD).get(0);
 
-			Set cause = parameters.get(Parameter.CAUSE);
+			MagicSet cause = parameters.get(Parameter.CAUSE);
 
 			Player target = parameters.get(Parameter.TARGET).getOne(Player.class).getActual();
-			Set cardsInTargetsHand = new Set(target.getHand(game.actualState).objects);
+			MagicSet cardsInTargetsHand = new MagicSet(target.getHand(game.actualState).objects);
 
-			java.util.Map<Parameter, Set> revealParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> revealParameters = new java.util.HashMap<Parameter, MagicSet>();
 			revealParameters.put(Parameter.CAUSE, cause);
 			revealParameters.put(Parameter.OBJECT, cardsInTargetsHand);
 			Event reveal = createEvent(game, "Target player reveals his or her hand", REVEAL, revealParameters);
@@ -47,33 +47,33 @@ public final class ThoughtHemorrhage extends Card
 				if(object.getName().equals(chosenName))
 					amount += 3;
 
-			java.util.Map<Parameter, Set> damageParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> damageParameters = new java.util.HashMap<Parameter, MagicSet>();
 			damageParameters.put(Parameter.SOURCE, cause);
-			damageParameters.put(Parameter.NUMBER, new Set(amount));
-			damageParameters.put(Parameter.TAKER, new Set(target));
+			damageParameters.put(Parameter.NUMBER, new MagicSet(amount));
+			damageParameters.put(Parameter.TAKER, new MagicSet(target));
 			Event damage = createEvent(game, "Thought Hemorrhage deals 3 damage to that player for each card with that name revealed this way", DEAL_DAMAGE_EVENLY, damageParameters);
 			damage.perform(event, true);
 
 			target = target.getActual();
-			java.util.Map<Parameter, Set> searchParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> searchParameters = new java.util.HashMap<Parameter, MagicSet>();
 			searchParameters.put(Parameter.CAUSE, cause);
-			searchParameters.put(Parameter.PLAYER, new Set(you));
-			searchParameters.put(Parameter.NUMBER, new Set(new org.rnd.util.NumberRange(0, null)));
-			searchParameters.put(Parameter.CARD, new Set(target.getGraveyard(game.actualState), target.getHand(game.actualState), target.getLibrary(game.actualState)));
-			searchParameters.put(Parameter.TYPE, new Set(HasName.instance(chosenName)));
+			searchParameters.put(Parameter.PLAYER, new MagicSet(you));
+			searchParameters.put(Parameter.NUMBER, new MagicSet(new org.rnd.util.NumberRange(0, null)));
+			searchParameters.put(Parameter.CARD, new MagicSet(target.getGraveyard(game.actualState), target.getHand(game.actualState), target.getLibrary(game.actualState)));
+			searchParameters.put(Parameter.TYPE, new MagicSet(HasName.instance(chosenName)));
 			Event search = createEvent(game, "Search that player's graveyard, hand, and library for all cards with that name", SEARCH, searchParameters);
 			search.perform(event, true);
 
-			java.util.Map<Parameter, Set> exileParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> exileParameters = new java.util.HashMap<Parameter, MagicSet>();
 			exileParameters.put(Parameter.CAUSE, cause);
-			exileParameters.put(Parameter.TO, new Set(game.actualState.exileZone()));
+			exileParameters.put(Parameter.TO, new MagicSet(game.actualState.exileZone()));
 			exileParameters.put(Parameter.OBJECT, search.getResult());
 			Event exile = createEvent(game, "Exile those cards", MOVE_OBJECTS, exileParameters);
 			exile.perform(event, false);
 
-			java.util.Map<Parameter, Set> shuffleParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> shuffleParameters = new java.util.HashMap<Parameter, MagicSet>();
 			shuffleParameters.put(Parameter.CAUSE, cause);
-			shuffleParameters.put(Parameter.PLAYER, new Set(target));
+			shuffleParameters.put(Parameter.PLAYER, new MagicSet(target));
 			Event shuffle = createEvent(game, "That player shuffles his or her library", SHUFFLE_LIBRARY, shuffleParameters);
 			shuffle.perform(event, true);
 

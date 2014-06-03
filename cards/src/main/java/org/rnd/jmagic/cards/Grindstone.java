@@ -5,7 +5,7 @@ import static org.rnd.jmagic.Convenience.*;
 import java.util.*;
 
 import org.rnd.jmagic.engine.*;
-import org.rnd.jmagic.engine.Set;
+import org.rnd.jmagic.engine.MagicSet;
 import org.rnd.jmagic.engine.generators.*;
 
 @Name("Grindstone")
@@ -24,7 +24,7 @@ public final class Grindstone extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			GameObject ability = parameters.get(Parameter.CAUSE).getOne(GameObject.class);
 			Player target = parameters.get(Parameter.PLAYER).getOne(Player.class);
@@ -35,7 +35,7 @@ public final class Grindstone extends Card
 				Event mill = millCards(Identity.instance(target), 2, "Put the top two cards of target player's library into that player's graveyard.").createEvent(game, ability);
 				mill.perform(event, true);
 
-				Set result = mill.getResult();
+				MagicSet result = mill.getResult();
 				if(result.size() > 1)
 				{
 					java.util.Set<Color> colors = Color.allColors();

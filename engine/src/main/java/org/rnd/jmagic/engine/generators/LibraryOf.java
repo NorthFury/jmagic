@@ -20,9 +20,9 @@ public class LibraryOf extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		Set ret = new Set();
+		MagicSet ret = new MagicSet();
 		for(Player p: this.players.evaluate(state, thisObject).getAll(Player.class))
 			ret.add(p.getLibrary(state));
 		return ret;

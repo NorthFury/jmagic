@@ -39,16 +39,16 @@ public class HasColor extends SetGenerator
 
 	private HasColor(java.util.Collection<Color> color)
 	{
-		Set colors = new Set();
+		MagicSet colors = new MagicSet();
 		colors.addAll(color);
 		this.colorGenerator = Identity.instance(colors);
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
 		// TODO : change this to use state.getAllObjects() instead.
-		Set ret = new Set();
+		MagicSet ret = new MagicSet();
 		java.util.Collection<Color> colors = new java.util.LinkedList<Color>();
 		colors.addAll(this.colorGenerator.evaluate(state, thisObject).getAll(Color.class));
 		for(GameObject item: state.getAll(GameObject.class))

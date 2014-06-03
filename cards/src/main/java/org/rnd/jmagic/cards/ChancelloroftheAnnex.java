@@ -79,9 +79,9 @@ public final class ChancelloroftheAnnex extends Card
 			}
 
 			@Override
-			public Set evaluate(GameState state, Identified thisObject)
+			public MagicSet evaluate(GameState state, Identified thisObject)
 			{
-				Set ret = new Set();
+				MagicSet ret = new MagicSet();
 				java.util.Map<Integer, Integer> values = state.getTracker(CastTracker.class).getValue(state);
 				for(Player player: state.players)
 					if(values.containsKey(player.ID) && values.get(player.ID) == 1)

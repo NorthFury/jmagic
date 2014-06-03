@@ -28,16 +28,16 @@ public final class GlimmervoidBasin extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			GameObject creature = parameters.get(Parameter.OBJECT).getOne(GameObject.class);
 
 			for(Player player: game.actualState.apnapOrder(parameters.get(Parameter.PLAYER)))
 			{
-				java.util.Map<Parameter, Set> copyParameters = new java.util.HashMap<Parameter, Set>();
+				java.util.Map<Parameter, MagicSet> copyParameters = new java.util.HashMap<Parameter, MagicSet>();
 				copyParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
-				copyParameters.put(Parameter.CONTROLLER, new Set(player));
-				copyParameters.put(Parameter.OBJECT, new Set(creature));
+				copyParameters.put(Parameter.CONTROLLER, new MagicSet(player));
+				copyParameters.put(Parameter.OBJECT, new MagicSet(creature));
 				Event copyEvent = createEvent(game, player + " gets a copy of " + creature + ".", EventType.CREATE_TOKEN_COPY, copyParameters);
 				copyEvent.perform(event, false);
 			}

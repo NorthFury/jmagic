@@ -19,7 +19,7 @@ public final class SurrealMemoir extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			Player you = parameters.get(Parameter.PLAYER).getOne(Player.class);
 			Zone graveyard = you.getGraveyard(game.actualState);
@@ -32,10 +32,10 @@ public final class SurrealMemoir extends Card
 			{
 				java.util.Collections.shuffle(instants);
 
-				java.util.Map<Parameter, Set> moveParameters = new java.util.HashMap<Parameter, Set>();
-				moveParameters.put(Parameter.CAUSE, new Set(event.getSource()));
-				moveParameters.put(Parameter.TO, new Set(you.getHand(game.actualState)));
-				moveParameters.put(Parameter.OBJECT, new Set(instants.iterator().next()));
+				java.util.Map<Parameter, MagicSet> moveParameters = new java.util.HashMap<Parameter, MagicSet>();
+				moveParameters.put(Parameter.CAUSE, new MagicSet(event.getSource()));
+				moveParameters.put(Parameter.TO, new MagicSet(you.getHand(game.actualState)));
+				moveParameters.put(Parameter.OBJECT, new MagicSet(instants.iterator().next()));
 				createEvent(game, "Return an instant card at random from your graveyard to your hand.", EventType.MOVE_OBJECTS, moveParameters).perform(event, true);
 			}
 

@@ -18,9 +18,9 @@ public final class ChangeControl extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
-		java.util.Map<Parameter, Set> rfcParameters = new java.util.HashMap<Parameter, Set>();
+		java.util.Map<Parameter, MagicSet> rfcParameters = new java.util.HashMap<Parameter, MagicSet>();
 		rfcParameters.put(Parameter.OBJECT, parameters.get(Parameter.OBJECT));
 
 		java.util.Set<GameObject> objects = parameters.get(Parameter.OBJECT).getAll(GameObject.class);

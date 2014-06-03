@@ -21,10 +21,10 @@ public class TurnFloatingEffectWasCreated extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		Set ret = new Set();
-		Set effects = this.effects.evaluate(state, thisObject);
+		MagicSet ret = new MagicSet();
+		MagicSet effects = this.effects.evaluate(state, thisObject);
 		for(FloatingContinuousEffect effect: effects.getAll(FloatingContinuousEffect.class))
 			ret.add(effect.turnCreated);
 		return ret;

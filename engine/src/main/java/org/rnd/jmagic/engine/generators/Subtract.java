@@ -23,11 +23,11 @@ public class Subtract extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
 		java.util.Set<Integer> left = this.left.evaluate(state, thisObject).getAll(Integer.class);
 		java.util.Set<Integer> right = this.right.evaluate(state, thisObject).getAll(Integer.class);
-		Set ret = new Set();
+		MagicSet ret = new MagicSet();
 
 		// For each pair of numbers in left and right, add their difference
 		for(Integer l: left)

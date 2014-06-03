@@ -51,18 +51,18 @@ public final class MossbridgeTroll extends Card
 		}
 
 		@Override
-		public void makeChoices(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public void makeChoices(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
-			Set cause = parameters.get(Parameter.CAUSE);
-			Set creatures = parameters.get(Parameter.OBJECT);
-			Set cantBeTapped = new Set();
+			MagicSet cause = parameters.get(Parameter.CAUSE);
+			MagicSet creatures = parameters.get(Parameter.OBJECT);
+			MagicSet cantBeTapped = new MagicSet();
 
 			int totalPowerAvailable = 0;
 			for(GameObject creature: creatures.getAll(GameObject.class))
 			{
-				java.util.Map<Parameter, Set> tapParameters = new java.util.HashMap<Parameter, Set>();
+				java.util.Map<Parameter, MagicSet> tapParameters = new java.util.HashMap<Parameter, MagicSet>();
 				tapParameters.put(Parameter.CAUSE, cause);
-				tapParameters.put(Parameter.OBJECT, new Set(creature));
+				tapParameters.put(Parameter.OBJECT, new MagicSet(creature));
 				Event tap = createEvent(game, "Tap " + creature, TAP_PERMANENTS, tapParameters);
 				if(!tap.attempt(event))
 				{
@@ -101,13 +101,13 @@ public final class MossbridgeTroll extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			event.setResult(Empty.set);
 			if(!event.allChoicesMade)
 				return false;
 
-			java.util.Map<Parameter, Set> tapParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> tapParameters = new java.util.HashMap<Parameter, MagicSet>();
 			tapParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 			tapParameters.put(Parameter.OBJECT, event.getChoices(parameters.get(Parameter.PLAYER).getOne(Player.class)));
 			Event tap = createEvent(game, "Tap stuff", TAP_PERMANENTS, tapParameters);

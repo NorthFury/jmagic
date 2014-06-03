@@ -43,24 +43,24 @@ public final class MasteroftheWildHunt extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
-			Set cause = parameters.get(Parameter.CAUSE);
-			Set wolves = parameters.get(Parameter.OBJECT);
+			MagicSet cause = parameters.get(Parameter.CAUSE);
+			MagicSet wolves = parameters.get(Parameter.OBJECT);
 
-			java.util.Map<Parameter, Set> tapParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> tapParameters = new java.util.HashMap<Parameter, MagicSet>();
 			tapParameters.put(Parameter.CAUSE, cause);
 			tapParameters.put(Parameter.OBJECT, wolves);
 			createEvent(game, "Tap all untapped Wolf creatures you control.", TAP_PERMANENTS, tapParameters).perform(event, true);
 
-			Set target = parameters.get(Parameter.TARGET);
+			MagicSet target = parameters.get(Parameter.TARGET);
 
-			java.util.Map<Parameter, Set> biteParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> biteParameters = new java.util.HashMap<Parameter, MagicSet>();
 			biteParameters.put(Parameter.SOURCE, wolves);
 			biteParameters.put(Parameter.TAKER, target);
 			createEvent(game, "Each Wolf tapped this way deals damage equal to its power to target creature.", WOLVES_BITE, biteParameters).perform(event, true);
 
-			java.util.Map<Parameter, Set> bittenParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> bittenParameters = new java.util.HashMap<Parameter, MagicSet>();
 			bittenParameters.put(Parameter.SOURCE, target);
 			bittenParameters.put(Parameter.TAKER, wolves);
 			createEvent(game, "That creature deals damage equal to its power divided as its controller chooses among any number of those Wolves.", WOLVES_GET_BITTEN, bittenParameters).perform(event, true);
@@ -84,15 +84,15 @@ public final class MasteroftheWildHunt extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
-			Set taker = parameters.get(Parameter.TAKER);
+			MagicSet taker = parameters.get(Parameter.TAKER);
 			for(GameObject wolf: parameters.get(Parameter.SOURCE).getAll(GameObject.class))
 			{
-				java.util.Map<Parameter, Set> oneWolfDamageParameters = new java.util.HashMap<Parameter, Set>();
-				oneWolfDamageParameters.put(Parameter.SOURCE, new Set(wolf));
+				java.util.Map<Parameter, MagicSet> oneWolfDamageParameters = new java.util.HashMap<Parameter, MagicSet>();
+				oneWolfDamageParameters.put(Parameter.SOURCE, new MagicSet(wolf));
 				oneWolfDamageParameters.put(Parameter.TAKER, taker);
-				oneWolfDamageParameters.put(Parameter.NUMBER, new Set(wolf.getPower()));
+				oneWolfDamageParameters.put(Parameter.NUMBER, new MagicSet(wolf.getPower()));
 				createEvent(game, wolf + " deals " + wolf.getPower() + " damage to " + taker + ".", DEAL_DAMAGE_EVENLY, oneWolfDamageParameters).perform(event, false);
 			}
 			event.setResult(Empty.set);
@@ -116,7 +116,7 @@ public final class MasteroftheWildHunt extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			GameObject dealingBack = parameters.get(Parameter.SOURCE).getOne(GameObject.class);
 			Player controller = dealingBack.getController(dealingBack.state);
@@ -126,9 +126,9 @@ public final class MasteroftheWildHunt extends Card
 				wolves.add(new Target(wolf));
 			controller.divide(dealingBack.getPower(), 0, dealingBack.ID, "damage", wolves);
 
-			java.util.Map<Parameter, Set> damageParameters = new java.util.HashMap<Parameter, Set>();
-			damageParameters.put(Parameter.SOURCE, new Set(dealingBack));
-			damageParameters.put(Parameter.TAKER, new Set(wolves));
+			java.util.Map<Parameter, MagicSet> damageParameters = new java.util.HashMap<Parameter, MagicSet>();
+			damageParameters.put(Parameter.SOURCE, new MagicSet(dealingBack));
+			damageParameters.put(Parameter.TAKER, new MagicSet(wolves));
 			createEvent(game, dealingBack + " deals damage divided as its controller chooses among " + wolves + ".", DISTRIBUTE_DAMAGE, damageParameters).perform(event, false);
 
 			event.setResult(Empty.set);

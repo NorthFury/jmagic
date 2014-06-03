@@ -18,12 +18,12 @@ public final class CreateDelayedTrigger extends EventType
 	}
 
 	@Override
-	public boolean perform(final Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(final Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		final GameObject causingObject = parameters.get(Parameter.CAUSE).getOne(GameObject.class);
-		Set events = parameters.get(Parameter.EVENT);
-		Set zoneChanges = parameters.get(Parameter.ZONE_CHANGE);
-		Set damagePatterns = parameters.get(Parameter.DAMAGE);
+		MagicSet events = parameters.get(Parameter.EVENT);
+		MagicSet zoneChanges = parameters.get(Parameter.ZONE_CHANGE);
+		MagicSet damagePatterns = parameters.get(Parameter.DAMAGE);
 		EventFactory effect = parameters.get(Parameter.EFFECT).getOne(EventFactory.class);
 
 		SetGenerator duration = (parameters.containsKey(Parameter.EXPIRES) ? parameters.get(Parameter.EXPIRES).getOne(SetGenerator.class) : null);
@@ -78,7 +78,7 @@ public final class CreateDelayedTrigger extends EventType
 			SetGenerator expires = new SetGenerator()
 			{
 				@Override
-				public Set evaluate(GameState state, Identified thisObject)
+				public MagicSet evaluate(GameState state, Identified thisObject)
 				{
 					for(DelayedTrigger t: state.delayedTriggers)
 						// if the trigger is in the list, the effect doesn't
@@ -89,10 +89,10 @@ public final class CreateDelayedTrigger extends EventType
 				}
 			};
 
-			java.util.Map<Parameter, Set> stopParameters = new java.util.HashMap<Parameter, Set>();
-			stopParameters.put(Parameter.CAUSE, new Set(trigger));
-			stopParameters.put(Parameter.EFFECT, new Set(part));
-			stopParameters.put(Parameter.EXPIRES, new Set(expires));
+			java.util.Map<Parameter, MagicSet> stopParameters = new java.util.HashMap<Parameter, MagicSet>();
+			stopParameters.put(Parameter.CAUSE, new MagicSet(trigger));
+			stopParameters.put(Parameter.EFFECT, new MagicSet(part));
+			stopParameters.put(Parameter.EXPIRES, new MagicSet(expires));
 			Event allowStoppage = createEvent(game, "Allow " + player + " to stop '" + trigger + "'", EventType.CREATE_FLOATING_CONTINUOUS_EFFECT, stopParameters);
 			allowStoppage.perform(event, false);
 		}

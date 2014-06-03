@@ -18,7 +18,7 @@ public final class UntapPermanents extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		for(GameObject object: parameters.get(Parameter.OBJECT).getAll(GameObject.class))
 			if(!object.isTapped())
@@ -28,16 +28,16 @@ public final class UntapPermanents extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
-		Set result = new Set();
+		MagicSet result = new MagicSet();
 
 		boolean allUntapped = true;
 		for(GameObject actualObject: parameters.get(Parameter.OBJECT).getAll(GameObject.class))
 		{
-			java.util.Map<Parameter, Set> tapOneParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> tapOneParameters = new java.util.HashMap<Parameter, MagicSet>();
 			tapOneParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
-			tapOneParameters.put(Parameter.OBJECT, new Set(actualObject));
+			tapOneParameters.put(Parameter.OBJECT, new MagicSet(actualObject));
 			Event untapOne = createEvent(game, "Untap " + actualObject + ".", UNTAP_ONE_PERMANENT, tapOneParameters);
 
 			if(!untapOne.perform(event, false))

@@ -29,7 +29,7 @@ public final class SehtsTiger extends Card
 			}
 
 			@Override
-			public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+			public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 			{
 				Player player = parameters.get(EventType.Parameter.PLAYER).getOne(Player.class);
 				Color choice = player.chooseColor(parameters.get(Parameter.CAUSE).getOne(NonStaticAbility.class).getSourceID());
@@ -38,9 +38,9 @@ public final class SehtsTiger extends Card
 				part.parameters.put(ContinuousEffectType.Parameter.ABILITY, Identity.instance(new org.rnd.jmagic.abilities.keywords.Protection.AbilityFactory(choice)));
 				part.parameters.put(ContinuousEffectType.Parameter.PLAYER, Identity.instance(player));
 
-				java.util.Map<EventType.Parameter, Set> fceParameters = new java.util.HashMap<EventType.Parameter, Set>();
+				java.util.Map<EventType.Parameter, MagicSet> fceParameters = new java.util.HashMap<EventType.Parameter, MagicSet>();
 				fceParameters.put(EventType.Parameter.CAUSE, parameters.get(EventType.Parameter.CAUSE));
-				fceParameters.put(EventType.Parameter.EFFECT, new Set(part));
+				fceParameters.put(EventType.Parameter.EFFECT, new MagicSet(part));
 				createEvent(game, "You gain protection from the color of your choice until end of turn.", EventType.CREATE_FLOATING_CONTINUOUS_EFFECT, fceParameters).perform(event, false);
 
 				event.setResult(Empty.set);

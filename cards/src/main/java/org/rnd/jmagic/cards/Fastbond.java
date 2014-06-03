@@ -75,9 +75,9 @@ public final class Fastbond extends Card
 		}
 
 		@Override
-		public Set evaluate(GameState state, Identified thisObject)
+		public MagicSet evaluate(GameState state, Identified thisObject)
 		{
-			Set ret = new Set();
+			MagicSet ret = new MagicSet();
 			FastbondTracker tracker = state.getTracker(FastbondTracker.class);
 			java.util.Map<Integer, Integer> trackerValue = tracker.getValue(state);
 			for(Player p: this.who.evaluate(state, thisObject).getAll(Player.class))

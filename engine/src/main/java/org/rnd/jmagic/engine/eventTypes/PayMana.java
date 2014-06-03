@@ -18,7 +18,7 @@ public final class PayMana extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		// if this is the cost for a spell or ability, we really don't know
 		// whether they'll be able to pay, since they have the chance to
@@ -45,7 +45,7 @@ public final class PayMana extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		GameObject object = parameters.get(Parameter.CAUSE).getOne(GameObject.class);
 		ManaPool cost = new ManaPool(parameters.get(Parameter.COST).getAll(ManaSymbol.class));

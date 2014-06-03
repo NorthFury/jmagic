@@ -20,9 +20,9 @@ public class Exists extends SetGenerator
 	private SetGenerator what;
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		Set ret = new Set();
+		MagicSet ret = new MagicSet();
 		for(GameObject o: this.what.evaluate(state, thisObject).getAll(GameObject.class))
 			if(!o.isGhost())
 				ret.add(o);

@@ -59,7 +59,7 @@ public final class MasterWarcraft extends Card
 			}
 
 			@Override
-			public Set evaluate(GameState state, Identified thisObject)
+			public MagicSet evaluate(GameState state, Identified thisObject)
 			{
 				if(state.getTracker(TrackAttackersDeclared.class).getValue(state))
 					return NonEmpty.set;

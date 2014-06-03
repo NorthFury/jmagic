@@ -31,23 +31,23 @@ public final class SensationGorger extends Card
 			}
 
 			@Override
-			public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+			public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 			{
-				Set cards = new Set();
+				MagicSet cards = new MagicSet();
 
 				for(Player player: parameters.get(Parameter.PLAYER).getAll(Player.class))
 					cards.addAll(player.getHand(game.actualState).objects);
 
-				java.util.Map<Parameter, Set> discardParameters = new java.util.HashMap<Parameter, Set>();
+				java.util.Map<Parameter, MagicSet> discardParameters = new java.util.HashMap<Parameter, MagicSet>();
 				discardParameters.put(EventType.Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 				discardParameters.put(EventType.Parameter.CARD, cards);
 				Event discardEvent = createEvent(game, "Each player discards his or her hand", EventType.DISCARD_CARDS, discardParameters);
 				discardEvent.perform(event, true);
 
-				java.util.Map<Parameter, Set> drawParameters = new java.util.HashMap<Parameter, Set>();
+				java.util.Map<Parameter, MagicSet> drawParameters = new java.util.HashMap<Parameter, MagicSet>();
 				drawParameters.put(EventType.Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 				drawParameters.put(EventType.Parameter.PLAYER, parameters.get(Parameter.PLAYER));
-				drawParameters.put(EventType.Parameter.NUMBER, new Set(4));
+				drawParameters.put(EventType.Parameter.NUMBER, new MagicSet(4));
 				Event drawEvent = createEvent(game, "and draws four cards.", EventType.DRAW_CARDS, drawParameters);
 				drawEvent.perform(event, true);
 

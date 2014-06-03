@@ -24,18 +24,18 @@ public final class SylvanLibrary extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			event.setResult(Empty.set);
 
-			Set cards = parameters.get(Parameter.OBJECT);
+			MagicSet cards = parameters.get(Parameter.OBJECT);
 			if(cards.size() == 0)
 				return true;
 
 			GameObject cause = event.getSource();
 			Player you = cause.getController(game.actualState);
 
-			Set events = new Set();
+			MagicSet events = new MagicSet();
 
 			if(cards.size() == 2)
 			{
@@ -76,9 +76,9 @@ public final class SylvanLibrary extends Card
 				throw new IllegalStateException("Sylvan Library effect with more than two cards?!??!");
 			}
 
-			java.util.Map<Parameter, Set> newParameters = new java.util.HashMap<Parameter, Set>();
-			newParameters.put(EventType.Parameter.PLAYER, new Set(you));
-			newParameters.put(EventType.Parameter.EVENT, new Set(events));
+			java.util.Map<Parameter, MagicSet> newParameters = new java.util.HashMap<Parameter, MagicSet>();
+			newParameters.put(EventType.Parameter.PLAYER, new MagicSet(you));
+			newParameters.put(EventType.Parameter.EVENT, new MagicSet(events));
 			Event doIt = createEvent(game, "For each of those cards, pay 4 life or put the card on top of your library", EventType.CHOOSE_AND_PERFORM, newParameters);
 			doIt.perform(event, true);
 

@@ -19,9 +19,9 @@ public class AurasEnchantingPermanents extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		Set ret = new Set();
+		MagicSet ret = new MagicSet();
 		for(GameObject o: state.battlefield().objects)
 		{
 			if(o.getTypes().contains(Type.ENCHANTMENT) && o.getSubTypes().contains(SubType.AURA) && o.getAttachedTo() != -1)

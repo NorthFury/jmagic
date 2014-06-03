@@ -39,9 +39,9 @@ public final class RidersofGavony extends Card
 			}
 
 			@Override
-			public Set evaluate(GameState state, Identified thisObject)
+			public MagicSet evaluate(GameState state, Identified thisObject)
 			{
-				Set ret = new Set();
+				MagicSet ret = new MagicSet();
 				for(SubType subType: this.types.evaluate(state, thisObject).getAll(SubType.class))
 					ret.add(subType.toString() + " creatures");
 				return ret;

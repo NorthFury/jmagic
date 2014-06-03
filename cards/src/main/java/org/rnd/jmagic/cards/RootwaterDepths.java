@@ -58,12 +58,12 @@ public final class RootwaterDepths extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
-			Set player = parameters.get(Parameter.PLAYER);
-			Set land = parameters.get(Parameter.SOURCE);
-			Set mana = parameters.get(Parameter.MANA);
-			java.util.Map<Parameter, Set> manaParameters = new java.util.HashMap<Parameter, Set>();
+			MagicSet player = parameters.get(Parameter.PLAYER);
+			MagicSet land = parameters.get(Parameter.SOURCE);
+			MagicSet mana = parameters.get(Parameter.MANA);
+			java.util.Map<Parameter, MagicSet> manaParameters = new java.util.HashMap<Parameter, MagicSet>();
 			manaParameters.put(Parameter.SOURCE, land);
 			manaParameters.put(Parameter.PLAYER, player);
 			manaParameters.put(Parameter.MANA, mana);
@@ -76,12 +76,12 @@ public final class RootwaterDepths extends Card
 
 			SetGenerator expires = Intersect.instance(PreviousStep.instance(), UntapStepOf.instance(Identity.instance(player)));
 
-			Set ability = parameters.get(Parameter.CAUSE);
+			MagicSet ability = parameters.get(Parameter.CAUSE);
 
-			java.util.Map<Parameter, Set> fceParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> fceParameters = new java.util.HashMap<Parameter, MagicSet>();
 			fceParameters.put(Parameter.CAUSE, ability);
-			fceParameters.put(Parameter.EFFECT, new Set(part));
-			fceParameters.put(Parameter.EXPIRES, new Set(expires));
+			fceParameters.put(Parameter.EFFECT, new MagicSet(part));
+			fceParameters.put(Parameter.EXPIRES, new MagicSet(expires));
 			Event fce = createEvent(game, land + " doesn't untap during your next untap step.", CREATE_FLOATING_CONTINUOUS_EFFECT, fceParameters);
 			fce.perform(event, true);
 

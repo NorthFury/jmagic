@@ -17,7 +17,7 @@ public final class PutCounterOnChoice extends EventType
 	}
 
 	@Override
-	public void makeChoices(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public void makeChoices(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		int numberOfCards = 1;
 
@@ -33,19 +33,19 @@ public final class PutCounterOnChoice extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		boolean allReceivedCounters = event.allChoicesMade;
-		Set cause = parameters.get(Parameter.CAUSE);
-		Set counter = parameters.get(Parameter.COUNTER);
-		Set one = new Set(1);
-		Set result = new Set();
+		MagicSet cause = parameters.get(Parameter.CAUSE);
+		MagicSet counter = parameters.get(Parameter.COUNTER);
+		MagicSet one = new MagicSet(1);
+		MagicSet result = new MagicSet();
 
 		for(Player player: parameters.get(Parameter.PLAYER).getAll(Player.class))
 		{
-			Set putOnThese = event.getChoices(player);
+			MagicSet putOnThese = event.getChoices(player);
 
-			java.util.Map<Parameter, Set> putCountersParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> putCountersParameters = new java.util.HashMap<Parameter, MagicSet>();
 			putCountersParameters.put(Parameter.CAUSE, cause);
 			putCountersParameters.put(Parameter.COUNTER, counter);
 			putCountersParameters.put(Parameter.NUMBER, one);

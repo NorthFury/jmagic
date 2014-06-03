@@ -19,9 +19,9 @@ public class MapGet extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		Set ret = new Set();
+		MagicSet ret = new MagicSet();
 		for(Object object: this.key.evaluate(state, thisObject))
 			if(this.map.containsKey(object))
 				ret.add(this.map.get(object));

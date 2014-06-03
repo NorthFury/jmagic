@@ -72,9 +72,9 @@ public class CostCollection implements Sanitizable
 	 * Returns a set representing all the events and mana symbols for this cost.
 	 * Useful for, say, passing to CAST_SPELL_OR_ACTIVATE_ABILITY
 	 */
-	public Set getSet()
+	public MagicSet getSet()
 	{
-		Set ret = new Set();
+		MagicSet ret = new MagicSet();
 		ret.addAll(this.manaCost);
 		ret.addAll(this.events);
 		return ret;

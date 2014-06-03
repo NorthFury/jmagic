@@ -18,7 +18,7 @@ public class ModeChoicePanel extends JPanel
 	private int maximum;
 	private JButton doneButton;
 
-	public ModeChoicePanel(Play gui, final java.util.List<SanitizedMode> modes, org.rnd.jmagic.engine.Set number)
+	public ModeChoicePanel(Play gui, final java.util.List<SanitizedMode> modes, org.rnd.jmagic.engine.MagicSet number)
 	{
 		super();
 
@@ -27,7 +27,7 @@ public class ModeChoicePanel extends JPanel
 		this.gui = gui;
 		this.choices = modes;
 		this.choice = new java.util.HashSet<SanitizedMode>();
-		number = org.rnd.jmagic.engine.generators.Intersect.get(number, new org.rnd.jmagic.engine.Set(new org.rnd.util.NumberRange(0, modes.size())));
+		number = org.rnd.jmagic.engine.generators.Intersect.get(number, new org.rnd.jmagic.engine.MagicSet(new org.rnd.util.NumberRange(0, modes.size())));
 		this.minimum = org.rnd.jmagic.engine.generators.Minimum.get(number);
 		this.maximum = org.rnd.jmagic.engine.generators.Maximum.get(number);
 

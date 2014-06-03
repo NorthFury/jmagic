@@ -16,7 +16,7 @@ public final class ClanDefiance extends Card
 		super(state);
 
 		// Choose one or more \u2014
-		this.setNumModes(new Set(new org.rnd.util.NumberRange(1, null)));
+		this.setNumModes(new MagicSet(new org.rnd.util.NumberRange(1, null)));
 
 		SetGenerator X = ValueOfX.instance(This.instance());
 		SetGenerator hasFlying = HasKeywordAbility.instance(org.rnd.jmagic.abilities.keywords.Flying.class);

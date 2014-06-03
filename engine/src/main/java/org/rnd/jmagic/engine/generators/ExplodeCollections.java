@@ -22,10 +22,10 @@ public class ExplodeCollections extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		Set x = this.x.evaluate(state, thisObject);
-		Set ret = new Set();
+		MagicSet x = this.x.evaluate(state, thisObject);
+		MagicSet ret = new MagicSet();
 		for(java.util.Collection<?> c: x.getAll(java.util.Collection.class))
 			ret.addAll(c);
 		return ret;

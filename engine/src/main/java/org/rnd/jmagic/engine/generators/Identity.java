@@ -11,15 +11,15 @@ public class Identity extends SetGenerator
 
 	public static Identity instance(java.util.Collection<?> what)
 	{
-		return new Identity(new Set(what));
+		return new Identity(new MagicSet(what));
 	}
 
 	public static Identity instance(Object... what)
 	{
-		return new Identity(new Set(what));
+		return new Identity(new MagicSet(what));
 	}
 
-	private Identity(Set what)
+	private Identity(MagicSet what)
 	{
 		this.nonIdentifieds = new java.util.HashSet<Object>();
 		this.ids = new java.util.LinkedList<Integer>();
@@ -39,9 +39,9 @@ public class Identity extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		Set ret = new Set(this.nonIdentifieds);
+		MagicSet ret = new MagicSet(this.nonIdentifieds);
 
 		for(int ID: this.ids)
 		{

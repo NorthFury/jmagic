@@ -18,7 +18,7 @@ public final class Populate extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		Player player = parameters.get(Parameter.PLAYER).getOne(Player.class);
 
@@ -31,10 +31,10 @@ public final class Populate extends EventType
 
 			for(Identified choice: chosen)
 			{
-				java.util.Map<Parameter, Set> copyParameters = new java.util.HashMap<Parameter, Set>();
+				java.util.Map<Parameter, MagicSet> copyParameters = new java.util.HashMap<Parameter, MagicSet>();
 				copyParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
-				copyParameters.put(Parameter.CONTROLLER, new Set(player));
-				copyParameters.put(Parameter.OBJECT, new Set(choice));
+				copyParameters.put(Parameter.CONTROLLER, new MagicSet(player));
+				copyParameters.put(Parameter.OBJECT, new MagicSet(choice));
 				if(!createEvent(game, "Create a token copy of " + choice + ".", EventType.CREATE_TOKEN_COPY, copyParameters).perform(event, false))
 					ret = false;
 			}

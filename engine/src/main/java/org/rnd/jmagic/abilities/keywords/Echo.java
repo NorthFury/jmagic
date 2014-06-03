@@ -197,9 +197,9 @@ public final class Echo extends Keyword
 			}
 
 			@Override
-			public Set evaluate(GameState state, Identified thisObject)
+			public MagicSet evaluate(GameState state, Identified thisObject)
 			{
-				Set ret = new Set();
+				MagicSet ret = new MagicSet();
 				for(Player p: this.controller.evaluate(state, thisObject).getAll(Player.class))
 				{
 					java.util.Map<Integer, java.util.Set<Integer>> map = state.getTracker(Tracker.class).getValue(state);

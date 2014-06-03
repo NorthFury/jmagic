@@ -46,7 +46,7 @@ public class Morbid extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
 		if(state.getTracker(Tracker.class).getValue(state).isEmpty())
 			return Empty.set;

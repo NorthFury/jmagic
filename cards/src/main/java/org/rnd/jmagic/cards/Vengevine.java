@@ -80,12 +80,12 @@ public final class Vengevine extends Card
 		}
 
 		@Override
-		public Set evaluate(GameState state, Identified thisObject)
+		public MagicSet evaluate(GameState state, Identified thisObject)
 		{
 			java.util.Map<Integer, java.util.List<Integer>> flagValue = state.getTracker(CreatureSpells.class).getValue(state);
-			Set who = this.who.evaluate(state, thisObject);
+			MagicSet who = this.who.evaluate(state, thisObject);
 
-			Set ret = new Set();
+			MagicSet ret = new MagicSet();
 			for(Player player: who.getAll(Player.class))
 				if(flagValue.containsKey(player.ID))
 				{

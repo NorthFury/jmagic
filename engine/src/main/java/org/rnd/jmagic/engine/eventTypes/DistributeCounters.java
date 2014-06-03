@@ -20,11 +20,11 @@ public final class DistributeCounters extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		GameObject source = parameters.get(Parameter.CAUSE).getOne(GameObject.class);
 		Counter.CounterType counter = parameters.get(Parameter.COUNTER).getOne(Counter.CounterType.class);
-		Set receivers = parameters.get(Parameter.OBJECT);
+		MagicSet receivers = parameters.get(Parameter.OBJECT);
 
 		EventFactory[] putCounters = new EventFactory[receivers.size()];
 		int i = 0;

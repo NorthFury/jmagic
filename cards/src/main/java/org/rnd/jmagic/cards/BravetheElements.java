@@ -25,9 +25,9 @@ public final class BravetheElements extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
-			Set cause = parameters.get(Parameter.CAUSE);
+			MagicSet cause = parameters.get(Parameter.CAUSE);
 			event.setResult(Empty.set);
 
 			java.util.Set<Color> choices = parameters.get(Parameter.CHOICE).getAll(Color.class);
@@ -47,9 +47,9 @@ public final class BravetheElements extends Card
 			part.parameters.put(ContinuousEffectType.Parameter.OBJECT, Intersect.instance(HasColor.instance(Color.WHITE), Intersect.instance(HasType.instance(Type.CREATURE), ControlledBy.instance(You.instance()))));
 			part.parameters.put(ContinuousEffectType.Parameter.ABILITY, Identity.instance(new org.rnd.jmagic.engine.SimpleAbilityFactory(ability)));
 
-			java.util.Map<Parameter, Set> fceParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> fceParameters = new java.util.HashMap<Parameter, MagicSet>();
 			fceParameters.put(Parameter.CAUSE, cause);
-			fceParameters.put(Parameter.EFFECT, new Set(part));
+			fceParameters.put(Parameter.EFFECT, new MagicSet(part));
 			Event protection = createEvent(game, "White creatures you control gain protection from the chosen color until end of turn.", EventType.CREATE_FLOATING_CONTINUOUS_EFFECT, fceParameters);
 			protection.perform(event, false);
 

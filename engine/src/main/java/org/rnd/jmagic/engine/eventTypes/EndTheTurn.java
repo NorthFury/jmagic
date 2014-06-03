@@ -18,7 +18,7 @@ public final class EndTheTurn extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		// 1) Exile every object on the stack.
 		// This includes Time Stop, though it will continue to resolve. It

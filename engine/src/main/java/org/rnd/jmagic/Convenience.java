@@ -21,7 +21,7 @@ public class Convenience
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			event.setResult(parameters.get(Parameter.OBJECT));
 			return true;
@@ -44,10 +44,10 @@ public class Convenience
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			java.util.LinkedList<Object> choices = new java.util.LinkedList<Object>(parameters.get(Parameter.OBJECT));
-			Set ret = new Set();
+			MagicSet ret = new MagicSet();
 
 			int number = 1;
 			if(parameters.containsKey(Parameter.NUMBER))
@@ -64,9 +64,9 @@ public class Convenience
 		}
 	};
 
-	public static final Set NEGATIVE_ONE = new Set.Unmodifiable(-1);
-	public static final Set ZERO = new Set.Unmodifiable(0);
-	public static final Set ONE = new Set.Unmodifiable(1);
+	public static final MagicSet NEGATIVE_ONE = new MagicSet.Unmodifiable(-1);
+	public static final MagicSet ZERO = new MagicSet.Unmodifiable(0);
+	public static final MagicSet ONE = new MagicSet.Unmodifiable(1);
 
 	private static final class NegativeOne extends SetGenerator
 	{
@@ -83,7 +83,7 @@ public class Convenience
 		}
 
 		@Override
-		public Set evaluate(GameState state, Identified thisObject)
+		public MagicSet evaluate(GameState state, Identified thisObject)
 		{
 			return NEGATIVE_ONE;
 		}
@@ -104,7 +104,7 @@ public class Convenience
 		}
 
 		@Override
-		public Set evaluate(GameState state, Identified thisObject)
+		public MagicSet evaluate(GameState state, Identified thisObject)
 		{
 			return ZERO;
 		}
@@ -125,7 +125,7 @@ public class Convenience
 		}
 
 		@Override
-		public Set evaluate(GameState state, Identified thisObject)
+		public MagicSet evaluate(GameState state, Identified thisObject)
 		{
 			return ONE;
 		}
@@ -226,7 +226,7 @@ public class Convenience
 				parts.add(colorPart);
 			}
 
-			Set types = new Set(this.types);
+			MagicSet types = new MagicSet(this.types);
 			types.addAll(this.subTypes);
 			ContinuousEffect.Part typesPart = new ContinuousEffect.Part(this.animationMode);
 			typesPart.parameters.put(ContinuousEffectType.Parameter.OBJECT, this.target);
@@ -281,15 +281,15 @@ public class Convenience
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			java.util.Map<Integer, Identity> resultMap = new java.util.HashMap<Integer, Identity>();
 
-			Set players;
+			MagicSet players;
 			if(parameters.containsKey(Parameter.PLAYER))
 				players = parameters.get(Parameter.PLAYER);
 			else
-				players = new Set(game.physicalState.players);
+				players = new MagicSet(game.physicalState.players);
 			java.util.List<Player> playersInOrder;
 			// ew ew EEWWWWW...
 			// TODO : this is x-10 hackery. fix this when ticket 381 is done.
@@ -318,14 +318,14 @@ public class Convenience
 					if(e.perform(event, false))
 					{
 						resultMap.put(player.ID, Identity.instance(e.getResult()));
-						event.setResult(new Set(resultMap));
+						event.setResult(new MagicSet(resultMap));
 						playerGenerator.setEvaluation(null);
 						return true;
 					}
 				}
 			}
 
-			event.setResult(new Set(resultMap));
+			event.setResult(new MagicSet(resultMap));
 			playerGenerator.setEvaluation(null);
 			return false;
 		}
@@ -351,7 +351,7 @@ public class Convenience
 		}
 
 		@Override
-		public Set evaluate(GameState state, Identified thisObject)
+		public MagicSet evaluate(GameState state, Identified thisObject)
 		{
 			return this.evaluation.evaluate(state, thisObject);
 		}
@@ -385,9 +385,9 @@ public class Convenience
 		}
 
 		@Override
-		public Set evaluate(GameState state, Identified thisObject)
+		public MagicSet evaluate(GameState state, Identified thisObject)
 		{
-			Set ret = new Set();
+			MagicSet ret = new MagicSet();
 			for(Object o: this.in.evaluate(state, thisObject).getAll(Identified.class))
 			{
 				this.toChange.setEvaluation(Identity.instance(o));
@@ -419,9 +419,9 @@ public class Convenience
 		}
 
 		@Override
-		public Set evaluate(GameState state, Identified thisObject)
+		public MagicSet evaluate(GameState state, Identified thisObject)
 		{
-			Set result = new Set();
+			MagicSet result = new MagicSet();
 			@SuppressWarnings("unchecked") java.util.Map<Integer, Identity> resultMap = this.resultMap.evaluate(state, thisObject).getOne(java.util.Map.class);
 			for(Identified i: this.things.evaluate(state, thisObject).getAll(Identified.class))
 				result.addAll(resultMap.get(i.ID).evaluate(state, thisObject));
@@ -525,7 +525,7 @@ public class Convenience
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			EventFactory toRepeat = parameters.get(Parameter.EVENT).getOne(EventFactory.class);
 			toRepeat.createEvent(game, event.getSource()).perform(event, true);
@@ -584,7 +584,7 @@ public class Convenience
 			GameObject source = state.getByIDObject(cost.sourceID);
 
 			// [kind] Spells
-			if(source.isSpell() && this.type.match(state, state.get(this.sourceID), new Set(source)))
+			if(source.isSpell() && this.type.match(state, state.get(this.sourceID), new MagicSet(source)))
 				return true;
 
 			if(!this.spellsOnly && source.isActivatedAbility())
@@ -592,7 +592,7 @@ public class Convenience
 				Identified sourcesSource = ((ActivatedAbility)source).getSource(state);
 
 				// Activated abilities of [kind]
-				if(sourcesSource != null && this.type.match(state, state.get(this.sourceID), new Set(sourcesSource)) && sourcesSource.isPermanent())
+				if(sourcesSource != null && this.type.match(state, state.get(this.sourceID), new MagicSet(sourcesSource)) && sourcesSource.isPermanent())
 					return true;
 			}
 			return false;
@@ -652,10 +652,10 @@ public class Convenience
 		}
 
 		@Override
-		public Set evaluate(GameState state, Identified thisObject)
+		public MagicSet evaluate(GameState state, Identified thisObject)
 		{
 			java.util.Map<Integer, Integer> flagValue = state.getTracker(Tracker.class).getValue(state);
-			return new Set(Sum.get(new Set(flagValue.values())));
+			return new MagicSet(Sum.get(new MagicSet(flagValue.values())));
 		}
 	}
 
@@ -697,9 +697,9 @@ public class Convenience
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
-			Set source = parameters.get(EventType.Parameter.SOURCE);
+			MagicSet source = parameters.get(EventType.Parameter.SOURCE);
 			int sourceID = source.getOne(GameObject.class).ID;
 			java.util.Set<Color> colors = parameters.get(Parameter.MANA).getAll(Color.class);
 			ManaSymbol.ManaType type = ManaSymbol.ManaType.COLORLESS;
@@ -714,16 +714,16 @@ public class Convenience
 			SetPattern allowed = parameters.get(EventType.Parameter.TYPE).getOne(SetPattern.class);
 			GameObject sourceObject = source.getOne(GameObject.class);
 			allowed.freeze(game.actualState, sourceObject);
-			Set mana = new Set(new RestrictedMana(type, allowed, parameters.containsKey(Parameter.PERMANENT), sourceObject));
+			MagicSet mana = new MagicSet(new RestrictedMana(type, allowed, parameters.containsKey(Parameter.PERMANENT), sourceObject));
 
 			int number = 1;
 			if(parameters.containsKey(Parameter.NUMBER))
 				number = parameters.get(Parameter.NUMBER).getOne(Integer.class);
 
-			java.util.Map<EventType.Parameter, Set> manaParameters = new java.util.HashMap<EventType.Parameter, Set>();
+			java.util.Map<EventType.Parameter, MagicSet> manaParameters = new java.util.HashMap<EventType.Parameter, MagicSet>();
 			manaParameters.put(EventType.Parameter.SOURCE, source);
 			manaParameters.put(EventType.Parameter.MANA, mana);
-			manaParameters.put(EventType.Parameter.NUMBER, new Set(number));
+			manaParameters.put(EventType.Parameter.NUMBER, new MagicSet(number));
 			manaParameters.put(EventType.Parameter.PLAYER, parameters.get(EventType.Parameter.PLAYER));
 			Event manaEvent = createEvent(game, "Add " + org.rnd.util.NumberNames.get(number) + " " + mana + " to your mana pool.", EventType.ADD_MANA, manaParameters);
 			boolean ret = manaEvent.perform(event, false);
@@ -775,16 +775,16 @@ public class Convenience
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			event.setResult(Empty.set);
-			Set cause = parameters.get(Parameter.CAUSE);
-			Set target = parameters.get(Parameter.TARGET);
-			Set player = parameters.get(Parameter.PLAYER);
+			MagicSet cause = parameters.get(Parameter.CAUSE);
+			MagicSet target = parameters.get(Parameter.TARGET);
+			MagicSet player = parameters.get(Parameter.PLAYER);
 
-			java.util.Map<EventType.Parameter, Set> exileParameters = new java.util.HashMap<EventType.Parameter, Set>();
+			java.util.Map<EventType.Parameter, MagicSet> exileParameters = new java.util.HashMap<EventType.Parameter, MagicSet>();
 			exileParameters.put(EventType.Parameter.CAUSE, cause);
-			exileParameters.put(EventType.Parameter.TO, new Set(game.actualState.exileZone()));
+			exileParameters.put(EventType.Parameter.TO, new MagicSet(game.actualState.exileZone()));
 			exileParameters.put(EventType.Parameter.OBJECT, target);
 			Event exileEvent = createEvent(game, "Exile " + target, EventType.MOVE_OBJECTS, exileParameters);
 			boolean ret = exileEvent.perform(event, true);
@@ -792,11 +792,11 @@ public class Convenience
 			if(ret)
 			{
 				java.util.Set<ZoneChange> zoneChanges = exileEvent.getResult().getAll(ZoneChange.class);
-				Set cardsToReturn = new Set();
+				MagicSet cardsToReturn = new MagicSet();
 				for(ZoneChange zoneChange: zoneChanges)
 					cardsToReturn.add(game.actualState.get(zoneChange.newObjectID));
 
-				java.util.Map<EventType.Parameter, Set> returnParameters = new java.util.HashMap<EventType.Parameter, Set>();
+				java.util.Map<EventType.Parameter, MagicSet> returnParameters = new java.util.HashMap<EventType.Parameter, MagicSet>();
 				returnParameters.put(EventType.Parameter.CAUSE, cause);
 				returnParameters.put(EventType.Parameter.CONTROLLER, player);
 				returnParameters.put(EventType.Parameter.OBJECT, cardsToReturn);
@@ -834,15 +834,15 @@ public class Convenience
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			java.util.Map<Integer, Identity> resultMap = new java.util.HashMap<Integer, Identity>();
 
-			Set players;
+			MagicSet players;
 			if(parameters.containsKey(Parameter.PLAYER))
 				players = parameters.get(Parameter.PLAYER);
 			else
-				players = new Set(game.physicalState.players);
+				players = new MagicSet(game.physicalState.players);
 			java.util.List<Player> playersInOrder;
 			// ew ew EEWWWWW...
 			// TODO : this is x-10 hackery. fix this when ticket 381 is done.
@@ -906,15 +906,15 @@ public class Convenience
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			java.util.Map<Integer, Identity> resultMap = new java.util.HashMap<Integer, Identity>();
 
-			Set things;
+			MagicSet things;
 			if(parameters.containsKey(Parameter.OBJECT))
 				things = parameters.get(Parameter.OBJECT);
 			else
-				things = new Set(game.physicalState.players);
+				things = new MagicSet(game.physicalState.players);
 
 			DynamicEvaluation thingGenerator = parameters.get(Parameter.TARGET).getOne(DynamicEvaluation.class);
 			if(thingGenerator == null)
@@ -967,30 +967,30 @@ public class Convenience
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			int num = Sum.get(parameters.get(Parameter.NUMBER));
 			Player player = parameters.get(Parameter.PLAYER).getOne(Player.class);
-			Set playerSet = new Set(player);
+			MagicSet playerSet = new MagicSet(player);
 			Zone library = parameters.get(Parameter.ZONE).getOne(Zone.class);
-			Set librarySet = new Set(library);
+			MagicSet librarySet = new MagicSet(library);
 
-			Set objects = new Set();
+			MagicSet objects = new MagicSet();
 			if(num >= library.objects.size())
 				objects.addAll(library.objects);
 			else
 				for(int i = 0; i < num; i++)
 					objects.add(library.objects.get(i));
 
-			Set cause = parameters.get(Parameter.CAUSE);
+			MagicSet cause = parameters.get(Parameter.CAUSE);
 
 			// I dont want to deal with empty collections for choose
 			if(!objects.isEmpty())
 			{
 
-				java.util.Map<Parameter, Set> lookParameters = new java.util.HashMap<Parameter, Set>();
+				java.util.Map<Parameter, MagicSet> lookParameters = new java.util.HashMap<Parameter, MagicSet>();
 				lookParameters.put(Parameter.CAUSE, cause);
-				lookParameters.put(Parameter.OBJECT, new Set(objects));
+				lookParameters.put(Parameter.OBJECT, new MagicSet(objects));
 				lookParameters.put(Parameter.PLAYER, playerSet);
 				Event lookEvent = createEvent(game, "Look at the top X cards of your library.", EventType.LOOK, lookParameters);
 				lookEvent.perform(event, true);
@@ -1003,14 +1003,14 @@ public class Convenience
 				// TODO : Should this be (yet another) separate event? Should we
 				// make an event that can move different cards to different
 				// zones at the same time?
-				java.util.Map<Parameter, Set> handParameters = new java.util.HashMap<Parameter, Set>();
+				java.util.Map<Parameter, MagicSet> handParameters = new java.util.HashMap<Parameter, MagicSet>();
 				handParameters.put(Parameter.CAUSE, cause);
-				handParameters.put(Parameter.TO, new Set(player.getHand(game.actualState)));
-				handParameters.put(Parameter.OBJECT, new Set(choice));
+				handParameters.put(Parameter.TO, new MagicSet(player.getHand(game.actualState)));
+				handParameters.put(Parameter.OBJECT, new MagicSet(choice));
 				Event handEvent = createEvent(game, "Put one of them into your hand.", EventType.MOVE_OBJECTS, handParameters);
 				handEvent.perform(event, false);
 
-				java.util.Map<Parameter, Set> libraryParameters = new java.util.HashMap<Parameter, Set>();
+				java.util.Map<Parameter, MagicSet> libraryParameters = new java.util.HashMap<Parameter, MagicSet>();
 				libraryParameters.put(Parameter.CAUSE, cause);
 				libraryParameters.put(Parameter.TO, librarySet);
 				libraryParameters.put(Parameter.OBJECT, objects);
@@ -1050,30 +1050,30 @@ public class Convenience
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			// Object cause =
 			// parameters.get(Parameter.CAUSE).getOne(Object.class);
-			Set player = parameters.get(Parameter.PLAYER);
+			MagicSet player = parameters.get(Parameter.PLAYER);
 			Player you = player.getOne(Player.class);
-			Set cards = parameters.get(Parameter.OBJECT);
+			MagicSet cards = parameters.get(Parameter.OBJECT);
 			int number;
 			if(parameters.containsKey(Parameter.NUMBER))
 				number = parameters.get(Parameter.NUMBER).getOne(Integer.class);
 			else
 				number = -1;
 
-			Set result = new Set();
+			MagicSet result = new MagicSet();
 			while(!cards.isEmpty() && ((-1 == number) || (result.size() < number)))
 			{
 				java.util.Map<GameObject, Event> events = new java.util.HashMap<GameObject, Event>();
 				for(GameObject card: cards.getAll(GameObject.class))
 				{
-					java.util.Map<Parameter, Set> castParameters = new java.util.HashMap<Parameter, Set>();
+					java.util.Map<Parameter, MagicSet> castParameters = new java.util.HashMap<Parameter, MagicSet>();
 					castParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 					castParameters.put(Parameter.PLAYER, player);
 					castParameters.put(Parameter.ALTERNATE_COST, Empty.set);
-					castParameters.put(Parameter.OBJECT, new Set(card));
+					castParameters.put(Parameter.OBJECT, new MagicSet(card));
 					Event cast = createEvent(game, you + " casts " + card, PLAY_CARD, castParameters);
 					if(cast.attempt(event))
 						events.put(card, cast);
@@ -1127,21 +1127,21 @@ public class Convenience
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
-			Set cause = parameters.get(Parameter.CAUSE);
+			MagicSet cause = parameters.get(Parameter.CAUSE);
 
-			Set you = parameters.get(Parameter.PLAYER);
-			Set cards = parameters.get(Parameter.CARD);
+			MagicSet you = parameters.get(Parameter.PLAYER);
+			MagicSet cards = parameters.get(Parameter.CARD);
 
-			java.util.Map<Parameter, Set> lookParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> lookParameters = new java.util.HashMap<Parameter, MagicSet>();
 			lookParameters.put(Parameter.CAUSE, cause);
 			lookParameters.put(Parameter.PLAYER, you);
 			lookParameters.put(Parameter.OBJECT, cards);
 			createEvent(game, "Look at the top five cards of your library", LOOK, lookParameters).perform(event, true);
 
-			Set filteredCards = new Set();
-			Set filter = parameters.get(Parameter.TYPE);
+			MagicSet filteredCards = new MagicSet();
+			MagicSet filter = parameters.get(Parameter.TYPE);
 			for(GameObject object: cards.getAll(GameObject.class))
 				if(filter.contains(object))
 					filteredCards.add(object);
@@ -1151,10 +1151,10 @@ public class Convenience
 			revealParameters.put(Parameter.PLAYER, Identity.instance(you));
 			revealParameters.put(Parameter.OBJECT, Identity.instance(filteredCards));
 
-			java.util.Map<Parameter, Set> mayParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> mayParameters = new java.util.HashMap<Parameter, MagicSet>();
 			mayParameters.put(Parameter.PLAYER, you);
-			mayParameters.put(Parameter.EVENT, new Set(new EventFactory(REVEAL_CHOICE, revealParameters, "Reveal a card from among them")));
-			Set revealedCard = new Set();
+			mayParameters.put(Parameter.EVENT, new MagicSet(new EventFactory(REVEAL_CHOICE, revealParameters, "Reveal a card from among them")));
+			MagicSet revealedCard = new MagicSet();
 			Event may = createEvent(game, "You may reveal a creature card from among them", PLAYER_MAY, mayParameters);
 			if(may.perform(event, true))
 				// there's only one of these
@@ -1162,21 +1162,21 @@ public class Convenience
 					revealedCard.addAll(reveal.getResult());
 
 			Player player = you.getOne(Player.class).getActual();
-			Set hand = new Set(player.getHand(game.actualState));
+			MagicSet hand = new MagicSet(player.getHand(game.actualState));
 
-			java.util.Map<Parameter, Set> moveParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> moveParameters = new java.util.HashMap<Parameter, MagicSet>();
 			moveParameters.put(Parameter.CAUSE, cause);
 			moveParameters.put(Parameter.TO, hand);
 			moveParameters.put(Parameter.OBJECT, revealedCard);
 			createEvent(game, "Put that card into your hand", MOVE_OBJECTS, moveParameters).perform(event, true);
 
-			Set putOnBottom = new Set(cards);
+			MagicSet putOnBottom = new MagicSet(cards);
 			putOnBottom.removeAll(revealedCard);
 
-			Set zone = parameters.containsKey(Parameter.TO) ? parameters.get(Parameter.TO) : new Set(player.getLibrary(game.actualState));
-			Set index = parameters.containsKey(Parameter.INDEX) ? parameters.get(Parameter.INDEX) : NEGATIVE_ONE;
+			MagicSet zone = parameters.containsKey(Parameter.TO) ? parameters.get(Parameter.TO) : new MagicSet(player.getLibrary(game.actualState));
+			MagicSet index = parameters.containsKey(Parameter.INDEX) ? parameters.get(Parameter.INDEX) : NEGATIVE_ONE;
 
-			java.util.Map<Parameter, Set> bottomParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> bottomParameters = new java.util.HashMap<Parameter, MagicSet>();
 			bottomParameters.put(Parameter.CAUSE, cause);
 			bottomParameters.put(Parameter.TO, zone);
 			bottomParameters.put(Parameter.INDEX, index);
@@ -1205,13 +1205,13 @@ public class Convenience
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			int numberOfCards = Sum.get(parameters.get(Parameter.NUMBER));
 			if(numberOfCards < 0)
 				numberOfCards = 0;
 
-			Set cause = parameters.get(Parameter.CAUSE);
+			MagicSet cause = parameters.get(Parameter.CAUSE);
 			Player player = parameters.get(Parameter.PLAYER).getOne(Player.class);
 			Zone hand = player.getHand(game.actualState);
 			PlayerInterface.ChooseReason reason = parameters.get(Parameter.REASON).getOne(PlayerInterface.ChooseReason.class);
@@ -1220,14 +1220,14 @@ public class Convenience
 			java.util.List<GameObject> putTheseOnTop = player.sanitizeAndChoose(game.actualState, numberOfCards, hand.objects, PlayerInterface.ChoiceType.OBJECTS, reason);
 
 			// build the Set of objects to put back
-			Set moveThese = new Set(putTheseOnTop);
+			MagicSet moveThese = new MagicSet(putTheseOnTop);
 
-			Set index = parameters.containsKey(Parameter.INDEX) ? parameters.get(Parameter.INDEX) : ONE;
+			MagicSet index = parameters.containsKey(Parameter.INDEX) ? parameters.get(Parameter.INDEX) : ONE;
 
 			// perform the put-into-library event
-			java.util.Map<Parameter, Set> moveParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> moveParameters = new java.util.HashMap<Parameter, MagicSet>();
 			moveParameters.put(Parameter.CAUSE, cause);
-			moveParameters.put(Parameter.TO, new Set(player.getLibrary(game.actualState)));
+			moveParameters.put(Parameter.TO, new MagicSet(player.getLibrary(game.actualState)));
 			moveParameters.put(Parameter.INDEX, index);
 			moveParameters.put(Parameter.OBJECT, moveThese);
 			Event putBack = createEvent(game, player + " puts " + moveThese + " into his/her library.", MOVE_OBJECTS, moveParameters);
@@ -1258,26 +1258,26 @@ public class Convenience
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			Player target = parameters.get(Parameter.TARGET).getOne(Player.class);
 			Zone hand = target.getHand(game.actualState);
 			int number = Math.min(Sum.get(parameters.get(Parameter.NUMBER)), hand.objects.size());
 
-			Set cause = parameters.get(Parameter.CAUSE);
+			MagicSet cause = parameters.get(Parameter.CAUSE);
 			java.util.List<GameObject> revealedCards = target.sanitizeAndChoose(game.actualState, number, hand.objects, PlayerInterface.ChoiceType.OBJECTS, PlayerInterface.ChooseReason.REVEAL);
 
-			java.util.Map<Parameter, Set> revealParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> revealParameters = new java.util.HashMap<Parameter, MagicSet>();
 			revealParameters.put(Parameter.CAUSE, cause);
-			revealParameters.put(Parameter.OBJECT, new Set(revealedCards));
+			revealParameters.put(Parameter.OBJECT, new MagicSet(revealedCards));
 			Event reveal = createEvent(game, "Target player reveals a number of cards from his or her hand equal to the number of Allies you control", REVEAL, revealParameters);
 			reveal.perform(event, true);
 
 			Player you = parameters.get(Parameter.PLAYER).getOne(Player.class).getActual();
-			Set chosenCard = new Set(you.sanitizeAndChoose(game.actualState, 1, revealedCards, PlayerInterface.ChoiceType.OBJECTS, REVEAL_SOME_CARDS_AND_DISCARD_FORCE_REASON));
+			MagicSet chosenCard = new MagicSet(you.sanitizeAndChoose(game.actualState, 1, revealedCards, PlayerInterface.ChoiceType.OBJECTS, REVEAL_SOME_CARDS_AND_DISCARD_FORCE_REASON));
 
-			java.util.Map<Parameter, Set> discardParameters = new java.util.HashMap<Parameter, Set>();
-			discardParameters.put(Parameter.CAUSE, new Set(cause.getOne(GameObject.class).getActual()));
+			java.util.Map<Parameter, MagicSet> discardParameters = new java.util.HashMap<Parameter, MagicSet>();
+			discardParameters.put(Parameter.CAUSE, new MagicSet(cause.getOne(GameObject.class).getActual()));
 			discardParameters.put(Parameter.CARD, chosenCard);
 			Event discard = createEvent(game, "That player discards that card.", EventType.DISCARD_CARDS, discardParameters);
 			discard.perform(event, true);
@@ -1305,13 +1305,13 @@ public class Convenience
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
-			Set cause = parameters.get(EventType.Parameter.CAUSE);
+			MagicSet cause = parameters.get(EventType.Parameter.CAUSE);
 
-			java.util.Map<EventType.Parameter, Set> rfgParameters = new java.util.HashMap<EventType.Parameter, Set>();
+			java.util.Map<EventType.Parameter, MagicSet> rfgParameters = new java.util.HashMap<EventType.Parameter, MagicSet>();
 			rfgParameters.put(EventType.Parameter.CAUSE, cause);
-			rfgParameters.put(EventType.Parameter.TO, new Set(game.actualState.exileZone()));
+			rfgParameters.put(EventType.Parameter.TO, new MagicSet(game.actualState.exileZone()));
 			rfgParameters.put(EventType.Parameter.OBJECT, parameters.get(EventType.Parameter.TARGET));
 			Event rfgEvent = createEvent(game, "Exile target creature", EventType.MOVE_OBJECTS, rfgParameters);
 			boolean ret = rfgEvent.perform(event, true);
@@ -1332,10 +1332,10 @@ public class Convenience
 			EventType slideBack = (parameters.containsKey(Parameter.TAPPED) ? EventType.PUT_ONTO_BATTLEFIELD_TAPPED : EventType.PUT_ONTO_BATTLEFIELD);
 
 			// Delayed trigger parameter map
-			java.util.Map<EventType.Parameter, Set> trigParameters = new java.util.HashMap<EventType.Parameter, Set>();
+			java.util.Map<EventType.Parameter, MagicSet> trigParameters = new java.util.HashMap<EventType.Parameter, MagicSet>();
 			trigParameters.put(EventType.Parameter.CAUSE, cause);
-			trigParameters.put(EventType.Parameter.EVENT, new Set(eot));
-			trigParameters.put(EventType.Parameter.EFFECT, new Set(new EventFactory(slideBack, returnParameters, "Return that creature to the battlefield under its owner's control.")));
+			trigParameters.put(EventType.Parameter.EVENT, new MagicSet(eot));
+			trigParameters.put(EventType.Parameter.EFFECT, new MagicSet(new EventFactory(slideBack, returnParameters, "Return that creature to the battlefield under its owner's control.")));
 			Event triggerEvent = createEvent(game, "At the beginning of the next end step, return that creature to the battlefield under its owner's control", EventType.CREATE_DELAYED_TRIGGER, trigParameters);
 			ret = triggerEvent.perform(event, true) && ret;
 
@@ -1398,12 +1398,12 @@ public class Convenience
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			Player player = parameters.get(Parameter.PLAYER).getOne(Player.class);
 			int number = parameters.get(Parameter.NUMBER).getOne(Integer.class);
-			Set cards = parameters.get(Parameter.CARD);
-			event.setResult(new Set(player.separateIntoPiles(number, cards)));
+			MagicSet cards = parameters.get(Parameter.CARD);
+			event.setResult(new MagicSet(player.separateIntoPiles(number, cards)));
 			return true;
 		}
 	};
@@ -1424,9 +1424,9 @@ public class Convenience
 		}
 
 		@Override
-		public boolean attempt(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
-			Set effects = parameters.get(Parameter.EFFECT);
+			MagicSet effects = parameters.get(Parameter.EFFECT);
 			for(EventFactory e: effects.getAll(EventFactory.class))
 				if(!(e.createEvent(game, event.getSource()).attempt(event)))
 					return false;
@@ -1434,7 +1434,7 @@ public class Convenience
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			boolean topLevel = !parameters.containsKey(Parameter.EVENT);
 			boolean ret = true;
@@ -1672,7 +1672,7 @@ public class Convenience
 			pattern.withResult(new SetPattern()
 			{
 				@Override
-				public boolean match(GameState state, Identified thisObject, Set set)
+				public boolean match(GameState state, Identified thisObject, MagicSet set)
 				{
 					if(!thisObject.isTriggeredAbility())
 						return false;
@@ -2359,7 +2359,7 @@ public class Convenience
 				}
 
 				@Override
-				public boolean match(GameState state, Identified thisObject, Set set)
+				public boolean match(GameState state, Identified thisObject, MagicSet set)
 				{
 					for(GameObject object: set.getAll(GameObject.class))
 						if(object.isPermanent() && object.getTypes().contains(Type.LAND))
@@ -2386,7 +2386,7 @@ public class Convenience
 			}
 
 			@Override
-			public boolean match(GameState state, Identified thisObject, Set set)
+			public boolean match(GameState state, Identified thisObject, MagicSet set)
 			{
 				for(GameObject object: set.getAll(GameObject.class))
 					if(object.isPermanent() && object.getTypes().contains(Type.LAND) && object.getSubTypes().contains(landType))
@@ -2522,7 +2522,7 @@ public class Convenience
 			permanents = new SetPattern()
 			{
 				@Override
-				public boolean match(GameState state, Identified thisObject, Set set)
+				public boolean match(GameState state, Identified thisObject, MagicSet set)
 				{
 					for(GameObject object: set.getAll(GameObject.class))
 						if(object.isPermanent())
@@ -3102,7 +3102,7 @@ public class Convenience
 				}
 
 				@Override
-				public boolean match(GameState state, Identified thisObject, Set set)
+				public boolean match(GameState state, Identified thisObject, MagicSet set)
 				{
 					for(GameObject o: set.getAll(GameObject.class))
 						if(o.isSpell() || o.isActivatedAbility() || o.isTriggeredAbility())
@@ -3200,7 +3200,7 @@ public class Convenience
 			}
 
 			@Override
-			public boolean match(GameState state, Identified thisObject, Set set)
+			public boolean match(GameState state, Identified thisObject, MagicSet set)
 			{
 				// CAST_SPELL_OR_ACTIVATE_ABILITY.OBJECT is guaranteed to
 				// only have one object in it.
@@ -3214,7 +3214,7 @@ public class Convenience
 				if(!ability.costsTap)
 					return false;
 
-				if(!what.match(state, thisObject, new Set(ability.getSource(state))))
+				if(!what.match(state, thisObject, new MagicSet(ability.getSource(state))))
 					return false;
 
 				return true;

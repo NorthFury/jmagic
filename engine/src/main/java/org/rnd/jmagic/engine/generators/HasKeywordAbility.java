@@ -27,9 +27,9 @@ public class HasKeywordAbility extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		Set ret = new Set();
+		MagicSet ret = new MagicSet();
 
 		for(GameObject object: state.getAllObjects())
 			for(Class<? extends Keyword> c: this.abilities)

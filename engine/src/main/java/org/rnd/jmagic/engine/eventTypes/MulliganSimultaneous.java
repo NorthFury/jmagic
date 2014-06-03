@@ -18,7 +18,7 @@ public final class MulliganSimultaneous extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		boolean ret = true;
 
@@ -36,8 +36,8 @@ public final class MulliganSimultaneous extends EventType
 
 			if(!keep)
 			{
-				java.util.Map<Parameter, Set> mulliganParameters = new java.util.HashMap<Parameter, Set>();
-				mulliganParameters.put(EventType.Parameter.PLAYER, new Set(player));
+				java.util.Map<Parameter, MagicSet> mulliganParameters = new java.util.HashMap<Parameter, MagicSet>();
+				mulliganParameters.put(EventType.Parameter.PLAYER, new MagicSet(player));
 				Event mulligan = createEvent(game, "Mulligan", EventType.MULLIGAN, mulliganParameters);
 
 				// 103.4a If an effect allows a player to perform an action

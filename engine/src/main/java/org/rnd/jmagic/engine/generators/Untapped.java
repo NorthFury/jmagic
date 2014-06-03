@@ -19,9 +19,9 @@ public class Untapped extends SetGenerator
 		// Intentionally left ineffectual
 	}
 
-	static public Set get(GameState state)
+	static public MagicSet get(GameState state)
 	{
-		Set ret = new Set();
+		MagicSet ret = new MagicSet();
 		for(GameObject o: state.battlefield())
 			if(!o.isTapped())
 				ret.add(o);
@@ -29,7 +29,7 @@ public class Untapped extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
 		return Untapped.get(state);
 	}

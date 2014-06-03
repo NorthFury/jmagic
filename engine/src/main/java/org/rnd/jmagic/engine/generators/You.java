@@ -20,7 +20,7 @@ public class You extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
 		if(!(thisObject.isGameObject()))
 			throw new UnsupportedOperationException("Tried to evaluate You on " + thisObject);
@@ -31,11 +31,11 @@ public class You extends SetGenerator
 		{
 			Identified source = ((NonStaticAbility)thisObject).getSource(state);
 			if(source.isGameObject())
-				return new Set(((GameObject)source).getController(state));
-			return new Set(source); // source is a player
+				return new MagicSet(((GameObject)source).getController(state));
+			return new MagicSet(source); // source is a player
 		}
 
 		// Otherwise just get thisObject's controller
-		return new Set(state.<GameObject>get(thisObject.ID).getController(state));
+		return new MagicSet(state.<GameObject>get(thisObject.ID).getController(state));
 	}
 }

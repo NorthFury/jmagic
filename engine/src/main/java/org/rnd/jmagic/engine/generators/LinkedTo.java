@@ -17,9 +17,9 @@ public class LinkedTo extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		Set ret = new Set();
+		MagicSet ret = new MagicSet();
 		for(Linkable i: this.what.evaluate(state, thisObject).getAll(Linkable.class))
 		{
 			Linkable.Manager manager = i.getLinkManager();

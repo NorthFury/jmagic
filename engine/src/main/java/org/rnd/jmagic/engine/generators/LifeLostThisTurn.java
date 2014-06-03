@@ -22,13 +22,13 @@ public class LifeLostThisTurn extends SetGenerator
 		}
 
 		@Override
-		public Set evaluate(GameState state, Identified thisObject)
+		public MagicSet evaluate(GameState state, Identified thisObject)
 		{
 			Turn currentTurn = state.currentTurn();
 			if(currentTurn == null)
 				return Empty.set;
 
-			Set ret = new Set();
+			MagicSet ret = new MagicSet();
 			java.util.Map<Integer, Integer> value = state.getTracker(LifeTracker.class).getValue(state);
 			for(Integer id: value.keySet())
 			{
@@ -77,7 +77,7 @@ public class LifeLostThisTurn extends SetGenerator
 		@Override
 		protected void update(GameState state, Event event)
 		{
-			Set players = event.parametersNow.get(EventType.Parameter.PLAYER).evaluate(state, null);
+			MagicSet players = event.parametersNow.get(EventType.Parameter.PLAYER).evaluate(state, null);
 			int loss = event.parametersNow.get(EventType.Parameter.NUMBER).evaluate(state, null).getOne(Integer.class);
 			for(Player p: players.getAll(Player.class))
 			{
@@ -102,14 +102,14 @@ public class LifeLostThisTurn extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
 		Turn currentTurn = state.currentTurn();
 		if(currentTurn == null)
 			return Empty.set;
 
-		Set ret = new Set();
-		Set what = this.players.evaluate(state, thisObject);
+		MagicSet ret = new MagicSet();
+		MagicSet what = this.players.evaluate(state, thisObject);
 		java.util.Map<Integer, Integer> value = state.getTracker(LifeTracker.class).getValue(state);
 
 		for(Player p: what.getAll(Player.class))

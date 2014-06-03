@@ -27,11 +27,11 @@ public final class WerewolfRansacker extends AlternateCard
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
-			Set target = parameters.get(Parameter.TARGET);
+			MagicSet target = parameters.get(Parameter.TARGET);
 
-			java.util.Map<Parameter, Set> destroyParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> destroyParameters = new java.util.HashMap<Parameter, MagicSet>();
 			destroyParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 			destroyParameters.put(Parameter.PERMANENT, target);
 			Event destroy = createEvent(game, "Destroy target artifact", EventType.DESTROY_PERMANENTS, destroyParameters);
@@ -40,9 +40,9 @@ public final class WerewolfRansacker extends AlternateCard
 			GameObject deadArtifact = game.actualState.get(target.getOne(GameObject.class).getActual().futureSelf);
 			if(deadArtifact.getZone().isGraveyard())
 			{
-				java.util.Map<Parameter, Set> damageParameters = new java.util.HashMap<Parameter, Set>();
+				java.util.Map<Parameter, MagicSet> damageParameters = new java.util.HashMap<Parameter, MagicSet>();
 				damageParameters.put(Parameter.CAUSE, parameters.get(Parameter.SOURCE));
-				damageParameters.put(Parameter.NUMBER, new Set(3));
+				damageParameters.put(Parameter.NUMBER, new MagicSet(3));
 				damageParameters.put(Parameter.TAKER, parameters.get(Parameter.CONTROLLER));
 				Event damage = createEvent(game, "Werewolf Ransacker deals 3 damage to that artifact's controller.", EventType.DEAL_DAMAGE_EVENLY, damageParameters);
 				damage.perform(event, true);

@@ -29,7 +29,7 @@ public final class KillingWave extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			java.util.Map<Player, java.util.Collection<GameObject>> creatures = new java.util.HashMap<Player, java.util.Collection<GameObject>>();
 			for(Player p: game.actualState.players)
@@ -42,7 +42,7 @@ public final class KillingWave extends Card
 			// life
 			java.util.Map<GameObject, EventFactory> choices = new java.util.HashMap<GameObject, EventFactory>();
 			int X = parameters.get(Parameter.NUMBER).getOne(Integer.class);
-			for(Player controller: game.actualState.apnapOrder(new Set(game.actualState.players)))
+			for(Player controller: game.actualState.apnapOrder(new MagicSet(game.actualState.players)))
 			{
 				Event payLife = payLife(Identity.instance(controller), X, "Pay " + X + " life").createEvent(game, event.getSource());
 				int lifePaymentSoFar = 0;

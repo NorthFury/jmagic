@@ -28,9 +28,9 @@ public final class CairnWanderer extends Card
 		}
 
 		@Override
-		public Set evaluate(GameState state, Identified thisObject)
+		public MagicSet evaluate(GameState state, Identified thisObject)
 		{
-			Set abilities = this.abilities.evaluate(state, thisObject);
+			MagicSet abilities = this.abilities.evaluate(state, thisObject);
 			java.util.Map<String, Identified> ret = new java.util.HashMap<String, Identified>();
 
 			for(Keyword a: abilities.getAll(Keyword.class))
@@ -38,7 +38,7 @@ public final class CairnWanderer extends Card
 					if(c.isAssignableFrom(a.getClass()))
 						ret.put(a.getName(), a);
 
-			return new Set(ret.values());
+			return new MagicSet(ret.values());
 		}
 	}
 

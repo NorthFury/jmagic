@@ -35,9 +35,9 @@ public class HasSubType extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		Set ret = new Set();
+		MagicSet ret = new MagicSet();
 		java.util.Set<SubType> types = this.type.evaluate(state, thisObject).getAll(SubType.class);
 		for(GameObject item: state.getAllObjects())
 			for(SubType type: types)

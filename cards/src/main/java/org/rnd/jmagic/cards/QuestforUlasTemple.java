@@ -26,12 +26,12 @@ public final class QuestforUlasTemple extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
-			Set cause = parameters.get(Parameter.CAUSE);
-			Set card = parameters.get(Parameter.OBJECT);
+			MagicSet cause = parameters.get(Parameter.CAUSE);
+			MagicSet card = parameters.get(Parameter.OBJECT);
 
-			java.util.Map<Parameter, Set> revealParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> revealParameters = new java.util.HashMap<Parameter, MagicSet>();
 			revealParameters.put(Parameter.CAUSE, cause);
 			revealParameters.put(Parameter.OBJECT, card);
 			Event reveal = createEvent(game, "Reveal " + card, EventType.REVEAL, revealParameters);

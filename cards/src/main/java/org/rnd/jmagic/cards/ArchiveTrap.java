@@ -42,7 +42,7 @@ public final class ArchiveTrap extends Card
 				if(event.type != EventType.SEARCH)
 					return false;
 
-				Set searched = event.parametersNow.get(EventType.Parameter.CARD).evaluate(state, null);
+				MagicSet searched = event.parametersNow.get(EventType.Parameter.CARD).evaluate(state, null);
 				Player who = event.parametersNow.get(EventType.Parameter.PLAYER).evaluate(state, null).getOne(Player.class);
 
 				for(Zone zone: searched.getAll(Zone.class))
@@ -84,9 +84,9 @@ public final class ArchiveTrap extends Card
 		}
 
 		@Override
-		public Set evaluate(GameState state, Identified thisObject)
+		public MagicSet evaluate(GameState state, Identified thisObject)
 		{
-			Set ret = new Set();
+			MagicSet ret = new MagicSet();
 			java.util.Set<Integer> playerIDs = state.getTracker(SearchTracker.class).getValue(state);
 			for(int playerID: playerIDs)
 				ret.add(state.get(playerID));

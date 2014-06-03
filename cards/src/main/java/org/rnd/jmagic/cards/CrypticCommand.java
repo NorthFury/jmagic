@@ -16,7 +16,7 @@ public final class CrypticCommand extends Card
 		super(state);
 
 		// Choose two -
-		this.setNumModes(new Set(new org.rnd.util.NumberRange(2, 2)));
+		this.setNumModes(new MagicSet(new org.rnd.util.NumberRange(2, 2)));
 
 		// Counter target spell;
 		Target target1 = this.addTarget(1, org.rnd.jmagic.engine.generators.Spells.instance(), "target spell");

@@ -27,7 +27,7 @@ public final class DealDamageBatches extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		// the structure of these maps is:
 		// map<player, map<source, amount>>
@@ -152,9 +152,9 @@ public final class DealDamageBatches extends EventType
 			Player player = playerPoisonCounter.getKey();
 			int number = playerPoisonCounter.getValue();
 
-			java.util.Map<Parameter, Set> witherParameters = new java.util.HashMap<Parameter, Set>();
-			witherParameters.put(Parameter.PLAYER, new Set(player));
-			witherParameters.put(Parameter.NUMBER, new Set(number));
+			java.util.Map<Parameter, MagicSet> witherParameters = new java.util.HashMap<Parameter, MagicSet>();
+			witherParameters.put(Parameter.PLAYER, new MagicSet(player));
+			witherParameters.put(Parameter.NUMBER, new MagicSet(number));
 			createEvent(game, "Put " + number + " poison counter" + (number == 1 ? "" : "s") + " on " + player + ".", ADD_POISON_COUNTERS, witherParameters).perform(event, false);
 		}
 
@@ -163,10 +163,10 @@ public final class DealDamageBatches extends EventType
 			Player player = playerLifeGain.getKey();
 			for(java.util.Map.Entry<GameObject, Integer> lifeGain: playerLifeGain.getValue().entrySet())
 			{
-				java.util.Map<Parameter, Set> gainLifeParameters = new java.util.HashMap<Parameter, Set>();
-				gainLifeParameters.put(Parameter.CAUSE, new Set(lifeGain.getKey()));
-				gainLifeParameters.put(Parameter.PLAYER, new Set(player));
-				gainLifeParameters.put(Parameter.NUMBER, new Set(lifeGain.getValue()));
+				java.util.Map<Parameter, MagicSet> gainLifeParameters = new java.util.HashMap<Parameter, MagicSet>();
+				gainLifeParameters.put(Parameter.CAUSE, new MagicSet(lifeGain.getKey()));
+				gainLifeParameters.put(Parameter.PLAYER, new MagicSet(player));
+				gainLifeParameters.put(Parameter.NUMBER, new MagicSet(lifeGain.getValue()));
 				createEvent(game, player + " gains " + lifeGain.getValue() + " life.", GAIN_LIFE, gainLifeParameters).perform(event, false);
 			}
 		}
@@ -176,10 +176,10 @@ public final class DealDamageBatches extends EventType
 			Player player = playerLifeLoss.getKey();
 			for(java.util.Map.Entry<GameObject, Integer> lifeLoss: playerLifeLoss.getValue().entrySet())
 			{
-				java.util.Map<Parameter, Set> loseLifeParameters = new java.util.HashMap<Parameter, Set>();
-				loseLifeParameters.put(Parameter.CAUSE, new Set(lifeLoss.getKey()));
-				loseLifeParameters.put(Parameter.PLAYER, new Set(player));
-				loseLifeParameters.put(Parameter.NUMBER, new Set(lifeLoss.getValue()));
+				java.util.Map<Parameter, MagicSet> loseLifeParameters = new java.util.HashMap<Parameter, MagicSet>();
+				loseLifeParameters.put(Parameter.CAUSE, new MagicSet(lifeLoss.getKey()));
+				loseLifeParameters.put(Parameter.PLAYER, new MagicSet(player));
+				loseLifeParameters.put(Parameter.NUMBER, new MagicSet(lifeLoss.getValue()));
 				loseLifeParameters.put(Parameter.DAMAGE, Empty.set);
 				createEvent(game, player + " loses " + lifeLoss.getValue() + " life.", LOSE_LIFE, loseLifeParameters).perform(event, false);
 			}
@@ -191,11 +191,11 @@ public final class DealDamageBatches extends EventType
 			GameObject taker = witherCounter.getKey();
 			int number = witherCounter.getValue();
 
-			java.util.Map<Parameter, Set> witherParameters = new java.util.HashMap<Parameter, Set>();
-			witherParameters.put(Parameter.CAUSE, new Set(game));
-			witherParameters.put(Parameter.COUNTER, new Set(Counter.CounterType.MINUS_ONE_MINUS_ONE));
-			witherParameters.put(Parameter.NUMBER, new Set(number));
-			witherParameters.put(Parameter.OBJECT, new Set(taker));
+			java.util.Map<Parameter, MagicSet> witherParameters = new java.util.HashMap<Parameter, MagicSet>();
+			witherParameters.put(Parameter.CAUSE, new MagicSet(game));
+			witherParameters.put(Parameter.COUNTER, new MagicSet(Counter.CounterType.MINUS_ONE_MINUS_ONE));
+			witherParameters.put(Parameter.NUMBER, new MagicSet(number));
+			witherParameters.put(Parameter.OBJECT, new MagicSet(taker));
 			createEvent(game, "Put " + number + " -1/-1 counter" + (number == 1 ? "" : "s") + " on " + taker + ".", PUT_COUNTERS, witherParameters).perform(event, false);
 		}
 
@@ -204,11 +204,11 @@ public final class DealDamageBatches extends EventType
 			GameObject taker = loyaltyCounter.getKey();
 			int number = planeswalkersLosingCounters.get(taker);
 
-			java.util.Map<Parameter, Set> removeCounterParameters = new java.util.HashMap<Parameter, Set>();
-			removeCounterParameters.put(Parameter.CAUSE, new Set(game));
-			removeCounterParameters.put(Parameter.COUNTER, new Set(Counter.CounterType.LOYALTY));
-			removeCounterParameters.put(Parameter.NUMBER, new Set(number));
-			removeCounterParameters.put(Parameter.OBJECT, new Set(taker));
+			java.util.Map<Parameter, MagicSet> removeCounterParameters = new java.util.HashMap<Parameter, MagicSet>();
+			removeCounterParameters.put(Parameter.CAUSE, new MagicSet(game));
+			removeCounterParameters.put(Parameter.COUNTER, new MagicSet(Counter.CounterType.LOYALTY));
+			removeCounterParameters.put(Parameter.NUMBER, new MagicSet(number));
+			removeCounterParameters.put(Parameter.OBJECT, new MagicSet(taker));
 
 			createEvent(game, "Remove " + number + " loyalty counter" + (number == 1 ? "" : "s") + " from " + taker + ".", REMOVE_COUNTERS, removeCounterParameters).perform(event, false);
 		}

@@ -22,9 +22,9 @@ public abstract class EnchantAnimatedCreature extends org.rnd.jmagic.abilities.k
 		}
 
 		@Override
-		public Set evaluate(GameState state, Identified thisObject)
+		public MagicSet evaluate(GameState state, Identified thisObject)
 		{
-			Set ret = new Set();
+			MagicSet ret = new MagicSet();
 
 			java.util.Map<Integer, java.util.Set<Integer>> animated = state.getTracker(this.trackerClass).getValue(state);
 

@@ -23,11 +23,11 @@ public class DamageDealtBy extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		Set ret = new Set();
-		Set sources = this.sources.evaluate(state, thisObject);
-		Set damage = this.damage.evaluate(state, thisObject);
+		MagicSet ret = new MagicSet();
+		MagicSet sources = this.sources.evaluate(state, thisObject);
+		MagicSet damage = this.damage.evaluate(state, thisObject);
 
 		for(DamageAssignment assignment: damage.getAll(DamageAssignment.class))
 			if(sources.contains(state.get(assignment.sourceID)))

@@ -20,9 +20,9 @@ public class DefendingPlayersThisTurnOf extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		Set ret = new Set();
+		MagicSet ret = new MagicSet();
 
 		java.util.Map<Integer, java.util.Set<Integer>> tracker = state.getTracker(SuccessfullyAttacked.class).getValue(state);
 		for(GameObject object: this.what.evaluate(state, thisObject).getAll(GameObject.class))

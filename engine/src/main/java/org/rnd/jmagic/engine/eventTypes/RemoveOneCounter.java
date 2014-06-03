@@ -18,7 +18,7 @@ public final class RemoveOneCounter extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		Counter.CounterType counterType = parameters.get(Parameter.COUNTER).getOne(Counter.CounterType.class);
 		GameObject object = parameters.get(Parameter.OBJECT).getOne(GameObject.class);
@@ -28,7 +28,7 @@ public final class RemoveOneCounter extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		Counter.CounterType counterType = parameters.get(Parameter.COUNTER).getOne(Counter.CounterType.class);
 
@@ -39,7 +39,7 @@ public final class RemoveOneCounter extends EventType
 			counters = ((GameObject)physicalObject).counters;
 		else
 			counters = ((Player)physicalObject).counters;
-		Set result = new Set();
+		MagicSet result = new MagicSet();
 
 		boolean removed = false;
 		boolean last = false;
@@ -68,10 +68,10 @@ public final class RemoveOneCounter extends EventType
 
 		if(last)
 		{
-			java.util.Map<Parameter, Set> lastCounterParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> lastCounterParameters = new java.util.HashMap<Parameter, MagicSet>();
 			lastCounterParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
-			lastCounterParameters.put(Parameter.COUNTER, new Set(counterType));
-			lastCounterParameters.put(Parameter.OBJECT, new Set(physicalObject));
+			lastCounterParameters.put(Parameter.COUNTER, new MagicSet(counterType));
+			lastCounterParameters.put(Parameter.OBJECT, new MagicSet(physicalObject));
 			Event removeLastCounter = createEvent(game, "Removed last " + counterType + " from " + physicalObject + ".", EventType.REMOVED_LAST_COUNTER, lastCounterParameters);
 			removeLastCounter.perform(event, false);
 		}

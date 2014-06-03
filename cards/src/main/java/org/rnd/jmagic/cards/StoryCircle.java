@@ -77,7 +77,7 @@ public final class StoryCircle extends Card
 			}
 
 			@Override
-			public boolean perform(Game game, Event event, java.util.Map<EventType.Parameter, Set> parameters)
+			public boolean perform(Game game, Event event, java.util.Map<EventType.Parameter, MagicSet> parameters)
 			{
 				Player you = parameters.get(EventType.Parameter.PLAYER).getOne(Player.class);
 				final Color color = parameters.get(EventType.Parameter.CHOICE).getOne(Color.class);
@@ -92,9 +92,9 @@ public final class StoryCircle extends Card
 
 				ContinuousEffect.Part part = replacementEffectPart(replacement);
 
-				java.util.Map<EventType.Parameter, Set> floaterParameters = new java.util.HashMap<EventType.Parameter, Set>();
+				java.util.Map<EventType.Parameter, MagicSet> floaterParameters = new java.util.HashMap<EventType.Parameter, MagicSet>();
 				floaterParameters.put(EventType.Parameter.CAUSE, parameters.get(EventType.Parameter.CAUSE));
-				floaterParameters.put(EventType.Parameter.EFFECT, new Set(part));
+				floaterParameters.put(EventType.Parameter.EFFECT, new MagicSet(part));
 				floaterParameters.put(EventType.Parameter.USES, ONE);
 				Event floaterEvent = createEvent(game, "The next time a source of your choice of the chosen color would deal damage to you this turn, prevent that damage.", EventType.CREATE_FLOATING_CONTINUOUS_EFFECT, floaterParameters);
 				boolean ret = floaterEvent.perform(event, true);

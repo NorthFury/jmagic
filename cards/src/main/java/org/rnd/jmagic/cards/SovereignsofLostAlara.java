@@ -27,48 +27,48 @@ public final class SovereignsofLostAlara extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			event.setResult(Empty.set);
 
 			// Search your library for an Aura card that could enchant that
 			// creature,
 			GameObject thatCreature = parameters.get(Parameter.ATTACKER).getOne(GameObject.class);
-			Set cardsInLibrary = parameters.get(Parameter.CARD);
-			Set choices = new Set();
+			MagicSet cardsInLibrary = parameters.get(Parameter.CARD);
+			MagicSet choices = new MagicSet();
 			for(GameObject o: cardsInLibrary.getAll(GameObject.class))
 				if(o.getSubTypes().contains(SubType.AURA))
 				{
-					java.util.Map<Parameter, Set> attachParameters = new java.util.HashMap<Parameter, Set>();
-					attachParameters.put(EventType.Parameter.OBJECT, new Set(o));
-					attachParameters.put(EventType.Parameter.TARGET, new Set(thatCreature));
+					java.util.Map<Parameter, MagicSet> attachParameters = new java.util.HashMap<Parameter, MagicSet>();
+					attachParameters.put(EventType.Parameter.OBJECT, new MagicSet(o));
+					attachParameters.put(EventType.Parameter.TARGET, new MagicSet(thatCreature));
 					if(ATTACH.attempt(game, event, attachParameters))
 						choices.add(o);
 				}
 
-			Set cause = parameters.get(Parameter.CAUSE);
-			Set you = parameters.get(Parameter.PLAYER);
+			MagicSet cause = parameters.get(Parameter.CAUSE);
+			MagicSet you = parameters.get(Parameter.PLAYER);
 
-			java.util.Map<Parameter, Set> searchParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> searchParameters = new java.util.HashMap<Parameter, MagicSet>();
 			searchParameters.put(EventType.Parameter.CAUSE, cause);
 			searchParameters.put(EventType.Parameter.PLAYER, you);
 			searchParameters.put(EventType.Parameter.NUMBER, ONE);
 			searchParameters.put(EventType.Parameter.CARD, cardsInLibrary);
-			searchParameters.put(EventType.Parameter.TYPE, new Set(Identity.instance(choices)));
+			searchParameters.put(EventType.Parameter.TYPE, new MagicSet(Identity.instance(choices)));
 			Event search = createEvent(game, "Search your library for an Aura card that could enchant that creature", SEARCH, searchParameters);
 			search.perform(event, true);
 
 			// put it onto the battlefield attached to that creature,
-			java.util.Map<Parameter, Set> moveParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> moveParameters = new java.util.HashMap<Parameter, MagicSet>();
 			moveParameters.put(EventType.Parameter.CAUSE, cause);
 			moveParameters.put(EventType.Parameter.CONTROLLER, you);
 			moveParameters.put(EventType.Parameter.OBJECT, search.getResult());
-			moveParameters.put(EventType.Parameter.TARGET, new Set(thatCreature));
+			moveParameters.put(EventType.Parameter.TARGET, new MagicSet(thatCreature));
 			Event move = createEvent(game, "Put it onto the battlefield attached to that creature", PUT_ONTO_BATTLEFIELD_ATTACHED_TO, moveParameters);
 			move.perform(event, true);
 
 			// then shuffle your library.
-			java.util.Map<Parameter, Set> shuffleParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> shuffleParameters = new java.util.HashMap<Parameter, MagicSet>();
 			shuffleParameters.put(EventType.Parameter.CAUSE, cause);
 			shuffleParameters.put(EventType.Parameter.PLAYER, you);
 			Event shuffle = createEvent(game, "Shuffle your library", SHUFFLE_LIBRARY, shuffleParameters);

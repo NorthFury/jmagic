@@ -18,7 +18,7 @@ public final class PutOntoBattlefieldWithCounters extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		for(GameObject object: parameters.get(Parameter.OBJECT).getAll(GameObject.class))
 			if(object.isGhost())
@@ -27,14 +27,14 @@ public final class PutOntoBattlefieldWithCounters extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		Event putOntoBattlefield = createEvent(game, "Put " + parameters.get(Parameter.OBJECT) + " onto the battlefield.", PUT_ONTO_BATTLEFIELD, parameters);
 		boolean moveStatus = putOntoBattlefield.perform(event, false);
 
 		for(ZoneChange change: putOntoBattlefield.getResult().getAll(ZoneChange.class))
 		{
-			Set counterType = parameters.get(Parameter.COUNTER);
+			MagicSet counterType = parameters.get(Parameter.COUNTER);
 			int number = 1;
 			if(parameters.containsKey(Parameter.NUMBER))
 				number = Sum.get(parameters.get(Parameter.NUMBER));

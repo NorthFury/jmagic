@@ -18,7 +18,7 @@ public final class PlayerChooseNumber extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		Player player = parameters.get(Parameter.PLAYER).getOne(Player.class);
 		org.rnd.util.NumberRange range = getRange(parameters.get(Parameter.CHOICE));

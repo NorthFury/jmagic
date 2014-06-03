@@ -14,7 +14,7 @@ public final class GhoulcallersChant extends Card
 	public GhoulcallersChant(GameState state)
 	{
 		super(state);
-		this.setNumModes(new Set(new org.rnd.util.NumberRange(1, 1)));
+		this.setNumModes(new MagicSet(new org.rnd.util.NumberRange(1, 1)));
 
 		SetGenerator graveyard = GraveyardOf.instance(You.instance());
 		SetGenerator hand = HandOf.instance(You.instance());

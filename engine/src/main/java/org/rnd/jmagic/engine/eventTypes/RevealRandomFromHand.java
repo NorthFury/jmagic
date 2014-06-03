@@ -18,9 +18,9 @@ public final class RevealRandomFromHand extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
-		Set result = new Set();
+		MagicSet result = new MagicSet();
 		int number = Sum.get(parameters.get(Parameter.NUMBER));
 		boolean ret = true;
 
@@ -39,9 +39,9 @@ public final class RevealRandomFromHand extends EventType
 			if(reveal.size() < number)
 				ret = false;
 
-			java.util.Map<Parameter, Set> revealParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> revealParameters = new java.util.HashMap<Parameter, MagicSet>();
 			revealParameters.put(EventType.Parameter.CAUSE, parameters.get(Parameter.CAUSE));
-			revealParameters.put(EventType.Parameter.OBJECT, new Set(reveal));
+			revealParameters.put(EventType.Parameter.OBJECT, new MagicSet(reveal));
 			Event revealEvent = createEvent(game, player + " reveals " + reveal, EventType.REVEAL, revealParameters);
 
 			if(!revealEvent.perform(event, false))

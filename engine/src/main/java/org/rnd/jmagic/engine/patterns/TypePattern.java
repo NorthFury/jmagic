@@ -22,9 +22,9 @@ public class TypePattern implements SetPattern
 	}
 
 	@Override
-	public boolean match(GameState state, Identified thisObject, Set set)
+	public boolean match(GameState state, Identified thisObject, MagicSet set)
 	{
-		Set types = this.types.evaluate(state, thisObject);
+		MagicSet types = this.types.evaluate(state, thisObject);
 		for(GameObject object: set.getAll(GameObject.class))
 			for(Type t: object.getTypes())
 				if(types.contains(t))

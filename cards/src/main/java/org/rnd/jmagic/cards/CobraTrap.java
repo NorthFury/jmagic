@@ -27,11 +27,11 @@ public final class CobraTrap extends Card
 		}
 
 		@Override
-		public Set evaluate(GameState state, Identified thisObject)
+		public MagicSet evaluate(GameState state, Identified thisObject)
 		{
 			Player you = this.you.evaluate(state, thisObject).getOne(Player.class);
 			java.util.Set<Player> opponents = OpponentsOf.instance(this.you).evaluate(state, thisObject).getAll(Player.class);
-			Set ret = new Set();
+			MagicSet ret = new MagicSet();
 
 			java.util.Map<Integer, Integer> ids = state.getTracker(DestroyedThisTurn.DestroyedTracker.class).getValue(state);
 

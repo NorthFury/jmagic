@@ -90,22 +90,22 @@ public final class HarmsWay extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<EventType.Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<EventType.Parameter, MagicSet> parameters)
 		{
 			Player you = parameters.get(EventType.Parameter.PLAYER).getOne(Player.class);
 			final int targetID = parameters.get(EventType.Parameter.TARGET).getOne(Identified.class).ID;
 
-			Set damageSources = AllSourcesOfDamage.instance().evaluate(game.actualState, null);
+			MagicSet damageSources = AllSourcesOfDamage.instance().evaluate(game.actualState, null);
 			final int chosenSourceID = you.sanitizeAndChoose(game.actualState, 1, damageSources.getAll(GameObject.class), PlayerInterface.ChoiceType.DAMAGE_SOURCE, REASON).iterator().next().ID;
 
 			DamageReplacementEffect replacement = new HarmsWayEffect(game, "The next 2 damage that a source of your choice would deal to you and/or permanents you control this turn is dealt to target creature or player instead.", chosenSourceID, targetID);
 
 			ContinuousEffect.Part part = replacementEffectPart(replacement);
 
-			java.util.Map<EventType.Parameter, Set> floaterParameters = new java.util.HashMap<EventType.Parameter, Set>();
+			java.util.Map<EventType.Parameter, MagicSet> floaterParameters = new java.util.HashMap<EventType.Parameter, MagicSet>();
 			floaterParameters.put(EventType.Parameter.CAUSE, parameters.get(EventType.Parameter.CAUSE));
-			floaterParameters.put(EventType.Parameter.EFFECT, new Set(part));
-			floaterParameters.put(EventType.Parameter.DAMAGE, new Set(2));
+			floaterParameters.put(EventType.Parameter.EFFECT, new MagicSet(part));
+			floaterParameters.put(EventType.Parameter.DAMAGE, new MagicSet(2));
 			Event floaterEvent = createEvent(game, "The next 2 damage that a source of your choice would deal to you and/or permanents you control this turn is dealt to target creature or player instead.", EventType.CREATE_FLOATING_CONTINUOUS_EFFECT, floaterParameters);
 			boolean ret = floaterEvent.perform(event, true);
 

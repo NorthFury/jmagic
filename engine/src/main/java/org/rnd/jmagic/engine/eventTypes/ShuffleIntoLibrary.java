@@ -18,7 +18,7 @@ public final class ShuffleIntoLibrary extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		for(GameObject object: parameters.get(Parameter.OBJECT).getAll(GameObject.class))
 			if(object.isGhost())
@@ -27,20 +27,20 @@ public final class ShuffleIntoLibrary extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
-		Set cause = parameters.get(Parameter.CAUSE);
+		MagicSet cause = parameters.get(Parameter.CAUSE);
 		java.util.Set<Player> player = parameters.get(Parameter.OBJECT).getAll(Player.class);
 
-		java.util.Map<Parameter, Set> moveParameters = new java.util.HashMap<Parameter, Set>();
+		java.util.Map<Parameter, MagicSet> moveParameters = new java.util.HashMap<Parameter, MagicSet>();
 		java.util.Set<GameObject> cards = parameters.get(Parameter.OBJECT).getAll(GameObject.class);
 		moveParameters.put(Parameter.CAUSE, cause);
-		moveParameters.put(Parameter.INDEX, new Set(-1));
+		moveParameters.put(Parameter.INDEX, new MagicSet(-1));
 		// if this is a stacked game, the cards will stay on the bottom and
 		// be player-ordered
 		if(!game.noRandom)
 			moveParameters.put(Parameter.RANDOM, Empty.set);
-		moveParameters.put(Parameter.OBJECT, new Set(cards));
+		moveParameters.put(Parameter.OBJECT, new MagicSet(cards));
 		Event move = createEvent(game, "Put " + cards + " into their owners' libraries.", PUT_INTO_LIBRARY, moveParameters);
 		boolean moveStatus = move.perform(event, true);
 
@@ -65,17 +65,17 @@ public final class ShuffleIntoLibrary extends EventType
 			for(ZoneChange zc: move.getResult().getAll(ZoneChange.class))
 				if(expectedDestinations.get(zc.oldObjectID) == zc.destinationZoneID)
 					break out;
-			event.setResult(new Set());
+			event.setResult(new MagicSet());
 			return false;
 		}
 
-		java.util.Map<Parameter, Set> shuffleParameters = new java.util.HashMap<Parameter, Set>();
+		java.util.Map<Parameter, MagicSet> shuffleParameters = new java.util.HashMap<Parameter, MagicSet>();
 		shuffleParameters.put(Parameter.CAUSE, cause);
-		shuffleParameters.put(Parameter.PLAYER, new Set(player));
+		shuffleParameters.put(Parameter.PLAYER, new MagicSet(player));
 		Event shuffle = createEvent(game, player + " shuffles their library.", SHUFFLE_LIBRARY, shuffleParameters);
 		boolean shuffleStatus = shuffle.perform(event, false);
 
-		Set result = new Set();
+		MagicSet result = new MagicSet();
 		result.addAll(move.getResult());
 		result.addAll(shuffle.getResult());
 		event.setResult(result);

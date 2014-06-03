@@ -29,7 +29,7 @@ public final class PhyrexianMetamorph extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			GameObject placeCopyEffectOn = parameters.get(Parameter.OBJECT).getOne(GameObject.class);
 			Player chooser = parameters.get(Parameter.PLAYER).getOne(Player.class);
@@ -38,7 +38,7 @@ public final class PhyrexianMetamorph extends Card
 			chooseParameters.thisID = placeCopyEffectOn.ID;
 			java.util.List<?> choice = chooser.sanitizeAndChoose(game.actualState, parameters.get(Parameter.SOURCE), chooseParameters);
 
-			GameObject createCopyEffectFrom = new Set(choice).getOne(GameObject.class);
+			GameObject createCopyEffectFrom = new MagicSet(choice).getOne(GameObject.class);
 
 			if(createCopyEffectFrom != null)
 			{
@@ -47,10 +47,10 @@ public final class PhyrexianMetamorph extends Card
 				part.parameters.put(ContinuousEffectType.Parameter.ORIGINAL, IdentifiedWithID.instance(createCopyEffectFrom.ID));
 				part.parameters.put(ContinuousEffectType.Parameter.TYPE, Identity.instance(Type.ARTIFACT));
 
-				java.util.Map<Parameter, Set> effectParameters = new java.util.HashMap<Parameter, Set>();
+				java.util.Map<Parameter, MagicSet> effectParameters = new java.util.HashMap<Parameter, MagicSet>();
 				effectParameters.put(EventType.Parameter.CAUSE, parameters.get(Parameter.CAUSE));
-				effectParameters.put(EventType.Parameter.EFFECT, new Set(part));
-				effectParameters.put(EventType.Parameter.EXPIRES, new Set(Empty.instance()));
+				effectParameters.put(EventType.Parameter.EFFECT, new MagicSet(part));
+				effectParameters.put(EventType.Parameter.EXPIRES, new MagicSet(Empty.instance()));
 				Event copy = createEvent(game, placeCopyEffectOn + " copies " + choice + ".", EventType.CREATE_FLOATING_CONTINUOUS_EFFECT, effectParameters);
 				copy.perform(event, false);
 			}

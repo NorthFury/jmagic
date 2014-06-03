@@ -18,11 +18,11 @@ public final class EmptyAllManaPools extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
-		java.util.Map<Parameter, Set> emptyPoolParameters = new java.util.HashMap<Parameter, Set>();
-		emptyPoolParameters.put(Parameter.CAUSE, new Set(game));
-		emptyPoolParameters.put(Parameter.PLAYER, new Set(game.actualState.players));
+		java.util.Map<Parameter, MagicSet> emptyPoolParameters = new java.util.HashMap<Parameter, MagicSet>();
+		emptyPoolParameters.put(Parameter.CAUSE, new MagicSet(game));
+		emptyPoolParameters.put(Parameter.PLAYER, new MagicSet(game.actualState.players));
 		Event emptyPools = createEvent(game, event.getName(), EMPTY_MANA_POOL, emptyPoolParameters);
 		emptyPools.perform(event, false);
 

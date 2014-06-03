@@ -20,9 +20,9 @@ public class LifeTotalOf extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		Set ret = new Set();
+		MagicSet ret = new MagicSet();
 		for(Player player: this.what.evaluate(state, thisObject).getAll(Player.class))
 			ret.add(player.lifeTotal);
 		return ret;

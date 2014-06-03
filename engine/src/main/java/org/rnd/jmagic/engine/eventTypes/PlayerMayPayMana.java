@@ -18,13 +18,13 @@ public final class PlayerMayPayMana extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
-		Set playerParameter = parameters.get(Parameter.PLAYER);
+		MagicSet playerParameter = parameters.get(Parameter.PLAYER);
 		Player player = playerParameter.getOne(Player.class);
 		player.mayActivateManaAbilities();
 
-		Set costParameter = parameters.get(Parameter.COST);
+		MagicSet costParameter = parameters.get(Parameter.COST);
 		ManaPool cost = new ManaPool(costParameter.getAll(ManaSymbol.class));
 		int number = 1;
 		if(parameters.containsKey(Parameter.NUMBER))
@@ -36,9 +36,9 @@ public final class PlayerMayPayMana extends EventType
 		factory.parameters.put(Parameter.COST, Identity.instance(cost));
 		factory.parameters.put(Parameter.PLAYER, Identity.instance(playerParameter));
 
-		java.util.Map<Parameter, Set> mayPayParameters = new java.util.HashMap<Parameter, Set>();
+		java.util.Map<Parameter, MagicSet> mayPayParameters = new java.util.HashMap<Parameter, MagicSet>();
 		mayPayParameters.put(Parameter.PLAYER, playerParameter);
-		mayPayParameters.put(Parameter.EVENT, new Set(factory));
+		mayPayParameters.put(Parameter.EVENT, new MagicSet(factory));
 		Event mayPay = createEvent(game, player + " may pay " + cost + ".", PLAYER_MAY, mayPayParameters);
 		boolean ret = mayPay.perform(event, false);
 

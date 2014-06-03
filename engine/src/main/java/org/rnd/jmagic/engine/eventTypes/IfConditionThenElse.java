@@ -18,9 +18,9 @@ public final class IfConditionThenElse extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
-		Set ifCondition = parameters.get(Parameter.IF);
+		MagicSet ifCondition = parameters.get(Parameter.IF);
 
 		// if condition is true, do Then
 		if(!ifCondition.isEmpty())

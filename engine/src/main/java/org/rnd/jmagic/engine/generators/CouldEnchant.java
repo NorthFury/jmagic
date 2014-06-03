@@ -17,10 +17,10 @@ public class CouldEnchant extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		Set ret = new Set();
-		Set what = this.what.evaluate(state, thisObject);
+		MagicSet ret = new MagicSet();
+		MagicSet what = this.what.evaluate(state, thisObject);
 		auras: for(GameObject aura: state.getAllObjects())
 		{
 			if(!aura.getSubTypes().contains(SubType.AURA))
@@ -30,10 +30,10 @@ public class CouldEnchant extends SetGenerator
 				if(ability.isEnchant())
 				{
 					org.rnd.jmagic.abilities.keywords.Enchant e = (org.rnd.jmagic.abilities.keywords.Enchant)ability;
-					Set intermediate = new Set(what);
+					MagicSet intermediate = new MagicSet(what);
 					intermediate.retainAll(e.filter.evaluate(state, aura));
 					for(GameObject o: intermediate.getAll(GameObject.class))
-						if(!o.cantBeAttachedBy().match(state, thisObject, new Set(aura)))
+						if(!o.cantBeAttachedBy().match(state, thisObject, new MagicSet(aura)))
 						{
 							ret.add(aura);
 							continue auras;

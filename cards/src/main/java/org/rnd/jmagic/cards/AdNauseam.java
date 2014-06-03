@@ -25,36 +25,36 @@ public final class AdNauseam extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			Player you = parameters.get(Parameter.PLAYER).getOne(Player.class);
 			Zone library = you.getLibrary(game.actualState);
 			Zone hand = you.getHand(game.actualState);
 			if(!library.objects.isEmpty())
 			{
-				Set cause = new Set(event.getSource());
+				MagicSet cause = new MagicSet(event.getSource());
 				boolean repeat = true;
 				while(repeat)
 				{
 					GameObject topCard = library.objects.iterator().next();
 
-					java.util.Map<Parameter, Set> revealParameters = new java.util.HashMap<Parameter, Set>();
+					java.util.Map<Parameter, MagicSet> revealParameters = new java.util.HashMap<Parameter, MagicSet>();
 					revealParameters.put(EventType.Parameter.CAUSE, cause);
-					revealParameters.put(EventType.Parameter.OBJECT, new Set(topCard));
+					revealParameters.put(EventType.Parameter.OBJECT, new MagicSet(topCard));
 					Event reveal = createEvent(game, "Reveal the top card of your library", REVEAL, revealParameters);
 					reveal.perform(event, true);
 
-					java.util.Map<Parameter, Set> moveParameters = new java.util.HashMap<Parameter, Set>();
+					java.util.Map<Parameter, MagicSet> moveParameters = new java.util.HashMap<Parameter, MagicSet>();
 					moveParameters.put(EventType.Parameter.CAUSE, cause);
-					moveParameters.put(EventType.Parameter.TO, new Set(hand));
-					moveParameters.put(EventType.Parameter.OBJECT, new Set(topCard));
+					moveParameters.put(EventType.Parameter.TO, new MagicSet(hand));
+					moveParameters.put(EventType.Parameter.OBJECT, new MagicSet(topCard));
 					Event move = createEvent(game, "Put that card into your hand", MOVE_OBJECTS, moveParameters);
 					move.perform(event, true);
 
-					java.util.Map<Parameter, Set> lifeParameters = new java.util.HashMap<Parameter, Set>();
+					java.util.Map<Parameter, MagicSet> lifeParameters = new java.util.HashMap<Parameter, MagicSet>();
 					lifeParameters.put(EventType.Parameter.CAUSE, cause);
-					lifeParameters.put(EventType.Parameter.PLAYER, new Set(you));
-					lifeParameters.put(EventType.Parameter.NUMBER, new Set(topCard.getConvertedManaCost()));
+					lifeParameters.put(EventType.Parameter.PLAYER, new MagicSet(you));
+					lifeParameters.put(EventType.Parameter.NUMBER, new MagicSet(topCard.getConvertedManaCost()));
 					Event life = createEvent(game, "You lose life equal to that card's converted mana cost", LOSE_LIFE, lifeParameters);
 					life.perform(event, true);
 

@@ -17,9 +17,9 @@ public final class UntapChoice extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
-		Set choices = parameters.get(Parameter.CHOICE);
+		MagicSet choices = parameters.get(Parameter.CHOICE);
 
 		org.rnd.util.NumberRange range = getRange(parameters.get(Parameter.NUMBER));
 		int required = range.getLower(0);
@@ -37,7 +37,7 @@ public final class UntapChoice extends EventType
 	}
 
 	@Override
-	public void makeChoices(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public void makeChoices(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		Player player = parameters.get(Parameter.PLAYER).getOne(Player.class);
 
@@ -58,12 +58,12 @@ public final class UntapChoice extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		boolean ret = event.allChoicesMade;
-		Set objects = event.getChoices(parameters.get(Parameter.PLAYER).getOne(Player.class));
+		MagicSet objects = event.getChoices(parameters.get(Parameter.PLAYER).getOne(Player.class));
 
-		java.util.Map<Parameter, Set> untapParameters = new java.util.HashMap<Parameter, Set>();
+		java.util.Map<Parameter, MagicSet> untapParameters = new java.util.HashMap<Parameter, MagicSet>();
 		untapParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 		untapParameters.put(Parameter.OBJECT, objects);
 		Event untap = createEvent(game, "Untap " + objects, EventType.UNTAP_PERMANENTS, untapParameters);

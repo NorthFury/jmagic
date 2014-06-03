@@ -29,9 +29,9 @@ public class HasSuperType extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		Set ret = new Set();
+		MagicSet ret = new MagicSet();
 		java.util.Set<SuperType> types = this.type.evaluate(state, thisObject).getAll(SuperType.class);
 		for(GameObject item: state.getAllObjects())
 			for(SuperType type: types)

@@ -3,7 +3,7 @@ package org.rnd.jmagic.engine;
 /** Represents a token. */
 public final class Token extends GameObject
 {
-	private Set abilityClasses;
+	private MagicSet abilityClasses;
 
 	private boolean wasOnTheBattlefield;
 
@@ -15,7 +15,7 @@ public final class Token extends GameObject
 	 * times
 	 * @param name The name to give the token.
 	 */
-	public Token(GameState state, Set abilityClasses, String name)
+	public Token(GameState state, MagicSet abilityClasses, String name)
 	{
 		super(state);
 

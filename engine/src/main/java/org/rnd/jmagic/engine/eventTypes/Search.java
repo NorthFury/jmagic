@@ -37,19 +37,19 @@ public final class Search extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
-		Set cards = parameters.get(Parameter.CARD);
+		MagicSet cards = parameters.get(Parameter.CARD);
 		if(cards.isEmpty())
 			return true;
 
-		Set player = parameters.get(Parameter.PLAYER);
+		MagicSet player = parameters.get(Parameter.PLAYER);
 		java.util.Set<Zone> zones = cards.getAll(Zone.class);
 		for(Zone zone: zones)
 		{
-			java.util.Map<Parameter, Set> testParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> testParameters = new java.util.HashMap<Parameter, MagicSet>();
 			testParameters.put(Parameter.PLAYER, player);
-			testParameters.put(Parameter.CARD, new Set(zone));
+			testParameters.put(Parameter.CARD, new MagicSet(zone));
 			Event test = createEvent(game, "Search " + zone + "?", SEARCH_MARKER, testParameters);
 			cards.remove(zone);
 			if(!test.perform(event, false))
@@ -59,12 +59,12 @@ public final class Search extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
-		Set cause = parameters.get(Parameter.CAUSE);
+		MagicSet cause = parameters.get(Parameter.CAUSE);
 		Player player = parameters.get(Parameter.PLAYER).getOne(Player.class);
 
-		Set cards = parameters.get(Parameter.CARD);
+		MagicSet cards = parameters.get(Parameter.CARD);
 
 		if(cards.isEmpty())
 		{
@@ -75,9 +75,9 @@ public final class Search extends EventType
 		java.util.Set<Zone> zones = cards.getAll(Zone.class);
 		for(Zone zone: zones)
 		{
-			java.util.Map<Parameter, Set> testParameters = new java.util.HashMap<Parameter, Set>();
-			testParameters.put(Parameter.PLAYER, new Set(player));
-			testParameters.put(Parameter.CARD, new Set(zone));
+			java.util.Map<Parameter, MagicSet> testParameters = new java.util.HashMap<Parameter, MagicSet>();
+			testParameters.put(Parameter.PLAYER, new MagicSet(player));
+			testParameters.put(Parameter.CARD, new MagicSet(zone));
 			Event test = createEvent(game, "Search " + zone + "?", SEARCH_MARKER, testParameters);
 			cards.remove(zone);
 			if(test.perform(event, false))
@@ -103,14 +103,14 @@ public final class Search extends EventType
 			if(!zoneIsHidden(publicZones, hiddenZones, zone, player))
 				publicObjects.add(o);
 		}
-		Set result = new Set(zones);
+		MagicSet result = new MagicSet(zones);
 
 		boolean multipleZones = (zones.size() > 1);
 
-		java.util.Map<Parameter, Set> lookParameters = new java.util.HashMap<Parameter, Set>();
+		java.util.Map<Parameter, MagicSet> lookParameters = new java.util.HashMap<Parameter, MagicSet>();
 		lookParameters.put(Parameter.CAUSE, cause);
 		lookParameters.put(Parameter.OBJECT, cards);
-		lookParameters.put(Parameter.PLAYER, new Set(player));
+		lookParameters.put(Parameter.PLAYER, new MagicSet(player));
 		Event lookEvent = createEvent(game, player + " looks at " + cards, EventType.LOOK, lookParameters);
 		lookEvent.perform(event, false);
 
@@ -169,9 +169,9 @@ public final class Search extends EventType
 		result.addAll(choices);
 		if(searchRestricted)
 		{
-			java.util.Map<EventType.Parameter, Set> revealParameters = new java.util.HashMap<EventType.Parameter, Set>();
-			revealParameters.put(Parameter.CAUSE, new Set(cause));
-			revealParameters.put(Parameter.OBJECT, new Set(choices));
+			java.util.Map<EventType.Parameter, MagicSet> revealParameters = new java.util.HashMap<EventType.Parameter, MagicSet>();
+			revealParameters.put(Parameter.CAUSE, new MagicSet(cause));
+			revealParameters.put(Parameter.OBJECT, new MagicSet(choices));
 			createEvent(game, "Reveal " + choices, EventType.REVEAL, revealParameters).perform(event, false);
 		}
 

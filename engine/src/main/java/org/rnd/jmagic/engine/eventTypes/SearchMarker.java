@@ -18,7 +18,7 @@ public final class SearchMarker extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		event.setResult(parameters.get(Parameter.CARD));
 		return true;

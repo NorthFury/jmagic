@@ -18,9 +18,9 @@ public final class SearchLibraryAndPutInto extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
-		Set cause = parameters.get(Parameter.CAUSE);
+		MagicSet cause = parameters.get(Parameter.CAUSE);
 		Player player = parameters.get(Parameter.PLAYER).getOne(Player.class);
 		Player target = player;
 		if(parameters.containsKey(Parameter.TARGET))
@@ -29,11 +29,11 @@ public final class SearchLibraryAndPutInto extends EventType
 		org.rnd.util.NumberRange num = getRange(parameters.get(Parameter.NUMBER));
 		Zone library = target.getLibrary(game.actualState);
 
-		java.util.Map<Parameter, Set> searchParameters = new java.util.HashMap<Parameter, Set>();
+		java.util.Map<Parameter, MagicSet> searchParameters = new java.util.HashMap<Parameter, MagicSet>();
 		searchParameters.put(Parameter.CAUSE, cause);
-		searchParameters.put(Parameter.PLAYER, new Set(player));
-		searchParameters.put(Parameter.NUMBER, new Set(num));
-		searchParameters.put(Parameter.CARD, new Set(library));
+		searchParameters.put(Parameter.PLAYER, new MagicSet(player));
+		searchParameters.put(Parameter.NUMBER, new MagicSet(num));
+		searchParameters.put(Parameter.CARD, new MagicSet(library));
 		if(parameters.containsKey(Parameter.TYPE))
 			searchParameters.put(Parameter.TYPE, parameters.get(Parameter.TYPE));
 
@@ -47,18 +47,18 @@ public final class SearchLibraryAndPutInto extends EventType
 		Event searchEvent = createEvent(game, searchName, EventType.SEARCH, searchParameters);
 		searchEvent.perform(event, true);
 
-		java.util.Map<Parameter, Set> shuffleParameters = new java.util.HashMap<Parameter, Set>();
+		java.util.Map<Parameter, MagicSet> shuffleParameters = new java.util.HashMap<Parameter, MagicSet>();
 		shuffleParameters.put(Parameter.CAUSE, cause);
-		shuffleParameters.put(Parameter.PLAYER, new Set(target));
+		shuffleParameters.put(Parameter.PLAYER, new MagicSet(target));
 
 		target = target.getActual();
 
-		Set object = searchEvent.getResult();
-		Set to = parameters.get(Parameter.TO);
+		MagicSet object = searchEvent.getResult();
+		MagicSet to = parameters.get(Parameter.TO);
 		boolean ret;
 		if(to.getOne(Zone.class).equals(game.actualState.battlefield()) && parameters.containsKey(Parameter.TAPPED))
 		{
-			java.util.Map<Parameter, Set> ontoBattlefieldTappedParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> ontoBattlefieldTappedParameters = new java.util.HashMap<Parameter, MagicSet>();
 			ontoBattlefieldTappedParameters.put(Parameter.CAUSE, cause);
 			ontoBattlefieldTappedParameters.put(Parameter.CONTROLLER, parameters.get(Parameter.CONTROLLER));
 			ontoBattlefieldTappedParameters.put(Parameter.OBJECT, object);
@@ -70,8 +70,8 @@ public final class SearchLibraryAndPutInto extends EventType
 		else
 		{
 			ret = true;
-			Set result = new Set();
-			java.util.Map<Parameter, Set> moveParameters = new java.util.HashMap<Parameter, Set>();
+			MagicSet result = new MagicSet();
+			java.util.Map<Parameter, MagicSet> moveParameters = new java.util.HashMap<Parameter, MagicSet>();
 			moveParameters.put(Parameter.CAUSE, cause);
 			moveParameters.put(Parameter.TO, to);
 			if(parameters.containsKey(Parameter.CONTROLLER))

@@ -49,15 +49,15 @@ public final class WindbriskHeights extends Card
 			}
 
 			@Override
-			public Set evaluate(GameState state, Identified thisObject)
+			public MagicSet evaluate(GameState state, Identified thisObject)
 			{
 				AttackTracker tracker = state.getTracker(AttackTracker.class);
 				java.util.Map<Integer, java.util.Collection<Integer>> trackerValue = tracker.getValue(state);
 				Player you = ((GameObject)thisObject).getController(state);
 				if(!trackerValue.containsKey(you.ID))
-					return new Set();
+					return new MagicSet();
 
-				Set ret = new Set();
+				MagicSet ret = new MagicSet();
 				for(int i: trackerValue.get(you.ID))
 					ret.add(state.get(i));
 				return ret;

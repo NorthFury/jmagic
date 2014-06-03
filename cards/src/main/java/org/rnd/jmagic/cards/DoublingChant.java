@@ -5,7 +5,7 @@ import static org.rnd.jmagic.Convenience.*;
 import java.util.*;
 
 import org.rnd.jmagic.engine.*;
-import org.rnd.jmagic.engine.Set;
+import org.rnd.jmagic.engine.MagicSet;
 import org.rnd.jmagic.engine.generators.*;
 
 @Name("Doubling Chant")
@@ -29,27 +29,27 @@ public final class DoublingChant extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
-			Set cause = new Set(event.getSource());
-			Set you = parameters.get(Parameter.PLAYER);
+			MagicSet cause = new MagicSet(event.getSource());
+			MagicSet you = parameters.get(Parameter.PLAYER);
 			Zone library = you.getOne(Player.class).getLibrary(game.actualState);
-			Set creatures = parameters.get(Parameter.OBJECT);
-			Set found = new Set();
+			MagicSet creatures = parameters.get(Parameter.OBJECT);
+			MagicSet found = new MagicSet();
 			for(GameObject creature: creatures.getAll(GameObject.class))
 			{
-				Set findable = new Set();
+				MagicSet findable = new MagicSet();
 				String creatureName = creature.getName();
 				for(GameObject o: library.objects)
 					if(o.getTypes().contains(Type.CREATURE) && o.getName().equals(creatureName) && !found.contains(o))
 						findable.add(o);
 
-				java.util.Map<Parameter, Set> searchParameters = new java.util.HashMap<Parameter, Set>();
+				java.util.Map<Parameter, MagicSet> searchParameters = new java.util.HashMap<Parameter, MagicSet>();
 				searchParameters.put(EventType.Parameter.CAUSE, cause);
 				searchParameters.put(EventType.Parameter.PLAYER, you);
 				searchParameters.put(EventType.Parameter.NUMBER, ONE);
-				searchParameters.put(EventType.Parameter.CARD, new Set(library));
-				searchParameters.put(EventType.Parameter.TYPE, new Set(Identity.instance(findable)));
+				searchParameters.put(EventType.Parameter.CARD, new MagicSet(library));
+				searchParameters.put(EventType.Parameter.TYPE, new MagicSet(Identity.instance(findable)));
 				Event search = createEvent(game, "Search your library for a creature card named " + creatureName + ".", EventType.SEARCH, searchParameters);
 				search.perform(event, false);
 				found.addAll(search.getResult());

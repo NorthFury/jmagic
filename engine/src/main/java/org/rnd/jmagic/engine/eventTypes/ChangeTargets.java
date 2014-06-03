@@ -18,7 +18,7 @@ public final class ChangeTargets extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		if(parameters.get(Parameter.PLAYER).getOne(Player.class) == null)
 			return false;
@@ -45,7 +45,7 @@ public final class ChangeTargets extends EventType
 				{
 					int previousTarget = chosenTarget.targetID;
 
-					Set legalTargetsNow = chosenTarget.legalChoicesNow(game, originalObject);
+					MagicSet legalTargetsNow = chosenTarget.legalChoicesNow(game, originalObject);
 					java.util.Set<Target> targetSet = new java.util.HashSet<Target>();
 
 					for(Identified targetObject: legalTargetsNow.getAll(Identified.class))
@@ -64,11 +64,11 @@ public final class ChangeTargets extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		Player chooser = parameters.get(Parameter.PLAYER).getOne(Player.class);
 
-		Set result = new Set();
+		MagicSet result = new MagicSet();
 		boolean ret = true;
 
 		for(GameObject object: parameters.get(Parameter.OBJECT).getAll(GameObject.class))

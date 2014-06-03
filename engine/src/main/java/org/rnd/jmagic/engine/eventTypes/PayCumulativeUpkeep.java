@@ -20,7 +20,7 @@ public final class PayCumulativeUpkeep extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		Event costEvent = parameters.get(Parameter.EVENT).getOne(EventFactory.class).createEvent(game, event.getSource());
 		int number = Sum.get(parameters.get(Parameter.NUMBER));

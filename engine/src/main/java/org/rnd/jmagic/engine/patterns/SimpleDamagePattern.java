@@ -40,8 +40,8 @@ public class SimpleDamagePattern implements DamagePattern
 	@Override
 	public java.util.Set<Batch> match(Batch batch, Identified thisObject, GameState state)
 	{
-		Set dealers = new Set();
-		Set takers = new Set();
+		MagicSet dealers = new MagicSet();
+		MagicSet takers = new MagicSet();
 
 		java.util.Iterator<DamageAssignment> iter = batch.iterator();
 		while(iter.hasNext())
@@ -62,7 +62,7 @@ public class SimpleDamagePattern implements DamagePattern
 
 		if(this.dealer != null)
 		{
-			for(Set set: this.dealer.match(dealers, thisObject, state))
+			for(MagicSet set: this.dealer.match(dealers, thisObject, state))
 			{
 				Batch dealerBatch = new Batch();
 
@@ -84,7 +84,7 @@ public class SimpleDamagePattern implements DamagePattern
 
 			for(Batch dealerBatch: ret)
 			{
-				for(Set set: this.taker.match(takers, thisObject, state))
+				for(MagicSet set: this.taker.match(takers, thisObject, state))
 				{
 					Batch takerBatch = new Batch();
 

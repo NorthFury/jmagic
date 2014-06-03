@@ -18,7 +18,7 @@ public final class DeclareBlockers extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		Player activePlayer = game.actualState.currentTurn().getOwner(game.actualState);
 

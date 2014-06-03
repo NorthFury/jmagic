@@ -382,8 +382,8 @@ public class Event extends Identified implements Sanitizable
 				{
 					this.ensureValidZoneChanges();
 
-					java.util.Map<EventType.Parameter, Set> zoneChangeParameters = new java.util.HashMap<EventType.Parameter, Set>();
-					zoneChangeParameters.put(EventType.Parameter.TARGET, new Set(this.zoneChanges));
+					java.util.Map<EventType.Parameter, MagicSet> zoneChangeParameters = new java.util.HashMap<EventType.Parameter, MagicSet>();
+					zoneChangeParameters.put(EventType.Parameter.TARGET, new MagicSet(this.zoneChanges));
 					EventType.createEvent(this.game, "Movements", EventType.MOVE_BATCH, zoneChangeParameters).perform(this, false);
 
 					for(ZoneChangeReplacementEffect effect: zcrEffectsUsed)
@@ -561,7 +561,7 @@ public class Event extends Identified implements Sanitizable
 		// competing replacement effects:
 		if(null == this.type.affects())
 			return new java.util.LinkedList<Event>();
-		Set affected = this.parametersNow.get(this.type.affects()).evaluate(this.game, null);
+		MagicSet affected = this.parametersNow.get(this.type.affects()).evaluate(this.game, null);
 		java.util.Set<Player> affectedPlayers = affected.getAll(Player.class);
 		for(Controllable c: affected.getAll(Controllable.class))
 			affectedPlayers.add(c.getController(this.game.actualState));
@@ -676,7 +676,7 @@ public class Event extends Identified implements Sanitizable
 	 * @return What <code>madeChoices</code> chose for this event. If no choices
 	 * have been made yet, returns empty.
 	 */
-	public final Set getChoices(Player madeChoices)
+	public final MagicSet getChoices(Player madeChoices)
 	{
 		if(this.choices == null || !this.choices.containsKey(madeChoices.ID))
 			return Empty.set;
@@ -706,7 +706,7 @@ public class Event extends Identified implements Sanitizable
 	}
 
 	/** Evaluates this event's result in its game and returns it. */
-	public final Set getResult()
+	public final MagicSet getResult()
 	{
 		if(this.result == null)
 			return Empty.set;
@@ -714,7 +714,7 @@ public class Event extends Identified implements Sanitizable
 	}
 
 	/** Evaluates this event's result in the given game state and returns it. */
-	public final Set getResult(GameState state)
+	public final MagicSet getResult(GameState state)
 	{
 		if(this.result == null)
 			return Empty.set;
@@ -943,9 +943,9 @@ public class Event extends Identified implements Sanitizable
 			o.getPhysical().setNewTimestamp();
 	}
 
-	private java.util.Map<EventType.Parameter, Set> parametersNowAsSets()
+	private java.util.Map<EventType.Parameter, MagicSet> parametersNowAsSets()
 	{
-		java.util.Map<EventType.Parameter, Set> ret = new java.util.HashMap<EventType.Parameter, Set>();
+		java.util.Map<EventType.Parameter, MagicSet> ret = new java.util.HashMap<EventType.Parameter, MagicSet>();
 		for(java.util.Map.Entry<EventType.Parameter, Identity> parameter: this.parametersNow.entrySet())
 			ret.put(parameter.getKey(), parameter.getValue().evaluate(this.game, null));
 		return ret;
@@ -1021,7 +1021,7 @@ public class Event extends Identified implements Sanitizable
 		}
 
 		// go go go!
-		java.util.Map<EventType.Parameter, Set> parametersNow = this.parametersNowAsSets();
+		java.util.Map<EventType.Parameter, MagicSet> parametersNow = this.parametersNowAsSets();
 		if(this.choices == null)
 			this.type.makeChoices(this.game, this, parametersNow);
 		boolean eventPerformed = this.type.perform(this.game, this, parametersNow);
@@ -1152,7 +1152,7 @@ public class Event extends Identified implements Sanitizable
 	 */
 	private void removeFromCombat(GameState previousGameState)
 	{
-		Set toRemoveFromCombat = new Set();
+		MagicSet toRemoveFromCombat = new MagicSet();
 		for(GameObject newObject: this.game.actualState.getAllObjects())
 		{
 			GameObject oldObject = previousGameState.getByIDObject(newObject.ID);
@@ -1457,7 +1457,7 @@ public class Event extends Identified implements Sanitizable
 	}
 
 	/** Tells this Event what result it has. */
-	public void setResult(Set result)
+	public void setResult(MagicSet result)
 	{
 		this.result = Identity.instance(result);
 	}
@@ -1522,7 +1522,7 @@ public class Event extends Identified implements Sanitizable
 		for(EventType.Parameter parameterName: this.parameters.keySet())
 		{
 			// evaluate one parameter
-			Set newParameter = this.parameters.get(parameterName).evaluate(this.game, eventSource);
+			MagicSet newParameter = this.parameters.get(parameterName).evaluate(this.game, eventSource);
 
 			// events can't "act on" things that aren't there, so if this
 			// parameter is the "affected" parameter...

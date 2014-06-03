@@ -18,7 +18,7 @@ public final class PutOneCounter extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		Identified physicalObject = parameters.get(Parameter.OBJECT).getOne(Identified.class).getPhysical();
 		Counter newCounter = new Counter(parameters.get(Parameter.COUNTER).getOne(Counter.CounterType.class), physicalObject.ID);

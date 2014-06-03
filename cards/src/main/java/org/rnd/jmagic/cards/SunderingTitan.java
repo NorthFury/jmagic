@@ -32,7 +32,7 @@ public final class SunderingTitan extends Card
 		}
 
 		@Override
-		public void makeChoices(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public void makeChoices(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			for(Player player: parameters.get(Parameter.PLAYER).getAll(Player.class))
 			{
@@ -49,17 +49,17 @@ public final class SunderingTitan extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			boolean allDestroyed = event.allChoicesMade;
-			Set cause = parameters.get(Parameter.CAUSE);
-			Set result = new Set();
+			MagicSet cause = parameters.get(Parameter.CAUSE);
+			MagicSet result = new MagicSet();
 
 			for(Player player: parameters.get(Parameter.PLAYER).getAll(Player.class))
 			{
-				Set destroyThese = event.getChoices(player);
+				MagicSet destroyThese = event.getChoices(player);
 
-				java.util.Map<Parameter, Set> destroyParameters = new java.util.HashMap<Parameter, Set>();
+				java.util.Map<Parameter, MagicSet> destroyParameters = new java.util.HashMap<Parameter, MagicSet>();
 				destroyParameters.put(Parameter.CAUSE, cause);
 				destroyParameters.put(Parameter.PERMANENT, destroyThese);
 				Event destroy = createEvent(game, player + " destroys " + destroyThese + ".", DESTROY_PERMANENTS, destroyParameters);

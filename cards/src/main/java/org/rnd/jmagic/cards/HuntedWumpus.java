@@ -32,13 +32,13 @@ public final class HuntedWumpus extends Card
 			}
 
 			@Override
-			public void makeChoices(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+			public void makeChoices(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 			{
-				Set filter = parameters.get(EventType.Parameter.CHOICE);
+				MagicSet filter = parameters.get(EventType.Parameter.CHOICE);
 
 				for(Player player: parameters.get(EventType.Parameter.PLAYER).getAll(Player.class))
 				{
-					Set allowedCards = Intersect.get(filter, new Set(player.getHand(game.actualState).objects));
+					MagicSet allowedCards = Intersect.get(filter, new MagicSet(player.getHand(game.actualState).objects));
 					if(allowedCards.isEmpty())
 					{
 						// They can't put a card onto the battlefield if they
@@ -60,13 +60,13 @@ public final class HuntedWumpus extends Card
 			}
 
 			@Override
-			public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+			public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 			{
-				Set objects = new Set();
+				MagicSet objects = new MagicSet();
 				for(Player player: parameters.get(Parameter.PLAYER).getAll(Player.class))
 					objects.addAll(event.getChoices(player));
 
-				java.util.Map<Parameter, Set> moveParameters = new java.util.HashMap<Parameter, Set>();
+				java.util.Map<Parameter, MagicSet> moveParameters = new java.util.HashMap<Parameter, MagicSet>();
 				moveParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 				moveParameters.put(Parameter.OBJECT, objects);
 				Event putOntoField = createEvent(game, "Put the chosen cards onto the battlefield under their owners' control.", EventType.PUT_ONTO_BATTLEFIELD_UNDER_OWNER_CONTROL, moveParameters);

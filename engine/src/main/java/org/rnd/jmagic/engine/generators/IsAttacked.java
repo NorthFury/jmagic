@@ -20,9 +20,9 @@ public class IsAttacked extends SetGenerator
 		return new IsAttacked(what);
 	}
 
-	public static Set get(GameState state)
+	public static MagicSet get(GameState state)
 	{
-		Set ret = new Set();
+		MagicSet ret = new MagicSet();
 
 		players: for(Player player: Players.get(state).getAll(Player.class))
 		{
@@ -63,13 +63,13 @@ public class IsAttacked extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
 		if(this.what == null)
 			return IsAttacked.get(state);
 
-		Set ret = new Set();
-		Set attackers = this.what.evaluate(state, thisObject);
+		MagicSet ret = new MagicSet();
+		MagicSet attackers = this.what.evaluate(state, thisObject);
 
 		for(GameObject attacker: attackers.getAll(GameObject.class))
 			if(attacker.getAttackingID() != -1)

@@ -18,7 +18,7 @@ public final class ChangeSingleTargetTo extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		GameObject object = parameters.get(Parameter.OBJECT).getOne(GameObject.class);
 		Identified newTarget = parameters.get(Parameter.TARGET).getOne(Identified.class);
@@ -35,7 +35,7 @@ public final class ChangeSingleTargetTo extends EventType
 					java.util.Set<Integer> thisBaseTarget = new java.util.HashSet<Integer>();
 					for(Target checkTarget: object.getChosenTargets().get(checkBaseTarget))
 					{
-						Set legalCheck = checkTarget.legalChoicesNow(game, object);
+						MagicSet legalCheck = checkTarget.legalChoicesNow(game, object);
 						boolean legal = !(restricted.contains(checkTarget.targetID) || !legalCheck.contains(game.actualState.get(checkTarget.targetID)));
 						wasLegal.put(checkTarget, legal);
 						if(checkTarget.restrictFromLaterTargets)
@@ -52,7 +52,7 @@ public final class ChangeSingleTargetTo extends EventType
 			{
 				for(Target target: object.getChosenTargets().get(baseTarget))
 				{
-					Set targets = target.legalChoicesNow(game, object);
+					MagicSet targets = target.legalChoicesNow(game, object);
 					if(targets.contains(newTarget))
 					{
 						// The target won't "change" if its already set to
@@ -72,7 +72,7 @@ public final class ChangeSingleTargetTo extends EventType
 								java.util.Set<Integer> thisBaseTarget = new java.util.HashSet<Integer>();
 								for(Target checkTarget: object.getChosenTargets().get(checkBaseTarget))
 								{
-									Set legalCheck = checkTarget.legalChoicesNow(game, object);
+									MagicSet legalCheck = checkTarget.legalChoicesNow(game, object);
 									boolean targetWasLegal = wasLegal.get(checkTarget);
 									if(targetWasLegal && (thisBaseTarget.contains(checkTarget.targetID) || restricted.contains(checkTarget.targetID) || !legalCheck.contains(game.actualState.get(checkTarget.targetID))))
 									{

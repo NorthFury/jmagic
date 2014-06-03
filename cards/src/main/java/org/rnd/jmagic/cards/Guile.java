@@ -44,14 +44,14 @@ public final class Guile extends Card
 			}
 
 			@Override
-			public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+			public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 			{
 				GameObject spell = parameters.get(Parameter.OBJECT).getOne(GameObject.class);
 
-				java.util.Map<Parameter, Set> exileParameters = new java.util.HashMap<Parameter, Set>();
+				java.util.Map<Parameter, MagicSet> exileParameters = new java.util.HashMap<Parameter, MagicSet>();
 				exileParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 				exileParameters.put(Parameter.TO, ExileZone.instance().evaluate(game, null));
-				exileParameters.put(Parameter.OBJECT, new Set(spell));
+				exileParameters.put(Parameter.OBJECT, new MagicSet(spell));
 				Event exileEvent = createEvent(game, "Exile " + spell + ".", EventType.MOVE_OBJECTS, exileParameters);
 
 				if(exileEvent.perform(event, true))
@@ -59,10 +59,10 @@ public final class Guile extends Card
 					spell = game.actualState.get(exileEvent.getResult().getOne(ZoneChange.class).newObjectID);
 					Player player = parameters.get(Parameter.CAUSE).getOne(GameObject.class).getController(game.actualState);
 
-					java.util.Map<Parameter, Set> recastParameters = new java.util.HashMap<Parameter, Set>();
+					java.util.Map<Parameter, MagicSet> recastParameters = new java.util.HashMap<Parameter, MagicSet>();
 					recastParameters.put(EventType.Parameter.CAUSE, parameters.get(Parameter.CAUSE));
-					recastParameters.put(EventType.Parameter.PLAYER, new Set(player));
-					recastParameters.put(EventType.Parameter.OBJECT, new Set(spell));
+					recastParameters.put(EventType.Parameter.PLAYER, new MagicSet(player));
+					recastParameters.put(EventType.Parameter.OBJECT, new MagicSet(spell));
 					Event recast = createEvent(game, "Cast " + spell + " without paying its mana cost.", PLAY_WITHOUT_PAYING_MANA_COSTS, recastParameters);
 					recast.perform(event, true);
 				}

@@ -19,9 +19,9 @@ public class Unpaired extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		Set ret = new Set();
+		MagicSet ret = new MagicSet();
 		for(GameObject o: state.getAllObjects())
 			if(null == o.getPairedWith(state))
 				ret.add(o);

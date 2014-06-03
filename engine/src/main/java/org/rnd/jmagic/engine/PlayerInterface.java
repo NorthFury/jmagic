@@ -32,7 +32,7 @@ public interface PlayerInterface
 	{
 		private static final long serialVersionUID = 1L;
 
-		public Set number;
+		public MagicSet number;
 		public java.util.List<T> choices;
 		public ChoiceType type;
 		public ChooseReason reason;
@@ -50,13 +50,13 @@ public interface PlayerInterface
 
 		public ChooseParameters(int lowerBound, Integer upperBound, java.util.List<T> choices, ChoiceType type, ChooseReason reason)
 		{
-			this(new Set(), choices, type, reason);
+			this(new MagicSet(), choices, type, reason);
 			this.number.add(new org.rnd.util.NumberRange(lowerBound, upperBound));
 		}
 
 		public ChooseParameters(ChooseParameters<? extends T> copy)
 		{
-			this.number = new Set(copy.number);
+			this.number = new MagicSet(copy.number);
 			this.choices = new java.util.LinkedList<T>(copy.choices);
 			this.type = copy.type;
 			this.reason = copy.reason;
@@ -65,12 +65,12 @@ public interface PlayerInterface
 			this.ensurePresent = new java.util.LinkedList<SanitizedIdentified>(copy.ensurePresent);
 		}
 
-		public ChooseParameters(Set number, ChoiceType type, ChooseReason reason)
+		public ChooseParameters(MagicSet number, ChoiceType type, ChooseReason reason)
 		{
 			this(number, new java.util.LinkedList<T>(), type, reason);
 		}
 
-		public ChooseParameters(Set number, java.util.List<T> choices, ChoiceType type, ChooseReason reason)
+		public ChooseParameters(MagicSet number, java.util.List<T> choices, ChoiceType type, ChooseReason reason)
 		{
 			this.number = number;
 			this.choices = choices;

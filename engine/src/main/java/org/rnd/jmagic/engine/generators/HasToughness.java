@@ -22,10 +22,10 @@ public class HasToughness extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		Set ret = new Set();
-		Set what = this.what.evaluate(state, thisObject);
+		MagicSet ret = new MagicSet();
+		MagicSet what = this.what.evaluate(state, thisObject);
 		org.rnd.util.NumberRange range = what.getOne(org.rnd.util.NumberRange.class);
 		if(range != null)
 		{

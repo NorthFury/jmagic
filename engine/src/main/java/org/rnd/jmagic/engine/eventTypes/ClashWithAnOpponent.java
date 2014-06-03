@@ -18,7 +18,7 @@ public final class ClashWithAnOpponent extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		// 701.20b "Clash with an opponent" means
 		// "Choose an opponent. You and that opponent each clash."
@@ -28,10 +28,10 @@ public final class ClashWithAnOpponent extends EventType
 		java.util.Set<Player> choices = OpponentsOf.instance(Identity.instance(player)).evaluate(game, null).getAll(Player.class);
 		java.util.List<Player> choice = player.sanitizeAndChoose(game.actualState, 1, choices, PlayerInterface.ChoiceType.PLAYER, PlayerInterface.ChooseReason.CLASH);
 
-		Set players = new Set(choice);
+		MagicSet players = new MagicSet(choice);
 		players.add(player);
 
-		java.util.Map<Parameter, Set> clashParameters = new java.util.HashMap<Parameter, Set>();
+		java.util.Map<Parameter, MagicSet> clashParameters = new java.util.HashMap<Parameter, MagicSet>();
 		clashParameters.put(EventType.Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 		clashParameters.put(EventType.Parameter.PLAYER, players);
 		Event clashEvent = createEvent(game, "You and an opponent each clash.", EventType.CLASH, clashParameters);

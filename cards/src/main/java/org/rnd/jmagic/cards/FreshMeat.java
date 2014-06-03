@@ -26,13 +26,13 @@ public final class FreshMeat extends Card
 		}
 
 		@Override
-		public Set evaluate(GameState state, Identified thisObject)
+		public MagicSet evaluate(GameState state, Identified thisObject)
 		{
 			int player = You.instance().evaluate(state, thisObject).getOne(Player.class).ID;
 			java.util.Map<Integer, java.util.Set<Integer>> values = state.getTracker(PutIntoGraveyardsFromBattlefieldThisTurn.DeathTracker.class).getValue(state);
 			if(!values.containsKey(player))
 				return Empty.set;
-			Set ret = new Set();
+			MagicSet ret = new MagicSet();
 			for(Integer id: values.get(player))
 			{
 				Identified object = state.get(id);

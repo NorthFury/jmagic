@@ -14,9 +14,9 @@ public class Players extends org.rnd.jmagic.engine.SetGenerator
 		return _instance;
 	}
 
-	public static Set get(GameState state)
+	public static MagicSet get(GameState state)
 	{
-		Set ret = new Set();
+		MagicSet ret = new MagicSet();
 		for(Player p: state.players)
 			if(!p.outOfGame)
 				ret.add(p);
@@ -29,7 +29,7 @@ public class Players extends org.rnd.jmagic.engine.SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
 		return Players.get(state);
 	}

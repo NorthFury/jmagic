@@ -20,7 +20,7 @@ public final class FlipCoin extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		Answer[] possibleResults = {Answer.WIN, Answer.LOSE};
 		if(parameters.containsKey(Parameter.TYPE))

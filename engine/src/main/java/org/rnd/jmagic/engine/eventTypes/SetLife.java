@@ -18,14 +18,14 @@ public final class SetLife extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
-		Set cause = parameters.get(Parameter.CAUSE);
+		MagicSet cause = parameters.get(Parameter.CAUSE);
 		int life = Sum.get(parameters.get(Parameter.NUMBER));
 		for(Player player: parameters.get(Parameter.PLAYER).getAll(Player.class))
 		{
-			java.util.Map<Parameter, Set> newParameters = new java.util.HashMap<Parameter, Set>();
-			newParameters.put(Parameter.PLAYER, new Set(player));
+			java.util.Map<Parameter, MagicSet> newParameters = new java.util.HashMap<Parameter, MagicSet>();
+			newParameters.put(Parameter.PLAYER, new MagicSet(player));
 			newParameters.put(Parameter.CAUSE, cause);
 
 			// 118.5. If an effect sets a player's life total to a specific
@@ -35,13 +35,13 @@ public final class SetLife extends EventType
 			if(life < player.lifeTotal)
 			{
 				int change = player.lifeTotal - life;
-				newParameters.put(Parameter.NUMBER, new Set(change));
+				newParameters.put(Parameter.NUMBER, new MagicSet(change));
 				lifeSet = createEvent(game, player + " loses " + change + " life.", EventType.LOSE_LIFE, newParameters);
 			}
 			else if(player.lifeTotal < life)
 			{
 				int change = life - player.lifeTotal;
-				newParameters.put(Parameter.NUMBER, new Set(change));
+				newParameters.put(Parameter.NUMBER, new MagicSet(change));
 				lifeSet = createEvent(game, player + " gains " + change + " life.", EventType.GAIN_LIFE, newParameters);
 			}
 
@@ -54,16 +54,16 @@ public final class SetLife extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
-		Set cause = parameters.get(Parameter.CAUSE);
-		Set result = new Set();
+		MagicSet cause = parameters.get(Parameter.CAUSE);
+		MagicSet result = new MagicSet();
 		int life = Sum.get(parameters.get(Parameter.NUMBER));
 		boolean allSet = true;
 		for(Player player: parameters.get(Parameter.PLAYER).getAll(Player.class))
 		{
-			java.util.Map<Parameter, Set> newParameters = new java.util.HashMap<Parameter, Set>();
-			newParameters.put(Parameter.PLAYER, new Set(player));
+			java.util.Map<Parameter, MagicSet> newParameters = new java.util.HashMap<Parameter, MagicSet>();
+			newParameters.put(Parameter.PLAYER, new MagicSet(player));
 			newParameters.put(Parameter.CAUSE, cause);
 
 			// 118.5. If an effect sets a player's life total to a specific
@@ -73,13 +73,13 @@ public final class SetLife extends EventType
 			if(life < player.lifeTotal)
 			{
 				int change = player.lifeTotal - life;
-				newParameters.put(Parameter.NUMBER, new Set(change));
+				newParameters.put(Parameter.NUMBER, new MagicSet(change));
 				lifeSet = createEvent(game, player + " loses " + change + " life.", EventType.LOSE_LIFE, newParameters);
 			}
 			else if(player.lifeTotal < life)
 			{
 				int change = life - player.lifeTotal;
-				newParameters.put(Parameter.NUMBER, new Set(change));
+				newParameters.put(Parameter.NUMBER, new MagicSet(change));
 				lifeSet = createEvent(game, player + " gains " + change + " life.", EventType.GAIN_LIFE, newParameters);
 			}
 

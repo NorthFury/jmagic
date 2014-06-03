@@ -16,7 +16,7 @@ public final class FinestHour extends Card
 		private static final class FirstCombatPhase extends SetGenerator
 		{
 			@Override
-			public Set evaluate(GameState state, Identified thisObject)
+			public MagicSet evaluate(GameState state, Identified thisObject)
 			{
 				for(Phase ran: state.currentTurn().phasesRan)
 					if(ran.type == Phase.PhaseType.COMBAT)

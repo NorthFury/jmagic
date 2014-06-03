@@ -181,7 +181,7 @@ public abstract class TriggeredAbility extends NonStaticAbility
 			if(!this.getSelectedModes().contains(mode))
 				continue;
 
-			Set division = mode.division.evaluate(this.game, this);
+			MagicSet division = mode.division.evaluate(this.game, this);
 			int divisionAmount = division.getOne(Integer.class);
 			if(divisionAmount != 0)
 			{

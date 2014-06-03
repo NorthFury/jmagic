@@ -19,7 +19,7 @@ public class EvaluatePattern extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
 		if(this.pattern.match(state, thisObject, this.what.evaluate(state, thisObject)))
 			return NonEmpty.set;

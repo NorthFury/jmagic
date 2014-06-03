@@ -123,7 +123,7 @@ public class YieldAdapter extends SimpleConfigurableInterface
 
 					ChooseParameters<T> newParameters = new ChooseParameters<T>(parameterObject);
 					if(org.rnd.jmagic.engine.generators.Maximum.get(newParameters.number) == 0)
-						newParameters.number = new Set(new org.rnd.util.NumberRange(0, 1));
+						newParameters.number = new MagicSet(new org.rnd.util.NumberRange(0, 1));
 					newParameters.choices.add((T)new SanitizedPlayerAction("Always yield to this.", topOfStack.ID, topOfStack.ID));
 					java.util.List<Integer> ret = super.choose(newParameters);
 					if(ret.contains(yieldIndex))

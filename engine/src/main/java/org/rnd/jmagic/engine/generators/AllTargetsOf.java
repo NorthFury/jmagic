@@ -31,11 +31,11 @@ public class AllTargetsOf extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		Set returnValue = new Set();
+		MagicSet returnValue = new MagicSet();
 
-		Set what = this.what.evaluate(state, thisObject);
+		MagicSet what = this.what.evaluate(state, thisObject);
 		java.util.Set<Integer> modeIndices = this.modeIndices.evaluate(state, thisObject).getAll(Integer.class);
 
 		for(GameObject object: what.getAll(GameObject.class))

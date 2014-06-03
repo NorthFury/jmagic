@@ -22,7 +22,7 @@ public class FatefulHour extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
 		for(Player player: You.instance().evaluate(state, thisObject).getAll(Player.class))
 			if(player.lifeTotal <= 5)

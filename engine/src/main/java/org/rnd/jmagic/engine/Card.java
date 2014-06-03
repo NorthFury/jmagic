@@ -61,13 +61,13 @@ public abstract class Card extends GameObject implements Castable, PlayableAsLan
 	 * @return The countered card (probably in the graveyard).
 	 */
 	@Override
-	public final GameObject counterThisObject(Set counterer)
+	public final GameObject counterThisObject(MagicSet counterer)
 	{
 		return this.counterThisObject(counterer, this.getOwner(this.game.physicalState).getGraveyard(this.game.physicalState));
 	}
 
 	@Override
-	public final GameObject counterThisObject(Set counterer, Zone counterTo)
+	public final GameObject counterThisObject(MagicSet counterer, Zone counterTo)
 	{
 		SetGenerator thisObject = IdentifiedWithID.instance(this.ID);
 

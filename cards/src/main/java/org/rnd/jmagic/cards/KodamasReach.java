@@ -26,38 +26,38 @@ public final class KodamasReach extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			event.setResult(Empty.set);
 
-			Set cause = parameters.get(Parameter.CAUSE);
+			MagicSet cause = parameters.get(Parameter.CAUSE);
 			Player you = parameters.get(Parameter.PLAYER).getOne(Player.class);
-			Set choices = parameters.get(Parameter.CHOICE);
+			MagicSet choices = parameters.get(Parameter.CHOICE);
 
-			java.util.Map<Parameter, Set> searchParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> searchParameters = new java.util.HashMap<Parameter, MagicSet>();
 			searchParameters.put(Parameter.CAUSE, cause);
-			searchParameters.put(Parameter.PLAYER, new Set(you));
-			searchParameters.put(Parameter.NUMBER, new Set(2));
-			searchParameters.put(Parameter.CARD, new Set(you.getLibrary(game.actualState).objects));
+			searchParameters.put(Parameter.PLAYER, new MagicSet(you));
+			searchParameters.put(Parameter.NUMBER, new MagicSet(2));
+			searchParameters.put(Parameter.CARD, new MagicSet(you.getLibrary(game.actualState).objects));
 			searchParameters.put(Parameter.TYPE, choices);
 			Event search = createEvent(game, "Search your library for two basic land cards and reveal those cards", EventType.SEARCH, searchParameters);
 			search.perform(event, true);
-			Set found = search.getResult();
+			MagicSet found = search.getResult();
 
 			you = you.getActual();
-			Set chosen = new Set(you.sanitizeAndChoose(game.actualState, 1, found.getAll(GameObject.class), PlayerInterface.ChoiceType.OBJECTS, PlayerInterface.ChooseReason.PUT_ONTO_BATTLEFIELD));
+			MagicSet chosen = new MagicSet(you.sanitizeAndChoose(game.actualState, 1, found.getAll(GameObject.class), PlayerInterface.ChoiceType.OBJECTS, PlayerInterface.ChooseReason.PUT_ONTO_BATTLEFIELD));
 
-			java.util.Map<Parameter, Set> battlefieldParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> battlefieldParameters = new java.util.HashMap<Parameter, MagicSet>();
 			battlefieldParameters.put(Parameter.CAUSE, cause);
-			battlefieldParameters.put(Parameter.CONTROLLER, new Set(you));
+			battlefieldParameters.put(Parameter.CONTROLLER, new MagicSet(you));
 			battlefieldParameters.put(Parameter.OBJECT, chosen);
 			Event putOntoBattlefield = createEvent(game, "Put one onto the battlefield tapped", EventType.PUT_ONTO_BATTLEFIELD_TAPPED, battlefieldParameters);
 			putOntoBattlefield.perform(event, false);
 
 			you = you.getActual();
-			java.util.Map<Parameter, Set> handParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> handParameters = new java.util.HashMap<Parameter, MagicSet>();
 			handParameters.put(Parameter.CAUSE, cause);
-			handParameters.put(Parameter.TO, new Set(you.getHand(game.actualState)));
+			handParameters.put(Parameter.TO, new MagicSet(you.getHand(game.actualState)));
 			handParameters.put(Parameter.OBJECT, found);
 			Event putIntoHand = createEvent(game, "Put one the other into your hand", EventType.MOVE_OBJECTS, handParameters);
 			putIntoHand.perform(event, false);

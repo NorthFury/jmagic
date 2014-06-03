@@ -19,15 +19,15 @@ public final class TapHard extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		return TAP_PERMANENTS.attempt(game, event, parameters);
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
-		Set objects = parameters.get(Parameter.OBJECT);
+		MagicSet objects = parameters.get(Parameter.OBJECT);
 
 		Event tap = createEvent(game, "Tap " + objects, EventType.TAP_PERMANENTS, parameters);
 		boolean status = tap.perform(event, false);
@@ -50,10 +50,10 @@ public final class TapHard extends EventType
 			SetGenerator thatPlayersUntap = UntapStepOf.instance(ControllerOf.instance(Identity.instance(object)));
 			SetGenerator untapStepOver = Intersect.instance(PreviousStep.instance(), thatPlayersUntap);
 
-			java.util.Map<Parameter, Set> ctsEffectParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> ctsEffectParameters = new java.util.HashMap<Parameter, MagicSet>();
 			ctsEffectParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
-			ctsEffectParameters.put(Parameter.EFFECT, new Set(part));
-			ctsEffectParameters.put(Parameter.EXPIRES, new Set(untapStepOver));
+			ctsEffectParameters.put(Parameter.EFFECT, new MagicSet(part));
+			ctsEffectParameters.put(Parameter.EXPIRES, new MagicSet(untapStepOver));
 			Event noUntap = createEvent(game, object + " doesn't untap during its controller's next untap step.", EventType.CREATE_FLOATING_CONTINUOUS_EFFECT, ctsEffectParameters);
 			noUntap.perform(event, false);
 		}

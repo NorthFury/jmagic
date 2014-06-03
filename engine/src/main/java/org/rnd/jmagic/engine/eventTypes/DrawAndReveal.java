@@ -18,7 +18,7 @@ public final class DrawAndReveal extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		EventFactory drawFactory = parameters.get(Parameter.EVENT).getOne(EventFactory.class);
 		Event draw = drawFactory.createEvent(game, event.getSource());
@@ -28,7 +28,7 @@ public final class DrawAndReveal extends EventType
 		if(!ret)
 			return false;
 
-		java.util.Map<Parameter, Set> revealParameters = new java.util.HashMap<Parameter, Set>();
+		java.util.Map<Parameter, MagicSet> revealParameters = new java.util.HashMap<Parameter, MagicSet>();
 		revealParameters.put(Parameter.CAUSE, draw.parameters.get(Parameter.CAUSE).evaluate(game, draw.getSource()));
 		revealParameters.put(Parameter.OBJECT, result.evaluate(game, null));
 		Event reveal = createEvent(game, "Reveal the drawn cards", REVEAL, revealParameters);

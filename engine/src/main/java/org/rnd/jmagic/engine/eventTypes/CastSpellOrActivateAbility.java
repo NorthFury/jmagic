@@ -18,7 +18,7 @@ public final class CastSpellOrActivateAbility extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		GameObject object = parameters.get(Parameter.OBJECT).getOne(GameObject.class);
 
@@ -81,7 +81,7 @@ public final class CastSpellOrActivateAbility extends EventType
 			return true;
 
 		Target target = targets.remove(0);
-		Set choices = target.legalChoicesNow(game, object);
+		MagicSet choices = target.legalChoicesNow(game, object);
 
 		for(Identified potentialTarget: choices.getAll(Identified.class))
 		{
@@ -101,7 +101,7 @@ public final class CastSpellOrActivateAbility extends EventType
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		event.setResult(Empty.set);
 
@@ -154,7 +154,7 @@ public final class CastSpellOrActivateAbility extends EventType
 		java.util.Set<Event> costs = new java.util.LinkedHashSet<Event>();
 		ManaPool totalManaCost = new ManaPool();
 
-		Set forcedAltCost = parameters.get(Parameter.ALTERNATE_COST);
+		MagicSet forcedAltCost = parameters.get(Parameter.ALTERNATE_COST);
 
 		if(forcedAltCost != null)
 		{
@@ -271,9 +271,9 @@ public final class CastSpellOrActivateAbility extends EventType
 
 			if(!splice.isEmpty())
 			{
-				java.util.Map<Parameter, Set> revealParameters = new java.util.HashMap<Parameter, Set>();
-				revealParameters.put(Parameter.CAUSE, new Set(game));
-				revealParameters.put(Parameter.OBJECT, new Set(splice));
+				java.util.Map<Parameter, MagicSet> revealParameters = new java.util.HashMap<Parameter, MagicSet>();
+				revealParameters.put(Parameter.CAUSE, new MagicSet(game));
+				revealParameters.put(Parameter.OBJECT, new MagicSet(splice));
 				Event revealSplices = createEvent(game, "Reveal " + splice, REVEAL, revealParameters);
 				revealSplices.perform(event, true);
 
@@ -368,7 +368,7 @@ public final class CastSpellOrActivateAbility extends EventType
 
 			// It's possible that not enough modes were chosen, for example,
 			// if Branching Bolt is cast with no creatures in play
-			if(Intersect.get(onStack.getNumModes(), new Set(physicalOnStack.getSelectedModes().size())).isEmpty())
+			if(Intersect.get(onStack.getNumModes(), new MagicSet(physicalOnStack.getSelectedModes().size())).isEmpty())
 				return false;
 		}
 		// Otherwise, choose all the modes
@@ -414,7 +414,7 @@ public final class CastSpellOrActivateAbility extends EventType
 		// 601.2d -- Divisions (like Violent Eruption)
 		for(int i = 1; i <= onStack.getModes().size(); i++)
 		{
-			Set division = onStack.getMode(i).division.evaluate(game, onStack);
+			MagicSet division = onStack.getMode(i).division.evaluate(game, onStack);
 			int divisionAmount = division.getOne(Integer.class);
 			if(divisionAmount != 0)
 			{
@@ -443,9 +443,9 @@ public final class CastSpellOrActivateAbility extends EventType
 				if(source.zoneID != game.actualState.battlefield().ID)
 					throw new IllegalStateException(onStack + ": Attempt to " + (abilityOnStack.costsTap ? "tap " : "untap ") + source + " which isn't a permanent");
 
-				java.util.Map<Parameter, Set> costParameters = new java.util.HashMap<Parameter, Set>();
-				costParameters.put(Parameter.CAUSE, new Set(playerActing));
-				costParameters.put(Parameter.OBJECT, new Set(source));
+				java.util.Map<Parameter, MagicSet> costParameters = new java.util.HashMap<Parameter, MagicSet>();
+				costParameters.put(Parameter.CAUSE, new MagicSet(playerActing));
+				costParameters.put(Parameter.OBJECT, new MagicSet(source));
 
 				if(abilityOnStack.costsTap)
 				{
@@ -469,12 +469,12 @@ public final class CastSpellOrActivateAbility extends EventType
 		playerActing = playerActing.getActual();
 
 		// additional costs
-		for(java.util.Map.Entry<Set, ManaPool> costAddition: game.actualState.manaCostAdditions.entrySet())
+		for(java.util.Map.Entry<MagicSet, ManaPool> costAddition: game.actualState.manaCostAdditions.entrySet())
 			if(costAddition.getKey().contains(onStack))
 				totalManaCost.addAll(costAddition.getValue());
 
 		// cost reductions that can't reduce to less than one mana
-		for(java.util.Map.Entry<Set, ManaPool> costReduction: game.actualState.manaCostRestrictedReductions.entrySet())
+		for(java.util.Map.Entry<MagicSet, ManaPool> costReduction: game.actualState.manaCostRestrictedReductions.entrySet())
 			if(costReduction.getKey().contains(onStack))
 			{
 				ManaPool reduction = costReduction.getValue();
@@ -485,7 +485,7 @@ public final class CastSpellOrActivateAbility extends EventType
 			}
 
 		// cost reductions
-		for(java.util.Map.Entry<Set, ManaPool> costReduction: game.actualState.manaCostReductions.entrySet())
+		for(java.util.Map.Entry<MagicSet, ManaPool> costReduction: game.actualState.manaCostReductions.entrySet())
 			if(costReduction.getKey().contains(onStack))
 			{
 				ManaPool reduction = costReduction.getValue();
@@ -494,7 +494,7 @@ public final class CastSpellOrActivateAbility extends EventType
 			}
 
 		// trinisphere's effect
-		for(java.util.Map.Entry<Set, Integer> costMinimum: game.actualState.manaCostMinimums.entrySet())
+		for(java.util.Map.Entry<MagicSet, Integer> costMinimum: game.actualState.manaCostMinimums.entrySet())
 			if(costMinimum.getKey().contains(onStack))
 				totalManaCost.minimum(costMinimum.getValue());
 
@@ -504,11 +504,11 @@ public final class CastSpellOrActivateAbility extends EventType
 
 		if(!totalManaCost.isEmpty())
 		{
-			java.util.Map<Parameter, Set> payManaParameters = new java.util.HashMap<Parameter, Set>();
-			payManaParameters.put(Parameter.CAUSE, new Set(game));
-			payManaParameters.put(Parameter.OBJECT, new Set(onStack));
-			payManaParameters.put(Parameter.COST, new Set(totalManaCost));
-			payManaParameters.put(Parameter.PLAYER, new Set(playerActing));
+			java.util.Map<Parameter, MagicSet> payManaParameters = new java.util.HashMap<Parameter, MagicSet>();
+			payManaParameters.put(Parameter.CAUSE, new MagicSet(game));
+			payManaParameters.put(Parameter.OBJECT, new MagicSet(onStack));
+			payManaParameters.put(Parameter.COST, new MagicSet(totalManaCost));
+			payManaParameters.put(Parameter.PLAYER, new MagicSet(playerActing));
 
 			Event payMana = createEvent(game, "Pay " + totalManaCost, PAY_MANA, payManaParameters);
 			costs.add(payMana);
@@ -538,9 +538,9 @@ public final class CastSpellOrActivateAbility extends EventType
 		// 601.2h Once the steps described in 601.2a-g are completed, the
 		// spell becomes cast. Any abilities that trigger when a spell is
 		// cast or put onto the stack trigger at this time.
-		java.util.Map<Parameter, Set> becomesPlayedParameters = new java.util.HashMap<Parameter, Set>();
-		becomesPlayedParameters.put(Parameter.OBJECT, new Set(onStack));
-		becomesPlayedParameters.put(Parameter.PLAYER, new Set(playerActing));
+		java.util.Map<Parameter, MagicSet> becomesPlayedParameters = new java.util.HashMap<Parameter, MagicSet>();
+		becomesPlayedParameters.put(Parameter.OBJECT, new MagicSet(onStack));
+		becomesPlayedParameters.put(Parameter.PLAYER, new MagicSet(playerActing));
 		createEvent(game, onStack + " has been played.", BECOMES_PLAYED, becomesPlayedParameters).perform(event, false);
 
 		event.setResult(Identity.instance(onStack));

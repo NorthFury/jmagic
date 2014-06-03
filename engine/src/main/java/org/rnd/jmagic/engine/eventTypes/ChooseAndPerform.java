@@ -18,7 +18,7 @@ public final class ChooseAndPerform extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		for(EventFactory factory: parameters.get(Parameter.EVENT).getAll(EventFactory.class))
 		{
@@ -31,7 +31,7 @@ public final class ChooseAndPerform extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		java.util.Collection<Event> validChoices = new java.util.LinkedList<Event>();
 

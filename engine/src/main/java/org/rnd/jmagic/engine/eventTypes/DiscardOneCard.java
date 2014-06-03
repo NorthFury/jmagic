@@ -17,7 +17,7 @@ public final class DiscardOneCard extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		GameObject card = parameters.get(Parameter.CARD).getOne(Card.class);
 
@@ -30,9 +30,9 @@ public final class DiscardOneCard extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
-		Set card = parameters.get(Parameter.CARD);
+		MagicSet card = parameters.get(Parameter.CARD);
 		Player player = card.getOne(Card.class).getOwner(game.actualState);
 
 		Zone to;
@@ -46,12 +46,12 @@ public final class DiscardOneCard extends EventType
 		else
 			to = player.getGraveyard(game.actualState);
 
-		java.util.Map<Parameter, Set> moveParameters = new java.util.HashMap<Parameter, Set>();
+		java.util.Map<Parameter, MagicSet> moveParameters = new java.util.HashMap<Parameter, MagicSet>();
 		moveParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
-		moveParameters.put(Parameter.TO, new Set(to));
+		moveParameters.put(Parameter.TO, new MagicSet(to));
 		moveParameters.put(Parameter.OBJECT, card);
 		if(controller != null)
-			moveParameters.put(Parameter.CONTROLLER, new Set(controller));
+			moveParameters.put(Parameter.CONTROLLER, new MagicSet(controller));
 
 		Event move = createEvent(game, "Move " + card + " to " + to + ".", MOVE_OBJECTS, moveParameters);
 		move.perform(event, false);

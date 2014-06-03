@@ -69,13 +69,13 @@ public class HouseMulliganRules extends GameType.SimpleGameTypeRule
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			Player player = parameters.get(Parameter.PLAYER).getOne(Player.class);
 			Zone hand = player.getHand(game.actualState);
 
 			int numLands = 0;
-			Set cardsInHand = new Set();
+			MagicSet cardsInHand = new MagicSet();
 			for(GameObject card: hand)
 			{
 				if(card.getTypes().contains(Type.LAND))
@@ -93,14 +93,14 @@ public class HouseMulliganRules extends GameType.SimpleGameTypeRule
 				hasMulliganedForOneNonLand = ((mulligans & HouseMulliganTracker.ONE_NONLAND_MULLIGAN_USED) == HouseMulliganTracker.ONE_NONLAND_MULLIGAN_USED);
 			}
 
-			Set shuffleObjects = new Set(cardsInHand);
+			MagicSet shuffleObjects = new MagicSet(cardsInHand);
 			shuffleObjects.add(player);
 
 			Zone library = player.getLibrary(game.actualState);
-			java.util.Map<Parameter, Set> shuffleParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> shuffleParameters = new java.util.HashMap<Parameter, MagicSet>();
 			shuffleParameters.put(Parameter.OBJECT, shuffleObjects);
-			shuffleParameters.put(Parameter.CAUSE, new Set(game));
-			shuffleParameters.put(Parameter.ZONE, new Set(library));
+			shuffleParameters.put(Parameter.CAUSE, new MagicSet(game));
+			shuffleParameters.put(Parameter.ZONE, new MagicSet(library));
 
 			int result = 0;
 			int numberToDraw = hand.objects.size();
@@ -122,10 +122,10 @@ public class HouseMulliganRules extends GameType.SimpleGameTypeRule
 			else if(numLands != 0 && numLands != cardsInHand.size())
 				--numberToDraw;
 
-			java.util.Map<Parameter, Set> drawParameters = new java.util.HashMap<Parameter, Set>();
-			drawParameters.put(Parameter.PLAYER, new Set(player));
-			drawParameters.put(Parameter.CAUSE, new Set(game));
-			drawParameters.put(Parameter.NUMBER, new Set(numberToDraw));
+			java.util.Map<Parameter, MagicSet> drawParameters = new java.util.HashMap<Parameter, MagicSet>();
+			drawParameters.put(Parameter.PLAYER, new MagicSet(player));
+			drawParameters.put(Parameter.CAUSE, new MagicSet(game));
+			drawParameters.put(Parameter.NUMBER, new MagicSet(numberToDraw));
 
 			createEvent(game, "Shuffle " + cardsInHand + " into " + library + ".", SHUFFLE_INTO_LIBRARY, shuffleParameters).perform(event, true);
 			createEvent(game, player + " draws " + numberToDraw + " cards.", DRAW_CARDS, drawParameters).perform(event, true);

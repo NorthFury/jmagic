@@ -51,13 +51,13 @@ public final class Minamo extends Card
 			}
 
 			@Override
-			public void makeChoices(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+			public void makeChoices(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 			{
-				Set filter = parameters.get(EventType.Parameter.CHOICE);
+				MagicSet filter = parameters.get(EventType.Parameter.CHOICE);
 
 				for(Player player: parameters.get(EventType.Parameter.PLAYER).getAll(Player.class))
 				{
-					Set allowedCards = Intersect.get(filter, new Set(player.getGraveyard(game.actualState).objects));
+					MagicSet allowedCards = Intersect.get(filter, new MagicSet(player.getGraveyard(game.actualState).objects));
 					if(allowedCards.isEmpty())
 					{
 						// They can't put a card onto the battlefield if they
@@ -79,15 +79,15 @@ public final class Minamo extends Card
 			}
 
 			@Override
-			public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+			public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 			{
 				for(Player player: parameters.get(Parameter.PLAYER).getAll(Player.class))
 				{
 					player = player.getActual();
-					java.util.Map<Parameter, Set> moveParameters = new java.util.HashMap<Parameter, Set>();
+					java.util.Map<Parameter, MagicSet> moveParameters = new java.util.HashMap<Parameter, MagicSet>();
 					moveParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
-					moveParameters.put(Parameter.TO, new Set(player.getHand(game.actualState)));
-					moveParameters.put(Parameter.OBJECT, new Set(event.getChoices(player)));
+					moveParameters.put(Parameter.TO, new MagicSet(player.getHand(game.actualState)));
+					moveParameters.put(Parameter.OBJECT, new MagicSet(event.getChoices(player)));
 					Event move = createEvent(game, "Put the chosen card into its owners' hand.", EventType.MOVE_OBJECTS, moveParameters);
 					move.perform(event, true);
 				}

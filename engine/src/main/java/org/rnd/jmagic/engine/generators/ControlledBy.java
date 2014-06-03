@@ -28,9 +28,9 @@ public class ControlledBy extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		Set ret = new Set();
+		MagicSet ret = new MagicSet();
 		java.util.Set<Zone> zones = this.zone.evaluate(state, thisObject).getAll(Zone.class);
 		java.util.Set<Integer> controllers = new java.util.HashSet<Integer>();
 		for(Player player: this.controller.evaluate(state, thisObject).getAll(Player.class))

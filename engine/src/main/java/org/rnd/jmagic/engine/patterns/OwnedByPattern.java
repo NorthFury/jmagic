@@ -12,9 +12,9 @@ public final class OwnedByPattern implements SetPattern
 	}
 
 	@Override
-	public boolean match(GameState state, Identified thisObject, Set set)
+	public boolean match(GameState state, Identified thisObject, MagicSet set)
 	{
-		Set owners = this.owners.evaluate(state, thisObject);
+		MagicSet owners = this.owners.evaluate(state, thisObject);
 		for(GameObject object: set.getAll(GameObject.class))
 			if(owners.contains(object.getOwner(state)))
 				return true;

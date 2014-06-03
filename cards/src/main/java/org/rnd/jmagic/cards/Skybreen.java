@@ -36,7 +36,7 @@ public final class Skybreen extends Card
 		private static final class SpellsThatShareAColor implements SetPattern
 		{
 			@Override
-			public boolean match(GameState state, Identified thisObject, Set set)
+			public boolean match(GameState state, Identified thisObject, MagicSet set)
 			{
 				if(!SetPattern.CASTABLE.match(state, thisObject, set))
 					return false;

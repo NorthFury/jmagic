@@ -39,7 +39,7 @@ public class HasName extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
 		java.util.Set<String> name = this.name.evaluate(state, thisObject).getAll(String.class);
 
@@ -59,7 +59,7 @@ public class HasName extends SetGenerator
 				iter.remove();
 		}
 
-		Set ret = new Set();
+		MagicSet ret = new MagicSet();
 		for(GameObject card: state.getAllObjects())
 		{
 			if(name.contains(card.getName()))

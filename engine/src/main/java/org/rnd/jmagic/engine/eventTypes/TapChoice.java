@@ -17,9 +17,9 @@ public final class TapChoice extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
-		Set choices = parameters.get(Parameter.CHOICE);
+		MagicSet choices = parameters.get(Parameter.CHOICE);
 		int required = getRange(parameters.get(Parameter.NUMBER)).getLower(0);
 
 		int tappable = 0;
@@ -35,7 +35,7 @@ public final class TapChoice extends EventType
 	}
 
 	@Override
-	public void makeChoices(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public void makeChoices(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		Player player = parameters.get(Parameter.PLAYER).getOne(Player.class);
 
@@ -56,12 +56,12 @@ public final class TapChoice extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		boolean ret = event.allChoicesMade;
-		Set objects = event.getChoices(parameters.get(Parameter.PLAYER).getOne(Player.class));
+		MagicSet objects = event.getChoices(parameters.get(Parameter.PLAYER).getOne(Player.class));
 
-		java.util.Map<Parameter, Set> tapParameters = new java.util.HashMap<Parameter, Set>();
+		java.util.Map<Parameter, MagicSet> tapParameters = new java.util.HashMap<Parameter, MagicSet>();
 		tapParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 		tapParameters.put(Parameter.OBJECT, objects);
 		Event tap = createEvent(game, "Tap " + objects, EventType.TAP_PERMANENTS, tapParameters);

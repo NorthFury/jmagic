@@ -21,9 +21,9 @@ public class TopCards extends SetGenerator
 		return new TopCards(number, zones);
 	}
 
-	public static Set get(int number, Zone zone)
+	public static MagicSet get(int number, Zone zone)
 	{
-		Set ret = new Set();
+		MagicSet ret = new MagicSet();
 		int count = 0;
 		for(GameObject o: zone)
 		{
@@ -51,13 +51,13 @@ public class TopCards extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		Set numberSet = this.number.evaluate(state, thisObject);
+		MagicSet numberSet = this.number.evaluate(state, thisObject);
 
 		if(numberSet.isEmpty())
 		{
-			Set ret = new Set();
+			MagicSet ret = new MagicSet();
 
 			for(Zone zone: this.zones.evaluate(state, thisObject).getAll(Zone.class))
 				ret.addAll(zone.objects);
@@ -66,7 +66,7 @@ public class TopCards extends SetGenerator
 		}
 
 		int number = Maximum.get(numberSet);
-		Set ret = new Set();
+		MagicSet ret = new MagicSet();
 		for(Zone zone: this.zones.evaluate(state, thisObject).getAll(Zone.class))
 			ret.addAll(TopCards.get(number, zone));
 		return ret;

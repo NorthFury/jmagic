@@ -38,7 +38,7 @@ public class ContinuousEffect extends Identified
 		 * @param effect The effect of which this is a piece.
 		 * @return The set of objects this effect acted on.
 		 */
-		public Set apply(Game game, Identified object, ContinuousEffect effect)
+		public MagicSet apply(Game game, Identified object, ContinuousEffect effect)
 		{
 			return this.apply(game.actualState, object, effect);
 		}
@@ -51,9 +51,9 @@ public class ContinuousEffect extends Identified
 		 * @param effect The effect of which this is a piece.
 		 * @return The set of objects this effect acted on.
 		 */
-		public Set apply(GameState state, Identified object, ContinuousEffect effect)
+		public MagicSet apply(GameState state, Identified object, ContinuousEffect effect)
 		{
-			java.util.Map<ContinuousEffectType.Parameter, Set> parametersNow = new java.util.HashMap<ContinuousEffectType.Parameter, Set>();
+			java.util.Map<ContinuousEffectType.Parameter, MagicSet> parametersNow = new java.util.HashMap<ContinuousEffectType.Parameter, MagicSet>();
 
 			for(ContinuousEffectType.Parameter parameter: this.parameters.keySet())
 			{
@@ -61,12 +61,12 @@ public class ContinuousEffect extends Identified
 				// EventPattern, it contains only EventPatterns. Those
 				// EventPatterns need to be solidified at this point in time to
 				// prevent nasty things related to This/null.
-				Set parameterNow = this.parameters.get(parameter).evaluate(state, object);
+				MagicSet parameterNow = this.parameters.get(parameter).evaluate(state, object);
 				if(parameterNow.getOne(EventPattern.class) == null)
 					parametersNow.put(parameter, parameterNow);
 				else
 				{
-					Set solidifiedParameter = new Set();
+					MagicSet solidifiedParameter = new MagicSet();
 					for(EventPattern ep: parameterNow.getAll(EventPattern.class))
 						solidifiedParameter.add(new EventPattern.WithContext(ep, object));
 					parametersNow.put(parameter, solidifiedParameter);
@@ -80,7 +80,7 @@ public class ContinuousEffect extends Identified
 			// If the continuous effect part has an affected parameter, replace
 			// it with the affected objects of the previously applied parts (if
 			// any).
-			Set affectedParameterObjects = parametersNow.get(affectedParameter);
+			MagicSet affectedParameterObjects = parametersNow.get(affectedParameter);
 			if(affectedParameter != null)
 			{
 				if(previouslyAffectedObjects != null)
@@ -139,7 +139,7 @@ public class ContinuousEffect extends Identified
 
 			if(affectedParameter != null)
 			{
-				Set ret = affectedParameterObjects;
+				MagicSet ret = affectedParameterObjects;
 				if(parametersNow.containsKey(Parameter.REMOVED_OBJECTS))
 					ret.add(parametersNow.get(Parameter.REMOVED_OBJECTS));
 				return ret;
@@ -253,7 +253,7 @@ public class ContinuousEffect extends Identified
 				// objects in each other applicable layer and/or sublayer, even
 				// if the ability generating the effect is removed during this
 				// process.
-				Set affected = p.apply(this.game, object, this);
+				MagicSet affected = p.apply(this.game, object, this);
 				if(this.affectedObjects == null && affected != null)
 					this.affectedObjects = Identity.instance(affected);
 			}
@@ -283,7 +283,7 @@ public class ContinuousEffect extends Identified
 				// objects in each other applicable layer and/or sublayer, even
 				// if the ability generating the effect is removed during this
 				// process.
-				Set affected = p.apply(this.game, object, this);
+				MagicSet affected = p.apply(this.game, object, this);
 				if(this.affectedObjects == null && affected != null)
 					this.affectedObjects = Identity.instance(affected);
 			}

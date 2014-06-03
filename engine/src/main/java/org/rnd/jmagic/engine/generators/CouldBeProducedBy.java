@@ -21,16 +21,16 @@ public class CouldBeProducedBy extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
 		return evaluate(state, thisObject, new java.util.HashSet<SetGenerator>());
 	}
 
-	public Set evaluate(GameState state, Identified thisObject, java.util.Set<SetGenerator> ignoreThese)
+	public MagicSet evaluate(GameState state, Identified thisObject, java.util.Set<SetGenerator> ignoreThese)
 	{
-		Set results = this.producers.evaluate(state, thisObject);
+		MagicSet results = this.producers.evaluate(state, thisObject);
 
-		Set ret = new Set();
+		MagicSet ret = new MagicSet();
 
 		ignoreThese.add(this);
 		for(GameObject object: results.getAll(GameObject.class))

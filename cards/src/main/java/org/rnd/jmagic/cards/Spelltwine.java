@@ -3,7 +3,7 @@ package org.rnd.jmagic.cards;
 import static org.rnd.jmagic.Convenience.*;
 
 import org.rnd.jmagic.engine.*;
-import org.rnd.jmagic.engine.Set;
+import org.rnd.jmagic.engine.MagicSet;
 import org.rnd.jmagic.engine.generators.*;
 
 @Name("Spelltwine")
@@ -31,21 +31,21 @@ public final class Spelltwine extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			boolean success = true;
 
-			Set spells = parameters.get(Parameter.OBJECT);
+			MagicSet spells = parameters.get(Parameter.OBJECT);
 			java.util.Map<GameObject, Event> castable = new java.util.HashMap<GameObject, Event>();
 
-			Set playerSet = parameters.get(Parameter.PLAYER);
+			MagicSet playerSet = parameters.get(Parameter.PLAYER);
 
 			for(GameObject spell: spells.getAll(GameObject.class))
 			{
-				java.util.Map<Parameter, Set> castParameters = new java.util.HashMap<Parameter, Set>();
+				java.util.Map<Parameter, MagicSet> castParameters = new java.util.HashMap<Parameter, MagicSet>();
 				castParameters.put(EventType.Parameter.PLAYER, playerSet);
-				castParameters.put(EventType.Parameter.ALTERNATE_COST, new Set());
-				castParameters.put(EventType.Parameter.OBJECT, new Set(spell));
+				castParameters.put(EventType.Parameter.ALTERNATE_COST, new MagicSet());
+				castParameters.put(EventType.Parameter.OBJECT, new MagicSet(spell));
 				Event cast = createEvent(game, "Cast " + spell + ".", EventType.CAST_SPELL_OR_ACTIVATE_ABILITY, castParameters);
 				if(cast.attempt(event))
 					castable.put(spell, cast);

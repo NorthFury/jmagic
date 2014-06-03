@@ -18,10 +18,10 @@ public final class RemoveCounters extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		java.util.Set<Counter.CounterType> counterTypes = parameters.get(Parameter.COUNTER).getAll(Counter.CounterType.class);
-		Set objects = parameters.get(Parameter.OBJECT);
+		MagicSet objects = parameters.get(Parameter.OBJECT);
 		if(!parameters.containsKey(Parameter.NUMBER))
 			return true;
 
@@ -41,9 +41,9 @@ public final class RemoveCounters extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
-		Set result = new Set();
+		MagicSet result = new MagicSet();
 		java.util.Set<Counter.CounterType> counterTypes = parameters.get(Parameter.COUNTER).getAll(Counter.CounterType.class);
 		java.util.Set<Identified> objects = parameters.get(Parameter.OBJECT).getAll(Identified.class);
 		Integer number = null;
@@ -59,10 +59,10 @@ public final class RemoveCounters extends EventType
 				int toRemove = number == null ? numCounters : number;
 				for(int numRemoved = 0; numRemoved < toRemove; numRemoved++)
 				{
-					java.util.Map<Parameter, Set> counterParameters = new java.util.HashMap<Parameter, Set>();
+					java.util.Map<Parameter, MagicSet> counterParameters = new java.util.HashMap<Parameter, MagicSet>();
 					counterParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
-					counterParameters.put(Parameter.COUNTER, new Set(counterType));
-					counterParameters.put(Parameter.OBJECT, new Set(object));
+					counterParameters.put(Parameter.COUNTER, new MagicSet(counterType));
+					counterParameters.put(Parameter.OBJECT, new MagicSet(object));
 					Event removeCounter = createEvent(game, "Remove a " + counterType + " from " + object + ".", EventType.REMOVE_ONE_COUNTER, counterParameters);
 					boolean status = removeCounter.perform(event, false);
 					if(!status)

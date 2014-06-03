@@ -111,7 +111,7 @@ public final class Flashback extends Keyword
 		@Override
 		public GameObject play()
 		{
-			Set altCost = new Set();
+			MagicSet altCost = new MagicSet();
 
 			Flashback parent = this.game.actualState.get(this.parentID);
 			if(!parent.flashbackCost.manaCost.isEmpty())
@@ -141,7 +141,7 @@ public final class Flashback extends Keyword
 		public static class NotTheExileZonePattern implements SetPattern
 		{
 			@Override
-			public boolean match(GameState state, Identified thisObject, Set set)
+			public boolean match(GameState state, Identified thisObject, MagicSet set)
 			{
 				int exileZoneID = state.exileZone().ID;
 				for(Zone zone: set.getAll(Zone.class))

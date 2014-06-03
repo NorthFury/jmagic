@@ -18,14 +18,14 @@ public final class AttachToChoice extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
-		Set object = parameters.get(Parameter.OBJECT);
-		Set choices = parameters.get(Parameter.CHOICE);
+		MagicSet object = parameters.get(Parameter.OBJECT);
+		MagicSet choices = parameters.get(Parameter.CHOICE);
 		Player player = parameters.get(Parameter.PLAYER).getOne(Player.class);
 
 		// reset this players successes to zero
-		Set failedCards = new Set();
+		MagicSet failedCards = new MagicSet();
 
 		while(true)
 		{
@@ -34,9 +34,9 @@ public final class AttachToChoice extends EventType
 
 			GameObject thisCard = choices.getOne(GameObject.class);
 			choices.remove(thisCard);
-			java.util.Map<Parameter, Set> newParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> newParameters = new java.util.HashMap<Parameter, MagicSet>();
 			parameters.put(Parameter.OBJECT, object);
-			parameters.put(Parameter.TARGET, new Set(thisCard));
+			parameters.put(Parameter.TARGET, new MagicSet(thisCard));
 
 			// if the player can attach the card, go to next player.
 			// otherwise, give other players the chance to attach the
@@ -54,7 +54,7 @@ public final class AttachToChoice extends EventType
 	}
 
 	@Override
-	public void makeChoices(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public void makeChoices(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		java.util.Set<AttachableTo> validChoices = parameters.get(Parameter.CHOICE).getAll(AttachableTo.class);
 		GameObject object = parameters.get(Parameter.OBJECT).getOne(GameObject.class);
@@ -64,9 +64,9 @@ public final class AttachToChoice extends EventType
 		while(i.hasNext())
 		{
 			AttachableTo to = i.next();
-			java.util.Map<Parameter, Set> attachParameters = new java.util.HashMap<Parameter, Set>();
-			attachParameters.put(Parameter.OBJECT, new Set(object));
-			attachParameters.put(Parameter.TARGET, new Set(to));
+			java.util.Map<Parameter, MagicSet> attachParameters = new java.util.HashMap<Parameter, MagicSet>();
+			attachParameters.put(Parameter.OBJECT, new MagicSet(object));
+			attachParameters.put(Parameter.TARGET, new MagicSet(to));
 			Event attachEvent = createEvent(game, player + " attaches " + object + " to " + to + ".", ATTACH, attachParameters);
 			if(!attachEvent.attempt(event))
 				i.remove();
@@ -81,18 +81,18 @@ public final class AttachToChoice extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		boolean ret = event.allChoicesMade;
-		Set result = new Set();
-		Set object = parameters.get(Parameter.OBJECT);
+		MagicSet result = new MagicSet();
+		MagicSet object = parameters.get(Parameter.OBJECT);
 		Player player = parameters.get(Parameter.PLAYER).getOne(Player.class);
 
-		Set choices = event.getChoices(player);
+		MagicSet choices = event.getChoices(player);
 		if(!choices.isEmpty())
 		{
 			// perform the attach event
-			java.util.Map<Parameter, Set> attachParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> attachParameters = new java.util.HashMap<Parameter, MagicSet>();
 			attachParameters.put(Parameter.OBJECT, object);
 			attachParameters.put(Parameter.TARGET, choices);
 			Event attachEvent = createEvent(game, player + " attaches " + object + " to " + choices + ".", ATTACH, attachParameters);

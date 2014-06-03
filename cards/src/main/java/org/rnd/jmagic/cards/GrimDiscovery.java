@@ -16,7 +16,7 @@ public final class GrimDiscovery extends Card
 		super(state);
 
 		// Choose one or both \u2014
-		this.setNumModes(new Set(new org.rnd.util.NumberRange(1, 2)));
+		this.setNumModes(new MagicSet(new org.rnd.util.NumberRange(1, 2)));
 
 		SetGenerator yourGraveyard = GraveyardOf.instance(You.instance());
 		SetGenerator inYourYard = InZone.instance(yourGraveyard);

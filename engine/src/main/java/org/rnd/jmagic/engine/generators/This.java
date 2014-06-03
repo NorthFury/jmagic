@@ -21,10 +21,10 @@ public class This extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
 		if(state.containsIdentified(thisObject.ID))
-			return new Set(state.<Identified>get(thisObject.ID));
+			return new MagicSet(state.<Identified>get(thisObject.ID));
 
 		// Anything that gets this far is probably coded wrong, so return null
 		// so the program will break in a relevant place.

@@ -17,14 +17,14 @@ public final class QuestforPureFlame extends Card
 		private static final class SourcesYouControl extends SetGenerator
 		{
 			@Override
-			public Set evaluate(GameState state, Identified thisObject)
+			public MagicSet evaluate(GameState state, Identified thisObject)
 			{
-				Set sources = AllSourcesOfDamage.instance().evaluate(state, thisObject);
+				MagicSet sources = AllSourcesOfDamage.instance().evaluate(state, thisObject);
 				NonStaticAbility questCounterTrigger = (NonStaticAbility)thisObject;
 				GameObject questForPureFlame = (GameObject)(questCounterTrigger.getSource(state));
 				int controller = questForPureFlame.controllerID;
 
-				Set ret = new Set();
+				MagicSet ret = new MagicSet();
 				for(GameObject source: sources.getAll(GameObject.class))
 					if(source.controllerID == controller)
 						ret.add(source);

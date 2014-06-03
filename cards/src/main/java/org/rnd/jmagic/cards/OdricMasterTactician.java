@@ -26,7 +26,7 @@ public final class OdricMasterTactician extends Card
 			}
 
 			@Override
-			public boolean match(GameState state, Identified thisObject, Set set)
+			public boolean match(GameState state, Identified thisObject, MagicSet set)
 			{
 				if(!set.contains(((NonStaticAbility)thisObject).getSource(state)))
 					return false;

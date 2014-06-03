@@ -18,18 +18,18 @@ public final class DestroyPermanents extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		boolean allDestroyed = true;
-		Set cause = parameters.get(Parameter.CAUSE);
-		Set result = new Set();
+		MagicSet cause = parameters.get(Parameter.CAUSE);
+		MagicSet result = new MagicSet();
 		for(GameObject object: parameters.get(Parameter.PERMANENT).getAll(GameObject.class))
 		{
 			if(object.isPermanent())
 			{
-				java.util.Map<Parameter, Set> destroyParameters = new java.util.HashMap<Parameter, Set>();
+				java.util.Map<Parameter, MagicSet> destroyParameters = new java.util.HashMap<Parameter, MagicSet>();
 				destroyParameters.put(Parameter.CAUSE, cause);
-				destroyParameters.put(Parameter.PERMANENT, new Set(object));
+				destroyParameters.put(Parameter.PERMANENT, new MagicSet(object));
 				Event destroy = createEvent(game, "Destroy " + object + ".", EventType.DESTROY_ONE_PERMANENT, destroyParameters);
 				if(!destroy.perform(event, false))
 					allDestroyed = false;

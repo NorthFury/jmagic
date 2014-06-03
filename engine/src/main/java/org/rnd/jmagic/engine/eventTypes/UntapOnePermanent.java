@@ -18,7 +18,7 @@ public final class UntapOnePermanent extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		// 701.16b. ... Only tapped permanents can be untapped.
 		if(!parameters.get(Parameter.OBJECT).getOne(GameObject.class).isTapped())
@@ -28,11 +28,11 @@ public final class UntapOnePermanent extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		boolean status = true;
 
-		Set result = new Set();
+		MagicSet result = new MagicSet();
 		GameObject object = parameters.get(Parameter.OBJECT).getOne(GameObject.class);
 		if(object.isTapped() && object.isPermanent())
 		{

@@ -51,7 +51,7 @@ public abstract class ActivatedAbility extends NonStaticAbility
 			if(event.type != EventType.CAST_SPELL_OR_ACTIVATE_ABILITY)
 				return false;
 
-			Set object = event.parametersNow.get(EventType.Parameter.OBJECT).evaluate(state, null);
+			MagicSet object = event.parametersNow.get(EventType.Parameter.OBJECT).evaluate(state, null);
 			if(object.isEmpty())
 				return false;
 			Object played = object.iterator().next();

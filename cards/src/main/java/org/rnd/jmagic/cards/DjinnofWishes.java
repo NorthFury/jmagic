@@ -30,13 +30,13 @@ public final class DjinnofWishes extends Card
 			}
 
 			@Override
-			public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+			public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 			{
-				Set cause = parameters.get(EventType.Parameter.CAUSE);
-				Set object = parameters.get(EventType.Parameter.OBJECT);
-				Set player = parameters.get(EventType.Parameter.PLAYER);
+				MagicSet cause = parameters.get(EventType.Parameter.CAUSE);
+				MagicSet object = parameters.get(EventType.Parameter.OBJECT);
+				MagicSet player = parameters.get(EventType.Parameter.PLAYER);
 
-				java.util.Map<EventType.Parameter, Set> revealParameters = new java.util.HashMap<EventType.Parameter, Set>();
+				java.util.Map<EventType.Parameter, MagicSet> revealParameters = new java.util.HashMap<EventType.Parameter, MagicSet>();
 				revealParameters.put(EventType.Parameter.CAUSE, cause);
 				revealParameters.put(EventType.Parameter.OBJECT, object);
 				Event revealEvent = createEvent(game, "Reveal the top card of your library.", EventType.REVEAL, revealParameters);
@@ -47,20 +47,20 @@ public final class DjinnofWishes extends Card
 				playParameters.put(EventType.Parameter.PLAYER, Identity.instance(player));
 				playParameters.put(EventType.Parameter.OBJECT, Identity.instance(object));
 				playParameters.put(EventType.Parameter.ALTERNATE_COST, Empty.instance());
-				Set playEvent = new Set(new EventFactory(EventType.PLAY_CARD, playParameters, "Play that card without paying its mana cost."));
+				MagicSet playEvent = new MagicSet(new EventFactory(EventType.PLAY_CARD, playParameters, "Play that card without paying its mana cost."));
 
 				EventType.ParameterMap mayParameters = new EventType.ParameterMap();
 				mayParameters.put(EventType.Parameter.PLAYER, Identity.instance(player));
 				mayParameters.put(EventType.Parameter.EVENT, Identity.instance(playEvent));
-				Set mayEvent = new Set(new EventFactory(EventType.PLAYER_MAY, mayParameters, "You may play that card without paying its mana cost."));
+				MagicSet mayEvent = new MagicSet(new EventFactory(EventType.PLAYER_MAY, mayParameters, "You may play that card without paying its mana cost."));
 
 				EventFactory exileFactory = new EventFactory(EventType.MOVE_OBJECTS, "Exile it.");
 				exileFactory.parameters.put(EventType.Parameter.CAUSE, Identity.instance(cause));
 				exileFactory.parameters.put(EventType.Parameter.TO, ExileZone.instance());
 				exileFactory.parameters.put(EventType.Parameter.OBJECT, Identity.instance(object));
-				Set exileEvent = new Set(exileFactory);
+				MagicSet exileEvent = new MagicSet(exileFactory);
 
-				java.util.Map<EventType.Parameter, Set> ifParameters = new java.util.HashMap<EventType.Parameter, Set>();
+				java.util.Map<EventType.Parameter, MagicSet> ifParameters = new java.util.HashMap<EventType.Parameter, MagicSet>();
 				ifParameters.put(EventType.Parameter.IF, mayEvent);
 				ifParameters.put(EventType.Parameter.ELSE, exileEvent);
 				Event ifEvent = createEvent(game, "You may play that card without paying its mana cost. If you don't, exile it.", EventType.IF_EVENT_THEN_ELSE, ifParameters);

@@ -28,7 +28,7 @@ public final class HedronFieldPurists extends Card
 		{
 			GameObject thisObject = (GameObject)this.getStaticSourceObject(context.game.actualState);
 			Player you = thisObject.getController(thisObject.state);
-			Set creaturesYouControl = CREATURES_YOU_CONTROL.evaluate(context.game, thisObject);
+			MagicSet creaturesYouControl = CREATURES_YOU_CONTROL.evaluate(context.game, thisObject);
 
 			DamageAssignment.Batch ret = new DamageAssignment.Batch();
 			for(DamageAssignment damage: damageAssignments)

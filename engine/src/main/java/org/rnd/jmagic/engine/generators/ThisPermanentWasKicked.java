@@ -24,7 +24,7 @@ public class ThisPermanentWasKicked extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
 		if(!(thisObject.isGameObject()))
 			return Empty.set;
@@ -43,6 +43,6 @@ public class ThisPermanentWasKicked extends SetGenerator
 
 		if(timesKicked == 0)
 			return Empty.set;
-		return new Set.Unmodifiable(timesKicked);
+		return new MagicSet.Unmodifiable(timesKicked);
 	}
 }

@@ -46,7 +46,7 @@ public class ManaAbilitiesAdapter extends SimplePlayerInterface
 				if(this.choices.isEmpty())
 				{
 					ChooseParameters<T> newParameters = new ChooseParameters<T>(parameterObject);
-					newParameters.number = new Set(new org.rnd.util.NumberRange(0, null));
+					newParameters.number = new MagicSet(new org.rnd.util.NumberRange(0, null));
 
 					java.util.List<Integer> chosen = super.choose(newParameters);
 					if(chosen.isEmpty())

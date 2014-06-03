@@ -26,19 +26,19 @@ public final class GraveBetrayal extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
-			Set cause = parameters.get(Parameter.CAUSE);
-			Set you = parameters.get(Parameter.PLAYER);
+			MagicSet cause = parameters.get(Parameter.CAUSE);
+			MagicSet you = parameters.get(Parameter.PLAYER);
 			GameObject target = parameters.get(Parameter.OBJECT).getOne(GameObject.class);
 
 			// Put target creature card in a graveyard onto the battlefield
 			// under your control.
-			java.util.Map<Parameter, Set> ontoFieldParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> ontoFieldParameters = new java.util.HashMap<Parameter, MagicSet>();
 			ontoFieldParameters.put(Parameter.CAUSE, cause);
 			ontoFieldParameters.put(Parameter.CONTROLLER, you);
-			ontoFieldParameters.put(Parameter.OBJECT, new Set(target));
-			ontoFieldParameters.put(Parameter.COUNTER, new Set(Counter.CounterType.PLUS_ONE_PLUS_ONE));
+			ontoFieldParameters.put(Parameter.OBJECT, new MagicSet(target));
+			ontoFieldParameters.put(Parameter.COUNTER, new MagicSet(Counter.CounterType.PLUS_ONE_PLUS_ONE));
 			Event ontoField = createEvent(game, "Return it to the battlefield under your control with an additional +1/+1 counter on it.", PUT_ONTO_BATTLEFIELD_WITH_COUNTERS, ontoFieldParameters);
 
 			// Not top level -- the creature needs to be a black Zombie the

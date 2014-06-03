@@ -28,11 +28,11 @@ public final class PsychicSurgery extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			event.setResult(Empty.set);
 
-			Set cause = parameters.get(Parameter.CAUSE);
+			MagicSet cause = parameters.get(Parameter.CAUSE);
 			java.util.Set<GameObject> choices = parameters.get(Parameter.OBJECT).getAll(GameObject.class);
 			java.util.List<GameObject> ordered = null;
 			if(choices.size() > 1)
@@ -42,10 +42,10 @@ public final class PsychicSurgery extends Card
 
 			for(GameObject o: ordered)
 			{
-				java.util.Map<Parameter, Set> moveParameters = new java.util.HashMap<Parameter, Set>();
+				java.util.Map<Parameter, MagicSet> moveParameters = new java.util.HashMap<Parameter, MagicSet>();
 				moveParameters.put(EventType.Parameter.CAUSE, cause);
 				moveParameters.put(EventType.Parameter.INDEX, ONE);
-				moveParameters.put(EventType.Parameter.OBJECT, new Set(o));
+				moveParameters.put(EventType.Parameter.OBJECT, new MagicSet(o));
 				createEvent(game, "Put a card back.", EventType.PUT_INTO_LIBRARY, moveParameters).perform(event, true);
 			}
 

@@ -18,17 +18,17 @@ public final class LoseLife extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		int lifeloss = Sum.get(parameters.get(Parameter.NUMBER));
 		if(lifeloss <= 0)
 			return true;
 
-		Set players = parameters.get(Parameter.PLAYER);
+		MagicSet players = parameters.get(Parameter.PLAYER);
 		for(Player player: players.getAll(Player.class))
 		{
-			java.util.HashMap<Parameter, Set> newParameters = new java.util.HashMap<Parameter, Set>(parameters);
-			newParameters.put(Parameter.PLAYER, new Set(player));
+			java.util.HashMap<Parameter, MagicSet> newParameters = new java.util.HashMap<Parameter, MagicSet>(parameters);
+			newParameters.put(Parameter.PLAYER, new MagicSet(player));
 			Event loseLifeOnePlayer = createEvent(game, player + " loses " + lifeloss + " life", LOSE_LIFE_ONE_PLAYER, newParameters);
 			if(!loseLifeOnePlayer.attempt(event))
 				return false;
@@ -38,7 +38,7 @@ public final class LoseLife extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		int lifeloss = Sum.get(parameters.get(Parameter.NUMBER));
 		if(lifeloss <= 0)
@@ -47,12 +47,12 @@ public final class LoseLife extends EventType
 			return true;
 		}
 
-		Set players = parameters.get(Parameter.PLAYER);
-		Set result = new Set();
+		MagicSet players = parameters.get(Parameter.PLAYER);
+		MagicSet result = new MagicSet();
 		for(Player player: players.getAll(Player.class))
 		{
-			java.util.HashMap<Parameter, Set> newParameters = new java.util.HashMap<Parameter, Set>(parameters);
-			newParameters.put(Parameter.PLAYER, new Set(player));
+			java.util.HashMap<Parameter, MagicSet> newParameters = new java.util.HashMap<Parameter, MagicSet>(parameters);
+			newParameters.put(Parameter.PLAYER, new MagicSet(player));
 			Event loseLifeOnePlayer = createEvent(game, player + " loses " + lifeloss + " life", LOSE_LIFE_ONE_PLAYER, newParameters);
 			loseLifeOnePlayer.perform(event, false);
 			result.addAll(loseLifeOnePlayer.getResult());

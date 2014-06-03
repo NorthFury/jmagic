@@ -29,11 +29,11 @@ public final class WrexialtheRisenDeep extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
-			Set cause = parameters.get(Parameter.CAUSE);
+			MagicSet cause = parameters.get(Parameter.CAUSE);
 
-			java.util.Map<EventType.Parameter, Set> castParameters = new java.util.HashMap<EventType.Parameter, Set>();
+			java.util.Map<EventType.Parameter, MagicSet> castParameters = new java.util.HashMap<EventType.Parameter, MagicSet>();
 			castParameters.put(Parameter.CAUSE, cause);
 			castParameters.put(Parameter.PLAYER, parameters.get(Parameter.PLAYER));
 			castParameters.put(Parameter.OBJECT, parameters.get(Parameter.OBJECT));
@@ -42,7 +42,7 @@ public final class WrexialtheRisenDeep extends Card
 				return false;
 
 			SetGenerator aGraveyard = GraveyardOf.instance(Players.instance());
-			Set thatCard = cast.getResult();
+			MagicSet thatCard = cast.getResult();
 
 			ZoneChangeReplacementEffect replacement = new ZoneChangeReplacementEffect(game, "If that card would be put into a graveyard this turn, exile it instead.");
 			replacement.addPattern(new org.rnd.jmagic.engine.patterns.SimpleZoneChangePattern(Stack.instance(), aGraveyard, cast.getResultGenerator(), true));
@@ -53,7 +53,7 @@ public final class WrexialtheRisenDeep extends Card
 			if(!replace.perform(event, true))
 				return false;
 
-			Set result = new Set(thatCard);
+			MagicSet result = new MagicSet(thatCard);
 			result.retainAll(replace.getResult());
 			event.setResult(result);
 			return true;

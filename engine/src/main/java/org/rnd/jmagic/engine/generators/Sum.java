@@ -12,7 +12,7 @@ public class Sum extends SetGenerator
 		return new Sum(what);
 	}
 
-	static public int get(Set set)
+	static public int get(MagicSet set)
 	{
 		int ret = 0;
 		for(Integer n: set.getAll(Integer.class))
@@ -28,9 +28,9 @@ public class Sum extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		return new Set(Sum.get(this.numbers.evaluate(state, thisObject)));
+		return new MagicSet(Sum.get(this.numbers.evaluate(state, thisObject)));
 	}
 
 }

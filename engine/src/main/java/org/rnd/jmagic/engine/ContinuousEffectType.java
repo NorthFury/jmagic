@@ -334,7 +334,7 @@ public abstract class ContinuousEffectType
 	 * This class exists solely so that ContinuousEffects can store it in a Set
 	 * and DependencyGraph can call getOne to retrieve it specifically.
 	 */
-	public static class RemovedObjects extends Set
+	public static class RemovedObjects extends MagicSet
 	{
 		private static final long serialVersionUID = 1L;
 	}
@@ -443,7 +443,7 @@ public abstract class ContinuousEffectType
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			java.util.Set<AbilityFactory> factories = parameters.get(Parameter.ABILITY).getAll(AbilityFactory.class);
 
@@ -523,7 +523,7 @@ public abstract class ContinuousEffectType
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			java.util.Set<AbilityFactory> factories = parameters.get(Parameter.ABILITY).getAll(AbilityFactory.class);
 
@@ -581,9 +581,9 @@ public abstract class ContinuousEffectType
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
-			Set number = parameters.get(Parameter.NUMBER);
+			MagicSet number = parameters.get(Parameter.NUMBER);
 			org.rnd.util.NumberRange range = (number.isEmpty() ? null : EventType.getRange(number));
 
 			for(GameObject object: parameters.get(Parameter.OBJECT).getAll(GameObject.class))
@@ -615,7 +615,7 @@ public abstract class ContinuousEffectType
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			java.util.Collection<Color> colors = parameters.get(Parameter.COLOR).getAll(Color.class);
 			for(GameObject object: parameters.get(Parameter.OBJECT).getAll(GameObject.class))
@@ -642,9 +642,9 @@ public abstract class ContinuousEffectType
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
-			Set allTypes = parameters.get(Parameter.TYPE);
+			MagicSet allTypes = parameters.get(Parameter.TYPE);
 
 			java.util.Set<SubType> basics = SubType.getBasicLandTypes();
 
@@ -703,7 +703,7 @@ public abstract class ContinuousEffectType
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			Event e = parameters.get(Parameter.EVENT).getOne(EventFactory.class).createEvent(state.game, (GameObject)effect.getSourceObject());
 			state.extraEvents.add(e);
@@ -730,7 +730,7 @@ public abstract class ContinuousEffectType
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			CostCollection cost = parameters.get(Parameter.COST).getOne(CostCollection.class);
 			if(cost == null)
@@ -764,7 +764,7 @@ public abstract class ContinuousEffectType
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			for(GameObject object: parameters.get(Parameter.OBJECT).getAll(GameObject.class))
 			{
@@ -791,7 +791,7 @@ public abstract class ContinuousEffectType
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			state.assignCombatDamageUsingToughness = true;
 		}
@@ -823,17 +823,17 @@ public abstract class ContinuousEffectType
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
-			Set cost = parameters.get(Parameter.COST);
+			MagicSet cost = parameters.get(Parameter.COST);
 			if(cost == null)
 				throw new UnsupportedOperationException("No cost to attack specified in " + effect + ".");
 			int number = 1;
 			if(parameters.containsKey(Parameter.NUMBER))
 				number = parameters.get(Parameter.NUMBER).getOne(Integer.class);
 
-			Set creatures = parameters.get(Parameter.OBJECT);
-			Set players = parameters.get(Parameter.PLAYER);
+			MagicSet creatures = parameters.get(Parameter.OBJECT);
+			MagicSet players = parameters.get(Parameter.PLAYER);
 
 			state.attackingCosts.add(new AttackingCost(state, number, cost, creatures, players));
 		}
@@ -859,7 +859,7 @@ public abstract class ContinuousEffectType
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			if(parameters.containsKey(Parameter.PLAYER))
 			{
@@ -896,7 +896,7 @@ public abstract class ContinuousEffectType
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			Identified sourceObject = effect.getSourceObject();
 			boolean defender = parameters.containsKey(Parameter.ABILITY);
@@ -940,7 +940,7 @@ public abstract class ContinuousEffectType
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			if(state.currentTurn() != null)
 				return;
@@ -989,7 +989,7 @@ public abstract class ContinuousEffectType
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			if(!parameters.containsKey(Parameter.ATTACKING) && !parameters.containsKey(Parameter.DEFENDING))
 				throw new UnsupportedOperationException("Must specify one of " + Parameter.ATTACKING + " or " + Parameter.DEFENDING + " as parameters to " + BLOCKING_REQUIREMENT);
@@ -1037,7 +1037,7 @@ public abstract class ContinuousEffectType
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			org.rnd.util.NumberRange oneToOne = new org.rnd.util.NumberRange(1, 1);
 			java.util.Set<GameObject> attacking = parameters.get(Parameter.ATTACKING).getAll(GameObject.class);
@@ -1070,7 +1070,7 @@ public abstract class ContinuousEffectType
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			SetGenerator restriction = parameters.get(Parameter.RESTRICTION).getOne(SetGenerator.class);
 			if(restriction == null)
@@ -1100,7 +1100,7 @@ public abstract class ContinuousEffectType
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			int num = 1;
 			if(parameters.containsKey(Parameter.NUMBER))
@@ -1130,7 +1130,7 @@ public abstract class ContinuousEffectType
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			for(GameObject object: parameters.get(Parameter.OBJECT).getAll(GameObject.class))
 				object.setMaximumBlocks(-1);
@@ -1157,7 +1157,7 @@ public abstract class ContinuousEffectType
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			SetPattern restriction = parameters.get(Parameter.RESTRICTION).getOne(SetPattern.class);
 			for(AttachableTo t: parameters.get(Parameter.OBJECT).getAll(AttachableTo.class))
@@ -1184,7 +1184,7 @@ public abstract class ContinuousEffectType
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			SetPattern restriction = parameters.get(Parameter.RESTRICTION).getOne(SetPattern.class);
 			for(GameObject t: parameters.get(Parameter.OBJECT).getAll(GameObject.class))
@@ -1211,7 +1211,7 @@ public abstract class ContinuousEffectType
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			SetPattern restriction = parameters.get(Parameter.RESTRICTION).getOne(SetPattern.class);
 			for(Targetable t: parameters.get(Parameter.OBJECT).getAll(Targetable.class))
@@ -1238,7 +1238,7 @@ public abstract class ContinuousEffectType
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			Player controller = parameters.get(Parameter.PLAYER).getOne(Player.class);
 			if(null != controller)
@@ -1279,12 +1279,12 @@ public abstract class ContinuousEffectType
 		// the effect actually change based on the order of those effects. Just
 		// like all the other effect types.
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			Enum<?> from = parameters.get(Parameter.FROM).getOne(Enum.class);
 			Enum<?> to = parameters.get(Parameter.TO).getOne(Enum.class);
 
-			Set removedObjects = new RemovedObjects();
+			MagicSet removedObjects = new RemovedObjects();
 
 			for(GameObject object: parameters.get(Parameter.OBJECT).getAll(GameObject.class))
 			{
@@ -1343,7 +1343,7 @@ public abstract class ContinuousEffectType
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			SetGenerator duration = parameters.get(Parameter.RANGE).getOne(SetGenerator.class);
 			if(duration == null)
@@ -1381,9 +1381,9 @@ public abstract class ContinuousEffectType
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
-			Set abilities = parameters.get(Parameter.ABILITY);
+			MagicSet abilities = parameters.get(Parameter.ABILITY);
 			java.util.Set<GameObject> objects = parameters.get(Parameter.OBJECT).getAll(GameObject.class);
 
 			for(GameObject object: objects)
@@ -1473,7 +1473,7 @@ public abstract class ContinuousEffectType
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			GameObject original = parameters.get(Parameter.ORIGINAL).getOne(GameObject.class);
 			// No original object means nothing that can be copied
@@ -1551,9 +1551,9 @@ public abstract class ContinuousEffectType
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
-			Set objects = parameters.get(Parameter.OBJECT);
+			MagicSet objects = parameters.get(Parameter.OBJECT);
 
 			Integer colorlessAmount = parameters.get(Parameter.COST).getOne(Integer.class);
 			ManaPool cost = null;
@@ -1592,7 +1592,7 @@ public abstract class ContinuousEffectType
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			if(parameters.containsKey(Parameter.OBJECT))
 				for(GameObject object: parameters.get(Parameter.OBJECT).getAll(GameObject.class))
@@ -1625,7 +1625,7 @@ public abstract class ContinuousEffectType
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			int number = parameters.get(Parameter.NUMBER).getOne(Integer.class);
 			for(Player p: parameters.get(Parameter.PLAYER).getAll(Player.class))
@@ -1664,7 +1664,7 @@ public abstract class ContinuousEffectType
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			for(DamagePattern dp: parameters.get(Parameter.OBJECT).getAll(DamagePattern.class))
 				for(Class<? extends Keyword> f: parameters.get(Parameter.ABILITY).getAllClasses(Keyword.class))
@@ -1690,7 +1690,7 @@ public abstract class ContinuousEffectType
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			for(GameObject object: parameters.get(Parameter.OBJECT).getAll(GameObject.class))
 				object.setDealDamageAsUnblocked(true);
@@ -1721,16 +1721,16 @@ public abstract class ContinuousEffectType
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			String ability = parameters.get(Parameter.ABILITY).getOne(Class.class).getName();
 			if(!state.abilityExemptions.containsKey(ability))
-				state.abilityExemptions.put(ability, new java.util.HashMap<Integer, Set>());
-			Set exemptions = parameters.get(Parameter.EXEMPT);
+				state.abilityExemptions.put(ability, new java.util.HashMap<Integer, MagicSet>());
+			MagicSet exemptions = parameters.get(Parameter.EXEMPT);
 			for(Identified object: parameters.get(Parameter.OBJECT).getAll(Identified.class))
 			{
 				if(!state.abilityExemptions.get(ability).containsKey(object.ID))
-					state.abilityExemptions.get(ability).put(object.ID, new Set(exemptions));
+					state.abilityExemptions.get(ability).put(object.ID, new MagicSet(exemptions));
 				else
 					state.abilityExemptions.get(ability).get(object.ID).add(exemptions);
 			}
@@ -1756,7 +1756,7 @@ public abstract class ContinuousEffectType
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			java.util.Set<Class<? extends Keyword>> abilities = parameters.get(Parameter.ABILITY).getAllClasses(Keyword.class);
 
@@ -1813,9 +1813,9 @@ public abstract class ContinuousEffectType
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
-			Set objects = parameters.get(Parameter.OBJECT);
+			MagicSet objects = parameters.get(Parameter.OBJECT);
 			java.util.Set<Player> players = parameters.get(Parameter.PLAYER).getAll(Player.class);
 
 			for(GameObject object: objects.getAll(GameObject.class))
@@ -1843,9 +1843,9 @@ public abstract class ContinuousEffectType
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
-			Set objects = parameters.get(Parameter.OBJECT);
+			MagicSet objects = parameters.get(Parameter.OBJECT);
 
 			Integer amount = parameters.get(Parameter.COST).getOne(Integer.class);
 			if(state.manaCostMinimums.containsKey(objects))
@@ -1886,14 +1886,14 @@ public abstract class ContinuousEffectType
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
-			Set objects = parameters.get(Parameter.OBJECT);
+			MagicSet objects = parameters.get(Parameter.OBJECT);
 			ManaPool cost = new ManaPool(parameters.get(Parameter.COST).getAll(ManaSymbol.class));
 			if(parameters.containsKey(Parameter.NUMBER))
 				cost = cost.duplicate(parameters.get(Parameter.NUMBER).getOne(Integer.class));
 
-			java.util.Map<Set, ManaPool> reductions = parameters.containsKey(Parameter.RESTRICTION) ? state.manaCostRestrictedReductions : state.manaCostReductions;
+			java.util.Map<MagicSet, ManaPool> reductions = parameters.containsKey(Parameter.RESTRICTION) ? state.manaCostRestrictedReductions : state.manaCostReductions;
 			if(reductions.containsKey(objects))
 				reductions.get(objects).addAll(cost);
 			else
@@ -1921,7 +1921,7 @@ public abstract class ContinuousEffectType
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			java.util.Set<ManaSymbol> restriction = parameters.get(Parameter.RESTRICTION).getAll(ManaSymbol.class);
 			for(GameObject spell: parameters.get(Parameter.OBJECT).getAll(GameObject.class))
@@ -1956,7 +1956,7 @@ public abstract class ContinuousEffectType
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			java.util.Set<Player> players = parameters.get(Parameter.PLAYER).getAll(Player.class);
 			SetPattern mana = parameters.get(Parameter.TYPE).getOne(SetPattern.class);
@@ -1991,12 +1991,12 @@ public abstract class ContinuousEffectType
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			PlayPermission permission = parameters.get(Parameter.PERMISSION).getOne(PlayPermission.class);
 			permission.setSource(effect.getSourceObject());
 
-			Set objects = parameters.get(Parameter.OBJECT);
+			MagicSet objects = parameters.get(Parameter.OBJECT);
 
 			for(Castable castable: objects.getAll(Castable.class))
 				castable.addCastablePermissionLocation(permission);
@@ -2023,12 +2023,12 @@ public abstract class ContinuousEffectType
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			PlayPermission permission = parameters.get(Parameter.PERMISSION).getOne(PlayPermission.class);
 			permission.setSource(effect.getSourceObject());
 
-			Set objects = parameters.get(Parameter.OBJECT);
+			MagicSet objects = parameters.get(Parameter.OBJECT);
 
 			for(Castable castable: objects.getAll(Castable.class))
 				castable.addCastablePermissionTiming(permission);
@@ -2060,12 +2060,12 @@ public abstract class ContinuousEffectType
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			PlayPermission permission = parameters.get(Parameter.PERMISSION).getOne(PlayPermission.class);
 			permission.setSource(effect.getSourceObject());
 
-			Set objects = parameters.get(Parameter.OBJECT);
+			MagicSet objects = parameters.get(Parameter.OBJECT);
 
 			for(Castable castable: objects.getAll(Castable.class))
 				castable.addCastablePermissionLocation(permission);
@@ -2095,12 +2095,12 @@ public abstract class ContinuousEffectType
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			PlayPermission permission = parameters.get(Parameter.PERMISSION).getOne(PlayPermission.class);
 			permission.setSource(effect.getSourceObject());
 
-			Set objects = parameters.get(Parameter.OBJECT);
+			MagicSet objects = parameters.get(Parameter.OBJECT);
 
 			for(Castable castable: objects.getAll(Castable.class))
 				castable.addCastablePermissionTiming(permission);
@@ -2130,7 +2130,7 @@ public abstract class ContinuousEffectType
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			String effectName = parameters.get(Parameter.EFFECT).getOne(String.class);
 			String objectName = parameters.get(Parameter.NAME).getOne(String.class);
@@ -2160,7 +2160,7 @@ public abstract class ContinuousEffectType
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			int change = parameters.get(Parameter.RESTRICTION).getOne(Integer.class);
 			for(Player player: parameters.get(Parameter.PLAYER).getAll(Player.class))
@@ -2194,7 +2194,7 @@ public abstract class ContinuousEffectType
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			int power = Sum.get(parameters.get(Parameter.POWER));
 			int toughness = Sum.get(parameters.get(Parameter.TOUGHNESS));
@@ -2233,7 +2233,7 @@ public abstract class ContinuousEffectType
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			EventFactory e = parameters.get(Parameter.EVENT).getOne(EventFactory.class);
 			for(Player p: parameters.get(Parameter.PLAYER).getAll(Player.class))
@@ -2259,7 +2259,7 @@ public abstract class ContinuousEffectType
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			java.util.Set<CostCollection> costs = parameters.get(ContinuousEffectType.Parameter.COST).getAll(CostCollection.class);
 
@@ -2286,7 +2286,7 @@ public abstract class ContinuousEffectType
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			Player chooser = parameters.get(Parameter.PLAYER).getOne(Player.class);
 			state.declareAttackersPlayerOverride = chooser.ID;
@@ -2312,7 +2312,7 @@ public abstract class ContinuousEffectType
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			Player chooser = parameters.get(Parameter.PLAYER).getOne(Player.class);
 			state.declareBlockersPlayerOverride = chooser.ID;
@@ -2338,7 +2338,7 @@ public abstract class ContinuousEffectType
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			java.util.Iterator<GameObject> i = parameters.get(Parameter.OBJECT).getAll(GameObject.class).iterator();
 			GameObject first = i.next();
@@ -2371,9 +2371,9 @@ public abstract class ContinuousEffectType
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
-			Set numberSet = parameters.get(Parameter.NUMBER);
+			MagicSet numberSet = parameters.get(Parameter.NUMBER);
 			Integer number;
 			if(numberSet.isEmpty())
 				number = null;
@@ -2410,7 +2410,7 @@ public abstract class ContinuousEffectType
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			state.eventProhibitions.addAll(parameters.get(Parameter.PROHIBITION).getAll(EventPattern.class));
 			state.zoneChangeProhibitions.addAll(parameters.get(Parameter.PROHIBITION).getAll(ZoneChangePattern.class));
@@ -2437,12 +2437,12 @@ public abstract class ContinuousEffectType
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
-			Set objects = parameters.get(Parameter.OBJECT);
-			Set abilities = parameters.get(Parameter.ABILITY);
+			MagicSet objects = parameters.get(Parameter.OBJECT);
+			MagicSet abilities = parameters.get(Parameter.ABILITY);
 
-			Set removedObjects = new RemovedObjects();
+			MagicSet removedObjects = new RemovedObjects();
 
 			if(null == abilities)
 			{
@@ -2478,7 +2478,7 @@ public abstract class ContinuousEffectType
 
 							for(Keyword keyword: toRemove)
 							{
-								Set abilitiesGranted = keyword.getAbilitiesGranted();
+								MagicSet abilitiesGranted = keyword.getAbilitiesGranted();
 								if(object.removeAbility(keyword))
 								{
 									removedObjects.add(keyword);
@@ -2538,12 +2538,12 @@ public abstract class ContinuousEffectType
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			java.util.Set<GameObject> objects = parameters.get(Parameter.OBJECT).getAll(GameObject.class);
 			java.util.Set<SubType> basics = SubType.getBasicLandTypes();
 
-			Set parameter = parameters.get(Parameter.TYPE);
+			MagicSet parameter = parameters.get(Parameter.TYPE);
 			java.util.Set<Type> types = parameter.getAll(Type.class);
 			java.util.Set<SubType> subTypes = parameter.getAll(SubType.class);
 			java.util.Set<SuperType> superTypes = parameter.getAll(SuperType.class);
@@ -2600,9 +2600,9 @@ public abstract class ContinuousEffectType
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
-			Set objects = parameters.get(Parameter.OBJECT);
+			MagicSet objects = parameters.get(Parameter.OBJECT);
 
 			for(EventReplacementEffect e: objects.getAll(EventReplacementEffect.class))
 			{
@@ -2642,9 +2642,9 @@ public abstract class ContinuousEffectType
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
-			Set objects = parameters.get(Parameter.OBJECT);
+			MagicSet objects = parameters.get(Parameter.OBJECT);
 			for(GameObject object: objects.getAll(GameObject.class))
 				for(Player player: state.players)
 					object.setActualVisibility(player, true);
@@ -2670,7 +2670,7 @@ public abstract class ContinuousEffectType
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			java.util.Collection<Color> colors = parameters.get(Parameter.COLOR).getAll(Color.class);
 			if(colors.isEmpty())
@@ -2719,7 +2719,7 @@ public abstract class ContinuousEffectType
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			if(parameters.containsKey(Parameter.POWER))
 				ContinuousEffectType.SET_POWER_AND_TOUGHNESS.apply(state, effect, parameters);
@@ -2751,7 +2751,7 @@ public abstract class ContinuousEffectType
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			Integer newMax = parameters.get(Parameter.RESTRICTION).getOne(Integer.class);
 			for(Player player: parameters.get(Parameter.PLAYER).getAll(Player.class))
@@ -2789,12 +2789,12 @@ public abstract class ContinuousEffectType
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			boolean setPower = false;
 			int power = 0;
 			{
-				Set powerSet = parameters.get(Parameter.POWER);
+				MagicSet powerSet = parameters.get(Parameter.POWER);
 				if(powerSet != null)
 				{
 					setPower = true;
@@ -2805,7 +2805,7 @@ public abstract class ContinuousEffectType
 			boolean setToughness = false;
 			int toughness = 0;
 			{
-				Set toughSet = parameters.get(Parameter.TOUGHNESS);
+				MagicSet toughSet = parameters.get(Parameter.TOUGHNESS);
 				if(toughSet != null)
 				{
 					setToughness = true;
@@ -2850,7 +2850,7 @@ public abstract class ContinuousEffectType
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			for(GameObject object: parameters.get(Parameter.OBJECT).getAll(GameObject.class))
 			{
@@ -2886,13 +2886,13 @@ public abstract class ContinuousEffectType
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
-			Set allTypes = parameters.get(Parameter.TYPE);
+			MagicSet allTypes = parameters.get(Parameter.TYPE);
 
 			java.util.Set<SubType> basics = SubType.getBasicLandTypes();
 
-			Set removedObjects = new RemovedObjects();
+			MagicSet removedObjects = new RemovedObjects();
 
 			java.util.Set<SuperType> superTypes = allTypes.getAll(SuperType.class);
 			java.util.Set<Type> types = allTypes.getAll(Type.class);
@@ -3045,9 +3045,9 @@ public abstract class ContinuousEffectType
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
-			Set players = parameters.get(Parameter.PLAYER);
+			MagicSet players = parameters.get(Parameter.PLAYER);
 
 			Player priority = state.getPlayerWithPriority();
 
@@ -3078,7 +3078,7 @@ public abstract class ContinuousEffectType
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			state.eventReplacementEffectStoppers.addAll(parameters.get(Parameter.PROHIBITION).getAll(EventReplacementEffectStopper.class));
 		}
@@ -3102,7 +3102,7 @@ public abstract class ContinuousEffectType
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			state.eventTriggeredAbilityStoppers.addAll(parameters.get(Parameter.PROHIBITION).getAll(EventTriggeredAbilityStopper.class));
 		}
@@ -3126,7 +3126,7 @@ public abstract class ContinuousEffectType
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			for(GameObject creature: parameters.get(Parameter.OBJECT).getAll(GameObject.class))
 			{
@@ -3164,7 +3164,7 @@ public abstract class ContinuousEffectType
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters)
+		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			ManaSymbol.ManaType restriction = parameters.get(Parameter.RESTRICTION).getOne(ManaSymbol.ManaType.class);
 			for(GameObject spell: parameters.get(Parameter.OBJECT).getAll(GameObject.class))
@@ -3192,7 +3192,7 @@ public abstract class ContinuousEffectType
 	 */
 	public abstract Parameter affects();
 
-	public abstract void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, Set> parameters);
+	public abstract void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters);
 
 	/**
 	 * Which layer do effects of this type apply in?

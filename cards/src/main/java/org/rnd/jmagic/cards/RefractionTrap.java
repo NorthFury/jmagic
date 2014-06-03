@@ -32,7 +32,7 @@ public final class RefractionTrap extends Card
 		public DamageAssignment.Batch match(Event context, DamageAssignment.Batch damageAssignments)
 		{
 			Player you = ((GameObject)this.getSourceObject(context.game.actualState)).getController(context.game.actualState);
-			Set yourPermanents = ControlledBy.instance(Identity.instance(you)).evaluate(context.game, this.getSourceObject(context.game.actualState));
+			MagicSet yourPermanents = ControlledBy.instance(Identity.instance(you)).evaluate(context.game, this.getSourceObject(context.game.actualState));
 
 			DamageAssignment.Batch ret = new DamageAssignment.Batch();
 			for(DamageAssignment damage: damageAssignments)
@@ -145,10 +145,10 @@ public final class RefractionTrap extends Card
 		}
 
 		@Override
-		public Set evaluate(GameState state, Identified thisObject)
+		public MagicSet evaluate(GameState state, Identified thisObject)
 		{
 			Player you = ((GameObject)thisObject).getController(state);
-			Set opponents = OpponentsOf.get(state, you);
+			MagicSet opponents = OpponentsOf.get(state, you);
 
 			java.util.Collection<Integer> flagValue = state.getTracker(Tracker.class).getValue(state);
 
@@ -175,22 +175,22 @@ public final class RefractionTrap extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			final Player you = parameters.get(Parameter.PLAYER).getOne(Player.class);
 			final Identified target = parameters.get(Parameter.TARGET).getOne(Identified.class);
 
-			Set damageSources = AllSourcesOfDamage.instance().evaluate(game.actualState, null);
+			MagicSet damageSources = AllSourcesOfDamage.instance().evaluate(game.actualState, null);
 			final GameObject chosenSource = you.sanitizeAndChoose(game.actualState, 1, damageSources.getAll(GameObject.class), PlayerInterface.ChoiceType.DAMAGE_SOURCE, REASON).iterator().next();
 
 			DamageReplacementEffect replacement = new RefractionTrapEffect(game, "Prevent the next 3 damage that a source of your choice would deal to you and/or permanents you control this turn. If damage is prevented this way, Refraction Trap deals that much damage to target creature or player.", target, chosenSource);
 
 			ContinuousEffect.Part part = replacementEffectPart(replacement);
 
-			java.util.Map<Parameter, Set> fceParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> fceParameters = new java.util.HashMap<Parameter, MagicSet>();
 			fceParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
-			fceParameters.put(Parameter.EFFECT, new Set(part));
-			fceParameters.put(Parameter.DAMAGE, new Set(3));
+			fceParameters.put(Parameter.EFFECT, new MagicSet(part));
+			fceParameters.put(Parameter.DAMAGE, new MagicSet(3));
 			Event createFce = createEvent(game, "Prevent the next 3 damage that a source of your choice would deal to you and/or permanents you control this turn. If damage is prevented this way, Refraction Trap deals that much damage to target creature or player.", CREATE_FLOATING_CONTINUOUS_EFFECT, fceParameters);
 			createFce.perform(event, true);
 

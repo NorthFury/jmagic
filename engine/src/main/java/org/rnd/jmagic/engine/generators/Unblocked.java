@@ -20,13 +20,13 @@ public class Unblocked extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
 		if(!state.currentPhase().blockersDeclared)
 			return Empty.set;
 
-		Set creatures = CreaturePermanents.instance().evaluate(state, thisObject);
-		Set ret = new Set();
+		MagicSet creatures = CreaturePermanents.instance().evaluate(state, thisObject);
+		MagicSet ret = new MagicSet();
 
 		for(GameObject object: creatures.getAll(GameObject.class))
 			if(object.getAttackingID() != -1 && object.getBlockedByIDs() == null)

@@ -27,22 +27,22 @@ public final class Manabond extends Card
 		}
 
 		@Override
-		public boolean attempt(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
-			Set cause = parameters.get(Parameter.CAUSE);
-			Set hand = parameters.get(Parameter.FROM);
+			MagicSet cause = parameters.get(Parameter.CAUSE);
+			MagicSet hand = parameters.get(Parameter.FROM);
 
-			java.util.Map<Parameter, Set> revealParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> revealParameters = new java.util.HashMap<Parameter, MagicSet>();
 			revealParameters.put(Parameter.CAUSE, cause);
 			revealParameters.put(Parameter.OBJECT, hand);
 			Event reveal = createEvent(game, "Reveal your hand", EventType.REVEAL, revealParameters);
 			if(!reveal.attempt(event))
 				return false;
 
-			Set you = parameters.get(Parameter.PLAYER);
-			Set lands = parameters.get(Parameter.CARD);
+			MagicSet you = parameters.get(Parameter.PLAYER);
+			MagicSet lands = parameters.get(Parameter.CARD);
 
-			java.util.Map<Parameter, Set> dropParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> dropParameters = new java.util.HashMap<Parameter, MagicSet>();
 			dropParameters.put(Parameter.CAUSE, cause);
 			dropParameters.put(Parameter.CONTROLLER, you);
 			dropParameters.put(Parameter.OBJECT, lands);
@@ -51,21 +51,21 @@ public final class Manabond extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
-			Set cause = parameters.get(Parameter.CAUSE);
-			Set hand = parameters.get(Parameter.FROM);
+			MagicSet cause = parameters.get(Parameter.CAUSE);
+			MagicSet hand = parameters.get(Parameter.FROM);
 
-			java.util.Map<Parameter, Set> revealParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> revealParameters = new java.util.HashMap<Parameter, MagicSet>();
 			revealParameters.put(Parameter.CAUSE, cause);
 			revealParameters.put(Parameter.OBJECT, hand);
 			Event reveal = createEvent(game, "Reveal your hand", EventType.REVEAL, revealParameters);
 			reveal.perform(event, true);
 
-			Set you = parameters.get(Parameter.PLAYER);
-			Set lands = parameters.get(Parameter.CARD);
+			MagicSet you = parameters.get(Parameter.PLAYER);
+			MagicSet lands = parameters.get(Parameter.CARD);
 
-			java.util.Map<Parameter, Set> dropParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> dropParameters = new java.util.HashMap<Parameter, MagicSet>();
 			dropParameters.put(Parameter.CAUSE, cause);
 			dropParameters.put(Parameter.CONTROLLER, you);
 			dropParameters.put(Parameter.OBJECT, lands);

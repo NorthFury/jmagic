@@ -26,17 +26,17 @@ public final class WorldQueller extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			Player you = parameters.get(Parameter.PLAYER).getOne(Player.class);
 			java.util.List<Type> chosenType = you.sanitizeAndChoose(game.actualState, 1, java.util.EnumSet.allOf(Type.class), PlayerInterface.ChoiceType.ENUM, PlayerInterface.ChooseReason.CHOOSE_CARD_TYPE);
 
-			Set cause = parameters.get(Parameter.CAUSE);
-			java.util.Map<Parameter, Set> sacParameters = new java.util.HashMap<Parameter, Set>();
+			MagicSet cause = parameters.get(Parameter.CAUSE);
+			java.util.Map<Parameter, MagicSet> sacParameters = new java.util.HashMap<Parameter, MagicSet>();
 			sacParameters.put(Parameter.CAUSE, cause);
-			sacParameters.put(Parameter.NUMBER, new Set(1));
+			sacParameters.put(Parameter.NUMBER, new MagicSet(1));
 			sacParameters.put(Parameter.CHOICE, HasType.get(game.actualState, chosenType));
-			sacParameters.put(Parameter.PLAYER, new Set(game.actualState.players));
+			sacParameters.put(Parameter.PLAYER, new MagicSet(game.actualState.players));
 			Event sacrifice = createEvent(game, "Each player sacrifices a permanent of the chosen type", EventType.SACRIFICE_CHOICE, sacParameters);
 			sacrifice.perform(event, true);
 

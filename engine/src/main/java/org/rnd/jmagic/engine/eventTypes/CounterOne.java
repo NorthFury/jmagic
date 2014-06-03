@@ -18,12 +18,12 @@ public final class CounterOne extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
-		Set result = new Set();
+		MagicSet result = new MagicSet();
 		boolean status = true;
 
-		Set counterer = parameters.get(Parameter.CAUSE);
+		MagicSet counterer = parameters.get(Parameter.CAUSE);
 		Zone zone = (parameters.containsKey(Parameter.TO) ? parameters.get(Parameter.TO).getOne(Zone.class) : null);
 		GameObject object = parameters.get(Parameter.OBJECT).getOne(GameObject.class);
 		if(object.zoneID == game.actualState.stack().ID)

@@ -20,13 +20,13 @@ public class AttackedThisTurn extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
 		Turn currentTurn = state.currentTurn();
 		if(null == currentTurn)
 			return Empty.set;
 
-		Set ret = new Set();
+		MagicSet ret = new MagicSet();
 		for(Integer i: state.getTracker(SuccessfullyAttacked.class).getValue(state).keySet())
 			ret.add(state.get(i));
 		return ret;

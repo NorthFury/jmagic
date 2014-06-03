@@ -213,7 +213,7 @@ public class DependencyCalculator
 	{
 		GameObject sourceOfXinStateX = sourceOfX == null ? null : this.stateX.getByIDObject(sourceOfX.ID);
 		ContinuousEffect effectXinStateX = this.stateX.get(effectX.ID);
-		Set objectsAffectedByEffectXinStateX = partX.apply(this.stateX, sourceOfXinStateX, effectXinStateX);
+		MagicSet objectsAffectedByEffectXinStateX = partX.apply(this.stateX, sourceOfXinStateX, effectXinStateX);
 
 		// check whether the effect still exists after the other is
 		// applied
@@ -255,8 +255,8 @@ public class DependencyCalculator
 		GameObject sourceOfYinStateX = sourceOfY == null ? null : this.stateX.getByIDObject(sourceOfY.ID);
 		SetGenerator affectedByEffectY = partY.parameters.get(partY.type.affects());
 
-		Set affectedByYinOriginalState = affectedByEffectY.evaluate(originalState, sourceOfY);
-		Set affectedByYinStateX = affectedByEffectY.evaluate(this.stateX, sourceOfYinStateX);
+		MagicSet affectedByYinOriginalState = affectedByEffectY.evaluate(originalState, sourceOfY);
+		MagicSet affectedByYinStateX = affectedByEffectY.evaluate(this.stateX, sourceOfYinStateX);
 		if(!affectedByYinOriginalState.equals(affectedByYinStateX))
 		{
 			revertAffectedObjects(objectsAffectedByEffectXinStateX, originalState, this.stateX);
@@ -288,9 +288,9 @@ public class DependencyCalculator
 		if(this.stateY == null)
 			this.stateY = originalState.clone(false);
 		GameObject sourceOfYinStateY = this.stateY.<GameObject>get(sourceOfY.ID);
-		Set objectsAffectedByEffectYinStateY = partY.apply(this.stateY, sourceOfYinStateY, this.stateY.<ContinuousEffect>get(effectY.ID));
+		MagicSet objectsAffectedByEffectYinStateY = partY.apply(this.stateY, sourceOfYinStateY, this.stateY.<ContinuousEffect>get(effectY.ID));
 
-		Set evalAfterY = affectedByEffectY.evaluate(this.stateY, sourceOfYinStateY);
+		MagicSet evalAfterY = affectedByEffectY.evaluate(this.stateY, sourceOfYinStateY);
 		java.util.List<GameObject> afterYinOrder = new java.util.ArrayList<GameObject>(evalAfterY.getAll(GameObject.class));
 		java.util.Collections.sort(afterYinOrder);
 
@@ -299,12 +299,12 @@ public class DependencyCalculator
 			this.stateXY = originalState.clone(false);
 
 		GameObject sourceOfXinStateXY = this.stateXY.<GameObject>get(sourceOfX.ID);
-		Set objectsAffectedByEffectXinStateXY = partX.apply(this.stateXY, sourceOfXinStateXY, this.stateXY.<ContinuousEffect>get(effectX.ID));
+		MagicSet objectsAffectedByEffectXinStateXY = partX.apply(this.stateXY, sourceOfXinStateXY, this.stateXY.<ContinuousEffect>get(effectX.ID));
 
 		GameObject sourceOfYinStateXY = this.stateXY.<GameObject>get(sourceOfY.ID);
-		Set objectsAffectedByEffectYinStateXY = partY.apply(this.stateXY, sourceOfYinStateXY, this.stateXY.<ContinuousEffect>get(effectY.ID));
+		MagicSet objectsAffectedByEffectYinStateXY = partY.apply(this.stateXY, sourceOfYinStateXY, this.stateXY.<ContinuousEffect>get(effectY.ID));
 
-		Set evalAfterBoth = affectedByEffectY.evaluate(this.stateXY, sourceOfYinStateXY);
+		MagicSet evalAfterBoth = affectedByEffectY.evaluate(this.stateXY, sourceOfYinStateXY);
 		java.util.List<GameObject> afterBothInOrder = new java.util.ArrayList<GameObject>(evalAfterBoth.getAll(GameObject.class));
 		java.util.Collections.sort(afterBothInOrder);
 
@@ -360,12 +360,12 @@ public class DependencyCalculator
 		return false;
 	}
 
-	private static void revertAffectedObjects(Set affectedObjects, GameState originalState, GameState fakeState)
+	private static void revertAffectedObjects(MagicSet affectedObjects, GameState originalState, GameState fakeState)
 	{
 		revertAffectedObjects(affectedObjects, originalState, fakeState, false);
 	}
 
-	private static void revertAffectedObjects(Set affectedObjects, GameState originalState, GameState fakeState, boolean intermediate)
+	private static void revertAffectedObjects(MagicSet affectedObjects, GameState originalState, GameState fakeState, boolean intermediate)
 	{
 		if(affectedObjects != null)
 		{

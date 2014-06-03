@@ -18,7 +18,7 @@ public class Minimum extends SetGenerator
 	 * bound is negative infinity; otherwise, the lowest Integer or lower bound
 	 * of a NumberRange
 	 */
-	public static Integer get(Set numbers)
+	public static Integer get(MagicSet numbers)
 	{
 		Integer min = null;
 
@@ -40,7 +40,7 @@ public class Minimum extends SetGenerator
 
 	static public void main(String args[])
 	{
-		Set a = new Set();
+		MagicSet a = new MagicSet();
 		a.add(8);
 		a.add(new org.rnd.util.NumberRange(1, 9));
 		System.out.println("a = " + a);
@@ -55,8 +55,8 @@ public class Minimum extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		return new Set(Minimum.get(this.numbers.evaluate(state, thisObject)));
+		return new MagicSet(Minimum.get(this.numbers.evaluate(state, thisObject)));
 	}
 }

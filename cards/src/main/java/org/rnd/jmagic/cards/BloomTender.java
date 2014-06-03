@@ -36,13 +36,13 @@ public final class BloomTender extends Card
 			}
 
 			@Override
-			public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+			public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 			{
-				Set color = new Set();
+				MagicSet color = new MagicSet();
 				for(Color c: parameters.get(Parameter.MANA).getAll(Color.class))
 					color.add(new ManaSymbol(c));
 
-				java.util.Map<EventType.Parameter, Set> manaParameters = new java.util.HashMap<EventType.Parameter, Set>();
+				java.util.Map<EventType.Parameter, MagicSet> manaParameters = new java.util.HashMap<EventType.Parameter, MagicSet>();
 				manaParameters.put(EventType.Parameter.SOURCE, parameters.get(EventType.Parameter.SOURCE));
 				manaParameters.put(EventType.Parameter.MANA, color);
 				manaParameters.put(EventType.Parameter.PLAYER, parameters.get(EventType.Parameter.PLAYER));

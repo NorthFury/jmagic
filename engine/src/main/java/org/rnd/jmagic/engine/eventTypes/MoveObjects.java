@@ -18,7 +18,7 @@ public final class MoveObjects extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		for(GameObject object: parameters.get(Parameter.OBJECT).getAll(GameObject.class))
 			if(object.isGhost())
@@ -28,7 +28,7 @@ public final class MoveObjects extends EventType
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		java.util.Set<GameObject> objects = parameters.get(Parameter.OBJECT).getAll(GameObject.class);
 		if(objects.isEmpty())
@@ -37,7 +37,7 @@ public final class MoveObjects extends EventType
 			return true;
 		}
 
-		Set cause = parameters.get(Parameter.CAUSE);
+		MagicSet cause = parameters.get(Parameter.CAUSE);
 		Zone to = parameters.get(Parameter.TO).getOne(Zone.class);
 		int controllerID = -1;
 		if(parameters.containsKey(Parameter.CONTROLLER))
@@ -59,7 +59,7 @@ public final class MoveObjects extends EventType
 
 		boolean fromLibrary = false;
 		boolean allMoved = true;
-		Set result = new Set();
+		MagicSet result = new MagicSet();
 
 		for(GameObject moveMe: objects)
 		{

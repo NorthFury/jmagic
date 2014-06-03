@@ -24,7 +24,7 @@ public final class MarkofAsylum extends Card
 		{
 			DamageAssignment.Batch ret = new DamageAssignment.Batch();
 
-			Set valid = CREATURES_YOU_CONTROL.evaluate(context.state, this.getSourceObject(context.state));
+			MagicSet valid = CREATURES_YOU_CONTROL.evaluate(context.state, this.getSourceObject(context.state));
 
 			for(DamageAssignment damage: damageAssignments)
 				if(!damage.isCombatDamage && valid.contains(context.state.get(damage.takerID)))

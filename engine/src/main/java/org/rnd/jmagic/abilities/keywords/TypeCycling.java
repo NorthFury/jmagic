@@ -7,7 +7,7 @@ import org.rnd.jmagic.engine.generators.*;
 
 public abstract class TypeCycling extends CyclingBase
 {
-	protected Set filterTypes;
+	protected MagicSet filterTypes;
 	protected String filterString;
 
 	private CostCollection cost;
@@ -17,12 +17,12 @@ public abstract class TypeCycling extends CyclingBase
 		return typeString.substring(0, 1).toUpperCase() + typeString.substring(1) + "cycling";
 	}
 
-	public TypeCycling(GameState state, String manaCost, Set types, String typeString)
+	public TypeCycling(GameState state, String manaCost, MagicSet types, String typeString)
 	{
 		this(state, new CostCollection(Cycling.COST_TYPE, new ManaPool(manaCost)), types, typeString);
 	}
 
-	public TypeCycling(GameState state, CostCollection cost, Set types, String typeString)
+	public TypeCycling(GameState state, CostCollection cost, MagicSet types, String typeString)
 	{
 		super(state, makeName(typeString) + (cost.events.isEmpty() ? " " : "\u2014") + cost);
 		this.filterTypes = types;
@@ -98,7 +98,7 @@ public abstract class TypeCycling extends CyclingBase
 	{
 		public BasicLandCycling(GameState state, String manaCost)
 		{
-			super(state, manaCost, new Set(SuperType.BASIC, Type.LAND), "basic land");
+			super(state, manaCost, new MagicSet(SuperType.BASIC, Type.LAND), "basic land");
 		}
 
 		@Override
@@ -112,7 +112,7 @@ public abstract class TypeCycling extends CyclingBase
 	{
 		public PlainsCycling(GameState state, String manaCost)
 		{
-			super(state, manaCost, new Set(SubType.PLAINS), "Plains");
+			super(state, manaCost, new MagicSet(SubType.PLAINS), "Plains");
 		}
 
 		@Override
@@ -126,7 +126,7 @@ public abstract class TypeCycling extends CyclingBase
 	{
 		public IslandCycling(GameState state, String manaCost)
 		{
-			super(state, manaCost, new Set(SubType.ISLAND), "Island");
+			super(state, manaCost, new MagicSet(SubType.ISLAND), "Island");
 		}
 
 		@Override
@@ -140,7 +140,7 @@ public abstract class TypeCycling extends CyclingBase
 	{
 		public SwampCycling(GameState state, String manaCost)
 		{
-			super(state, manaCost, new Set(SubType.SWAMP), "Swamp");
+			super(state, manaCost, new MagicSet(SubType.SWAMP), "Swamp");
 		}
 
 		@Override
@@ -154,7 +154,7 @@ public abstract class TypeCycling extends CyclingBase
 	{
 		public MountainCycling(GameState state, String manaCost)
 		{
-			super(state, manaCost, new Set(SubType.MOUNTAIN), "Mountain");
+			super(state, manaCost, new MagicSet(SubType.MOUNTAIN), "Mountain");
 		}
 
 		@Override
@@ -168,7 +168,7 @@ public abstract class TypeCycling extends CyclingBase
 	{
 		public ForestCycling(GameState state, String manaCost)
 		{
-			super(state, manaCost, new Set(SubType.FOREST), "Forest");
+			super(state, manaCost, new MagicSet(SubType.FOREST), "Forest");
 		}
 
 		@Override

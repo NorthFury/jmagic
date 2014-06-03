@@ -18,7 +18,7 @@ public final class TakeExtraPhase extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		Phase addAfter = parameters.get(Parameter.TARGET).getOne(Phase.class);
 		if(addAfter == null)
@@ -38,7 +38,7 @@ public final class TakeExtraPhase extends EventType
 		}
 
 		@SuppressWarnings("unchecked") java.util.List<Phase.PhaseType> types = parameters.get(Parameter.PHASE).getOne(java.util.List.class);
-		Set result = new Set();
+		MagicSet result = new MagicSet();
 		java.util.ListIterator<Phase.PhaseType> i = types.listIterator(types.size());
 		while(i.hasPrevious())
 		{

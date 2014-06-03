@@ -80,7 +80,7 @@ public class SimpleEventPattern implements EventPattern
 
 			GameObject eventSource = event.getSource();
 
-			Set thisParameter;
+			MagicSet thisParameter;
 			if(event.wasPerformed())
 				thisParameter = event.parametersNow.get(parameterName).evaluate(state, eventSource);
 			else

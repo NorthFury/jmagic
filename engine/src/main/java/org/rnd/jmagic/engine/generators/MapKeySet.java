@@ -17,8 +17,8 @@ public class MapKeySet extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		return new Set(this.map.keySet());
+		return new MagicSet(this.map.keySet());
 	}
 }

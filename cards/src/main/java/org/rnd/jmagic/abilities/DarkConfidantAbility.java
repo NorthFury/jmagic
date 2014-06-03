@@ -22,33 +22,33 @@ public final class DarkConfidantAbility extends EventTriggeredAbility
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
-			Set object = parameters.get(Parameter.OBJECT);
+			MagicSet object = parameters.get(Parameter.OBJECT);
 			event.setResult(Empty.set);
 			if(object.isEmpty())
 				return false;
 
-			Set cause = parameters.get(Parameter.CAUSE);
-			Set player = parameters.get(Parameter.PLAYER);
-			Set to = parameters.get(Parameter.TO);
+			MagicSet cause = parameters.get(Parameter.CAUSE);
+			MagicSet player = parameters.get(Parameter.PLAYER);
+			MagicSet to = parameters.get(Parameter.TO);
 			int life = object.getOne(GameObject.class).getConvertedManaCost();
 
-			java.util.Map<Parameter, Set> revealParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> revealParameters = new java.util.HashMap<Parameter, MagicSet>();
 			revealParameters.put(Parameter.CAUSE, cause);
 			revealParameters.put(Parameter.OBJECT, object);
 			createEvent(game, "Reveal the top card of your library", REVEAL, revealParameters).perform(event, true);
 
-			java.util.Map<Parameter, Set> moveParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> moveParameters = new java.util.HashMap<Parameter, MagicSet>();
 			moveParameters.put(Parameter.CAUSE, cause);
 			moveParameters.put(Parameter.OBJECT, object);
 			moveParameters.put(Parameter.TO, to);
 			createEvent(game, "Put that card into your hand", MOVE_OBJECTS, moveParameters).perform(event, true);
 
-			java.util.Map<Parameter, Set> lifeParameters = new java.util.HashMap<Parameter, Set>();
+			java.util.Map<Parameter, MagicSet> lifeParameters = new java.util.HashMap<Parameter, MagicSet>();
 			lifeParameters.put(Parameter.CAUSE, cause);
 			lifeParameters.put(Parameter.PLAYER, player);
-			lifeParameters.put(Parameter.NUMBER, new Set(life));
+			lifeParameters.put(Parameter.NUMBER, new MagicSet(life));
 			createEvent(game, "You lose life equal to its converted mana cost", LOSE_LIFE, lifeParameters).perform(event, true);
 
 			return true;

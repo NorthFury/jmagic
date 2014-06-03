@@ -21,7 +21,7 @@ public class DefendingPlayer extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
 		java.util.Set<Integer> ids = new java.util.HashSet<Integer>();
 
@@ -29,7 +29,7 @@ public class DefendingPlayer extends SetGenerator
 			if(object.getAttackingID() != -1)
 				ids.add(object.getAttackingID());
 
-		Set ret = new Set();
+		MagicSet ret = new MagicSet();
 		for(Integer id: ids)
 		{
 			Identified defender = state.get(id);

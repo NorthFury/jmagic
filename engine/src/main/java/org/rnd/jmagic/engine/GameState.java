@@ -5,7 +5,7 @@ import org.rnd.jmagic.engine.patterns.*;
 /** Represents the game state. */
 public class GameState implements Cloneable
 {
-	public java.util.Map<String, java.util.Map<Integer, Set>> abilityExemptions;
+	public java.util.Map<String, java.util.Map<Integer, MagicSet>> abilityExemptions;
 
 	/** The Doran flag. */
 	public boolean assignCombatDamageUsingToughness;
@@ -81,27 +81,27 @@ public class GameState implements Cloneable
 	 * keys to the map are sets that describe which spells and abilities the
 	 * cost applies to; the values are the costs.
 	 */
-	public java.util.Map<Set, ManaPool> manaCostAdditions;
+	public java.util.Map<MagicSet, ManaPool> manaCostAdditions;
 
 	/**
 	 * This map describes cost minimums for playing spells and abilities. The
 	 * keys to the map are sets that describe which spells and abilities the
 	 * cost applies to; the values are the minimums. (Trinisphere)
 	 */
-	public java.util.Map<Set, Integer> manaCostMinimums;
+	public java.util.Map<MagicSet, Integer> manaCostMinimums;
 
 	/**
 	 * This map describes cost reductions for playing spells and abilities. The
 	 * keys to the map are sets that describe which spells and abilities the
 	 * reduction applies to; the values are the costs.
 	 */
-	public java.util.Map<Set, ManaPool> manaCostReductions;
+	public java.util.Map<MagicSet, ManaPool> manaCostReductions;
 
 	/**
 	 * Like manaCostReductions except that these effects can't reduce the amount
 	 * of mana something costs to play to less than one mana.
 	 */
-	public java.util.Map<Set, ManaPool> manaCostRestrictedReductions;
+	public java.util.Map<MagicSet, ManaPool> manaCostRestrictedReductions;
 
 	/**
 	 * Keys are player IDs; values are patterns describing what kind of mana
@@ -149,7 +149,7 @@ public class GameState implements Cloneable
 		this.identifieds = new java.util.HashMap<Integer, Identified>();
 		this.game = game;
 
-		this.abilityExemptions = new java.util.HashMap<String, java.util.Map<Integer, Set>>();
+		this.abilityExemptions = new java.util.HashMap<String, java.util.Map<Integer, MagicSet>>();
 		this.assignCombatDamageUsingToughness = false;
 		this.attackingCosts = new java.util.LinkedList<AttackingCost>();
 		this.attackingRequirements = new java.util.LinkedList<AttackingRequirement>();
@@ -177,10 +177,10 @@ public class GameState implements Cloneable
 		this.floatingEffects = new java.util.LinkedList<FloatingContinuousEffect>();
 		this.futureTurns = new java.util.LinkedList<Turn>();
 		this.hasNameModifiers = null;
-		this.manaCostAdditions = new java.util.HashMap<Set, ManaPool>();
-		this.manaCostMinimums = new java.util.HashMap<Set, Integer>();
-		this.manaCostReductions = new java.util.HashMap<Set, ManaPool>();
-		this.manaCostRestrictedReductions = new java.util.HashMap<Set, ManaPool>();
+		this.manaCostAdditions = new java.util.HashMap<MagicSet, ManaPool>();
+		this.manaCostMinimums = new java.util.HashMap<MagicSet, Integer>();
+		this.manaCostReductions = new java.util.HashMap<MagicSet, ManaPool>();
+		this.manaCostRestrictedReductions = new java.util.HashMap<MagicSet, ManaPool>();
 		this.manaThatDoesntEmpty = new java.util.HashMap<Integer, MultipleSetPattern>();
 		this.nextTimestamp = 0;
 		this.playerActions = new java.util.HashSet<PlayerAction>();
@@ -239,7 +239,7 @@ public class GameState implements Cloneable
 		player.getSideboard(this).visibleTo.add(player.ID);
 	}
 
-	public java.util.List<Player> apnapOrder(Set players)
+	public java.util.List<Player> apnapOrder(MagicSet players)
 	{
 		if(!this.game.hasStarted())
 			throw new UnsupportedOperationException("Can't get APNAP order before the game starts");
@@ -365,7 +365,7 @@ public class GameState implements Cloneable
 			// clone() should only ever be called on the physical state and,
 			// since the following fields are always empty in the physical
 			// state, don't copy them
-			ret.abilityExemptions = new java.util.HashMap<String, java.util.Map<Integer, Set>>();
+			ret.abilityExemptions = new java.util.HashMap<String, java.util.Map<Integer, MagicSet>>();
 			ret.assignCombatDamageUsingToughness = false;
 			ret.attackingCosts = new java.util.LinkedList<AttackingCost>();
 			ret.attackingRequirements = new java.util.LinkedList<AttackingRequirement>();
@@ -380,10 +380,10 @@ public class GameState implements Cloneable
 			ret.eventTriggeredAbilityStoppers = new java.util.LinkedList<EventTriggeredAbilityStopper>();
 			ret.extraEvents = new java.util.LinkedList<Event>();
 			ret.hasNameModifiers = new java.util.HashSet<org.rnd.jmagic.engine.generators.HasName.HasNameModifier>();
-			ret.manaCostAdditions = new java.util.HashMap<Set, ManaPool>();
-			ret.manaCostMinimums = new java.util.HashMap<Set, Integer>();
-			ret.manaCostReductions = new java.util.HashMap<Set, ManaPool>();
-			ret.manaCostRestrictedReductions = new java.util.HashMap<Set, ManaPool>();
+			ret.manaCostAdditions = new java.util.HashMap<MagicSet, ManaPool>();
+			ret.manaCostMinimums = new java.util.HashMap<MagicSet, Integer>();
+			ret.manaCostReductions = new java.util.HashMap<MagicSet, ManaPool>();
+			ret.manaCostRestrictedReductions = new java.util.HashMap<MagicSet, ManaPool>();
 			ret.manaThatDoesntEmpty = new java.util.HashMap<Integer, MultipleSetPattern>();
 			for(int key: this.manaThatDoesntEmpty.keySet())
 				ret.manaThatDoesntEmpty.put(key, new MultipleSetPattern(false));

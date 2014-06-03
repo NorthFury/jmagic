@@ -1793,12 +1793,12 @@ public abstract class EventType
 	 * @param parameters The parameter map to pass to the event constructor.
 	 * @return The new event.
 	 */
-	protected static final Event createEvent(Game game, String name, EventType type, java.util.Map<Parameter, Set> parameters)
+	protected static final Event createEvent(Game game, String name, EventType type, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		Event newEvent = new Event(game.physicalState, name, type);
 
 		if(parameters != null)
-			for(java.util.Map.Entry<Parameter, Set> parameter: parameters.entrySet())
+			for(java.util.Map.Entry<Parameter, MagicSet> parameter: parameters.entrySet())
 				newEvent.parameters.put(parameter.getKey(), Identity.instance(parameter.getValue()));
 
 		return newEvent;
@@ -1814,7 +1814,7 @@ public abstract class EventType
 	 * each the sum of the integers in <code>parameter</code>. (1, 1) if
 	 * <code>parameter</code> is null.
 	 */
-	public static org.rnd.util.NumberRange getRange(Set parameter)
+	public static org.rnd.util.NumberRange getRange(MagicSet parameter)
 	{
 		if(parameter == null)
 			return new org.rnd.util.NumberRange(1, 1);
@@ -1877,7 +1877,7 @@ public abstract class EventType
 	 * @param parameters The parameters of the event to attempt.
 	 * @return Whether the event is able to be performed.
 	 */
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		return true;
 	}
@@ -1934,7 +1934,7 @@ public abstract class EventType
 	 * @param event What even the choice is made for.
 	 * @param parameters Parameters for the event.
 	 */
-	public void makeChoices(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public void makeChoices(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		// By default no choices need to be made.
 	}
@@ -1952,7 +1952,7 @@ public abstract class EventType
 	 * @param parameters The parameters to the event
 	 * @return Whether the event can be used to pay a cost
 	 */
-	public abstract boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters);
+	public abstract boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters);
 
 	@Override
 	public String toString()

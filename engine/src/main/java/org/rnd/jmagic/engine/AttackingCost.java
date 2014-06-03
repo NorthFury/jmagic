@@ -2,7 +2,7 @@ package org.rnd.jmagic.engine;
 
 public class AttackingCost
 {
-	private Set cost;
+	private MagicSet cost;
 	private int number;
 	private java.util.Set<Integer> creatureIDs;
 	private java.util.Set<Integer> playerIDs;
@@ -17,7 +17,7 @@ public class AttackingCost
 	 * @param players The set of players who, if attacked, will invoke this
 	 * cost. If it's null, it applies to attacking any player.
 	 */
-	public AttackingCost(GameState state, int number, Set cost, Set creatures, Set players)
+	public AttackingCost(GameState state, int number, MagicSet cost, MagicSet creatures, MagicSet players)
 	{
 		this.cost = cost;
 		this.number = number;
@@ -40,9 +40,9 @@ public class AttackingCost
 	 * @return The total cost to attack that this attacking cost imposes. Null
 	 * if this attacking cost does not apply to these attackers at all.
 	 */
-	public Set evaluate(java.util.Collection<GameObject> attackers)
+	public MagicSet evaluate(java.util.Collection<GameObject> attackers)
 	{
-		Set ret = new Set();
+		MagicSet ret = new MagicSet();
 		boolean applies = false;
 		for(GameObject attacker: attackers)
 			if(this.creatureIDs.contains(attacker.ID) && this.playerIDs.contains(attacker.getAttackingID()))

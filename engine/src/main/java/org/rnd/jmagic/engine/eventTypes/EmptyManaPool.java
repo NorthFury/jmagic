@@ -18,10 +18,10 @@ public final class EmptyManaPool extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		GameObject cause = parameters.get(Parameter.CAUSE).getOne(GameObject.class);
-		Set result = new Set();
+		MagicSet result = new MagicSet();
 		for(Player player: parameters.get(Parameter.PLAYER).getAll(Player.class))
 		{
 			// If the cause is the game, then mana pools are being emptied
@@ -33,7 +33,7 @@ public final class EmptyManaPool extends EventType
 				while(m.hasNext())
 				{
 					ManaSymbol mana = m.next();
-					if(!doesntEmpty.match(game.actualState, null, new Set(mana)))
+					if(!doesntEmpty.match(game.actualState, null, new MagicSet(mana)))
 					{
 						result.add(mana);
 						m.remove();

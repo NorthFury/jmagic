@@ -31,7 +31,7 @@ public final class RealmsUncharted extends Card
 			return null;
 		}
 
-		private boolean legal(Set searchedFor)
+		private boolean legal(MagicSet searchedFor)
 		{
 			java.util.Set<String> names = new java.util.HashSet<String>();
 			for(GameObject o: searchedFor.getAll(GameObject.class))
@@ -44,18 +44,18 @@ public final class RealmsUncharted extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 		{
 			Player you = parameters.get(Parameter.PLAYER).getOne(Player.class);
 
-			Set searchedFor;
+			MagicSet searchedFor;
 			do
 			{
-				java.util.Map<Parameter, Set> searchParameters = new java.util.HashMap<Parameter, Set>();
-				searchParameters.put(EventType.Parameter.CAUSE, new Set(event.getSource()));
-				searchParameters.put(EventType.Parameter.PLAYER, new Set(you));
-				searchParameters.put(EventType.Parameter.NUMBER, new Set(4));
-				searchParameters.put(EventType.Parameter.CARD, new Set(you.getLibrary(game.actualState)));
+				java.util.Map<Parameter, MagicSet> searchParameters = new java.util.HashMap<Parameter, MagicSet>();
+				searchParameters.put(EventType.Parameter.CAUSE, new MagicSet(event.getSource()));
+				searchParameters.put(EventType.Parameter.PLAYER, new MagicSet(you));
+				searchParameters.put(EventType.Parameter.NUMBER, new MagicSet(4));
+				searchParameters.put(EventType.Parameter.CARD, new MagicSet(you.getLibrary(game.actualState)));
 				searchParameters.put(EventType.Parameter.TYPE, parameters.get(Parameter.TYPE));
 				Event search = createEvent(game, "Search your library for four land cards with different names", EventType.SEARCH, searchParameters);
 				search.perform(event, false);

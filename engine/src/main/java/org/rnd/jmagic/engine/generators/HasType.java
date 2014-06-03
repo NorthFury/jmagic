@@ -9,9 +9,9 @@ public class HasType extends SetGenerator
 {
 	private static final java.util.Map<Type, HasType> _instances = new java.util.HashMap<Type, HasType>();
 
-	public static Set get(GameState state, java.util.Collection<Type> types)
+	public static MagicSet get(GameState state, java.util.Collection<Type> types)
 	{
-		Set ret = new Set();
+		MagicSet ret = new MagicSet();
 		for(GameObject item: state.getAllObjects())
 			for(Type type: types)
 				if(item.getTypes().contains(type))
@@ -52,7 +52,7 @@ public class HasType extends SetGenerator
 	}
 
 	@Override
-	public Set evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
 		return get(state, this.type.evaluate(state, thisObject).getAll(Type.class));
 	}

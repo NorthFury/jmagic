@@ -19,7 +19,7 @@ public final class DealDamageEvenlyCantBeRegenerated extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, Set> parameters)
+	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
 	{
 		Event damageEvent = createEvent(game, event.getName(), EventType.DEAL_DAMAGE_EVENLY, parameters);
 		boolean ret = damageEvent.perform(event, false);
@@ -33,9 +33,9 @@ public final class DealDamageEvenlyCantBeRegenerated extends EventType
 		ContinuousEffect.Part part = new ContinuousEffect.Part(ContinuousEffectType.STOP_REPLACEMENT_EFFECT);
 		part.parameters.put(ContinuousEffectType.Parameter.PROHIBITION, Identity.instance(stopRegen));
 
-		java.util.Map<EventType.Parameter, Set> stopRegenParameters = new java.util.HashMap<EventType.Parameter, Set>();
+		java.util.Map<EventType.Parameter, MagicSet> stopRegenParameters = new java.util.HashMap<EventType.Parameter, MagicSet>();
 		stopRegenParameters.put(EventType.Parameter.CAUSE, parameters.get(Parameter.SOURCE));
-		stopRegenParameters.put(EventType.Parameter.EFFECT, new Set(part));
+		stopRegenParameters.put(EventType.Parameter.EFFECT, new MagicSet(part));
 		Event regenStopper = createEvent(game, "A creature dealt damage this way can't be regenerated this turn.", EventType.CREATE_FLOATING_CONTINUOUS_EFFECT, stopRegenParameters);
 		ret = regenStopper.perform(event, false) && ret;
 

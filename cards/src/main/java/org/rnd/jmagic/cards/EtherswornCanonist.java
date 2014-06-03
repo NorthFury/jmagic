@@ -75,9 +75,9 @@ public final class EtherswornCanonist extends Card
 		}
 
 		@Override
-		public Set evaluate(GameState state, Identified thisObject)
+		public MagicSet evaluate(GameState state, Identified thisObject)
 		{
-			Set ret = new Set();
+			MagicSet ret = new MagicSet();
 			for(int playerID: state.getTracker(Tracker.class).getValue(state))
 				ret.add(state.<Player>get(playerID));
 			return ret;

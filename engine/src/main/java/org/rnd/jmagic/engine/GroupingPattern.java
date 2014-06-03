@@ -6,5 +6,5 @@ package org.rnd.jmagic.engine;
  */
 public interface GroupingPattern
 {
-	public java.util.Set<Set> match(Set set, Identified thisObject, GameState state);
+	public java.util.Set<MagicSet> match(MagicSet set, Identified thisObject, GameState state);
 }

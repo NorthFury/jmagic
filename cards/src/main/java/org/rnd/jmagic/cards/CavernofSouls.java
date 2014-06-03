@@ -95,7 +95,7 @@ public final class CavernofSouls extends Card
 			if(event.type != EventType.PAY_MANA)
 				return false;
 
-			Set spent = event.getResult(state);
+			MagicSet spent = event.getResult(state);
 			return spent.getOne(CavernofSoulsMana.class) != null;
 		}
 
@@ -130,9 +130,9 @@ public final class CavernofSouls extends Card
 		}
 
 		@Override
-		public Set evaluate(GameState state, Identified thisObject)
+		public MagicSet evaluate(GameState state, Identified thisObject)
 		{
-			Set ret = new Set();
+			MagicSet ret = new MagicSet();
 
 			java.util.Collection<Integer> trackerValue = state.getTracker(CavernofSoulsTracker.class).getValue(state);
 			for(int id: trackerValue)
