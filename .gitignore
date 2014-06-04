@@ -22,3 +22,10 @@ development/.project
 engine-integration-tests/.settings
 engine-integration-tests/.classpath
 engine-integration-tests/.project
+.idea
+jmagic.iml
+cards/cards.iml
+engine/engine.iml
+gui/gui.iml
+development/development.iml
+engine-integration-tests/engine-integration-tests.iml
