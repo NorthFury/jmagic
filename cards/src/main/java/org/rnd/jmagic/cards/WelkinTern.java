@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -18,7 +19,7 @@ public final class WelkinTern extends Card
 			super(state, "Welkin Tern can block only creatures with flying.");
 
 			SetGenerator blockedByThis = BlockedBy.instance(This.instance());
-			SetGenerator withFlying = HasKeywordAbility.instance(org.rnd.jmagic.abilities.keywords.Flying.class);
+			SetGenerator withFlying = HasKeywordAbility.instance(Flying.class);
 			SetGenerator restriction = RelativeComplement.instance(blockedByThis, withFlying);
 
 			ContinuousEffect.Part part = new ContinuousEffect.Part(ContinuousEffectType.BLOCKING_RESTRICTION);
@@ -35,7 +36,7 @@ public final class WelkinTern extends Card
 		this.setToughness(1);
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// Welkin Tern can block only creatures with flying.
 		this.addAbility(new HighFlying(state));

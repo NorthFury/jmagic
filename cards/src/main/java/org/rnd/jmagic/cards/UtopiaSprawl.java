@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Enchant;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -13,7 +15,7 @@ import org.rnd.jmagic.engine.patterns.*;
 @ColorIdentity({Color.GREEN})
 public final class UtopiaSprawl extends Card
 {
-	public static final class UtopiaSprawlAbility0 extends org.rnd.jmagic.abilities.keywords.Enchant
+	public static final class UtopiaSprawlAbility0 extends Enchant
 	{
 		public UtopiaSprawlAbility0(GameState state)
 		{

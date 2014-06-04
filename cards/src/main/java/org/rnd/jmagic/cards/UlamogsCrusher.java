@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.AttacksEachTurnIfAble;
+import org.rnd.jmagic.abilities.keywords.Annihilator;
 import org.rnd.jmagic.engine.*;
 
 @Name("Ulamog's Crusher")
@@ -17,9 +19,9 @@ public final class UlamogsCrusher extends Card
 		this.setPower(8);
 		this.setToughness(8);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Annihilator.Final(state, 2));
+		this.addAbility(new Annihilator.Final(state, 2));
 
 		// Ulamog's Crusher attacks each turn if able.
-		this.addAbility(new org.rnd.jmagic.abilities.AttacksEachTurnIfAble(state, this.getName()));
+		this.addAbility(new AttacksEachTurnIfAble(state, this.getName()));
 	}
 }

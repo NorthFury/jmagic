@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.Regenerate;
+import org.rnd.jmagic.abilities.keywords.Haste;
 import org.rnd.jmagic.engine.*;
 
 @Name("Manor Skeleton")
@@ -18,9 +20,9 @@ public final class ManorSkeleton extends Card
 		this.setToughness(1);
 
 		// Haste
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Haste(state));
+		this.addAbility(new Haste(state));
 
 		// (1)(B): Regenerate Manor Skeleton.
-		this.addAbility(new org.rnd.jmagic.abilities.Regenerate.Final(state, "(1)(B)", this.getName()));
+		this.addAbility(new Regenerate.Final(state, "(1)(B)", this.getName()));
 	}
 }

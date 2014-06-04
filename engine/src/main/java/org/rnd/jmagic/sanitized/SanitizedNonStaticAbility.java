@@ -10,7 +10,7 @@ public class SanitizedNonStaticAbility extends SanitizedGameObject
 	public final String shortName;
 	public final int causeID;
 
-	public SanitizedNonStaticAbility(org.rnd.jmagic.engine.NonStaticAbility a, Player whoFor)
+	public SanitizedNonStaticAbility(NonStaticAbility a, Player whoFor)
 	{
 		super(a, whoFor);
 
@@ -34,9 +34,9 @@ public class SanitizedNonStaticAbility extends SanitizedGameObject
 		}
 		else
 		{
-			if(a instanceof org.rnd.jmagic.engine.EventTriggeredAbility)
+			if(a instanceof EventTriggeredAbility)
 			{
-				org.rnd.jmagic.engine.EventTriggeredAbility trigger = (org.rnd.jmagic.engine.EventTriggeredAbility)a;
+				EventTriggeredAbility trigger = (EventTriggeredAbility)a;
 				if(trigger.zoneChangeCause == null)
 					this.causeID = -1;
 				else
@@ -48,11 +48,11 @@ public class SanitizedNonStaticAbility extends SanitizedGameObject
 		}
 	}
 
-	private String sourceName(org.rnd.jmagic.engine.NonStaticAbility a)
+	private String sourceName(NonStaticAbility a)
 	{
 		Identified source = a.getSource(a.game.actualState);
 		if(source.isActivatedAbility() || source.isTriggeredAbility())
-			return this.sourceName((org.rnd.jmagic.engine.NonStaticAbility)source);
+			return this.sourceName((NonStaticAbility)source);
 		return source.getName();
 	}
 }

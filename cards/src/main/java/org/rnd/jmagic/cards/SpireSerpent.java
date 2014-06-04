@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Defender;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -37,7 +38,7 @@ public final class SpireSerpent extends Card
 		this.setToughness(5);
 
 		// Defender
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Defender(state));
+		this.addAbility(new Defender(state));
 
 		// Metalcraft \u2014 As long as you control three or more artifacts,
 		// Spire Serpent gets +2/+2 and can attack as though it didn't have

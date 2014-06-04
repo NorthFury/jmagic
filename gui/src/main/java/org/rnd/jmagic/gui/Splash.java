@@ -1,36 +1,54 @@
 package org.rnd.jmagic.gui;
 
-public class Splash extends javax.swing.JDialog
+import org.rnd.util.Logging;
+
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.WindowConstants;
+import java.awt.EventQueue;
+import java.awt.GraphicsEnvironment;
+import java.awt.Point;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.LogRecord;
+import java.util.logging.Logger;
+
+public class Splash extends JDialog
 {
-	private static final java.util.logging.Logger LOG = java.util.logging.Logger.getLogger("org.rnd.jmagic.gui.Splash");
+	private static final Logger LOG = Logger.getLogger("org.rnd.jmagic.gui.Splash");
 
 	private static final long serialVersionUID = 1L;
 
-	private javax.swing.JScrollPane scrollPane;
-	private javax.swing.JTextArea textBox;
+	private JScrollPane scrollPane;
+	private JTextArea textBox;
 
-	public Splash(final javax.swing.JFrame parent)
+	public Splash(final JFrame parent)
 	{
 		super(parent, "jMagic Starting", true);
 
-		this.textBox = new javax.swing.JTextArea(10, 60);
+		this.textBox = new JTextArea(10, 60);
 		this.textBox.setEditable(false);
 		this.textBox.setLineWrap(true);
 		this.textBox.setWrapStyleWord(true);
 
-		this.scrollPane = new javax.swing.JScrollPane(Splash.this.textBox);
-		this.scrollPane.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+		this.scrollPane = new JScrollPane(Splash.this.textBox);
+		this.scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 
 		this.add(Splash.this.scrollPane);
 		this.pack();
-		this.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+		this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 		this.setLocationRelativeTo(null);
 
-		java.awt.Point location = java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getCenterPoint();
+		Point location = GraphicsEnvironment.getLocalGraphicsEnvironment().getCenterPoint();
 		location.translate((int)(this.getWidth() * -.5), (int)(this.getHeight() * -.5));
 		this.setLocation(location);
 
-		final java.util.logging.Handler handler = new java.util.logging.Handler()
+		final Handler handler = new Handler()
 		{
 			@Override
 			public void close() throws SecurityException
@@ -45,20 +63,20 @@ public class Splash extends javax.swing.JDialog
 			}
 
 			@Override
-			public void publish(java.util.logging.LogRecord record)
+			public void publish(LogRecord record)
 			{
-				if(java.util.logging.Level.INFO == record.getLevel())
+				if(Level.INFO == record.getLevel())
 					addLine(record.getMessage());
 			}
 		};
-		org.rnd.util.Logging.getRootLogger(LOG).addHandler(handler);
+		Logging.getRootLogger(LOG).addHandler(handler);
 
-		this.addWindowListener(new java.awt.event.WindowAdapter()
+		this.addWindowListener(new WindowAdapter()
 		{
 			@Override
-			public void windowClosed(java.awt.event.WindowEvent e)
+			public void windowClosed(WindowEvent e)
 			{
-				org.rnd.util.Logging.getRootLogger(LOG).removeHandler(handler);
+				Logging.getRootLogger(LOG).removeHandler(handler);
 			}
 		});
 	}
@@ -72,7 +90,7 @@ public class Splash extends javax.swing.JDialog
 	 */
 	public void addLine(final String newLine)
 	{
-		java.awt.EventQueue.invokeLater(new Runnable()
+		EventQueue.invokeLater(new Runnable()
 		{
 			@Override
 			public void run()
@@ -91,7 +109,7 @@ public class Splash extends javax.swing.JDialog
 	 */
 	public void clear()
 	{
-		java.awt.EventQueue.invokeLater(new Runnable()
+		EventQueue.invokeLater(new Runnable()
 		{
 			@Override
 			public void run()

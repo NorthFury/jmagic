@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.Werewolves;
+import org.rnd.jmagic.abilities.keywords.Intimidate;
 import org.rnd.jmagic.engine.*;
 
 @Name("Gatstaf Howler")
@@ -20,10 +22,10 @@ public final class GatstafHowler extends AlternateCard
 
 		// Intimidate (This creature can't be blocked except by artifact
 		// creatures and/or creatures that share a color with it.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Intimidate(state));
+		this.addAbility(new Intimidate(state));
 
 		// At the beginning of each upkeep, if a player cast two or more spells
 		// last turn, transform Gatstaf Howler.
-		this.addAbility(new org.rnd.jmagic.abilities.Werewolves.BecomeHuman(state, this.getName()));
+		this.addAbility(new Werewolves.BecomeHuman(state, this.getName()));
 	}
 }

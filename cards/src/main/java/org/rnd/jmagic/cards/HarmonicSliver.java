@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.AllSliversHave;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -33,6 +35,6 @@ public final class HarmonicSliver extends Card
 
 		// All Slivers have
 		// "When this permanent enters the battlefield, destroy target artifact or enchantment."
-		this.addAbility(new org.rnd.jmagic.abilities.AllSliversHave(state, ETBDestroy.class, "All Slivers have \"When this permanent enters the battlefield, destroy target artifact or enchantment.\""));
+		this.addAbility(new AllSliversHave(state, ETBDestroy.class, "All Slivers have \"When this permanent enters the battlefield, destroy target artifact or enchantment.\""));
 	}
 }

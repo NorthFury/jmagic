@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.TapFor1;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -30,7 +32,7 @@ public final class VolrathsStronghold extends Card
 		super(state);
 
 		// (T): Add (1) to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapFor1(state));
+		this.addAbility(new TapFor1(state));
 
 		// (1)(B), (T): Put target creature card from your graveyard on top of
 		// your library.

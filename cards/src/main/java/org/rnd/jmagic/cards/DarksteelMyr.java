@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Indestructible;
 import org.rnd.jmagic.engine.*;
 
 @Name("Darksteel Myr")
@@ -20,6 +21,6 @@ public final class DarksteelMyr extends Card
 		// Darksteel Myr is indestructible. (Lethal damage and effects that say
 		// "destroy" don't destroy it. If its toughness is 0 or less, it's still
 		// put into its owner's graveyard.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Indestructible(state));
+		this.addAbility(new Indestructible(state));
 	}
 }

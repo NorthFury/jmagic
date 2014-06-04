@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -40,8 +43,8 @@ public final class TheUnspeakable extends Card
 		this.setToughness(7);
 
 		// Flying, trample
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Trample(state));
+		this.addAbility(new Flying(state));
+		this.addAbility(new Trample(state));
 
 		// Whenever The Unspeakable deals combat damage to a player, you may
 		// return target Arcane card from your graveyard to your hand.

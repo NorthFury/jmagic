@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Defender;
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 
 @Name("Roc Egg")
@@ -21,7 +24,7 @@ public final class RocEgg extends Card
 			CreateTokensFactory token = new CreateTokensFactory(1, 3, 3, "Put a 3/3 white Bird creature token with flying onto the battlefield.");
 			token.setColors(Color.WHITE);
 			token.setSubTypes(SubType.BIRD);
-			token.addAbility(org.rnd.jmagic.abilities.keywords.Flying.class);
+			token.addAbility(Flying.class);
 			this.addEffect(token.getEventFactory());
 		}
 	}
@@ -34,7 +37,7 @@ public final class RocEgg extends Card
 		this.setToughness(3);
 
 		// Defender (This creature can't attack.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Defender(state));
+		this.addAbility(new Defender(state));
 
 		// When Roc Egg is put into a graveyard from the battlefield, put a 3/3
 		// white Bird creature token with flying onto the battlefield.

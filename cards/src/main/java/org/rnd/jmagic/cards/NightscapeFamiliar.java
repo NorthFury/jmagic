@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.CostsYouLessToCast;
+import org.rnd.jmagic.abilities.Regenerate;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -19,9 +21,9 @@ public final class NightscapeFamiliar extends Card
 		this.setToughness(1);
 
 		// Blue spells and red spells you cast cost (1) less to cast.
-		this.addAbility(new org.rnd.jmagic.abilities.CostsYouLessToCast(state, HasColor.instance(Color.BLUE, Color.RED), "(1)", "Blue spells and red spells you cast cost (1) less to cast."));
+		this.addAbility(new CostsYouLessToCast(state, HasColor.instance(Color.BLUE, Color.RED), "(1)", "Blue spells and red spells you cast cost (1) less to cast."));
 
 		// (1)(B): Regenerate Nightscape Familiar.
-		this.addAbility(new org.rnd.jmagic.abilities.Regenerate.Final(state, "(1)(B)", this.getName()));
+		this.addAbility(new Regenerate.Final(state, "(1)(B)", this.getName()));
 	}
 }

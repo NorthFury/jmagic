@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Vigilance;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -57,8 +60,8 @@ public final class BrunaLightofAlabaster extends Card
 		this.setToughness(5);
 
 		// Flying, vigilance
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Vigilance(state));
+		this.addAbility(new Flying(state));
+		this.addAbility(new Vigilance(state));
 
 		// Whenever Bruna, Light of Alabaster attacks or blocks, you may attach
 		// to it any number of Auras on the battlefield and you may put onto the

@@ -3,6 +3,9 @@ package org.rnd.jmagic.engine.eventTypes;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.LinkedList;
+import java.util.Map;
+
 public final class PayMana extends EventType
 {	public static final EventType INSTANCE = new PayMana();
 
@@ -18,7 +21,7 @@ public final class PayMana extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean attempt(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		// if this is the cost for a spell or ability, we really don't know
 		// whether they'll be able to pay, since they have the chance to
@@ -45,7 +48,7 @@ public final class PayMana extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		GameObject object = parameters.get(Parameter.CAUSE).getOne(GameObject.class);
 		ManaPool cost = new ManaPool(parameters.get(Parameter.COST).getAll(ManaSymbol.class));
@@ -100,7 +103,7 @@ public final class PayMana extends EventType
 		// until they choose a set that can pay for it
 		while(true)
 		{
-			PlayerInterface.ChooseParameters<ManaSymbol> chooseParameters = new PlayerInterface.ChooseParameters<ManaSymbol>(convertedCost, convertedCost, new java.util.LinkedList<ManaSymbol>(paying.pool), PlayerInterface.ChoiceType.MANA_PAYMENT, PlayerInterface.ChooseReason.PAY_MANA);
+			PlayerInterface.ChooseParameters<ManaSymbol> chooseParameters = new PlayerInterface.ChooseParameters<ManaSymbol>(convertedCost, convertedCost, new LinkedList<ManaSymbol>(paying.pool), PlayerInterface.ChoiceType.MANA_PAYMENT, PlayerInterface.ChooseReason.PAY_MANA);
 			chooseParameters.replacement = cost.toString();
 			ManaPool choice = new ManaPool(paying.choose(chooseParameters));
 			if(choice.pays(game.actualState, cost))

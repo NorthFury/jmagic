@@ -5,6 +5,12 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
 public final class YouMayHaveThisEnterTheBattlefieldAsACopy
 {
 	/**
@@ -29,15 +35,15 @@ public final class YouMayHaveThisEnterTheBattlefieldAsACopy
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			Player chooser = parameters.get(Parameter.PLAYER).getOne(Player.class);
 			GameObject placeCopyEffectOn = parameters.get(Parameter.OBJECT).getOne(GameObject.class);
 
-			PlayerInterface.ChooseParameters<java.io.Serializable> chooseParameters = new PlayerInterface.ChooseParameters<java.io.Serializable>(1, 1, PlayerInterface.ChoiceType.OBJECTS, PlayerInterface.ChooseReason.COPY);
+			PlayerInterface.ChooseParameters<Serializable> chooseParameters = new PlayerInterface.ChooseParameters<Serializable>(1, 1, PlayerInterface.ChoiceType.OBJECTS, PlayerInterface.ChooseReason.COPY);
 			chooseParameters.thisID = placeCopyEffectOn.ID;
 
-			java.util.List<?> choice = chooser.sanitizeAndChoose(game.actualState, parameters.get(Parameter.SOURCE), chooseParameters);
+			List<?> choice = chooser.sanitizeAndChoose(game.actualState, parameters.get(Parameter.SOURCE), chooseParameters);
 
 			GameObject createCopyEffectFrom = new MagicSet(choice).getOne(GameObject.class);
 
@@ -45,7 +51,7 @@ public final class YouMayHaveThisEnterTheBattlefieldAsACopy
 			{
 				if(parameters.containsKey(Parameter.TAPPED))
 				{
-					java.util.Map<Parameter, MagicSet> tap = new java.util.HashMap<Parameter, MagicSet>();
+					Map<Parameter, MagicSet> tap = new HashMap<Parameter, MagicSet>();
 					tap.put(EventType.Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 					tap.put(EventType.Parameter.OBJECT, new MagicSet(placeCopyEffectOn));
 					createEvent(game, "Tap " + placeCopyEffectOn, TAP_PERMANENTS, tap).perform(event, false);
@@ -61,7 +67,7 @@ public final class YouMayHaveThisEnterTheBattlefieldAsACopy
 				if(parameters.containsKey(Parameter.PREVENT))
 					part.parameters.put(ContinuousEffectType.Parameter.RETAIN, Identity.instance(parameters.get(Parameter.PREVENT)));
 
-				java.util.Map<Parameter, MagicSet> effectParameters = new java.util.HashMap<Parameter, MagicSet>();
+				Map<Parameter, MagicSet> effectParameters = new HashMap<Parameter, MagicSet>();
 				effectParameters.put(EventType.Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 				effectParameters.put(EventType.Parameter.EFFECT, new MagicSet(part));
 				effectParameters.put(EventType.Parameter.EXPIRES, new MagicSet(Empty.instance()));
@@ -91,7 +97,7 @@ public final class YouMayHaveThisEnterTheBattlefieldAsACopy
 			copy.parameters.put(EventType.Parameter.PLAYER, ControllerOf.instance(replacedMove));
 			copy.parameters.put(EventType.Parameter.SOURCE, factory.choices);
 			if(factory.ability != null)
-				copy.parameters.put(EventType.Parameter.ABILITY, Identity.instance(new org.rnd.jmagic.engine.SimpleAbilityFactory(factory.ability)));
+				copy.parameters.put(EventType.Parameter.ABILITY, Identity.instance(new SimpleAbilityFactory(factory.ability)));
 			if(!(factory.retainedCharacteristics.isEmpty()))
 				copy.parameters.put(EventType.Parameter.PREVENT, Identity.instance(factory.retainedCharacteristics));
 			if(null != factory.subTypes)
@@ -122,7 +128,7 @@ public final class YouMayHaveThisEnterTheBattlefieldAsACopy
 		}
 
 		@Override
-		public ETBAsACopy create(org.rnd.jmagic.engine.Game game)
+		public ETBAsACopy create(Game game)
 		{
 			return new ETBAsACopy(game.physicalState, this.factory);
 		}
@@ -131,7 +137,7 @@ public final class YouMayHaveThisEnterTheBattlefieldAsACopy
 	private Class<?> ability;
 	private final SetGenerator choices;
 	private String name;
-	private java.util.List<Characteristics.Characteristic> retainedCharacteristics;
+	private List<Characteristics.Characteristic> retainedCharacteristics;
 	private SubType[] subTypes;
 	private boolean tapped;
 
@@ -145,7 +151,7 @@ public final class YouMayHaveThisEnterTheBattlefieldAsACopy
 		this.ability = null;
 		this.choices = choices;
 		this.name = null;
-		this.retainedCharacteristics = new java.util.LinkedList<Characteristics.Characteristic>();
+		this.retainedCharacteristics = new LinkedList<Characteristics.Characteristic>();
 		this.subTypes = null;
 		this.tapped = false;
 	}

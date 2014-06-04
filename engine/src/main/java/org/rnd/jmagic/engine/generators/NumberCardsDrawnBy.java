@@ -2,25 +2,29 @@ package org.rnd.jmagic.engine.generators;
 
 import org.rnd.jmagic.engine.*;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 public final class NumberCardsDrawnBy extends SetGenerator
 {
-	public static final class DrawCounter extends Tracker<java.util.Map<Integer, Integer>>
+	public static final class DrawCounter extends Tracker<Map<Integer, Integer>>
 	{
-		private java.util.HashMap<Integer, Integer> values = new java.util.HashMap<Integer, Integer>();
-		private java.util.Map<Integer, Integer> unmodifiable = java.util.Collections.unmodifiableMap(this.values);
+		private HashMap<Integer, Integer> values = new HashMap<Integer, Integer>();
+		private Map<Integer, Integer> unmodifiable = Collections.unmodifiableMap(this.values);
 
 		@SuppressWarnings("unchecked")
 		@Override
 		public NumberCardsDrawnBy.DrawCounter clone()
 		{
 			NumberCardsDrawnBy.DrawCounter ret = (NumberCardsDrawnBy.DrawCounter)super.clone();
-			ret.values = (java.util.HashMap<Integer, Integer>)this.values.clone();
-			ret.unmodifiable = java.util.Collections.unmodifiableMap(ret.values);
+			ret.values = (HashMap<Integer, Integer>)this.values.clone();
+			ret.unmodifiable = Collections.unmodifiableMap(ret.values);
 			return ret;
 		}
 
 		@Override
-		protected java.util.Map<Integer, Integer> getValueInternal()
+		protected Map<Integer, Integer> getValueInternal()
 		{
 			return this.unmodifiable;
 		}
@@ -65,7 +69,7 @@ public final class NumberCardsDrawnBy extends SetGenerator
 	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
 		MagicSet ret = new MagicSet();
-		java.util.Map<Integer, Integer> flagValues = state.getTracker(NumberCardsDrawnBy.DrawCounter.class).getValue(state);
+		Map<Integer, Integer> flagValues = state.getTracker(NumberCardsDrawnBy.DrawCounter.class).getValue(state);
 		for(Player player: this.what.evaluate(state, thisObject).getAll(Player.class))
 		{
 			Integer numDrawn = flagValues.get(player.ID);

@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Overload;
 import org.rnd.jmagic.engine.*;
 
 @Name("Dynacharge")
@@ -21,6 +23,6 @@ public final class Dynacharge extends Card
 		// Overload (2)(R) (You may cast this spell for its overload cost. If
 		// you do, change its text by replacing all instances of "target" with
 		// "each.")
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Overload(state, "(2)(R)"));
+		this.addAbility(new Overload(state, "(2)(R)"));
 	}
 }

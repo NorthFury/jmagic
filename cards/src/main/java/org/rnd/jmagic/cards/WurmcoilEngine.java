@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Deathtouch;
+import org.rnd.jmagic.abilities.keywords.Lifelink;
 import org.rnd.jmagic.engine.*;
 
 @Name("Wurmcoil Engine")
@@ -22,12 +25,12 @@ public final class WurmcoilEngine extends Card
 			CreateTokensFactory deathToken = new CreateTokensFactory(1, 3, 3, "Put a 3/3 colorless Wurm artifact creature token with deathtouch");
 			deathToken.setSubTypes(SubType.WURM);
 			deathToken.setArtifact();
-			deathToken.addAbility(org.rnd.jmagic.abilities.keywords.Deathtouch.class);
+			deathToken.addAbility(Deathtouch.class);
 
 			CreateTokensFactory lifeToken = new CreateTokensFactory(1, 3, 3, "and a 3/3 colorless Wurm artifact creature token with lifelink onto the battlefield.");
 			lifeToken.setSubTypes(SubType.WURM);
 			lifeToken.setArtifact();
-			lifeToken.addAbility(org.rnd.jmagic.abilities.keywords.Lifelink.class);
+			lifeToken.addAbility(Lifelink.class);
 
 			this.addEffect(simultaneous(deathToken.getEventFactory(), lifeToken.getEventFactory()));
 		}
@@ -41,8 +44,8 @@ public final class WurmcoilEngine extends Card
 		this.setToughness(6);
 
 		// Deathtouch, lifelink
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Deathtouch(state));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Lifelink(state));
+		this.addAbility(new Deathtouch(state));
+		this.addAbility(new Lifelink(state));
 
 		// When Wurmcoil Engine is put into a graveyard from the battlefield,
 		// put a 3/3 colorless Wurm artifact creature token with deathtouch and

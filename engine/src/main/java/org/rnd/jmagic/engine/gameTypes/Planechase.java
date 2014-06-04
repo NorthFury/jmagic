@@ -1,8 +1,24 @@
 package org.rnd.jmagic.engine.gameTypes;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.CardLoader;
+import org.rnd.jmagic.Convenience;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+import org.rnd.jmagic.engine.patterns.SimpleEventPattern;
+import org.rnd.util.Constructor;
+
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.Set;
 
 /**
  * 901. Planechase
@@ -158,7 +174,7 @@ import org.rnd.jmagic.engine.generators.*;
 @Description("The command zone contains the planar deck of the host and planes apply to all players")
 public class Planechase extends GameType.SimpleGameTypeRule
 {
-	private final static java.util.Map<Game, SetGenerator> topPlanarCardGenerators = new java.util.HashMap<Game, SetGenerator>();
+	private final static Map<Game, SetGenerator> topPlanarCardGenerators = new HashMap<Game, SetGenerator>();
 	private final static SetGenerator topPlanarCard = new SetGenerator()
 	{
 		@Override
@@ -171,7 +187,7 @@ public class Planechase extends GameType.SimpleGameTypeRule
 		}
 	};
 
-	private final static java.util.Map<Game, SetGenerator> planarDeckGenerators = new java.util.HashMap<Game, SetGenerator>();
+	private final static Map<Game, SetGenerator> planarDeckGenerators = new HashMap<Game, SetGenerator>();
 	private final static SetGenerator planarDeck = new SetGenerator()
 	{
 		@Override
@@ -197,9 +213,9 @@ public class Planechase extends GameType.SimpleGameTypeRule
 		return planarDeck;
 	}
 
-	public static org.rnd.jmagic.engine.EventPattern wheneverYouRollChaos()
+	public static EventPattern wheneverYouRollChaos()
 	{
-		org.rnd.jmagic.engine.patterns.SimpleEventPattern ret = new org.rnd.jmagic.engine.patterns.SimpleEventPattern(ROLL_PLANAR_DIE);
+		SimpleEventPattern ret = new SimpleEventPattern(ROLL_PLANAR_DIE);
 		ret.put(EventType.Parameter.PLAYER, You.instance());
 		ret.withResult(Identity.instance(PlanarDie.CHAOS));
 		return ret;
@@ -207,11 +223,11 @@ public class Planechase extends GameType.SimpleGameTypeRule
 
 	private final SetGenerator topPlane;
 	private final SetGenerator planarDeckGenerator;
-	private final java.util.Set<Integer> planeIDs;
+	private final Set<Integer> planeIDs;
 
 	public Planechase()
 	{
-		this.planeIDs = new java.util.HashSet<Integer>();
+		this.planeIDs = new HashSet<Integer>();
 		this.topPlane = new SetGenerator()
 		{
 			@Override
@@ -258,8 +274,8 @@ public class Planechase extends GameType.SimpleGameTypeRule
 
 		Class<?>[] parameterClasses = new Class<?>[] {GameState.class};
 		Object[] parameterObjects = new Object[] {physicalState};
-		java.util.List<Class<? extends Card>> planeClasses = new java.util.LinkedList<Class<? extends Card>>(org.rnd.jmagic.CardLoader.getCards(java.util.Collections.singleton(Expansion.PLANECHASE)));
-		java.util.Collections.shuffle(planeClasses);
+		List<Class<? extends Card>> planeClasses = new LinkedList<Class<? extends Card>>(CardLoader.getCards(Collections.singleton(Expansion.PLANECHASE)));
+		Collections.shuffle(planeClasses);
 
 		// ***DEBUGGING***
 		// planeClasses.clear();
@@ -269,12 +285,12 @@ public class Planechase extends GameType.SimpleGameTypeRule
 		for(Class<? extends Card> card: planeClasses)
 		{
 			Types types = card.getAnnotation(Types.class);
-			if(types == null || java.util.Arrays.binarySearch(types.value(), Type.PLANE) < 0)
+			if(types == null || Arrays.binarySearch(types.value(), Type.PLANE) < 0)
 			{
 				continue;
 			}
-			GameObject plane = org.rnd.util.Constructor.construct(card, parameterClasses, parameterObjects);
-			plane.setExpansionSymbol(org.rnd.jmagic.CardLoader.getPrintings(card).firstKey());
+			GameObject plane = Constructor.construct(card, parameterClasses, parameterObjects);
+			plane.setExpansionSymbol(CardLoader.getPrintings(card).firstKey());
 			plane.controllerID = firstPlayerID;
 			commandZone.addToTop(plane);
 			this.planeIDs.add(plane.ID);
@@ -315,7 +331,7 @@ public class Planechase extends GameType.SimpleGameTypeRule
 		{
 			ContinuousEffect.Part addPlaneshiftAbility = new ContinuousEffect.Part(ContinuousEffectType.ADD_ABILITY_TO_OBJECT);
 			addPlaneshiftAbility.parameters.put(ContinuousEffectType.Parameter.OBJECT, HasType.instance(Type.PLANE));
-			addPlaneshiftAbility.parameters.put(ContinuousEffectType.Parameter.ABILITY, Identity.instance(new org.rnd.jmagic.engine.SimpleAbilityFactory(IntrinsicPlaneshift.class)));
+			addPlaneshiftAbility.parameters.put(ContinuousEffectType.Parameter.ABILITY, Identity.instance(new SimpleAbilityFactory(IntrinsicPlaneshift.class)));
 
 			EventFactory applyPlanarRules = new EventFactory(EventType.CREATE_FLOATING_CONTINUOUS_EFFECT, "Each plane card is treated as if its text box included \"When you roll {P}, put this card on the bottom of its owner's planar deck face down, then move the top card of your planar deck off your planar deck and turn it face up.\"");
 			applyPlanarRules.parameters.put(EventType.Parameter.CAUSE, CurrentGame.instance());
@@ -330,7 +346,7 @@ public class Planechase extends GameType.SimpleGameTypeRule
 		EMPTY(4), CHAOS(1), PLANESHIFT(1);
 
 		private final int odds;
-		private static java.util.Random random = new java.util.Random();
+		private static Random random = new Random();
 
 		PlanarDie(int odds)
 		{
@@ -388,7 +404,7 @@ public class Planechase extends GameType.SimpleGameTypeRule
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
+		public void apply(GameState state, ContinuousEffect effect, Map<Parameter, MagicSet> parameters)
 		{
 			parameters.put(Parameter.OBJECT, Intersect.instance(HasType.instance(Type.PLANE), InZone.instance(CommandZone.instance())).evaluate(state, effect.getSourceObject()));
 			parameters.put(Parameter.PLAYER, PlanarController.instance().evaluate(state, effect.getSourceObject()));
@@ -416,9 +432,9 @@ public class Planechase extends GameType.SimpleGameTypeRule
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
-			java.util.Map<Parameter, MagicSet> newParameters = new java.util.HashMap<Parameter, MagicSet>(parameters);
+			Map<Parameter, MagicSet> newParameters = new HashMap<Parameter, MagicSet>(parameters);
 
 			class LazySetGeneratorWrapper extends SetGenerator
 			{
@@ -461,7 +477,7 @@ public class Planechase extends GameType.SimpleGameTypeRule
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			PlanarDie rollDie = PlanarDie.rollDie();
 			event.setResult(Identity.instance(rollDie));
@@ -483,12 +499,12 @@ public class Planechase extends GameType.SimpleGameTypeRule
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			MagicSet commandZone = new MagicSet(game.actualState.commandZone());
 			MagicSet previousPlane = topPlanarCard.evaluate(game, null);
 
-			java.util.Map<Parameter, MagicSet> moveParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> moveParameters = new HashMap<Parameter, MagicSet>();
 			moveParameters.put(Parameter.CAUSE, new MagicSet(game));
 			moveParameters.put(Parameter.TO, commandZone);
 			moveParameters.put(Parameter.INDEX, NEGATIVE_ONE);
@@ -499,7 +515,7 @@ public class Planechase extends GameType.SimpleGameTypeRule
 			// The only way to get the reveal to have the right duration is to
 			// make the plane the cause.
 			MagicSet newPlane = topPlanarCard.evaluate(game, null);
-			java.util.Map<Parameter, MagicSet> revealParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> revealParameters = new HashMap<Parameter, MagicSet>();
 			revealParameters.put(Parameter.CAUSE, newPlane);
 			revealParameters.put(Parameter.OBJECT, newPlane);
 			createEvent(game, "Move the top card of your planar deck off your planar deck and turn it face up.", EventType.REVEAL, revealParameters).perform(event, true);
@@ -537,22 +553,22 @@ public class Planechase extends GameType.SimpleGameTypeRule
 	 * last player planeswalked, so that other effects can see if they are on
 	 * the list.
 	 */
-	public static final class UntilAPlayerPlaneswalks extends Tracker<java.util.Collection<Integer>>
+	public static final class UntilAPlayerPlaneswalks extends Tracker<Collection<Integer>>
 	{
-		private java.util.List<Integer> values = new java.util.LinkedList<Integer>();
-		private java.util.List<Integer> unmodifiable = java.util.Collections.unmodifiableList(this.values);
+		private List<Integer> values = new LinkedList<Integer>();
+		private List<Integer> unmodifiable = Collections.unmodifiableList(this.values);
 
 		@Override
 		public UntilAPlayerPlaneswalks clone()
 		{
 			UntilAPlayerPlaneswalks ret = (UntilAPlayerPlaneswalks)super.clone();
-			ret.values = new java.util.LinkedList<Integer>(this.values);
-			ret.unmodifiable = java.util.Collections.unmodifiableList(ret.values);
+			ret.values = new LinkedList<Integer>(this.values);
+			ret.unmodifiable = Collections.unmodifiableList(ret.values);
 			return ret;
 		}
 
 		@Override
-		protected java.util.Collection<Integer> getValueInternal()
+		protected Collection<Integer> getValueInternal()
 		{
 			return this.unmodifiable;
 		}
@@ -593,9 +609,9 @@ public class Planechase extends GameType.SimpleGameTypeRule
 		}
 
 		@Override
-		public java.util.Set<PlayerAction> getActions(GameState state, GameObject source, Player actor)
+		public Set<PlayerAction> getActions(GameState state, GameObject source, Player actor)
 		{
-			java.util.Set<PlayerAction> ret = new java.util.HashSet<PlayerAction>();
+			Set<PlayerAction> ret = new HashSet<PlayerAction>();
 
 			if(state.stack().objects.isEmpty() && state.playerWithPriorityID == state.currentTurn().getOwner(state).ID && (state.currentPhase().type == Phase.PhaseType.PRECOMBAT_MAIN || state.currentPhase().type == Phase.PhaseType.POSTCOMBAT_MAIN))
 			{
@@ -638,7 +654,7 @@ public class Planechase extends GameType.SimpleGameTypeRule
 				cost.parameters.put(EventType.Parameter.CAUSE, CurrentGame.instance());
 				cost.parameters.put(EventType.Parameter.COST, Identity.instance(new ManaPool("1")));
 				cost.parameters.put(EventType.Parameter.PLAYER, Identity.instance(acting));
-				cost.parameters.put(EventType.Parameter.NUMBER, org.rnd.jmagic.Convenience.numberGenerator(this.cost));
+				cost.parameters.put(EventType.Parameter.NUMBER, Convenience.numberGenerator(this.cost));
 
 				if(!cost.createEvent(this.game, null).perform(null, true))
 					return false;
@@ -663,7 +679,7 @@ public class Planechase extends GameType.SimpleGameTypeRule
 		{
 			super(state, "When you roll (#), put this card on the bottom of its owner's planar deck face down, then move the top card of your planar deck off your planar deck and turn it face up.");
 
-			org.rnd.jmagic.engine.patterns.SimpleEventPattern pattern = new org.rnd.jmagic.engine.patterns.SimpleEventPattern(ROLL_PLANAR_DIE);
+			SimpleEventPattern pattern = new SimpleEventPattern(ROLL_PLANAR_DIE);
 			pattern.put(EventType.Parameter.PLAYER, You.instance());
 			pattern.withResult(Identity.instance(PlanarDie.PLANESHIFT));
 			this.addPattern(pattern);

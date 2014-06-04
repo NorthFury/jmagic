@@ -1,15 +1,22 @@
 package org.rnd.jmagic.util;
 
+import org.rnd.jmagic.CardLoader;
 import org.rnd.jmagic.engine.*;
+import org.rnd.jmagic.interfaceAdapters.SimplePlayerInterface;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class CardPoolChecker
 {
-	private static void checkFile(final java.io.File file, GameType type, final boolean delete) throws java.io.IOException
+	private static void checkFile(final File file, GameType type, final boolean delete) throws IOException
 	{
 		Game game = new Game(type);
-		final Deck deck = org.rnd.jmagic.CardLoader.getDeck(new java.io.BufferedReader(new java.io.FileReader(file)));
+		final Deck deck = CardLoader.getDeck(new BufferedReader(new FileReader(file)));
 
-		game.addInterface(new org.rnd.jmagic.interfaceAdapters.SimplePlayerInterface(null)
+		game.addInterface(new SimplePlayerInterface(null)
 		{
 			@Override
 			public void alertError(ErrorParameters parameters)
@@ -52,12 +59,12 @@ public class CardPoolChecker
 		});
 	}
 
-	private static void checkPath(java.io.File path, String potentialPool, boolean delete) throws java.io.IOException
+	private static void checkPath(File path, String potentialPool, boolean delete) throws IOException
 	{
 		if(path.isDirectory())
 		{
 			String[] parts = path.getName().split(" ");
-			for(java.io.File sub: path.listFiles())
+			for(File sub: path.listFiles())
 				if(!sub.getAbsolutePath().endsWith(".svn") && !sub.getAbsolutePath().endsWith("_svn"))
 					checkPath(sub, parts[0], delete);
 		}
@@ -82,14 +89,14 @@ public class CardPoolChecker
 		}
 	}
 
-	public static void main(String[] args) throws java.io.IOException
+	public static void main(String[] args) throws IOException
 	{
 		System.out.println("Loading cards");
-		org.rnd.jmagic.CardLoader.addPackages("org.rnd.jmagic.cards");
+		CardLoader.addPackages("org.rnd.jmagic.cards");
 		System.out.println("Done loading cards");
 		System.out.println();
 		System.out.println("Checking decks");
-		checkPath(new java.io.File("./misc information/decks/"), null, args.length > 0 && args[0].equals("delete"));
+		checkPath(new File("./misc information/decks/"), null, args.length > 0 && args[0].equals("delete"));
 		System.out.println("Done checking decks");
 	}
 }

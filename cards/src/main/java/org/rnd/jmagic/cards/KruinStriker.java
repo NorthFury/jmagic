@@ -1,8 +1,11 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+import org.rnd.jmagic.engine.patterns.SimpleZoneChangePattern;
 
 @Name("Kruin Striker")
 @Types({Type.CREATURE})
@@ -19,9 +22,9 @@ public final class KruinStriker extends Card
 			super(state, "Whenever another creature enters the battlefield under your control, Kruin Striker gets +1/+0 and gains trample until end of turn.");
 
 			SetGenerator otherCreatures = RelativeComplement.instance(CreaturePermanents.instance(), ABILITY_SOURCE_OF_THIS);
-			this.addPattern(new org.rnd.jmagic.engine.patterns.SimpleZoneChangePattern(null, Battlefield.instance(), otherCreatures, You.instance(), false));
+			this.addPattern(new SimpleZoneChangePattern(null, Battlefield.instance(), otherCreatures, You.instance(), false));
 
-			this.addEffect(createFloatingEffect("Kruin Striker gets +1/+0 and gains trample until end of turn.", modifyPowerAndToughness(ABILITY_SOURCE_OF_THIS, +1, +0), addAbilityToObject(ABILITY_SOURCE_OF_THIS, org.rnd.jmagic.abilities.keywords.Trample.class)));
+			this.addEffect(createFloatingEffect("Kruin Striker gets +1/+0 and gains trample until end of turn.", modifyPowerAndToughness(ABILITY_SOURCE_OF_THIS, +1, +0), addAbilityToObject(ABILITY_SOURCE_OF_THIS, Trample.class)));
 		}
 	}
 

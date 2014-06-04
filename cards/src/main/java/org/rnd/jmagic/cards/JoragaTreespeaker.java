@@ -1,6 +1,10 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.TapForMana;
+import org.rnd.jmagic.abilities.keywords.Level;
+import org.rnd.jmagic.abilities.keywords.LevelUp;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -12,7 +16,7 @@ import org.rnd.jmagic.engine.generators.*;
 @ColorIdentity({Color.GREEN})
 public final class JoragaTreespeaker extends Card
 {
-	public static final class TapForTwoGreen extends org.rnd.jmagic.abilities.TapForMana
+	public static final class TapForTwoGreen extends TapForMana
 	{
 		public TapForTwoGreen(GameState state)
 		{
@@ -39,16 +43,16 @@ public final class JoragaTreespeaker extends Card
 		this.setToughness(1);
 
 		// Level up (1)(G)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.LevelUp(state, "(1)(G)"));
+		this.addAbility(new LevelUp(state, "(1)(G)"));
 
 		// LEVEL 1-4
 		// 1/2
 		// (T): Add (G)(G) to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Level(state, 1, 4, 1, 2, "(T): Add (G)(G) to your mana pool.", TapForTwoGreen.class));
+		this.addAbility(new Level(state, 1, 4, 1, 2, "(T): Add (G)(G) to your mana pool.", TapForTwoGreen.class));
 
 		// LEVEL 5+
 		// 1/4
 		// Elves you control have "(T): Add (G)(G) to your mana pool."
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Level(state, 5, 1, 4, "Elves you control have \"(T): Add (G)(G) to your mana pool.\"", EveryoneTapsForTwoGreen.class));
+		this.addAbility(new Level(state, 5, 1, 4, "Elves you control have \"(T): Add (G)(G) to your mana pool.\"", EveryoneTapsForTwoGreen.class));
 	}
 }

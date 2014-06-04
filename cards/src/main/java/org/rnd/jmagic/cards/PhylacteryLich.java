@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Indestructible;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -59,7 +61,7 @@ public final class PhylacteryLich extends Card
 		this.addAbility(new PhylacteryLichAbility0(state));
 
 		// Phylactery Lich is indestructible.
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Indestructible(state));
+		this.addAbility(new Indestructible(state));
 
 		// When you control no permanents with phylactery counters on them,
 		// sacrifice Phylactery Lich.

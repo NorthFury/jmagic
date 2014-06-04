@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.ScarsSpellbomb;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -33,6 +35,6 @@ public final class NihilSpellbomb extends Card
 
 		// When Nihil Spellbomb is put into a graveyard from the battlefield,
 		// you may pay (B). If you do, draw a card.
-		this.addAbility(new org.rnd.jmagic.abilities.ScarsSpellbomb(state, this.getName(), "(B)"));
+		this.addAbility(new ScarsSpellbomb(state, this.getName(), "(B)"));
 	}
 }

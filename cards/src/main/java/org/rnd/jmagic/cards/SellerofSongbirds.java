@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 
 @Name("Seller of Songbirds")
@@ -21,7 +23,7 @@ public final class SellerofSongbirds extends Card
 			CreateTokensFactory token = new CreateTokensFactory(1, 1, 1, "Put a 1/1 white Bird creature token with flying onto the battlefield.");
 			token.setColors(Color.WHITE);
 			token.setSubTypes(SubType.BIRD);
-			token.addAbility(org.rnd.jmagic.abilities.keywords.Flying.class);
+			token.addAbility(Flying.class);
 			this.addEffect(token.getEventFactory());
 		}
 	}

@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.TapForMana;
+import org.rnd.jmagic.abilities.keywords.DoubleStrike;
 import org.rnd.jmagic.engine.*;
 
 @Name("Boros Keyrune")
@@ -22,7 +25,7 @@ public final class BorosKeyrune extends Card
 			animate.addColor(Color.WHITE);
 			animate.addSubType(SubType.SOLDIER);
 			animate.addType(Type.CREATURE);
-			animate.addAbility(org.rnd.jmagic.abilities.keywords.DoubleStrike.class);
+			animate.addAbility(DoubleStrike.class);
 			this.addEffect(createFloatingEffect("Boros Keyrune becomes a 1/1 red and white Soldier artifact creature with double strike until end of turn.", animate.getParts()));
 		}
 	}
@@ -32,7 +35,7 @@ public final class BorosKeyrune extends Card
 		super(state);
 
 		// (T): Add (R) or (W) to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapForMana.Final(state, "(RW)"));
+		this.addAbility(new TapForMana.Final(state, "(RW)"));
 
 		// (R)(W): Boros Keyrune becomes a 1/1 red and white Soldier artifact
 		// creature with double strike until end of turn. (It deals both

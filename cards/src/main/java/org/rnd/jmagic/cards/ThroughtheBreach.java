@@ -2,6 +2,8 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Haste;
+import org.rnd.jmagic.abilities.keywords.Splice;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -29,7 +31,7 @@ public final class ThroughtheBreach extends Card
 
 		// That creature gains haste.
 		SetGenerator thatCreature = NewObjectOf.instance(EffectResult.instance(putOntoBattlefield));
-		this.addEffect(createFloatingEffect(Empty.instance(), "That creature gains haste.", addAbilityToObject(thatCreature, org.rnd.jmagic.abilities.keywords.Haste.class)));
+		this.addEffect(createFloatingEffect(Empty.instance(), "That creature gains haste.", addAbilityToObject(thatCreature, Haste.class)));
 
 		// Sacrifice that creature at the beginning of the next end step.
 		EventFactory sacrifice = new EventFactory(EventType.SACRIFICE_PERMANENTS, "Sacrifice that creature.");
@@ -44,6 +46,6 @@ public final class ThroughtheBreach extends Card
 		this.addEffect(exileLater);
 
 		// Splice onto Arcane (2)(R)(R)
-		this.addAbility(org.rnd.jmagic.abilities.keywords.Splice.ontoArcane(state, "(2)(R)(R)"));
+		this.addAbility(Splice.ontoArcane(state, "(2)(R)(R)"));
 	}
 }

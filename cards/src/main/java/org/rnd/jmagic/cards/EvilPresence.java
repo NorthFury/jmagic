@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Enchant;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -31,7 +32,7 @@ public final class EvilPresence extends Card
 		super(state);
 
 		// Enchant land
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Enchant.Land(state));
+		this.addAbility(new Enchant.Land(state));
 
 		// Enchanted land is a Swamp.
 		this.addAbility(new EvilPresenceAbility1(state));

@@ -4,6 +4,9 @@ import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public final class TapHard extends EventType
 {	public static final EventType INSTANCE = new TapHard();
 
@@ -19,13 +22,13 @@ public final class TapHard extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean attempt(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		return TAP_PERMANENTS.attempt(game, event, parameters);
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		MagicSet objects = parameters.get(Parameter.OBJECT);
 
@@ -50,7 +53,7 @@ public final class TapHard extends EventType
 			SetGenerator thatPlayersUntap = UntapStepOf.instance(ControllerOf.instance(Identity.instance(object)));
 			SetGenerator untapStepOver = Intersect.instance(PreviousStep.instance(), thatPlayersUntap);
 
-			java.util.Map<Parameter, MagicSet> ctsEffectParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> ctsEffectParameters = new HashMap<Parameter, MagicSet>();
 			ctsEffectParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 			ctsEffectParameters.put(Parameter.EFFECT, new MagicSet(part));
 			ctsEffectParameters.put(Parameter.EXPIRES, new MagicSet(untapStepOver));

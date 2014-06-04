@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.PlayExtraLands;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -38,6 +40,6 @@ public final class RitesofFlourishing extends Card
 		this.addAbility(new RitesofFlourishingAbility0(state));
 
 		// Each player may play an additional land on each of his or her turns.
-		this.addAbility(new org.rnd.jmagic.abilities.PlayExtraLands.Final(state, 1, Players.instance(), "Each player may play an additional land on each of his or her turns."));
+		this.addAbility(new PlayExtraLands.Final(state, 1, Players.instance(), "Each player may play an additional land on each of his or her turns."));
 	}
 }

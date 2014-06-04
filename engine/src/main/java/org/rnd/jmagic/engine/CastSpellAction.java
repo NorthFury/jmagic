@@ -1,5 +1,8 @@
 package org.rnd.jmagic.engine;
 
+import java.util.LinkedList;
+import java.util.List;
+
 /** Represents the act of casting a spell. */
 public class CastSpellAction extends CastSpellOrActivateAbilityAction
 {
@@ -9,7 +12,7 @@ public class CastSpellAction extends CastSpellOrActivateAbilityAction
 		public int sourceID;
 	}
 
-	private java.util.List<EventFactoryWithSource> attachedEvents;
+	private List<EventFactoryWithSource> attachedEvents;
 
 	/**
 	 * Creates a cast spell action for a specific spell.
@@ -20,7 +23,7 @@ public class CastSpellAction extends CastSpellOrActivateAbilityAction
 	public CastSpellAction(Game game, GameObject spell, Player casting, int source)
 	{
 		super(game, "Cast " + spell, casting, source);
-		this.attachedEvents = new java.util.LinkedList<EventFactoryWithSource>();
+		this.attachedEvents = new LinkedList<EventFactoryWithSource>();
 		this.toBePlayedID = spell.ID;
 	}
 

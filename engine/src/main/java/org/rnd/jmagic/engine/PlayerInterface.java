@@ -3,6 +3,13 @@ package org.rnd.jmagic.engine;
 import org.rnd.jmagic.sanitized.*;
 import org.rnd.util.*;
 
+import java.io.Serializable;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+
 /** Represents an interface a user can use to communicate with the game. */
 public interface PlayerInterface
 {
@@ -28,49 +35,49 @@ public interface PlayerInterface
 		}
 	}
 
-	public static class ChooseParameters<T extends java.io.Serializable> implements java.io.Serializable
+	public static class ChooseParameters<T extends Serializable> implements Serializable
 	{
 		private static final long serialVersionUID = 1L;
 
 		public MagicSet number;
-		public java.util.List<T> choices;
+		public List<T> choices;
 		public ChoiceType type;
 		public ChooseReason reason;
 		public boolean allowMultiples;
 		public int whatForID;
 
 		public int thisID;
-		public java.util.List<SanitizedIdentified> ensurePresent;
+		public List<SanitizedIdentified> ensurePresent;
 		public String replacement;
 
 		public ChooseParameters(int lowerBound, Integer upperBound, ChoiceType type, ChooseReason reason)
 		{
-			this(lowerBound, upperBound, new java.util.LinkedList<T>(), type, reason);
+			this(lowerBound, upperBound, new LinkedList<T>(), type, reason);
 		}
 
-		public ChooseParameters(int lowerBound, Integer upperBound, java.util.List<T> choices, ChoiceType type, ChooseReason reason)
+		public ChooseParameters(int lowerBound, Integer upperBound, List<T> choices, ChoiceType type, ChooseReason reason)
 		{
 			this(new MagicSet(), choices, type, reason);
-			this.number.add(new org.rnd.util.NumberRange(lowerBound, upperBound));
+			this.number.add(new NumberRange(lowerBound, upperBound));
 		}
 
 		public ChooseParameters(ChooseParameters<? extends T> copy)
 		{
 			this.number = new MagicSet(copy.number);
-			this.choices = new java.util.LinkedList<T>(copy.choices);
+			this.choices = new LinkedList<T>(copy.choices);
 			this.type = copy.type;
 			this.reason = copy.reason;
 			this.thisID = copy.thisID;
 			this.replacement = copy.replacement;
-			this.ensurePresent = new java.util.LinkedList<SanitizedIdentified>(copy.ensurePresent);
+			this.ensurePresent = new LinkedList<SanitizedIdentified>(copy.ensurePresent);
 		}
 
 		public ChooseParameters(MagicSet number, ChoiceType type, ChooseReason reason)
 		{
-			this(number, new java.util.LinkedList<T>(), type, reason);
+			this(number, new LinkedList<T>(), type, reason);
 		}
 
-		public ChooseParameters(MagicSet number, java.util.List<T> choices, ChoiceType type, ChooseReason reason)
+		public ChooseParameters(MagicSet number, List<T> choices, ChoiceType type, ChooseReason reason)
 		{
 			this.number = number;
 			this.choices = choices;
@@ -80,12 +87,12 @@ public interface PlayerInterface
 			this.whatForID = -1;
 
 			this.thisID = -1;
-			this.ensurePresent = new java.util.LinkedList<SanitizedIdentified>();
+			this.ensurePresent = new LinkedList<SanitizedIdentified>();
 			this.replacement = null;
 		}
 	}
 
-	public static class ChooseReason implements java.io.Serializable
+	public static class ChooseReason implements Serializable
 	{
 		private static final long serialVersionUID = 1L;
 
@@ -219,7 +226,7 @@ public interface PlayerInterface
 		}
 	}
 
-	public static class ReversionParameters implements java.io.Serializable
+	public static class ReversionParameters implements Serializable
 	{
 		private static final long serialVersionUID = 1L;
 
@@ -239,7 +246,7 @@ public interface PlayerInterface
 	 * information is easy instead of having to update the method signature in
 	 * many places.
 	 */
-	public static abstract class ErrorParameters implements java.io.Serializable
+	public static abstract class ErrorParameters implements Serializable
 	{
 		private static final long serialVersionUID = 1L;
 
@@ -252,11 +259,11 @@ public interface PlayerInterface
 		{
 			private static final long serialVersionUID = 1L;
 
-			public final java.util.Set<String> cardNames;
+			public final Set<String> cardNames;
 
-			public CardLoadingError(java.util.Set<String> cardNames)
+			public CardLoadingError(Set<String> cardNames)
 			{
-				this.cardNames = java.util.Collections.unmodifiableSet(new java.util.HashSet<String>(cardNames));
+				this.cardNames = Collections.unmodifiableSet(new HashSet<String>(cardNames));
 			}
 		}
 
@@ -264,11 +271,11 @@ public interface PlayerInterface
 		{
 			private static final long serialVersionUID = 1L;
 
-			public final java.util.Set<String> cardNames;
+			public final Set<String> cardNames;
 
-			public IllegalCardsError(java.util.Set<String> cardNames)
+			public IllegalCardsError(Set<String> cardNames)
 			{
-				this.cardNames = java.util.Collections.unmodifiableSet(new java.util.HashSet<String>(cardNames));
+				this.cardNames = Collections.unmodifiableSet(new HashSet<String>(cardNames));
 			}
 		}
 
@@ -327,7 +334,7 @@ public interface PlayerInterface
 	 * @param parameterObject The parameters for the choice.
 	 * @return What the user chose.
 	 */
-	public <T extends java.io.Serializable> java.util.List<Integer> choose(ChooseParameters<T> parameterObject);
+	public <T extends Serializable> List<Integer> choose(ChooseParameters<T> parameterObject);
 
 	/**
 	 * Asks the user of this interface to choose a number.
@@ -356,7 +363,7 @@ public interface PlayerInterface
 	 */
 	// TODO: Should these parameters be wrapped in a parameter object in case of
 	// future additional parameters?
-	public void divide(int quantity, int minimum, int whatFrom, String beingDivided, java.util.List<SanitizedTarget> targets);
+	public void divide(int quantity, int minimum, int whatFrom, String beingDivided, List<SanitizedTarget> targets);
 
 	/** @return A list of cards representing the user's deck. */
 	public Deck getDeck();

@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.TypeCycling;
 import org.rnd.jmagic.engine.*;
 
 @Name("Valley Rannet")
@@ -17,7 +18,7 @@ public final class ValleyRannet extends Card
 		this.setPower(6);
 		this.setToughness(3);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.TypeCycling.MountainCycling(state, "(2)"));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.TypeCycling.ForestCycling(state, "(2)"));
+		this.addAbility(new TypeCycling.MountainCycling(state, "(2)"));
+		this.addAbility(new TypeCycling.ForestCycling(state, "(2)"));
 	}
 }

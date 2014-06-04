@@ -6,6 +6,9 @@ import org.rnd.jmagic.abilities.keywords.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Name("Golem Artisan")
 @Types({Type.ARTIFACT, Type.CREATURE})
 @SubTypes({SubType.GOLEM})
@@ -35,10 +38,10 @@ public final class GolemArtisan extends Card
 			this.setManaCost(new ManaPool("(2)"));
 			SetGenerator target = targetedBy(this.addTarget(Intersect.instance(ArtifactPermanents.instance(), CreaturePermanents.instance()), "target artifact creature"));
 
-			java.util.Map<Class<? extends Keyword>, AbilityFactory> map = new java.util.HashMap<Class<? extends Keyword>, AbilityFactory>();
-			map.put(Flying.class, new org.rnd.jmagic.engine.SimpleAbilityFactory(Flying.class));
-			map.put(Trample.class, new org.rnd.jmagic.engine.SimpleAbilityFactory(Trample.class));
-			map.put(Haste.class, new org.rnd.jmagic.engine.SimpleAbilityFactory(Haste.class));
+			Map<Class<? extends Keyword>, AbilityFactory> map = new HashMap<Class<? extends Keyword>, AbilityFactory>();
+			map.put(Flying.class, new SimpleAbilityFactory(Flying.class));
+			map.put(Trample.class, new SimpleAbilityFactory(Trample.class));
+			map.put(Haste.class, new SimpleAbilityFactory(Haste.class));
 
 			EventFactory choose = new EventFactory(EventType.PLAYER_CHOOSE, "");
 			choose.parameters.put(EventType.Parameter.PLAYER, You.instance());

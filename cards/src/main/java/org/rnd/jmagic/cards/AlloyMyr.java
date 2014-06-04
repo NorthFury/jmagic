@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.TapForAnyColor;
 import org.rnd.jmagic.engine.*;
 
 @Name("Alloy Myr")
@@ -18,6 +19,6 @@ public final class AlloyMyr extends Card
 		this.setToughness(2);
 
 		// (T): Add one mana of any color to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapForAnyColor(state));
+		this.addAbility(new TapForAnyColor(state));
 	}
 }

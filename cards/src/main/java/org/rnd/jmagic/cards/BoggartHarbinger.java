@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.HarbingerAbility;
 import org.rnd.jmagic.engine.*;
 
 @Name("Boggart Harbinger")
@@ -17,6 +18,6 @@ public final class BoggartHarbinger extends Card
 		this.setPower(2);
 		this.setToughness(1);
 
-		this.addAbility(new org.rnd.jmagic.abilities.HarbingerAbility(state, this.getName(), SubType.GOBLIN));
+		this.addAbility(new HarbingerAbility(state, this.getName(), SubType.GOBLIN));
 	}
 }

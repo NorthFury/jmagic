@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.TapForW;
 import org.rnd.jmagic.engine.*;
 
 @Name("Mox Pearl")
@@ -14,6 +15,6 @@ public final class MoxPearl extends Card
 		super(state);
 
 		// (T): Add (W) to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapForW(state));
+		this.addAbility(new TapForW(state));
 	}
 }

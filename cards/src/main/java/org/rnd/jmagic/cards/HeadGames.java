@@ -4,6 +4,9 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Name("Head Games")
 @Types({Type.SORCERY})
 @ManaCost("3BB")
@@ -26,7 +29,7 @@ public final class HeadGames extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			MagicSet cause = parameters.get(EventType.Parameter.CAUSE);
 			Player target = parameters.get(EventType.Parameter.TARGET).getOne(Player.class);
@@ -34,7 +37,7 @@ public final class HeadGames extends Card
 			MagicSet targetsHandSet = new MagicSet(targetsHand);
 			MagicSet targetsLibrary = new MagicSet(target.getLibrary(game.actualState));
 
-			java.util.Map<EventType.Parameter, MagicSet> moveParams = new java.util.HashMap<EventType.Parameter, MagicSet>();
+			Map<EventType.Parameter, MagicSet> moveParams = new HashMap<EventType.Parameter, MagicSet>();
 			moveParams.put(EventType.Parameter.CAUSE, cause);
 			moveParams.put(EventType.Parameter.TO, targetsLibrary);
 			moveParams.put(EventType.Parameter.INDEX, new MagicSet(1));
@@ -42,7 +45,7 @@ public final class HeadGames extends Card
 			Event libraryEvent = createEvent(game, "Target opponent puts the cards from his or her hand on top of his or her library.", EventType.MOVE_OBJECTS, moveParams);
 			boolean ret = libraryEvent.perform(event, true);
 
-			java.util.Map<EventType.Parameter, MagicSet> searchParams = new java.util.HashMap<EventType.Parameter, MagicSet>();
+			Map<EventType.Parameter, MagicSet> searchParams = new HashMap<EventType.Parameter, MagicSet>();
 			searchParams.put(EventType.Parameter.CAUSE, cause);
 			searchParams.put(EventType.Parameter.PLAYER, parameters.get(EventType.Parameter.PLAYER));
 			searchParams.put(EventType.Parameter.NUMBER, new MagicSet(libraryEvent.getResult().size()));
@@ -50,14 +53,14 @@ public final class HeadGames extends Card
 			Event searchEvent = createEvent(game, "Search that player's library for that many cards.", EventType.SEARCH, searchParams);
 			ret = searchEvent.perform(event, true) && ret;
 
-			java.util.Map<EventType.Parameter, MagicSet> handParams = new java.util.HashMap<EventType.Parameter, MagicSet>();
+			Map<EventType.Parameter, MagicSet> handParams = new HashMap<EventType.Parameter, MagicSet>();
 			handParams.put(EventType.Parameter.CAUSE, cause);
 			handParams.put(EventType.Parameter.TO, targetsHandSet);
 			handParams.put(EventType.Parameter.OBJECT, searchEvent.getResult());
 			Event handEvent = createEvent(game, "The player puts those cards into his or her hand.", EventType.MOVE_OBJECTS, handParams);
 			ret = handEvent.perform(event, true) && ret;
 
-			java.util.Map<EventType.Parameter, MagicSet> shuffleParams = new java.util.HashMap<EventType.Parameter, MagicSet>();
+			Map<EventType.Parameter, MagicSet> shuffleParams = new HashMap<EventType.Parameter, MagicSet>();
 			shuffleParams.put(EventType.Parameter.CAUSE, cause);
 			shuffleParams.put(EventType.Parameter.PLAYER, new MagicSet(target));
 			Event shuffleEvent = createEvent(game, "Then shuffles his or her library.", EventType.SHUFFLE_LIBRARY, shuffleParams);

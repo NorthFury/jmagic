@@ -5,6 +5,11 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
 @Name("Harm's Way")
 @Types({Type.INSTANT})
 @ManaCost("W")
@@ -58,20 +63,20 @@ public final class HarmsWay extends Card
 		}
 
 		@Override
-		public java.util.List<EventFactory> redirect(java.util.Map<DamageAssignment, DamageAssignment> damageAssignments)
+		public List<EventFactory> redirect(Map<DamageAssignment, DamageAssignment> damageAssignments)
 		{
 			// This method won't ever receive more damage than it can
 			// redirect.
 			this.getFloatingContinuousEffect(this.game.physicalState).damage -= damageAssignments.size();
 
-			for(java.util.Map.Entry<DamageAssignment, DamageAssignment> redirect: damageAssignments.entrySet())
+			for(Map.Entry<DamageAssignment, DamageAssignment> redirect: damageAssignments.entrySet())
 			{
 				GameObject source = this.game.actualState.<GameObject>get(redirect.getKey().sourceID);
 				Identified target = this.game.actualState.get(this.targetID);
 				redirect.setValue(new DamageAssignment(source, target));
 			}
 
-			return new java.util.LinkedList<EventFactory>();
+			return new LinkedList<EventFactory>();
 		}
 	}
 
@@ -90,7 +95,7 @@ public final class HarmsWay extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<EventType.Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<EventType.Parameter, MagicSet> parameters)
 		{
 			Player you = parameters.get(EventType.Parameter.PLAYER).getOne(Player.class);
 			final int targetID = parameters.get(EventType.Parameter.TARGET).getOne(Identified.class).ID;
@@ -102,7 +107,7 @@ public final class HarmsWay extends Card
 
 			ContinuousEffect.Part part = replacementEffectPart(replacement);
 
-			java.util.Map<EventType.Parameter, MagicSet> floaterParameters = new java.util.HashMap<EventType.Parameter, MagicSet>();
+			Map<EventType.Parameter, MagicSet> floaterParameters = new HashMap<EventType.Parameter, MagicSet>();
 			floaterParameters.put(EventType.Parameter.CAUSE, parameters.get(EventType.Parameter.CAUSE));
 			floaterParameters.put(EventType.Parameter.EFFECT, new MagicSet(part));
 			floaterParameters.put(EventType.Parameter.DAMAGE, new MagicSet(2));

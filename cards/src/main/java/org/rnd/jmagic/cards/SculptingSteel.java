@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.YouMayHaveThisEnterTheBattlefieldAsACopy;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -14,6 +15,6 @@ public final class SculptingSteel extends Card
 	{
 		super(state);
 
-		this.addAbility(new org.rnd.jmagic.abilities.YouMayHaveThisEnterTheBattlefieldAsACopy(ArtifactPermanents.instance()).generateName(this.getName(), "any artifact on the battlefield").getStaticAbility(state));
+		this.addAbility(new YouMayHaveThisEnterTheBattlefieldAsACopy(ArtifactPermanents.instance()).generateName(this.getName(), "any artifact on the battlefield").getStaticAbility(state));
 	}
 }

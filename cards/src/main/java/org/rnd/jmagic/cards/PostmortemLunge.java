@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Haste;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -28,7 +30,7 @@ public final class PostmortemLunge extends Card
 		this.addEffect(move);
 
 		SetGenerator it = NewObjectOf.instance(EffectResult.instance(move));
-		this.addEffect(createFloatingEffect(Empty.instance(), "It gains haste.", addAbilityToObject(it, org.rnd.jmagic.abilities.keywords.Haste.class)));
+		this.addEffect(createFloatingEffect(Empty.instance(), "It gains haste.", addAbilityToObject(it, Haste.class)));
 
 		// The generators will be evaluated in terms of the delayed trigger, so
 		// the effect result will be from the delayed trigger's source, this

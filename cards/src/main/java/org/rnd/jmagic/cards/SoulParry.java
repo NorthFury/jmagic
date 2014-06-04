@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.PreventAllFrom;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -18,6 +20,6 @@ public final class SoulParry extends Card
 		// Prevent all damage one or two target creatures would deal this turn.
 		Target target = this.addTarget(CreaturePermanents.instance(), "one or two target creatures");
 		target.setNumber(1, 2);
-		this.addEffect(createFloatingReplacement(new org.rnd.jmagic.abilities.PreventAllFrom(state.game, targetedBy(target), "one or two target creatures"), "Prevent all damage one or two target creatures would deal this turn."));
+		this.addEffect(createFloatingReplacement(new PreventAllFrom(state.game, targetedBy(target), "one or two target creatures"), "Prevent all damage one or two target creatures would deal this turn."));
 	}
 }

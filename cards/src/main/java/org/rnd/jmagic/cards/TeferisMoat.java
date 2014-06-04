@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -45,7 +47,7 @@ public final class TeferisMoat extends Card
 			super(state, "Creatures of the chosen color without flying can't attack you.");
 			this.getLinkManager().addLinkClass(TeferisMoatAbility0.class);
 
-			SetGenerator nonflyers = RelativeComplement.instance(CreaturePermanents.instance(), HasKeywordAbility.instance(org.rnd.jmagic.abilities.keywords.Flying.class));
+			SetGenerator nonflyers = RelativeComplement.instance(CreaturePermanents.instance(), HasKeywordAbility.instance(Flying.class));
 			SetGenerator ofColor = HasColor.instance(ChosenFor.instance(LinkedTo.instance(This.instance())));
 			SetGenerator nonflyersAttackingYou = Intersect.instance(nonflyers, ofColor, Attacking.instance(You.instance()));
 

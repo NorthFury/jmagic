@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.Regenerate;
 import org.rnd.jmagic.engine.*;
 
 @Name("Skeletal Wurm")
@@ -18,6 +19,6 @@ public final class SkeletalWurm extends Card
 		this.setToughness(6);
 
 		// (B): Regenerate Skeletal Wurm.
-		this.addAbility(new org.rnd.jmagic.abilities.Regenerate.Final(state, "(B)", this.getName()));
+		this.addAbility(new Regenerate.Final(state, "(B)", this.getName()));
 	}
 }

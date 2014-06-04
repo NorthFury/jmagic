@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Landwalk;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -30,7 +32,7 @@ public final class Blistergrub extends Card
 		this.setToughness(2);
 
 		// Swampwalk
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Landwalk.Swampwalk(state));
+		this.addAbility(new Landwalk.Swampwalk(state));
 
 		// When Blistergrub dies, each opponent loses 2 life.
 		this.addAbility(new BlistergrubAbility1(state));

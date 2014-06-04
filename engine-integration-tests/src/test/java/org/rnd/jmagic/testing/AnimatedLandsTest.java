@@ -58,7 +58,7 @@ public class AnimatedLandsTest extends JUnitTest
 
 		assertTrue(this.game.actualState.battlefield().objects.get(0).getName().equals("Mutavault"));
 		assertEquals(2, this.game.actualState.battlefield().objects.get(0).getTypes().size());
-		assertTrue(this.game.actualState.battlefield().objects.get(0).getSubTypes().size() == org.rnd.jmagic.engine.SubType.getAllCreatureTypes().size());
+		assertTrue(this.game.actualState.battlefield().objects.get(0).getSubTypes().size() == SubType.getAllCreatureTypes().size());
 		assertEquals(2, this.game.actualState.battlefield().objects.get(0).getPower());
 		assertEquals(2, this.game.actualState.battlefield().objects.get(0).getToughness());
 
@@ -107,7 +107,7 @@ public class AnimatedLandsTest extends JUnitTest
 
 		assertTrue(this.game.actualState.battlefield().objects.get(0).getName().equals("Mutavault"));
 		assertEquals(2, this.game.actualState.battlefield().objects.get(0).getTypes().size());
-		assertTrue(this.game.actualState.battlefield().objects.get(0).getSubTypes().size() == org.rnd.jmagic.engine.SubType.getAllCreatureTypes().size());
+		assertTrue(this.game.actualState.battlefield().objects.get(0).getSubTypes().size() == SubType.getAllCreatureTypes().size());
 		assertEquals(2, this.game.actualState.battlefield().objects.get(0).getPower());
 		assertEquals(2, this.game.actualState.battlefield().objects.get(0).getToughness());
 

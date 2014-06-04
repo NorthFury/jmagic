@@ -2,6 +2,8 @@ package org.rnd.jmagic.engine.generators;
 
 import org.rnd.jmagic.engine.*;
 
+import java.util.Set;
+
 /**
  * Evaluates to the product of each number in one set with each number in a
  * second set
@@ -25,8 +27,8 @@ public class Multiply extends SetGenerator
 	@Override
 	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		java.util.Set<Integer> left = this.left.evaluate(state, thisObject).getAll(Integer.class);
-		java.util.Set<Integer> right = this.right.evaluate(state, thisObject).getAll(Integer.class);
+		Set<Integer> left = this.left.evaluate(state, thisObject).getAll(Integer.class);
+		Set<Integer> right = this.right.evaluate(state, thisObject).getAll(Integer.class);
 		MagicSet ret = new MagicSet();
 
 		// For each pair of numbers in left and right, add their product

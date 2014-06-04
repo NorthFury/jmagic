@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.StaticPTChange;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -50,7 +52,7 @@ public final class CemeteryReaper extends Card
 		SetGenerator othersYouControl = RelativeComplement.instance(zombies, This.instance());
 
 		// get +1/+1.
-		this.addAbility(new org.rnd.jmagic.abilities.StaticPTChange(state, othersYouControl, "Other Zombie creatures you control", +1, +1, true));
+		this.addAbility(new StaticPTChange(state, othersYouControl, "Other Zombie creatures you control", +1, +1, true));
 
 		this.addAbility(new MakeZombie(state));
 	}

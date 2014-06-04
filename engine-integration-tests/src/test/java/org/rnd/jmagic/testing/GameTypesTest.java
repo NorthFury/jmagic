@@ -5,6 +5,10 @@ import static org.junit.Assert.*;
 
 import org.rnd.jmagic.cards.*;
 import org.rnd.jmagic.engine.*;
+import org.rnd.jmagic.engine.gameTypes.PackWars;
+import org.rnd.jmagic.engine.gameTypes.X10;
+import org.rnd.jmagic.engine.gameTypes.packWars.BoosterFactory;
+import org.rnd.jmagic.engine.gameTypes.packWars.SpecificCardsBoosterFactory;
 
 public class GameTypesTest extends JUnitTest
 {
@@ -34,11 +38,11 @@ public class GameTypesTest extends JUnitTest
 		this.addDeck(Plains.class);
 		this.addDeck();
 
-		org.rnd.jmagic.engine.gameTypes.packWars.BoosterFactory expansion = new org.rnd.jmagic.engine.gameTypes.packWars.SpecificCardsBoosterFactory("Memnite", "Memnite", "Memnite", "Memnite", "Memnite", "Memnite", "Memnite");
+		BoosterFactory expansion = new SpecificCardsBoosterFactory("Memnite", "Memnite", "Memnite", "Memnite", "Memnite", "Memnite", "Memnite");
 
 		GameType x10 = new GameType("X10");
-		x10.addRule(new org.rnd.jmagic.engine.gameTypes.X10());
-		x10.addRule(new org.rnd.jmagic.engine.gameTypes.PackWars(expansion));
+		x10.addRule(new X10());
+		x10.addRule(new PackWars(expansion));
 		startGame(x10);
 
 		respondWith(getPlayer(0));

@@ -2,6 +2,9 @@ package org.rnd.jmagic.engine.eventTypes;
 
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+import org.rnd.jmagic.sanitized.SanitizedEvent;
+
+import java.util.Map;
 
 public final class LoseGame extends EventType
 {	public static final EventType INSTANCE = new LoseGame();
@@ -18,7 +21,7 @@ public final class LoseGame extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		Game.LoseReason reason = parameters.get(Parameter.CAUSE).getOne(Game.LoseReason.class);
 		if(reason == null)
@@ -26,7 +29,7 @@ public final class LoseGame extends EventType
 
 		MagicSet players = parameters.get(Parameter.PLAYER);
 
-		org.rnd.jmagic.sanitized.SanitizedEvent sanitized = new org.rnd.jmagic.sanitized.SanitizedEvent(event, players.toString() + " lost the game");
+		SanitizedEvent sanitized = new SanitizedEvent(event, players.toString() + " lost the game");
 		for(Player player: game.actualState.players)
 			player.alert(sanitized);
 

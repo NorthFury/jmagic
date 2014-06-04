@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Vigilance;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -41,7 +43,7 @@ public final class LoyalCathar extends Card
 		this.setToughness(2);
 
 		// Vigilance
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Vigilance(state));
+		this.addAbility(new Vigilance(state));
 
 		// When Loyal Cathar dies, return it to the battlefield transformed
 		// under your control at the beginning of the next end step.

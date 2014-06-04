@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 
 @Name("Thrummingbird")
@@ -29,7 +31,7 @@ public final class Thrummingbird extends Card
 		this.setToughness(1);
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// Whenever Thrummingbird deals combat damage to a player, proliferate.
 		// (You choose any number of permanents and/or players with counters on

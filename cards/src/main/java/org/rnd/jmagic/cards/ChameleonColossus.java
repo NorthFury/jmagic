@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Changeling;
+import org.rnd.jmagic.abilities.keywords.Protection;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -31,10 +34,10 @@ public final class ChameleonColossus extends Card
 		this.setToughness(4);
 
 		// Changeling (This card is every creature type at all times.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Changeling(state));
+		this.addAbility(new Changeling(state));
 
 		// Protection from black
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Protection.FromBlack(state));
+		this.addAbility(new Protection.FromBlack(state));
 
 		// (2)(G)(G): Chameleon Colossus gets +X/+X until end of turn, where X
 		// is its power.

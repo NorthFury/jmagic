@@ -3,6 +3,9 @@ package org.rnd.jmagic.abilities.keywords;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import static org.rnd.jmagic.Convenience.*;
 
 /**
@@ -23,9 +26,9 @@ public class Extort extends Keyword
 	}
 
 	@Override
-	public java.util.List<NonStaticAbility> createNonStaticAbilities()
+	public List<NonStaticAbility> createNonStaticAbilities()
 	{
-		java.util.List<NonStaticAbility> ret = new java.util.LinkedList<NonStaticAbility>();
+		List<NonStaticAbility> ret = new LinkedList<NonStaticAbility>();
 		ret.add(new ExtortAbility(this.state));
 		return ret;
 	}

@@ -4,6 +4,11 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
 @Name("Master of the Wild Hunt")
 @Types({Type.CREATURE})
 @SubTypes({SubType.HUMAN, SubType.SHAMAN})
@@ -43,24 +48,24 @@ public final class MasteroftheWildHunt extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			MagicSet cause = parameters.get(Parameter.CAUSE);
 			MagicSet wolves = parameters.get(Parameter.OBJECT);
 
-			java.util.Map<Parameter, MagicSet> tapParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> tapParameters = new HashMap<Parameter, MagicSet>();
 			tapParameters.put(Parameter.CAUSE, cause);
 			tapParameters.put(Parameter.OBJECT, wolves);
 			createEvent(game, "Tap all untapped Wolf creatures you control.", TAP_PERMANENTS, tapParameters).perform(event, true);
 
 			MagicSet target = parameters.get(Parameter.TARGET);
 
-			java.util.Map<Parameter, MagicSet> biteParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> biteParameters = new HashMap<Parameter, MagicSet>();
 			biteParameters.put(Parameter.SOURCE, wolves);
 			biteParameters.put(Parameter.TAKER, target);
 			createEvent(game, "Each Wolf tapped this way deals damage equal to its power to target creature.", WOLVES_BITE, biteParameters).perform(event, true);
 
-			java.util.Map<Parameter, MagicSet> bittenParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> bittenParameters = new HashMap<Parameter, MagicSet>();
 			bittenParameters.put(Parameter.SOURCE, target);
 			bittenParameters.put(Parameter.TAKER, wolves);
 			createEvent(game, "That creature deals damage equal to its power divided as its controller chooses among any number of those Wolves.", WOLVES_GET_BITTEN, bittenParameters).perform(event, true);
@@ -84,12 +89,12 @@ public final class MasteroftheWildHunt extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			MagicSet taker = parameters.get(Parameter.TAKER);
 			for(GameObject wolf: parameters.get(Parameter.SOURCE).getAll(GameObject.class))
 			{
-				java.util.Map<Parameter, MagicSet> oneWolfDamageParameters = new java.util.HashMap<Parameter, MagicSet>();
+				Map<Parameter, MagicSet> oneWolfDamageParameters = new HashMap<Parameter, MagicSet>();
 				oneWolfDamageParameters.put(Parameter.SOURCE, new MagicSet(wolf));
 				oneWolfDamageParameters.put(Parameter.TAKER, taker);
 				oneWolfDamageParameters.put(Parameter.NUMBER, new MagicSet(wolf.getPower()));
@@ -116,17 +121,17 @@ public final class MasteroftheWildHunt extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			GameObject dealingBack = parameters.get(Parameter.SOURCE).getOne(GameObject.class);
 			Player controller = dealingBack.getController(dealingBack.state);
 
-			java.util.List<Target> wolves = new java.util.LinkedList<Target>();
+			List<Target> wolves = new LinkedList<Target>();
 			for(GameObject wolf: parameters.get(Parameter.TAKER).getAll(GameObject.class))
 				wolves.add(new Target(wolf));
 			controller.divide(dealingBack.getPower(), 0, dealingBack.ID, "damage", wolves);
 
-			java.util.Map<Parameter, MagicSet> damageParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> damageParameters = new HashMap<Parameter, MagicSet>();
 			damageParameters.put(Parameter.SOURCE, new MagicSet(dealingBack));
 			damageParameters.put(Parameter.TAKER, new MagicSet(wolves));
 			createEvent(game, dealingBack + " deals damage divided as its controller chooses among " + wolves + ".", DISTRIBUTE_DAMAGE, damageParameters).perform(event, false);

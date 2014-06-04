@@ -5,6 +5,12 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
 @Name("Capricious Efreet")
 @Types({Type.CREATURE})
 @SubTypes({SubType.EFREET})
@@ -28,16 +34,16 @@ public final class CapriciousEfreet extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
-			java.util.List<GameObject> objects = new java.util.LinkedList<GameObject>(parameters.get(Parameter.PERMANENT).getAll(GameObject.class));
+			List<GameObject> objects = new LinkedList<GameObject>(parameters.get(Parameter.PERMANENT).getAll(GameObject.class));
 			if(objects.isEmpty())
 				return false;
 
-			java.util.Collections.shuffle(objects);
+			Collections.shuffle(objects);
 			GameObject destroyThis = objects.get(0);
 
-			java.util.Map<Parameter, MagicSet> destroyParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> destroyParameters = new HashMap<Parameter, MagicSet>();
 			destroyParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 			destroyParameters.put(Parameter.PERMANENT, new MagicSet(destroyThis));
 			Event destroy = createEvent(game, "Destroy one of them at random.", DESTROY_PERMANENTS, destroyParameters);

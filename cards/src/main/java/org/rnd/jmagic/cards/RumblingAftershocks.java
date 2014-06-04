@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Kicker;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -23,7 +25,7 @@ public final class RumblingAftershocks extends Card
 					continue;
 
 				for(CostCollection cost: object.getOptionalAdditionalCostsChosen())
-					if(cost.type.equals(org.rnd.jmagic.abilities.keywords.Kicker.COST_TYPE))
+					if(cost.type.equals(Kicker.COST_TYPE))
 						return true;
 			}
 			return false;
@@ -60,7 +62,7 @@ public final class RumblingAftershocks extends Card
 					continue;
 
 				for(CostCollection cost: object.getOptionalAdditionalCostsChosen())
-					if(cost.type.equals(org.rnd.jmagic.abilities.keywords.Kicker.COST_TYPE))
+					if(cost.type.equals(Kicker.COST_TYPE))
 						timesKicked++;
 			}
 			if(timesKicked == 0)

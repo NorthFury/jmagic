@@ -1,6 +1,10 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.AsThisEntersTheBattlefieldChooseACreatureType;
+import org.rnd.jmagic.abilities.keywords.Protection;
+import org.rnd.jmagic.abilities.keywords.Vigilance;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -12,7 +16,7 @@ import org.rnd.jmagic.engine.generators.*;
 @ColorIdentity({Color.WHITE})
 public final class RidersofGavony extends Card
 {
-	public static final class RidersofGavonyAbility1 extends org.rnd.jmagic.abilities.AsThisEntersTheBattlefieldChooseACreatureType
+	public static final class RidersofGavonyAbility1 extends AsThisEntersTheBattlefieldChooseACreatureType
 	{
 		public RidersofGavonyAbility1(GameState state)
 		{
@@ -55,7 +59,7 @@ public final class RidersofGavony extends Card
 
 			SetGenerator chosenType = ChosenFor.instance(LinkedTo.instance(Identity.instance(this)));
 
-			AbilityFactory abilityFactory = new org.rnd.jmagic.abilities.keywords.Protection.AbilityFactory(Intersect.instance(CreaturePermanents.instance(), chosenType), ProtectionName.instance(chosenType));
+			AbilityFactory abilityFactory = new Protection.AbilityFactory(Intersect.instance(CreaturePermanents.instance(), chosenType), ProtectionName.instance(chosenType));
 
 			this.addEffectPart(addAbilityToObject(Intersect.instance(CREATURES_YOU_CONTROL, HasSubType.instance(SubType.HUMAN)), abilityFactory));
 
@@ -71,7 +75,7 @@ public final class RidersofGavony extends Card
 		this.setToughness(3);
 
 		// Vigilance
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Vigilance(state));
+		this.addAbility(new Vigilance(state));
 
 		// As Riders of Gavony enters the battlefield, choose a creature type.
 		this.addAbility(new RidersofGavonyAbility1(state));

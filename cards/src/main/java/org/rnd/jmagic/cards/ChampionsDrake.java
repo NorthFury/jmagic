@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -32,7 +33,7 @@ public final class ChampionsDrake extends Card
 		this.setToughness(1);
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// Champion's Drake gets +3/+3 as long as you control a creature with
 		// three or more level counters on it.

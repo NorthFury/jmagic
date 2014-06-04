@@ -1,9 +1,14 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Infect;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Name("Phyrexian Unlife")
 @Types({Type.ENCHANTMENT})
@@ -33,9 +38,9 @@ public final class PhyrexianUnlife extends Card
 		private static final class DamageToYouPattern implements DamagePattern
 		{
 			@Override
-			public java.util.Set<DamageAssignment.Batch> match(DamageAssignment.Batch damage, Identified thisObject, GameState state)
+			public Set<DamageAssignment.Batch> match(DamageAssignment.Batch damage, Identified thisObject, GameState state)
 			{
-				java.util.Set<DamageAssignment.Batch> ret = new java.util.HashSet<DamageAssignment.Batch>();
+				Set<DamageAssignment.Batch> ret = new HashSet<DamageAssignment.Batch>();
 				DamageAssignment.Batch batch = new DamageAssignment.Batch();
 				ret.add(new DamageAssignment.Batch(damage));
 				if(thisObject instanceof Controllable)
@@ -57,7 +62,7 @@ public final class PhyrexianUnlife extends Card
 
 			ContinuousEffect.Part part = new ContinuousEffect.Part(ContinuousEffectType.DEAL_DAMAGE_AS_THOUGH_HAS_ABILITY);
 			part.parameters.put(ContinuousEffectType.Parameter.OBJECT, Identity.instance(allDamage));
-			part.parameters.put(ContinuousEffectType.Parameter.ABILITY, Identity.instance(org.rnd.jmagic.abilities.keywords.Infect.class));
+			part.parameters.put(ContinuousEffectType.Parameter.ABILITY, Identity.instance(Infect.class));
 			this.addEffectPart(part);
 
 			this.canApply = Both.instance(this.canApply, Intersect.instance(LifeTotalOf.instance(You.instance()), Between.instance(Empty.instance(), numberGenerator(0))));

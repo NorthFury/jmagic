@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Defender;
+import org.rnd.jmagic.abilities.keywords.Reach;
 import org.rnd.jmagic.engine.*;
 
 @Name("Wall of Tanglecord")
@@ -17,7 +20,7 @@ public final class WallofTanglecord extends Card
 		{
 			super(state, "(G): Wall of Tanglecord gains reach until end of turn.");
 			this.setManaCost(new ManaPool("(G)"));
-			this.addEffect(addAbilityUntilEndOfTurn(ABILITY_SOURCE_OF_THIS, org.rnd.jmagic.abilities.keywords.Reach.class, "Wall of Tanglecord gains reach until end of turn."));
+			this.addEffect(addAbilityUntilEndOfTurn(ABILITY_SOURCE_OF_THIS, Reach.class, "Wall of Tanglecord gains reach until end of turn."));
 		}
 	}
 
@@ -29,7 +32,7 @@ public final class WallofTanglecord extends Card
 		this.setToughness(6);
 
 		// Defender
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Defender(state));
+		this.addAbility(new Defender(state));
 
 		// (G): Wall of Tanglecord gains reach until end of turn. (It can block
 		// creatures with flying.)

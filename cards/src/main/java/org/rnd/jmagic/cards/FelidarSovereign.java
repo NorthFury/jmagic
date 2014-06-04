@@ -2,6 +2,8 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Lifelink;
+import org.rnd.jmagic.abilities.keywords.Vigilance;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -35,8 +37,8 @@ public final class FelidarSovereign extends Card
 		this.setToughness(6);
 
 		// Vigilance, lifelink
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Vigilance(state));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Lifelink(state));
+		this.addAbility(new Vigilance(state));
+		this.addAbility(new Lifelink(state));
 
 		// At the beginning of your upkeep, if you have 40 or more life, you win
 		// the game.

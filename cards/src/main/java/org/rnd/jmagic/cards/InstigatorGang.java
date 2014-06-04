@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.Werewolves;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -35,6 +37,6 @@ public final class InstigatorGang extends Card
 
 		// At the beginning of each upkeep, if no spells were cast last turn,
 		// transform Instigator Gang.
-		this.addAbility(new org.rnd.jmagic.abilities.Werewolves.BecomeFuzzy(state, this.getName()));
+		this.addAbility(new Werewolves.BecomeFuzzy(state, this.getName()));
 	}
 }

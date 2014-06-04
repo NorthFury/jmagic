@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Haste;
 import org.rnd.jmagic.engine.*;
 
 @Name("Akoum Battlesinger")
@@ -31,7 +33,7 @@ public final class AkoumBattlesinger extends Card
 		this.setToughness(1);
 
 		// Haste
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Haste(state));
+		this.addAbility(new Haste(state));
 
 		// Whenever Akoum Battlesinger or another Ally enters the battlefield
 		// under your control, you may have Ally creatures you control get +1/+0

@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.StaticPTChange;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -17,6 +18,6 @@ public final class GloriousAnthem extends Card
 		SetGenerator creatures = CreaturePermanents.instance();
 		SetGenerator youControl = ControlledBy.instance(ControllerOf.instance(This.instance()));
 		SetGenerator creaturesYouControl = Intersect.instance(creatures, youControl);
-		this.addAbility(new org.rnd.jmagic.abilities.StaticPTChange(state, creaturesYouControl, "Creatures you control", +1, +1, true));
+		this.addAbility(new StaticPTChange(state, creaturesYouControl, "Creatures you control", +1, +1, true));
 	}
 }

@@ -5,6 +5,11 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+
 @Name("Sundering Titan")
 @Types({Type.ARTIFACT, Type.CREATURE})
 @SubTypes({SubType.GOLEM})
@@ -32,15 +37,15 @@ public final class SunderingTitan extends Card
 		}
 
 		@Override
-		public void makeChoices(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public void makeChoices(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			for(Player player: parameters.get(Parameter.PLAYER).getAll(Player.class))
 			{
-				java.util.Collection<GameObject> chosenLands = new java.util.HashSet<GameObject>();
+				Collection<GameObject> chosenLands = new HashSet<GameObject>();
 				for(SubType t: SubType.getBasicLandTypes())
 				{
-					java.util.Collection<GameObject> lands = Intersect.instance(LandPermanents.instance(), HasSubType.instance(t)).evaluate(game, null).getAll(GameObject.class);
-					java.util.Collection<GameObject> choices = player.sanitizeAndChoose(game.actualState, 1, lands, PlayerInterface.ChoiceType.OBJECTS, SunderingTitanChooseReason(t));
+					Collection<GameObject> lands = Intersect.instance(LandPermanents.instance(), HasSubType.instance(t)).evaluate(game, null).getAll(GameObject.class);
+					Collection<GameObject> choices = player.sanitizeAndChoose(game.actualState, 1, lands, PlayerInterface.ChoiceType.OBJECTS, SunderingTitanChooseReason(t));
 					chosenLands.addAll(choices);
 				}
 				event.putChoices(player, chosenLands);
@@ -49,7 +54,7 @@ public final class SunderingTitan extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			boolean allDestroyed = event.allChoicesMade;
 			MagicSet cause = parameters.get(Parameter.CAUSE);
@@ -59,7 +64,7 @@ public final class SunderingTitan extends Card
 			{
 				MagicSet destroyThese = event.getChoices(player);
 
-				java.util.Map<Parameter, MagicSet> destroyParameters = new java.util.HashMap<Parameter, MagicSet>();
+				Map<Parameter, MagicSet> destroyParameters = new HashMap<Parameter, MagicSet>();
 				destroyParameters.put(Parameter.CAUSE, cause);
 				destroyParameters.put(Parameter.PERMANENT, destroyThese);
 				Event destroy = createEvent(game, player + " destroys " + destroyThese + ".", DESTROY_PERMANENTS, destroyParameters);

@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Infect;
 import org.rnd.jmagic.engine.*;
 
 @Name("Pestilent Souleater")
@@ -17,7 +19,7 @@ public final class PestilentSouleater extends Card
 		{
 			super(state, "(b/p): Pestilent Souleater gains infect until end of turn.");
 			this.setManaCost(new ManaPool("(b/p)"));
-			this.addEffect(addAbilityUntilEndOfTurn(ABILITY_SOURCE_OF_THIS, org.rnd.jmagic.abilities.keywords.Infect.class, "Pestilent Souleater gains infect until end of turn."));
+			this.addEffect(addAbilityUntilEndOfTurn(ABILITY_SOURCE_OF_THIS, Infect.class, "Pestilent Souleater gains infect until end of turn."));
 		}
 	}
 

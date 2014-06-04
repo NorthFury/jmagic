@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 
 @Name("Leonin Skyhunter")
@@ -19,6 +20,6 @@ public final class LeoninSkyhunter extends Card
 
 		// Flying (This creature can't be blocked except by creatures with
 		// flying or reach.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 	}
 }

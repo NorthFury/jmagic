@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Vigilance;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -21,7 +23,7 @@ public final class GateHound extends Card
 			SetGenerator thisIsEnchanted = Intersect.instance(HasSubType.instance(SubType.AURA), AttachedTo.instance(This.instance()));
 			this.canApply = Both.instance(this.canApply, thisIsEnchanted);
 
-			this.addEffectPart(addAbilityToObject(CREATURES_YOU_CONTROL, org.rnd.jmagic.abilities.keywords.Vigilance.class));
+			this.addEffectPart(addAbilityToObject(CREATURES_YOU_CONTROL, Vigilance.class));
 		}
 	}
 

@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.Werewolves;
+import org.rnd.jmagic.abilities.keywords.FirstStrike;
 import org.rnd.jmagic.engine.*;
 
 @Name("Village Ironsmith")
@@ -19,10 +21,10 @@ public final class VillageIronsmith extends Card
 		this.setToughness(1);
 
 		// First strike
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.FirstStrike(state));
+		this.addAbility(new FirstStrike(state));
 
 		// At the beginning of each upkeep, if no spells were cast last turn,
 		// transform Village Ironsmith.
-		this.addAbility(new org.rnd.jmagic.abilities.Werewolves.BecomeFuzzy(state, this.getName()));
+		this.addAbility(new Werewolves.BecomeFuzzy(state, this.getName()));
 	}
 }

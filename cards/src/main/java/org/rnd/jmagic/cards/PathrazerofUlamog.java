@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Annihilator;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -34,7 +35,7 @@ public final class PathrazerofUlamog extends Card
 		this.setToughness(9);
 
 		// Annihilator 3
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Annihilator.Final(state, 3));
+		this.addAbility(new Annihilator.Final(state, 3));
 
 		// Pathrazer of Ulamog can't be blocked except by three or more
 		// creatures.

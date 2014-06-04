@@ -2,6 +2,8 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.FirstStrike;
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 
 @Name("Mantis Engine")
@@ -20,7 +22,7 @@ public final class MantisEngine extends Card
 
 			this.setManaCost(new ManaPool("2"));
 
-			this.addEffect(addAbilityUntilEndOfTurn(ABILITY_SOURCE_OF_THIS, org.rnd.jmagic.abilities.keywords.Flying.class, "Mantis Engine gains flying until end of turn"));
+			this.addEffect(addAbilityUntilEndOfTurn(ABILITY_SOURCE_OF_THIS, Flying.class, "Mantis Engine gains flying until end of turn"));
 		}
 	}
 
@@ -32,7 +34,7 @@ public final class MantisEngine extends Card
 
 			this.setManaCost(new ManaPool("2"));
 
-			this.addEffect(addAbilityUntilEndOfTurn(ABILITY_SOURCE_OF_THIS, org.rnd.jmagic.abilities.keywords.FirstStrike.class, "Mantis Engine gains first strike until end of turn"));
+			this.addEffect(addAbilityUntilEndOfTurn(ABILITY_SOURCE_OF_THIS, FirstStrike.class, "Mantis Engine gains first strike until end of turn"));
 		}
 	}
 

@@ -1,9 +1,14 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.Werewolves;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Name("Werewolf Ransacker")
 @Types({Type.CREATURE})
@@ -27,11 +32,11 @@ public final class WerewolfRansacker extends AlternateCard
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			MagicSet target = parameters.get(Parameter.TARGET);
 
-			java.util.Map<Parameter, MagicSet> destroyParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> destroyParameters = new HashMap<Parameter, MagicSet>();
 			destroyParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 			destroyParameters.put(Parameter.PERMANENT, target);
 			Event destroy = createEvent(game, "Destroy target artifact", EventType.DESTROY_PERMANENTS, destroyParameters);
@@ -40,7 +45,7 @@ public final class WerewolfRansacker extends AlternateCard
 			GameObject deadArtifact = game.actualState.get(target.getOne(GameObject.class).getActual().futureSelf);
 			if(deadArtifact.getZone().isGraveyard())
 			{
-				java.util.Map<Parameter, MagicSet> damageParameters = new java.util.HashMap<Parameter, MagicSet>();
+				Map<Parameter, MagicSet> damageParameters = new HashMap<Parameter, MagicSet>();
 				damageParameters.put(Parameter.CAUSE, parameters.get(Parameter.SOURCE));
 				damageParameters.put(Parameter.NUMBER, new MagicSet(3));
 				damageParameters.put(Parameter.TAKER, parameters.get(Parameter.CONTROLLER));
@@ -90,6 +95,6 @@ public final class WerewolfRansacker extends AlternateCard
 
 		// At the beginning of each upkeep, if a player cast two or more spells
 		// last turn, transform Werewolf Ransacker.
-		this.addAbility(new org.rnd.jmagic.abilities.Werewolves.BecomeHuman(state, this.getName()));
+		this.addAbility(new Werewolves.BecomeHuman(state, this.getName()));
 	}
 }

@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Intimidate;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -37,7 +39,7 @@ public final class SepulchralPrimordial extends Card
 		this.setToughness(4);
 
 		// Intimidate
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Intimidate(state));
+		this.addAbility(new Intimidate(state));
 
 		// When Sepulchral Primordial enters the battlefield, for each opponent,
 		// you may put up to one target creature card from that player's

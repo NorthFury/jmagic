@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Reach;
 import org.rnd.jmagic.engine.*;
 
 @Name("Sporecap Spider")
@@ -18,6 +19,6 @@ public final class SporecapSpider extends Card
 		this.setToughness(5);
 
 		// Reach (This creature can block creatures with flying.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Reach(state));
+		this.addAbility(new Reach(state));
 	}
 }

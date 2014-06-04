@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.CostsYouLessToCast;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -19,6 +20,6 @@ public final class BoskBanneret extends Card
 		this.setToughness(3);
 
 		// Treefolk spells and Shaman spells you cast cost (1) less to cast.
-		this.addAbility(new org.rnd.jmagic.abilities.CostsYouLessToCast(state, HasSubType.instance(SubType.TREEFOLK, SubType.SHAMAN), "(1)", "Treefolk spells and Shaman spells you cast cost (1) less to cast."));
+		this.addAbility(new CostsYouLessToCast(state, HasSubType.instance(SubType.TREEFOLK, SubType.SHAMAN), "(1)", "Treefolk spells and Shaman spells you cast cost (1) less to cast."));
 	}
 }

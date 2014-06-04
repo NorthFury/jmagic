@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Affinity;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -16,7 +18,7 @@ public final class Thoughtcast extends Card
 		super(state);
 
 		// Affinity for artifacts
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Affinity.ForArtifacts(state));
+		this.addAbility(new Affinity.ForArtifacts(state));
 
 		// Draw two cards.
 		this.addEffect(drawCards(You.instance(), 2, "Draw two cards."));

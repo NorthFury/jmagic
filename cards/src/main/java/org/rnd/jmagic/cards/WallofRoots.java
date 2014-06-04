@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Defender;
 import org.rnd.jmagic.engine.*;
 
 @Name("Wall of Roots")
@@ -30,7 +32,7 @@ public final class WallofRoots extends Card
 		this.setToughness(5);
 
 		// Defender
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Defender(state));
+		this.addAbility(new Defender(state));
 
 		// Put a -0/-1 counter on Wall of Roots: Add (G) to your mana pool.
 		// Activate this ability only once each turn.

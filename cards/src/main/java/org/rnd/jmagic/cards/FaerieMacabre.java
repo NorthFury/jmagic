@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -39,7 +41,7 @@ public final class FaerieMacabre extends Card
 		this.setToughness(2);
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// Discard Faerie Macabre: Exile up to two target cards from graveyards.
 		this.addAbility(new FaerieMacabreAbility1(state));

@@ -2,8 +2,12 @@ package org.rnd.jmagic.testing;
 
 import org.junit.*;
 import static org.junit.Assert.*;
+
+import org.rnd.jmagic.abilities.TapFor1;
+import org.rnd.jmagic.abilities.keywords.Equip;
 import org.rnd.jmagic.cards.*;
 import org.rnd.jmagic.engine.*;
+import org.rnd.jmagic.engine.gameTypes.CardPool;
 
 public class PermissionsTest extends JUnitTest
 {
@@ -22,13 +26,13 @@ public class PermissionsTest extends JUnitTest
 		castAndResolveSpell(Squallmonger.class);
 
 		// Player 0
-		respondWith(getAbilityAction(org.rnd.jmagic.cards.Squallmonger.SquallmongerAbility0.class));
+		respondWith(getAbilityAction(Squallmonger.SquallmongerAbility0.class));
 		addMana("2");
 		donePlayingManaAbilities();
 		pass();
 
 		// Player 1
-		respondWith(getAbilityAction(org.rnd.jmagic.cards.Squallmonger.SquallmongerAbility0.class));
+		respondWith(getAbilityAction(Squallmonger.SquallmongerAbility0.class));
 		addMana("2");
 		donePlayingManaAbilities();
 		pass();
@@ -66,7 +70,7 @@ public class PermissionsTest extends JUnitTest
 		assertEquals(2, this.game.actualState.battlefield().objects.get(1).getPower());
 		assertEquals(5, this.choices.size());
 
-		respondWith(getAbilityAction(org.rnd.jmagic.abilities.keywords.Equip.EquipAbility.class));
+		respondWith(getAbilityAction(Equip.EquipAbility.class));
 		addMana("2");
 		donePlayingManaAbilities();
 		pass();
@@ -372,7 +376,7 @@ public class PermissionsTest extends JUnitTest
 		// Nimbus1
 		assertEquals(1, this.choices.size());
 
-		respondWith(getAbilityAction(org.rnd.jmagic.abilities.TapFor1.class));
+		respondWith(getAbilityAction(TapFor1.class));
 
 		assertEquals(1, player(1).pool.converted());
 		assertEquals(1, player(1).pool.toArray(new ManaSymbol[0])[0].colorless);
@@ -444,7 +448,7 @@ public class PermissionsTest extends JUnitTest
 		// Nimbus1 x 2
 		assertEquals(2, this.choices.size());
 
-		respondWith(getAbilityAction(org.rnd.jmagic.abilities.TapFor1.class));
+		respondWith(getAbilityAction(TapFor1.class));
 
 		assertEquals(1, player(1).pool.converted());
 		assertTrue(player(1).pool.toArray(new ManaSymbol[0])[0].name.equals("(1)"));
@@ -490,7 +494,7 @@ public class PermissionsTest extends JUnitTest
 	public void pithingNeedle()
 	{
 		GameType gameType = new GameType();
-		gameType.addRule(new org.rnd.jmagic.engine.gameTypes.CardPool()
+		gameType.addRule(new CardPool()
 		{
 			{
 				this.allowSet(Expansion.TENTH_EDITION);

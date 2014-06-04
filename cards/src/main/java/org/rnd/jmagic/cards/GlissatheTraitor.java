@@ -1,8 +1,12 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Deathtouch;
+import org.rnd.jmagic.abilities.keywords.FirstStrike;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+import org.rnd.jmagic.engine.patterns.SimpleZoneChangePattern;
 
 @Name("Glissa, the Traitor")
 @SuperTypes({SuperType.LEGENDARY})
@@ -18,7 +22,7 @@ public final class GlissatheTraitor extends Card
 		public GlissatheTraitorAbility1(GameState state)
 		{
 			super(state, "Whenever a creature an opponent controls dies, you may return target artifact card from your graveyard to your hand.");
-			this.addPattern(new org.rnd.jmagic.engine.patterns.SimpleZoneChangePattern(Battlefield.instance(), GraveyardOf.instance(Players.instance()), Intersect.instance(CreaturePermanents.instance(), ControlledBy.instance(OpponentsOf.instance(You.instance()))), true));
+			this.addPattern(new SimpleZoneChangePattern(Battlefield.instance(), GraveyardOf.instance(Players.instance()), Intersect.instance(CreaturePermanents.instance(), ControlledBy.instance(OpponentsOf.instance(You.instance()))), true));
 
 			SetGenerator target = targetedBy(this.addTarget(Intersect.instance(HasType.instance(Type.ARTIFACT), InZone.instance(GraveyardOf.instance(You.instance()))), "target artifact card in your graveyard"));
 
@@ -38,8 +42,8 @@ public final class GlissatheTraitor extends Card
 		this.setToughness(3);
 
 		// First strike, deathtouch
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.FirstStrike(state));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Deathtouch(state));
+		this.addAbility(new FirstStrike(state));
+		this.addAbility(new Deathtouch(state));
 
 		// Whenever a creature an opponent controls is put into a graveyard from
 		// the battlefield, you may return target artifact card from your

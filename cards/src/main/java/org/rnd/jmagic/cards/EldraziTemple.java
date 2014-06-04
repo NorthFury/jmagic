@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.TapFor1;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -37,7 +39,7 @@ public final class EldraziTemple extends Card
 		super(state);
 
 		// (T): Add (1) to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapFor1(state));
+		this.addAbility(new TapFor1(state));
 
 		// (T): Add (2) to your mana pool. Spend this mana only to cast
 		// colorless Eldrazi spells or activate abilities of colorless Eldrazi.

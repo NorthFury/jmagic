@@ -2,6 +2,8 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Cycling;
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -19,7 +21,7 @@ public final class DeadshotMinotaur extends Card
 		{
 			super(state, "When Deadshot Minotaur enters the battlefield, it deals 3 damage to target creature with flying.");
 			this.addPattern(whenThisEntersTheBattlefield());
-			Target target = this.addTarget(Intersect.instance(CreaturePermanents.instance(), HasKeywordAbility.instance(org.rnd.jmagic.abilities.keywords.Flying.class)), "target creature with flying");
+			Target target = this.addTarget(Intersect.instance(CreaturePermanents.instance(), HasKeywordAbility.instance(Flying.class)), "target creature with flying");
 			this.addEffect(permanentDealDamage(3, targetedBy(target), "Deadshot Minotaur deals 3 damage to target creature with flying."));
 		}
 	}
@@ -33,6 +35,6 @@ public final class DeadshotMinotaur extends Card
 
 		this.addAbility(new ClayPigeon(state));
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Cycling(state, "(RG)"));
+		this.addAbility(new Cycling(state, "(RG)"));
 	}
 }

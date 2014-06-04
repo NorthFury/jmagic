@@ -3,6 +3,7 @@ package org.rnd.jmagic.cards;
 import static org.rnd.jmagic.Convenience.*;
 
 import org.rnd.jmagic.abilities.*;
+import org.rnd.jmagic.abilities.keywords.Protection;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -43,7 +44,7 @@ public final class BurrentonForgeTender extends Card
 		this.setToughness(1);
 
 		// Protection from red
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Protection.FromRed(state));
+		this.addAbility(new Protection.FromRed(state));
 
 		// Sacrifice Burrenton Forge-Tender: Prevent all damage a red source of
 		// your choice would deal this turn.

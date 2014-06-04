@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.CantBlock;
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 
 @Name("Nightshade Stinger")
@@ -18,9 +20,9 @@ public final class NightshadeStinger extends Card
 		this.setToughness(1);
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// Nightshade Stinger can't block.
-		this.addAbility(new org.rnd.jmagic.abilities.CantBlock(state, this.getName()));
+		this.addAbility(new CantBlock(state, this.getName()));
 	}
 }

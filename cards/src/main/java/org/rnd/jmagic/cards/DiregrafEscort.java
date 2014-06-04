@@ -1,5 +1,8 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.AbilityIfPaired;
+import org.rnd.jmagic.abilities.keywords.Protection;
+import org.rnd.jmagic.abilities.keywords.Soulbond;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -11,7 +14,7 @@ import org.rnd.jmagic.engine.generators.*;
 @ColorIdentity({Color.GREEN})
 public final class DiregrafEscort extends Card
 {
-	public static final class ProtectionFromZombies extends org.rnd.jmagic.abilities.keywords.Protection
+	public static final class ProtectionFromZombies extends Protection
 	{
 		public ProtectionFromZombies(GameState state)
 		{
@@ -29,10 +32,10 @@ public final class DiregrafEscort extends Card
 		// Soulbond (You may pair this creature with another unpaired creature
 		// when either enters the battlefield. They remain paired for as long as
 		// you control both of them.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Soulbond(state));
+		this.addAbility(new Soulbond(state));
 
 		// As long as Diregraf Escort is paired with another creature, both
 		// creatures have protection from Zombies.
-		this.addAbility(new org.rnd.jmagic.abilities.AbilityIfPaired.Final(state, "As long as Diregraf Escort is paired with another creature, both creatures have protection from Zombies.", ProtectionFromZombies.class));
+		this.addAbility(new AbilityIfPaired.Final(state, "As long as Diregraf Escort is paired with another creature, both creatures have protection from Zombies.", ProtectionFromZombies.class));
 	}
 }

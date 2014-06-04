@@ -1,5 +1,7 @@
 package org.rnd.jmagic.engine;
 
+import org.rnd.jmagic.Convenience;
+
 /**
  * A class must extend Identified and be referred to by ID if it meets the
  * following criteria:
@@ -125,7 +127,7 @@ abstract public class Identified implements Cloneable, Comparable<Identified>
 	{
 		if(this.name == null)
 		{
-			this.name = org.rnd.jmagic.Convenience.getName(this.getClass());
+			this.name = Convenience.getName(this.getClass());
 			if(this.name == null)
 				throw new ClassFormatError("Class is missing @Name annotation or call to setName(String): " + this.getClass().getName());
 		}

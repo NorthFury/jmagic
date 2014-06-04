@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Haste;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -23,7 +25,7 @@ public final class AssembletheLegion extends Card
 			CreateTokensFactory factory = new CreateTokensFactory(Count.instance(CountersOn.instance(ABILITY_SOURCE_OF_THIS, Counter.CounterType.MUSTER)), numberGenerator(1), numberGenerator(1), "Then put a 1/1 red and white Soldier creature token with haste onto the battlefield for each muster counter on Assemble the Legion.");
 			factory.setColors(Color.RED, Color.WHITE);
 			factory.setSubTypes(SubType.SOLDIER);
-			factory.addAbility(org.rnd.jmagic.abilities.keywords.Haste.class);
+			factory.addAbility(Haste.class);
 			this.addEffect(factory.getEventFactory());
 		}
 	}

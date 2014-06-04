@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.FirstStrike;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -37,7 +38,7 @@ public final class VampireHexmage extends Card
 		this.setToughness(1);
 
 		// First strike
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.FirstStrike(state));
+		this.addAbility(new FirstStrike(state));
 
 		// Sacrifice Vampire Hexmage: Remove all counters from target permanent.
 		this.addAbility(new TriggerDarkDepths(state));

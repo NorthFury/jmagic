@@ -3,6 +3,7 @@ package org.rnd.jmagic.cards;
 import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+import org.rnd.util.NumberRange;
 
 @Name("Ghoulcaller's Chant")
 @Types({Type.SORCERY})
@@ -14,7 +15,7 @@ public final class GhoulcallersChant extends Card
 	public GhoulcallersChant(GameState state)
 	{
 		super(state);
-		this.setNumModes(new MagicSet(new org.rnd.util.NumberRange(1, 1)));
+		this.setNumModes(new MagicSet(new NumberRange(1, 1)));
 
 		SetGenerator graveyard = GraveyardOf.instance(You.instance());
 		SetGenerator hand = HandOf.instance(You.instance());

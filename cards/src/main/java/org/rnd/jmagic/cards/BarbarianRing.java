@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.TapForManaPain;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -30,7 +32,7 @@ public final class BarbarianRing extends Card
 		super(state);
 
 		// (T): Add (R) to your mana pool. Barbarian Ring deals 1 damage to you.
-		this.addAbility(new org.rnd.jmagic.abilities.TapForManaPain(state, this.getName(), "R"));
+		this.addAbility(new TapForManaPain(state, this.getName(), "R"));
 
 		// Threshold \u2014 (R), (T), Sacrifice Barbarian Ring: Barbarian Ring
 		// deals 2 damage to target creature or player. Activate this ability

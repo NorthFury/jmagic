@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.AlternateCost;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -25,7 +27,7 @@ public final class Misdirection extends Card
 
 		CostCollection altCost = new CostCollection(CostCollection.TYPE_ALTERNATE, exileFactory);
 
-		this.addAbility(new org.rnd.jmagic.abilities.AlternateCost(state, "You may exile a blue card from your hand rather than pay Misdirection's mana cost.", altCost));
+		this.addAbility(new AlternateCost(state, "You may exile a blue card from your hand rather than pay Misdirection's mana cost.", altCost));
 
 		// Change the target of target spell with a single target.
 		Target target = this.addTarget(Intersect.instance(Spells.instance(), HasOneTarget.instance()), "target spell with a single target");

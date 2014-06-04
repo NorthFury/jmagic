@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flashback;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -40,6 +42,6 @@ public final class ForbiddenAlchemy extends Card
 
 		// Flashback (6)(B) (You may cast this card from your graveyard for its
 		// flashback cost. Then exile it.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flashback(state, "(6)(B)"));
+		this.addAbility(new Flashback(state, "(6)(B)"));
 	}
 }

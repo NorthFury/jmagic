@@ -7,6 +7,9 @@ import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.sanitized.*;
 import org.rnd.jmagic.testing.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class HailofArrowsTest extends JUnitTest
 {
 	@Test
@@ -168,7 +171,7 @@ public class HailofArrowsTest extends JUnitTest
 		// Target #1
 		this.respondWith(this.getTarget(ragingGoblinA), this.getTarget(ragingGoblinB), this.getTarget(ragingGoblinC), this.getTarget(ragingGoblinD), this.getTarget(ragingGoblinE));
 
-		java.util.Map<Integer, Integer> divisions = new java.util.HashMap<Integer, Integer>();
+		Map<Integer, Integer> divisions = new HashMap<Integer, Integer>();
 		divisions.put(ragingGoblinA.ID, 4);
 		divisions.put(ragingGoblinB.ID, 3);
 		divisions.put(ragingGoblinC.ID, 3);

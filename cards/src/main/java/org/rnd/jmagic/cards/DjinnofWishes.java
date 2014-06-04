@@ -2,8 +2,13 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.EntersTheBattlefieldWithCounters;
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Name("Djinn of Wishes")
 @Types({Type.CREATURE})
@@ -30,13 +35,13 @@ public final class DjinnofWishes extends Card
 			}
 
 			@Override
-			public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+			public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 			{
 				MagicSet cause = parameters.get(EventType.Parameter.CAUSE);
 				MagicSet object = parameters.get(EventType.Parameter.OBJECT);
 				MagicSet player = parameters.get(EventType.Parameter.PLAYER);
 
-				java.util.Map<EventType.Parameter, MagicSet> revealParameters = new java.util.HashMap<EventType.Parameter, MagicSet>();
+				Map<EventType.Parameter, MagicSet> revealParameters = new HashMap<EventType.Parameter, MagicSet>();
 				revealParameters.put(EventType.Parameter.CAUSE, cause);
 				revealParameters.put(EventType.Parameter.OBJECT, object);
 				Event revealEvent = createEvent(game, "Reveal the top card of your library.", EventType.REVEAL, revealParameters);
@@ -60,7 +65,7 @@ public final class DjinnofWishes extends Card
 				exileFactory.parameters.put(EventType.Parameter.OBJECT, Identity.instance(object));
 				MagicSet exileEvent = new MagicSet(exileFactory);
 
-				java.util.Map<EventType.Parameter, MagicSet> ifParameters = new java.util.HashMap<EventType.Parameter, MagicSet>();
+				Map<EventType.Parameter, MagicSet> ifParameters = new HashMap<EventType.Parameter, MagicSet>();
 				ifParameters.put(EventType.Parameter.IF, mayEvent);
 				ifParameters.put(EventType.Parameter.ELSE, exileEvent);
 				Event ifEvent = createEvent(game, "You may play that card without paying its mana cost. If you don't, exile it.", EventType.IF_EVENT_THEN_ELSE, ifParameters);
@@ -100,8 +105,8 @@ public final class DjinnofWishes extends Card
 		this.setPower(4);
 		this.setToughness(4);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
-		this.addAbility(new org.rnd.jmagic.abilities.EntersTheBattlefieldWithCounters(state, this.getName(), 3, Counter.CounterType.WISH));
+		this.addAbility(new Flying(state));
+		this.addAbility(new EntersTheBattlefieldWithCounters(state, this.getName(), 3, Counter.CounterType.WISH));
 		this.addAbility(new Wish(state));
 	}
 }

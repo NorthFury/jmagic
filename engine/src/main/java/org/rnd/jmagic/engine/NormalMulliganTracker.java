@@ -1,24 +1,26 @@
 package org.rnd.jmagic.engine;
 
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
 public class NormalMulliganTracker extends Tracker<Set<Integer>>
 {
-	private java.util.HashSet<Integer> IDs = new java.util.HashSet<Integer>();
-	private java.util.Set<Integer> unmodifiable = java.util.Collections.unmodifiableSet(this.IDs);
+	private HashSet<Integer> IDs = new HashSet<Integer>();
+	private Set<Integer> unmodifiable = Collections.unmodifiableSet(this.IDs);
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public NormalMulliganTracker clone()
 	{
 		NormalMulliganTracker ret = (NormalMulliganTracker)super.clone();
-		ret.IDs = (java.util.HashSet<Integer>)this.IDs.clone();
-		ret.unmodifiable = java.util.Collections.unmodifiableSet(ret.IDs);
+		ret.IDs = (HashSet<Integer>)this.IDs.clone();
+		ret.unmodifiable = Collections.unmodifiableSet(ret.IDs);
 		return ret;
 	}
 
 	@Override
-	protected java.util.Set<Integer> getValueInternal()
+	protected Set<Integer> getValueInternal()
 	{
 		return this.unmodifiable;
 	}

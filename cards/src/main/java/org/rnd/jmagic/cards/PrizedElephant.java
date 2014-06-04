@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -28,7 +30,7 @@ public final class PrizedElephant extends Card
 		{
 			super(state, "(G): Prized Elephant gains trample until end of turn.");
 			this.setManaCost(new ManaPool("(G)"));
-			this.addEffect(addAbilityUntilEndOfTurn(ABILITY_SOURCE_OF_THIS, org.rnd.jmagic.abilities.keywords.Trample.class, "Prized Elephant gains trample until end of turn."));
+			this.addEffect(addAbilityUntilEndOfTurn(ABILITY_SOURCE_OF_THIS, Trample.class, "Prized Elephant gains trample until end of turn."));
 		}
 	}
 

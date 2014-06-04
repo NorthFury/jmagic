@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Haste;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -31,6 +32,6 @@ public final class MarkofMutiny extends Card
 		this.addEffect(untap(targetedBy(target), "and untap it."));
 
 		// That creature gains haste until end of turn.
-		this.addEffect(addAbilityUntilEndOfTurn(targetedBy(target), org.rnd.jmagic.abilities.keywords.Haste.class, "That creature gains haste until end of turn."));
+		this.addEffect(addAbilityUntilEndOfTurn(targetedBy(target), Haste.class, "That creature gains haste until end of turn."));
 	}
 }

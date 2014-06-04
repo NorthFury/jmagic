@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.TapForG;
 import org.rnd.jmagic.engine.*;
 
 @Name("Tree of Tales")
@@ -11,6 +12,6 @@ public final class TreeofTales extends Card
 	public TreeofTales(GameState state)
 	{
 		super(state);
-		this.addAbility(new org.rnd.jmagic.abilities.TapForG(state));
+		this.addAbility(new TapForG(state));
 	}
 }

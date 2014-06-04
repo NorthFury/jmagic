@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -32,7 +34,7 @@ public final class AncientHellkite extends Card
 		this.setToughness(6);
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// (R): Ancient Hellkite deals 1 damage to target creature defending
 		// player controls. Activate this ability only if Ancient Hellkite is

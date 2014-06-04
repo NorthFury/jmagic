@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Lifelink;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -19,7 +21,7 @@ public final class AlmsBeast extends Card
 			super(state, "Creatures blocking or blocked by Alms Beast have lifelink.");
 
 			SetGenerator creatures = Union.instance(Blocking.instance(This.instance()), BlockedBy.instance(This.instance()));
-			this.addEffectPart(addAbilityToObject(creatures, org.rnd.jmagic.abilities.keywords.Lifelink.class));
+			this.addEffectPart(addAbilityToObject(creatures, Lifelink.class));
 		}
 	}
 

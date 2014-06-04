@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Shroud;
 import org.rnd.jmagic.engine.*;
 
 @Name("Pincher Beetles")
@@ -17,6 +18,6 @@ public final class PincherBeetles extends Card
 		this.setPower(3);
 		this.setToughness(1);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Shroud(state));
+		this.addAbility(new Shroud(state));
 	}
 }

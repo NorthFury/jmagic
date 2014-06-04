@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Annihilator;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -50,7 +52,7 @@ public final class SpawnsireofUlamog extends Card
 
 		// Annihilator 1 (Whenever this creature attacks, defending player
 		// sacrifices a permanent.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Annihilator.Final(state, 1));
+		this.addAbility(new Annihilator.Final(state, 1));
 
 		// (4): Put two 0/1 colorless Eldrazi Spawn creature tokens onto the
 		// battlefield. They have

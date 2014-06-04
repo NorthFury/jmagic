@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.AllSliverCreaturesHave;
+import org.rnd.jmagic.abilities.keywords.Vigilance;
 import org.rnd.jmagic.engine.*;
 
 @Name("Synchronous Sliver")
@@ -18,6 +20,6 @@ public final class SynchronousSliver extends Card
 		this.setToughness(3);
 
 		// All Sliver creatures have vigilance.
-		this.addAbility(new org.rnd.jmagic.abilities.AllSliverCreaturesHave(state, org.rnd.jmagic.abilities.keywords.Vigilance.class, "All Sliver creatures have vigilance."));
+		this.addAbility(new AllSliverCreaturesHave(state, Vigilance.class, "All Sliver creatures have vigilance."));
 	}
 }

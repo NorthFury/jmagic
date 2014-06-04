@@ -2,8 +2,12 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.CumulativeUpkeep;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+
+import java.util.LinkedList;
+import java.util.List;
 
 @Name("Glacial Chasm")
 @Types({Type.LAND})
@@ -53,10 +57,10 @@ public final class GlacialChasm extends Card
 		}
 
 		@Override
-		public java.util.List<EventFactory> prevent(DamageAssignment.Batch damageAssignments)
+		public List<EventFactory> prevent(DamageAssignment.Batch damageAssignments)
 		{
 			damageAssignments.clear();
-			return new java.util.LinkedList<EventFactory>();
+			return new LinkedList<EventFactory>();
 		}
 	}
 
@@ -70,7 +74,7 @@ public final class GlacialChasm extends Card
 		}
 	}
 
-	public static final class CumulativeUpkeepPay2Life extends org.rnd.jmagic.abilities.keywords.CumulativeUpkeep
+	public static final class CumulativeUpkeepPay2Life extends CumulativeUpkeep
 	{
 		public CumulativeUpkeepPay2Life(GameState state)
 		{

@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Hexproof;
 import org.rnd.jmagic.engine.*;
 
 @Name("Plated Slagwurm")
@@ -17,6 +18,6 @@ public final class PlatedSlagwurm extends Card
 		this.setPower(8);
 		this.setToughness(8);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Hexproof(state));
+		this.addAbility(new Hexproof(state));
 	}
 }

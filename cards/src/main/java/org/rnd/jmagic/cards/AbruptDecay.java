@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.CantBeCountered;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -16,7 +18,7 @@ public final class AbruptDecay extends Card
 		super(state);
 
 		// Abrupt Decay can't be countered by spells or abilities.
-		this.addAbility(new org.rnd.jmagic.abilities.CantBeCountered(state, "Abrupt Decay", true));
+		this.addAbility(new CantBeCountered(state, "Abrupt Decay", true));
 
 		// Destroy target nonland permanent with converted mana cost 3 or less.
 		SetGenerator nonlandPermanent = RelativeComplement.instance(Permanents.instance(), HasType.instance(Type.LAND));

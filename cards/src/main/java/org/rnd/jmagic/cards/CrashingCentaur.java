@@ -2,6 +2,8 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Shroud;
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -23,7 +25,7 @@ public final class CrashingCentaur extends Card
 
 			this.addCost(discardCards(You.instance(), 1, "Discard a card"));
 
-			this.addEffect(addAbilityUntilEndOfTurn(ABILITY_SOURCE_OF_THIS, org.rnd.jmagic.abilities.keywords.Trample.class, "Crashing Centaur gains trample until end of turn."));
+			this.addEffect(addAbilityUntilEndOfTurn(ABILITY_SOURCE_OF_THIS, Trample.class, "Crashing Centaur gains trample until end of turn."));
 		}
 	}
 
@@ -35,7 +37,7 @@ public final class CrashingCentaur extends Card
 
 			this.addEffectPart(modifyPowerAndToughness(This.instance(), +2, +2));
 
-			this.addEffectPart(addAbilityToObject(This.instance(), org.rnd.jmagic.abilities.keywords.Shroud.class));
+			this.addEffectPart(addAbilityToObject(This.instance(), Shroud.class));
 
 			this.canApply = Both.instance(this.canApply, Threshold.instance());
 		}

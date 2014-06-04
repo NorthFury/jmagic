@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flashback;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -20,6 +22,6 @@ public final class ArtfulDodge extends Card
 		this.addEffect(createFloatingEffect("Target creature is unblockable this turn.", unblockable(target)));
 
 		// Flashback (U)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flashback(state, "(U)"));
+		this.addAbility(new Flashback(state, "(U)"));
 	}
 }

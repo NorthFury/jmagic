@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Infect;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -23,7 +25,7 @@ public final class BurntheImpure extends Card
 		// If that creature has infect, Burn the Impure deals 3 damage to that
 		// creature's controller.
 		EventFactory factory = new EventFactory(EventType.IF_CONDITION_THEN_ELSE, "If that creature has infect, Burn the Impure deals 3 damage to that creature's controller.");
-		factory.parameters.put(EventType.Parameter.IF, Intersect.instance(target, HasKeywordAbility.instance(org.rnd.jmagic.abilities.keywords.Infect.class)));
+		factory.parameters.put(EventType.Parameter.IF, Intersect.instance(target, HasKeywordAbility.instance(Infect.class)));
 		factory.parameters.put(EventType.Parameter.THEN, Identity.instance(spellDealDamage(3, ControllerOf.instance(target), "Burn the Impure deals 3 damage to that creature's controller.")));
 		this.addEffect(factory);
 	}

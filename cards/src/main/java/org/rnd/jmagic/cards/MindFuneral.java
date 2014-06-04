@@ -4,6 +4,10 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.Iterator;
+import java.util.SortedMap;
+import java.util.TreeMap;
+
 @Name("Mind Funeral")
 @Types({Type.SORCERY})
 @ManaCost("1UB")
@@ -36,7 +40,7 @@ public final class MindFuneral extends Card
 
 			for(Zone zone: this.zones.evaluate(state, thisObject).getAll(Zone.class))
 			{
-				java.util.SortedMap<Integer, GameObject> tree = new java.util.TreeMap<Integer, GameObject>();
+				SortedMap<Integer, GameObject> tree = new TreeMap<Integer, GameObject>();
 
 				for(int i = 0; i < zone.objects.size(); ++i)
 				{
@@ -47,7 +51,7 @@ public final class MindFuneral extends Card
 
 				if(tree.size() >= 4)
 				{
-					java.util.Iterator<GameObject> iter = tree.values().iterator();
+					Iterator<GameObject> iter = tree.values().iterator();
 
 					for(int i = 0; i < 3; ++i)
 						iter.next();

@@ -1,6 +1,10 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Equip;
+import org.rnd.jmagic.abilities.keywords.Haste;
+import org.rnd.jmagic.abilities.keywords.Hexproof;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -17,7 +21,7 @@ public final class SwiftfootBoots extends Card
 		public SwiftfootBootsAbility0(GameState state)
 		{
 			super(state, "Equipped creature has hexproof and haste.");
-			this.addEffectPart(addAbilityToObject(EquippedBy.instance(This.instance()), org.rnd.jmagic.abilities.keywords.Hexproof.class, org.rnd.jmagic.abilities.keywords.Haste.class));
+			this.addEffectPart(addAbilityToObject(EquippedBy.instance(This.instance()), Hexproof.class, Haste.class));
 		}
 	}
 
@@ -32,6 +36,6 @@ public final class SwiftfootBoots extends Card
 
 		// Equip (1) ((1): Attach to target creature you control. Equip only as
 		// a sorcery.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Equip(state, "(1)"));
+		this.addAbility(new Equip(state, "(1)"));
 	}
 }

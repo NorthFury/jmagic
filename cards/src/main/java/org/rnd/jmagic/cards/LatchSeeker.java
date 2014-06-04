@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.Unblockable;
 import org.rnd.jmagic.engine.*;
 
 @Name("Latch Seeker")
@@ -18,6 +19,6 @@ public final class LatchSeeker extends Card
 		this.setToughness(1);
 
 		// Latch Seeker is unblockable.
-		this.addAbility(new org.rnd.jmagic.abilities.Unblockable(state, this.getName()));
+		this.addAbility(new Unblockable(state, this.getName()));
 	}
 }

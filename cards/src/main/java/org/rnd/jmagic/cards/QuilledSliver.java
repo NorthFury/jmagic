@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.AllSliversHave;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -36,6 +38,6 @@ public final class QuilledSliver extends Card
 
 		// All Slivers have
 		// "(T): This permanent deals 1 damage to target attacking or blocking creature."
-		this.addAbility(new org.rnd.jmagic.abilities.AllSliversHave(state, SliverPing.class, "All Slivers have \"(T): This permanent deals 1 damage to target attacking or blocking creature.\""));
+		this.addAbility(new AllSliversHave(state, SliverPing.class, "All Slivers have \"(T): This permanent deals 1 damage to target attacking or blocking creature.\""));
 	}
 }

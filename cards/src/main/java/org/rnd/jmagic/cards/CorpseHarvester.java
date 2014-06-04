@@ -4,6 +4,9 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Name("Corpse Harvester")
 @Types({Type.CREATURE})
 @SubTypes({SubType.ZOMBIE, SubType.WIZARD})
@@ -25,7 +28,7 @@ public final class CorpseHarvester extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			event.setResult(Empty.set);
 
@@ -33,7 +36,7 @@ public final class CorpseHarvester extends Card
 			Player you = parameters.get(Parameter.PLAYER).getOne(Player.class);
 			Zone library = you.getLibrary(game.actualState);
 
-			java.util.Map<Parameter, MagicSet> zombieParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> zombieParameters = new HashMap<Parameter, MagicSet>();
 			zombieParameters.put(Parameter.CAUSE, cause);
 			zombieParameters.put(Parameter.PLAYER, new MagicSet(you));
 			zombieParameters.put(Parameter.NUMBER, ONE);
@@ -42,7 +45,7 @@ public final class CorpseHarvester extends Card
 			Event zombieSearch = createEvent(game, "Search your library for a Zombie card", SEARCH, zombieParameters);
 			zombieSearch.perform(event, false);
 
-			java.util.Map<Parameter, MagicSet> swampParameters = new java.util.HashMap<Parameter, MagicSet>(zombieParameters);
+			Map<Parameter, MagicSet> swampParameters = new HashMap<Parameter, MagicSet>(zombieParameters);
 			swampParameters.put(Parameter.TYPE, new MagicSet(HasSubType.instance(SubType.SWAMP)));
 			Event swampSearch = createEvent(game, "Search your library for a Swamp card", SEARCH, swampParameters);
 			swampSearch.perform(event, false);
@@ -51,14 +54,14 @@ public final class CorpseHarvester extends Card
 			thoseCards.addAll(zombieSearch.getResult());
 			thoseCards.addAll(swampSearch.getResult());
 
-			java.util.Map<Parameter, MagicSet> moveParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> moveParameters = new HashMap<Parameter, MagicSet>();
 			moveParameters.put(Parameter.CAUSE, cause);
 			moveParameters.put(Parameter.TO, new MagicSet(you.getHand(game.actualState)));
 			moveParameters.put(Parameter.OBJECT, thoseCards);
 			Event move = createEvent(game, "Put those cards into your hand", MOVE_OBJECTS, moveParameters);
 			move.perform(event, true);
 
-			java.util.Map<Parameter, MagicSet> shuffleParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> shuffleParameters = new HashMap<Parameter, MagicSet>();
 			shuffleParameters.put(Parameter.CAUSE, cause);
 			shuffleParameters.put(Parameter.PLAYER, new MagicSet(you));
 			Event shuffle = createEvent(game, "Shuffle your library", SHUFFLE_LIBRARY, shuffleParameters);

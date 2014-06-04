@@ -3,6 +3,12 @@ package org.rnd.jmagic.engine.eventTypes;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 public final class CreateTokenOnBattlefield extends EventType
 {	public static final EventType INSTANCE = new CreateTokenOnBattlefield();
 
@@ -18,7 +24,7 @@ public final class CreateTokenOnBattlefield extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		MagicSet newObjects = new MagicSet();
 
@@ -30,12 +36,12 @@ public final class CreateTokenOnBattlefield extends EventType
 		if(parameters.containsKey(Parameter.NUMBER))
 			number = Sum.get(parameters.get(Parameter.NUMBER));
 
-		java.util.Set<SuperType> superTypes = null;
+		Set<SuperType> superTypes = null;
 		Integer power = null;
 		Integer toughness = null;
-		java.util.Set<Color> colors = null;
-		java.util.List<SubType> subTypes = null;
-		java.util.Set<Type> types = parameters.get(Parameter.TYPE).getAll(Type.class);
+		Set<Color> colors = null;
+		List<SubType> subTypes = null;
+		Set<Type> types = parameters.get(Parameter.TYPE).getAll(Type.class);
 		MagicSet abilities = null;
 		String name = null;
 
@@ -47,11 +53,11 @@ public final class CreateTokenOnBattlefield extends EventType
 
 		if(parameters.containsKey(Parameter.SUBTYPE))
 		{
-			subTypes = new java.util.LinkedList<SubType>();
+			subTypes = new LinkedList<SubType>();
 			// Run all the sub-types through an Identity to make sure
 			// text-change effects apply correctly
 			// TODO: find a better way to make this work
-			for(Object o: parameters.get(Parameter.SUBTYPE).getOne(java.util.List.class))
+			for(Object o: parameters.get(Parameter.SUBTYPE).getOne(List.class))
 				subTypes.add(Identity.instance(o).evaluate(game, event.getSource()).getOne(SubType.class));
 		}
 
@@ -108,7 +114,7 @@ public final class CreateTokenOnBattlefield extends EventType
 			name = nameBuilder.toString();
 		}
 
-		java.util.Map<Parameter, MagicSet> tokenParameters = new java.util.HashMap<Parameter, MagicSet>();
+		Map<Parameter, MagicSet> tokenParameters = new HashMap<Parameter, MagicSet>();
 		tokenParameters.put(EventType.Parameter.ABILITY, abilities);
 		tokenParameters.put(EventType.Parameter.NAME, new MagicSet(name));
 		tokenParameters.put(EventType.Parameter.NUMBER, new MagicSet(number));
@@ -140,7 +146,7 @@ public final class CreateTokenOnBattlefield extends EventType
 		// triggers/effects
 		game.refreshActualState();
 
-		java.util.Map<Parameter, MagicSet> moveParameters = tokenParameters;
+		Map<Parameter, MagicSet> moveParameters = tokenParameters;
 		moveParameters.put(Parameter.OBJECT, newObjects);
 		moveParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 		moveParameters.put(Parameter.CONTROLLER, parameters.get(Parameter.CONTROLLER));

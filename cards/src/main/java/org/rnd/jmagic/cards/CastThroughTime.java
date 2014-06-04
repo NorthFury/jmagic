@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Rebound;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -19,7 +21,7 @@ public final class CastThroughTime extends Card
 
 			SetGenerator affected = Intersect.instance(HasType.instance(Type.INSTANT, Type.SORCERY), Intersect.instance(Spells.instance(), ControlledBy.instance(You.instance(), Stack.instance())));
 
-			this.addEffectPart(addAbilityToObject(affected, org.rnd.jmagic.abilities.keywords.Rebound.class));
+			this.addEffectPart(addAbilityToObject(affected, Rebound.class));
 		}
 	}
 

@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Madness;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -37,6 +39,6 @@ public final class BigGameHunter extends Card
 		this.addAbility(new BigGameHunterAbility0(state));
 
 		// Madness (B)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Madness(state, "(B)"));
+		this.addAbility(new Madness(state, "(B)"));
 	}
 }

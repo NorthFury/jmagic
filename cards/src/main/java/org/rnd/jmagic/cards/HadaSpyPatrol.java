@@ -1,6 +1,10 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Level;
+import org.rnd.jmagic.abilities.keywords.LevelUp;
+import org.rnd.jmagic.abilities.keywords.Shroud;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -30,17 +34,17 @@ public final class HadaSpyPatrol extends Card
 		this.setToughness(1);
 
 		// Level up (2)(U)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.LevelUp(state, "(2)(U)"));
+		this.addAbility(new LevelUp(state, "(2)(U)"));
 
 		// LEVEL 1-2
 		// 2/2
 		// Hada Spy Patrol is unblockable.
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Level(state, 1, 2, 2, 2, "Hada Spy Patrol is unblockable.", HadaSpyPatrolIsUnblockable.class));
+		this.addAbility(new Level(state, 1, 2, 2, 2, "Hada Spy Patrol is unblockable.", HadaSpyPatrolIsUnblockable.class));
 
 		// LEVEL 3+
 		// 3/3
 		// Shroud
 		// Hada Spy Patrol is unblockable.
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Level(state, 3, 3, 3, "Shroud; Hada Spy Patrol is unblockable.", org.rnd.jmagic.abilities.keywords.Shroud.class, HadaSpyPatrolIsUnblockable.class));
+		this.addAbility(new Level(state, 3, 3, 3, "Shroud; Hada Spy Patrol is unblockable.", Shroud.class, HadaSpyPatrolIsUnblockable.class));
 	}
 }

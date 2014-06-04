@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Morph;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -38,6 +39,6 @@ public final class CabalExecutioner extends Card
 		this.addAbility(new MeleeEqualsSacrifice(state));
 
 		// Morph (3)(B)(B)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Morph(state, "(3)(B)(B)"));
+		this.addAbility(new Morph(state, "(3)(B)(B)"));
 	}
 }

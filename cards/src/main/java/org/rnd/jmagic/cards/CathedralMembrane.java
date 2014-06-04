@@ -2,9 +2,16 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Defender;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 @Name("Cathedral Membrane")
 @Types({Type.ARTIFACT, Type.CREATURE})
@@ -39,23 +46,23 @@ public final class CathedralMembrane extends Card
 		}
 	}
 
-	public static final class BlockTracker extends Tracker<java.util.Map<Integer, java.util.Set<Integer>>>
+	public static final class BlockTracker extends Tracker<Map<Integer, Set<Integer>>>
 	{
-		private java.util.HashMap<Integer, java.util.Set<Integer>> ids = new java.util.HashMap<Integer, java.util.Set<Integer>>();
-		private java.util.Map<Integer, java.util.Set<Integer>> unmodifiable = java.util.Collections.unmodifiableMap(this.ids);
+		private HashMap<Integer, Set<Integer>> ids = new HashMap<Integer, Set<Integer>>();
+		private Map<Integer, Set<Integer>> unmodifiable = Collections.unmodifiableMap(this.ids);
 
 		@SuppressWarnings("unchecked")
 		@Override
 		public BlockTracker clone()
 		{
 			BlockTracker ret = (BlockTracker)super.clone();
-			ret.ids = (java.util.HashMap<Integer, java.util.Set<Integer>>)this.ids.clone();
-			ret.unmodifiable = java.util.Collections.unmodifiableMap(ret.ids);
+			ret.ids = (HashMap<Integer, Set<Integer>>)this.ids.clone();
+			ret.unmodifiable = Collections.unmodifiableMap(ret.ids);
 			return ret;
 		}
 
 		@Override
-		protected java.util.Map<Integer, java.util.Set<Integer>> getValueInternal()
+		protected Map<Integer, Set<Integer>> getValueInternal()
 		{
 			return this.unmodifiable;
 		}
@@ -79,7 +86,7 @@ public final class CathedralMembrane extends Card
 			int blocker = event.parameters.get(EventType.Parameter.OBJECT).evaluate(state, null).getOne(GameObject.class).ID;
 
 			if(!this.ids.containsKey(blocker))
-				this.ids.put(blocker, new java.util.HashSet<Integer>());
+				this.ids.put(blocker, new HashSet<Integer>());
 			this.ids.get(blocker).add(attacker);
 		}
 	}
@@ -104,7 +111,7 @@ public final class CathedralMembrane extends Card
 			MagicSet ret = new MagicSet();
 
 			BlockTracker tracker = state.getTracker(BlockTracker.class);
-			java.util.Map<Integer, java.util.Set<Integer>> values = tracker.getValue(state);
+			Map<Integer, Set<Integer>> values = tracker.getValue(state);
 			for(GameObject object: this.what.evaluate(state, thisObject).getAll(GameObject.class))
 				if(values.containsKey(object.ID))
 					for(Integer id: values.get(object.ID))
@@ -136,7 +143,7 @@ public final class CathedralMembrane extends Card
 		this.setToughness(3);
 
 		// Defender
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Defender(state));
+		this.addAbility(new Defender(state));
 
 		// When Cathedral Membrane is put into a graveyard from the battlefield
 		// during combat, it deals 6 damage to each creature it blocked this

@@ -2,15 +2,19 @@ package org.rnd.jmagic.engine.generators;
 
 import org.rnd.jmagic.engine.*;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Evaluates to each {@link GameObject} which does not have the any of the given
  * {@link Type}s
  */
 public class DoesntHaveType extends SetGenerator
 {
-	private static final java.util.Map<Type, DoesntHaveType> _instances = new java.util.HashMap<Type, DoesntHaveType>();
+	private static final Map<Type, DoesntHaveType> _instances = new HashMap<Type, DoesntHaveType>();
 
-	public static MagicSet get(GameState state, java.util.Collection<Type> types)
+	public static MagicSet get(GameState state, Collection<Type> types)
 	{
 		MagicSet ret = new MagicSet();
 		items: for(GameObject item: state.getAllObjects())
@@ -35,7 +39,7 @@ public class DoesntHaveType extends SetGenerator
 		return new DoesntHaveType(Identity.instance((Object[])what));
 	}
 
-	public static SetGenerator instance(java.util.Collection<Type> what)
+	public static SetGenerator instance(Collection<Type> what)
 	{
 		return new DoesntHaveType(Identity.instance(what));
 	}

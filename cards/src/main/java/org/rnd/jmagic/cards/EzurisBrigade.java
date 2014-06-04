@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -20,7 +22,7 @@ public final class EzurisBrigade extends Card
 
 			this.addEffectPart(modifyPowerAndToughness(This.instance(), +4, +4));
 
-			this.addEffectPart(addAbilityToObject(This.instance(), org.rnd.jmagic.abilities.keywords.Trample.class));
+			this.addEffectPart(addAbilityToObject(This.instance(), Trample.class));
 
 			this.canApply = Both.instance(this.canApply, Metalcraft.instance());
 		}

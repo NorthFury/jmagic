@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -22,7 +24,7 @@ public final class FalkenrathTorturer extends Card
 			EventFactory sacrifice = sacrificeACreature();
 			this.addCost(sacrifice);
 
-			this.addEffect(addAbilityUntilEndOfTurn(ABILITY_SOURCE_OF_THIS, org.rnd.jmagic.abilities.keywords.Flying.class, "Falkenrath Torturer gains flying until end of turn."));
+			this.addEffect(addAbilityUntilEndOfTurn(ABILITY_SOURCE_OF_THIS, Flying.class, "Falkenrath Torturer gains flying until end of turn."));
 
 			SetGenerator deadCreature = OldObjectOf.instance(EffectResult.instance(sacrifice));
 			SetGenerator itWasAHuman = EvaluatePattern.instance(new SubTypePattern(SubType.HUMAN), deadCreature);

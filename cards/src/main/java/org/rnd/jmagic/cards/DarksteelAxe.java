@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Equip;
+import org.rnd.jmagic.abilities.keywords.Indestructible;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -28,12 +31,12 @@ public final class DarksteelAxe extends Card
 
 		// Darksteel Axe is indestructible. (Effects that say "destroy" don't
 		// destroy it.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Indestructible(state));
+		this.addAbility(new Indestructible(state));
 
 		// Equipped creature gets +2/+0.
 		this.addAbility(new DarksteelAxeAbility1(state));
 
 		// Equip (2)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Equip(state, "(2)"));
+		this.addAbility(new Equip(state, "(2)"));
 	}
 }

@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -43,7 +45,7 @@ public final class FormoftheDragon extends Card
 		{
 			super(state, "Creatures without flying can't attack you.");
 
-			SetGenerator hasFlying = HasKeywordAbility.instance(org.rnd.jmagic.abilities.keywords.Flying.class);
+			SetGenerator hasFlying = HasKeywordAbility.instance(Flying.class);
 			SetGenerator creaturesWithoutFlyingAttackingYou = RelativeComplement.instance(Attacking.instance(You.instance()), hasFlying);
 			ContinuousEffect.Part part = new ContinuousEffect.Part(ContinuousEffectType.ATTACKING_RESTRICTION);
 			part.parameters.put(ContinuousEffectType.Parameter.RESTRICTION, Identity.instance(creaturesWithoutFlyingAttackingYou));

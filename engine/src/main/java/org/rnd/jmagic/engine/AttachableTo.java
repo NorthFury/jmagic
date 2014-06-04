@@ -1,5 +1,7 @@
 package org.rnd.jmagic.engine;
 
+import java.util.Collection;
+
 public interface AttachableTo
 {
 	/**
@@ -15,7 +17,7 @@ public interface AttachableTo
 	/**
 	 * @return A collection of GameObject IDs attached to this.
 	 */
-	public java.util.Collection<Integer> getAttachments();
+	public Collection<Integer> getAttachments();
 
 	// TODO: push this out to a different interface and make this interface
 	// extend it

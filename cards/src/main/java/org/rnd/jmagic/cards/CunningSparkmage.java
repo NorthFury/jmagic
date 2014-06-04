@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.Ping;
+import org.rnd.jmagic.abilities.keywords.Haste;
 import org.rnd.jmagic.engine.*;
 
 @Name("Cunning Sparkmage")
@@ -18,9 +20,9 @@ public final class CunningSparkmage extends Card
 		this.setToughness(1);
 
 		// Haste
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Haste(state));
+		this.addAbility(new Haste(state));
 
 		// (T): Cunning Sparkmage deals 1 damage to target creature or player.
-		this.addAbility(new org.rnd.jmagic.abilities.Ping(state, this.getName()));
+		this.addAbility(new Ping(state, this.getName()));
 	}
 }

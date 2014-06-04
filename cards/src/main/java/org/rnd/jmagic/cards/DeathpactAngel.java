@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -52,7 +54,7 @@ public final class DeathpactAngel extends Card
 		this.setToughness(5);
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// When Deathpact Angel dies, put a 1/1 white and black Cleric creature
 		// token onto the battlefield. It has "(3)(W)(B)(B), (T), Sacrifice this

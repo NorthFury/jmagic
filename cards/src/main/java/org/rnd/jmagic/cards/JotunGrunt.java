@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.CumulativeUpkeep;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -12,7 +14,7 @@ import org.rnd.jmagic.engine.generators.*;
 @ColorIdentity({Color.WHITE})
 public final class JotunGrunt extends Card
 {
-	public static final class JotunGruntAbility0 extends org.rnd.jmagic.abilities.keywords.CumulativeUpkeep
+	public static final class JotunGruntAbility0 extends CumulativeUpkeep
 	{
 		public static final PlayerInterface.ChooseReason CHOOSE_GRAVEYARD = new PlayerInterface.ChooseReason("J\u00F6tun Grunt", "Choose a player with a graveyard with at least two cards", true);
 

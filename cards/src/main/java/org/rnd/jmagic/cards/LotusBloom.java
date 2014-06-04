@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Suspend;
 import org.rnd.jmagic.engine.*;
 
 @Name("Lotus Bloom")
@@ -27,7 +29,7 @@ public final class LotusBloom extends Card
 	{
 		super(state);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Suspend(state, 3, "(0)"));
+		this.addAbility(new Suspend(state, 3, "(0)"));
 
 		this.addAbility(new LotusMana(state));
 	}

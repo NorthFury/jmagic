@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.MeleeGetPlusOnePlusOneCounters;
 import org.rnd.jmagic.engine.*;
 
 @Name("Havengul Vampire")
@@ -31,7 +33,7 @@ public final class HavengulVampire extends Card
 
 		// Whenever Havengul Vampire deals combat damage to a player, put a
 		// +1/+1 counter on it.
-		this.addAbility(new org.rnd.jmagic.abilities.MeleeGetPlusOnePlusOneCounters(state, "Havengul Vampire", 1));
+		this.addAbility(new MeleeGetPlusOnePlusOneCounters(state, "Havengul Vampire", 1));
 
 		// Whenever another creature dies, put a +1/+1 counter on Havengul
 		// Vampire.

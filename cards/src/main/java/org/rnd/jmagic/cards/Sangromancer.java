@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -18,7 +20,7 @@ public final class Sangromancer extends Card
 		public SangromancerAbility1(GameState state)
 		{
 			super(state, "Whenever a creature an opponent controls dies, you may gain 3 life.");
-			this.addPattern(new org.rnd.jmagic.engine.patterns.SimpleZoneChangePattern(Battlefield.instance(), GraveyardOf.instance(Players.instance()), Intersect.instance(CreaturePermanents.instance(), ControlledBy.instance(OpponentsOf.instance(You.instance()))), true));
+			this.addPattern(new SimpleZoneChangePattern(Battlefield.instance(), GraveyardOf.instance(Players.instance()), Intersect.instance(CreaturePermanents.instance(), ControlledBy.instance(OpponentsOf.instance(You.instance()))), true));
 			this.addEffect(youMay(gainLife(You.instance(), 3, "You gain 3 life."), "You may gain 3 life."));
 		}
 	}
@@ -43,7 +45,7 @@ public final class Sangromancer extends Card
 		this.setToughness(3);
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// Whenever a creature an opponent controls is put into a graveyard from
 		// the battlefield, you may gain 3 life.

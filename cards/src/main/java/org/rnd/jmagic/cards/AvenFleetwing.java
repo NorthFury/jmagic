@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Hexproof;
 import org.rnd.jmagic.engine.*;
 
 @Name("Aven Fleetwing")
@@ -18,10 +20,10 @@ public final class AvenFleetwing extends Card
 		this.setToughness(2);
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// Hexproof (This creature can't be the target of spells or abilities
 		// your opponents control.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Hexproof(state));
+		this.addAbility(new Hexproof(state));
 	}
 }

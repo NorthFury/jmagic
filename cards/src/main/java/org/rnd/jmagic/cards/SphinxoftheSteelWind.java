@@ -1,6 +1,12 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.FirstStrike;
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Lifelink;
+import org.rnd.jmagic.abilities.keywords.Protection;
+import org.rnd.jmagic.abilities.keywords.Vigilance;
 import org.rnd.jmagic.engine.*;
+import org.rnd.jmagic.engine.generators.HasColor;
 
 @Name("Sphinx of the Steel Wind")
 @Types({Type.CREATURE, Type.ARTIFACT})
@@ -17,14 +23,14 @@ public final class SphinxoftheSteelWind extends Card
 		this.setPower(6);
 		this.setToughness(6);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.FirstStrike(state));
+		this.addAbility(new FirstStrike(state));
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Vigilance(state));
+		this.addAbility(new Vigilance(state));
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Lifelink(state));
+		this.addAbility(new Lifelink(state));
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Protection.From(state, org.rnd.jmagic.engine.generators.HasColor.instance(Color.RED, Color.GREEN), "red and from green"));
+		this.addAbility(new Protection.From(state, HasColor.instance(Color.RED, Color.GREEN), "red and from green"));
 	}
 }

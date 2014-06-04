@@ -1,8 +1,13 @@
 package org.rnd.jmagic.abilities.keywords;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.EntersTheBattlefieldWithCounters;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
  * 702.40. Modular
@@ -41,9 +46,9 @@ public final class Modular extends Keyword
 	}
 
 	@Override
-	protected java.util.List<StaticAbility> createStaticAbilities()
+	protected List<StaticAbility> createStaticAbilities()
 	{
-		return java.util.Collections.<StaticAbility>singletonList(new org.rnd.jmagic.abilities.EntersTheBattlefieldWithCounters(this.state, "This permanent", this.N, this.counterString, Counter.CounterType.PLUS_ONE_PLUS_ONE));
+		return Collections.<StaticAbility>singletonList(new EntersTheBattlefieldWithCounters(this.state, "This permanent", this.N, this.counterString, Counter.CounterType.PLUS_ONE_PLUS_ONE));
 	}
 
 	public static final class ModularTransfer extends EventTriggeredAbility
@@ -67,9 +72,9 @@ public final class Modular extends Keyword
 	}
 
 	@Override
-	protected java.util.List<NonStaticAbility> createNonStaticAbilities()
+	protected List<NonStaticAbility> createNonStaticAbilities()
 	{
-		return java.util.Collections.<NonStaticAbility>singletonList(new ModularTransfer(this.state));
+		return Collections.<NonStaticAbility>singletonList(new ModularTransfer(this.state));
 	}
 
 }

@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilityTemplates.AsThisEntersTheBattlefieldChooseAColor;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -12,7 +14,7 @@ import org.rnd.jmagic.engine.patterns.*;
 @ColorIdentity({Color.BLACK})
 public final class CurseofWizardry extends Card
 {
-	public static final class ChooseAColor extends org.rnd.jmagic.abilityTemplates.AsThisEntersTheBattlefieldChooseAColor
+	public static final class ChooseAColor extends AsThisEntersTheBattlefieldChooseAColor
 	{
 		public ChooseAColor(GameState state)
 		{

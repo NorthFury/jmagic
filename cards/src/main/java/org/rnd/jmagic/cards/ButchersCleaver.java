@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Equip;
+import org.rnd.jmagic.abilities.keywords.Lifelink;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -28,7 +31,7 @@ public final class ButchersCleaver extends Card
 			super(state, "As long as equipped creature is a Human, it has lifelink.");
 			SetGenerator equipped = EquippedBy.instance(This.instance());
 			this.canApply = Intersect.instance(equipped, HasSubType.instance(SubType.HUMAN));
-			this.addEffectPart(addAbilityToObject(equipped, org.rnd.jmagic.abilities.keywords.Lifelink.class));
+			this.addEffectPart(addAbilityToObject(equipped, Lifelink.class));
 		}
 	}
 
@@ -43,6 +46,6 @@ public final class ButchersCleaver extends Card
 		this.addAbility(new ButchersCleaverAbility1(state));
 
 		// Equip (3)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Equip(state, "(3)"));
+		this.addAbility(new Equip(state, "(3)"));
 	}
 }

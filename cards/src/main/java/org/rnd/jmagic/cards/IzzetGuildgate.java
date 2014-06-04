@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.EntersTheBattlefieldTapped;
+import org.rnd.jmagic.abilities.TapForMana;
 import org.rnd.jmagic.engine.*;
 
 @Name("Izzet Guildgate")
@@ -14,9 +16,9 @@ public final class IzzetGuildgate extends Card
 		super(state);
 
 		// Izzet Guildgate enters the battlefield tapped.
-		this.addAbility(new org.rnd.jmagic.abilities.EntersTheBattlefieldTapped(state, this.getName()));
+		this.addAbility(new EntersTheBattlefieldTapped(state, this.getName()));
 
 		// (T): Add (U) or (R) to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapForMana.Final(state, "(UR)"));
+		this.addAbility(new TapForMana.Final(state, "(UR)"));
 	}
 }

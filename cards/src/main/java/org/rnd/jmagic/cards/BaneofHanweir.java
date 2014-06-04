@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.AttacksEachTurnIfAble;
+import org.rnd.jmagic.abilities.Werewolves;
 import org.rnd.jmagic.engine.*;
 
 @Name("Bane of Hanweir")
@@ -19,10 +21,10 @@ public final class BaneofHanweir extends AlternateCard
 		this.setColorIndicator(Color.RED);
 
 		// Bane of Hanweir attacks each turn if able.
-		this.addAbility(new org.rnd.jmagic.abilities.AttacksEachTurnIfAble(state, "Bane of Hanweir"));
+		this.addAbility(new AttacksEachTurnIfAble(state, "Bane of Hanweir"));
 
 		// At the beginning of each upkeep, if a player cast two or more spells
 		// last turn, transform Bane of Hanweir.
-		this.addAbility(new org.rnd.jmagic.abilities.Werewolves.BecomeHuman(state, "Bane of Hanweir"));
+		this.addAbility(new Werewolves.BecomeHuman(state, "Bane of Hanweir"));
 	}
 }

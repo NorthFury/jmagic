@@ -7,6 +7,11 @@ import org.rnd.jmagic.engine.gameTypes.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @Name("Minamo")
 @Types({Type.PLANE})
 @SubTypes({SubType.KAMIGAWA})
@@ -51,7 +56,7 @@ public final class Minamo extends Card
 			}
 
 			@Override
-			public void makeChoices(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+			public void makeChoices(Game game, Event event, Map<Parameter, MagicSet> parameters)
 			{
 				MagicSet filter = parameters.get(EventType.Parameter.CHOICE);
 
@@ -62,29 +67,29 @@ public final class Minamo extends Card
 					{
 						// They can't put a card onto the battlefield if they
 						// don't have one
-						event.putChoices(player, java.util.Collections.emptySet());
+						event.putChoices(player, Collections.emptySet());
 						continue;
 					}
 
-					java.util.List<Answer> yesNo = player.sanitizeAndChoose(game.actualState, 1, Answer.mayChoices(), PlayerInterface.ChoiceType.ENUM, REASON);
+					List<Answer> yesNo = player.sanitizeAndChoose(game.actualState, 1, Answer.mayChoices(), PlayerInterface.ChoiceType.ENUM, REASON);
 					if(yesNo.iterator().next() == Answer.NO)
 						// They won't put a card onto the battlefield if they
 						// choose not to
 						continue;
 
 					// Choose a card to put onto the battlefield
-					java.util.List<GameObject> choice = player.sanitizeAndChoose(game.actualState, 1, allowedCards.getAll(GameObject.class), PlayerInterface.ChoiceType.OBJECTS, PlayerInterface.ChooseReason.BOUNCE);
+					List<GameObject> choice = player.sanitizeAndChoose(game.actualState, 1, allowedCards.getAll(GameObject.class), PlayerInterface.ChoiceType.OBJECTS, PlayerInterface.ChooseReason.BOUNCE);
 					event.putChoices(player, choice);
 				}
 			}
 
 			@Override
-			public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+			public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 			{
 				for(Player player: parameters.get(Parameter.PLAYER).getAll(Player.class))
 				{
 					player = player.getActual();
-					java.util.Map<Parameter, MagicSet> moveParameters = new java.util.HashMap<Parameter, MagicSet>();
+					Map<Parameter, MagicSet> moveParameters = new HashMap<Parameter, MagicSet>();
 					moveParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 					moveParameters.put(Parameter.TO, new MagicSet(player.getHand(game.actualState)));
 					moveParameters.put(Parameter.OBJECT, new MagicSet(event.getChoices(player)));

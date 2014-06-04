@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Reach;
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 
 @Name("Archweaver")
@@ -18,7 +20,7 @@ public final class Archweaver extends Card
 		this.setToughness(5);
 
 		// Reach, trample
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Reach(state));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Trample(state));
+		this.addAbility(new Reach(state));
+		this.addAbility(new Trample(state));
 	}
 }

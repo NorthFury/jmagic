@@ -2,6 +2,11 @@ package org.rnd.jmagic.engine.eventTypes;
 
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+import org.rnd.jmagic.sanitized.SanitizedEvent;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 public final class Reveal extends EventType
 {	public static final EventType INSTANCE = new Reveal();
@@ -18,10 +23,10 @@ public final class Reveal extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		MagicSet objectParameter = parameters.get(Parameter.OBJECT);
-		java.util.Set<GameObject> objects = objectParameter.getAll(GameObject.class);
+		Set<GameObject> objects = objectParameter.getAll(GameObject.class);
 		for(Zone z: objectParameter.getAll(Zone.class))
 			objects.addAll(z.objects);
 		MagicSet ret = new MagicSet();
@@ -39,7 +44,7 @@ public final class Reveal extends EventType
 
 		for(Player player: game.actualState.players)
 		{
-			org.rnd.jmagic.sanitized.SanitizedEvent sanitized = new org.rnd.jmagic.sanitized.SanitizedEvent.Reveal(event, objects, player);
+			SanitizedEvent sanitized = new SanitizedEvent.Reveal(event, objects, player);
 			player.alert(sanitized);
 		}
 
@@ -56,7 +61,7 @@ public final class Reveal extends EventType
 		ContinuousEffect.Part part = new ContinuousEffect.Part(ContinuousEffectType.REVEAL);
 		part.parameters.put(ContinuousEffectType.Parameter.OBJECT, Identity.instance(ret));
 
-		java.util.Map<Parameter, MagicSet> revealParameters = new java.util.HashMap<Parameter, MagicSet>();
+		Map<Parameter, MagicSet> revealParameters = new HashMap<Parameter, MagicSet>();
 		revealParameters.put(Parameter.CAUSE, cause);
 		revealParameters.put(Parameter.EFFECT, new MagicSet(part));
 		revealParameters.put(Parameter.EXPIRES, new MagicSet(expiration));

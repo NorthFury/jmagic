@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 
 @Name("Tower Gargoyle")
@@ -17,6 +18,6 @@ public final class TowerGargoyle extends Card
 		this.setPower(4);
 		this.setToughness(4);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 	}
 }

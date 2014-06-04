@@ -3,6 +3,10 @@ package org.rnd.jmagic.engine.eventTypes;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map;
+
 public final class BecomesBlocked extends EventType
 {	public static final EventType INSTANCE = new BecomesBlocked();
 
@@ -18,7 +22,7 @@ public final class BecomesBlocked extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		MagicSet attackers = parameters.get(Parameter.ATTACKER);
 
@@ -27,15 +31,15 @@ public final class BecomesBlocked extends EventType
 			GameObject physicalAttacker = attacker.getPhysical();
 			if(physicalAttacker.getBlockedByIDs() == null)
 			{
-				attacker.setBlockedByIDs(new java.util.LinkedList<Integer>());
-				physicalAttacker.setBlockedByIDs(new java.util.LinkedList<Integer>());
+				attacker.setBlockedByIDs(new LinkedList<Integer>());
+				physicalAttacker.setBlockedByIDs(new LinkedList<Integer>());
 			}
 		}
 
 		for(GameObject blocker: parameters.get(Parameter.DEFENDER).getAll(GameObject.class))
 		{
 			MagicSet blockerSet = new MagicSet(blocker);
-			java.util.Map<Parameter, MagicSet> blockedParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> blockedParameters = new HashMap<Parameter, MagicSet>();
 			blockedParameters.put(Parameter.ATTACKER, attackers);
 			blockedParameters.put(Parameter.DEFENDER, blockerSet);
 			createEvent(game, blockerSet + " blocks " + attackers, EventType.BECOMES_BLOCKED_BY_ONE, blockedParameters).perform(event, false);

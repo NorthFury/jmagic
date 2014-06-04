@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -22,7 +24,7 @@ public final class GriffinRider extends Card
 			this.canApply = Both.instance(this.canApply, youControlGriffin);
 
 			this.addEffectPart(modifyPowerAndToughness(This.instance(), +3, +3));
-			this.addEffectPart(addAbilityToObject(This.instance(), org.rnd.jmagic.abilities.keywords.Flying.class));
+			this.addEffectPart(addAbilityToObject(This.instance(), Flying.class));
 		}
 	}
 

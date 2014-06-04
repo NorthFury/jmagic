@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Hexproof;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -18,7 +20,7 @@ public final class OakStreetInnkeeper extends Card
 		{
 			super(state, "As long as it's not your turn, tapped creatures you control have hexproof.");
 
-			this.addEffectPart(addAbilityToObject(Intersect.instance(Tapped.instance(), CREATURES_YOU_CONTROL), org.rnd.jmagic.abilities.keywords.Hexproof.class));
+			this.addEffectPart(addAbilityToObject(Intersect.instance(Tapped.instance(), CREATURES_YOU_CONTROL), Hexproof.class));
 
 			this.canApply = Both.instance(this.canApply, Not.instance(Intersect.instance(OwnerOf.instance(CurrentTurn.instance()), You.instance())));
 		}

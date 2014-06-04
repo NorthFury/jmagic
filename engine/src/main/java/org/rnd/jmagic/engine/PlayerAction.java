@@ -1,5 +1,9 @@
 package org.rnd.jmagic.engine;
 
+import org.rnd.jmagic.sanitized.SanitizedPlayerAction;
+
+import java.io.Serializable;
+
 abstract public class PlayerAction implements Sanitizable
 {
 	public final int actorID;
@@ -62,9 +66,9 @@ abstract public class PlayerAction implements Sanitizable
 	abstract public PlayerInterface.ReversionParameters getReversionReason();
 
 	@Override
-	public java.io.Serializable sanitize(GameState state, Player whoFor)
+	public Serializable sanitize(GameState state, Player whoFor)
 	{
-		return new org.rnd.jmagic.sanitized.SanitizedPlayerAction(this);
+		return new SanitizedPlayerAction(this);
 	}
 
 	/**

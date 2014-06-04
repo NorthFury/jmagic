@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Entwine;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -37,6 +38,6 @@ public final class ToothandNail extends Card
 		this.addEffect(2, put);
 
 		// Entwine (2) (Choose both if you pay the entwine cost.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Entwine(state, "(2)"));
+		this.addAbility(new Entwine(state, "(2)"));
 	}
 }

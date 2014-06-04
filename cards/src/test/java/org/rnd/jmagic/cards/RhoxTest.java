@@ -6,6 +6,9 @@ import org.junit.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.testing.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class RhoxTest extends JUnitTest
 {
 	@Test
@@ -202,7 +205,7 @@ public class RhoxTest extends JUnitTest
 
 		// combat damage
 		// assign 1 to the player and 5 to two ancients (illegal assignment)
-		java.util.Map<Integer, Integer> divisions = new java.util.HashMap<Integer, Integer>();
+		Map<Integer, Integer> divisions = new HashMap<Integer, Integer>();
 		divisions.put(IndomitableAncientsA.ID, 5);
 		divisions.put(IndomitableAncientsB.ID, 5);
 		divisions.put(IndomitableAncientsC.ID, 0);

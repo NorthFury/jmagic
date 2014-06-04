@@ -1,5 +1,8 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Flanking;
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Suspend;
 import org.rnd.jmagic.engine.*;
 
 @Name("Knight of Sursi")
@@ -18,10 +21,10 @@ public final class KnightofSursi extends Card
 		this.setToughness(2);
 
 		// Flying; flanking
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flanking(state));
+		this.addAbility(new Flying(state));
+		this.addAbility(new Flanking(state));
 
 		// Suspend 3\u2014(W)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Suspend(state, 3, "(W)"));
+		this.addAbility(new Suspend(state, 3, "(W)"));
 	}
 }

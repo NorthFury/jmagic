@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.LeylineAbility;
+import org.rnd.jmagic.abilities.StaticPTChange;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -28,10 +31,10 @@ public final class LeylineofVitality extends Card
 
 		// If Leyline of Vitality is in your opening hand, you may begin the
 		// game with it on the battlefield.
-		this.addAbility(new org.rnd.jmagic.abilities.LeylineAbility(state, "Leyline of Vitality"));
+		this.addAbility(new LeylineAbility(state, "Leyline of Vitality"));
 
 		// Creatures you control get +0/+1.
-		this.addAbility(new org.rnd.jmagic.abilities.StaticPTChange(state, CREATURES_YOU_CONTROL, "Creatures you control", +0, +1, true));
+		this.addAbility(new StaticPTChange(state, CREATURES_YOU_CONTROL, "Creatures you control", +0, +1, true));
 
 		// Whenever a creature enters the battlefield under your control, you
 		// may gain 1 life.

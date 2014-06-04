@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.AttacksEachTurnIfAble;
 import org.rnd.jmagic.engine.*;
 
 @Name("Tattermunge Maniac")
@@ -18,6 +19,6 @@ public final class TattermungeManiac extends Card
 		this.setToughness(1);
 
 		// Tattermunge Maniac attacks each turn if able.
-		this.addAbility(new org.rnd.jmagic.abilities.AttacksEachTurnIfAble(state, this.getName()));
+		this.addAbility(new AttacksEachTurnIfAble(state, this.getName()));
 	}
 }

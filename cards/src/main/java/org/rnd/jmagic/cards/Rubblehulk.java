@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.Bloodrush;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -39,6 +41,6 @@ public final class Rubblehulk extends Card
 		// creature gets +X/+X until end of turn, where X is the number of lands
 		// you control.
 		SetGenerator numLands = Count.instance(Intersect.instance(LandPermanents.instance(), ControlledBy.instance(ControllerOf.instance(This.instance()))));
-		this.addAbility(new org.rnd.jmagic.abilities.Bloodrush(state, "(1)(R)(G)", "Rubblehulk", numLands, numLands, "Target attacking creature gets +X/+X until end of turn, where X is the number of lands you control."));
+		this.addAbility(new Bloodrush(state, "(1)(R)(G)", "Rubblehulk", numLands, numLands, "Target attacking creature gets +X/+X until end of turn, where X is the number of lands you control."));
 	}
 }

@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -24,7 +26,7 @@ public final class Bitterblossom extends Card
 			CreateTokensFactory token = new CreateTokensFactory(1, 1, 1, "and put a 1/1 black Faerie Rogue creature token with flying onto the battlefield.");
 			token.setColors(Color.BLACK);
 			token.setSubTypes(SubType.FAERIE, SubType.ROGUE);
-			token.addAbility(org.rnd.jmagic.abilities.keywords.Flying.class);
+			token.addAbility(Flying.class);
 			this.addEffect(token.getEventFactory());
 		}
 	}

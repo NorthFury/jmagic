@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 
 @Name("Feral Ridgewolf")
@@ -29,7 +31,7 @@ public final class FeralRidgewolf extends Card
 		this.setToughness(2);
 
 		// Trample
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Trample(state));
+		this.addAbility(new Trample(state));
 
 		// (1)(R): Feral Ridgewolf gets +2/+0 until end of turn.
 		this.addAbility(new FeralRidgewolfAbility1(state));

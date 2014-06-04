@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Landwalk;
 import org.rnd.jmagic.engine.*;
 
 @Name("Koth's Courier")
@@ -18,6 +19,6 @@ public final class KothsCourier extends Card
 		this.setToughness(3);
 
 		// Forestwalk
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Landwalk.Forestwalk(state));
+		this.addAbility(new Landwalk.Forestwalk(state));
 	}
 }

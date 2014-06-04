@@ -3,6 +3,10 @@ package org.rnd.jmagic.abilities.keywords;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
 /**
  * 702.94. Overload
  * 
@@ -46,9 +50,9 @@ public final class Overload extends Keyword
 	}
 
 	@Override
-	public java.util.List<StaticAbility> createStaticAbilities()
+	public List<StaticAbility> createStaticAbilities()
 	{
-		java.util.List<StaticAbility> ret = new java.util.LinkedList<StaticAbility>();
+		List<StaticAbility> ret = new LinkedList<StaticAbility>();
 		ret.add(new OverloadAbility(this.state, this.cost));
 		ret.add(new OverloadStatic(this.state));
 		return ret;
@@ -106,7 +110,7 @@ public final class Overload extends Keyword
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
+		public void apply(GameState state, ContinuousEffect effect, Map<Parameter, MagicSet> parameters)
 		{
 			for(GameObject object: parameters.get(ContinuousEffectType.Parameter.OBJECT).getAll(GameObject.class))
 			{

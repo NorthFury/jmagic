@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Echo;
+import org.rnd.jmagic.abilities.keywords.Haste;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -32,12 +35,12 @@ public final class AvalancheRiders extends Card
 		this.setToughness(2);
 
 		// Haste
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Haste(state));
+		this.addAbility(new Haste(state));
 
 		// Echo (3)(R) (At the beginning of your upkeep, if this came under your
 		// control since the beginning of your last upkeep, sacrifice it unless
 		// you pay its echo cost.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Echo(state, "(3)(R)"));
+		this.addAbility(new Echo(state, "(3)(R)"));
 
 		// When Avalanche Riders enters the battlefield, destroy target land.
 		this.addAbility(new AvalancheRidersAbility2(state));

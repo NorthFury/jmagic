@@ -1,5 +1,9 @@
 package org.rnd.jmagic.engine;
 
+import java.util.Collections;
+import java.util.EnumSet;
+import java.util.Set;
+
 /**
  * Represents one of the five colors of Magic.
  */
@@ -11,9 +15,9 @@ public enum Color implements Colorful
 	RED(SubType.MOUNTAIN, "R", "red"), //
 	GREEN(SubType.FOREST, "G", "green"); //
 
-	public static java.util.Set<Color> allColors()
+	public static Set<Color> allColors()
 	{
-		return java.util.EnumSet.allOf(Color.class);
+		return EnumSet.allOf(Color.class);
 	}
 
 	private final SubType landType;
@@ -43,9 +47,9 @@ public enum Color implements Colorful
 
 	/** @return This color. */
 	@Override
-	public java.util.Set<Color> getColors()
+	public Set<Color> getColors()
 	{
-		return java.util.Collections.singleton(this);
+		return Collections.singleton(this);
 	}
 
 	public Color[] getEnemies()
@@ -77,9 +81,9 @@ public enum Color implements Colorful
 	}
 
 	@Override
-	public final java.util.Set<ManaSymbol.ManaType> getManaTypes()
+	public final Set<ManaSymbol.ManaType> getManaTypes()
 	{
-		return java.util.Collections.singleton(this.getManaType());
+		return Collections.singleton(this.getManaType());
 	}
 
 	private Color getNext()

@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Protection;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -17,7 +19,7 @@ public final class TelJiladDefiance extends Card
 
 		// Target creature gains protection from artifacts until end of turn.
 		SetGenerator target = targetedBy(this.addTarget(CreaturePermanents.instance(), "target creature"));
-		this.addEffect(createFloatingEffect("Target creature gains protection from artifacts until end of turn.", addAbilityToObject(target, org.rnd.jmagic.abilities.keywords.Protection.FromArtifacts.class)));
+		this.addEffect(createFloatingEffect("Target creature gains protection from artifacts until end of turn.", addAbilityToObject(target, Protection.FromArtifacts.class)));
 
 		// Draw a card.
 		this.addEffect(drawCards(You.instance(), 1, "\n\nDraw a card."));

@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Haste;
+import org.rnd.jmagic.abilities.keywords.Lifelink;
 import org.rnd.jmagic.engine.*;
 
 @Name("Rakdos Ragemutt")
@@ -18,7 +20,7 @@ public final class RakdosRagemutt extends Card
 		this.setToughness(3);
 
 		// Lifelink, haste
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Lifelink(state));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Haste(state));
+		this.addAbility(new Lifelink(state));
+		this.addAbility(new Haste(state));
 	}
 }

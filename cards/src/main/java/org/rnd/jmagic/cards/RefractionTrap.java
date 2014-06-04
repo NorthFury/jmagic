@@ -2,8 +2,17 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.Trap;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @Name("Refraction Trap")
 @Types({Type.INSTANT})
@@ -49,26 +58,26 @@ public final class RefractionTrap extends Card
 		}
 
 		@Override
-		public java.util.List<EventFactory> prevent(DamageAssignment.Batch damageAssignments)
+		public List<EventFactory> prevent(DamageAssignment.Batch damageAssignments)
 		{
 			if(damageAssignments.isEmpty())
-				return java.util.Collections.emptyList();
+				return Collections.emptyList();
 
 			FloatingContinuousEffect fce = this.getFloatingContinuousEffect(this.game.physicalState);
 			if(fce.damage == 0)
-				return java.util.Collections.emptyList();
+				return Collections.emptyList();
 
 			// This will never get more damage than it can prevent
 			int prevented = damageAssignments.size();
 			fce.damage -= prevented;
 			damageAssignments.clear();
-			return java.util.Collections.singletonList(spellDealDamage(prevented, Identity.instance(this.game.actualState.get(this.target)), "Refraction Trap deals that much damage to target creature or player."));
+			return Collections.singletonList(spellDealDamage(prevented, Identity.instance(this.game.actualState.get(this.target)), "Refraction Trap deals that much damage to target creature or player."));
 		}
 
 		@Override
-		public java.util.Collection<GameObject> refersTo(GameState state)
+		public Collection<GameObject> refersTo(GameState state)
 		{
-			return java.util.Collections.singleton((GameObject)this.getSourceObject(state));
+			return Collections.singleton((GameObject)this.getSourceObject(state));
 		}
 	}
 
@@ -78,23 +87,23 @@ public final class RefractionTrap extends Card
 		 * Tracks IDs of players that have cast a red instant or sorcery spell
 		 * this turn
 		 */
-		public static final class Tracker extends org.rnd.jmagic.engine.Tracker<java.util.Collection<Integer>>
+		public static final class Tracker extends org.rnd.jmagic.engine.Tracker<Collection<Integer>>
 		{
-			private java.util.HashSet<Integer> IDs = new java.util.HashSet<Integer>();
-			private java.util.Set<Integer> unmodifiable = java.util.Collections.unmodifiableSet(this.IDs);
+			private HashSet<Integer> IDs = new HashSet<Integer>();
+			private Set<Integer> unmodifiable = Collections.unmodifiableSet(this.IDs);
 
 			@SuppressWarnings("unchecked")
 			@Override
 			public Tracker clone()
 			{
 				Tracker ret = (Tracker)super.clone();
-				ret.IDs = (java.util.HashSet<Integer>)this.IDs.clone();
-				ret.unmodifiable = java.util.Collections.unmodifiableSet(ret.IDs);
+				ret.IDs = (HashSet<Integer>)this.IDs.clone();
+				ret.unmodifiable = Collections.unmodifiableSet(ret.IDs);
 				return ret;
 			}
 
 			@Override
-			protected java.util.Collection<Integer> getValueInternal()
+			protected Collection<Integer> getValueInternal()
 			{
 				return this.unmodifiable;
 			}
@@ -150,7 +159,7 @@ public final class RefractionTrap extends Card
 			Player you = ((GameObject)thisObject).getController(state);
 			MagicSet opponents = OpponentsOf.get(state, you);
 
-			java.util.Collection<Integer> flagValue = state.getTracker(Tracker.class).getValue(state);
+			Collection<Integer> flagValue = state.getTracker(Tracker.class).getValue(state);
 
 			for(Player p: opponents.getAll(Player.class))
 				if(flagValue.contains(p.ID))
@@ -175,7 +184,7 @@ public final class RefractionTrap extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			final Player you = parameters.get(Parameter.PLAYER).getOne(Player.class);
 			final Identified target = parameters.get(Parameter.TARGET).getOne(Identified.class);
@@ -187,7 +196,7 @@ public final class RefractionTrap extends Card
 
 			ContinuousEffect.Part part = replacementEffectPart(replacement);
 
-			java.util.Map<Parameter, MagicSet> fceParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> fceParameters = new HashMap<Parameter, MagicSet>();
 			fceParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 			fceParameters.put(Parameter.EFFECT, new MagicSet(part));
 			fceParameters.put(Parameter.DAMAGE, new MagicSet(3));
@@ -206,7 +215,7 @@ public final class RefractionTrap extends Card
 		// If an opponent cast a red instant or sorcery spell this turn, you may
 		// pay (W) rather than pay Refraction Trap's mana cost.
 		state.ensureTracker(new OpponentCastRedInstantOrSorceryThisTurn.Tracker());
-		this.addAbility(new org.rnd.jmagic.abilities.Trap(state, this.getName(), OpponentCastRedInstantOrSorceryThisTurn.instance(), "If an opponent cast a red instant or sorcery spell this turn", "(W)"));
+		this.addAbility(new Trap(state, this.getName(), OpponentCastRedInstantOrSorceryThisTurn.instance(), "If an opponent cast a red instant or sorcery spell this turn", "(W)"));
 
 		// Prevent the next 3 damage that a source of your choice would deal to
 		// you and/or permanents you control this turn. If damage is prevented

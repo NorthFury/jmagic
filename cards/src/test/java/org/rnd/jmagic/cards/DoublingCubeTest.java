@@ -104,7 +104,7 @@ public class DoublingCubeTest extends JUnitTest
 		this.pass();
 		this.pass();
 
-		assertTrue(this.player(1).pool.toArray(new ManaSymbol[0])[0].isColor(org.rnd.jmagic.engine.Color.GREEN));
+		assertTrue(this.player(1).pool.toArray(new ManaSymbol[0])[0].isColor(Color.GREEN));
 
 	}
 

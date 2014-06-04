@@ -1,5 +1,6 @@
 package org.rnd.jmagic.abilities.keywords;
 
+import org.rnd.jmagic.Convenience;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -39,7 +40,7 @@ public abstract class Enchant extends Keyword
 	{
 		public CreatureYouControl(GameState state)
 		{
-			super(state, "creature you control", org.rnd.jmagic.Convenience.CREATURES_YOU_CONTROL);
+			super(state, "creature you control", Convenience.CREATURES_YOU_CONTROL);
 		}
 	}
 

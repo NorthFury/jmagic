@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 
 @Name("Lantern Spirit")
@@ -29,7 +31,7 @@ public final class LanternSpirit extends Card
 		this.setToughness(1);
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// (U): Return Lantern Spirit to its owner's hand.
 		this.addAbility(new LanternSpiritAbility1(state));

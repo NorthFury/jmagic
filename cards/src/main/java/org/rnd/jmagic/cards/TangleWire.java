@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Fading;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -37,7 +39,7 @@ public final class TangleWire extends Card
 		super(state);
 
 		// Fading 4
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Fading(state, 4));
+		this.addAbility(new Fading(state, 4));
 
 		// At the beginning of each player's upkeep, that player taps an
 		// untapped artifact, creature, or land he or she controls for each fade

@@ -3,6 +3,7 @@ package org.rnd.jmagic.cards;
 import static org.rnd.jmagic.Convenience.*;
 
 import org.rnd.jmagic.engine.*;
+import org.rnd.jmagic.engine.generators.Players;
 
 @Name("Vision Skeins")
 @Types({Type.INSTANT})
@@ -15,6 +16,6 @@ public final class VisionSkeins extends Card
 	{
 		super(state);
 
-		this.addEffect(drawCards(org.rnd.jmagic.engine.generators.Players.instance(), 2, "Each player draws two cards."));
+		this.addEffect(drawCards(Players.instance(), 2, "Each player draws two cards."));
 	}
 }

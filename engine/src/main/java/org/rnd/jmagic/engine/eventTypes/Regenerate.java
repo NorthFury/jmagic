@@ -3,6 +3,9 @@ package org.rnd.jmagic.engine.eventTypes;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public final class Regenerate extends EventType
 {	public static final EventType INSTANCE = new Regenerate();
 
@@ -18,7 +21,7 @@ public final class Regenerate extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		// 701.11. Regenerate
 		// 701.11a If the effect of a resolving spell or ability regenerates
@@ -49,14 +52,14 @@ public final class Regenerate extends EventType
 			ret.add(object);
 		}
 
-		java.util.Map<Parameter, MagicSet> tapParameters = new java.util.HashMap<Parameter, MagicSet>();
+		Map<Parameter, MagicSet> tapParameters = new HashMap<Parameter, MagicSet>();
 		tapParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 		tapParameters.put(Parameter.OBJECT, objects);
 		createEvent(game, "Tap " + objects, EventType.TAP_PERMANENTS, tapParameters).perform(event, false);
 
 		if(!removeFromCombat.isEmpty())
 		{
-			java.util.Map<Parameter, MagicSet> removeParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> removeParameters = new HashMap<Parameter, MagicSet>();
 			removeParameters.put(Parameter.OBJECT, removeFromCombat);
 			createEvent(game, "Remove " + removeFromCombat + " from combat", EventType.REMOVE_FROM_COMBAT, removeParameters).perform(event, false);
 		}

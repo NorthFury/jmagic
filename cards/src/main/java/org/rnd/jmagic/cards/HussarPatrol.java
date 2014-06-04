@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Flash;
+import org.rnd.jmagic.abilities.keywords.Vigilance;
 import org.rnd.jmagic.engine.*;
 
 @Name("Hussar Patrol")
@@ -18,9 +20,9 @@ public final class HussarPatrol extends Card
 		this.setToughness(4);
 
 		// Flash (You may cast this spell any time you could cast an instant.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flash(state));
+		this.addAbility(new Flash(state));
 
 		// Vigilance
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Vigilance(state));
+		this.addAbility(new Vigilance(state));
 	}
 }

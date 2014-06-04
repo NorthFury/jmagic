@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Cycling;
+import org.rnd.jmagic.abilities.keywords.Reach;
 import org.rnd.jmagic.engine.*;
 
 @Name("Jungle Weaver")
@@ -17,8 +19,8 @@ public final class JungleWeaver extends Card
 		this.setPower(5);
 		this.setToughness(6);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Reach(state));
+		this.addAbility(new Reach(state));
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Cycling(state, "(2)"));
+		this.addAbility(new Cycling(state, "(2)"));
 	}
 }

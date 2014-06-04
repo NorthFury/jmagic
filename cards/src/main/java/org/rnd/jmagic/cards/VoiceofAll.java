@@ -1,5 +1,8 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Protection;
+import org.rnd.jmagic.abilityTemplates.AsThisEntersTheBattlefieldChooseAColor;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -12,7 +15,7 @@ import org.rnd.jmagic.engine.patterns.*;
 @ColorIdentity({Color.WHITE})
 public final class VoiceofAll extends Card
 {
-	public static final class ColorChoice extends org.rnd.jmagic.abilityTemplates.AsThisEntersTheBattlefieldChooseAColor
+	public static final class ColorChoice extends AsThisEntersTheBattlefieldChooseAColor
 	{
 		public ColorChoice(GameState state)
 		{
@@ -21,7 +24,7 @@ public final class VoiceofAll extends Card
 		}
 	}
 
-	public static final class ColorProtection extends org.rnd.jmagic.abilities.keywords.Protection
+	public static final class ColorProtection extends Protection
 	{
 		public static final class VoiceOfAllStatic extends ProtectionStatic
 		{
@@ -39,7 +42,7 @@ public final class VoiceofAll extends Card
 		}
 
 		@Override
-		protected org.rnd.jmagic.abilities.keywords.Protection.ProtectionStatic getProtectionStatic()
+		protected Protection.ProtectionStatic getProtectionStatic()
 		{
 			return new VoiceOfAllStatic(this.state);
 		}
@@ -52,7 +55,7 @@ public final class VoiceofAll extends Card
 		this.setPower(2);
 		this.setToughness(2);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 		this.addAbility(new ColorChoice(state));
 		this.addAbility(new ColorProtection(state));
 	}

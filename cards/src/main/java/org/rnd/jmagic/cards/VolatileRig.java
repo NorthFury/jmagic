@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.AttacksEachTurnIfAble;
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -53,10 +56,10 @@ public final class VolatileRig extends Card
 		this.setToughness(4);
 
 		// Trample
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Trample(state));
+		this.addAbility(new Trample(state));
 
 		// Volatile Rig attacks each turn if able.
-		this.addAbility(new org.rnd.jmagic.abilities.AttacksEachTurnIfAble(state, "Volatile Rig"));
+		this.addAbility(new AttacksEachTurnIfAble(state, "Volatile Rig"));
 
 		// Whenever Volatile Rig is dealt damage, flip a coin. If you lose the
 		// flip, sacrifice Volatile Rig.

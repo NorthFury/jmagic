@@ -1,6 +1,14 @@
 package org.rnd.jmagic.engine;
 
+import org.rnd.jmagic.sanitized.SanitizedCostCollection;
+import org.rnd.util.SeparatedList;
+
 import java.io.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Set;
 
 public class CostCollection implements Sanitizable
 {
@@ -26,14 +34,14 @@ public class CostCollection implements Sanitizable
 	public final boolean allowMultiples;
 
 	public final ManaPool manaCost;
-	public final java.util.Set<EventFactory> events;
+	public final Set<EventFactory> events;
 
 	public CostCollection(CostCollection copy)
 	{
 		this.type = copy.type;
 		this.allowMultiples = copy.allowMultiples;
 		this.manaCost = new ManaPool(copy.manaCost);
-		this.events = java.util.Collections.unmodifiableSet(new java.util.HashSet<EventFactory>(copy.events));
+		this.events = Collections.unmodifiableSet(new HashSet<EventFactory>(copy.events));
 	}
 
 	public CostCollection(Object type, EventFactory... events)
@@ -123,12 +131,12 @@ public class CostCollection implements Sanitizable
 		return true;
 	}
 
-	private static java.util.Set<EventFactory> eventSet(EventFactory[] events)
+	private static Set<EventFactory> eventSet(EventFactory[] events)
 	{
-		java.util.Set<EventFactory> eventsSet = new java.util.HashSet<EventFactory>();
+		Set<EventFactory> eventsSet = new HashSet<EventFactory>();
 		for(EventFactory factory: events)
 			eventsSet.add(factory);
-		return java.util.Collections.unmodifiableSet(eventsSet);
+		return Collections.unmodifiableSet(eventsSet);
 	}
 
 	@Override
@@ -141,16 +149,16 @@ public class CostCollection implements Sanitizable
 		// events passed to this object's constructor. (Possibly use
 		// "A, B, and C" style syntax.) Do the same for the sanitized version of
 		// this class.
-		java.util.Collection<Object> convert = new java.util.LinkedList<Object>();
+		Collection<Object> convert = new LinkedList<Object>();
 		if(!this.manaCost.isEmpty())
 			convert.add(this.manaCost);
 		convert.addAll(this.events);
-		return org.rnd.util.SeparatedList.get("", convert).toString();
+		return SeparatedList.get("", convert).toString();
 	}
 
 	@Override
 	public Serializable sanitize(GameState state, Player whoFor)
 	{
-		return new org.rnd.jmagic.sanitized.SanitizedCostCollection(this);
+		return new SanitizedCostCollection(this);
 	}
 }

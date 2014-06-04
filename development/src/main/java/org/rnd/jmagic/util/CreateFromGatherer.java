@@ -1,13 +1,29 @@
 package org.rnd.jmagic.util;
 
+import org.rnd.jmagic.CardLoader;
 import org.rnd.jmagic.engine.*;
 import org.springframework.beans.factory.config.*;
 import org.springframework.context.annotation.*;
 import org.springframework.core.type.filter.*;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URLConnection;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
+
 public class CreateFromGatherer
 {
-	public static void main(String args[]) throws java.io.IOException, java.net.URISyntaxException
+	public static void main(String args[]) throws IOException, URISyntaxException
 	{
 		if(args.length < 1)
 		{
@@ -20,7 +36,7 @@ public class CreateFromGatherer
 		boolean setMode = false;
 		boolean expansionMode = false;
 
-		java.util.Set<String> names = null;
+		Set<String> names = null;
 
 		if(args[0].equals("--deck"))
 		{
@@ -48,13 +64,13 @@ public class CreateFromGatherer
 			System.out.println("Updating expansions for existing cards...");
 			expansionMode = true;
 
-			names = new java.util.HashSet<String>();
+			names = new HashSet<String>();
 
 			ClassPathScanningCandidateComponentProvider scanner = new ClassPathScanningCandidateComponentProvider(false);
 			scanner.addIncludeFilter(new AssignableTypeFilter(Card.class));
 			scanner.addExcludeFilter(new AssignableTypeFilter(AlternateCard.class));
 
-			java.util.Set<BeanDefinition> components = scanner.findCandidateComponents("org.rnd.jmagic.cards");
+			Set<BeanDefinition> components = scanner.findCandidateComponents("org.rnd.jmagic.cards");
 			for(BeanDefinition bean: components)
 				try
 				{
@@ -74,23 +90,23 @@ public class CreateFromGatherer
 		if(names == null)
 		{
 			if(null == path)
-				names = readNames(new java.io.BufferedReader(new java.io.InputStreamReader(System.in)));
+				names = readNames(new BufferedReader(new InputStreamReader(System.in)));
 			else
-				names = readPath(new java.io.File(path));
+				names = readPath(new File(path));
 		}
 
-		java.util.Map<String, CardShell> cardsSkipped = new java.util.TreeMap<String, CardShell>();
-		java.util.Map<String, CardShell> cardsWritten = new java.util.TreeMap<String, CardShell>();
+		Map<String, CardShell> cardsSkipped = new TreeMap<String, CardShell>();
+		Map<String, CardShell> cardsWritten = new TreeMap<String, CardShell>();
 
 		// Eliminate any files we already have unless we're updating due to a
 		// new set
 		if(deckMode)
 		{
-			java.util.Iterator<String> i = names.iterator();
+			Iterator<String> i = names.iterator();
 			while(i.hasNext())
 			{
 				String cardName = i.next();
-				if(new java.io.File("src/org/rnd/jmagic/cards/" + org.rnd.jmagic.CardLoader.formatName(cardName) + ".java").exists())
+				if(new File("src/org/rnd/jmagic/cards/" + CardLoader.formatName(cardName) + ".java").exists())
 				{
 					cardsSkipped.put(cardName, null);
 					i.remove();
@@ -134,7 +150,7 @@ public class CreateFromGatherer
 		}
 
 		System.out.println(cardsSkipped.size() + " cards skipped:");
-		for(java.util.Map.Entry<String, CardShell> entry: cardsSkipped.entrySet())
+		for(Map.Entry<String, CardShell> entry: cardsSkipped.entrySet())
 		{
 			String name = entry.getKey();
 			names.remove(name);
@@ -142,7 +158,7 @@ public class CreateFromGatherer
 		}
 
 		System.out.println(cardsWritten.size() + " cards written:");
-		for(java.util.Map.Entry<String, CardShell> entry: cardsWritten.entrySet())
+		for(Map.Entry<String, CardShell> entry: cardsWritten.entrySet())
 		{
 			String name = entry.getKey();
 			names.remove(name);
@@ -157,41 +173,41 @@ public class CreateFromGatherer
 		}
 	}
 
-	private static java.util.Set<String> readNames(java.io.BufferedReader reader) throws java.io.IOException
+	private static Set<String> readNames(BufferedReader reader) throws IOException
 	{
-		java.util.Set<String> names = new java.util.HashSet<String>();
+		Set<String> names = new HashSet<String>();
 
-		org.rnd.jmagic.engine.Deck deck = org.rnd.jmagic.CardLoader.getDeck(reader);
-		for(java.util.List<String> section: deck.publicCardMap.values())
+		Deck deck = CardLoader.getDeck(reader);
+		for(List<String> section: deck.publicCardMap.values())
 			names.addAll(section);
 
 		return names;
 	}
 
-	private static java.util.Set<String> readPath(java.io.File path) throws java.io.IOException
+	private static Set<String> readPath(File path) throws IOException
 	{
-		java.util.Set<String> names;
+		Set<String> names;
 		if(path.isDirectory())
 		{
-			names = new java.util.HashSet<String>();
-			for(java.io.File sub: path.listFiles())
+			names = new HashSet<String>();
+			for(File sub: path.listFiles())
 				if(!sub.getAbsolutePath().endsWith(".svn") && !sub.getAbsolutePath().endsWith("_svn"))
 					names.addAll(readPath(sub));
 		}
 		else
-			names = readNames(new java.io.BufferedReader(new java.io.FileReader(path)));
+			names = readNames(new BufferedReader(new FileReader(path)));
 		return names;
 	}
 
-	private static void readQuery(java.util.Map<String, CardShell> cardsSkipped, java.util.Map<String, CardShell> cardsWritten, java.util.Set<String> names, String query, boolean updatePrintings) throws java.io.IOException, java.net.URISyntaxException
+	private static void readQuery(Map<String, CardShell> cardsSkipped, Map<String, CardShell> cardsWritten, Set<String> names, String query, boolean updatePrintings) throws IOException, URISyntaxException
 	{
-		java.net.URI unencodedURI = new java.net.URI("http", null, "gatherer.wizards.com", -1, "/Pages/Search/Default.aspx", query, null);
-		java.net.URI encodedURI = new java.net.URI(unencodedURI.toASCIIString());
-		java.net.URLConnection connection = encodedURI.toURL().openConnection();
+		URI unencodedURI = new URI("http", null, "gatherer.wizards.com", -1, "/Pages/Search/Default.aspx", query, null);
+		URI encodedURI = new URI(unencodedURI.toASCIIString());
+		URLConnection connection = encodedURI.toURL().openConnection();
 		// Somewhere in this cookie, the text-output format and not redirecting
 		// to the card's page on a single result are specified
 		connection.setRequestProperty("Cookie", "CardDatabaseSettings=0=1&1=28&2=0&14=1&3=13&4=0&5=1&6=15&7=0&8=1&9=1&10=17&11=4&12=8&15=1&16=1&13=");
-		java.io.BufferedReader input = new java.io.BufferedReader(new java.io.InputStreamReader(connection.getInputStream(), "UTF-8"));
+		BufferedReader input = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"));
 
 		CardShell card = null;
 		String lineType = null;

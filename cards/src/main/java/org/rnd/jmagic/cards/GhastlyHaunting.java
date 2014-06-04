@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.YouControlEnchantedCreature;
+import org.rnd.jmagic.abilities.keywords.Enchant;
 import org.rnd.jmagic.engine.*;
 
 @Name("Ghastly Haunting")
@@ -16,9 +18,9 @@ public final class GhastlyHaunting extends AlternateCard
 		this.setColorIndicator(Color.BLUE);
 
 		// Enchant creature
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Enchant.Creature(state));
+		this.addAbility(new Enchant.Creature(state));
 
 		// You control enchanted creature.
-		this.addAbility(new org.rnd.jmagic.abilities.YouControlEnchantedCreature(state));
+		this.addAbility(new YouControlEnchantedCreature(state));
 	}
 }

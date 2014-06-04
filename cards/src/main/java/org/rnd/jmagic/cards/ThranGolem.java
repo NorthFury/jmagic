@@ -1,6 +1,10 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.FirstStrike;
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -22,7 +26,7 @@ public final class ThranGolem extends Card
 			this.canApply = Both.instance(this.canApply, thisIsEnchanted);
 
 			this.addEffectPart(modifyPowerAndToughness(This.instance(), +2, +2));
-			this.addEffectPart(addAbilityToObject(This.instance(), org.rnd.jmagic.abilities.keywords.Flying.class, org.rnd.jmagic.abilities.keywords.FirstStrike.class, org.rnd.jmagic.abilities.keywords.Trample.class));
+			this.addEffectPart(addAbilityToObject(This.instance(), Flying.class, FirstStrike.class, Trample.class));
 		}
 	}
 

@@ -1,7 +1,16 @@
 package org.rnd.jmagic.engine;
 
+import org.rnd.util.Constructor;
+
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.EnumSet;
+import java.util.HashSet;
+import java.util.Set;
+
 /** Represents one mana symbol. */
-public class ManaSymbol implements Colorful, Comparable<ManaSymbol>, java.io.Serializable
+public class ManaSymbol implements Colorful, Comparable<ManaSymbol>, Serializable
 {
 	/** Represents the different types of mana. */
 	public enum ManaType implements Colorful
@@ -29,16 +38,16 @@ public class ManaSymbol implements Colorful, Comparable<ManaSymbol>, java.io.Ser
 		}
 
 		@Override
-		public java.util.Set<Color> getColors()
+		public Set<Color> getColors()
 		{
-			return java.util.Collections.singleton(this.color);
+			return Collections.singleton(this.color);
 		}
 
 		/** @return This mana type. */
 		@Override
-		public java.util.Set<ManaType> getManaTypes()
+		public Set<ManaType> getManaTypes()
 		{
-			return java.util.Collections.singleton(this);
+			return Collections.singleton(this);
 		}
 	}
 
@@ -54,7 +63,7 @@ public class ManaSymbol implements Colorful, Comparable<ManaSymbol>, java.io.Ser
 	 * What colors this symbol is. Empty for colorless, one color for colored
 	 * symbols and {2/C} symbols, two colors for {C/C} symbols.
 	 */
-	public java.util.Collection<Color> colors;
+	public Collection<Color> colors;
 
 	/**
 	 * If this symbol is a Phyrexian symbol (translates into "pay 2 life" as a
@@ -104,7 +113,7 @@ public class ManaSymbol implements Colorful, Comparable<ManaSymbol>, java.io.Ser
 	public ManaSymbol(String name)
 	{
 		this.name = name;
-		this.colors = java.util.EnumSet.noneOf(Color.class);
+		this.colors = EnumSet.noneOf(Color.class);
 		this.colorless = 0;
 		this.isSnow = false;
 		this.isX = false;
@@ -121,7 +130,7 @@ public class ManaSymbol implements Colorful, Comparable<ManaSymbol>, java.io.Ser
 	/** Creates a new mana symbol that is identical to this one. */
 	public ManaSymbol create()
 	{
-		ManaSymbol newMe = org.rnd.util.Constructor.construct(this.getClass(), (new Class[] {String.class}), (new Object[] {this.name}));
+		ManaSymbol newMe = Constructor.construct(this.getClass(), (new Class[] {String.class}), (new Object[] {this.name}));
 
 		if(newMe == null)
 			return null;
@@ -244,15 +253,15 @@ public class ManaSymbol implements Colorful, Comparable<ManaSymbol>, java.io.Ser
 	}
 
 	@Override
-	public java.util.Set<Color> getColors()
+	public Set<Color> getColors()
 	{
-		return new java.util.HashSet<Color>(this.colors);
+		return new HashSet<Color>(this.colors);
 	}
 
 	@Override
-	public java.util.Set<ManaType> getManaTypes()
+	public Set<ManaType> getManaTypes()
 	{
-		java.util.Set<ManaType> ret = new java.util.HashSet<ManaType>();
+		Set<ManaType> ret = new HashSet<ManaType>();
 		for(Color c: this.colors)
 			ret.add(c.getManaType());
 		if(this.colorless > 0)

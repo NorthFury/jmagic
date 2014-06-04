@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Exalted;
 import org.rnd.jmagic.engine.*;
 
 @Name("Sigiled Behemoth")
@@ -17,6 +18,6 @@ public final class SigiledBehemoth extends Card
 		this.setPower(5);
 		this.setToughness(4);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Exalted(state));
+		this.addAbility(new Exalted(state));
 	}
 }

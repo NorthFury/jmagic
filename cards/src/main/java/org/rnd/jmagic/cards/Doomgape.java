@@ -2,8 +2,12 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Name("Doomgape")
 @Types({Type.CREATURE})
@@ -30,13 +34,13 @@ public final class Doomgape extends Card
 			}
 
 			@Override
-			public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+			public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 			{
 				event.setResult(Empty.set);
 
 				Player player = parameters.get(Parameter.PLAYER).getOne(Player.class);
 
-				java.util.Map<Parameter, MagicSet> sacParameters = new java.util.HashMap<Parameter, MagicSet>();
+				Map<Parameter, MagicSet> sacParameters = new HashMap<Parameter, MagicSet>();
 				sacParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 				sacParameters.put(Parameter.NUMBER, ONE);
 				sacParameters.put(Parameter.CHOICE, CreaturePermanents.instance().evaluate(game, null));
@@ -48,7 +52,7 @@ public final class Doomgape extends Card
 
 				if(sacced && null != sacrificedCreature)
 				{
-					java.util.Map<Parameter, MagicSet> lifeParameters = new java.util.HashMap<Parameter, MagicSet>();
+					Map<Parameter, MagicSet> lifeParameters = new HashMap<Parameter, MagicSet>();
 					lifeParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 					lifeParameters.put(Parameter.PLAYER, parameters.get(Parameter.PLAYER));
 					lifeParameters.put(Parameter.NUMBER, new MagicSet(sacrificedCreature.getToughness()));
@@ -81,7 +85,7 @@ public final class Doomgape extends Card
 		this.setPower(10);
 		this.setToughness(10);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Trample(state));
+		this.addAbility(new Trample(state));
 
 		this.addAbility(new NomNomNom(state));
 	}

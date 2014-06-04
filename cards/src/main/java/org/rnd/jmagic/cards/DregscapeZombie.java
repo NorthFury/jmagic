@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Unearth;
 import org.rnd.jmagic.engine.*;
 
 @Name("Dregscape Zombie")
@@ -17,6 +18,6 @@ public final class DregscapeZombie extends Card
 		this.setPower(2);
 		this.setToughness(1);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Unearth(state, "(B)"));
+		this.addAbility(new Unearth(state, "(B)"));
 	}
 }

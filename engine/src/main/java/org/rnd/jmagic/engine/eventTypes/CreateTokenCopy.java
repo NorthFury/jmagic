@@ -3,6 +3,9 @@ package org.rnd.jmagic.engine.eventTypes;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public final class CreateTokenCopy extends EventType
 {	public static final EventType INSTANCE = new CreateTokenCopy();
 
@@ -18,7 +21,7 @@ public final class CreateTokenCopy extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		GameObject original = parameters.get(Parameter.OBJECT).getOne(GameObject.class);
 		if(original == null)
@@ -37,7 +40,7 @@ public final class CreateTokenCopy extends EventType
 		if(parameters.containsKey(Parameter.NUMBER))
 			number = Sum.get(parameters.get(Parameter.NUMBER));
 
-		java.util.Map<Parameter, MagicSet> tokenParameters = new java.util.HashMap<Parameter, MagicSet>();
+		Map<Parameter, MagicSet> tokenParameters = new HashMap<Parameter, MagicSet>();
 		tokenParameters.put(EventType.Parameter.ABILITY, new MagicSet());
 		tokenParameters.put(EventType.Parameter.NAME, new MagicSet(""));
 		tokenParameters.put(EventType.Parameter.NUMBER, new MagicSet(number));
@@ -60,7 +63,7 @@ public final class CreateTokenCopy extends EventType
 
 		for(GameObject tokenCopy: tokenCopies.getAll(GameObject.class))
 		{
-			java.util.Map<Parameter, MagicSet> putAsCopyParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> putAsCopyParameters = new HashMap<Parameter, MagicSet>();
 			putAsCopyParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 			putAsCopyParameters.put(Parameter.CONTROLLER, parameters.get(Parameter.CONTROLLER));
 			putAsCopyParameters.put(Parameter.OBJECT, new MagicSet(tokenCopy));

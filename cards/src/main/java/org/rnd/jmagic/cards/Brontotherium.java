@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Provoke;
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 
 @Name("Brontotherium")
@@ -17,7 +19,7 @@ public final class Brontotherium extends Card
 		this.setPower(5);
 		this.setToughness(3);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Trample(state));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Provoke(state));
+		this.addAbility(new Trample(state));
+		this.addAbility(new Provoke(state));
 	}
 }

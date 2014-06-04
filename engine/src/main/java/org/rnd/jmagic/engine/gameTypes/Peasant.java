@@ -2,6 +2,9 @@ package org.rnd.jmagic.engine.gameTypes;
 
 import org.rnd.jmagic.engine.*;
 
+import java.util.List;
+import java.util.Map;
+
 @Name("Peasant")
 @Description("All rares are disallowed.  Only 5 uncommons are allowed.")
 public class Peasant extends GameType.SimpleGameTypeRule
@@ -17,11 +20,11 @@ public class Peasant extends GameType.SimpleGameTypeRule
 	}
 
 	@Override
-	public boolean checkDeck(java.util.Map<String, java.util.List<Class<? extends Card>>> deck)
+	public boolean checkDeck(Map<String, List<Class<? extends Card>>> deck)
 	{
 		int uncommons = 0;
 
-		for(java.util.List<Class<? extends Card>> cards: deck.values())
+		for(List<Class<? extends Card>> cards: deck.values())
 		{
 			cardLoop: for(Class<? extends Card> card: cards)
 			{

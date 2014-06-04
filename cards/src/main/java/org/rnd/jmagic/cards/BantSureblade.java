@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.FirstStrike;
 import org.rnd.jmagic.cardTemplates.*;
 import org.rnd.jmagic.engine.*;
 
@@ -13,6 +14,6 @@ public final class BantSureblade extends AlaraRebornBlade
 {
 	public BantSureblade(GameState state)
 	{
-		super(state, org.rnd.jmagic.abilities.keywords.FirstStrike.class);
+		super(state, FirstStrike.class);
 	}
 }

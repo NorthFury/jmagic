@@ -3,6 +3,12 @@ package org.rnd.jmagic.engine.eventTypes;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.Set;
+
 public final class ChangeControl extends EventType
 {	public static final EventType INSTANCE = new ChangeControl();
 
@@ -18,12 +24,12 @@ public final class ChangeControl extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
-		java.util.Map<Parameter, MagicSet> rfcParameters = new java.util.HashMap<Parameter, MagicSet>();
+		Map<Parameter, MagicSet> rfcParameters = new HashMap<Parameter, MagicSet>();
 		rfcParameters.put(Parameter.OBJECT, parameters.get(Parameter.OBJECT));
 
-		java.util.Set<GameObject> objects = parameters.get(Parameter.OBJECT).getAll(GameObject.class);
+		Set<GameObject> objects = parameters.get(Parameter.OBJECT).getAll(GameObject.class);
 
 		if(!parameters.containsKey(Parameter.ATTACKER) && game.actualState.currentPhase() != null && game.actualState.currentPhase().type == Phase.PhaseType.COMBAT)
 			createEvent(game, "Remove " + objects + " from combat.", REMOVE_FROM_COMBAT, rfcParameters).perform(event, false);
@@ -31,10 +37,10 @@ public final class ChangeControl extends EventType
 		// When something changes control, it "gains summoning sickness". It
 		// will "lose summoning sickness" when its controller's next turn
 		// starts.
-		java.util.Collection<Integer> changedControlIDs = new java.util.LinkedList<Integer>();
+		Collection<Integer> changedControlIDs = new LinkedList<Integer>();
 		for(GameObject object: objects)
 			changedControlIDs.add(object.ID);
-		for(java.util.Collection<Integer> objectIDs: game.physicalState.summoningSick.values())
+		for(Collection<Integer> objectIDs: game.physicalState.summoningSick.values())
 			objectIDs.removeAll(changedControlIDs);
 
 		if(parameters.containsKey(Parameter.TARGET))

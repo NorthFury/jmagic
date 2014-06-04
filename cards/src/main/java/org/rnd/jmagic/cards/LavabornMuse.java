@@ -3,6 +3,7 @@ package org.rnd.jmagic.cards;
 import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+import org.rnd.util.NumberRange;
 
 @Name("Lavaborn Muse")
 @Types({Type.CREATURE})
@@ -22,7 +23,7 @@ public final class LavabornMuse extends Card
 
 			SetGenerator activePlayer = OwnerOf.instance(CurrentStep.instance());
 			SetGenerator cardsInHand = Count.instance(InZone.instance(HandOf.instance(activePlayer)));
-			SetGenerator twoOrFewer = Identity.instance(new org.rnd.util.NumberRange(0, 2));
+			SetGenerator twoOrFewer = Identity.instance(new NumberRange(0, 2));
 			this.interveningIf = Intersect.instance(cardsInHand, twoOrFewer);
 
 			this.addEffect(permanentDealDamage(3, activePlayer, "Lavaborn Muse deals 3 damage to him or her."));

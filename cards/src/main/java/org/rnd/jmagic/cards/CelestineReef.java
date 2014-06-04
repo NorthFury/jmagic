@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Landwalk;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.gameTypes.*;
 import org.rnd.jmagic.engine.generators.*;
@@ -18,7 +20,7 @@ public final class CelestineReef extends Card
 		{
 			super(state, "Creatures without flying or islandwalk can't attack.");
 
-			SetGenerator restriction = RelativeComplement.instance(Attacking.instance(), Union.instance(HasKeywordAbility.instance(org.rnd.jmagic.abilities.keywords.Flying.class), HasKeywordAbility.instance(org.rnd.jmagic.abilities.keywords.Landwalk.Islandwalk.class)));
+			SetGenerator restriction = RelativeComplement.instance(Attacking.instance(), Union.instance(HasKeywordAbility.instance(Flying.class), HasKeywordAbility.instance(Landwalk.Islandwalk.class)));
 
 			ContinuousEffect.Part part = new ContinuousEffect.Part(ContinuousEffectType.ATTACKING_RESTRICTION);
 			part.parameters.put(ContinuousEffectType.Parameter.RESTRICTION, Identity.instance(restriction));

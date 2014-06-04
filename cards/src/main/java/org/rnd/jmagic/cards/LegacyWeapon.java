@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.ColossusShuffle;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -29,6 +30,6 @@ public final class LegacyWeapon extends Card
 		super(state);
 
 		this.addAbility(new Removal(state));
-		this.addAbility(new org.rnd.jmagic.abilities.ColossusShuffle(state, this.getName()));
+		this.addAbility(new ColossusShuffle(state, this.getName()));
 	}
 }

@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.PreventAllTo;
+import org.rnd.jmagic.abilities.keywords.Shroud;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -48,7 +51,7 @@ public final class SolitaryConfinement extends Card
 
 			ContinuousEffect.Part part = new ContinuousEffect.Part(ContinuousEffectType.ADD_ABILITY_TO_PLAYER);
 			part.parameters.put(ContinuousEffectType.Parameter.PLAYER, You.instance());
-			part.parameters.put(ContinuousEffectType.Parameter.ABILITY, Identity.instance(new org.rnd.jmagic.engine.SimpleAbilityFactory(org.rnd.jmagic.abilities.keywords.Shroud.class)));
+			part.parameters.put(ContinuousEffectType.Parameter.ABILITY, Identity.instance(new SimpleAbilityFactory(Shroud.class)));
 			this.addEffectPart(part);
 		}
 	}
@@ -59,7 +62,7 @@ public final class SolitaryConfinement extends Card
 		{
 			super(state, "Prevent all damage that would be dealt to you.");
 
-			this.addEffectPart(replacementEffectPart(new org.rnd.jmagic.abilities.PreventAllTo(state.game, You.instance(), "you")));
+			this.addEffectPart(replacementEffectPart(new PreventAllTo(state.game, You.instance(), "you")));
 		}
 	}
 

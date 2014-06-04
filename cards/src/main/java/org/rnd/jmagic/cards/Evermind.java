@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Splice;
 import org.rnd.jmagic.engine.*;
 
 @Name("Evermind")
@@ -20,6 +22,6 @@ public final class Evermind extends Card
 		this.addEffect(drawACard());
 
 		// Splice onto Arcane (1)(U)
-		this.addAbility(org.rnd.jmagic.abilities.keywords.Splice.ontoArcane(state, "(1)(U)"));
+		this.addAbility(Splice.ontoArcane(state, "(1)(U)"));
 	}
 }

@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -16,7 +18,7 @@ public final class WingPuncture extends Card
 		super(state);
 
 		SetGenerator yourCritter = targetedBy(this.addTarget(CREATURES_YOU_CONTROL, "target creature you control"));
-		SetGenerator flyer = targetedBy(this.addTarget(Intersect.instance(CreaturePermanents.instance(), HasKeywordAbility.instance(org.rnd.jmagic.abilities.keywords.Flying.class)), "target creature with flying"));
+		SetGenerator flyer = targetedBy(this.addTarget(Intersect.instance(CreaturePermanents.instance(), HasKeywordAbility.instance(Flying.class)), "target creature with flying"));
 
 		// Target creature you control deals damage equal to its power to target
 		// creature with flying.

@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Exalted;
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 
 @Name("Aven Squire")
@@ -17,8 +19,8 @@ public final class AvenSquire extends Card
 		this.setPower(1);
 		this.setToughness(1);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Exalted(state));
+		this.addAbility(new Exalted(state));
 	}
 }

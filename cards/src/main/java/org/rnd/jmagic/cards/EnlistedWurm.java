@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Cascade;
 import org.rnd.jmagic.engine.*;
 
 @Name("Enlisted Wurm")
@@ -18,6 +19,6 @@ public final class EnlistedWurm extends Card
 		this.setToughness(5);
 
 		// Cascade
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Cascade(state));
+		this.addAbility(new Cascade(state));
 	}
 }

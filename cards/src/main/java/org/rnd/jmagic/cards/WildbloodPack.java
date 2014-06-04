@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.Werewolves;
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -31,13 +34,13 @@ public final class WildbloodPack extends AlternateCard
 		this.setColorIndicator(Color.RED);
 
 		// Trample
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Trample(state));
+		this.addAbility(new Trample(state));
 
 		// Attacking creatures you control get +3/+0.
 		this.addAbility(new WildbloodPackAbility1(state));
 
 		// At the beginning of each upkeep, if a player cast two or more spells
 		// last turn, transform Wildblood Pack.
-		this.addAbility(new org.rnd.jmagic.abilities.Werewolves.BecomeHuman(state, this.getName()));
+		this.addAbility(new Werewolves.BecomeHuman(state, this.getName()));
 	}
 }

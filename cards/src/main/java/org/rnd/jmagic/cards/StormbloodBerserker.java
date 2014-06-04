@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Bloodthirst;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -34,7 +36,7 @@ public final class StormbloodBerserker extends Card
 
 		// Bloodthirst 2 (If an opponent was dealt damage this turn, this
 		// creature enters the battlefield with two +1/+1 counters on it.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Bloodthirst.Final(state, 2));
+		this.addAbility(new Bloodthirst.Final(state, 2));
 
 		// Stormblood Berserker can't be blocked except by two or more
 		// creatures.

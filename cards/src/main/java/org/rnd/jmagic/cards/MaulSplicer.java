@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -33,7 +35,7 @@ public final class MaulSplicer extends Card
 			super(state, "Golem creatures you control have trample.");
 
 			SetGenerator yourGolems = Intersect.instance(HasSubType.instance(SubType.GOLEM), CREATURES_YOU_CONTROL);
-			this.addEffectPart(addAbilityToObject(yourGolems, org.rnd.jmagic.abilities.keywords.Trample.class));
+			this.addEffectPart(addAbilityToObject(yourGolems, Trample.class));
 		}
 	}
 

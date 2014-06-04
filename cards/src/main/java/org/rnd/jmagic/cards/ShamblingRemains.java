@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.CantBlock;
+import org.rnd.jmagic.abilities.keywords.Unearth;
 import org.rnd.jmagic.engine.*;
 
 @Name("Shambling Remains")
@@ -18,9 +20,9 @@ public final class ShamblingRemains extends Card
 		this.setToughness(3);
 
 		// Shambling Remains can't block.
-		this.addAbility(new org.rnd.jmagic.abilities.CantBlock(state, this.getName()));
+		this.addAbility(new CantBlock(state, this.getName()));
 
 		// Unearth (B)(R)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Unearth(state, "(B)(R)"));
+		this.addAbility(new Unearth(state, "(B)(R)"));
 	}
 }

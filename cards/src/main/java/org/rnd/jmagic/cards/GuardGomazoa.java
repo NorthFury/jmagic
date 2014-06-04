@@ -1,7 +1,12 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Defender;
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+
+import java.util.Collections;
+import java.util.List;
 
 @Name("Guard Gomazoa")
 @Types({Type.CREATURE})
@@ -40,10 +45,10 @@ public final class GuardGomazoa extends Card
 			}
 
 			@Override
-			public java.util.List<EventFactory> prevent(DamageAssignment.Batch damageAssignments)
+			public List<EventFactory> prevent(DamageAssignment.Batch damageAssignments)
 			{
 				damageAssignments.clear();
-				return java.util.Collections.emptyList();
+				return Collections.emptyList();
 			}
 		}
 
@@ -65,8 +70,8 @@ public final class GuardGomazoa extends Card
 		this.setToughness(3);
 
 		// Defender, flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Defender(state));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Defender(state));
+		this.addAbility(new Flying(state));
 
 		// Prevent all combat damage that would be dealt to Guard Gomazoa.
 		this.addAbility(new MCHammer(state));

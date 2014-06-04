@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Enchant;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -41,7 +43,7 @@ public final class WayoftheThief extends Card
 		super(state);
 
 		// Enchant creature
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Enchant.Creature(state));
+		this.addAbility(new Enchant.Creature(state));
 
 		// Enchanted creature gets +2/+2.
 		this.addAbility(new WayoftheThiefAbility1(state));

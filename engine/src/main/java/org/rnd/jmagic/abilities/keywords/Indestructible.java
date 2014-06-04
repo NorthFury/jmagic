@@ -4,6 +4,9 @@ import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
 
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * A {@link org.rnd.jmagic.engine.Keyword} that prohibits destroying its source
  * permanent.
@@ -16,9 +19,9 @@ public class Indestructible extends Keyword
 	}
 
 	@Override
-	protected java.util.List<StaticAbility> createStaticAbilities()
+	protected List<StaticAbility> createStaticAbilities()
 	{
-		java.util.List<StaticAbility> ret = new java.util.LinkedList<StaticAbility>();
+		List<StaticAbility> ret = new LinkedList<StaticAbility>();
 
 		ret.add(new IndestructibleAbility(this.state));
 

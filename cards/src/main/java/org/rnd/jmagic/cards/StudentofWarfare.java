@@ -1,5 +1,9 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.DoubleStrike;
+import org.rnd.jmagic.abilities.keywords.FirstStrike;
+import org.rnd.jmagic.abilities.keywords.Level;
+import org.rnd.jmagic.abilities.keywords.LevelUp;
 import org.rnd.jmagic.engine.*;
 
 @Name("Student of Warfare")
@@ -18,16 +22,16 @@ public final class StudentofWarfare extends Card
 		this.setToughness(1);
 
 		// Level up (W)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.LevelUp(state, "(W)"));
+		this.addAbility(new LevelUp(state, "(W)"));
 
 		// LEVEL 2-6
 		// 3/3
 		// First strike
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Level(state, 2, 6, 3, 3, "First strike", org.rnd.jmagic.abilities.keywords.FirstStrike.class));
+		this.addAbility(new Level(state, 2, 6, 3, 3, "First strike", FirstStrike.class));
 
 		// LEVEL 7+
 		// 4/4
 		// Double strike
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Level(state, 7, 4, 4, "Double strike", org.rnd.jmagic.abilities.keywords.DoubleStrike.class));
+		this.addAbility(new Level(state, 7, 4, 4, "Double strike", DoubleStrike.class));
 	}
 }

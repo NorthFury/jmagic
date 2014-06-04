@@ -1,5 +1,12 @@
 package org.rnd.jmagic.engine;
 
+import org.rnd.jmagic.engine.generators.Identity;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
 public interface Linkable
 {
 	public Manager getLinkManager();
@@ -10,12 +17,12 @@ public interface Linkable
 	{
 		/** Fields to store the linked ability */
 		private MagicSet linkInformation;
-		private java.util.Map<Class<? extends Linkable>, Integer> links;
+		private Map<Class<? extends Linkable>, Integer> links;
 
 		public Manager()
 		{
 			this.linkInformation = null;
-			this.links = new java.util.HashMap<Class<? extends Linkable>, Integer>();
+			this.links = new HashMap<Class<? extends Linkable>, Integer>();
 		}
 
 		public void addLinkInformation(Object o)
@@ -34,7 +41,7 @@ public interface Linkable
 
 				if(this.linkInformation != null)
 					ret.linkInformation = new MagicSet(this.linkInformation);
-				ret.links = new java.util.HashMap<Class<? extends Linkable>, Integer>(this.links);
+				ret.links = new HashMap<Class<? extends Linkable>, Integer>(this.links);
 
 				return ret;
 			}
@@ -55,9 +62,9 @@ public interface Linkable
 			return null;
 		}
 
-		public java.util.Set<Class<? extends Linkable>> getLinkClasses()
+		public Set<Class<? extends Linkable>> getLinkClasses()
 		{
-			return java.util.Collections.unmodifiableSet(this.links.keySet());
+			return Collections.unmodifiableSet(this.links.keySet());
 		}
 
 		/**
@@ -72,7 +79,7 @@ public interface Linkable
 		{
 			if(this.linkInformation == null)
 				return null;
-			MagicSet ret = org.rnd.jmagic.engine.generators.Identity.instance(this.linkInformation).evaluate(state, null);
+			MagicSet ret = Identity.instance(this.linkInformation).evaluate(state, null);
 			for(GameObject go: ret.getAll(GameObject.class))
 				if(go.isGhost())
 					ret.remove(go);

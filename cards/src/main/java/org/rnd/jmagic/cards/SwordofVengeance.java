@@ -35,6 +35,6 @@ public final class SwordofVengeance extends Card
 
 		// Equip (3) ((3): Attach to target creature you control. Equip only as
 		// a sorcery.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Equip(state, "(3)"));
+		this.addAbility(new Equip(state, "(3)"));
 	}
 }

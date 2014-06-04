@@ -1,5 +1,8 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.Regenerate;
+import org.rnd.jmagic.abilities.keywords.Defender;
+import org.rnd.jmagic.abilities.keywords.Reach;
 import org.rnd.jmagic.engine.*;
 
 @Name("Trestle Troll")
@@ -27,12 +30,12 @@ public final class TrestleTroll extends Card
 		this.setToughness(4);
 
 		// Defender
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Defender(state));
+		this.addAbility(new Defender(state));
 
 		// Reach (This creature can block creatures with flying.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Reach(state));
+		this.addAbility(new Reach(state));
 
 		// (1)(B)(G): Regenerate Trestle Troll.
-		this.addAbility(new org.rnd.jmagic.abilities.Regenerate.Final(state, "(1)(B)(G)", "Trestle Troll"));
+		this.addAbility(new Regenerate.Final(state, "(1)(B)(G)", "Trestle Troll"));
 	}
 }

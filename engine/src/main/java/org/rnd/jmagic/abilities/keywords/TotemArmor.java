@@ -6,6 +6,10 @@ import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+
 /**
  * 702.86. Totem Armor
  * 
@@ -21,9 +25,9 @@ public final class TotemArmor extends Keyword
 	}
 
 	@Override
-	protected java.util.List<StaticAbility> createStaticAbilities()
+	protected List<StaticAbility> createStaticAbilities()
 	{
-		return java.util.Collections.<StaticAbility>singletonList(new TotemArmorAbility(this.state));
+		return Collections.<StaticAbility>singletonList(new TotemArmorAbility(this.state));
 	}
 
 	/**
@@ -40,7 +44,7 @@ public final class TotemArmor extends Keyword
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			event.setResult(Empty.set);
 

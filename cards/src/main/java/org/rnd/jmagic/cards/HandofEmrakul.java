@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.AlternateCost;
+import org.rnd.jmagic.abilities.keywords.Annihilator;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -28,9 +31,9 @@ public final class HandofEmrakul extends Card
 		exileFactory.parameters.put(EventType.Parameter.PLAYER, You.instance());
 
 		CostCollection altCost = new CostCollection(CostCollection.TYPE_ALTERNATE, exileFactory);
-		this.addAbility(new org.rnd.jmagic.abilities.AlternateCost(state, "You may sacrifice four Eldrazi Spawn rather than pay Hand of Emrakul's mana cost.", altCost));
+		this.addAbility(new AlternateCost(state, "You may sacrifice four Eldrazi Spawn rather than pay Hand of Emrakul's mana cost.", altCost));
 
 		// Annihilator 1
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Annihilator.Final(state, 1));
+		this.addAbility(new Annihilator.Final(state, 1));
 	}
 }

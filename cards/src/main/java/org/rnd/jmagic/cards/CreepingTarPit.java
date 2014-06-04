@@ -2,7 +2,13 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.EntersTheBattlefieldTapped;
+import org.rnd.jmagic.abilities.TapForMana;
 import org.rnd.jmagic.engine.*;
+
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 @Name("Creeping Tar Pit")
 @Types({Type.LAND})
@@ -21,7 +27,7 @@ public final class CreepingTarPit extends Card
 			animator.addColor(Color.BLUE);
 			animator.addColor(Color.BLACK);
 			animator.addSubType(SubType.ELEMENTAL);
-			java.util.List<ContinuousEffect.Part> parts = new java.util.LinkedList<ContinuousEffect.Part>(java.util.Arrays.asList(animator.getParts()));
+			List<ContinuousEffect.Part> parts = new LinkedList<ContinuousEffect.Part>(Arrays.asList(animator.getParts()));
 			parts.add(unblockable(ABILITY_SOURCE_OF_THIS));
 			this.addEffect(createFloatingEffect("Until end of turn, Creeping Tar Pit becomes a 3/2 blue and black Elemental creature and is unblockable. It's still a land.", parts.toArray(new ContinuousEffect.Part[0])));
 		}
@@ -32,10 +38,10 @@ public final class CreepingTarPit extends Card
 		super(state);
 
 		// Creeping Tar Pit enters the battlefield tapped.
-		this.addAbility(new org.rnd.jmagic.abilities.EntersTheBattlefieldTapped(state, this.getName()));
+		this.addAbility(new EntersTheBattlefieldTapped(state, this.getName()));
 
 		// (T): Add (U) or (B) to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapForMana.Final(state, "(UB)"));
+		this.addAbility(new TapForMana.Final(state, "(UB)"));
 
 		// (1)(U)(B): Until end of turn, Creeping Tar Pit beco)mes a 3/2 blue
 		// and

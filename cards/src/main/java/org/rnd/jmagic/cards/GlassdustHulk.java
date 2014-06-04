@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Cycling;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -40,6 +42,6 @@ public final class GlassdustHulk extends Card
 		this.addAbility(new ArtifactEqualsPump(state));
 
 		// Cycling ((w/u))
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Cycling(state, "(WU)"));
+		this.addAbility(new Cycling(state, "(WU)"));
 	}
 }

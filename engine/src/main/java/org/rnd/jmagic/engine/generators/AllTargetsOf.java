@@ -2,6 +2,8 @@ package org.rnd.jmagic.engine.generators;
 
 import org.rnd.jmagic.engine.*;
 
+import java.util.Set;
+
 /**
  * Evaluates to every Target of the given object. If mode indices are specified,
  * only those modes' targets. Otherwise, the targets of every selected mode.
@@ -36,7 +38,7 @@ public class AllTargetsOf extends SetGenerator
 		MagicSet returnValue = new MagicSet();
 
 		MagicSet what = this.what.evaluate(state, thisObject);
-		java.util.Set<Integer> modeIndices = this.modeIndices.evaluate(state, thisObject).getAll(Integer.class);
+		Set<Integer> modeIndices = this.modeIndices.evaluate(state, thisObject).getAll(Integer.class);
 
 		for(GameObject object: what.getAll(GameObject.class))
 			for(Integer modeNum: modeIndices)

@@ -1,7 +1,12 @@
 package org.rnd.jmagic.engine;
 
-@java.lang.annotation.Target({java.lang.annotation.ElementType.TYPE})
-@java.lang.annotation.Retention(java.lang.annotation.RetentionPolicy.RUNTIME)
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+@Target({ElementType.TYPE})
+@Retention(RetentionPolicy.RUNTIME)
 public @interface Types
 {
 	Type[] value();

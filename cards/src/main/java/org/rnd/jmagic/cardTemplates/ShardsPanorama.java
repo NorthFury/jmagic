@@ -2,6 +2,7 @@ package org.rnd.jmagic.cardTemplates;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.TapFor1;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -50,7 +51,7 @@ public abstract class ShardsPanorama extends Card
 	{
 		super(state);
 
-		this.addAbility(new org.rnd.jmagic.abilities.TapFor1(state));
+		this.addAbility(new TapFor1(state));
 
 		this.addAbility(new Fetch(state, this.getName(), a, b, c));
 	}

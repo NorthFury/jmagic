@@ -5,7 +5,7 @@ import org.rnd.jmagic.engine.*;
 /**
  * Evaluates to the player with priority
  */
-public class PlayingFirst extends org.rnd.jmagic.engine.SetGenerator
+public class PlayingFirst extends SetGenerator
 {
 	private static final PlayingFirst _instance = new PlayingFirst();
 

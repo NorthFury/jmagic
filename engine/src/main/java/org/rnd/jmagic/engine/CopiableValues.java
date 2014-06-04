@@ -1,11 +1,18 @@
 package org.rnd.jmagic.engine;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.EnumSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+
 public class CopiableValues
 {
 	public final Characteristics characteristics;
 
 	private boolean originalWasOnStack;
-	private java.util.Set<Characteristics.Characteristic> toCopy;
+	private Set<Characteristics.Characteristic> toCopy;
 
 	// This isn't mentioned in the rules as being a copiable value, but it has
 	// to be in order for copies of unflipped flip cards to work
@@ -21,18 +28,18 @@ public class CopiableValues
 		this.characteristics = original.getCharacteristics().create(target);
 
 		this.originalWasOnStack = false;
-		this.toCopy = java.util.EnumSet.allOf(Characteristics.Characteristic.class);
+		this.toCopy = EnumSet.allOf(Characteristics.Characteristic.class);
 
-		java.util.EnumSet<Characteristics.Characteristic> toCopy = (types.length > 0 ? java.util.EnumSet.of(types[0], types) : java.util.EnumSet.noneOf(Characteristics.Characteristic.class));
-		java.util.EnumSet<Characteristics.Characteristic> dontCopy;
+		EnumSet<Characteristics.Characteristic> toCopy = (types.length > 0 ? EnumSet.of(types[0], types) : EnumSet.noneOf(Characteristics.Characteristic.class));
+		EnumSet<Characteristics.Characteristic> dontCopy;
 		if(include)
 		{
 			this.toCopy = toCopy;
-			dontCopy = java.util.EnumSet.complementOf(toCopy);
+			dontCopy = EnumSet.complementOf(toCopy);
 		}
 		else
 		{
-			this.toCopy = java.util.EnumSet.complementOf(toCopy);
+			this.toCopy = EnumSet.complementOf(toCopy);
 			dontCopy = toCopy;
 		}
 
@@ -49,12 +56,12 @@ public class CopiableValues
 		// characteristic-defining ability that defines its power and
 		// toughness. Quicksilver Gargantuan does not have that ability. It
 		// will be 7/7.
-		java.util.List<Integer> toRemove = new java.util.LinkedList<Integer>();
+		List<Integer> toRemove = new LinkedList<Integer>();
 		for(int abilityID: this.characteristics.staticAbilities)
 		{
 			StaticAbility ability = game.physicalState.get(abilityID);
-			java.util.Collection<Characteristics.Characteristic> defined = ability.definesCharacteristics();
-			if(!java.util.Collections.disjoint(defined, dontCopy))
+			Collection<Characteristics.Characteristic> defined = ability.definesCharacteristics();
+			if(!Collections.disjoint(defined, dontCopy))
 				toRemove.add(abilityID);
 		}
 		for(int abilityID: toRemove)
@@ -121,7 +128,7 @@ public class CopiableValues
 				for(Integer abilityID: toApply.keywordAbilities)
 					object.addAbility(state.<Keyword>get(abilityID), false);
 
-				object.setAbilityIDsInOrder(new java.util.LinkedList<Integer>(toApply.abilityIDsInOrder));
+				object.setAbilityIDsInOrder(new LinkedList<Integer>(toApply.abilityIDsInOrder));
 			}
 
 			object.clearCosts();

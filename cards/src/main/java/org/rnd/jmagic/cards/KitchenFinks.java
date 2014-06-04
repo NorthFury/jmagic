@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Persist;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -33,6 +35,6 @@ public final class KitchenFinks extends Card
 		this.addAbility(new KitchenFinksAbility0(state));
 
 		// Persist
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Persist(state));
+		this.addAbility(new Persist(state));
 	}
 }

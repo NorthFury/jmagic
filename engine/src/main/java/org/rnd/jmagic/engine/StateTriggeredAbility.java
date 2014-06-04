@@ -1,9 +1,12 @@
 package org.rnd.jmagic.engine;
 
+import java.util.Collection;
+import java.util.LinkedList;
+
 /** Represents a triggered ability that triggers on a certain game state. */
 public abstract class StateTriggeredAbility extends TriggeredAbility
 {
-	private java.util.Collection<SetGenerator> triggerConditions;
+	private Collection<SetGenerator> triggerConditions;
 
 	/**
 	 * Creates a triggered ability that never triggers and does nothing.
@@ -15,7 +18,7 @@ public abstract class StateTriggeredAbility extends TriggeredAbility
 	{
 		super(state, abilityText);
 
-		this.triggerConditions = new java.util.LinkedList<SetGenerator>();
+		this.triggerConditions = new LinkedList<SetGenerator>();
 		this.printedVersionID = -1;
 	}
 
@@ -36,7 +39,7 @@ public abstract class StateTriggeredAbility extends TriggeredAbility
 	public StateTriggeredAbility clone(GameState state)
 	{
 		StateTriggeredAbility ret = (StateTriggeredAbility)super.clone(state);
-		ret.triggerConditions = new java.util.LinkedList<SetGenerator>(this.triggerConditions);
+		ret.triggerConditions = new LinkedList<SetGenerator>(this.triggerConditions);
 		return ret;
 	}
 

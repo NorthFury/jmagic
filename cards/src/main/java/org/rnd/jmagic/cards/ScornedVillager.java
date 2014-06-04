@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.TapForG;
+import org.rnd.jmagic.abilities.Werewolves;
 import org.rnd.jmagic.engine.*;
 
 @Name("Scorned Villager")
@@ -19,10 +21,10 @@ public final class ScornedVillager extends Card
 		this.setToughness(1);
 
 		// (T): Add (G) to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapForG(state));
+		this.addAbility(new TapForG(state));
 
 		// At the beginning of each upkeep, if no spells were cast last turn,
 		// transform Scorned Villager.
-		this.addAbility(new org.rnd.jmagic.abilities.Werewolves.BecomeFuzzy(state, this.getName()));
+		this.addAbility(new Werewolves.BecomeFuzzy(state, this.getName()));
 	}
 }

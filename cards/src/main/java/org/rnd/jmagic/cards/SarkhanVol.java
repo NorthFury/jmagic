@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Haste;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -17,7 +20,7 @@ public final class SarkhanVol extends Card
 		public SarkhanVolAbility0(GameState state)
 		{
 			super(state, +1, "Creatures you control get +1/+1 and gain haste until end of turn.");
-			this.addEffect(ptChangeAndAbilityUntilEndOfTurn(CREATURES_YOU_CONTROL, +1, +1, "Creatures you control get +1/+1 and gain haste until end of turn.", org.rnd.jmagic.abilities.keywords.Haste.class));
+			this.addEffect(ptChangeAndAbilityUntilEndOfTurn(CREATURES_YOU_CONTROL, +1, +1, "Creatures you control get +1/+1 and gain haste until end of turn.", Haste.class));
 		}
 	}
 
@@ -36,7 +39,7 @@ public final class SarkhanVol extends Card
 
 			this.addEffect(untap(targetedBy(target), "Untap that creature."));
 
-			this.addEffect(addAbilityUntilEndOfTurn(targetedBy(target), org.rnd.jmagic.abilities.keywords.Haste.class, "It gains haste until end of turn."));
+			this.addEffect(addAbilityUntilEndOfTurn(targetedBy(target), Haste.class, "It gains haste until end of turn."));
 		}
 	}
 
@@ -49,7 +52,7 @@ public final class SarkhanVol extends Card
 			CreateTokensFactory tokens = new CreateTokensFactory(5, 4, 4, "Put five 4/4 red Dragon creature tokens with flying onto the battlefield.");
 			tokens.setColors(Color.RED);
 			tokens.setSubTypes(SubType.DRAGON);
-			tokens.addAbility(org.rnd.jmagic.abilities.keywords.Flying.class);
+			tokens.addAbility(Flying.class);
 			this.addEffect(tokens.getEventFactory());
 		}
 	}

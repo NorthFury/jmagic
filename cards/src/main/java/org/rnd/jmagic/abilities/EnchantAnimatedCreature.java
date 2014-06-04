@@ -1,9 +1,16 @@
 package org.rnd.jmagic.abilities;
 
+import org.rnd.jmagic.abilities.keywords.Enchant;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
-public abstract class EnchantAnimatedCreature extends org.rnd.jmagic.abilities.keywords.Enchant
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
+public abstract class EnchantAnimatedCreature extends Enchant
 {
 	public static class AnimatedBy extends SetGenerator
 	{
@@ -26,7 +33,7 @@ public abstract class EnchantAnimatedCreature extends org.rnd.jmagic.abilities.k
 		{
 			MagicSet ret = new MagicSet();
 
-			java.util.Map<Integer, java.util.Set<Integer>> animated = state.getTracker(this.trackerClass).getValue(state);
+			Map<Integer, Set<Integer>> animated = state.getTracker(this.trackerClass).getValue(state);
 
 			for(Identified i: this.what.evaluate(state, thisObject).getAll(Identified.class))
 				if(animated.containsKey(i.ID))
@@ -38,15 +45,15 @@ public abstract class EnchantAnimatedCreature extends org.rnd.jmagic.abilities.k
 
 	}
 
-	public static abstract class ReanimationTracker extends Tracker<java.util.Map<Integer, java.util.Set<Integer>>>
+	public static abstract class ReanimationTracker extends Tracker<Map<Integer, Set<Integer>>>
 	{
 		// keys are Animate Dead triggers, values are collections of objects
 		// moved with them
-		protected java.util.HashMap<Integer, java.util.Set<Integer>> movedWithAD = new java.util.HashMap<Integer, java.util.Set<Integer>>();
-		private java.util.Map<Integer, java.util.Set<Integer>> unmodifiable = java.util.Collections.unmodifiableMap(this.movedWithAD);
+		protected HashMap<Integer, Set<Integer>> movedWithAD = new HashMap<Integer, Set<Integer>>();
+		private Map<Integer, Set<Integer>> unmodifiable = Collections.unmodifiableMap(this.movedWithAD);
 
 		@Override
-		protected java.util.Map<Integer, java.util.Set<Integer>> getValueInternal()
+		protected Map<Integer, Set<Integer>> getValueInternal()
 		{
 			return this.unmodifiable;
 		}
@@ -71,7 +78,7 @@ public abstract class EnchantAnimatedCreature extends org.rnd.jmagic.abilities.k
 					{
 						int source = ((TriggeredAbility)cause).getSourceID();
 						if(!this.movedWithAD.containsKey(source))
-							this.movedWithAD.put(source, new java.util.HashSet<Integer>());
+							this.movedWithAD.put(source, new HashSet<Integer>());
 						this.movedWithAD.get(source).add(change.newObjectID);
 					}
 				}

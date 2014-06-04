@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.Firebreathing;
 import org.rnd.jmagic.engine.*;
 
 @Name("Molten Ravager")
@@ -17,6 +18,6 @@ public final class MoltenRavager extends Card
 		this.setPower(0);
 		this.setToughness(4);
 
-		this.addAbility(new org.rnd.jmagic.abilities.Firebreathing(state, "Molten Ravager"));
+		this.addAbility(new Firebreathing(state, "Molten Ravager"));
 	}
 }

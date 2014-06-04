@@ -1,5 +1,12 @@
 package org.rnd.jmagic.engine;
 
+import org.rnd.jmagic.abilities.keywords.Overload;
+import org.rnd.jmagic.sanitized.SanitizedMode;
+
+import java.io.Serializable;
+import java.util.LinkedList;
+import java.util.List;
+
 import static org.rnd.jmagic.Convenience.*;
 
 public class Mode implements Sanitizable
@@ -11,7 +18,7 @@ public class Mode implements Sanitizable
 	 */
 	public SetGenerator division;
 
-	public java.util.List<EventFactory> effects;
+	public List<EventFactory> effects;
 
 	public final int sourceID;
 
@@ -19,7 +26,7 @@ public class Mode implements Sanitizable
 	 * Any targets referenced by effects in this mode. These targets should not
 	 * be changed when targets are "solidified".
 	 */
-	public java.util.List<Target> targets;
+	public List<Target> targets;
 
 	/**
 	 * Constructs a mode with no effects.
@@ -27,9 +34,9 @@ public class Mode implements Sanitizable
 	public Mode(int sourceID)
 	{
 		this.division = numberGenerator(0);
-		this.effects = new java.util.LinkedList<EventFactory>();
+		this.effects = new LinkedList<EventFactory>();
 		this.sourceID = sourceID;
-		this.targets = new java.util.LinkedList<Target>();
+		this.targets = new LinkedList<Target>();
 	}
 
 	public Mode(Mode copy, int sourceID)
@@ -70,7 +77,7 @@ public class Mode implements Sanitizable
 	 */
 	public boolean canBeChosen(Game game, GameObject object)
 	{
-		if(org.rnd.jmagic.abilities.keywords.Overload.WasOverloaded.get(object))
+		if(Overload.WasOverloaded.get(object))
 			return true;
 
 		for(Target t: this.targets)
@@ -104,9 +111,9 @@ public class Mode implements Sanitizable
 	}
 
 	@Override
-	public java.io.Serializable sanitize(GameState state, Player whoFor)
+	public Serializable sanitize(GameState state, Player whoFor)
 	{
-		return new org.rnd.jmagic.sanitized.SanitizedMode(this, this.sourceID, state.<GameObject>get(this.sourceID).getModes().indexOf(this));
+		return new SanitizedMode(this, this.sourceID, state.<GameObject>get(this.sourceID).getModes().indexOf(this));
 	}
 
 	/**

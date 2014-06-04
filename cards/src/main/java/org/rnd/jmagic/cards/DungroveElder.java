@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Hexproof;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -32,7 +34,7 @@ public final class DungroveElder extends Card
 
 		// Hexproof (This creature can't be the target of spells or abilities
 		// your opponents control.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Hexproof(state));
+		this.addAbility(new Hexproof(state));
 
 		// Dungrove Elder's power and toughness are each equal to the number of
 		// Forests you control.

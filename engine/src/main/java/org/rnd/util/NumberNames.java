@@ -1,8 +1,11 @@
 package org.rnd.util;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class NumberNames
 {
-	private static final java.util.Map<Integer, String> names = new java.util.HashMap<Integer, String>();
+	private static final Map<Integer, String> names = new HashMap<Integer, String>();
 	static
 	{
 		names.put(0, "zero");

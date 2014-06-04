@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Hexproof;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -21,7 +24,7 @@ public final class AngelicOverseer extends Card
 			SetGenerator youControlAHuman = Intersect.instance(youControl, HasSubType.instance(SubType.HUMAN));
 			this.canApply = Both.instance(this.canApply, youControlAHuman);
 
-			this.addEffectPart(addAbilityToObject(This.instance(), org.rnd.jmagic.abilities.keywords.Hexproof.class), indestructible(This.instance()));
+			this.addEffectPart(addAbilityToObject(This.instance(), Hexproof.class), indestructible(This.instance()));
 		}
 	}
 
@@ -33,7 +36,7 @@ public final class AngelicOverseer extends Card
 		this.setToughness(3);
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// As long as you control a Human, Angelic Overseer has hexproof and is
 		// indestructible.

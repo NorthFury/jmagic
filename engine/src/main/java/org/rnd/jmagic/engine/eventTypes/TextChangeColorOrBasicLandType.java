@@ -3,6 +3,12 @@ package org.rnd.jmagic.engine.eventTypes;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
 public final class TextChangeColorOrBasicLandType extends EventType
 {	public static final EventType INSTANCE = new TextChangeColorOrBasicLandType();
 
@@ -18,14 +24,14 @@ public final class TextChangeColorOrBasicLandType extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		GameObject thisObject = event.getSource();
 		Player you = thisObject.getController(thisObject.state);
-		java.util.Collection<Enum<?>> choices = new java.util.LinkedList<Enum<?>>();
+		Collection<Enum<?>> choices = new LinkedList<Enum<?>>();
 		choices.addAll(Color.allColors());
 		choices.addAll(SubType.getBasicLandTypes());
-		java.util.List<Enum<?>> chosen = you.choose(1, choices, PlayerInterface.ChoiceType.ENUM, PlayerInterface.ChooseReason.CHOOSE_COLOR_OR_BASIC_LAND_TYPE);
+		List<Enum<?>> chosen = you.choose(1, choices, PlayerInterface.ChoiceType.ENUM, PlayerInterface.ChooseReason.CHOOSE_COLOR_OR_BASIC_LAND_TYPE);
 		Enum<?> from = chosen.get(0);
 
 		Enum<?> to = null;
@@ -51,7 +57,7 @@ public final class TextChangeColorOrBasicLandType extends EventType
 		part.parameters.put(ContinuousEffectType.Parameter.FROM, Identity.instance(from));
 		part.parameters.put(ContinuousEffectType.Parameter.TO, Identity.instance(to));
 
-		java.util.Map<Parameter, MagicSet> newParameters = new java.util.HashMap<Parameter, MagicSet>();
+		Map<Parameter, MagicSet> newParameters = new HashMap<Parameter, MagicSet>();
 		newParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 		newParameters.put(Parameter.EFFECT, new MagicSet(part));
 		if(parameters.containsKey(Parameter.EFFECT))

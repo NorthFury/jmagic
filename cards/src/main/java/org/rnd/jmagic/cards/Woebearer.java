@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Fear;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -38,7 +40,7 @@ public final class Woebearer extends Card
 		this.setToughness(3);
 
 		// Fear
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Fear(state));
+		this.addAbility(new Fear(state));
 
 		// Whenever Woebearer deals combat damage to a player, you may return
 		// target creature card from your graveyard to your hand.

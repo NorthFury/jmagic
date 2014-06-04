@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Landwalk;
 import org.rnd.jmagic.engine.*;
 
 @Name("Somberwald Dryad")
@@ -19,6 +20,6 @@ public final class SomberwaldDryad extends Card
 
 		// Forestwalk (This creature is unblockable as long as defending player
 		// controls a Forest.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Landwalk.Forestwalk(state));
+		this.addAbility(new Landwalk.Forestwalk(state));
 	}
 }

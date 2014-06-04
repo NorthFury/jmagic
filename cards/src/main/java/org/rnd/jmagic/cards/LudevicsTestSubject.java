@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Defender;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -34,7 +36,7 @@ public final class LudevicsTestSubject extends Card
 		this.setToughness(3);
 
 		// Defender
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Defender(state));
+		this.addAbility(new Defender(state));
 
 		// (1)(U): Put a hatchling counter on Ludevic's Test Subject. Then if
 		// there are five or more hatchling counters on it, remove all of them

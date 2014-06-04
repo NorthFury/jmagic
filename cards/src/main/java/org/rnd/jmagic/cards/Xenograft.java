@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.AsThisEntersTheBattlefieldChooseACreatureType;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -13,7 +15,7 @@ public final class Xenograft extends Card
 {
 	public static final PlayerInterface.ChooseReason REASON = new PlayerInterface.ChooseReason("Xenograft", "Choose a creature type.", true);
 
-	public static final class XenograftAbility0 extends org.rnd.jmagic.abilities.AsThisEntersTheBattlefieldChooseACreatureType
+	public static final class XenograftAbility0 extends AsThisEntersTheBattlefieldChooseACreatureType
 	{
 		public XenograftAbility0(GameState state)
 		{

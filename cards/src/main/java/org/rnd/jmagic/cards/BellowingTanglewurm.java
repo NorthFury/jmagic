@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Intimidate;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -20,7 +22,7 @@ public final class BellowingTanglewurm extends Card
 
 			SetGenerator otherGreenCreaturesYouControl = RelativeComplement.instance(Intersect.instance(HasColor.instance(Color.GREEN), CREATURES_YOU_CONTROL), This.instance());
 
-			this.addEffectPart(addAbilityToObject(otherGreenCreaturesYouControl, org.rnd.jmagic.abilities.keywords.Intimidate.class));
+			this.addEffectPart(addAbilityToObject(otherGreenCreaturesYouControl, Intimidate.class));
 		}
 	}
 
@@ -33,7 +35,7 @@ public final class BellowingTanglewurm extends Card
 
 		// Intimidate (This creature can't be blocked except by artifact
 		// creatures and/or creatures that share a color with it.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Intimidate(state));
+		this.addAbility(new Intimidate(state));
 
 		// Other green creatures you control have intimidate.
 		this.addAbility(new BellowingTanglewurmAbility1(state));

@@ -1,5 +1,10 @@
 package org.rnd.jmagic.engine;
 
+import org.rnd.jmagic.engine.generators.Identity;
+import org.rnd.jmagic.sanitized.SanitizedCastSpellOrActivateAbilityAction;
+
+import java.io.Serializable;
+
 /** Represents the act of playing a spell or activated ability. */
 public abstract class CastSpellOrActivateAbilityAction extends PlayerAction
 {
@@ -58,8 +63,8 @@ public abstract class CastSpellOrActivateAbilityAction extends PlayerAction
 		Player caster = this.game.actualState.get(this.actorID);
 
 		Event event = new Event(this.game.physicalState, caster + " plays " + toBePlayed + ".", EventType.CAST_SPELL_OR_ACTIVATE_ABILITY);
-		event.parameters.put(EventType.Parameter.PLAYER, org.rnd.jmagic.engine.generators.Identity.instance(caster));
-		event.parameters.put(EventType.Parameter.OBJECT, org.rnd.jmagic.engine.generators.Identity.instance(toBePlayed));
+		event.parameters.put(EventType.Parameter.PLAYER, Identity.instance(caster));
+		event.parameters.put(EventType.Parameter.OBJECT, Identity.instance(toBePlayed));
 		if(this.forcedAlternateCost != null)
 			event.parameters.put(EventType.Parameter.ALTERNATE_COST, this.forcedAlternateCost);
 
@@ -101,9 +106,9 @@ public abstract class CastSpellOrActivateAbilityAction extends PlayerAction
 		Player caster = this.game.actualState.get(this.actorID);
 
 		Event event = new Event(this.game.physicalState, caster + " plays " + toBePlayed + ".", EventType.CAST_SPELL_OR_ACTIVATE_ABILITY);
-		event.parameters.put(EventType.Parameter.PLAYER, org.rnd.jmagic.engine.generators.Identity.instance(caster));
-		event.parameters.put(EventType.Parameter.ACTION, org.rnd.jmagic.engine.generators.Identity.instance(this));
-		event.parameters.put(EventType.Parameter.OBJECT, org.rnd.jmagic.engine.generators.Identity.instance(toBePlayed));
+		event.parameters.put(EventType.Parameter.PLAYER, Identity.instance(caster));
+		event.parameters.put(EventType.Parameter.ACTION, Identity.instance(this));
+		event.parameters.put(EventType.Parameter.OBJECT, Identity.instance(toBePlayed));
 		if(this.forcedAlternateCost != null)
 			event.parameters.put(EventType.Parameter.ALTERNATE_COST, this.forcedAlternateCost);
 
@@ -124,8 +129,8 @@ public abstract class CastSpellOrActivateAbilityAction extends PlayerAction
 	}
 
 	@Override
-	public java.io.Serializable sanitize(GameState state, Player whoFor)
+	public Serializable sanitize(GameState state, Player whoFor)
 	{
-		return new org.rnd.jmagic.sanitized.SanitizedCastSpellOrActivateAbilityAction(this);
+		return new SanitizedCastSpellOrActivateAbilityAction(this);
 	}
 }

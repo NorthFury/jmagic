@@ -2,6 +2,8 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.EntersTheBattlefieldTapped;
+import org.rnd.jmagic.abilities.TapForR;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -31,13 +33,13 @@ public final class SmolderingSpires extends Card
 		super(state);
 
 		// Smoldering Spires enters the battlefield tapped.
-		this.addAbility(new org.rnd.jmagic.abilities.EntersTheBattlefieldTapped(state, this.getName()));
+		this.addAbility(new EntersTheBattlefieldTapped(state, this.getName()));
 
 		// When Smoldering Spires enters the battlefield, target creature can't
 		// block this turn.
 		this.addAbility(new Stun(state));
 
 		// (T): Add (R) to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapForR(state));
+		this.addAbility(new TapForR(state));
 	}
 }

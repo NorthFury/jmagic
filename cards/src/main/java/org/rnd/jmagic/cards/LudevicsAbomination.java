@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 
 @Name("Ludevic's Abomination")
@@ -19,6 +20,6 @@ public final class LudevicsAbomination extends AlternateCard
 		this.setColorIndicator(Color.BLUE);
 
 		// Trample
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Trample(state));
+		this.addAbility(new Trample(state));
 	}
 }

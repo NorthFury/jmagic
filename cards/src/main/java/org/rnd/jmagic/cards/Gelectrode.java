@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.Ping;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -37,7 +39,7 @@ public final class Gelectrode extends Card
 		this.setToughness(1);
 
 		// (T): Gelectrode deals 1 damage to target creature or player.
-		this.addAbility(new org.rnd.jmagic.abilities.Ping(state, "Gelectrode"));
+		this.addAbility(new Ping(state, "Gelectrode"));
 
 		// Whenever you cast an instant or sorcery spell, you may untap
 		// Gelectrode.

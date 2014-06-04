@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Enchant;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -44,7 +46,7 @@ public final class PredatoryUrge extends Card
 		super(state);
 
 		// Enchant creature
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Enchant.Creature(state));
+		this.addAbility(new Enchant.Creature(state));
 
 		// Enchanted creature has
 		// "(T): This creature deals damage equal to its power to target creature. That creature deals damage equal to its power to this creature."

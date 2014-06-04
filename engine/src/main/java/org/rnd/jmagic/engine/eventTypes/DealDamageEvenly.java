@@ -3,6 +3,10 @@ package org.rnd.jmagic.engine.eventTypes;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.Map;
+
 public final class DealDamageEvenly extends EventType
 {	public static final EventType INSTANCE = new DealDamageEvenly();
 
@@ -18,12 +22,12 @@ public final class DealDamageEvenly extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		GameObject source = parameters.get(Parameter.SOURCE).getOne(GameObject.class);
 		int damageAmount = Sum.get(parameters.get(Parameter.NUMBER));
 		boolean unpreventable = parameters.containsKey(Parameter.PREVENT);
-		java.util.Collection<Identified> takers = new java.util.LinkedList<Identified>();
+		Collection<Identified> takers = new LinkedList<Identified>();
 		takers.addAll(parameters.get(Parameter.TAKER).getAll(Player.class));
 		takers.addAll(parameters.get(Parameter.TAKER).getAll(GameObject.class));
 

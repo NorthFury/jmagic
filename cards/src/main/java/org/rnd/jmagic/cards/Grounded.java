@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Enchant;
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -19,7 +21,7 @@ public final class Grounded extends Card
 
 			ContinuousEffect.Part part = new ContinuousEffect.Part(ContinuousEffectType.REMOVE_ABILITY_FROM_OBJECT);
 			part.parameters.put(ContinuousEffectType.Parameter.OBJECT, EnchantedBy.instance(This.instance()));
-			part.parameters.put(ContinuousEffectType.Parameter.ABILITY, Identity.instance(org.rnd.jmagic.abilities.keywords.Flying.class));
+			part.parameters.put(ContinuousEffectType.Parameter.ABILITY, Identity.instance(Flying.class));
 			this.addEffectPart(part);
 		}
 	}
@@ -29,7 +31,7 @@ public final class Grounded extends Card
 		super(state);
 
 		// Enchant creature
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Enchant.Creature(state));
+		this.addAbility(new Enchant.Creature(state));
 
 		// Enchanted creature loses flying.
 		this.addAbility(new GroundedAbility1(state));

@@ -1,6 +1,8 @@
 package org.rnd.util;
 
-public class NumberRange implements java.io.Serializable
+import java.io.Serializable;
+
+public class NumberRange implements Serializable
 {
 	private static final long serialVersionUID = 1L;
 

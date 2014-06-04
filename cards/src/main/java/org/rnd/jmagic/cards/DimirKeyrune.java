@@ -1,7 +1,11 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.TapForMana;
 import org.rnd.jmagic.engine.*;
+
+import java.util.Arrays;
 
 @Name("Dimir Keyrune")
 @Types({Type.ARTIFACT})
@@ -24,7 +28,7 @@ public final class DimirKeyrune extends Card
 			animate.addType(Type.ARTIFACT);
 
 			ContinuousEffect.Part[] parts = animate.getParts();
-			parts = java.util.Arrays.copyOf(parts, parts.length + 1);
+			parts = Arrays.copyOf(parts, parts.length + 1);
 
 			parts[parts.length - 1] = unblockable(ABILITY_SOURCE_OF_THIS);
 
@@ -37,7 +41,7 @@ public final class DimirKeyrune extends Card
 		super(state);
 
 		// (T): Add (U) or (B) to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapForMana.Final(state, "(UB)"));
+		this.addAbility(new TapForMana.Final(state, "(UB)"));
 
 		// (U)(B): Dimir Keyrune becomes a 2/2 blue and black Horror artifact
 		// creature until end of turn and is unblockable this turn.

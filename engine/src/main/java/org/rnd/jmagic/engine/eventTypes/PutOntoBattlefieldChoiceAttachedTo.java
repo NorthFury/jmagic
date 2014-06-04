@@ -3,6 +3,10 @@ package org.rnd.jmagic.engine.eventTypes;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public final class PutOntoBattlefieldChoiceAttachedTo extends EventType
 {	public static final EventType INSTANCE = new PutOntoBattlefieldChoiceAttachedTo();
 
@@ -18,7 +22,7 @@ public final class PutOntoBattlefieldChoiceAttachedTo extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean attempt(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		MagicSet cause = parameters.get(Parameter.CAUSE);
 		MagicSet controller = parameters.get(Parameter.CONTROLLER);
@@ -31,7 +35,7 @@ public final class PutOntoBattlefieldChoiceAttachedTo extends EventType
 		int successes = 0;
 		for(GameObject object: objects.getAll(GameObject.class))
 		{
-			java.util.Map<Parameter, MagicSet> putOntoBattlefieldParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> putOntoBattlefieldParameters = new HashMap<Parameter, MagicSet>();
 			putOntoBattlefieldParameters.put(Parameter.CAUSE, cause);
 			putOntoBattlefieldParameters.put(Parameter.OBJECT, new MagicSet(object));
 			putOntoBattlefieldParameters.put(Parameter.CONTROLLER, controller);
@@ -49,7 +53,7 @@ public final class PutOntoBattlefieldChoiceAttachedTo extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		MagicSet cause = parameters.get(Parameter.CAUSE);
 		Player controller = parameters.get(Parameter.CONTROLLER).getOne(Player.class);
@@ -62,7 +66,7 @@ public final class PutOntoBattlefieldChoiceAttachedTo extends EventType
 			chooser = parameters.get(Parameter.PLAYER).getOne(Player.class);
 
 		// offer the choices to the player
-		java.util.List<GameObject> choices = chooser.sanitizeAndChoose(game.actualState, number, objects.getAll(GameObject.class), PlayerInterface.ChoiceType.OBJECTS, PlayerInterface.ChooseReason.PUT_ONTO_BATTLEFIELD);
+		List<GameObject> choices = chooser.sanitizeAndChoose(game.actualState, number, objects.getAll(GameObject.class), PlayerInterface.ChoiceType.OBJECTS, PlayerInterface.ChooseReason.PUT_ONTO_BATTLEFIELD);
 		if(choices.size() == 0)
 			return false;
 
@@ -73,7 +77,7 @@ public final class PutOntoBattlefieldChoiceAttachedTo extends EventType
 		MagicSet stuffToPutOntoBattlefield = new MagicSet(choices);
 		MagicSet target = parameters.get(Parameter.TARGET);
 
-		java.util.Map<Parameter, MagicSet> putOntoBattlefieldParameters = new java.util.HashMap<Parameter, MagicSet>();
+		Map<Parameter, MagicSet> putOntoBattlefieldParameters = new HashMap<Parameter, MagicSet>();
 		putOntoBattlefieldParameters.put(Parameter.CAUSE, cause);
 		putOntoBattlefieldParameters.put(Parameter.CONTROLLER, new MagicSet(controller));
 		putOntoBattlefieldParameters.put(Parameter.OBJECT, stuffToPutOntoBattlefield);

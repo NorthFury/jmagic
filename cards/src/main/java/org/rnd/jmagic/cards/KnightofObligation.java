@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Extort;
+import org.rnd.jmagic.abilities.keywords.Vigilance;
 import org.rnd.jmagic.engine.*;
 
 @Name("Knight of Obligation")
@@ -18,10 +20,10 @@ public final class KnightofObligation extends Card
 		this.setToughness(4);
 
 		// Vigilance
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Vigilance(state));
+		this.addAbility(new Vigilance(state));
 
 		// Extort (Whenever you cast a spell, you may pay (w/b). If you do, each
 		// opponent loses 1 life and you gain that much life.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Extort(state));
+		this.addAbility(new Extort(state));
 	}
 }

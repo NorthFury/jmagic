@@ -1,7 +1,13 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Champion;
+import org.rnd.jmagic.abilities.keywords.Changeling;
+import org.rnd.jmagic.abilities.keywords.Lifelink;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+
+import java.util.LinkedList;
+import java.util.List;
 
 @Name("Changeling Hero")
 @Types({Type.CREATURE})
@@ -11,7 +17,7 @@ import org.rnd.jmagic.engine.generators.*;
 @ColorIdentity({Color.WHITE})
 public final class ChangelingHero extends Card
 {
-	public static final class ChampionACreature extends org.rnd.jmagic.abilities.keywords.Champion
+	public static final class ChampionACreature extends Champion
 	{
 		public ChampionACreature(GameState state)
 		{
@@ -19,9 +25,9 @@ public final class ChangelingHero extends Card
 		}
 
 		@Override
-		protected java.util.List<NonStaticAbility> createNonStaticAbilities()
+		protected List<NonStaticAbility> createNonStaticAbilities()
 		{
-			java.util.List<NonStaticAbility> ret = new java.util.LinkedList<NonStaticAbility>();
+			List<NonStaticAbility> ret = new LinkedList<NonStaticAbility>();
 
 			ret.add(new ExileACreature(this.state));
 			ret.add(new ReturnACreature(this.state));
@@ -53,8 +59,8 @@ public final class ChangelingHero extends Card
 		this.setPower(4);
 		this.setToughness(4);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Changeling(state));
+		this.addAbility(new Changeling(state));
 		this.addAbility(new ChampionACreature(state));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Lifelink(state));
+		this.addAbility(new Lifelink(state));
 	}
 }

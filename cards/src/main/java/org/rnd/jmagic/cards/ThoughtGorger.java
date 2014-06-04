@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -50,7 +52,7 @@ public final class ThoughtGorger extends Card
 		this.setToughness(2);
 
 		// Trample
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Trample(state));
+		this.addAbility(new Trample(state));
 
 		// When Thought Gorger enters the battlefield, put a +1/+1 counter on it
 		// for each card in your hand. If you do, discard your hand.

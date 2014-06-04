@@ -2,6 +2,9 @@ package org.rnd.jmagic.abilities;
 
 import org.rnd.jmagic.engine.*;
 
+import java.util.Collections;
+import java.util.List;
+
 public final class PreventAllTo extends DamageReplacementEffect
 {
 	private final SetGenerator to;
@@ -32,9 +35,9 @@ public final class PreventAllTo extends DamageReplacementEffect
 	}
 
 	@Override
-	public java.util.List<EventFactory> prevent(DamageAssignment.Batch damageAssignments)
+	public List<EventFactory> prevent(DamageAssignment.Batch damageAssignments)
 	{
 		damageAssignments.clear();
-		return java.util.Collections.emptyList();
+		return Collections.emptyList();
 	}
 }

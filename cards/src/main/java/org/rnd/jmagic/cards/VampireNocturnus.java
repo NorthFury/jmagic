@@ -2,6 +2,8 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.RevealTopOfLibrary;
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -24,7 +26,7 @@ public final class VampireNocturnus extends Card
 
 			this.addEffectPart(modifyPowerAndToughness(affectedCreatures, 2, 1));
 
-			this.addEffectPart(addAbilityToObject(affectedCreatures, org.rnd.jmagic.abilities.keywords.Flying.class));
+			this.addEffectPart(addAbilityToObject(affectedCreatures, Flying.class));
 
 			this.canApply = Both.instance(this.canApply, topIsBlack);
 		}
@@ -37,7 +39,7 @@ public final class VampireNocturnus extends Card
 		this.setPower(3);
 		this.setToughness(3);
 
-		this.addAbility(new org.rnd.jmagic.abilities.RevealTopOfLibrary(state));
+		this.addAbility(new RevealTopOfLibrary(state));
 		this.addAbility(new Pump(state));
 	}
 }

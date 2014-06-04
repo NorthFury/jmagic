@@ -1,6 +1,10 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Haste;
+import org.rnd.jmagic.abilities.keywords.Kicker;
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -15,7 +19,7 @@ public final class ElementalAppeal extends Card
 	{
 		super(state);
 
-		org.rnd.jmagic.abilities.keywords.Kicker ability = new org.rnd.jmagic.abilities.keywords.Kicker(state, "5");
+		Kicker ability = new Kicker(state, "5");
 		this.addAbility(ability);
 
 		CostCollection kickerCost = ability.costCollections[0];
@@ -25,8 +29,8 @@ public final class ElementalAppeal extends Card
 		CreateTokensFactory elemental = new CreateTokensFactory(1, 7, 1, "Put a 7/1 red Elemental creature token with trample and haste onto the battlefield.");
 		elemental.setColors(Color.RED);
 		elemental.setSubTypes(SubType.ELEMENTAL);
-		elemental.addAbility(org.rnd.jmagic.abilities.keywords.Trample.class);
-		elemental.addAbility(org.rnd.jmagic.abilities.keywords.Haste.class);
+		elemental.addAbility(Trample.class);
+		elemental.addAbility(Haste.class);
 		EventFactory factory = elemental.getEventFactory();
 		this.addEffect(factory);
 

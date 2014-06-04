@@ -4,6 +4,9 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Name("Grave Betrayal")
 @Types({Type.ENCHANTMENT})
 @ManaCost("5BB")
@@ -26,7 +29,7 @@ public final class GraveBetrayal extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			MagicSet cause = parameters.get(Parameter.CAUSE);
 			MagicSet you = parameters.get(Parameter.PLAYER);
@@ -34,7 +37,7 @@ public final class GraveBetrayal extends Card
 
 			// Put target creature card in a graveyard onto the battlefield
 			// under your control.
-			java.util.Map<Parameter, MagicSet> ontoFieldParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> ontoFieldParameters = new HashMap<Parameter, MagicSet>();
 			ontoFieldParameters.put(Parameter.CAUSE, cause);
 			ontoFieldParameters.put(Parameter.CONTROLLER, you);
 			ontoFieldParameters.put(Parameter.OBJECT, new MagicSet(target));

@@ -1,5 +1,8 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.CantBeCountered;
+import org.rnd.jmagic.abilities.Regenerate;
+import org.rnd.jmagic.abilities.keywords.Hexproof;
 import org.rnd.jmagic.engine.*;
 
 @Name("Thrun, the Last Troll")
@@ -19,12 +22,12 @@ public final class ThruntheLastTroll extends Card
 		this.setToughness(4);
 
 		// Thrun, the Last Troll can't be countered.
-		this.addAbility(new org.rnd.jmagic.abilities.CantBeCountered(state, this.getName()));
+		this.addAbility(new CantBeCountered(state, this.getName()));
 
 		// Hexproof
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Hexproof(state));
+		this.addAbility(new Hexproof(state));
 
 		// (1)(G): Regenerate Thrun.
-		this.addAbility(new org.rnd.jmagic.abilities.Regenerate.Final(state, "(1)(G)", this.getName()));
+		this.addAbility(new Regenerate.Final(state, "(1)(G)", this.getName()));
 	}
 }

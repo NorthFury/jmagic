@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.cardTemplates.Outlander;
 import org.rnd.jmagic.engine.*;
 
 @Name("Valeron Outlander")
@@ -8,7 +9,7 @@ import org.rnd.jmagic.engine.*;
 @SubTypes({SubType.HUMAN, SubType.SCOUT})
 @Printings({@Printings.Printed(ex = Expansion.CONFLUX, r = Rarity.COMMON)})
 @ColorIdentity({Color.WHITE, Color.GREEN})
-public final class ValeronOutlander extends org.rnd.jmagic.cardTemplates.Outlander
+public final class ValeronOutlander extends Outlander
 {
 	public ValeronOutlander(GameState state)
 	{

@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Hexproof;
 import org.rnd.jmagic.engine.*;
 
 @Name("Horror of the Dim")
@@ -17,7 +19,7 @@ public final class HorroroftheDim extends Card
 		{
 			super(state, "(U): Horror of the Dim gains hexproof until end of turn.");
 			this.setManaCost(new ManaPool("(U)"));
-			this.addEffect(addAbilityUntilEndOfTurn(ABILITY_SOURCE_OF_THIS, org.rnd.jmagic.abilities.keywords.Hexproof.class, "Horror of the Dim gains hexproof until end of turn."));
+			this.addEffect(addAbilityUntilEndOfTurn(ABILITY_SOURCE_OF_THIS, Hexproof.class, "Horror of the Dim gains hexproof until end of turn."));
 		}
 	}
 

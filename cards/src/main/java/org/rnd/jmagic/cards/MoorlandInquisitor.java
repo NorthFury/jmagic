@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.FirstStrike;
 import org.rnd.jmagic.engine.*;
 
 @Name("Moorland Inquisitor")
@@ -18,7 +20,7 @@ public final class MoorlandInquisitor extends Card
 			super(state, "(2)(W): Moorland Inquisitor gains first strike until end of turn.");
 			this.setManaCost(new ManaPool("(2)(W)"));
 
-			this.addEffect(addAbilityUntilEndOfTurn(ABILITY_SOURCE_OF_THIS, org.rnd.jmagic.abilities.keywords.FirstStrike.class, "Moorland Inquisitor gains first strike until end of turn."));
+			this.addEffect(addAbilityUntilEndOfTurn(ABILITY_SOURCE_OF_THIS, FirstStrike.class, "Moorland Inquisitor gains first strike until end of turn."));
 		}
 	}
 

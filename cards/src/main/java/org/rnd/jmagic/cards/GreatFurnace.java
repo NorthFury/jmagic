@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.TapForR;
 import org.rnd.jmagic.engine.*;
 
 @Name("Great Furnace")
@@ -12,6 +13,6 @@ public final class GreatFurnace extends Card
 	{
 		super(state);
 
-		this.addAbility(new org.rnd.jmagic.abilities.TapForR(state));
+		this.addAbility(new TapForR(state));
 	}
 }

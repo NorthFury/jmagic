@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.Firebreathing;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -40,7 +41,7 @@ public final class InfernoTitan extends Card
 		this.setToughness(6);
 
 		// (R): Inferno Titan gets +1/+0 until end of turn.
-		this.addAbility(new org.rnd.jmagic.abilities.Firebreathing(state, "Inferno Titan"));
+		this.addAbility(new Firebreathing(state, "Inferno Titan"));
 
 		// Whenever Inferno Titan enters the battlefield or attacks, it deals 3
 		// damage divided as you choose among one, two, or three target

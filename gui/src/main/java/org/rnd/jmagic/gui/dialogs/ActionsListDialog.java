@@ -1,32 +1,44 @@
 package org.rnd.jmagic.gui.dialogs;
 
 import org.rnd.jmagic.gui.*;
+import org.rnd.jmagic.sanitized.SanitizedPlayerAction;
 
-public class ActionsListDialog extends javax.swing.JInternalFrame
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JInternalFrame;
+import javax.swing.JTextPane;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.LinkedList;
+import java.util.List;
+
+public class ActionsListDialog extends JInternalFrame
 {
 	private static final long serialVersionUID = 1L;
 	private final Play gui;
-	private final java.util.List<javax.swing.Box> boxes;
+	private final List<Box> boxes;
 
 	public ActionsListDialog(Play gui)
 	{
-		this.setLayout(new javax.swing.BoxLayout(this.getContentPane(), javax.swing.BoxLayout.Y_AXIS));
+		this.setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
 		this.setResizable(false);
 		this.setTitle("X = undo");
-		this.boxes = new java.util.LinkedList<javax.swing.Box>();
+		this.boxes = new LinkedList<Box>();
 		this.gui = gui;
 	}
 
-	public void addAction(final org.rnd.jmagic.sanitized.SanitizedPlayerAction action)
+	public void addAction(final SanitizedPlayerAction action)
 	{
-		final javax.swing.Box box = javax.swing.Box.createHorizontalBox();
+		final Box box = Box.createHorizontalBox();
 		this.boxes.add(box);
 
-		javax.swing.JButton removeButton = new javax.swing.JButton(new javax.swing.ImageIcon(ActionsListDialog.class.getResource("/org/rnd/jmagic/gui/delete.png")));
-		removeButton.addActionListener(new java.awt.event.ActionListener()
+		JButton removeButton = new JButton(new ImageIcon(ActionsListDialog.class.getResource("/org/rnd/jmagic/gui/delete.png")));
+		removeButton.addActionListener(new ActionListener()
 		{
 			@Override
-			public void actionPerformed(java.awt.event.ActionEvent e)
+			public void actionPerformed(ActionEvent e)
 			{
 				ActionsListDialog.this.gui.choose.remove(ActionsListDialog.this.boxes.indexOf(box));
 				ActionsListDialog.this.gui.removeIndication(action.sourceID);
@@ -41,11 +53,11 @@ public class ActionsListDialog extends javax.swing.JInternalFrame
 
 		box.add(removeButton);
 
-		javax.swing.JTextPane text = new JMagicTextPane(true);
+		JTextPane text = new JMagicTextPane(true);
 		text.setText(action.toString());
 		box.add(text);
 
-		box.add(javax.swing.Box.createHorizontalGlue());
+		box.add(Box.createHorizontalGlue());
 
 		this.add(box);
 		this.pack();
@@ -54,7 +66,7 @@ public class ActionsListDialog extends javax.swing.JInternalFrame
 
 	public void clearList()
 	{
-		for(javax.swing.Box box: this.boxes)
+		for(Box box: this.boxes)
 			this.remove(box);
 		this.boxes.clear();
 	}

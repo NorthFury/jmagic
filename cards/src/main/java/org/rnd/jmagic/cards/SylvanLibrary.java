@@ -5,6 +5,10 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
 @Name("Sylvan Library")
 @Types({Type.ENCHANTMENT})
 @ManaCost("1G")
@@ -24,7 +28,7 @@ public final class SylvanLibrary extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			event.setResult(Empty.set);
 
@@ -41,7 +45,7 @@ public final class SylvanLibrary extends Card
 			{
 				events.add(payLife(You.instance(), 8, "Pay 8 life"));
 
-				java.util.Iterator<GameObject> i = cards.getAll(GameObject.class).iterator();
+				Iterator<GameObject> i = cards.getAll(GameObject.class).iterator();
 				GameObject firstCard = i.next();
 				EventFactory putFirstBack = new EventFactory(EventType.PUT_INTO_LIBRARY, "Put " + firstCard + " on top of your library");
 				putFirstBack.parameters.put(EventType.Parameter.CAUSE, Identity.instance(cause));
@@ -76,7 +80,7 @@ public final class SylvanLibrary extends Card
 				throw new IllegalStateException("Sylvan Library effect with more than two cards?!??!");
 			}
 
-			java.util.Map<Parameter, MagicSet> newParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> newParameters = new HashMap<Parameter, MagicSet>();
 			newParameters.put(EventType.Parameter.PLAYER, new MagicSet(you));
 			newParameters.put(EventType.Parameter.EVENT, new MagicSet(events));
 			Event doIt = createEvent(game, "For each of those cards, pay 4 life or put the card on top of your library", EventType.CHOOSE_AND_PERFORM, newParameters);

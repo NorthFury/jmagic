@@ -2,12 +2,48 @@ package org.rnd.jmagic.gui;
 
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.sanitized.*;
+import org.rnd.util.Graphics2DAdapter;
 
-public class CardGraphics extends org.rnd.util.Graphics2DAdapter
+import javax.imageio.ImageIO;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Point;
+import java.awt.Polygon;
+import java.awt.Rectangle;
+import java.awt.event.MouseEvent;
+import java.awt.font.GraphicAttribute;
+import java.awt.font.ImageGraphicAttribute;
+import java.awt.font.LineBreakMeasurer;
+import java.awt.font.TextAttribute;
+import java.awt.font.TextLayout;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
+import java.awt.image.RescaleOp;
+import java.io.File;
+import java.io.FilenameFilter;
+import java.io.IOException;
+import java.net.URL;
+import java.text.AttributedCharacterIterator;
+import java.text.AttributedString;
+import java.util.Collections;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.NoSuchElementException;
+import java.util.Set;
+import java.util.Stack;
+
+public class CardGraphics extends Graphics2DAdapter
 {
-	public static final java.awt.Dimension COLOR_INDICATOR = new java.awt.Dimension(11, 11);
+	public static final Dimension COLOR_INDICATOR = new Dimension(11, 11);
 
-	public static final java.awt.Dimension LARGE_CARD = new java.awt.Dimension(223, 310);
+	public static final Dimension LARGE_CARD = new Dimension(223, 310);
 
 	private static final int LARGE_CARD_ART_LEFT = 20;
 
@@ -37,7 +73,7 @@ public class CardGraphics extends org.rnd.util.Graphics2DAdapter
 
 	private static final int LARGE_CARD_PT_TEXT_TOP = 278;
 
-	private static final java.awt.Dimension LARGE_CARD_PT_DIMENSIONS = new java.awt.Dimension(32, 14);
+	private static final Dimension LARGE_CARD_PT_DIMENSIONS = new Dimension(32, 14);
 
 	public static final int LARGE_CARD_TEXT_BOX_HEIGHT = 82;
 
@@ -51,7 +87,7 @@ public class CardGraphics extends org.rnd.util.Graphics2DAdapter
 
 	public static final int LARGE_CARD_TOTAL_TEXT_HEIGHT = LARGE_CARD_PT_TEXT_TOP - LARGE_CARD_NAME_TOP;
 
-	public static final java.awt.Dimension LARGE_MANA_SYMBOL = new java.awt.Dimension(12, 12);
+	public static final Dimension LARGE_MANA_SYMBOL = new Dimension(12, 12);
 
 	public static final java.awt.Color LIFE_TOTAL_COLOR = java.awt.Color.GREEN.darker().darker();
 
@@ -59,7 +95,7 @@ public class CardGraphics extends org.rnd.util.Graphics2DAdapter
 
 	private static final int POISON_LIFE_PADDING = 1;
 
-	public static final java.awt.Dimension SMALL_CARD = new java.awt.Dimension(94, 130);
+	public static final Dimension SMALL_CARD = new Dimension(94, 130);
 
 	private static final int SMALL_CARD_ART_LEFT = 8;
 
@@ -73,7 +109,7 @@ public class CardGraphics extends org.rnd.util.Graphics2DAdapter
 
 	private static final int SMALL_CARD_DAMAGE_RIGHT = 13;
 
-	public static final java.awt.Dimension SMALL_CARD_PADDING = new java.awt.Dimension(5, 40);
+	public static final Dimension SMALL_CARD_PADDING = new Dimension(5, 40);
 
 	public static final int SMALL_CARD_PADDING_LEFT = 10;
 
@@ -99,17 +135,17 @@ public class CardGraphics extends org.rnd.util.Graphics2DAdapter
 
 	// The inside of the small PT box is the same size as the inside of the
 	// large PT box
-	private static final java.awt.Dimension SMALL_CARD_PT_DIMENSIONS = LARGE_CARD_PT_DIMENSIONS;
+	private static final Dimension SMALL_CARD_PT_DIMENSIONS = LARGE_CARD_PT_DIMENSIONS;
 
 	public static final int SMALL_CARD_TEXT_WIDTH = SMALL_CARD.width - SMALL_CARD_PADDING_LEFT - SMALL_CARD_PADDING_RIGHT;
 
 	public static final int SMALL_CARD_TOTAL_TEXT_HEIGHT = 108;
 
-	public static final java.awt.Dimension SMALL_MANA_SYMBOL = new java.awt.Dimension(9, 9);
+	public static final Dimension SMALL_MANA_SYMBOL = new Dimension(9, 9);
 
-	private static final java.util.Map<String, java.awt.Image> imageCache = new java.util.HashMap<String, java.awt.Image>();
+	private static final Map<String, Image> imageCache = new HashMap<String, Image>();
 
-	public static SanitizedGameObject.CharacteristicSet getLargeCardDisplayOption(java.awt.event.MouseEvent e, java.awt.Point smallCardStart, SanitizedGameObject hoveredCard, boolean flipped)
+	public static SanitizedGameObject.CharacteristicSet getLargeCardDisplayOption(MouseEvent e, Point smallCardStart, SanitizedGameObject hoveredCard, boolean flipped)
 	{
 		int options = 0;
 		for(SanitizedGameObject.CharacteristicSet option: CardGraphics.getLargeCardDisplayOptions(hoveredCard))
@@ -121,9 +157,9 @@ public class CardGraphics extends org.rnd.util.Graphics2DAdapter
 		return SanitizedGameObject.CharacteristicSet.ACTUAL;
 	}
 
-	private static java.util.Set<SanitizedGameObject.CharacteristicSet> getLargeCardDisplayOptions(SanitizedGameObject object)
+	private static Set<SanitizedGameObject.CharacteristicSet> getLargeCardDisplayOptions(SanitizedGameObject object)
 	{
-		java.util.Set<SanitizedGameObject.CharacteristicSet> ret = java.util.EnumSet.noneOf(SanitizedGameObject.CharacteristicSet.class);
+		Set<SanitizedGameObject.CharacteristicSet> ret = EnumSet.noneOf(SanitizedGameObject.CharacteristicSet.class);
 		if(object.characteristics.containsKey(SanitizedGameObject.CharacteristicSet.PHYSICAL))
 			ret.add(SanitizedGameObject.CharacteristicSet.PHYSICAL);
 		if(!object.flipped && object.characteristics.containsKey(SanitizedGameObject.CharacteristicSet.FLIP))
@@ -133,7 +169,7 @@ public class CardGraphics extends org.rnd.util.Graphics2DAdapter
 		return ret;
 	}
 
-	private static java.awt.Rectangle getSmallCardOptionRect(boolean tapped, boolean flipped, java.awt.Point smallCardStart, int optionsSoFar)
+	private static Rectangle getSmallCardOptionRect(boolean tapped, boolean flipped, Point smallCardStart, int optionsSoFar)
 	{
 		int x, y;
 		if(flipped && tapped)
@@ -156,22 +192,22 @@ public class CardGraphics extends org.rnd.util.Graphics2DAdapter
 			x = (int)(smallCardStart.getX());
 			y = (int)(smallCardStart.getY()) + SMALL_CARD.height - (SMALL_CARD_ICON_HEIGHT + SMALL_CARD_ICON_PADDING) * optionsSoFar + SMALL_CARD_ICON_PADDING;
 		}
-		return new java.awt.Rectangle(x, y, SMALL_CARD_ICON_WIDTH, SMALL_CARD_ICON_HEIGHT);
+		return new Rectangle(x, y, SMALL_CARD_ICON_WIDTH, SMALL_CARD_ICON_HEIGHT);
 	}
 
-	private static java.io.File cardArts = null;
+	private static File cardArts = null;
 
-	public static java.io.File getCardImageLocation()
+	public static File getCardImageLocation()
 	{
 		return cardArts;
 	}
 
 	public static void setCardImageLocation(String location)
 	{
-		setCardImageLocation(new java.io.File(location));
+		setCardImageLocation(new File(location));
 	}
 
-	public static void setCardImageLocation(java.io.File location)
+	public static void setCardImageLocation(File location)
 	{
 		if(location.exists() && location.isDirectory())
 			cardArts = location;
@@ -179,9 +215,9 @@ public class CardGraphics extends org.rnd.util.Graphics2DAdapter
 			cardArts = null;
 	}
 
-	public static java.text.AttributedString getAttributedString(String text, java.awt.FontMetrics font, boolean replaceIcons)
+	public static AttributedString getAttributedString(String text, FontMetrics font, boolean replaceIcons)
 	{
-		java.util.Map<Integer, java.awt.font.ImageGraphicAttribute> charReplacements = new java.util.HashMap<Integer, java.awt.font.ImageGraphicAttribute>();
+		Map<Integer, ImageGraphicAttribute> charReplacements = new HashMap<Integer, ImageGraphicAttribute>();
 
 		if(replaceIcons)
 			while(text.contains("("))
@@ -189,18 +225,18 @@ public class CardGraphics extends org.rnd.util.Graphics2DAdapter
 				int index = text.indexOf('(');
 				String replace = text.substring(index, text.indexOf(')') + 1);
 				text = text.substring(0, index) + "X" + text.substring(index + replace.length());
-				charReplacements.put(index, new java.awt.font.ImageGraphicAttribute(getIcon(replace, true), java.awt.font.GraphicAttribute.CENTER_BASELINE, 0f, CardGraphics.SMALL_MANA_SYMBOL.height / 2f));
+				charReplacements.put(index, new ImageGraphicAttribute(getIcon(replace, true), GraphicAttribute.CENTER_BASELINE, 0f, CardGraphics.SMALL_MANA_SYMBOL.height / 2f));
 			}
 
-		java.text.AttributedString attrText = new java.text.AttributedString(text);
+		AttributedString attrText = new AttributedString(text);
 
-		attrText.addAttribute(java.awt.font.TextAttribute.FONT, font.getFont());
+		attrText.addAttribute(TextAttribute.FONT, font.getFont());
 
 		if(replaceIcons)
-			for(java.util.Map.Entry<Integer, java.awt.font.ImageGraphicAttribute> replacement: charReplacements.entrySet())
+			for(Map.Entry<Integer, ImageGraphicAttribute> replacement: charReplacements.entrySet())
 			{
 				int index = replacement.getKey();
-				attrText.addAttribute(java.awt.font.TextAttribute.CHAR_REPLACEMENT, replacement.getValue(), index, replacement.getKey() + 1);
+				attrText.addAttribute(TextAttribute.CHAR_REPLACEMENT, replacement.getValue(), index, replacement.getKey() + 1);
 			}
 
 		return attrText;
@@ -223,7 +259,7 @@ public class CardGraphics extends org.rnd.util.Graphics2DAdapter
 		if(o instanceof SanitizedNonStaticAbility || o.isEmblem)
 			return "frame_ability.png";
 
-		java.util.Set<Color> colors = null;
+		Set<Color> colors = null;
 
 		SanitizedCharacteristics c = o.characteristics.get(option);
 
@@ -260,7 +296,7 @@ public class CardGraphics extends org.rnd.util.Graphics2DAdapter
 	 * colors, or four colors, returns the empty string. If fiveColor is false,
 	 * also returns the empty string for five colors.
 	 */
-	private static String getColorString(java.util.Set<Color> colors, boolean fiveColor)
+	private static String getColorString(Set<Color> colors, boolean fiveColor)
 	{
 		if(colors.size() == 0 || colors.size() == 3 || colors.size() == 4)
 			return "";
@@ -298,9 +334,9 @@ public class CardGraphics extends org.rnd.util.Graphics2DAdapter
 		return fiveColor ? "wubrg" : "";
 	}
 
-	public static java.awt.Image getIcon(String iconName, boolean little)
+	public static Image getIcon(String iconName, boolean little)
 	{
-		java.awt.Image icon = null;
+		Image icon = null;
 
 		String iconSize = "";
 		if(little)
@@ -334,7 +370,7 @@ public class CardGraphics extends org.rnd.util.Graphics2DAdapter
 			{
 				icon = getImage("icons/" + iconSize + getManaSymbolString(new ManaPool(iconName).iterator().next()) + ".png");
 			}
-			catch(java.util.NoSuchElementException e)
+			catch(NoSuchElementException e)
 			{
 				icon = null;
 			}
@@ -346,9 +382,9 @@ public class CardGraphics extends org.rnd.util.Graphics2DAdapter
 		return icon;
 	}
 
-	public static java.awt.Image getImage(String name)
+	public static Image getImage(String name)
 	{
-		java.net.URL location = CardGraphics.class.getResource(name);
+		URL location = CardGraphics.class.getResource(name);
 		if(null == location)
 		{
 			location = CardGraphics.class.getResource("noimage.png");
@@ -360,9 +396,9 @@ public class CardGraphics extends org.rnd.util.Graphics2DAdapter
 		{
 			try
 			{
-				imageCache.put(name, javax.imageio.ImageIO.read(location));
+				imageCache.put(name, ImageIO.read(location));
 			}
-			catch(java.io.IOException e)
+			catch(IOException e)
 			{
 				throw new RuntimeException("Could not read image \"" + name + "\"");
 			}
@@ -371,9 +407,9 @@ public class CardGraphics extends org.rnd.util.Graphics2DAdapter
 		return imageCache.get(name);
 	}
 
-	public static java.awt.Image getLargeCard(SanitizedIdentified object, SanitizedGameObject.CharacteristicSet option, SanitizedGameState state, java.awt.Font font)
+	public static Image getLargeCard(SanitizedIdentified object, SanitizedGameObject.CharacteristicSet option, SanitizedGameState state, Font font)
 	{
-		java.awt.image.BufferedImage image = new java.awt.image.BufferedImage(LARGE_CARD.width, LARGE_CARD.height, java.awt.image.BufferedImage.TYPE_INT_RGB);
+		BufferedImage image = new BufferedImage(LARGE_CARD.width, LARGE_CARD.height, BufferedImage.TYPE_INT_RGB);
 
 		CardGraphics cg = new CardGraphics(image, state, font);
 		cg.drawLargeCard(object, option);
@@ -415,21 +451,21 @@ public class CardGraphics extends org.rnd.util.Graphics2DAdapter
 		return manaString;
 	}
 
-	public static java.awt.Image getSmallCard(SanitizedIdentified object, SanitizedGameState state, boolean renderDamage, boolean renderCounters, java.awt.Font font)
+	public static Image getSmallCard(SanitizedIdentified object, SanitizedGameState state, boolean renderDamage, boolean renderCounters, Font font)
 	{
-		java.awt.image.BufferedImage image = new java.awt.image.BufferedImage(SMALL_CARD.width, SMALL_CARD.height, java.awt.image.BufferedImage.TYPE_INT_ARGB);
+		BufferedImage image = new BufferedImage(SMALL_CARD.width, SMALL_CARD.height, BufferedImage.TYPE_INT_ARGB);
 
 		CardGraphics cg = new CardGraphics(image, state, font);
 		cg.drawSmallCard(object, renderDamage, renderCounters);
 
 		if(object instanceof SanitizedGameObject && ((SanitizedGameObject)object).ghost)
 		{
-			java.awt.image.BufferedImage alphaImage = new java.awt.image.BufferedImage(SMALL_CARD.width, SMALL_CARD.height, java.awt.image.BufferedImage.TYPE_INT_ARGB);
+			BufferedImage alphaImage = new BufferedImage(SMALL_CARD.width, SMALL_CARD.height, BufferedImage.TYPE_INT_ARGB);
 			CardGraphics alphaCG = new CardGraphics(alphaImage, state, font);
 
 			float[] scales = {1f, 1f, 1f, 0.5f};
 			float[] offsets = new float[4];
-			java.awt.image.RescaleOp rop = new java.awt.image.RescaleOp(scales, offsets, null);
+			RescaleOp rop = new RescaleOp(scales, offsets, null);
 
 			alphaCG.drawImage(image, rop, 0, 0);
 			return alphaImage;
@@ -449,7 +485,7 @@ public class CardGraphics extends org.rnd.util.Graphics2DAdapter
 		for(Type type: c.types)
 			ret.append(type + " ");
 
-		java.util.List<Enum<?>> subTypes = new java.util.LinkedList<Enum<?>>();
+		List<Enum<?>> subTypes = new LinkedList<Enum<?>>();
 		boolean allCreatureTypes = false;
 		subTypes.addAll(c.subTypes);
 		if(SubType.getSubTypesFor(Type.CREATURE, c.subTypes).size() == SubType.getAllCreatureTypes().size())
@@ -468,58 +504,58 @@ public class CardGraphics extends org.rnd.util.Graphics2DAdapter
 		return ret.toString();
 	}
 
-	public static java.awt.Image renderTextAsLargeCard(String cardText, java.awt.Font font)
+	public static Image renderTextAsLargeCard(String cardText, Font font)
 	{
 		cardText = cardText.substring(0, 1).toUpperCase() + cardText.substring(1);
 
-		java.awt.image.BufferedImage image = new java.awt.image.BufferedImage(LARGE_CARD.width, LARGE_CARD.height, java.awt.image.BufferedImage.TYPE_INT_RGB);
+		BufferedImage image = new BufferedImage(LARGE_CARD.width, LARGE_CARD.height, BufferedImage.TYPE_INT_RGB);
 
 		CardGraphics cg = new CardGraphics(image, null, font);
 		cg.drawImage(CardGraphics.getImage("largeframes/frame_ability.png"), 0, 0, null);
 
-		cg.drawCardText(cardText, cg.getFont(), LARGE_CARD_PADDING_LEFT, LARGE_CARD_NAME_TOP, new java.awt.Dimension(LARGE_CARD_TEXT_WIDTH, LARGE_CARD_TOTAL_TEXT_HEIGHT), false, true);
+		cg.drawCardText(cardText, cg.getFont(), LARGE_CARD_PADDING_LEFT, LARGE_CARD_NAME_TOP, new Dimension(LARGE_CARD_TEXT_WIDTH, LARGE_CARD_TOTAL_TEXT_HEIGHT), false, true);
 
 		return image;
 	}
 
-	public static java.awt.Image renderTextAsSmallCard(String cardText, java.awt.Font font)
+	public static Image renderTextAsSmallCard(String cardText, Font font)
 	{
 		cardText = cardText.substring(0, 1).toUpperCase() + cardText.substring(1);
 
-		java.awt.image.BufferedImage image = new java.awt.image.BufferedImage(SMALL_CARD.width, SMALL_CARD.height, java.awt.image.BufferedImage.TYPE_INT_RGB);
+		BufferedImage image = new BufferedImage(SMALL_CARD.width, SMALL_CARD.height, BufferedImage.TYPE_INT_RGB);
 
 		CardGraphics g = new CardGraphics(image, null, font);
 		g.drawImage(CardGraphics.getImage("smallframes/frame_ability.png"), 0, 0, null);
 
 		int nameX = SMALL_CARD_PADDING_LEFT;
 		int nameY = SMALL_CARD_PADDING_TOP;
-		g.drawCardText(cardText, g.getFont(), nameX, nameY, new java.awt.Dimension(SMALL_CARD_TEXT_WIDTH, SMALL_CARD_TOTAL_TEXT_HEIGHT), false, true);
+		g.drawCardText(cardText, g.getFont(), nameX, nameY, new Dimension(SMALL_CARD_TEXT_WIDTH, SMALL_CARD_TOTAL_TEXT_HEIGHT), false, true);
 
 		return image;
 	}
 
 	private SanitizedGameState state;
 
-	private java.util.Stack<java.awt.geom.AffineTransform> transformStack;
+	private Stack<AffineTransform> transformStack;
 
 	/**
-	 * Construct a CardGraphics by casting a {@link java.awt.Graphics} to a
-	 * {@link java.awt.Graphics2D} and keeping the result as the delegate.
+	 * Construct a CardGraphics by casting a {@link Graphics} to a
+	 * {@link Graphics2D} and keeping the result as the delegate.
 	 * 
-	 * @param graphics The {@link java.awt.Graphics} to cast
+	 * @param graphics The {@link Graphics} to cast
 	 * @throws ClassCastException If <code>graphics</code> is not a
-	 * {@link java.awt.Graphics2D} object
+	 * {@link Graphics2D} object
 	 */
-	public CardGraphics(java.awt.Graphics graphics, SanitizedGameState state)
+	public CardGraphics(Graphics graphics, SanitizedGameState state)
 	{
-		this((java.awt.Graphics2D)graphics, state);
+		this((Graphics2D)graphics, state);
 	}
 
-	public CardGraphics(java.awt.Graphics2D graphics, SanitizedGameState state)
+	public CardGraphics(Graphics2D graphics, SanitizedGameState state)
 	{
 		super(graphics);
 		this.state = state;
-		this.transformStack = new java.util.Stack<java.awt.geom.AffineTransform>();
+		this.transformStack = new Stack<AffineTransform>();
 	}
 
 	/**
@@ -531,7 +567,7 @@ public class CardGraphics extends org.rnd.util.Graphics2DAdapter
 	 * 
 	 * @param image The image whose graphics to create this CardGraphics from.
 	 */
-	public CardGraphics(java.awt.image.BufferedImage image, SanitizedGameState state, java.awt.Font font)
+	public CardGraphics(BufferedImage image, SanitizedGameState state, Font font)
 	{
 		this(image.createGraphics(), state);
 		this.setFont(font);
@@ -543,7 +579,7 @@ public class CardGraphics extends org.rnd.util.Graphics2DAdapter
 		return new CardGraphics(this, this.state);
 	}
 
-	public void drawArrow(java.awt.Point source, java.awt.Point target, java.awt.Color color, boolean borderOnly)
+	public void drawArrow(Point source, Point target, java.awt.Color color, boolean borderOnly)
 	{
 		int dx = target.x - source.x;
 		int dy = target.y - source.y;
@@ -571,7 +607,7 @@ public class CardGraphics extends org.rnd.util.Graphics2DAdapter
 			headLength = width / 2 + headExtension;
 		}
 
-		java.awt.Polygon arrow = new java.awt.Polygon();
+		Polygon arrow = new Polygon();
 
 		arrow.addPoint(padding + headLength, width / 2);
 		arrow.addPoint((int)distance - headLength - padding, width / 2);
@@ -602,7 +638,7 @@ public class CardGraphics extends org.rnd.util.Graphics2DAdapter
 	 * @param y The top of the text.
 	 * @param color
 	 */
-	private void drawCardText(java.awt.font.TextLayout text, int x, int y, java.awt.Color color)
+	private void drawCardText(TextLayout text, int x, int y, java.awt.Color color)
 	{
 		java.awt.Color oldColor = this.getColor();
 		this.setColor(color);
@@ -625,7 +661,7 @@ public class CardGraphics extends org.rnd.util.Graphics2DAdapter
 	 * @param replaceIcons Whether to replace icons in the text (e.g., "(T)" or
 	 * "(1)" or "(R)") with graphics.
 	 */
-	public void drawCardText(String text, java.awt.Font font, int x, int y, java.awt.Dimension bound, boolean centered, boolean replaceIcons)
+	public void drawCardText(String text, Font font, int x, int y, Dimension bound, boolean centered, boolean replaceIcons)
 	{
 		this.drawCardText(text, font, x, y, bound, centered, replaceIcons, java.awt.Color.BLACK);
 	}
@@ -646,13 +682,13 @@ public class CardGraphics extends org.rnd.util.Graphics2DAdapter
 	 * "(1)" or "(R)") with graphics.
 	 * @param color What color to draw the text in.
 	 */
-	private void drawCardText(String text, java.awt.Font font, int x, int y, java.awt.Dimension bound, boolean centered, boolean replaceIcons, java.awt.Color color)
+	private void drawCardText(String text, Font font, int x, int y, Dimension bound, boolean centered, boolean replaceIcons, java.awt.Color color)
 	{
-		java.awt.Font oldFont = this.getFont();
+		Font oldFont = this.getFont();
 		this.setFont(font);
-		java.awt.FontMetrics metrics = this.getFontMetrics();
+		FontMetrics metrics = this.getFontMetrics();
 		int lineHeight = metrics.getHeight();
-		java.util.List<String> paragraphs = new java.util.LinkedList<String>();
+		List<String> paragraphs = new LinkedList<String>();
 
 		while(text.contains("\n"))
 		{
@@ -662,7 +698,7 @@ public class CardGraphics extends org.rnd.util.Graphics2DAdapter
 		}
 		paragraphs.add(text);
 
-		java.util.List<java.awt.font.TextLayout> lines = new java.util.LinkedList<java.awt.font.TextLayout>();
+		List<TextLayout> lines = new LinkedList<TextLayout>();
 
 		boolean first = true;
 		int height = 0;
@@ -677,13 +713,13 @@ public class CardGraphics extends org.rnd.util.Graphics2DAdapter
 				height += (lineHeight / 2);
 			}
 
-			java.text.AttributedCharacterIterator attrIter = CardGraphics.getAttributedString(paragraph, getFontMetrics(), replaceIcons).getIterator();
-			java.awt.font.LineBreakMeasurer lbm = new java.awt.font.LineBreakMeasurer(attrIter, getFontRenderContext());
+			AttributedCharacterIterator attrIter = CardGraphics.getAttributedString(paragraph, getFontMetrics(), replaceIcons).getIterator();
+			LineBreakMeasurer lbm = new LineBreakMeasurer(attrIter, getFontRenderContext());
 
 			int endIndex = attrIter.getEndIndex();
 			while(lbm.getPosition() != endIndex)
 			{
-				java.awt.font.TextLayout nextLayout = lbm.nextLayout(bound.width, endIndex, true);
+				TextLayout nextLayout = lbm.nextLayout(bound.width, endIndex, true);
 				if(nextLayout == null)
 				{
 					tooBig = true;
@@ -710,7 +746,7 @@ public class CardGraphics extends org.rnd.util.Graphics2DAdapter
 		}
 		else
 		{
-			for(java.awt.font.TextLayout line: lines)
+			for(TextLayout line: lines)
 			{
 				if(null == line)
 				{
@@ -742,7 +778,7 @@ public class CardGraphics extends org.rnd.util.Graphics2DAdapter
 	private void drawCardTextRightAligned(String text, int x, int y, java.awt.Color color)
 	{
 		int textWidth = this.getFontMetrics().stringWidth(text);
-		this.drawCardText(new java.awt.font.TextLayout(CardGraphics.getAttributedString(text, getFontMetrics(), false).getIterator(), getFontRenderContext()), x - textWidth, y, color);
+		this.drawCardText(new TextLayout(CardGraphics.getAttributedString(text, getFontMetrics(), false).getIterator(), getFontRenderContext()), x - textWidth, y, color);
 	}
 
 	private void drawLargeCard(SanitizedIdentified i, SanitizedGameObject.CharacteristicSet option)
@@ -776,7 +812,7 @@ public class CardGraphics extends org.rnd.util.Graphics2DAdapter
 
 			if(player.nonPoisonCounters.size() > 0)
 			{
-				java.util.Map<Counter.CounterType, Integer> counterQuantities = new java.util.HashMap<Counter.CounterType, Integer>();
+				Map<Counter.CounterType, Integer> counterQuantities = new HashMap<Counter.CounterType, Integer>();
 				for(Counter counter: player.nonPoisonCounters)
 				{
 					if(counterQuantities.containsKey(counter.getType()))
@@ -786,7 +822,7 @@ public class CardGraphics extends org.rnd.util.Graphics2DAdapter
 				}
 
 				// Use the EnumSet to order the output consistently
-				for(java.util.Map.Entry<Counter.CounterType, Integer> counterQuantity: counterQuantities.entrySet())
+				for(Map.Entry<Counter.CounterType, Integer> counterQuantity: counterQuantities.entrySet())
 				{
 					Counter.CounterType type = counterQuantity.getKey();
 					Integer count = counterQuantity.getValue();
@@ -806,9 +842,9 @@ public class CardGraphics extends org.rnd.util.Graphics2DAdapter
 				text.append(this.state.get(a));
 			}
 
-			this.drawCardText(text.toString(), getFont(), LARGE_CARD_PADDING_LEFT, LARGE_CARD_NAME_TOP, new java.awt.Dimension(LARGE_CARD_TEXT_WIDTH, LARGE_CARD_TOTAL_TEXT_HEIGHT), false, true);
+			this.drawCardText(text.toString(), getFont(), LARGE_CARD_PADDING_LEFT, LARGE_CARD_NAME_TOP, new Dimension(LARGE_CARD_TEXT_WIDTH, LARGE_CARD_TOTAL_TEXT_HEIGHT), false, true);
 
-			java.awt.FontMetrics f = getFontMetrics();
+			FontMetrics f = getFontMetrics();
 			int x = LARGE_CARD.width - LARGE_CARD_LIFE_RIGHT;
 			int y = LARGE_CARD.height - LARGE_CARD_POISON_BOTTOM - f.getHeight();
 			if(player.poisonCounters == 1)
@@ -825,19 +861,19 @@ public class CardGraphics extends org.rnd.util.Graphics2DAdapter
 		boolean isAbility = i instanceof SanitizedNonStaticAbility;
 
 		String name;
-		java.awt.Dimension nameDimensions;
+		Dimension nameDimensions;
 		if(isAbility)
 		{
 			// The "short" name of an ability more represents what we want for
 			// the name text
 			name = ((SanitizedNonStaticAbility)i).shortName;
 			// Allow names to wrap into the art box
-			nameDimensions = new java.awt.Dimension(LARGE_CARD_TEXT_WIDTH, LARGE_CARD_ART_TOP + LARGE_CARD_ART_HEIGHT);
+			nameDimensions = new Dimension(LARGE_CARD_TEXT_WIDTH, LARGE_CARD_ART_TOP + LARGE_CARD_ART_HEIGHT);
 		}
 		else
 		{
 			name = c.name;
-			nameDimensions = new java.awt.Dimension(LARGE_CARD_TEXT_WIDTH, LARGE_CARD_TEXT_LINE_HEIGHT);
+			nameDimensions = new Dimension(LARGE_CARD_TEXT_WIDTH, LARGE_CARD_TEXT_LINE_HEIGHT);
 		}
 		if(0 != name.length())
 			this.drawCardText(name, getFont(), LARGE_CARD_PADDING_LEFT, LARGE_CARD_NAME_TOP, nameDimensions, false, false, textColor);
@@ -854,15 +890,15 @@ public class CardGraphics extends org.rnd.util.Graphics2DAdapter
 			this.popTransform();
 		}
 
-		java.awt.Image art = getCardArt(c.name, true);
+		Image art = getCardArt(c.name, true);
 		if(art != null)
 			this.drawImage(art, LARGE_CARD_ART_LEFT, LARGE_CARD_ART_TOP, LARGE_CARD_ART_WIDTH, LARGE_CARD_ART_HEIGHT, null);
 
-		java.awt.Dimension typeBound = new java.awt.Dimension(LARGE_CARD_TEXT_WIDTH, LARGE_CARD_TEXT_LINE_HEIGHT);
+		Dimension typeBound = new Dimension(LARGE_CARD_TEXT_WIDTH, LARGE_CARD_TEXT_LINE_HEIGHT);
 		int typeLeft = LARGE_CARD_PADDING_LEFT;
 		if(!c.colorIndicator.isEmpty())
 		{
-			java.awt.Image icon = getImage("icons/" + getColorString(c.colorIndicator, true) + "Indicator.png");
+			Image icon = getImage("icons/" + getColorString(c.colorIndicator, true) + "Indicator.png");
 			this.drawImage(icon, LARGE_CARD_PADDING_LEFT, LARGE_CARD_TYPE_TOP + 1, COLOR_INDICATOR.width, COLOR_INDICATOR.height, null);
 			int pad = COLOR_INDICATOR.width + 2;
 			typeBound.width -= pad;
@@ -931,12 +967,12 @@ public class CardGraphics extends org.rnd.util.Graphics2DAdapter
 		if(o instanceof SanitizedNonStaticAbility)
 		{
 			String text = ((SanitizedNonStaticAbility)o).shortName;
-			this.drawCardText(text, getFont(), SMALL_CARD_PADDING_LEFT, SMALL_CARD_PADDING_TOP, new java.awt.Dimension(SMALL_CARD_TEXT_WIDTH, SMALL_CARD_TOTAL_TEXT_HEIGHT), false, true);
+			this.drawCardText(text, getFont(), SMALL_CARD_PADDING_LEFT, SMALL_CARD_PADDING_TOP, new Dimension(SMALL_CARD_TEXT_WIDTH, SMALL_CARD_TOTAL_TEXT_HEIGHT), false, true);
 			return;
 		}
 		if(o instanceof SanitizedGameObject && ((SanitizedGameObject)o).isEmblem)
 		{
-			this.drawCardText("Emblem", getFont(), SMALL_CARD_PADDING_LEFT, SMALL_CARD_PADDING_TOP, new java.awt.Dimension(SMALL_CARD_TEXT_WIDTH, SMALL_CARD_TOTAL_TEXT_HEIGHT), false, true);
+			this.drawCardText("Emblem", getFont(), SMALL_CARD_PADDING_LEFT, SMALL_CARD_PADDING_TOP, new Dimension(SMALL_CARD_TEXT_WIDTH, SMALL_CARD_TOTAL_TEXT_HEIGHT), false, true);
 			return;
 		}
 		// for players, print the name and life total
@@ -947,9 +983,9 @@ public class CardGraphics extends org.rnd.util.Graphics2DAdapter
 
 			int nameX = SMALL_CARD_PADDING_LEFT;
 			int nameY = SMALL_CARD_PADDING_TOP;
-			this.drawCardText(text, getFont(), nameX, nameY, new java.awt.Dimension(SMALL_CARD_TEXT_WIDTH, SMALL_CARD_TOTAL_TEXT_HEIGHT), false, false);
+			this.drawCardText(text, getFont(), nameX, nameY, new Dimension(SMALL_CARD_TEXT_WIDTH, SMALL_CARD_TOTAL_TEXT_HEIGHT), false, false);
 
-			java.awt.FontMetrics f = this.getFontMetrics();
+			FontMetrics f = this.getFontMetrics();
 			int x = SMALL_CARD.width - SMALL_CARD_DAMAGE_RIGHT;
 			int y = SMALL_CARD.height - SMALL_CARD_POISON_BOTTOM - f.getHeight();
 			if(player.poisonCounters > 0)
@@ -965,16 +1001,16 @@ public class CardGraphics extends org.rnd.util.Graphics2DAdapter
 			SanitizedGameObject object = (SanitizedGameObject)o;
 			SanitizedCharacteristics characteristics = object.characteristics.get(SanitizedGameObject.CharacteristicSet.ACTUAL);
 
-			java.awt.Image art = getCardArt(characteristics.name, false);
+			Image art = getCardArt(characteristics.name, false);
 			if(0 != characteristics.name.length())
 			{
 				if(art == null)
-					this.drawCardText(characteristics.name, getFont(), SMALL_CARD_PADDING_LEFT, SMALL_CARD_PADDING_TOP, new java.awt.Dimension(SMALL_CARD_TEXT_WIDTH, SMALL_CARD_TOTAL_TEXT_HEIGHT), false, false);
+					this.drawCardText(characteristics.name, getFont(), SMALL_CARD_PADDING_LEFT, SMALL_CARD_PADDING_TOP, new Dimension(SMALL_CARD_TEXT_WIDTH, SMALL_CARD_TOTAL_TEXT_HEIGHT), false, false);
 				else
 				{
 					this.drawImage(art, SMALL_CARD_ART_LEFT, SMALL_CARD_ART_TOP, SMALL_CARD_ART_WIDTH, SMALL_CARD_ART_HEIGHT, null);
-					this.drawCardText(characteristics.name, getFont(), SMALL_CARD_PADDING_LEFT, SMALL_CARD_PADDING_TOP, new java.awt.Dimension(SMALL_CARD_TEXT_WIDTH, SMALL_CARD_TOTAL_TEXT_HEIGHT), false, false);
-					this.drawCardText(characteristics.name, getFont(), SMALL_CARD_PADDING_LEFT - 1, SMALL_CARD_PADDING_TOP - 1, new java.awt.Dimension(SMALL_CARD_TEXT_WIDTH, SMALL_CARD_TOTAL_TEXT_HEIGHT), false, false, java.awt.Color.WHITE);
+					this.drawCardText(characteristics.name, getFont(), SMALL_CARD_PADDING_LEFT, SMALL_CARD_PADDING_TOP, new Dimension(SMALL_CARD_TEXT_WIDTH, SMALL_CARD_TOTAL_TEXT_HEIGHT), false, false);
+					this.drawCardText(characteristics.name, getFont(), SMALL_CARD_PADDING_LEFT - 1, SMALL_CARD_PADDING_TOP - 1, new Dimension(SMALL_CARD_TEXT_WIDTH, SMALL_CARD_TOTAL_TEXT_HEIGHT), false, false, java.awt.Color.WHITE);
 				}
 			}
 
@@ -993,7 +1029,7 @@ public class CardGraphics extends org.rnd.util.Graphics2DAdapter
 
 			if(renderDamage && object.damage > 0)
 			{
-				java.awt.FontMetrics f = this.getFontMetrics();
+				FontMetrics f = this.getFontMetrics();
 				int x = SMALL_CARD.width - SMALL_CARD_DAMAGE_RIGHT;
 				int y = SMALL_CARD.height - SMALL_CARD_DAMAGE_BOTTOM - f.getHeight();
 				this.drawCardTextRightAligned(Integer.toString(((SanitizedGameObject)o).damage), x, y, java.awt.Color.RED);
@@ -1003,18 +1039,18 @@ public class CardGraphics extends org.rnd.util.Graphics2DAdapter
 			{
 				int countersPerRow = 10;
 				int maxRows = 3;
-				java.util.List<Counter> counters = ((SanitizedGameObject)o).counters;
+				List<Counter> counters = ((SanitizedGameObject)o).counters;
 				if(counters.size() > maxRows * countersPerRow)
 				{
 					int x = SMALL_CARD_PADDING_LEFT;
 					int height = this.getFontMetrics().getHeight();
 					int y = SMALL_CARD_ART_TOP + SMALL_CARD_ART_HEIGHT - height - 1;
-					this.drawCardText(counters.size() + " counters", this.getFont(), x, y, new java.awt.Dimension(SMALL_CARD_TEXT_WIDTH, height), false, false);
-					this.drawCardText(counters.size() + " counters", this.getFont(), x - 1, y - 1, new java.awt.Dimension(SMALL_CARD_TEXT_WIDTH, height), false, false, java.awt.Color.WHITE);
+					this.drawCardText(counters.size() + " counters", this.getFont(), x, y, new Dimension(SMALL_CARD_TEXT_WIDTH, height), false, false);
+					this.drawCardText(counters.size() + " counters", this.getFont(), x - 1, y - 1, new Dimension(SMALL_CARD_TEXT_WIDTH, height), false, false, java.awt.Color.WHITE);
 				}
 				else
 				{
-					java.util.Collections.sort(counters);
+					Collections.sort(counters);
 
 					java.awt.Color oldColor = this.getColor();
 					int counterSize = 5;
@@ -1051,13 +1087,13 @@ public class CardGraphics extends org.rnd.util.Graphics2DAdapter
 			{
 				++options;
 
-				java.awt.Rectangle rect = getSmallCardOptionRect(false, false, new java.awt.Point(0, 0), options);
+				Rectangle rect = getSmallCardOptionRect(false, false, new Point(0, 0), options);
 				this.drawImage(getImage("icons/" + option.name().toLowerCase() + ".png"), (int)(rect.getX()), (int)(rect.getY()), null);
 			}
 		}
 	}
 
-	private static java.awt.Image getCardArt(String cardName, boolean getLargeArt)
+	private static Image getCardArt(String cardName, boolean getLargeArt)
 	{
 		if(cardArts == null)
 			return null;
@@ -1068,22 +1104,22 @@ public class CardGraphics extends org.rnd.util.Graphics2DAdapter
 		{
 			boolean fileFound = false;
 
-			for(java.io.File file: cardArts.listFiles(new java.io.FilenameFilter()
+			for(File file: cardArts.listFiles(new FilenameFilter()
 			{
 				@Override
-				public boolean accept(java.io.File dir, String name)
+				public boolean accept(File dir, String name)
 				{
 					return name.equalsIgnoreCase(fileName);
 				}
 			}))
 			{
 
-				java.awt.Image image = null;
+				Image image = null;
 				try
 				{
-					image = javax.imageio.ImageIO.read(file);
+					image = ImageIO.read(file);
 				}
-				catch(java.io.IOException e)
+				catch(IOException e)
 				{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -1093,11 +1129,11 @@ public class CardGraphics extends org.rnd.util.Graphics2DAdapter
 					// Cache both a small version and a large version of the
 					// card art to save processor power resizing repeatedly
 					// later.
-					java.awt.image.BufferedImage large = new java.awt.image.BufferedImage(LARGE_CARD_ART_WIDTH, LARGE_CARD_ART_HEIGHT, java.awt.image.BufferedImage.TYPE_INT_RGB);
+					BufferedImage large = new BufferedImage(LARGE_CARD_ART_WIDTH, LARGE_CARD_ART_HEIGHT, BufferedImage.TYPE_INT_RGB);
 					large.getGraphics().drawImage(image, 0, 0, LARGE_CARD_ART_WIDTH, LARGE_CARD_ART_HEIGHT, null);
 					imageCache.put(fileName, large);
 
-					java.awt.image.BufferedImage small = new java.awt.image.BufferedImage(SMALL_CARD_ART_WIDTH, SMALL_CARD_ART_HEIGHT, java.awt.image.BufferedImage.TYPE_INT_RGB);
+					BufferedImage small = new BufferedImage(SMALL_CARD_ART_WIDTH, SMALL_CARD_ART_HEIGHT, BufferedImage.TYPE_INT_RGB);
 					small.getGraphics().drawImage(image, 0, 0, SMALL_CARD_ART_WIDTH, SMALL_CARD_ART_HEIGHT, null);
 					imageCache.put("*" + fileName, small);
 
@@ -1151,7 +1187,7 @@ public class CardGraphics extends org.rnd.util.Graphics2DAdapter
 	 */
 	public void drawDivision(int division)
 	{
-		java.awt.Dimension cardBounds = new java.awt.Dimension(SMALL_CARD_TEXT_WIDTH, SMALL_CARD_TOTAL_TEXT_HEIGHT);
+		Dimension cardBounds = new Dimension(SMALL_CARD_TEXT_WIDTH, SMALL_CARD_TOTAL_TEXT_HEIGHT);
 		this.drawCardText(Integer.toString(division), getFont().deriveFont(104f), SMALL_CARD_PADDING_LEFT, SMALL_CARD_PADDING_TOP, cardBounds, true, false);
 	}
 }

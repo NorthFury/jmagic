@@ -5,6 +5,11 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @Name("Phyrexian Metamorph")
 @Types({Type.CREATURE, Type.ARTIFACT})
 @SubTypes({SubType.SHAPESHIFTER})
@@ -29,14 +34,14 @@ public final class PhyrexianMetamorph extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			GameObject placeCopyEffectOn = parameters.get(Parameter.OBJECT).getOne(GameObject.class);
 			Player chooser = parameters.get(Parameter.PLAYER).getOne(Player.class);
 
-			PlayerInterface.ChooseParameters<java.io.Serializable> chooseParameters = new PlayerInterface.ChooseParameters<java.io.Serializable>(1, 1, PlayerInterface.ChoiceType.OBJECTS, PlayerInterface.ChooseReason.COPY);
+			PlayerInterface.ChooseParameters<Serializable> chooseParameters = new PlayerInterface.ChooseParameters<Serializable>(1, 1, PlayerInterface.ChoiceType.OBJECTS, PlayerInterface.ChooseReason.COPY);
 			chooseParameters.thisID = placeCopyEffectOn.ID;
-			java.util.List<?> choice = chooser.sanitizeAndChoose(game.actualState, parameters.get(Parameter.SOURCE), chooseParameters);
+			List<?> choice = chooser.sanitizeAndChoose(game.actualState, parameters.get(Parameter.SOURCE), chooseParameters);
 
 			GameObject createCopyEffectFrom = new MagicSet(choice).getOne(GameObject.class);
 
@@ -47,7 +52,7 @@ public final class PhyrexianMetamorph extends Card
 				part.parameters.put(ContinuousEffectType.Parameter.ORIGINAL, IdentifiedWithID.instance(createCopyEffectFrom.ID));
 				part.parameters.put(ContinuousEffectType.Parameter.TYPE, Identity.instance(Type.ARTIFACT));
 
-				java.util.Map<Parameter, MagicSet> effectParameters = new java.util.HashMap<Parameter, MagicSet>();
+				Map<Parameter, MagicSet> effectParameters = new HashMap<Parameter, MagicSet>();
 				effectParameters.put(EventType.Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 				effectParameters.put(EventType.Parameter.EFFECT, new MagicSet(part));
 				effectParameters.put(EventType.Parameter.EXPIRES, new MagicSet(Empty.instance()));

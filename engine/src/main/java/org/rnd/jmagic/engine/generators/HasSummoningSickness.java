@@ -2,6 +2,10 @@ package org.rnd.jmagic.engine.generators;
 
 import org.rnd.jmagic.engine.*;
 
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Evaluates to each GameObject which hasn't been under its controllers control
  * since the beginning of his/her last upkeep
@@ -23,8 +27,8 @@ public class HasSummoningSickness extends SetGenerator
 	@Override
 	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		java.util.Set<Integer> summoningSickIDs = new java.util.HashSet<Integer>();
-		for(java.util.Collection<Integer> objectIDs: state.summoningSick.values())
+		Set<Integer> summoningSickIDs = new HashSet<Integer>();
+		for(Collection<Integer> objectIDs: state.summoningSick.values())
 			summoningSickIDs.addAll(objectIDs);
 
 		MagicSet ret = new MagicSet();

@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Haste;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -21,7 +22,7 @@ public final class ActofAggression extends Card
 		ContinuousEffect.Part controlPart = new ContinuousEffect.Part(ContinuousEffectType.CHANGE_CONTROL);
 		controlPart.parameters.put(ContinuousEffectType.Parameter.OBJECT, targetedBy(target));
 		controlPart.parameters.put(ContinuousEffectType.Parameter.PLAYER, You.instance());
-		this.addEffect(createFloatingEffect("Gain control of target creature until end of turn. It gains haste until end of turn.", controlPart, addAbilityToObject(targetedBy(target), org.rnd.jmagic.abilities.keywords.Haste.class)));
+		this.addEffect(createFloatingEffect("Gain control of target creature until end of turn. It gains haste until end of turn.", controlPart, addAbilityToObject(targetedBy(target), Haste.class)));
 
 		this.addEffect(untap(targetedBy(target), "Untap that creature."));
 	}

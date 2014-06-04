@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Haste;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -36,7 +38,7 @@ public final class Hellrider extends Card
 		this.setToughness(3);
 
 		// Haste
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Haste(state));
+		this.addAbility(new Haste(state));
 
 		// Whenever a creature you control attacks, Hellrider deals 1 damage to
 		// defending player.

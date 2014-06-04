@@ -2,6 +2,8 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.Unblockable;
+import org.rnd.jmagic.abilities.keywords.Kicker;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -54,11 +56,11 @@ public final class AEtherFigment extends Card
 		this.setPower(1);
 		this.setToughness(1);
 
-		org.rnd.jmagic.abilities.keywords.Kicker ability = new org.rnd.jmagic.abilities.keywords.Kicker(state, "3");
+		Kicker ability = new Kicker(state, "3");
 		this.addAbility(ability);
 		CostCollection kickerCost = ability.costCollections[0];
 
-		this.addAbility(new org.rnd.jmagic.abilities.Unblockable(state, this.getName()));
+		this.addAbility(new Unblockable(state, this.getName()));
 
 		this.addAbility(new ImaginaryViolence(state, kickerCost));
 	}

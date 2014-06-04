@@ -1,5 +1,15 @@
 package org.rnd.jmagic.interfaceAdapters;
 
+import org.rnd.jmagic.engine.PlayerInterface;
+import org.rnd.jmagic.sanitized.SanitizedCostCollection;
+import org.rnd.util.NumberRange;
+
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
 /**
  * Interface adapter for choosing an optional additional cost multiple times
  * (like replicate or multikicker). This is intended to be an "always-on"
@@ -7,13 +17,13 @@ package org.rnd.jmagic.interfaceAdapters;
  */
 public class MulticostAdapter extends SimplePlayerInterface
 {
-	public MulticostAdapter(org.rnd.jmagic.engine.PlayerInterface adapt)
+	public MulticostAdapter(PlayerInterface adapt)
 	{
 		super(adapt);
 	}
 
 	@Override
-	public <T extends java.io.Serializable> java.util.List<Integer> choose(ChooseParameters<T> parameterObject)
+	public <T extends Serializable> List<Integer> choose(ChooseParameters<T> parameterObject)
 	{
 		if(!parameterObject.reason.equals(ChooseReason.OPTIONAL_ADDITIONAL_COST))
 			return super.choose(parameterObject);
@@ -22,19 +32,19 @@ public class MulticostAdapter extends SimplePlayerInterface
 		// the relationship between the indices in the two lists. Keys are
 		// indices in the new parameter list, values are indices in the old
 		// parameter list.
-		java.util.Map<Integer, Integer> indexMap = new java.util.HashMap<Integer, Integer>();
+		Map<Integer, Integer> indexMap = new HashMap<Integer, Integer>();
 		ChooseParameters<T> newParameters = new ChooseParameters<T>(0, null, ChoiceType.ALTERNATE_COST, parameterObject.reason);
 
 		// In this map, the keys are the costs themselves and the values are
 		// the indices of those costs in the old parameter list.
-		java.util.Map<T, Integer> multicosts = new java.util.HashMap<T, Integer>();
+		Map<T, Integer> multicosts = new HashMap<T, Integer>();
 
 		// Set up the two new choice lists.
 		boolean chooseSingles = false;
 		int oldIndex = 0;
 		for(T choice: parameterObject.choices)
 		{
-			org.rnd.jmagic.sanitized.SanitizedCostCollection cost = (org.rnd.jmagic.sanitized.SanitizedCostCollection)choice;
+			SanitizedCostCollection cost = (SanitizedCostCollection)choice;
 
 			// If it's a one-off cost, add it to the new parameter set.
 			if(!cost.allowMultiples)
@@ -51,19 +61,19 @@ public class MulticostAdapter extends SimplePlayerInterface
 			oldIndex++;
 		}
 
-		java.util.List<Integer> ret = new java.util.LinkedList<Integer>();
+		List<Integer> ret = new LinkedList<Integer>();
 
 		// If there were any once-only costs to choose, present the choices.
 		if(chooseSingles)
 		{
-			java.util.List<Integer> singleChoices = super.choose(newParameters);
+			List<Integer> singleChoices = super.choose(newParameters);
 			for(int indexInNewList: singleChoices)
 				ret.add(indexMap.get(indexInNewList));
 		}
 		// Ask about each multi-cost individually.
-		for(java.util.Map.Entry<T, Integer> costEntry: multicosts.entrySet())
+		for(Map.Entry<T, Integer> costEntry: multicosts.entrySet())
 		{
-			int number = this.chooseNumber(new org.rnd.util.NumberRange(0, null), "How many times do you want to pay " + costEntry.getKey() + "?");
+			int number = this.chooseNumber(new NumberRange(0, null), "How many times do you want to pay " + costEntry.getKey() + "?");
 			int indexInOldList = costEntry.getValue();
 			for(int n = 0; n < number; n++)
 				ret.add(indexInOldList);

@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Protection;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -45,7 +47,7 @@ public final class RunedHalo extends Card
 
 			this.getLinkManager().addLinkClass(RunedHaloAbility0.class);
 
-			AbilityFactory factory = new org.rnd.jmagic.abilities.keywords.Protection.AbilityFactory(HasName.instance(ChosenFor.instance(LinkedTo.instance(Identity.instance(this)))), "the name chosen for Runed Halo");
+			AbilityFactory factory = new Protection.AbilityFactory(HasName.instance(ChosenFor.instance(LinkedTo.instance(Identity.instance(this)))), "the name chosen for Runed Halo");
 
 			ContinuousEffect.Part part = new ContinuousEffect.Part(ContinuousEffectType.ADD_ABILITY_TO_PLAYER);
 			part.parameters.put(ContinuousEffectType.Parameter.PLAYER, You.instance());

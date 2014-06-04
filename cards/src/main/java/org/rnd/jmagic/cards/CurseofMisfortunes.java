@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Enchant;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -53,7 +54,7 @@ public final class CurseofMisfortunes extends Card
 		super(state);
 
 		// Enchant player
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Enchant.Player(state));
+		this.addAbility(new Enchant.Player(state));
 
 		// At the beginning of your upkeep, you may search your library for a
 		// Curse card that doesn't have the same name as a Curse attached to

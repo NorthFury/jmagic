@@ -3,6 +3,9 @@ package org.rnd.jmagic.cards;
 import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 
+import java.util.Collections;
+import java.util.List;
+
 @Name("Harmless Assault")
 @Types({Type.INSTANT})
 @ManaCost("2WW")
@@ -29,10 +32,10 @@ public final class HarmlessAssault extends Card
 		}
 
 		@Override
-		public java.util.List<EventFactory> prevent(DamageAssignment.Batch damageAssignments)
+		public List<EventFactory> prevent(DamageAssignment.Batch damageAssignments)
 		{
 			damageAssignments.clear();
-			return java.util.Collections.emptyList();
+			return Collections.emptyList();
 		}
 	}
 

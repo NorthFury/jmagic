@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Cycling;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -44,6 +45,6 @@ public final class ArchitectsofWill extends Card
 		this.addAbility(new ETBIndex(state));
 
 		// Cycling ((u/b)) (((u/b)), Discard this card: Draw a card.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Cycling(state, "(UB)"));
+		this.addAbility(new Cycling(state, "(UB)"));
 	}
 }

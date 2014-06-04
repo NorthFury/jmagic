@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -19,7 +21,7 @@ public final class CrownedCeratok extends Card
 			super(state, "Each creature you control with a +1/+1 counter on it has trample.");
 
 			SetGenerator creatures = Intersect.instance(CREATURES_YOU_CONTROL, HasCounterOfType.instance(Counter.CounterType.PLUS_ONE_PLUS_ONE));
-			this.addEffectPart(addAbilityToObject(creatures, org.rnd.jmagic.abilities.keywords.Trample.class));
+			this.addEffectPart(addAbilityToObject(creatures, Trample.class));
 		}
 	}
 
@@ -31,7 +33,7 @@ public final class CrownedCeratok extends Card
 		this.setToughness(3);
 
 		// Trample
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Trample(state));
+		this.addAbility(new Trample(state));
 
 		// Each creature you control with a +1/+1 counter on it has trample.
 		this.addAbility(new CrownedCeratokAbility1(state));

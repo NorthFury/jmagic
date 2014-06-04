@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Prowl;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import static org.rnd.jmagic.Convenience.*;
@@ -16,7 +17,7 @@ public final class ThievesFortune extends Card
 	{
 		super(state);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Prowl(state, "(U)"));
+		this.addAbility(new Prowl(state, "(U)"));
 
 		EventType.ParameterMap parameters = new EventType.ParameterMap();
 		parameters.put(EventType.Parameter.CAUSE, This.instance());

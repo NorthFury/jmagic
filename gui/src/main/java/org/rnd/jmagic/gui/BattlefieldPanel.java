@@ -2,12 +2,35 @@ package org.rnd.jmagic.gui;
 
 import org.rnd.jmagic.sanitized.*;
 
-class BattlefieldPanel extends javax.swing.JPanel
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.UIManager;
+import javax.swing.event.MouseInputAdapter;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.LayoutManager;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
+import java.awt.event.MouseEvent;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
+class BattlefieldPanel extends JPanel
 {
 	private class PlacementInformation
 	{
-		private java.awt.Point center;
-		private java.awt.Rectangle border;
+		private Point center;
+		private Rectangle border;
 		private Boolean tapped;
 		private boolean selected;
 
@@ -27,12 +50,12 @@ class BattlefieldPanel extends javax.swing.JPanel
 			if(card.controllerID == BattlefieldPanel.this.gui.playerID)
 				y += (BattlefieldPanel.this.battlefieldPanel.getParent().getHeight() - CardGraphics.SMALL_CARD.height);
 
-			this.center = new java.awt.Point(x, y);
+			this.center = new Point(x, y);
 		}
 
 		public PlacementInformation(int x, int y)
 		{
-			this.center = new java.awt.Point(x, y);
+			this.center = new Point(x, y);
 			this.border = null;
 			this.tapped = null;
 			this.selected = false;
@@ -68,7 +91,7 @@ class BattlefieldPanel extends javax.swing.JPanel
 			return true;
 		}
 
-		public java.awt.Point getCenter()
+		public Point getCenter()
 		{
 			return this.center;
 		}
@@ -80,7 +103,7 @@ class BattlefieldPanel extends javax.swing.JPanel
 			return this.tapped.booleanValue();
 		}
 
-		public java.awt.Rectangle getBorder(int objectID)
+		public Rectangle getBorder(int objectID)
 		{
 			if(this.border == null)
 			{
@@ -90,7 +113,7 @@ class BattlefieldPanel extends javax.swing.JPanel
 					int y = this.getCenter().y - (CardGraphics.SMALL_CARD.width / 2);
 					int width = CardGraphics.SMALL_CARD.height;
 					int height = CardGraphics.SMALL_CARD.width;
-					this.border = new java.awt.Rectangle(x, y, width, height);
+					this.border = new Rectangle(x, y, width, height);
 				}
 				else
 				{
@@ -98,7 +121,7 @@ class BattlefieldPanel extends javax.swing.JPanel
 					int y = this.getCenter().y - (CardGraphics.SMALL_CARD.height / 2);
 					int width = CardGraphics.SMALL_CARD.width;
 					int height = CardGraphics.SMALL_CARD.height;
-					this.border = new java.awt.Rectangle(x, y, width, height);
+					this.border = new Rectangle(x, y, width, height);
 				}
 			}
 			return this.border;
@@ -118,9 +141,9 @@ class BattlefieldPanel extends javax.swing.JPanel
 
 	private static final long serialVersionUID = 1L;
 
-	private static java.awt.Rectangle intersectsAny(java.awt.Rectangle single, java.util.Collection<java.awt.Rectangle> rects)
+	private static Rectangle intersectsAny(Rectangle single, Collection<Rectangle> rects)
 	{
-		for(java.awt.Rectangle rect: rects)
+		for(Rectangle rect: rects)
 			if(single.intersects(rect))
 				return rect;
 		return null;
@@ -129,31 +152,31 @@ class BattlefieldPanel extends javax.swing.JPanel
 	// This is specifically typed because we require a map that returns object
 	// in insertion order. We use insertion order to represent the z-order of
 	// cards.
-	private final java.util.LinkedHashMap<Integer, PlacementInformation> cardPlacements;
+	private final LinkedHashMap<Integer, PlacementInformation> cardPlacements;
 
 	private final Play gui;
 
-	private final javax.swing.JPanel battlefieldPanel;
+	private final JPanel battlefieldPanel;
 
-	private java.awt.Point initialPoint;
-	private java.awt.Point boundaryPoint;
+	private Point initialPoint;
+	private Point boundaryPoint;
 
 	public BattlefieldPanel(Play play)
 	{
-		super(new java.awt.BorderLayout());
+		super(new BorderLayout());
 		this.gui = play;
 
-		this.cardPlacements = new java.util.LinkedHashMap<Integer, PlacementInformation>();
+		this.cardPlacements = new LinkedHashMap<Integer, PlacementInformation>();
 
 		this.initialPoint = null;
 		this.boundaryPoint = null;
 
-		this.battlefieldPanel = new javax.swing.JPanel((java.awt.LayoutManager)null)
+		this.battlefieldPanel = new JPanel((LayoutManager)null)
 		{
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			protected void paintComponent(java.awt.Graphics g)
+			protected void paintComponent(Graphics g)
 			{
 				super.paintComponent(g);
 
@@ -163,14 +186,14 @@ class BattlefieldPanel extends javax.swing.JPanel
 				boolean highlightSelected = Boolean.parseBoolean(BattlefieldPanel.this.gui.properties.getProperty(Play.PropertyKeys.HIGHLIGHT_SELECTED_CARDS));
 				boolean renderDamage = Boolean.parseBoolean(BattlefieldPanel.this.gui.properties.getProperty(Play.PropertyKeys.RENDER_DAMAGE));
 				boolean renderCounters = Boolean.parseBoolean(BattlefieldPanel.this.gui.properties.getProperty(Play.PropertyKeys.RENDER_COUNTERS));
-				java.awt.Color fill = javax.swing.UIManager.getColor("Tree.selectionBackground");
-				fill = new java.awt.Color(fill.getRed(), fill.getGreen(), fill.getBlue(), 128);
+				Color fill = UIManager.getColor("Tree.selectionBackground");
+				fill = new Color(fill.getRed(), fill.getGreen(), fill.getBlue(), 128);
 
 				for(Integer i: BattlefieldPanel.this.cardPlacements.keySet())
 				{
 					PlacementInformation info = BattlefieldPanel.this.cardPlacements.get(i);
 
-					java.awt.Rectangle position = info.getBorder(i);
+					Rectangle position = info.getBorder(i);
 					cg.pushTransform();
 					SanitizedGameObject card = (SanitizedGameObject)(BattlefieldPanel.this.gui.state.get(i));
 					cg.translate(position.x, position.y);
@@ -240,30 +263,30 @@ class BattlefieldPanel extends javax.swing.JPanel
 
 				if(BattlefieldPanel.this.initialPoint != null)
 				{
-					java.awt.Rectangle selectedRectangle = BattlefieldPanel.this.getSelectedRectangle();
+					Rectangle selectedRectangle = BattlefieldPanel.this.getSelectedRectangle();
 
 					cg.setColor(fill);
 					cg.fillRect(selectedRectangle.x, selectedRectangle.y, selectedRectangle.width, selectedRectangle.height);
 
-					java.awt.Color border = javax.swing.UIManager.getColor("Tree.selectionBorderColor");
-					cg.setColor(new java.awt.Color(border.getRed(), border.getGreen(), border.getBlue(), 128));
+					Color border = UIManager.getColor("Tree.selectionBorderColor");
+					cg.setColor(new Color(border.getRed(), border.getGreen(), border.getBlue(), 128));
 					cg.drawRect(selectedRectangle.x, selectedRectangle.y, selectedRectangle.width, selectedRectangle.height);
 				}
 			}
 		};
-		javax.swing.event.MouseInputAdapter mouseInputListener = new javax.swing.event.MouseInputAdapter()
+		MouseInputAdapter mouseInputListener = new MouseInputAdapter()
 		{
 			// Specifically use a linked hash map, since iterating over it will
 			// return the elements in insertion-order, which we use to preserve
 			// z-ordering on the battlefield.
-			private java.util.LinkedHashMap<Integer, java.awt.Point> heldCards = new java.util.LinkedHashMap<Integer, java.awt.Point>();
-			private java.awt.Point mouseDown = null;
+			private LinkedHashMap<Integer, Point> heldCards = new LinkedHashMap<Integer, Point>();
+			private Point mouseDown = null;
 
 			/**
 			 * Find the most-recently-added object in the battlefield which
 			 * contains the current mouse position
 			 */
-			private int getHoveredCardID(java.awt.event.MouseEvent e)
+			private int getHoveredCardID(MouseEvent e)
 			{
 				int best = -1;
 				for(Integer i: BattlefieldPanel.this.cardPlacements.keySet())
@@ -274,7 +297,7 @@ class BattlefieldPanel extends javax.swing.JPanel
 			}
 
 			@Override
-			public void mouseClicked(java.awt.event.MouseEvent e)
+			public void mouseClicked(MouseEvent e)
 			{
 				int hoveredCardID = getHoveredCardID(e);
 				if(-1 == hoveredCardID)
@@ -285,7 +308,7 @@ class BattlefieldPanel extends javax.swing.JPanel
 			}
 
 			@Override
-			public void mouseDragged(java.awt.event.MouseEvent e)
+			public void mouseDragged(MouseEvent e)
 			{
 				if(this.heldCards.isEmpty())
 				{
@@ -298,7 +321,7 @@ class BattlefieldPanel extends javax.swing.JPanel
 						if(!BattlefieldPanel.this.cardPlacements.containsKey(heldCardID))
 							continue;
 
-						java.awt.Point offset = new java.awt.Point(this.heldCards.get(heldCardID));
+						Point offset = new Point(this.heldCards.get(heldCardID));
 						offset.translate(e.getPoint().x, e.getPoint().y);
 						PlacementInformation position = new PlacementInformation(offset.x, offset.y);
 						PlacementInformation oldPosition = BattlefieldPanel.this.cardPlacements.get(heldCardID);
@@ -324,7 +347,7 @@ class BattlefieldPanel extends javax.swing.JPanel
 						BattlefieldPanel.this.cardPlacements.remove(heldCardID);
 						BattlefieldPanel.this.cardPlacements.put(heldCardID, position);
 
-						java.awt.Point modify = Play.getLocationInsideWindow(BattlefieldPanel.this.battlefieldPanel);
+						Point modify = Play.getLocationInsideWindow(BattlefieldPanel.this.battlefieldPanel);
 						modify.translate(offset.x, offset.y);
 						BattlefieldPanel.this.gui.cardLocations.put(heldCardID, modify);
 					}
@@ -335,15 +358,15 @@ class BattlefieldPanel extends javax.swing.JPanel
 			}
 
 			@Override
-			public void mouseMoved(java.awt.event.MouseEvent e)
+			public void mouseMoved(MouseEvent e)
 			{
 				int hoveredCardID = getHoveredCardID(e);
 				SanitizedGameObject hoveredCard = (SanitizedGameObject)BattlefieldPanel.this.gui.state.get(hoveredCardID);
 				if(hoveredCard != null)
 				{
-					java.awt.Point cardStart = BattlefieldPanel.this.cardPlacements.get(hoveredCardID).getBorder(hoveredCardID).getLocation();
+					Point cardStart = BattlefieldPanel.this.cardPlacements.get(hoveredCardID).getBorder(hoveredCardID).getLocation();
 
-					boolean shouldFlip = Boolean.parseBoolean(BattlefieldPanel.this.gui.properties.getProperty(org.rnd.jmagic.gui.Play.PropertyKeys.ROTATE_OPP_CARDS));
+					boolean shouldFlip = Boolean.parseBoolean(BattlefieldPanel.this.gui.properties.getProperty(Play.PropertyKeys.ROTATE_OPP_CARDS));
 					boolean flipped = shouldFlip && hoveredCard.controllerID != BattlefieldPanel.this.gui.playerID;
 
 					SanitizedGameObject.CharacteristicSet displayOption = CardGraphics.getLargeCardDisplayOption(e, cardStart, hoveredCard, flipped);
@@ -354,7 +377,7 @@ class BattlefieldPanel extends javax.swing.JPanel
 			}
 
 			@Override
-			public void mousePressed(java.awt.event.MouseEvent e)
+			public void mousePressed(MouseEvent e)
 			{
 				this.mouseDown = e.getPoint();
 
@@ -362,7 +385,7 @@ class BattlefieldPanel extends javax.swing.JPanel
 				if(hoveredCardID == -1)
 				{
 					// Only accept left clicks
-					if(e.getButton() != java.awt.event.MouseEvent.BUTTON1)
+					if(e.getButton() != MouseEvent.BUTTON1)
 						return;
 
 					for(Integer i: this.heldCards.keySet())
@@ -376,7 +399,7 @@ class BattlefieldPanel extends javax.swing.JPanel
 					BattlefieldPanel.this.gui.identifiedMouseEvent(BattlefieldPanel.this.gui.state.get(hoveredCardID), e);
 
 					// Only accept left clicks
-					if(e.getButton() != java.awt.event.MouseEvent.BUTTON1)
+					if(e.getButton() != MouseEvent.BUTTON1)
 						return;
 
 					if(this.heldCards.containsKey(hoveredCardID))
@@ -386,7 +409,7 @@ class BattlefieldPanel extends javax.swing.JPanel
 							if(!BattlefieldPanel.this.cardPlacements.containsKey(heldCardID))
 								continue;
 
-							java.awt.Point offset = new java.awt.Point(BattlefieldPanel.this.cardPlacements.get(heldCardID).getCenter());
+							Point offset = new Point(BattlefieldPanel.this.cardPlacements.get(heldCardID).getCenter());
 							offset.translate(-this.mouseDown.x, -this.mouseDown.y);
 							this.heldCards.put(heldCardID, offset);
 						}
@@ -397,7 +420,7 @@ class BattlefieldPanel extends javax.swing.JPanel
 							if(BattlefieldPanel.this.cardPlacements.containsKey(i))
 								BattlefieldPanel.this.cardPlacements.get(i).selected = false;
 						this.heldCards.clear();
-						java.awt.Point offset = new java.awt.Point(BattlefieldPanel.this.cardPlacements.get(hoveredCardID).getCenter());
+						Point offset = new Point(BattlefieldPanel.this.cardPlacements.get(hoveredCardID).getCenter());
 						offset.translate(-this.mouseDown.x, -this.mouseDown.y);
 						this.heldCards.put(hoveredCardID, offset);
 					}
@@ -405,25 +428,25 @@ class BattlefieldPanel extends javax.swing.JPanel
 			}
 
 			@Override
-			public void mouseExited(java.awt.event.MouseEvent e)
+			public void mouseExited(MouseEvent e)
 			{
 				BattlefieldPanel.this.gui.cardInfoPanel.clearArrows();
 			}
 
 			@Override
-			public void mouseReleased(java.awt.event.MouseEvent e)
+			public void mouseReleased(MouseEvent e)
 			{
 				int hoveredCardID = getHoveredCardID(e);
 				if(-1 != hoveredCardID)
 					BattlefieldPanel.this.gui.identifiedMouseEvent(BattlefieldPanel.this.gui.state.get(hoveredCardID), e);
 
 				// Only accept left clicks
-				if(e.getButton() != java.awt.event.MouseEvent.BUTTON1)
+				if(e.getButton() != MouseEvent.BUTTON1)
 					return;
 
 				if(this.heldCards.isEmpty())
 				{
-					java.awt.Rectangle selection = BattlefieldPanel.this.getSelectedRectangle();
+					Rectangle selection = BattlefieldPanel.this.getSelectedRectangle();
 					if(selection == null)
 						return;
 					for(Integer i: BattlefieldPanel.this.cardPlacements.keySet())
@@ -448,22 +471,22 @@ class BattlefieldPanel extends javax.swing.JPanel
 		this.battlefieldPanel.addMouseMotionListener(mouseInputListener);
 		this.battlefieldPanel.addMouseListener(mouseInputListener);
 
-		javax.swing.JScrollPane scroll = new javax.swing.JScrollPane(this.battlefieldPanel, javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		scroll.getHorizontalScrollBar().addAdjustmentListener(new java.awt.event.AdjustmentListener()
+		JScrollPane scroll = new JScrollPane(this.battlefieldPanel, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		scroll.getHorizontalScrollBar().addAdjustmentListener(new AdjustmentListener()
 		{
 			@Override
-			public void adjustmentValueChanged(java.awt.event.AdjustmentEvent e)
+			public void adjustmentValueChanged(AdjustmentEvent e)
 			{
 				switch(e.getAdjustmentType())
 				{
-				case java.awt.event.AdjustmentEvent.UNIT_INCREMENT:
-				case java.awt.event.AdjustmentEvent.UNIT_DECREMENT:
-				case java.awt.event.AdjustmentEvent.BLOCK_INCREMENT:
-				case java.awt.event.AdjustmentEvent.TRACK:
-					java.awt.Point modify = Play.getLocationInsideWindow(BattlefieldPanel.this.battlefieldPanel);
-					for(java.util.Map.Entry<Integer, PlacementInformation> entry: BattlefieldPanel.this.cardPlacements.entrySet())
+				case AdjustmentEvent.UNIT_INCREMENT:
+				case AdjustmentEvent.UNIT_DECREMENT:
+				case AdjustmentEvent.BLOCK_INCREMENT:
+				case AdjustmentEvent.TRACK:
+					Point modify = Play.getLocationInsideWindow(BattlefieldPanel.this.battlefieldPanel);
+					for(Map.Entry<Integer, PlacementInformation> entry: BattlefieldPanel.this.cardPlacements.entrySet())
 					{
-						java.awt.Point center = new java.awt.Point(entry.getValue().getCenter());
+						Point center = new Point(entry.getValue().getCenter());
 						center.translate(modify.x, modify.y);
 						BattlefieldPanel.this.gui.cardLocations.put(entry.getKey(), center);
 					}
@@ -484,10 +507,10 @@ class BattlefieldPanel extends javax.swing.JPanel
 	{
 		// We manipulate this list, so make a copy of it so the state isn't
 		// destroyed in the process.
-		java.util.List<Integer> objects = new java.util.LinkedList<Integer>(((SanitizedZone)this.gui.state.get(this.gui.state.battlefield)).objects);
-		java.util.Collection<java.awt.Rectangle> occupied = new java.util.HashSet<java.awt.Rectangle>();
+		List<Integer> objects = new LinkedList<Integer>(((SanitizedZone)this.gui.state.get(this.gui.state.battlefield)).objects);
+		Collection<Rectangle> occupied = new HashSet<Rectangle>();
 
-		java.util.Iterator<Integer> iter = this.cardPlacements.keySet().iterator();
+		Iterator<Integer> iter = this.cardPlacements.keySet().iterator();
 		while(iter.hasNext())
 		{
 			Integer id = iter.next();
@@ -507,7 +530,7 @@ class BattlefieldPanel extends javax.swing.JPanel
 		while(!objects.isEmpty())
 		{
 			int id = objects.remove(0);
-			java.awt.Point center = null;
+			Point center = null;
 
 			if(this.cardPlacements.containsKey(id))
 				center = this.cardPlacements.get(id).getCenter();
@@ -522,7 +545,7 @@ class BattlefieldPanel extends javax.swing.JPanel
 					PlacementInformation placement = new PlacementInformation(id);
 					while(true)
 					{
-						java.awt.Rectangle intersection = intersectsAny(placement.getBorder(id), occupied);
+						Rectangle intersection = intersectsAny(placement.getBorder(id), occupied);
 						if(intersection == null)
 							break;
 						// Move horizontally by small card height to ensure that
@@ -542,7 +565,7 @@ class BattlefieldPanel extends javax.swing.JPanel
 						objects.add(id);
 						continue;
 					}
-					java.awt.Point attachmentCenter = this.cardPlacements.get(object.attachedTo).getCenter();
+					Point attachmentCenter = this.cardPlacements.get(object.attachedTo).getCenter();
 					PlacementInformation placement = new PlacementInformation(attachmentCenter.x, attachmentCenter.y);
 					placement.reset();
 					placement.getCenter().translate(CardGraphics.SMALL_CARD_PADDING_LEFT, attachmentTranslateY);
@@ -553,7 +576,7 @@ class BattlefieldPanel extends javax.swing.JPanel
 				}
 			}
 
-			java.awt.Point modify = Play.getLocationInsideWindow(this.battlefieldPanel);
+			Point modify = Play.getLocationInsideWindow(this.battlefieldPanel);
 			modify.translate(center.x, center.y);
 			this.gui.cardLocations.put(id, modify);
 		}
@@ -572,7 +595,7 @@ class BattlefieldPanel extends javax.swing.JPanel
 		for(Integer id: this.cardPlacements.keySet())
 		{
 			PlacementInformation info = this.cardPlacements.get(id);
-			java.awt.Rectangle bounds = info.getBorder(id);
+			Rectangle bounds = info.getBorder(id);
 
 			if(bounds.x + bounds.width > maxX)
 				maxX = bounds.x + bounds.width;
@@ -580,23 +603,23 @@ class BattlefieldPanel extends javax.swing.JPanel
 				maxY = bounds.y + bounds.height;
 		}
 
-		this.battlefieldPanel.setPreferredSize(new java.awt.Dimension(maxX, maxY));
+		this.battlefieldPanel.setPreferredSize(new Dimension(maxX, maxY));
 		this.battlefieldPanel.revalidate();
 	}
 
-	public void setSelectionArea(java.awt.Point initialPoint)
+	public void setSelectionArea(Point initialPoint)
 	{
-		this.initialPoint = (initialPoint == null ? null : new java.awt.Point(initialPoint));
+		this.initialPoint = (initialPoint == null ? null : new Point(initialPoint));
 		resizeSelectionArea(initialPoint);
 	}
 
-	public void resizeSelectionArea(java.awt.Point boundaryPoint)
+	public void resizeSelectionArea(Point boundaryPoint)
 	{
-		this.boundaryPoint = (boundaryPoint == null ? null : new java.awt.Point(boundaryPoint));
+		this.boundaryPoint = (boundaryPoint == null ? null : new Point(boundaryPoint));
 		this.repaint();
 	}
 
-	public java.awt.Rectangle getSelectedRectangle()
+	public Rectangle getSelectedRectangle()
 	{
 		if(this.initialPoint == null || this.boundaryPoint == null)
 			return null;
@@ -605,6 +628,6 @@ class BattlefieldPanel extends javax.swing.JPanel
 		int top = Math.min(BattlefieldPanel.this.initialPoint.y, BattlefieldPanel.this.boundaryPoint.y);
 		int width = Math.max(BattlefieldPanel.this.initialPoint.x, BattlefieldPanel.this.boundaryPoint.x) - left;
 		int height = Math.max(BattlefieldPanel.this.initialPoint.y, BattlefieldPanel.this.boundaryPoint.y) - top;
-		return new java.awt.Rectangle(left, top, width, height);
+		return new Rectangle(left, top, width, height);
 	}
 }

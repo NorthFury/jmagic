@@ -3,6 +3,10 @@ package org.rnd.jmagic.engine;
 import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
+
 /** Represents a copy of a spell. */
 public final class SpellCopy extends GameObject implements Castable
 {
@@ -86,7 +90,7 @@ public final class SpellCopy extends GameObject implements Castable
 	}
 
 	@Override
-	public java.util.List<CastSpellAction> getCastActions(GameState state, Player who)
+	public List<CastSpellAction> getCastActions(GameState state, Player who)
 	{
 		return this.castableDelegate.getCastActions(state, who, this);
 	}
@@ -132,7 +136,7 @@ public final class SpellCopy extends GameObject implements Castable
 
 		// This isn't in the rules, but you need it for casting a copy of a
 		// spell to work
-		java.util.Collection<ContinuousEffect.Part> partsToModify = new java.util.LinkedList<ContinuousEffect.Part>();
+		Collection<ContinuousEffect.Part> partsToModify = new LinkedList<ContinuousEffect.Part>();
 		for(FloatingContinuousEffect effect: this.game.physicalState.floatingEffects)
 			for(ContinuousEffect.Part part: effect.parts)
 			{

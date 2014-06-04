@@ -2,6 +2,8 @@ package org.rnd.jmagic.engine.generators;
 
 import org.rnd.jmagic.engine.*;
 
+import java.util.Set;
+
 public class DivideBy extends SetGenerator
 {
 	// TODO : Figure out what to do when denominator is zero. Then change the
@@ -43,7 +45,7 @@ public class DivideBy extends SetGenerator
 	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
 		MagicSet ret = new MagicSet();
-		java.util.Set<Integer> denominators = this.denominator.evaluate(state, thisObject).getAll(Integer.class);
+		Set<Integer> denominators = this.denominator.evaluate(state, thisObject).getAll(Integer.class);
 		for(Integer n: this.numerator.evaluate(state, thisObject).getAll(Integer.class))
 			for(Integer d: denominators)
 				ret.add(DivideBy.get(n, d, this.roundUp));

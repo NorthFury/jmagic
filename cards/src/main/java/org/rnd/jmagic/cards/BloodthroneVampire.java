@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.Cannibalize;
 import org.rnd.jmagic.engine.*;
 
 @Name("Bloodthrone Vampire")
@@ -19,6 +20,6 @@ public final class BloodthroneVampire extends Card
 
 		// Sacrifice a creature: Bloodthrone Vampire gets +2/+2 until end of
 		// turn.
-		this.addAbility(new org.rnd.jmagic.abilities.Cannibalize(state, "Bloodthrone Vampire"));
+		this.addAbility(new Cannibalize(state, "Bloodthrone Vampire"));
 	}
 }

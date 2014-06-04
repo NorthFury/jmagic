@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Cycling;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -36,7 +37,7 @@ public final class ResoundingWave extends Card
 		this.addEffect(bounce(targetedBy(target), "Return target permanent to its owner's hand."));
 
 		// Cycling (5)(W)(U)(B)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Cycling(state, "(5)(W)(U)(B)"));
+		this.addAbility(new Cycling(state, "(5)(W)(U)(B)"));
 
 		// When you cycle Resounding Wave, return two target permanents to their
 		// owners' hands.

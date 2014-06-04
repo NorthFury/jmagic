@@ -6,6 +6,9 @@ import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Name("Bloodchief Ascension")
 @Types({Type.ENCHANTMENT})
 @ManaCost("B")
@@ -43,10 +46,10 @@ public final class BloodchiefAscension extends Card
 		}
 
 		@Override
-		public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean attempt(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			MagicSet opponent = parameters.get(Parameter.TARGET);
-			java.util.Map<Parameter, MagicSet> lossParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> lossParameters = new HashMap<Parameter, MagicSet>();
 			lossParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 			lossParameters.put(Parameter.PLAYER, opponent);
 			lossParameters.put(Parameter.NUMBER, new MagicSet(2));
@@ -55,20 +58,20 @@ public final class BloodchiefAscension extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			MagicSet cause = parameters.get(Parameter.CAUSE);
 			MagicSet opponent = parameters.get(Parameter.TARGET);
 			MagicSet you = parameters.get(Parameter.PLAYER);
 
-			java.util.Map<Parameter, MagicSet> lossParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> lossParameters = new HashMap<Parameter, MagicSet>();
 			lossParameters.put(Parameter.CAUSE, cause);
 			lossParameters.put(Parameter.PLAYER, opponent);
 			lossParameters.put(Parameter.NUMBER, new MagicSet(2));
 			Event loss = createEvent(game, opponent + " loses 2 life", LOSE_LIFE, lossParameters);
 			loss.perform(event, true);
 
-			java.util.Map<Parameter, MagicSet> gainParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> gainParameters = new HashMap<Parameter, MagicSet>();
 			gainParameters.put(Parameter.CAUSE, cause);
 			gainParameters.put(Parameter.PLAYER, you);
 			gainParameters.put(Parameter.NUMBER, new MagicSet(2));

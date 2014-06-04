@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -19,7 +21,7 @@ public final class ThunderDragon extends Card
 			super(state, "When Thunder Dragon enters the battlefield, it deals 3 damage to each creature without flying.");
 			this.addPattern(whenThisEntersTheBattlefield());
 
-			SetGenerator hasFlying = HasKeywordAbility.instance(org.rnd.jmagic.abilities.keywords.Flying.class);
+			SetGenerator hasFlying = HasKeywordAbility.instance(Flying.class);
 			SetGenerator withoutFlying = RelativeComplement.instance(CreaturePermanents.instance(), hasFlying);
 			this.addEffect(permanentDealDamage(3, withoutFlying, "It deals 3 damage to each creature without flying."));
 		}
@@ -33,7 +35,7 @@ public final class ThunderDragon extends Card
 		this.setToughness(5);
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// When Thunder Dragon enters the battlefield, it deals 3 damage to each
 		// creature without flying.

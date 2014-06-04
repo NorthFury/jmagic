@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.Trap;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -17,7 +19,7 @@ public final class ArrowVolleyTrap extends Card
 		super(state);
 
 		SetGenerator trapCondition = Intersect.instance(Between.instance(4, null), Count.instance(Attacking.instance()));
-		this.addAbility(new org.rnd.jmagic.abilities.Trap(state, this.getName(), trapCondition, "If four or more creatures are attacking", "(1)(W)"));
+		this.addAbility(new Trap(state, this.getName(), trapCondition, "If four or more creatures are attacking", "(1)(W)"));
 
 		Target target = this.addTarget(Attacking.instance(), "up to five target attacking creatures");
 		target.setNumber(1, 5);

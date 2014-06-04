@@ -2,6 +2,10 @@ package org.rnd.jmagic.engine;
 
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * A class implements the {@link Castable} interface to indicate it can be cast.
  * Classes that implement this must implement the following defaults:
@@ -34,9 +38,9 @@ public interface Castable
 	 */
 	class Simple implements Castable, Cloneable
 	{
-		private java.util.List<PlayPermission> locations;
+		private List<PlayPermission> locations;
 
-		private java.util.List<PlayPermission> timings;
+		private List<PlayPermission> timings;
 
 		Simple(Identified source)
 		{
@@ -47,7 +51,7 @@ public interface Castable
 			PlayPermission locationPermission = new PlayPermission(OwnerOf.instance(thisHand));
 			locationPermission.setSource(source);
 
-			this.locations = new java.util.LinkedList<PlayPermission>();
+			this.locations = new LinkedList<PlayPermission>();
 			this.locations.add(locationPermission);
 
 			SetGenerator isInstant = Intersect.instance(HasType.instance(Type.INSTANT), This.instance());
@@ -56,7 +60,7 @@ public interface Castable
 			PlayPermission timingPermission = new PlayPermission(timing);
 			timingPermission.setSource(source);
 
-			this.timings = new java.util.LinkedList<PlayPermission>();
+			this.timings = new LinkedList<PlayPermission>();
 			this.timings.add(timingPermission);
 		}
 
@@ -78,8 +82,8 @@ public interface Castable
 			try
 			{
 				Simple ret = (Simple)super.clone();
-				ret.locations = new java.util.LinkedList<PlayPermission>(this.locations);
-				ret.timings = new java.util.LinkedList<PlayPermission>(this.timings);
+				ret.locations = new LinkedList<PlayPermission>(this.locations);
+				ret.timings = new LinkedList<PlayPermission>(this.timings);
 				return ret;
 			}
 			catch(CloneNotSupportedException e)
@@ -96,22 +100,22 @@ public interface Castable
 		 */
 		@Deprecated
 		@Override
-		public java.util.List<CastSpellAction> getCastActions(GameState state, Player who)
+		public List<CastSpellAction> getCastActions(GameState state, Player who)
 		{
 			throw new UnsupportedOperationException();
 		}
 
-		public java.util.List<CastSpellAction> getCastActions(GameState state, Player who, GameObject spell)
+		public List<CastSpellAction> getCastActions(GameState state, Player who, GameObject spell)
 		{
 			// It cannot be a land
 			if(spell.getTypes().contains(Type.LAND))
-				return java.util.Collections.emptyList();
+				return Collections.emptyList();
 
 			// Can't cast ghosts
 			if(spell.isGhost())
-				return java.util.Collections.emptyList();
+				return Collections.emptyList();
 
-			java.util.List<CastSpellAction> ret = null;
+			List<CastSpellAction> ret = null;
 			for(PlayPermission l: this.locations)
 			{
 				if(l.evaluate(state, who))
@@ -158,7 +162,7 @@ public interface Castable
 							if(action.attempt())
 							{
 								if(null == ret)
-									ret = new java.util.LinkedList<CastSpellAction>();
+									ret = new LinkedList<CastSpellAction>();
 								ret.add(action);
 							}
 						}
@@ -167,7 +171,7 @@ public interface Castable
 			}
 
 			if(null == ret)
-				return java.util.Collections.emptyList();
+				return Collections.emptyList();
 			return ret;
 		}
 	}
@@ -182,5 +186,5 @@ public interface Castable
 	 * for
 	 * @return True if this is castable by {@code who}. False otherwise.
 	 */
-	java.util.List<CastSpellAction> getCastActions(GameState state, Player who);
+	List<CastSpellAction> getCastActions(GameState state, Player who);
 }

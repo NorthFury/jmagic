@@ -1,6 +1,10 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.FirstStrike;
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Protection;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -18,7 +22,7 @@ public final class StillmoonCavalier extends Card
 		{
 			super(state, "(w/b): Stillmoon Cavalier gains flying until end of turn.");
 			this.setManaCost(new ManaPool("(w/b)"));
-			this.addEffect(addAbilityUntilEndOfTurn(ABILITY_SOURCE_OF_THIS, org.rnd.jmagic.abilities.keywords.Flying.class, "Stillmoon Cavalier gains flying until end of turn."));
+			this.addEffect(addAbilityUntilEndOfTurn(ABILITY_SOURCE_OF_THIS, Flying.class, "Stillmoon Cavalier gains flying until end of turn."));
 		}
 	}
 
@@ -28,7 +32,7 @@ public final class StillmoonCavalier extends Card
 		{
 			super(state, "(w/b): Stillmoon Cavalier gains first strike until end of turn.");
 			this.setManaCost(new ManaPool("(w/b)"));
-			this.addEffect(addAbilityUntilEndOfTurn(ABILITY_SOURCE_OF_THIS, org.rnd.jmagic.abilities.keywords.FirstStrike.class, "Stillmoon Cavalier gains first strike until end of turn."));
+			this.addEffect(addAbilityUntilEndOfTurn(ABILITY_SOURCE_OF_THIS, FirstStrike.class, "Stillmoon Cavalier gains first strike until end of turn."));
 		}
 	}
 
@@ -50,7 +54,7 @@ public final class StillmoonCavalier extends Card
 		this.setToughness(1);
 
 		// Protection from white and from black
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Protection.From(state, HasColor.instance(Color.WHITE, Color.BLACK), "white and from black"));
+		this.addAbility(new Protection.From(state, HasColor.instance(Color.WHITE, Color.BLACK), "white and from black"));
 
 		// (w/b): Stillmoon Cavalier gains flying until end of turn.
 		this.addAbility(new StillmoonCavalierAbility1(state));

@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -20,7 +22,7 @@ public final class WildheartInvoker extends Card
 			this.setManaCost(new ManaPool("(8)"));
 
 			SetGenerator target = targetedBy(this.addTarget(CreaturePermanents.instance(), "target creature"));
-			this.addEffect(ptChangeAndAbilityUntilEndOfTurn(target, +5, +5, "Target creature gets +5/+5 and gains trample until end of turn.", org.rnd.jmagic.abilities.keywords.Trample.class));
+			this.addEffect(ptChangeAndAbilityUntilEndOfTurn(target, +5, +5, "Target creature gets +5/+5 and gains trample until end of turn.", Trample.class));
 		}
 	}
 

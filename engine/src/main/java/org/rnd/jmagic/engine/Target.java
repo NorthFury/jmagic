@@ -1,6 +1,13 @@
 package org.rnd.jmagic.engine;
 
 import org.rnd.jmagic.engine.generators.*;
+import org.rnd.jmagic.sanitized.SanitizedTarget;
+import org.rnd.util.NumberRange;
+
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 
 public class Target implements Cloneable, Sanitizable
 {
@@ -12,7 +19,7 @@ public class Target implements Cloneable, Sanitizable
 		}
 
 		@Override
-		public boolean checkSpecialRestrictions(GameState state, java.util.List<Target> choices)
+		public boolean checkSpecialRestrictions(GameState state, List<Target> choices)
 		{
 			int firstZone = -1;
 			for(Target choice: choices)
@@ -90,7 +97,7 @@ public class Target implements Cloneable, Sanitizable
 	Target(Identified target, int division)
 	{
 		this.chooser = null;
-		this.condition = org.rnd.jmagic.engine.generators.NonEmpty.instance();
+		this.condition = NonEmpty.instance();
 		this.division = division;
 		this.legalChoices = null;
 		this.name = target.getName();
@@ -113,7 +120,7 @@ public class Target implements Cloneable, Sanitizable
 	public Target(Identified target, Target properties)
 	{
 		this.chooser = properties.chooser;
-		this.condition = org.rnd.jmagic.engine.generators.NonEmpty.instance();
+		this.condition = NonEmpty.instance();
 		this.division = properties.division;
 		this.legalChoices = properties.legalChoices;
 		// Because this constructor is used for options for unchosen targets, we
@@ -147,7 +154,7 @@ public class Target implements Cloneable, Sanitizable
 	public Target(SetGenerator legalChoices, SetGenerator chooser, String name)
 	{
 		this.chooser = chooser;
-		this.condition = org.rnd.jmagic.engine.generators.NonEmpty.instance();
+		this.condition = NonEmpty.instance();
 		this.division = -1;
 		this.legalChoices = legalChoices;
 		this.name = name;
@@ -164,7 +171,7 @@ public class Target implements Cloneable, Sanitizable
 	 */
 	public boolean canBeChosen(Game game, GameObject thisObject)
 	{
-		org.rnd.util.NumberRange range = this.number.evaluate(game, thisObject).getOne(org.rnd.util.NumberRange.class);
+		NumberRange range = this.number.evaluate(game, thisObject).getOne(NumberRange.class);
 		if(range.getLower(0) == 0)
 			return true;
 		int numLegalTargets = this.legalChoicesNow(game, thisObject).size();
@@ -201,7 +208,7 @@ public class Target implements Cloneable, Sanitizable
 	 * this target.
 	 * @return whether the potential list of declared targets is legal.
 	 */
-	public boolean checkSpecialRestrictions(GameState state, java.util.List<Target> choices)
+	public boolean checkSpecialRestrictions(GameState state, List<Target> choices)
 	{
 		return true;
 	}
@@ -248,7 +255,7 @@ public class Target implements Cloneable, Sanitizable
 	{
 		MagicSet ret = this.legalChoices.evaluate(game, targeting);
 
-		java.util.Collection<Targetable> toRemove = new java.util.LinkedList<Targetable>();
+		Collection<Targetable> toRemove = new LinkedList<Targetable>();
 		for(Targetable t: ret.getAll(Targetable.class))
 		{
 			if(t.cantBeTheTargetOf().match(game.actualState, (Identified)t, new MagicSet(targeting)))
@@ -261,9 +268,9 @@ public class Target implements Cloneable, Sanitizable
 	}
 
 	@Override
-	public java.io.Serializable sanitize(GameState state, Player whoFor)
+	public Serializable sanitize(GameState state, Player whoFor)
 	{
-		return new org.rnd.jmagic.sanitized.SanitizedTarget(this);
+		return new SanitizedTarget(this);
 	}
 
 	/**

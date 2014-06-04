@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.Bloodrush;
 import org.rnd.jmagic.engine.*;
 
 @Name("Slaughterhorn")
@@ -19,6 +20,6 @@ public final class Slaughterhorn extends Card
 
 		// Bloodrush \u2014 (G), Discard Slaughterhorn: Target attacking
 		// creature gets +3/+2 until end of turn.
-		this.addAbility(new org.rnd.jmagic.abilities.Bloodrush(state, "(G)", "Slaughterhorn", +3, +2, "Target attacking creature gets +3/+2 until end of turn."));
+		this.addAbility(new Bloodrush(state, "(G)", "Slaughterhorn", +3, +2, "Target attacking creature gets +3/+2 until end of turn."));
 	}
 }

@@ -2,8 +2,13 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Protection;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Name("Malakir Bloodwitch")
 @Types({Type.CREATURE})
@@ -29,7 +34,7 @@ public final class MalakirBloodwitch extends Card
 		 * @eparam RESULT empty
 		 */
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			MagicSet trigger = parameters.get(Parameter.CAUSE);
 			MagicSet you = parameters.get(Parameter.PLAYER);
@@ -37,11 +42,11 @@ public final class MalakirBloodwitch extends Card
 			MagicSet number = parameters.get(Parameter.NUMBER);
 
 			// keys are player IDs
-			java.util.Map<Integer, Integer> lifeTotals = new java.util.HashMap<Integer, Integer>();
+			Map<Integer, Integer> lifeTotals = new HashMap<Integer, Integer>();
 			for(Player p: game.actualState.players)
 				lifeTotals.put(p.ID, p.lifeTotal);
 
-			java.util.Map<Parameter, MagicSet> loseLifeParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> loseLifeParameters = new HashMap<Parameter, MagicSet>();
 			loseLifeParameters.put(Parameter.CAUSE, trigger);
 			loseLifeParameters.put(Parameter.PLAYER, opponents);
 			loseLifeParameters.put(Parameter.NUMBER, number);
@@ -56,7 +61,7 @@ public final class MalakirBloodwitch extends Card
 					lifeLostThisWay += (previousLifeTotal - p.lifeTotal);
 			}
 
-			java.util.Map<Parameter, MagicSet> gainLifeParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> gainLifeParameters = new HashMap<Parameter, MagicSet>();
 			gainLifeParameters.put(Parameter.CAUSE, trigger);
 			gainLifeParameters.put(Parameter.PLAYER, you);
 			gainLifeParameters.put(Parameter.NUMBER, new MagicSet(lifeLostThisWay));
@@ -95,8 +100,8 @@ public final class MalakirBloodwitch extends Card
 		this.setToughness(4);
 
 		// Flying, protection from white
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Protection.FromWhite(state));
+		this.addAbility(new Flying(state));
+		this.addAbility(new Protection.FromWhite(state));
 
 		// When Malakir Bloodwitch enters the battlefield, each opponent loses
 		// life equal to the number of Vampires you control. You gain life equal

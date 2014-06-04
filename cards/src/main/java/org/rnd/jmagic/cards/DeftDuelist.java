@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.FirstStrike;
+import org.rnd.jmagic.abilities.keywords.Shroud;
 import org.rnd.jmagic.engine.*;
 
 @Name("Deft Duelist")
@@ -17,8 +19,8 @@ public final class DeftDuelist extends Card
 		this.setPower(2);
 		this.setToughness(1);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.FirstStrike(state));
+		this.addAbility(new FirstStrike(state));
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Shroud(state));
+		this.addAbility(new Shroud(state));
 	}
 }

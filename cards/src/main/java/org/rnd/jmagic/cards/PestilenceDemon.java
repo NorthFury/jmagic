@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 
 @Name("Pestilence Demon")
@@ -29,7 +31,7 @@ public final class PestilenceDemon extends Card
 		this.setToughness(6);
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// (B): Pestilence Demon deals 1 damage to each creature and each
 		// player.

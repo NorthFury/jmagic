@@ -116,6 +116,6 @@ public class AcademyResearchersTest extends JUnitTest {
 		assertEquals(1, this.game.actualState.battlefield().objects.get(4)
 				.getSubTypes().size());
 		assertTrue(this.game.actualState.battlefield().objects.get(4)
-				.getSubTypes().contains(org.rnd.jmagic.engine.SubType.ISLAND));
+				.getSubTypes().contains(SubType.ISLAND));
 	}
 }

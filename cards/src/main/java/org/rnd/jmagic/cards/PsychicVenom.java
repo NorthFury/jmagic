@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Enchant;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.patterns.*;
 import org.rnd.jmagic.engine.generators.*;
@@ -34,7 +36,7 @@ public final class PsychicVenom extends Card
 		super(state);
 
 		// Enchant land
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Enchant.Land(state));
+		this.addAbility(new Enchant.Land(state));
 
 		// Whenever enchanted land becomes tapped, Psychic Venom deals 2 damage
 		// to that land's controller.

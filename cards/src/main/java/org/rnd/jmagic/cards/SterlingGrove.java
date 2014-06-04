@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Shroud;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -18,7 +20,7 @@ public final class SterlingGrove extends Card
 			super(state, "Other enchantments you control have shroud.");
 
 			SetGenerator yourOtherEnchantments = RelativeComplement.instance(Intersect.instance(HasType.instance(Type.ENCHANTMENT), ControlledBy.instance(You.instance())), This.instance());
-			this.addEffectPart(addAbilityToObject(yourOtherEnchantments, org.rnd.jmagic.abilities.keywords.Shroud.class));
+			this.addEffectPart(addAbilityToObject(yourOtherEnchantments, Shroud.class));
 		}
 	}
 

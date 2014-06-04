@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Defender;
+import org.rnd.jmagic.abilities.keywords.Evolve;
 import org.rnd.jmagic.engine.*;
 
 @Name("Clinging Anemones")
@@ -18,11 +20,11 @@ public final class ClingingAnemones extends Card
 		this.setToughness(4);
 
 		// Defender
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Defender(state));
+		this.addAbility(new Defender(state));
 
 		// Evolve (Whenever a creature enters the battlefield under your
 		// control, if that creature has greater power or toughness than this
 		// creature, put a +1/+1 counter on this creature.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Evolve(state));
+		this.addAbility(new Evolve(state));
 	}
 }

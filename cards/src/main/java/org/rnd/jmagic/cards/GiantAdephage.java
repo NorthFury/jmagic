@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -35,7 +37,7 @@ public final class GiantAdephage extends Card
 		this.setToughness(7);
 
 		// Trample
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Trample(state));
+		this.addAbility(new Trample(state));
 
 		// Whenever Giant Adephage deals combat damage to a player, put a token
 		// onto the battlefield that's a copy of Giant Adephage.

@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.AlternateCost;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -24,7 +26,7 @@ public final class CaveIn extends Card
 		exileFactory.parameters.put(EventType.Parameter.PLAYER, You.instance());
 
 		CostCollection altCost = new CostCollection(CostCollection.TYPE_ALTERNATE, exileFactory);
-		this.addAbility(new org.rnd.jmagic.abilities.AlternateCost(state, "You may exile a red card from your hand rather than pay Cave-In's mana cost.", altCost));
+		this.addAbility(new AlternateCost(state, "You may exile a red card from your hand rather than pay Cave-In's mana cost.", altCost));
 
 		// Cave-In deals 2 damage to each creature and each player.
 		this.addEffect(spellDealDamage(2, CREATURES_AND_PLAYERS, "Cave-In deals 2 damage to each creature and each player."));

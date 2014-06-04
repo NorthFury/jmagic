@@ -3,6 +3,16 @@ package org.rnd.jmagic.sanitized;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 public class SanitizedGameObject extends SanitizedIdentified
 {
 	public static enum CharacteristicSet
@@ -12,31 +22,31 @@ public class SanitizedGameObject extends SanitizedIdentified
 
 	private static final long serialVersionUID = 10L;
 
-	public final java.util.Map<CharacteristicSet, SanitizedCharacteristics> characteristics;
+	public final Map<CharacteristicSet, SanitizedCharacteristics> characteristics;
 
 	public final int controllerID;
 	public final int ownerID;
 	public final int zoneID;
 
-	public final java.util.List<Counter> counters;
+	public final List<Counter> counters;
 	public final int damage;
 
 	public final int attackingID;
-	public final java.util.List<Integer> blockedByIDs;
-	public final java.util.List<Integer> blockingIDs;
-	public final java.util.Set<Integer> defendingIDs;
+	public final List<Integer> blockedByIDs;
+	public final List<Integer> blockingIDs;
+	public final Set<Integer> defendingIDs;
 
 	// TODO: consider replacing all booleans with a bit field
 	public final boolean flipped, faceDown, tapped, ghost, transformed, hasACopyEffect;
 
-	public final java.util.Set<Color> canProduce;
+	public final Set<Color> canProduce;
 	public final int valueOfX;
 
-	public final java.util.Collection<Integer> attachments;
+	public final Collection<Integer> attachments;
 	public final int attachedTo;
 
-	public final java.util.Collection<Integer> linkObjects;
-	public final java.util.Collection<Object> otherLinks;
+	public final Collection<Integer> linkObjects;
+	public final Collection<Object> otherLinks;
 
 	public final boolean isCard;
 	public final boolean isEmblem;
@@ -51,7 +61,7 @@ public class SanitizedGameObject extends SanitizedIdentified
 		this.ownerID = go.ownerID;
 		this.zoneID = go.zoneID;
 
-		this.characteristics = new java.util.HashMap<CharacteristicSet, SanitizedCharacteristics>();
+		this.characteristics = new HashMap<CharacteristicSet, SanitizedCharacteristics>();
 		this.characteristics.put(CharacteristicSet.ACTUAL, go.getCharacteristics().sanitize(go.state, whoFor));
 
 		this.counters = go.counters;
@@ -69,8 +79,8 @@ public class SanitizedGameObject extends SanitizedIdentified
 		this.transformed = go.isTransformed();
 		this.hasACopyEffect = go.hasACopyEffect;
 
-		java.util.Set<Color> canProduce = java.util.EnumSet.noneOf(Color.class);
-		for(ManaSymbol.ManaType manaType: CouldBeProducedBy.objectCouldProduce(go.game, go, new java.util.HashSet<SetGenerator>()))
+		Set<Color> canProduce = EnumSet.noneOf(Color.class);
+		for(ManaSymbol.ManaType manaType: CouldBeProducedBy.objectCouldProduce(go.game, go, new HashSet<SetGenerator>()))
 		{
 			if(manaType == ManaSymbol.ManaType.COLORLESS)
 				continue;
@@ -83,14 +93,14 @@ public class SanitizedGameObject extends SanitizedIdentified
 		this.attachments = go.getAttachments();
 		this.attachedTo = go.getAttachedTo();
 
-		java.util.Collection<Integer> linkObjects = new java.util.LinkedList<Integer>();
-		java.util.Collection<Object> otherLinks = new java.util.LinkedList<Object>();
+		Collection<Integer> linkObjects = new LinkedList<Integer>();
+		Collection<Object> otherLinks = new LinkedList<Object>();
 		for(NonStaticAbility a: go.getNonStaticAbilities())
 		{
 			MagicSet linkInformation = a.getLinkManager().getLinkInformation(a.state);
 			if(linkInformation != null)
 			{
-				java.util.Set<Identified> objects = linkInformation.getAll(Identified.class);
+				Set<Identified> objects = linkInformation.getAll(Identified.class);
 				for(Identified link: objects)
 					linkObjects.add(link.ID);
 				linkInformation.removeAll(objects);
@@ -102,7 +112,7 @@ public class SanitizedGameObject extends SanitizedIdentified
 			MagicSet linkInformation = a.getLinkManager().getLinkInformation(a.state);
 			if(linkInformation != null)
 			{
-				java.util.Set<Identified> objects = linkInformation.getAll(Identified.class);
+				Set<Identified> objects = linkInformation.getAll(Identified.class);
 				for(Identified link: objects)
 					linkObjects.add(link.ID);
 				linkInformation.removeAll(objects);
@@ -147,9 +157,9 @@ public class SanitizedGameObject extends SanitizedIdentified
 			this.characteristics.put(CharacteristicSet.PHYSICAL, go.getPhysical().getCharacteristics().sanitize(go.game.physicalState, whoFor));
 	}
 
-	public java.util.Collection<org.rnd.jmagic.sanitized.SanitizedIdentified> sanitizeAbilities(GameState state, Player whoFor)
+	public Collection<SanitizedIdentified> sanitizeAbilities(GameState state, Player whoFor)
 	{
-		java.util.Collection<org.rnd.jmagic.sanitized.SanitizedIdentified> ret = new java.util.LinkedList<org.rnd.jmagic.sanitized.SanitizedIdentified>();
+		Collection<SanitizedIdentified> ret = new LinkedList<SanitizedIdentified>();
 		for(SanitizedCharacteristics characteristics: this.characteristics.values())
 			for(int ID: characteristics.abilities)
 			{
@@ -165,8 +175,8 @@ public class SanitizedGameObject extends SanitizedIdentified
 					// physical state.
 					sanitizeIn = state.game.physicalState;
 				Identified ability = sanitizeIn.get(ID);
-				java.io.Serializable sanitized = ((Sanitizable)ability).sanitize(sanitizeIn, whoFor);
-				ret.add((org.rnd.jmagic.sanitized.SanitizedIdentified)sanitized);
+				Serializable sanitized = ((Sanitizable)ability).sanitize(sanitizeIn, whoFor);
+				ret.add((SanitizedIdentified)sanitized);
 			}
 		return ret;
 	}

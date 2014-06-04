@@ -5,6 +5,9 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.LinkedList;
+import java.util.List;
+
 @Name("Safe Passage")
 @Types({Type.INSTANT})
 @ManaCost("2W")
@@ -35,10 +38,10 @@ public final class SafePassage extends Card
 		}
 
 		@Override
-		public java.util.List<EventFactory> prevent(DamageAssignment.Batch damageAssignments)
+		public List<EventFactory> prevent(DamageAssignment.Batch damageAssignments)
 		{
 			damageAssignments.clear();
-			return new java.util.LinkedList<EventFactory>();
+			return new LinkedList<EventFactory>();
 		}
 	}
 

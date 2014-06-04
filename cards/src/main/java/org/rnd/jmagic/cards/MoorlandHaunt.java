@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.TapFor1;
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -22,7 +25,7 @@ public final class MoorlandHaunt extends Card
 			CreateTokensFactory factory = new CreateTokensFactory(1, 1, 1, "Put a 1/1 white Spirit creature token with flying onto the battlefield.");
 			factory.setColors(Color.WHITE);
 			factory.setSubTypes(SubType.SPIRIT);
-			factory.addAbility(org.rnd.jmagic.abilities.keywords.Flying.class);
+			factory.addAbility(Flying.class);
 			this.addEffect(factory.getEventFactory());
 		}
 	}
@@ -32,7 +35,7 @@ public final class MoorlandHaunt extends Card
 		super(state);
 
 		// (T): Add (1) to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapFor1(state));
+		this.addAbility(new TapFor1(state));
 
 		// (W)(U), (T), Exile a creature card from your graveyard: Put a 1/1
 		// white Spirit creature token with flying onto the battlefield.

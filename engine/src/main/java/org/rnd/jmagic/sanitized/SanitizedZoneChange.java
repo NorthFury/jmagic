@@ -1,5 +1,10 @@
 package org.rnd.jmagic.sanitized;
 
+import org.rnd.jmagic.engine.GameState;
+import org.rnd.jmagic.engine.Player;
+import org.rnd.jmagic.engine.ReplacementEffect;
+import org.rnd.jmagic.engine.ZoneChange;
+
 import java.io.Serializable;
 
 public class SanitizedZoneChange implements Serializable
@@ -13,7 +18,7 @@ public class SanitizedZoneChange implements Serializable
 	public int newID;
 	public int oldID;
 
-	public SanitizedZoneChange(org.rnd.jmagic.engine.ZoneChange zc)
+	public SanitizedZoneChange(ZoneChange zc)
 	{
 		this.controllerID = zc.controllerID;
 		this.destinationID = zc.destinationZoneID;
@@ -32,7 +37,7 @@ public class SanitizedZoneChange implements Serializable
 
 		private String text;
 
-		public Replacement(org.rnd.jmagic.engine.ReplacementEffect effect, org.rnd.jmagic.engine.ZoneChange zoneChange, org.rnd.jmagic.engine.GameState s, org.rnd.jmagic.engine.Player whoFor)
+		public Replacement(ReplacementEffect effect, ZoneChange zoneChange, GameState s, Player whoFor)
 		{
 			this.effect = effect.sanitize(s, whoFor);
 			this.zoneChange = zoneChange.sanitize(s, whoFor);

@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Haste;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -19,6 +20,6 @@ public final class BurstofSpeed extends Card
 		SetGenerator youControl = ControlledBy.instance(You.instance());
 		SetGenerator creaturesYouControl = Intersect.instance(CreaturePermanents.instance(), youControl);
 
-		this.addEffect(addAbilityUntilEndOfTurn(creaturesYouControl, org.rnd.jmagic.abilities.keywords.Haste.class, "Creatures you control gain haste until end of turn."));
+		this.addEffect(addAbilityUntilEndOfTurn(creaturesYouControl, Haste.class, "Creatures you control gain haste until end of turn."));
 	}
 }

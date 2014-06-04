@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Level;
+import org.rnd.jmagic.abilities.keywords.LevelUp;
 import org.rnd.jmagic.engine.*;
 
 @Name("Kazandu Tuskcaller")
@@ -47,16 +50,16 @@ public final class KazanduTuskcaller extends Card
 		this.setToughness(1);
 
 		// Level up (1)(G)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.LevelUp(state, "(1)(G)"));
+		this.addAbility(new LevelUp(state, "(1)(G)"));
 
 		// LEVEL 2-5
 		// 1/1
 		// (T): Put a 3/3 green Elephant creature token onto the battlefield.
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Level(state, 2, 5, 1, 1, "\"(T): Put a 3/3 green Elephant creature token onto the battlefield.\"", KazanduTuskcallerAbility3.class));
+		this.addAbility(new Level(state, 2, 5, 1, 1, "\"(T): Put a 3/3 green Elephant creature token onto the battlefield.\"", KazanduTuskcallerAbility3.class));
 
 		// LEVEL 6+
 		// 1/1
 		// (T): Put two 3/3 green Elephant creature tokens onto the battlefield.
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Level(state, 6, 1, 1, "\"(T): Put two 3/3 green Elephant creature tokens onto the battlefield.\"", KazanduTuskcallerAbility6.class));
+		this.addAbility(new Level(state, 6, 1, 1, "\"(T): Put two 3/3 green Elephant creature tokens onto the battlefield.\"", KazanduTuskcallerAbility6.class));
 	}
 }

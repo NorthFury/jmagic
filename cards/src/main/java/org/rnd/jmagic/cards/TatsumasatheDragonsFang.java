@@ -1,6 +1,10 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.StaticPTChange;
+import org.rnd.jmagic.abilities.keywords.Equip;
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -28,7 +32,7 @@ public final class TatsumasatheDragonsFang extends Card
 			CreateTokensFactory token = new CreateTokensFactory(1, 5, 5, "Put a 5/5 blue Dragon Spirit creature token with flying onto the battlefield.");
 			token.setColors(Color.BLUE);
 			token.setSubTypes(SubType.DRAGON, SubType.SPIRIT);
-			token.addAbility(org.rnd.jmagic.abilities.keywords.Flying.class);
+			token.addAbility(Flying.class);
 			EventFactory factory = token.getEventFactory();
 			this.addEffect(factory);
 
@@ -52,7 +56,7 @@ public final class TatsumasatheDragonsFang extends Card
 		super(state);
 
 		// Equipped creature gets +5/+5.
-		this.addAbility(new org.rnd.jmagic.abilities.StaticPTChange(state, EquippedBy.instance(This.instance()), "Equipped creature", +5, +5, false));
+		this.addAbility(new StaticPTChange(state, EquippedBy.instance(This.instance()), "Equipped creature", +5, +5, false));
 
 		// (6), Exile Tatsumasa, the Dragon's Fang: Put a 5/5 blue Dragon Spirit
 		// creature token with flying onto the battlefield. Return Tatsumasa to
@@ -61,6 +65,6 @@ public final class TatsumasatheDragonsFang extends Card
 		this.addAbility(new TatsumasatheDragonsFangAbility1(state));
 
 		// Equip (3)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Equip(state, "(3)"));
+		this.addAbility(new Equip(state, "(3)"));
 	}
 }

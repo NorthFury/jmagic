@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -55,7 +57,7 @@ public final class FiendoftheShadows extends Card
 		this.setToughness(3);
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// Whenever Fiend of the Shadows deals combat damage to a player, that
 		// player exiles a card from his or her hand. You may play that card for

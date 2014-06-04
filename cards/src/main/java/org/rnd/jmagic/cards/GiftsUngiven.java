@@ -5,6 +5,11 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+
 @Name("Gifts Ungiven")
 @Types({Type.INSTANT})
 @ManaCost("3U")
@@ -27,14 +32,14 @@ public final class GiftsUngiven extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			Player you = parameters.get(Parameter.PLAYER).getOne(Player.class);
 			Zone library = you.getLibrary(game.actualState);
 
 			while(true)
 			{
-				java.util.Map<Parameter, MagicSet> searchParameters = new java.util.HashMap<Parameter, MagicSet>();
+				Map<Parameter, MagicSet> searchParameters = new HashMap<Parameter, MagicSet>();
 				searchParameters.put(Parameter.CAUSE, new MagicSet(event.getSource()));
 				searchParameters.put(Parameter.PLAYER, new MagicSet(you));
 				searchParameters.put(Parameter.NUMBER, new MagicSet(4));
@@ -47,7 +52,7 @@ public final class GiftsUngiven extends Card
 				search.perform(event, false);
 
 				MagicSet found = search.getResult();
-				java.util.Collection<String> names = new java.util.HashSet<String>();
+				Collection<String> names = new HashSet<String>();
 				boolean differentNames = true;
 				for(GameObject o: found.getAll(GameObject.class))
 				{

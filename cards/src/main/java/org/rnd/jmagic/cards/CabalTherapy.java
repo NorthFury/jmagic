@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flashback;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -40,7 +42,7 @@ public final class CabalTherapy extends Card
 		this.addEffect(discard);
 
 		// Flashback\u2014Sacrifice a creature.
-		CostCollection fbCost = new CostCollection(org.rnd.jmagic.abilities.keywords.Flashback.COST_TYPE, sacrificeACreature("Sacrifice a creature."));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flashback(state, fbCost));
+		CostCollection fbCost = new CostCollection(Flashback.COST_TYPE, sacrificeACreature("Sacrifice a creature."));
+		this.addAbility(new Flashback(state, fbCost));
 	}
 }

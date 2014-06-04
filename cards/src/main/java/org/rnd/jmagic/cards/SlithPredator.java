@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 
 @Name("Slith Predator")
@@ -31,7 +33,7 @@ public final class SlithPredator extends Card
 		this.setToughness(1);
 
 		// Trample
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Trample(state));
+		this.addAbility(new Trample(state));
 
 		// Whenever Slith Predator deals combat damage to a player, put a +1/+1
 		// counter on it.

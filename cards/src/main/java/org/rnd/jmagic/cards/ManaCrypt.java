@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.TapForMana;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -39,6 +41,6 @@ public final class ManaCrypt extends Card
 		this.addAbility(new ManaCryptAbility0(state));
 
 		// (T): Add (2) to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapForMana.Final(state, "(2)"));
+		this.addAbility(new TapForMana.Final(state, "(2)"));
 	}
 }

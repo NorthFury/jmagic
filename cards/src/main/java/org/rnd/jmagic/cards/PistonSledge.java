@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Equip;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -50,6 +52,6 @@ public final class PistonSledge extends Card
 		this.addAbility(new PistonSledgeAbility1(state));
 
 		// Equip\u2014Sacrifice an artifact.
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Equip(state, new CostCollection(EQUIP_COST_TYPE, sacrifice(You.instance(), 1, HasType.instance(Type.ARTIFACT), "Sacrifice an artifact"))));
+		this.addAbility(new Equip(state, new CostCollection(EQUIP_COST_TYPE, sacrifice(You.instance(), 1, HasType.instance(Type.ARTIFACT), "Sacrifice an artifact"))));
 	}
 }

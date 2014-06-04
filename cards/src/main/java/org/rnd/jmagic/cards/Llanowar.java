@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.TapForMana;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.gameTypes.*;
 import org.rnd.jmagic.engine.generators.*;
@@ -15,7 +16,7 @@ public final class Llanowar extends Card
 {
 	public static final class ElvesDoItWithMana extends StaticAbility
 	{
-		public static final class TapForGG extends org.rnd.jmagic.abilities.TapForMana
+		public static final class TapForGG extends TapForMana
 		{
 			public TapForGG(GameState state)
 			{

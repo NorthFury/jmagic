@@ -5,6 +5,8 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.Map;
+
 public final class PayCumulativeUpkeep extends EventType
 {	public static final EventType INSTANCE = new PayCumulativeUpkeep();
 
@@ -20,7 +22,7 @@ public final class PayCumulativeUpkeep extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		Event costEvent = parameters.get(Parameter.EVENT).getOne(EventFactory.class).createEvent(game, event.getSource());
 		int number = Sum.get(parameters.get(Parameter.NUMBER));

@@ -3,6 +3,7 @@ package org.rnd.jmagic.abilities;
 import static org.rnd.jmagic.Convenience.*;
 
 import org.rnd.jmagic.engine.*;
+import org.rnd.util.NumberNames;
 
 public final class MeleeGetPlusOnePlusOneCounters extends EventTriggeredAbility
 {
@@ -11,7 +12,7 @@ public final class MeleeGetPlusOnePlusOneCounters extends EventTriggeredAbility
 
 	public MeleeGetPlusOnePlusOneCounters(GameState state, String thisName, int number)
 	{
-		super(state, "Whenever " + thisName + " deals combat damage to a player, put " + org.rnd.util.NumberNames.get(number, "a") + " +1/+1 counter" + (number == 1 ? "" : "s") + " on it.");
+		super(state, "Whenever " + thisName + " deals combat damage to a player, put " + NumberNames.get(number, "a") + " +1/+1 counter" + (number == 1 ? "" : "s") + " on it.");
 
 		this.thisName = thisName;
 		this.N = number;

@@ -3,6 +3,10 @@ package org.rnd.jmagic.cards;
 import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+import org.rnd.util.NumberRange;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Name("Haunting Echoes")
 @Types({Type.SORCERY})
@@ -26,7 +30,7 @@ public final class HauntingEchoes extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			Player player = parameters.get(Parameter.PLAYER).getOne(Player.class);
 			Player searcher = parameters.get(Parameter.CONTROLLER).getOne(Player.class);
@@ -34,7 +38,7 @@ public final class HauntingEchoes extends Card
 			Zone graveyard = player.getGraveyard(game.actualState);
 			MagicSet cardsToRemove = RelativeComplement.get(new MagicSet(graveyard.objects), Intersect.instance(HasSuperType.instance(SuperType.BASIC), HasType.instance(Type.LAND)).evaluate(game.actualState, null));
 
-			java.util.Map<Parameter, MagicSet> exileParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> exileParameters = new HashMap<Parameter, MagicSet>();
 			exileParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 			exileParameters.put(Parameter.TO, new MagicSet(game.actualState.exileZone()));
 			exileParameters.put(Parameter.OBJECT, cardsToRemove);
@@ -46,10 +50,10 @@ public final class HauntingEchoes extends Card
 
 			player = player.getActual();
 
-			java.util.Map<Parameter, MagicSet> searchParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> searchParameters = new HashMap<Parameter, MagicSet>();
 			searchParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 			searchParameters.put(Parameter.PLAYER, new MagicSet(searcher));
-			searchParameters.put(Parameter.NUMBER, new MagicSet(new org.rnd.util.NumberRange(0, null)));
+			searchParameters.put(Parameter.NUMBER, new MagicSet(new NumberRange(0, null)));
 			searchParameters.put(Parameter.CARD, new MagicSet(player.getLibrary(game.actualState)));
 			searchParameters.put(Parameter.TYPE, new MagicSet(cardsWithSameNames));
 			Event searchEvent = createEvent(game, "For each card exiled this way, search that player's library for all cards with the same name as that card.", EventType.SEARCH, searchParameters);
@@ -58,7 +62,7 @@ public final class HauntingEchoes extends Card
 			MagicSet cardsToRemove2 = searchEvent.getResult();
 			player = player.getActual();
 
-			java.util.Map<Parameter, MagicSet> exileParameters2 = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> exileParameters2 = new HashMap<Parameter, MagicSet>();
 			exileParameters2.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 			exileParameters2.put(Parameter.TO, new MagicSet(game.actualState.exileZone()));
 			exileParameters2.put(Parameter.OBJECT, cardsToRemove2);
@@ -67,7 +71,7 @@ public final class HauntingEchoes extends Card
 
 			player = player.getActual();
 
-			java.util.Map<Parameter, MagicSet> shuffleParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> shuffleParameters = new HashMap<Parameter, MagicSet>();
 			shuffleParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 			shuffleParameters.put(Parameter.PLAYER, new MagicSet(player));
 			Event shuffleEvent = createEvent(game, "Then that player shuffles his or her library.", EventType.SHUFFLE_LIBRARY, shuffleParameters);

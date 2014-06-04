@@ -1,7 +1,21 @@
 package org.rnd.jmagic.interfaceAdapters;
 
 import org.rnd.jmagic.engine.*;
+import org.rnd.jmagic.gui.dialogs.ConfigurationFrame;
 import org.rnd.jmagic.sanitized.*;
+
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JCheckBox;
+import java.io.Serializable;
+import java.util.Collections;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
 
 /**
  * An adapter interface to automatically pass during certain steps/phases/turns.
@@ -26,52 +40,52 @@ import org.rnd.jmagic.sanitized.*;
  */
 public class AutomaticPassInterface extends SimpleConfigurableInterface
 {
-	private final static class APIOptionPanel extends org.rnd.jmagic.gui.dialogs.ConfigurationFrame.OptionPanel
+	private final static class APIOptionPanel extends ConfigurationFrame.OptionPanel
 	{
 		private static final long serialVersionUID = 1L;
 
-		private java.util.Map<Step.StepType, javax.swing.JCheckBox> playerOptions;
-		private java.util.Map<Step.StepType, javax.swing.JCheckBox> opponentOptions;
+		private Map<Step.StepType, JCheckBox> playerOptions;
+		private Map<Step.StepType, JCheckBox> opponentOptions;
 
 		public APIOptionPanel()
 		{
 			super("Automatic Passes");
 
-			this.setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.X_AXIS));
+			this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 
-			this.playerOptions = new java.util.HashMap<Step.StepType, javax.swing.JCheckBox>();
-			this.opponentOptions = new java.util.HashMap<Step.StepType, javax.swing.JCheckBox>();
+			this.playerOptions = new HashMap<Step.StepType, JCheckBox>();
+			this.opponentOptions = new HashMap<Step.StepType, JCheckBox>();
 
-			javax.swing.Box player = javax.swing.Box.createVerticalBox();
-			player.setBorder(javax.swing.BorderFactory.createTitledBorder("Player"));
+			Box player = Box.createVerticalBox();
+			player.setBorder(BorderFactory.createTitledBorder("Player"));
 
-			javax.swing.Box opponent = javax.swing.Box.createVerticalBox();
-			opponent.setBorder(javax.swing.BorderFactory.createTitledBorder("Opponent"));
+			Box opponent = Box.createVerticalBox();
+			opponent.setBorder(BorderFactory.createTitledBorder("Opponent"));
 
 			for(Step.StepType step: Step.StepType.values())
 			{
-				javax.swing.JCheckBox playerBox = new javax.swing.JCheckBox(step.toString());
+				JCheckBox playerBox = new JCheckBox(step.toString());
 				this.playerOptions.put(step, playerBox);
 				player.add(playerBox);
 
-				javax.swing.JCheckBox opponentBox = new javax.swing.JCheckBox(step.toString());
+				JCheckBox opponentBox = new JCheckBox(step.toString());
 				this.opponentOptions.put(step, opponentBox);
 				opponent.add(opponentBox);
 			}
 
-			javax.swing.Box hBox = javax.swing.Box.createHorizontalBox();
+			Box hBox = Box.createHorizontalBox();
 			hBox.add(player);
 			hBox.add(opponent);
 
-			javax.swing.Box vBox = javax.swing.Box.createVerticalBox();
+			Box vBox = Box.createVerticalBox();
 			vBox.add(hBox);
-			vBox.add(javax.swing.Box.createVerticalGlue());
+			vBox.add(Box.createVerticalGlue());
 
 			this.add(vBox);
 		}
 
 		@Override
-		public void loadSettings(java.util.Properties properties)
+		public void loadSettings(Properties properties)
 		{
 			for(Step.StepType step: Step.StepType.values())
 			{
@@ -81,7 +95,7 @@ public class AutomaticPassInterface extends SimpleConfigurableInterface
 		}
 
 		@Override
-		public void saveChanges(java.util.Properties properties)
+		public void saveChanges(Properties properties)
 		{
 			for(Step.StepType step: Step.StepType.values())
 			{
@@ -96,14 +110,14 @@ public class AutomaticPassInterface extends SimpleConfigurableInterface
 		return "AutomaticPassInterface.PassStep." + (player ? "Player" : "Opponent") + "." + type.name();
 	}
 
-	private static final java.util.Set<Step.StepType> playerDefault = java.util.EnumSet.of(Step.StepType.UNTAP, Step.StepType.UPKEEP, Step.StepType.DRAW, Step.StepType.BEGINNING_OF_COMBAT, Step.StepType.COMBAT_DAMAGE, Step.StepType.END_OF_COMBAT);
-	private static final java.util.Set<Step.StepType> opponentDefault = java.util.EnumSet.of(Step.StepType.UNTAP, Step.StepType.UPKEEP, Step.StepType.DRAW, Step.StepType.PRECOMBAT_MAIN, Step.StepType.BEGINNING_OF_COMBAT, Step.StepType.COMBAT_DAMAGE, Step.StepType.END_OF_COMBAT, Step.StepType.POSTCOMBAT_MAIN);
+	private static final Set<Step.StepType> playerDefault = EnumSet.of(Step.StepType.UNTAP, Step.StepType.UPKEEP, Step.StepType.DRAW, Step.StepType.BEGINNING_OF_COMBAT, Step.StepType.COMBAT_DAMAGE, Step.StepType.END_OF_COMBAT);
+	private static final Set<Step.StepType> opponentDefault = EnumSet.of(Step.StepType.UNTAP, Step.StepType.UPKEEP, Step.StepType.DRAW, Step.StepType.PRECOMBAT_MAIN, Step.StepType.BEGINNING_OF_COMBAT, Step.StepType.COMBAT_DAMAGE, Step.StepType.END_OF_COMBAT, Step.StepType.POSTCOMBAT_MAIN);
 
 	private SanitizedGameState state;
 	private int lastPassedTurn;
 	private Step.StepType lastPassedStep;
 	private int playerID;
-	private java.util.Properties properties;
+	private Properties properties;
 
 	public AutomaticPassInterface(ConfigurableInterface adapt)
 	{
@@ -124,7 +138,7 @@ public class AutomaticPassInterface extends SimpleConfigurableInterface
 	}
 
 	@Override
-	public <T extends java.io.Serializable> java.util.List<Integer> choose(ChooseParameters<T> parameterObject)
+	public <T extends Serializable> List<Integer> choose(ChooseParameters<T> parameterObject)
 	{
 		if(parameterObject.type == ChoiceType.NORMAL_ACTIONS)
 		{
@@ -151,7 +165,7 @@ public class AutomaticPassInterface extends SimpleConfigurableInterface
 				this.lastPassedStep = this.state.step;
 
 				if(pass)
-					return java.util.Collections.emptyList();
+					return Collections.emptyList();
 			}
 			else
 			{
@@ -171,7 +185,7 @@ public class AutomaticPassInterface extends SimpleConfigurableInterface
 	}
 
 	@Override
-	public void setProperties(java.util.Properties properties)
+	public void setProperties(Properties properties)
 	{
 		this.properties = properties;
 
@@ -189,17 +203,17 @@ public class AutomaticPassInterface extends SimpleConfigurableInterface
 		super.setProperties(properties);
 	}
 
-	public static boolean getAutomaticPassOnPlayerStep(java.util.Properties properties, Step.StepType type)
+	public static boolean getAutomaticPassOnPlayerStep(Properties properties, Step.StepType type)
 	{
 		return Boolean.parseBoolean(properties.getProperty(getKey(type, true)));
 	}
 
-	public static boolean getAutomaticPassOnOpponentStep(java.util.Properties properties, Step.StepType type)
+	public static boolean getAutomaticPassOnOpponentStep(Properties properties, Step.StepType type)
 	{
 		return Boolean.parseBoolean(properties.getProperty(getKey(type, false)));
 	}
 
-	public static void setAutomaticPassOnPlayerStep(java.util.Properties properties, Step.StepType type, Boolean pass)
+	public static void setAutomaticPassOnPlayerStep(Properties properties, Step.StepType type, Boolean pass)
 	{
 		String key = getKey(type, true);
 		if(pass == null)
@@ -208,7 +222,7 @@ public class AutomaticPassInterface extends SimpleConfigurableInterface
 			properties.setProperty(key, Boolean.toString(pass));
 	}
 
-	public static void setAutomaticPassOnOpponentStep(java.util.Properties properties, Step.StepType type, Boolean pass)
+	public static void setAutomaticPassOnOpponentStep(Properties properties, Step.StepType type, Boolean pass)
 	{
 		String key = getKey(type, false);
 		if(pass == null)

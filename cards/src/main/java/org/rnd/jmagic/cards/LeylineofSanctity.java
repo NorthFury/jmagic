@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.LeylineAbility;
+import org.rnd.jmagic.abilities.keywords.Hexproof;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -18,7 +20,7 @@ public final class LeylineofSanctity extends Card
 
 			ContinuousEffect.Part part = new ContinuousEffect.Part(ContinuousEffectType.ADD_ABILITY_TO_PLAYER);
 			part.parameters.put(ContinuousEffectType.Parameter.PLAYER, You.instance());
-			part.parameters.put(ContinuousEffectType.Parameter.RESTRICTION, Identity.instance(org.rnd.jmagic.abilities.keywords.Hexproof.class));
+			part.parameters.put(ContinuousEffectType.Parameter.RESTRICTION, Identity.instance(Hexproof.class));
 			this.addEffectPart(part);
 		}
 	}
@@ -29,7 +31,7 @@ public final class LeylineofSanctity extends Card
 
 		// If Leyline of Sanctity is in your opening hand, you may begin the
 		// game with it on the battlefield.
-		this.addAbility(new org.rnd.jmagic.abilities.LeylineAbility(state, "Leyline of Sanctity"));
+		this.addAbility(new LeylineAbility(state, "Leyline of Sanctity"));
 
 		// You have hexproof.
 		this.addAbility(new HexproofForMe(state));

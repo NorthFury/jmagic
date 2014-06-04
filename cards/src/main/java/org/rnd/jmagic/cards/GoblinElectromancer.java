@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.CostsYouLessToCast;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -19,6 +20,6 @@ public final class GoblinElectromancer extends Card
 		this.setToughness(2);
 
 		// Instant and sorcery spells you cast cost (1) less to cast.
-		this.addAbility(new org.rnd.jmagic.abilities.CostsYouLessToCast(state, HasType.instance(Type.INSTANT, Type.SORCERY), "(1)", "Instant and sorcery spells you cast cost (1) less to cast."));
+		this.addAbility(new CostsYouLessToCast(state, HasType.instance(Type.INSTANT, Type.SORCERY), "(1)", "Instant and sorcery spells you cast cost (1) less to cast."));
 	}
 }

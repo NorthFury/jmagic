@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Overload;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -18,7 +21,7 @@ public final class StreetSpasm extends Card
 		// Street Spasm deals X damage to target creature without flying you
 		// don't control.
 		SetGenerator creature = CreaturePermanents.instance();
-		SetGenerator creatureWithoutFlying = RelativeComplement.instance(creature, HasKeywordAbility.instance(org.rnd.jmagic.abilities.keywords.Flying.class));
+		SetGenerator creatureWithoutFlying = RelativeComplement.instance(creature, HasKeywordAbility.instance(Flying.class));
 		SetGenerator creatureWithoutFlyingYouDontControl = RelativeComplement.instance(creatureWithoutFlying, ControlledBy.instance(You.instance()));
 		SetGenerator target = targetedBy(this.addTarget(creatureWithoutFlyingYouDontControl, "target creature without flying you don't control"));
 		this.addEffect(spellDealDamage(ValueOfX.instance(This.instance()), target, "Street Spasm deals X damage to target creature without flying you don't control."));
@@ -26,6 +29,6 @@ public final class StreetSpasm extends Card
 		// Overload (X)(X)(R)(R) (You may cast this spell for its overload cost.
 		// If you do, change its text by replacing all instances of "target"
 		// with "each.")
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Overload(state, "(X)(X)(R)(R)"));
+		this.addAbility(new Overload(state, "(X)(X)(R)(R)"));
 	}
 }

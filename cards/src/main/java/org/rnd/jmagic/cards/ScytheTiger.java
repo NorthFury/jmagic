@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Shroud;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -34,7 +35,7 @@ public final class ScytheTiger extends Card
 		this.setPower(3);
 		this.setToughness(2);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Shroud(state));
+		this.addAbility(new Shroud(state));
 
 		this.addAbility(new HungryKitty(state));
 	}

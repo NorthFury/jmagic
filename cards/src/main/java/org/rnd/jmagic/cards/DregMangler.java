@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Haste;
+import org.rnd.jmagic.abilities.keywords.Scavenge;
 import org.rnd.jmagic.engine.*;
 
 @Name("Dreg Mangler")
@@ -18,11 +20,11 @@ public final class DregMangler extends Card
 		this.setToughness(3);
 
 		// Haste
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Haste(state));
+		this.addAbility(new Haste(state));
 
 		// Scavenge (3)(B)(G) ((3)(B)(G), Exile this card from your graveyard:
 		// Put a number of +1/+1 counters equal to this card's power on target
 		// creature. Scavenge only as a sorcery.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Scavenge(state, "(3)(B)(G)"));
+		this.addAbility(new Scavenge(state, "(3)(B)(G)"));
 	}
 }

@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Enchant;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -33,7 +34,7 @@ public final class Pacifism extends Card
 	{
 		super(state);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Enchant.Creature(state));
+		this.addAbility(new Enchant.Creature(state));
 		this.addAbility(new Pacifier(state));
 	}
 }

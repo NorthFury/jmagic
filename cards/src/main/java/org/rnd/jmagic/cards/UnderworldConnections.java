@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Enchant;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -38,7 +40,7 @@ public final class UnderworldConnections extends Card
 		super(state);
 
 		// Enchant land
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Enchant.Land(state));
+		this.addAbility(new Enchant.Land(state));
 
 		// Enchanted land has "(T), Pay 1 life: Draw a card."
 		this.addAbility(new UnderworldConnectionsAbility1(state));

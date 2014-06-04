@@ -2,7 +2,12 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Enchant;
 import org.rnd.jmagic.engine.*;
+
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 @Name("Pariah")
 @Types({Type.ENCHANTMENT})
@@ -37,14 +42,14 @@ public final class Pariah extends Card
 			}
 
 			@Override
-			public java.util.List<EventFactory> redirect(java.util.Map<DamageAssignment, DamageAssignment> damageAssignments)
+			public List<EventFactory> redirect(Map<DamageAssignment, DamageAssignment> damageAssignments)
 			{
 				GameObject enchantedCreature = this.game.actualState.get(((GameObject)this.getSourceObject(this.game.actualState)).getAttachedTo());
 
 				for(DamageAssignment assignment: damageAssignments.keySet())
 					damageAssignments.put(assignment, new DamageAssignment(this.game.actualState.<GameObject>get(assignment.sourceID), enchantedCreature));
 
-				return new java.util.LinkedList<EventFactory>();
+				return new LinkedList<EventFactory>();
 			}
 		}
 
@@ -59,7 +64,7 @@ public final class Pariah extends Card
 	{
 		super(state);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Enchant.Creature(state));
+		this.addAbility(new Enchant.Creature(state));
 
 		this.addAbility(new NotAVolunteer(state));
 	}

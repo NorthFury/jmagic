@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.ZendikarAllyCounter;
+import org.rnd.jmagic.abilities.keywords.Defender;
 import org.rnd.jmagic.engine.*;
 
 @Name("Makindi Shieldmate")
@@ -17,8 +19,8 @@ public final class MakindiShieldmate extends Card
 		this.setPower(0);
 		this.setToughness(3);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Defender(state));
+		this.addAbility(new Defender(state));
 
-		this.addAbility(new org.rnd.jmagic.abilities.ZendikarAllyCounter(state, this.getName()));
+		this.addAbility(new ZendikarAllyCounter(state, this.getName()));
 	}
 }

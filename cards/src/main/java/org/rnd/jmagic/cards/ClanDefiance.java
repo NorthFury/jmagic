@@ -1,8 +1,11 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+import org.rnd.util.NumberRange;
 
 @Name("Clan Defiance")
 @Types({Type.SORCERY})
@@ -16,10 +19,10 @@ public final class ClanDefiance extends Card
 		super(state);
 
 		// Choose one or more \u2014
-		this.setNumModes(new MagicSet(new org.rnd.util.NumberRange(1, null)));
+		this.setNumModes(new MagicSet(new NumberRange(1, null)));
 
 		SetGenerator X = ValueOfX.instance(This.instance());
-		SetGenerator hasFlying = HasKeywordAbility.instance(org.rnd.jmagic.abilities.keywords.Flying.class);
+		SetGenerator hasFlying = HasKeywordAbility.instance(Flying.class);
 
 		// Clan Defiance deals X damage to target creature with flying
 		{

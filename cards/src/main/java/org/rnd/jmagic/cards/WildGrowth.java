@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Enchant;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -35,7 +37,7 @@ public final class WildGrowth extends Card
 		super(state);
 
 		// Enchant land
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Enchant.Land(state));
+		this.addAbility(new Enchant.Land(state));
 
 		// Whenever enchanted land is tapped for mana, its controller adds (G)
 		// to his or her mana pool (in addition to the mana the land produces).

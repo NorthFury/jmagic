@@ -3,6 +3,7 @@ package org.rnd.jmagic.cards;
 import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+import org.rnd.util.NumberRange;
 
 @Name("Fissure Vent")
 @Types({Type.SORCERY})
@@ -16,7 +17,7 @@ public final class FissureVent extends Card
 		super(state);
 
 		// Choose one or both \u2014
-		this.setNumModes(new MagicSet(new org.rnd.util.NumberRange(1, 2)));
+		this.setNumModes(new MagicSet(new NumberRange(1, 2)));
 
 		// Destroy target artifact;
 		{

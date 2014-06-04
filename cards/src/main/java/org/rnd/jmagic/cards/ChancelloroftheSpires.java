@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -73,7 +74,7 @@ public final class ChancelloroftheSpires extends Card
 		this.addAbility(new ChancelloroftheSpiresAbility0(state));
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// When Chancellor of the Spires enters the battlefield, you may cast
 		// target instant or sorcery card from an opponent's graveyard without

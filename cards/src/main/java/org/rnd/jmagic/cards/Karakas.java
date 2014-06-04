@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.TapForW;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -29,7 +31,7 @@ public final class Karakas extends Card
 		super(state);
 
 		// (T): Add (W) to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapForW(state));
+		this.addAbility(new TapForW(state));
 
 		// (T): Return target legendary creature to its owner's hand.
 		this.addAbility(new KarakasAbility1(state));

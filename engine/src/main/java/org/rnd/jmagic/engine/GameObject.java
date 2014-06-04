@@ -1,8 +1,26 @@
 package org.rnd.jmagic.engine;
 
+import org.rnd.jmagic.abilities.keywords.Enchant;
 import org.rnd.jmagic.engine.PlayerInterface.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
+import org.rnd.jmagic.sanitized.SanitizedGameObject;
+import org.rnd.util.Constructor;
+import org.rnd.util.NumberRange;
+
+import java.io.Serializable;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Map;
+import java.util.Set;
 
 /** Represents an object that can exist in a zone. */
 abstract public class GameObject extends Identified implements AttachableTo, Attackable, Controllable, Sanitizable, Targetable, CanHaveAbilities
@@ -28,10 +46,10 @@ abstract public class GameObject extends Identified implements AttachableTo, Att
 		 * creatures blocking this. Outside of combat, this will be an empty
 		 * list.
 		 */
-		public java.util.List<Integer> blockedByIDs;
+		public List<Integer> blockedByIDs;
 
 		/** IDs of the creatures this is blocking. */
-		public java.util.List<Integer> blockingIDs;
+		public List<Integer> blockingIDs;
 
 		public MultipleSetPattern cantBeAttachedTo;
 
@@ -46,7 +64,7 @@ abstract public class GameObject extends Identified implements AttachableTo, Att
 		 * IDs of the creatures attacking this (relevant for planeswalkers
 		 * only.)
 		 */
-		public java.util.Set<Integer> defendingIDs;
+		public Set<Integer> defendingIDs;
 
 		public boolean flipped;
 
@@ -64,13 +82,13 @@ abstract public class GameObject extends Identified implements AttachableTo, Att
 			this.attachedTo = -1;
 			this.attackingID = -1;
 			this.attacksWithDefender = false;
-			this.blockedByIDs = new java.util.LinkedList<Integer>();
-			this.blockingIDs = new java.util.LinkedList<Integer>();
+			this.blockedByIDs = new LinkedList<Integer>();
+			this.blockingIDs = new LinkedList<Integer>();
 			this.cantBeAttachedTo = null;
 			this.damage = 0;
 			this.damagedByDeathtouchSinceLastSBA = false;
 			this.dealDamageAsUnblocked = false;
-			this.defendingIDs = new java.util.HashSet<Integer>();
+			this.defendingIDs = new HashSet<Integer>();
 			this.flipped = false;
 			this.maximumBlocks = 1;
 			this.pairedWith = -1;
@@ -89,11 +107,11 @@ abstract public class GameObject extends Identified implements AttachableTo, Att
 				// attachedTo copied by super.clone
 				// attackingID copied by super.clone
 				if(null != this.blockedByIDs)
-					ret.blockedByIDs = new java.util.LinkedList<Integer>(this.blockedByIDs);
-				ret.blockingIDs = new java.util.LinkedList<Integer>(this.blockingIDs);
+					ret.blockedByIDs = new LinkedList<Integer>(this.blockedByIDs);
+				ret.blockingIDs = new LinkedList<Integer>(this.blockingIDs);
 				// damage copied by super.clone
 				// damagedByDeathtouchSinceLastSBA copied by super.clone
-				ret.defendingIDs = new java.util.HashSet<Integer>(this.defendingIDs);
+				ret.defendingIDs = new HashSet<Integer>(this.defendingIDs);
 				// flipped copied by super.clone
 				// flippedValues copied by super.clone
 				// flippedValuesFrom copied by super.clone
@@ -125,13 +143,13 @@ abstract public class GameObject extends Identified implements AttachableTo, Att
 	 * The IDs of the players who are specifically granted or denied permission
 	 * to see the "front side" of this card after continuous effects.
 	 */
-	private java.util.Map<Integer, Boolean> actualVisibility;
+	private Map<Integer, Boolean> actualVisibility;
 
-	public java.util.Set<AlternateCost> alternateCosts;
+	public Set<AlternateCost> alternateCosts;
 
 	// This can't be moved into BattlefieldProperties because of Animate Dead
 	// and friends
-	private java.util.Set<Integer> attachments;
+	private Set<Integer> attachments;
 
 	private Characteristics backFace;
 
@@ -155,9 +173,9 @@ abstract public class GameObject extends Identified implements AttachableTo, Att
 
 	public int controllerID;
 
-	private java.util.Map<EventFactory, Integer> costsGenerated;
+	private Map<EventFactory, Integer> costsGenerated;
 
-	public java.util.List<Counter> counters;
+	public List<Counter> counters;
 
 	/**
 	 * If this spell or ability defines a value for X that is in a cost, this
@@ -165,7 +183,7 @@ abstract public class GameObject extends Identified implements AttachableTo, Att
 	 */
 	private SetGenerator definedX;
 
-	java.util.Map<EventFactory, Integer> effectsGenerated;
+	Map<EventFactory, Integer> effectsGenerated;
 
 	/**
 	 * If a GameObject has a non-null faceDownValues, it's considered to be
@@ -189,9 +207,9 @@ abstract public class GameObject extends Identified implements AttachableTo, Att
 	 */
 	private boolean isGhost;
 
-	public java.util.Collection<ManaSymbol> manaCostRestrictions;
+	public Collection<ManaSymbol> manaCostRestrictions;
 
-	public java.util.Collection<CostCollection> optionalAdditionalCosts;
+	public Collection<CostCollection> optionalAdditionalCosts;
 
 	public int ownerID;
 
@@ -202,7 +220,7 @@ abstract public class GameObject extends Identified implements AttachableTo, Att
 	 * The IDs of the players who are specifically granted or denied permission
 	 * to see the "front side" of this card before continuous effects.
 	 */
-	private java.util.Map<Integer, Boolean> physicalVisibility;
+	private Map<Integer, Boolean> physicalVisibility;
 
 	public int playerCasting;
 
@@ -210,7 +228,7 @@ abstract public class GameObject extends Identified implements AttachableTo, Att
 	 * For objects on the stack, the modes whose instructions will be followed
 	 * when this object resolves.
 	 */
-	public java.util.List<TextChange> textChanges;
+	public List<TextChange> textChanges;
 
 	private int timestamp;
 
@@ -231,10 +249,10 @@ abstract public class GameObject extends Identified implements AttachableTo, Att
 		super(state);
 
 		this.characteristics = new Characteristics();
-		this.characteristics.numModes = new MagicSet(new org.rnd.util.NumberRange(1, 1));
+		this.characteristics.numModes = new MagicSet(new NumberRange(1, 1));
 
 		this.alternateCosts = null;
-		this.attachments = new java.util.HashSet<Integer>();
+		this.attachments = new HashSet<Integer>();
 		this.battlefieldProperties = null;
 		this.beginTheGameEffect = null;
 		this.beginTheGameConsequence = null;
@@ -243,7 +261,7 @@ abstract public class GameObject extends Identified implements AttachableTo, Att
 		this.castAction = null;
 		this.controllerID = -1;
 		this.costsGenerated = null;
-		this.counters = new java.util.LinkedList<Counter>();
+		this.counters = new LinkedList<Counter>();
 		this.definedX = null;
 		this.effectsGenerated = null;
 		this.faceDownValues = null;
@@ -251,15 +269,15 @@ abstract public class GameObject extends Identified implements AttachableTo, Att
 		this.futureSelf = -1;
 		this.hasACopyEffect = false;
 		this.isGhost = false;
-		this.optionalAdditionalCosts = new java.util.LinkedList<CostCollection>();
+		this.optionalAdditionalCosts = new LinkedList<CostCollection>();
 		this.ownerID = -1;
 		this.pastSelf = -1;
 		this.playerCasting = -1;
-		this.textChanges = new java.util.LinkedList<TextChange>();
+		this.textChanges = new LinkedList<TextChange>();
 		// objects receive timestamps when they are moved
 		this.timestamp = -1;
-		this.actualVisibility = new java.util.HashMap<Integer, Boolean>();
-		this.physicalVisibility = new java.util.HashMap<Integer, Boolean>();
+		this.actualVisibility = new HashMap<Integer, Boolean>();
+		this.physicalVisibility = new HashMap<Integer, Boolean>();
 		this.xRestriction = ManaSymbol.ManaType.COLORLESS;
 		this.manaCostRestrictions = null;
 		this.zoneCastFrom = -1;
@@ -292,7 +310,7 @@ abstract public class GameObject extends Identified implements AttachableTo, Att
 
 		Types types = clazz.getAnnotation(Types.class);
 		if(types != null && types.value().length > 0)
-			this.addTypes(java.util.EnumSet.of(types.value()[0], types.value()));
+			this.addTypes(EnumSet.of(types.value()[0], types.value()));
 
 		SubTypes subTypes = clazz.getAnnotation(SubTypes.class);
 		if(subTypes != null)
@@ -402,7 +420,7 @@ abstract public class GameObject extends Identified implements AttachableTo, Att
 	private final void addLink(Linkable a1)
 	{
 		Linkable.Manager manager1 = a1.getLinkManager();
-		java.util.Set<Class<? extends Linkable>> linkClasses = manager1.getLinkClasses();
+		Set<Class<? extends Linkable>> linkClasses = manager1.getLinkClasses();
 		if(linkClasses.isEmpty())
 			return;
 
@@ -427,12 +445,12 @@ abstract public class GameObject extends Identified implements AttachableTo, Att
 		}
 	}
 
-	public void addSubTypes(java.util.Collection<SubType> subTypes)
+	public void addSubTypes(Collection<SubType> subTypes)
 	{
 		this.characteristics.subTypes.addAll(subTypes);
 	}
 
-	public void addSuperTypes(java.util.Collection<SuperType> superTypes)
+	public void addSuperTypes(Collection<SuperType> superTypes)
 	{
 		this.characteristics.superTypes.addAll(superTypes);
 	}
@@ -477,7 +495,7 @@ abstract public class GameObject extends Identified implements AttachableTo, Att
 		this.addTarget(1, target);
 	}
 
-	public void addTypes(java.util.Collection<Type> types)
+	public void addTypes(Collection<Type> types)
 	{
 		this.characteristics.types.addAll(types);
 	}
@@ -487,11 +505,11 @@ abstract public class GameObject extends Identified implements AttachableTo, Att
 	 * guarantees that the first element is this object and the last element is
 	 * this object as it exists in the physical state.
 	 */
-	public java.util.List<GameObject> andPhysical()
+	public List<GameObject> andPhysical()
 	{
 		if(this.state == this.game.physicalState)
-			return java.util.Collections.singletonList(this);
-		return java.util.Arrays.asList(new GameObject[] {this, this.getPhysical()});
+			return Collections.singletonList(this);
+		return Arrays.asList(new GameObject[] {this, this.getPhysical()});
 	}
 
 	@Override
@@ -519,13 +537,13 @@ abstract public class GameObject extends Identified implements AttachableTo, Att
 			// Auras can only be attached to objects they can legally
 			// enchant
 
-			org.rnd.jmagic.abilities.keywords.Enchant enchantKeyword = null;
+			Enchant enchantKeyword = null;
 
 			for(Keyword k: this.getKeywordAbilities())
 			{
 				if(k.isEnchant())
 				{
-					enchantKeyword = (org.rnd.jmagic.abilities.keywords.Enchant)k;
+					enchantKeyword = (Enchant)k;
 					break;
 				}
 			}
@@ -666,25 +684,25 @@ abstract public class GameObject extends Identified implements AttachableTo, Att
 		ret.characteristics = this.characteristics.clone();
 
 		ret.alternateCosts = null;
-		ret.attachments = new java.util.HashSet<Integer>(this.attachments);
+		ret.attachments = new HashSet<Integer>(this.attachments);
 		if(null != this.battlefieldProperties)
 			ret.battlefieldProperties = this.battlefieldProperties.clone();
 		ret.castAction = this.castAction;
 		if(null != this.costsGenerated)
-			ret.costsGenerated = new java.util.HashMap<EventFactory, Integer>(this.costsGenerated);
-		ret.counters = new java.util.LinkedList<Counter>(this.counters);
+			ret.costsGenerated = new HashMap<EventFactory, Integer>(this.costsGenerated);
+		ret.counters = new LinkedList<Counter>(this.counters);
 		if(null != this.effectsGenerated)
-			ret.effectsGenerated = new java.util.HashMap<EventFactory, Integer>(this.effectsGenerated);
-		ret.optionalAdditionalCosts = new java.util.LinkedList<CostCollection>(this.optionalAdditionalCosts);
+			ret.effectsGenerated = new HashMap<EventFactory, Integer>(this.effectsGenerated);
+		ret.optionalAdditionalCosts = new LinkedList<CostCollection>(this.optionalAdditionalCosts);
 
 		// "But wait!" you say, thinking that text change effects are
 		// re-computed when the state is refreshed, "shouldn't this list just be
 		// empty on clone()?" "No!" I say, "since abilities on the stack have
 		// physical text change effects!" That's right, folks, physical text
 		// change effects.
-		ret.textChanges = new java.util.LinkedList<TextChange>(this.textChanges);
-		ret.actualVisibility = new java.util.HashMap<Integer, Boolean>(this.actualVisibility);
-		ret.physicalVisibility = new java.util.HashMap<Integer, Boolean>(this.physicalVisibility);
+		ret.textChanges = new LinkedList<TextChange>(this.textChanges);
+		ret.actualVisibility = new HashMap<Integer, Boolean>(this.actualVisibility);
+		ret.physicalVisibility = new HashMap<Integer, Boolean>(this.physicalVisibility);
 		ret.zoneCastFrom = this.zoneCastFrom;
 
 		// these should not be preserved between backups since they're
@@ -723,7 +741,7 @@ abstract public class GameObject extends Identified implements AttachableTo, Att
 
 	public GameObject create(Game game)
 	{
-		return org.rnd.util.Constructor.construct(this.getClass(), new Class[] {GameState.class}, new Object[] {game.physicalState});
+		return Constructor.construct(this.getClass(), new Class[] {GameState.class}, new Object[] {game.physicalState});
 	}
 
 	public GameObject createToMove(Zone destination)
@@ -796,7 +814,7 @@ abstract public class GameObject extends Identified implements AttachableTo, Att
 				if(!physicalThis.getChosenTargets().containsKey(possibleTarget))
 					continue;
 
-				java.util.ListIterator<Target> i = physicalThis.getChosenTargets().get(possibleTarget).listIterator();
+				ListIterator<Target> i = physicalThis.getChosenTargets().get(possibleTarget).listIterator();
 				while(i.hasNext())
 				{
 					// we wait until now to declare that the spell has a target,
@@ -844,9 +862,9 @@ abstract public class GameObject extends Identified implements AttachableTo, Att
 	 * in the text of the object. If the object has a spell ability, -1 is used
 	 * as a placeholder for that ability.
 	 */
-	public java.util.List<Integer> getAbilityIDsInOrder()
+	public List<Integer> getAbilityIDsInOrder()
 	{
-		return java.util.Collections.unmodifiableList(this.characteristics.abilityIDsInOrder);
+		return Collections.unmodifiableList(this.characteristics.abilityIDsInOrder);
 	}
 
 	@Override
@@ -863,9 +881,9 @@ abstract public class GameObject extends Identified implements AttachableTo, Att
 	}
 
 	@Override
-	public java.util.Collection<Integer> getAttachments()
+	public Collection<Integer> getAttachments()
 	{
-		return new java.util.LinkedList<Integer>(this.attachments);
+		return new LinkedList<Integer>(this.attachments);
 	}
 
 	public int getAttackingID()
@@ -880,17 +898,17 @@ abstract public class GameObject extends Identified implements AttachableTo, Att
 		return this.backFace;
 	}
 
-	public java.util.List<Integer> getBlockedByIDs()
+	public List<Integer> getBlockedByIDs()
 	{
 		if(null == this.battlefieldProperties)
-			return java.util.Collections.emptyList();
+			return Collections.emptyList();
 		return this.battlefieldProperties.blockedByIDs;
 	}
 
-	public java.util.List<Integer> getBlockingIDs()
+	public List<Integer> getBlockingIDs()
 	{
 		if(null == this.battlefieldProperties)
-			return java.util.Collections.emptyList();
+			return Collections.emptyList();
 		return this.battlefieldProperties.blockingIDs;
 	}
 
@@ -900,17 +918,17 @@ abstract public class GameObject extends Identified implements AttachableTo, Att
 		return this.characteristics;
 	}
 
-	public java.util.Map<Target, java.util.List<Target>> getChosenTargets()
+	public Map<Target, List<Target>> getChosenTargets()
 	{
 		return this.characteristics.chosenTargets;
 	}
 
-	public java.util.Set<Color> getColorIndicator()
+	public Set<Color> getColorIndicator()
 	{
 		return this.characteristics.colorIndicator;
 	}
 
-	public java.util.Set<Color> getColors()
+	public Set<Color> getColors()
 	{
 		return this.characteristics.colors;
 	}
@@ -948,18 +966,18 @@ abstract public class GameObject extends Identified implements AttachableTo, Att
 		return null;
 	}
 
-	public java.util.Collection<EventFactory> getCosts()
+	public Collection<EventFactory> getCosts()
 	{
 		return this.characteristics.costs;
 	}
 
-	public java.util.Collection<Event> getCostsPaid()
+	public Collection<Event> getCostsPaid()
 	{
 		if(this.costsGenerated == null)
-			return java.util.Collections.emptyList();
+			return Collections.emptyList();
 
-		java.util.List<Event> ret = new java.util.LinkedList<Event>();
-		for(java.util.Map.Entry<EventFactory, Integer> entry: this.costsGenerated.entrySet())
+		List<Event> ret = new LinkedList<Event>();
+		for(Map.Entry<EventFactory, Integer> entry: this.costsGenerated.entrySet())
 			ret.add(this.state.<Event>get(entry.getValue()));
 		return ret;
 	}
@@ -971,10 +989,10 @@ abstract public class GameObject extends Identified implements AttachableTo, Att
 		return this.battlefieldProperties.damage;
 	}
 
-	public java.util.Set<Integer> getDefendingIDs()
+	public Set<Integer> getDefendingIDs()
 	{
 		if(null == this.battlefieldProperties)
-			return java.util.Collections.emptySet();
+			return Collections.emptySet();
 		return this.battlefieldProperties.defendingIDs;
 	}
 
@@ -1048,7 +1066,7 @@ abstract public class GameObject extends Identified implements AttachableTo, Att
 	// }
 
 	@Override
-	public java.util.List<Keyword> getKeywordAbilities()
+	public List<Keyword> getKeywordAbilities()
 	{
 		return new IDList<Keyword>(this.state, this.characteristics.keywordAbilities, false);
 	}
@@ -1084,13 +1102,13 @@ abstract public class GameObject extends Identified implements AttachableTo, Att
 		return this.getModes().get(modeNumber - 1);
 	}
 
-	public java.util.List<Mode> getModes()
+	public List<Mode> getModes()
 	{
 		return this.characteristics.modes;
 	}
 
 	@Override
-	public java.util.List<NonStaticAbility> getNonStaticAbilities()
+	public List<NonStaticAbility> getNonStaticAbilities()
 	{
 		return new IDList<NonStaticAbility>(this.state, this.characteristics.nonStaticAbilities, false);
 	}
@@ -1105,7 +1123,7 @@ abstract public class GameObject extends Identified implements AttachableTo, Att
 		return this.characteristics.alternateCost;
 	}
 
-	public java.util.Collection<CostCollection> getOptionalAdditionalCostsChosen()
+	public Collection<CostCollection> getOptionalAdditionalCostsChosen()
 	{
 		return this.characteristics.optionalAdditionalCostsChosen;
 	}
@@ -1153,25 +1171,25 @@ abstract public class GameObject extends Identified implements AttachableTo, Att
 		return this.characteristics.loyalty;
 	}
 
-	public java.util.List<Mode> getSelectedModes()
+	public List<Mode> getSelectedModes()
 	{
 		return this.characteristics.selectedModes;
 	}
 
 	@Override
-	public java.util.List<StaticAbility> getStaticAbilities()
+	public List<StaticAbility> getStaticAbilities()
 	{
 		return new IDList<StaticAbility>(this.state, this.characteristics.staticAbilities, false);
 	}
 
-	public java.util.Set<SubType> getSubTypes()
+	public Set<SubType> getSubTypes()
 	{
-		return java.util.EnumSet.copyOf(this.characteristics.subTypes);
+		return EnumSet.copyOf(this.characteristics.subTypes);
 	}
 
-	public java.util.Set<SuperType> getSuperTypes()
+	public Set<SuperType> getSuperTypes()
 	{
-		return java.util.EnumSet.copyOf(this.characteristics.superTypes);
+		return EnumSet.copyOf(this.characteristics.superTypes);
 	}
 
 	public int getTimestamp()
@@ -1184,9 +1202,9 @@ abstract public class GameObject extends Identified implements AttachableTo, Att
 		return this.characteristics.toughness;
 	}
 
-	public java.util.Set<Type> getTypes()
+	public Set<Type> getTypes()
 	{
-		return java.util.EnumSet.copyOf(this.characteristics.types);
+		return EnumSet.copyOf(this.characteristics.types);
 	}
 
 	public int getValueOfX()
@@ -1194,16 +1212,16 @@ abstract public class GameObject extends Identified implements AttachableTo, Att
 		return this.characteristics.valueOfX;
 	}
 
-	public java.util.Set<Player> getVisibleTo()
+	public Set<Player> getVisibleTo()
 	{
 		if((this.state == this.game.physicalState))
 			return this.getActual().getVisibleTo(true);
 		return getVisibleTo(false);
 	}
 
-	private java.util.Set<Player> getVisibleTo(boolean physical)
+	private Set<Player> getVisibleTo(boolean physical)
 	{
-		java.util.Set<Player> ret = new java.util.HashSet<Player>();
+		Set<Player> ret = new HashSet<Player>();
 		for(Player player: this.state.players)
 			if(this.isVisibleTo(player, physical))
 				ret.add(player);
@@ -1409,7 +1427,7 @@ abstract public class GameObject extends Identified implements AttachableTo, Att
 
 	private boolean isVisibleTo(Player whoFor, boolean physical)
 	{
-		java.util.Map<Integer, Boolean> map = (physical ? this.physicalVisibility : this.actualVisibility);
+		Map<Integer, Boolean> map = (physical ? this.physicalVisibility : this.actualVisibility);
 
 		// Entries in the visibility map override rules
 		if(map.containsKey(whoFor.ID))
@@ -1435,7 +1453,7 @@ abstract public class GameObject extends Identified implements AttachableTo, Att
 	public void paidCost(EventFactory factory, Event cost)
 	{
 		if(this.costsGenerated == null)
-			this.costsGenerated = new java.util.HashMap<EventFactory, Integer>();
+			this.costsGenerated = new HashMap<EventFactory, Integer>();
 		this.costsGenerated.put(factory, cost.ID);
 	}
 
@@ -1523,17 +1541,17 @@ abstract public class GameObject extends Identified implements AttachableTo, Att
 		this.battlefieldProperties.defendingIDs.remove(attackingID);
 	}
 
-	void removeSubTypes(java.util.Collection<SubType> subTypes)
+	void removeSubTypes(Collection<SubType> subTypes)
 	{
 		this.characteristics.subTypes.removeAll(subTypes);
 	}
 
-	void removeSuperTypes(java.util.Collection<SuperType> superTypes)
+	void removeSuperTypes(Collection<SuperType> superTypes)
 	{
 		this.characteristics.superTypes.removeAll(superTypes);
 	}
 
-	void removeTypes(java.util.Collection<Type> types)
+	void removeTypes(Collection<Type> types)
 	{
 		this.characteristics.types.removeAll(types);
 	}
@@ -1542,21 +1560,21 @@ abstract public class GameObject extends Identified implements AttachableTo, Att
 	{
 		boolean ret = true;
 
-		java.util.Set<Integer> newTargetIDs = new java.util.HashSet<Integer>();
+		Set<Integer> newTargetIDs = new HashSet<Integer>();
 
 		for(Mode mode: this.getSelectedModes())
 		{
-			java.util.List<Integer> ignoreThese = new java.util.LinkedList<Integer>();
+			List<Integer> ignoreThese = new LinkedList<Integer>();
 			ignoreThese.add(this.ID);
 
 			for(Target possibleTarget: mode.targets)
 			{
-				java.util.ListIterator<Target> i = this.getChosenTargets().get(possibleTarget).listIterator();
+				ListIterator<Target> i = this.getChosenTargets().get(possibleTarget).listIterator();
 				while(i.hasNext())
 				{
 					Target chosenTarget = i.next();
 					MagicSet legalTargetsNow = chosenTarget.legalChoicesNow(this.game, this);
-					java.util.Set<Target> targetSet = new java.util.HashSet<Target>();
+					Set<Target> targetSet = new HashSet<Target>();
 
 					for(Identified targetObject: legalTargetsNow.getAll(Identified.class))
 						if(!ignoreThese.contains(targetObject.ID) && chosenTarget.targetID != targetObject.ID)
@@ -1565,7 +1583,7 @@ abstract public class GameObject extends Identified implements AttachableTo, Att
 					// Initial selection of targets made each Target only point
 					// to a single object, so no need to let the player pick
 					// multiple objects this time around
-					java.util.List<Target> targetChoice = chooser.sanitizeAndChoose(this.game.actualState, 1, 1, targetSet, PlayerInterface.ChoiceType.TARGETS, PlayerInterface.ChooseReason.DECLARE_TARGETS);
+					List<Target> targetChoice = chooser.sanitizeAndChoose(this.game.actualState, 1, 1, targetSet, PlayerInterface.ChoiceType.TARGETS, PlayerInterface.ChooseReason.DECLARE_TARGETS);
 
 					for(Target t: targetChoice)
 					{
@@ -1596,9 +1614,9 @@ abstract public class GameObject extends Identified implements AttachableTo, Att
 	}
 
 	@Override
-	public org.rnd.jmagic.sanitized.SanitizedGameObject sanitize(GameState state, Player whoFor)
+	public SanitizedGameObject sanitize(GameState state, Player whoFor)
 	{
-		return new org.rnd.jmagic.sanitized.SanitizedGameObject(state.<GameObject>get(this.ID), whoFor);
+		return new SanitizedGameObject(state.<GameObject>get(this.ID), whoFor);
 	}
 
 	/**
@@ -1607,23 +1625,23 @@ abstract public class GameObject extends Identified implements AttachableTo, Att
 	 * @return The Mode instances selected in the order they appear in the list
 	 * of modes to pick from
 	 */
-	public java.util.List<Mode> selectModes()
+	public List<Mode> selectModes()
 	{
 		Player controller = this.getController(this.state);
 
 		// 700.2a ... If one of the modes would be illegal (due to an inability
 		// to choose legal targets, for example), that mode can't be chosen.
-		java.util.List<Mode> chooseFrom = new java.util.LinkedList<Mode>(this.getModes());
-		java.util.Iterator<Mode> it = chooseFrom.iterator();
+		List<Mode> chooseFrom = new LinkedList<Mode>(this.getModes());
+		Iterator<Mode> it = chooseFrom.iterator();
 		while(it.hasNext())
 			if(!it.next().canBeChosen(this.game, this))
 				it.remove();
 
-		final ChooseParameters<java.io.Serializable> chooseParameters = new ChooseParameters<java.io.Serializable>(this.getNumModes(), PlayerInterface.ChoiceType.MODE, PlayerInterface.ChooseReason.SELECT_MODE);
+		final ChooseParameters<Serializable> chooseParameters = new ChooseParameters<Serializable>(this.getNumModes(), PlayerInterface.ChoiceType.MODE, PlayerInterface.ChooseReason.SELECT_MODE);
 		chooseParameters.thisID = this.ID;
-		java.util.Collection<Mode> choices = controller.sanitizeAndChoose(this.state, chooseFrom, chooseParameters);
+		Collection<Mode> choices = controller.sanitizeAndChoose(this.state, chooseFrom, chooseParameters);
 
-		this.setSelectedModes(new java.util.LinkedList<Mode>());
+		this.setSelectedModes(new LinkedList<Mode>());
 		for(Mode mode: choices)
 			this.getSelectedModes().add(mode);
 
@@ -1648,11 +1666,11 @@ abstract public class GameObject extends Identified implements AttachableTo, Att
 		boolean ret = true;
 
 		Player specificChooser = this.getController(this.state);
-		java.util.Set<Integer> newTargetIDs = new java.util.HashSet<Integer>();
+		Set<Integer> newTargetIDs = new HashSet<Integer>();
 
 		for(Mode mode: this.getSelectedModes())
 		{
-			java.util.List<Integer> ignoreThese = new java.util.LinkedList<Integer>();
+			List<Integer> ignoreThese = new LinkedList<Integer>();
 			ignoreThese.add(this.ID);
 
 			for(Target target: mode.targets)
@@ -1663,7 +1681,7 @@ abstract public class GameObject extends Identified implements AttachableTo, Att
 				int previousTarget = -1;
 
 				MagicSet legalTargetsNow = target.legalChoicesNow(this.game, this);
-				java.util.Set<Target> targetSet = new java.util.HashSet<Target>();
+				Set<Target> targetSet = new HashSet<Target>();
 
 				for(Identified potentialTarget: legalTargetsNow.getAll(Identified.class))
 					if(!ignoreThese.contains(potentialTarget.ID) && previousTarget != potentialTarget.ID)
@@ -1672,10 +1690,10 @@ abstract public class GameObject extends Identified implements AttachableTo, Att
 				if(target.chooser != null)
 					specificChooser = target.chooser.evaluate(this.game, this).getOne(Player.class);
 
-				org.rnd.util.NumberRange number = target.number.evaluate(this.game, this).getOne(org.rnd.util.NumberRange.class);
+				NumberRange number = target.number.evaluate(this.game, this).getOne(NumberRange.class);
 				int min = number.getLower(0);
 				int max = number.getUpper(targetSet.size());
-				java.util.List<Target> targetChoice = null;
+				List<Target> targetChoice = null;
 				while(targetChoice == null)
 				{
 					targetChoice = specificChooser.sanitizeAndChoose(this.game.actualState, min, max, targetSet, PlayerInterface.ChoiceType.TARGETS, PlayerInterface.ChooseReason.DECLARE_TARGETS);
@@ -1689,7 +1707,7 @@ abstract public class GameObject extends Identified implements AttachableTo, Att
 					break;
 				}
 
-				java.util.List<Target> chosenTargets = new java.util.LinkedList<Target>();
+				List<Target> chosenTargets = new LinkedList<Target>();
 				this.getChosenTargets().put(target, chosenTargets);
 				int count = 0;
 				for(Target t: targetChoice)
@@ -1718,7 +1736,7 @@ abstract public class GameObject extends Identified implements AttachableTo, Att
 		return ret;
 	}
 
-	void setAbilityIDsInOrder(java.util.List<Integer> abilityIDsInOrder)
+	void setAbilityIDsInOrder(List<Integer> abilityIDsInOrder)
 	{
 		this.characteristics.abilityIDsInOrder = abilityIDsInOrder;
 	}
@@ -1760,12 +1778,12 @@ abstract public class GameObject extends Identified implements AttachableTo, Att
 		this.bottomHalf = bottomHalf;
 	}
 
-	public void setBlockedByIDs(java.util.List<Integer> blockedByIDs)
+	public void setBlockedByIDs(List<Integer> blockedByIDs)
 	{
 		this.battlefieldProperties.blockedByIDs = blockedByIDs;
 	}
 
-	public void setBlockingIDs(java.util.List<Integer> blockingIDs)
+	public void setBlockingIDs(List<Integer> blockingIDs)
 	{
 		this.battlefieldProperties.blockingIDs = blockingIDs;
 	}
@@ -1781,13 +1799,13 @@ abstract public class GameObject extends Identified implements AttachableTo, Att
 
 	public void setColorIndicator(Color... c)
 	{
-		this.setColorIndicator(java.util.EnumSet.of(c[0], c));
+		this.setColorIndicator(EnumSet.of(c[0], c));
 	}
 
-	public void setColorIndicator(java.util.Collection<Color> colors)
+	public void setColorIndicator(Collection<Color> colors)
 	{
-		this.setColors(java.util.EnumSet.copyOf(colors));
-		this.characteristics.colorIndicator = java.util.EnumSet.copyOf(colors);
+		this.setColors(EnumSet.copyOf(colors));
+		this.characteristics.colorIndicator = EnumSet.copyOf(colors);
 	}
 
 	/** Sets the colors of this object based on its mana cost. */
@@ -1806,7 +1824,7 @@ abstract public class GameObject extends Identified implements AttachableTo, Att
 		}
 	}
 
-	public void setColors(java.util.Set<Color> colors)
+	public void setColors(Set<Color> colors)
 	{
 		this.characteristics.colors = colors;
 	}
@@ -1825,7 +1843,7 @@ abstract public class GameObject extends Identified implements AttachableTo, Att
 			this.controllerID = controller.ID;
 	}
 
-	public void setCosts(java.util.List<EventFactory> costs)
+	public void setCosts(List<EventFactory> costs)
 	{
 		this.characteristics.costs = costs;
 	}
@@ -1845,7 +1863,7 @@ abstract public class GameObject extends Identified implements AttachableTo, Att
 		this.battlefieldProperties.dealDamageAsUnblocked = dealDamageAsUnblocked;
 	}
 
-	public void setDefendingIDs(java.util.Set<Integer> defendingIDs)
+	public void setDefendingIDs(Set<Integer> defendingIDs)
 	{
 		this.battlefieldProperties.defendingIDs = defendingIDs;
 	}
@@ -1903,7 +1921,7 @@ abstract public class GameObject extends Identified implements AttachableTo, Att
 		this.characteristics.minimumX = minimumX;
 	}
 
-	public void setModes(java.util.List<Mode> modes)
+	public void setModes(List<Mode> modes)
 	{
 		this.characteristics.modes = modes;
 	}
@@ -1924,7 +1942,7 @@ abstract public class GameObject extends Identified implements AttachableTo, Att
 		this.characteristics.alternateCost = alternateCost;
 	}
 
-	public void setOptionalAdditionalCostsChosen(java.util.Collection<CostCollection> optionalAdditionalCostsChosen)
+	public void setOptionalAdditionalCostsChosen(Collection<CostCollection> optionalAdditionalCostsChosen)
 	{
 		this.characteristics.optionalAdditionalCostsChosen = optionalAdditionalCostsChosen;
 	}
@@ -1969,7 +1987,7 @@ abstract public class GameObject extends Identified implements AttachableTo, Att
 		this.characteristics.loyalty = loyalty;
 	}
 
-	public void setSelectedModes(java.util.List<Mode> selectedModes)
+	public void setSelectedModes(List<Mode> selectedModes)
 	{
 		this.characteristics.selectedModes = selectedModes;
 	}

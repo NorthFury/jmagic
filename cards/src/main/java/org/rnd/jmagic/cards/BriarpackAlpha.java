@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flash;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -32,7 +34,7 @@ public final class BriarpackAlpha extends Card
 		this.setToughness(3);
 
 		// Flash (You may cast this spell any time you could cast an instant.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flash(state));
+		this.addAbility(new Flash(state));
 
 		// When Briarpack Alpha enters the battlefield, target creature gets
 		// +2/+2 until end of turn.

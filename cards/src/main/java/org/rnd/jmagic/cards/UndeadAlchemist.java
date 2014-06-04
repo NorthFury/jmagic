@@ -5,6 +5,9 @@ import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
 
+import java.util.LinkedList;
+import java.util.List;
+
 @Name("Undead Alchemist")
 @Types({Type.CREATURE})
 @SubTypes({SubType.ZOMBIE})
@@ -56,9 +59,9 @@ public final class UndeadAlchemist extends Card
 			}
 
 			@Override
-			public java.util.List<EventFactory> replace(DamageAssignment.Batch damageAssignments)
+			public List<EventFactory> replace(DamageAssignment.Batch damageAssignments)
 			{
-				java.util.List<EventFactory> ret = new java.util.LinkedList<EventFactory>();
+				List<EventFactory> ret = new LinkedList<EventFactory>();
 				ret.add(millCards(PlayerByID.instance(damageAssignments.iterator().next().takerID), damageAssignments.size(), "That player puts that many cards from the top of his or her library into his or her graveyard."));
 
 				damageAssignments.clear();

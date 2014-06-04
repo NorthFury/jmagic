@@ -4,6 +4,11 @@ import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
 @Name("Ethersworn Canonist")
 @Types({Type.CREATURE, Type.ARTIFACT})
 @SubTypes({SubType.HUMAN, SubType.CLERIC})
@@ -14,23 +19,23 @@ public final class EtherswornCanonist extends Card
 {
 	public static final class CastNonartifactSpellThisTurn extends SetGenerator
 	{
-		public static final class Tracker extends org.rnd.jmagic.engine.Tracker<java.util.Collection<Integer>>
+		public static final class Tracker extends org.rnd.jmagic.engine.Tracker<Collection<Integer>>
 		{
-			private java.util.HashSet<Integer> values = new java.util.HashSet<Integer>();
-			private java.util.Set<Integer> unmodifiable = java.util.Collections.unmodifiableSet(this.values);
+			private HashSet<Integer> values = new HashSet<Integer>();
+			private Set<Integer> unmodifiable = Collections.unmodifiableSet(this.values);
 
 			@SuppressWarnings("unchecked")
 			@Override
 			public Tracker clone()
 			{
 				Tracker ret = (Tracker)super.clone();
-				ret.values = (java.util.HashSet<Integer>)this.values.clone();
-				ret.unmodifiable = java.util.Collections.unmodifiableSet(ret.values);
+				ret.values = (HashSet<Integer>)this.values.clone();
+				ret.unmodifiable = Collections.unmodifiableSet(ret.values);
 				return ret;
 			}
 
 			@Override
-			protected java.util.Collection<Integer> getValueInternal()
+			protected Collection<Integer> getValueInternal()
 			{
 				return this.unmodifiable;
 			}

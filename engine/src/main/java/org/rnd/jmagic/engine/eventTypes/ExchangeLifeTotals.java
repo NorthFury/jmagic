@@ -3,6 +3,12 @@ package org.rnd.jmagic.engine.eventTypes;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+
 public final class ExchangeLifeTotals extends EventType
 {	public static final EventType INSTANCE = new ExchangeLifeTotals();
 
@@ -18,12 +24,12 @@ public final class ExchangeLifeTotals extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean attempt(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		return this.attemptEvents(event, this.getEvents(game, parameters));
 	}
 
-	private boolean attemptEvents(Event parentEvent, java.util.Set<Event> events)
+	private boolean attemptEvents(Event parentEvent, Set<Event> events)
 	{
 		if(events == null)
 			return false;
@@ -33,43 +39,43 @@ public final class ExchangeLifeTotals extends EventType
 		return true;
 	}
 
-	private java.util.Set<Event> getEvents(Game game, java.util.Map<Parameter, MagicSet> parameters)
+	private Set<Event> getEvents(Game game, Map<Parameter, MagicSet> parameters)
 	{
-		java.util.Set<Player> players = parameters.get(Parameter.PLAYER).getAll(Player.class);
+		Set<Player> players = parameters.get(Parameter.PLAYER).getAll(Player.class);
 
 		if(players.size() != 2)
 			return null;
 
-		java.util.Iterator<Player> iter = players.iterator();
+		Iterator<Player> iter = players.iterator();
 		Player playerOne = iter.next();
 		Player playerTwo = iter.next();
 		int lifeOne = playerOne.lifeTotal;
 		int lifeTwo = playerTwo.lifeTotal;
 
-		java.util.Map<Parameter, MagicSet> parametersOne = new java.util.HashMap<Parameter, MagicSet>();
+		Map<Parameter, MagicSet> parametersOne = new HashMap<Parameter, MagicSet>();
 		parametersOne.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 		parametersOne.put(Parameter.NUMBER, new MagicSet(lifeTwo));
 		parametersOne.put(Parameter.PLAYER, new MagicSet(playerOne));
 		Event eventOne = createEvent(game, playerOne + "'s life total becomes " + lifeTwo, EventType.SET_LIFE, parametersOne);
 
-		java.util.Map<Parameter, MagicSet> parametersTwo = new java.util.HashMap<Parameter, MagicSet>();
+		Map<Parameter, MagicSet> parametersTwo = new HashMap<Parameter, MagicSet>();
 		parametersTwo.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 		parametersTwo.put(Parameter.NUMBER, new MagicSet(lifeOne));
 		parametersTwo.put(Parameter.PLAYER, new MagicSet(playerTwo));
 		Event eventTwo = createEvent(game, playerTwo + "'s life total becomes " + lifeOne, EventType.SET_LIFE, parametersTwo);
 
-		java.util.Set<Event> ret = new java.util.HashSet<Event>();
+		Set<Event> ret = new HashSet<Event>();
 		ret.add(eventOne);
 		ret.add(eventTwo);
 		return ret;
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		event.setResult(Empty.set);
 
-		java.util.Set<Event> events = this.getEvents(game, parameters);
+		Set<Event> events = this.getEvents(game, parameters);
 		if(!this.attemptEvents(event, events))
 			return false;
 

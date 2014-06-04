@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.AttacksEachTurnIfAble;
 import org.rnd.jmagic.engine.*;
 
 @Name("Bloodrock Cyclops")
@@ -18,6 +19,6 @@ public final class BloodrockCyclops extends Card
 		this.setToughness(3);
 
 		// Bloodrock Cyclops attacks each turn if able.
-		this.addAbility(new org.rnd.jmagic.abilities.AttacksEachTurnIfAble(state, this.getName()));
+		this.addAbility(new AttacksEachTurnIfAble(state, this.getName()));
 	}
 }

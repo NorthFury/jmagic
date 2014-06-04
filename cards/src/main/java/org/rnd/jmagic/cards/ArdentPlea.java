@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Cascade;
+import org.rnd.jmagic.abilities.keywords.Exalted;
 import org.rnd.jmagic.engine.*;
 
 @Name("Ardent Plea")
@@ -13,8 +15,8 @@ public final class ArdentPlea extends Card
 	{
 		super(state);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Exalted(state));
+		this.addAbility(new Exalted(state));
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Cascade(state));
+		this.addAbility(new Cascade(state));
 	}
 }

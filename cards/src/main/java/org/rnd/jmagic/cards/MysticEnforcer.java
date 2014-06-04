@@ -2,6 +2,8 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Protection;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -21,7 +23,7 @@ public final class MysticEnforcer extends Card
 
 			this.addEffectPart(modifyPowerAndToughness(This.instance(), +3, +3));
 
-			this.addEffectPart(addAbilityToObject(This.instance(), org.rnd.jmagic.abilities.keywords.Flying.class));
+			this.addEffectPart(addAbilityToObject(This.instance(), Flying.class));
 
 			this.canApply = Both.instance(this.canApply, Threshold.instance());
 		}
@@ -34,7 +36,7 @@ public final class MysticEnforcer extends Card
 		this.setPower(3);
 		this.setToughness(3);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Protection.FromBlack(state));
+		this.addAbility(new Protection.FromBlack(state));
 
 		this.addAbility(new AngelicThreshold(state));
 	}

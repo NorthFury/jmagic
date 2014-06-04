@@ -2,6 +2,8 @@ package org.rnd.jmagic.testing;
 
 import org.junit.*;
 import static org.junit.Assert.*;
+
+import org.rnd.jmagic.abilities.Regenerate;
 import org.rnd.jmagic.cards.*;
 import org.rnd.jmagic.engine.*;
 
@@ -53,7 +55,7 @@ public class RegenerateTest extends JUnitTest
 		pass();
 
 		// regenerate rhox:
-		respondWith(getAbilityAction(org.rnd.jmagic.abilities.Regenerate.class));
+		respondWith(getAbilityAction(Regenerate.class));
 		donePlayingManaAbilities();
 		respondWith(getMana(Color.GREEN, Color.GREEN, Color.GREEN));
 		pass();
@@ -157,7 +159,7 @@ public class RegenerateTest extends JUnitTest
 		pass();
 		pass();
 
-		respondWith(getAbilityAction(org.rnd.jmagic.abilities.Regenerate.class));
+		respondWith(getAbilityAction(Regenerate.class));
 		donePlayingManaAbilities();
 		respondWith(getMana(ManaSymbol.ManaType.COLORLESS, ManaSymbol.ManaType.COLORLESS, ManaSymbol.ManaType.GREEN));
 		pass();
@@ -185,7 +187,7 @@ public class RegenerateTest extends JUnitTest
 		pass();
 		pass();
 
-		respondWith(getAbilityAction(org.rnd.jmagic.abilities.Regenerate.class));
+		respondWith(getAbilityAction(Regenerate.class));
 		donePlayingManaAbilities();
 		respondWith(getMana(ManaSymbol.ManaType.COLORLESS, ManaSymbol.ManaType.COLORLESS, ManaSymbol.ManaType.GREEN));
 		pass();
@@ -308,11 +310,11 @@ public class RegenerateTest extends JUnitTest
 		assertTrue(this.game.actualState.battlefield().objects.get(1).isTapped() == false);
 
 		pass();
-		respondWith(getAbilityAction(org.rnd.jmagic.abilities.Regenerate.class));
+		respondWith(getAbilityAction(Regenerate.class));
 		respondWith(getAbilityAction(BlackLotus.BlackLotusMana.class));
 		respondWith(Color.GREEN);
 		donePlayingManaAbilities();
-		respondWith(getAbilityAction(org.rnd.jmagic.abilities.Regenerate.class));
+		respondWith(getAbilityAction(Regenerate.class));
 		respondWith(getAbilityAction(BlackLotus.BlackLotusMana.class));
 		respondWith(Color.GREEN);
 		donePlayingManaAbilities();

@@ -5,26 +5,30 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 public class Werewolves
 {
 	/**
 	 * keys are player IDs, values are the number of spells the player cast in
 	 * the previous turn
 	 */
-	public static final class Tracker extends org.rnd.jmagic.engine.Tracker<java.util.Map<Integer, Integer>>
+	public static final class Tracker extends org.rnd.jmagic.engine.Tracker<Map<Integer, Integer>>
 	{
-		private java.util.HashMap<Integer, Integer> thisTurn = new java.util.HashMap<Integer, Integer>();
-		private java.util.HashMap<Integer, Integer> previousTurn = new java.util.HashMap<Integer, Integer>();
-		private java.util.Map<Integer, Integer> unmodifiable = java.util.Collections.unmodifiableMap(this.previousTurn);
+		private HashMap<Integer, Integer> thisTurn = new HashMap<Integer, Integer>();
+		private HashMap<Integer, Integer> previousTurn = new HashMap<Integer, Integer>();
+		private Map<Integer, Integer> unmodifiable = Collections.unmodifiableMap(this.previousTurn);
 
 		@SuppressWarnings("unchecked")
 		@Override
 		public Tracker clone()
 		{
 			Tracker ret = (Tracker)super.clone();
-			ret.thisTurn = (java.util.HashMap<Integer, Integer>)this.thisTurn.clone();
-			ret.previousTurn = (java.util.HashMap<Integer, Integer>)this.previousTurn.clone();
-			ret.unmodifiable = java.util.Collections.unmodifiableMap(ret.previousTurn);
+			ret.thisTurn = (HashMap<Integer, Integer>)this.thisTurn.clone();
+			ret.previousTurn = (HashMap<Integer, Integer>)this.previousTurn.clone();
+			ret.unmodifiable = Collections.unmodifiableMap(ret.previousTurn);
 			return ret;
 		}
 
@@ -42,7 +46,7 @@ public class Werewolves
 		}
 
 		@Override
-		protected java.util.Map<Integer, Integer> getValueInternal()
+		protected Map<Integer, Integer> getValueInternal()
 		{
 			return this.unmodifiable;
 		}

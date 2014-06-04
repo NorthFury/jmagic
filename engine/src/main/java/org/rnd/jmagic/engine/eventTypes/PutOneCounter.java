@@ -3,6 +3,8 @@ package org.rnd.jmagic.engine.eventTypes;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.Map;
+
 public final class PutOneCounter extends EventType
 {	public static final EventType INSTANCE = new PutOneCounter();
 
@@ -18,7 +20,7 @@ public final class PutOneCounter extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		Identified physicalObject = parameters.get(Parameter.OBJECT).getOne(Identified.class).getPhysical();
 		Counter newCounter = new Counter(parameters.get(Parameter.COUNTER).getOne(Counter.CounterType.class), physicalObject.ID);

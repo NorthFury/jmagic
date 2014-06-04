@@ -3,6 +3,9 @@ package org.rnd.jmagic.engine.eventTypes;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public final class MillCards extends EventType
 {	public static final EventType INSTANCE = new MillCards();
 
@@ -18,7 +21,7 @@ public final class MillCards extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean attempt(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		int number = Sum.get(parameters.get(Parameter.NUMBER));
 
@@ -30,7 +33,7 @@ public final class MillCards extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		boolean allMilled = true;
 		MagicSet cause = parameters.get(Parameter.CAUSE);
@@ -46,7 +49,7 @@ public final class MillCards extends EventType
 			Zone graveyard = player.getGraveyard(game.actualState);
 			Zone library = player.getLibrary(game.actualState);
 			MagicSet topCards = TopCards.get(num, library);
-			java.util.Map<Parameter, MagicSet> moveParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> moveParameters = new HashMap<Parameter, MagicSet>();
 			moveParameters.put(Parameter.CAUSE, cause);
 			moveParameters.put(Parameter.TO, new MagicSet(graveyard));
 			moveParameters.put(Parameter.OBJECT, topCards);

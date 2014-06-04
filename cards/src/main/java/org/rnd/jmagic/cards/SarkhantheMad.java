@@ -1,8 +1,15 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+
+import java.util.Arrays;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.Map;
 
 @Name("Sarkhan the Mad")
 @Types({Type.PLANESWALKER})
@@ -57,12 +64,12 @@ public final class SarkhantheMad extends Card
 
 			EventFactory token = new EventFactory(EventType.CREATE_TOKEN_ON_BATTLEFIELD, "then that player puts a 5/5 red Dragon creature token with flying onto the battlefield.");
 			token.parameters.put(EventType.Parameter.CAUSE, This.instance());
-			token.parameters.put(EventType.Parameter.ABILITY, Identity.instance(org.rnd.jmagic.abilities.keywords.Flying.class));
-			token.parameters.put(EventType.Parameter.COLOR, Identity.instance(java.util.EnumSet.of(Color.RED)));
+			token.parameters.put(EventType.Parameter.ABILITY, Identity.instance(Flying.class));
+			token.parameters.put(EventType.Parameter.COLOR, Identity.instance(EnumSet.of(Color.RED)));
 			token.parameters.put(EventType.Parameter.CONTROLLER, thatCreaturesController);
 			token.parameters.put(EventType.Parameter.NUMBER, numberGenerator(1));
 			token.parameters.put(EventType.Parameter.POWER, numberGenerator(5));
-			token.parameters.put(EventType.Parameter.SUBTYPE, Identity.instance((Object)java.util.Arrays.asList(SubType.DRAGON)));
+			token.parameters.put(EventType.Parameter.SUBTYPE, Identity.instance((Object) Arrays.asList(SubType.DRAGON)));
 			token.parameters.put(EventType.Parameter.TYPE, Identity.instance(Type.CREATURE));
 			token.parameters.put(EventType.Parameter.TOUGHNESS, numberGenerator(5));
 			this.addEffect(token);
@@ -83,12 +90,12 @@ public final class SarkhantheMad extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			MagicSet taker = parameters.get(Parameter.TAKER);
 			for(GameObject dragon: parameters.get(Parameter.SOURCE).getAll(GameObject.class))
 			{
-				java.util.Map<Parameter, MagicSet> oneDragonDamageParameters = new java.util.HashMap<Parameter, MagicSet>();
+				Map<Parameter, MagicSet> oneDragonDamageParameters = new HashMap<Parameter, MagicSet>();
 				oneDragonDamageParameters.put(Parameter.SOURCE, new MagicSet(dragon));
 				oneDragonDamageParameters.put(Parameter.TAKER, taker);
 				oneDragonDamageParameters.put(Parameter.NUMBER, new MagicSet(dragon.getPower()));

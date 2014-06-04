@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -15,7 +17,7 @@ public final class Windstorm extends Card
 	{
 		super(state);
 
-		SetGenerator amount = Intersect.instance(CreaturePermanents.instance(), HasKeywordAbility.instance(org.rnd.jmagic.abilities.keywords.Flying.class));
+		SetGenerator amount = Intersect.instance(CreaturePermanents.instance(), HasKeywordAbility.instance(Flying.class));
 		this.addEffect(spellDealDamage(ValueOfX.instance(This.instance()), amount, "Windstorm deals X damage to each creature with flying."));
 	}
 }

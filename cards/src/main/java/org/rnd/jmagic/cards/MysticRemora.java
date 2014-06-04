@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.CumulativeUpkeep;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -40,7 +42,7 @@ public final class MysticRemora extends Card
 		super(state);
 
 		// Cumulative upkeep (1)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.CumulativeUpkeep.ForMana(state, "(1)"));
+		this.addAbility(new CumulativeUpkeep.ForMana(state, "(1)"));
 
 		// Whenever an opponent casts a noncreature spell, you may draw a card
 		// unless that player pays (4).

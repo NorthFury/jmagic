@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Exalted;
 import org.rnd.jmagic.engine.*;
 
 @Name("Outrider of Jhess")
@@ -17,6 +18,6 @@ public final class OutriderofJhess extends Card
 		this.setPower(2);
 		this.setToughness(2);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Exalted(state));
+		this.addAbility(new Exalted(state));
 	}
 }

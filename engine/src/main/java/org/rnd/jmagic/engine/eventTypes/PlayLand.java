@@ -3,6 +3,9 @@ package org.rnd.jmagic.engine.eventTypes;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public final class PlayLand extends EventType
 {	public static final EventType INSTANCE = new PlayLand();
 
@@ -18,7 +21,7 @@ public final class PlayLand extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean attempt(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		Player player = parameters.get(Parameter.PLAYER).getOne(Player.class);
 		Turn currentTurn = game.actualState.currentTurn();
@@ -30,7 +33,7 @@ public final class PlayLand extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		GameObject land = parameters.get(Parameter.LAND).getOne(GameObject.class);
 		Player player = parameters.get(Parameter.PLAYER).getOne(Player.class);
@@ -48,7 +51,7 @@ public final class PlayLand extends EventType
 			return false;
 		}
 
-		java.util.Map<Parameter, MagicSet> playParameters = new java.util.HashMap<Parameter, MagicSet>();
+		Map<Parameter, MagicSet> playParameters = new HashMap<Parameter, MagicSet>();
 		playParameters.put(Parameter.CAUSE, new MagicSet(game));
 		playParameters.put(Parameter.CONTROLLER, new MagicSet(player));
 		playParameters.put(Parameter.OBJECT, new MagicSet(land));
@@ -57,7 +60,7 @@ public final class PlayLand extends EventType
 
 		GameObject playedLand = game.actualState.get(putOntoBattlefield.getResult().getOne(ZoneChange.class).newObjectID);
 
-		java.util.Map<Parameter, MagicSet> playFlagParameters = new java.util.HashMap<Parameter, MagicSet>();
+		Map<Parameter, MagicSet> playFlagParameters = new HashMap<Parameter, MagicSet>();
 		playFlagParameters.put(Parameter.PLAYER, new MagicSet(player));
 		playFlagParameters.put(Parameter.OBJECT, new MagicSet(playedLand));
 		createEvent(game, player + " plays " + land + ".", BECOMES_PLAYED, playFlagParameters).perform(event, false);

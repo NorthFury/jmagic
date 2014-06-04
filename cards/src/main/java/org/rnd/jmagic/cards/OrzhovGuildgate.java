@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.EntersTheBattlefieldTapped;
+import org.rnd.jmagic.abilities.TapForMana;
 import org.rnd.jmagic.engine.*;
 
 @Name("Orzhov Guildgate")
@@ -14,9 +16,9 @@ public final class OrzhovGuildgate extends Card
 		super(state);
 
 		// Orzhov Guildgate enters the battlefield tapped.
-		this.addAbility(new org.rnd.jmagic.abilities.EntersTheBattlefieldTapped(state, this.getName()));
+		this.addAbility(new EntersTheBattlefieldTapped(state, this.getName()));
 
 		// (T): Add (W) or (B) to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapForMana.Final(state, "(WB)"));
+		this.addAbility(new TapForMana.Final(state, "(WB)"));
 	}
 }

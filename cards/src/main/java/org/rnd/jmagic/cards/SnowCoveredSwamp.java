@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.cardTemplates.BasicLand;
 import org.rnd.jmagic.engine.*;
 
 @Name("Snow-Covered Swamp")
@@ -8,7 +9,7 @@ import org.rnd.jmagic.engine.*;
 @SubTypes({SubType.SWAMP})
 @Printings({@Printings.Printed(ex = Expansion.COLDSNAP, r = Rarity.COMMON), @Printings.Printed(ex = Expansion.ICE_AGE, r = Rarity.LAND)})
 @ColorIdentity({})
-public final class SnowCoveredSwamp extends org.rnd.jmagic.cardTemplates.BasicLand
+public final class SnowCoveredSwamp extends BasicLand
 {
 	public SnowCoveredSwamp(GameState state)
 	{

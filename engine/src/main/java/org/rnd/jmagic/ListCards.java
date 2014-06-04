@@ -5,6 +5,8 @@ import org.springframework.beans.factory.config.*;
 import org.springframework.context.annotation.*;
 import org.springframework.core.type.filter.*;
 
+import java.util.Set;
+
 public class ListCards
 {
 	public static void main(String[] args)
@@ -13,7 +15,7 @@ public class ListCards
 		scanner.addIncludeFilter(new AssignableTypeFilter(Card.class));
 		scanner.addExcludeFilter(new AssignableTypeFilter(AlternateCard.class));
 
-		java.util.Set<BeanDefinition> components = scanner.findCandidateComponents("org.rnd.jmagic.cards");
+		Set<BeanDefinition> components = scanner.findCandidateComponents("org.rnd.jmagic.cards");
 		for(BeanDefinition bean: components)
 			try
 			{

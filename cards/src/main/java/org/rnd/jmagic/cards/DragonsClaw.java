@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilityTemplates.ColorTriggeredLife;
 import org.rnd.jmagic.engine.*;
 
 @Name("Dragon's Claw")
@@ -9,7 +10,7 @@ import org.rnd.jmagic.engine.*;
 @ColorIdentity({})
 public final class DragonsClaw extends Card
 {
-	public static final class RedLife extends org.rnd.jmagic.abilityTemplates.ColorTriggeredLife
+	public static final class RedLife extends ColorTriggeredLife
 	{
 		public RedLife(GameState state)
 		{

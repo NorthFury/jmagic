@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.StaticPTChange;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -48,7 +50,7 @@ public final class CaptivatingVampire extends Card
 
 		// Other Vampire creatures you control get +1/+1.
 		SetGenerator yourOtherVampires = RelativeComplement.instance(Intersect.instance(HasSubType.instance(SubType.VAMPIRE), CREATURES_YOU_CONTROL), This.instance());
-		this.addAbility(new org.rnd.jmagic.abilities.StaticPTChange(state, yourOtherVampires, "Other Vampire creatures you control", +1, +1, true));
+		this.addAbility(new StaticPTChange(state, yourOtherVampires, "Other Vampire creatures you control", +1, +1, true));
 
 		// Tap five untapped Vampires you control: Gain control of target
 		// creature. It becomes a Vampire in addition to its other types.

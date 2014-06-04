@@ -1,8 +1,11 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Haste;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+import org.rnd.jmagic.engine.patterns.SimpleZoneChangePattern;
 
 @Name("Mimic Vat")
 @Types({Type.ARTIFACT})
@@ -16,7 +19,7 @@ public final class MimicVat extends Card
 		public MimicVatAbility0(GameState state)
 		{
 			super(state, "Whenever a nontoken creature dies, you may exile that card. If you do, return each other card exiled with Mimic Vat to its owner's graveyard.");
-			this.addPattern(new org.rnd.jmagic.engine.patterns.SimpleZoneChangePattern(Battlefield.instance(), GraveyardOf.instance(Players.instance()), Intersect.instance(NonToken.instance(), CreaturePermanents.instance()), true));
+			this.addPattern(new SimpleZoneChangePattern(Battlefield.instance(), GraveyardOf.instance(Players.instance()), Intersect.instance(NonToken.instance(), CreaturePermanents.instance()), true));
 
 			SetGenerator thatCard = NewObjectOf.instance(TriggerZoneChange.instance(This.instance()));
 
@@ -52,7 +55,7 @@ public final class MimicVat extends Card
 
 			SetGenerator it = NewObjectOf.instance(EffectResult.instance(factory));
 
-			this.addEffect(createFloatingEffect("It gains haste.", addAbilityToObject(it, org.rnd.jmagic.abilities.keywords.Haste.class)));
+			this.addEffect(createFloatingEffect("It gains haste.", addAbilityToObject(it, Haste.class)));
 
 			EventFactory exile = exile(delayedTriggerContext(it), "Exile it");
 			EventFactory exileLater = new EventFactory(EventType.CREATE_DELAYED_TRIGGER, "Exile it at the beginning of the next ends step.");

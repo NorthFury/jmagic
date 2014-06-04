@@ -3,6 +3,13 @@ package org.rnd.jmagic.cards;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+
 @Name("Scrambleverse")
 @Types({Type.SORCERY})
 @ManaCost("6RR")
@@ -19,13 +26,13 @@ public final class Scrambleverse extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			MagicSet cause = new MagicSet(event.getSource());
 
-			java.util.Random rnd = new java.util.Random();
-			java.util.List<Player> players = new java.util.ArrayList<Player>(game.actualState.players);
-			java.util.Iterator<Player> i = players.iterator();
+			Random rnd = new Random();
+			List<Player> players = new ArrayList<Player>(game.actualState.players);
+			Iterator<Player> i = players.iterator();
 			while(i.hasNext())
 				if(i.next().outOfGame)
 					i.remove();
@@ -39,7 +46,7 @@ public final class Scrambleverse extends Card
 				part.parameters.put(ContinuousEffectType.Parameter.OBJECT, Identity.instance(o));
 				part.parameters.put(ContinuousEffectType.Parameter.PLAYER, Identity.instance(p));
 
-				java.util.Map<Parameter, MagicSet> effectParameters = new java.util.HashMap<Parameter, MagicSet>();
+				Map<Parameter, MagicSet> effectParameters = new HashMap<Parameter, MagicSet>();
 				effectParameters.put(Parameter.CAUSE, cause);
 				effectParameters.put(Parameter.EFFECT, new MagicSet(part));
 				effectParameters.put(Parameter.EXPIRES, new MagicSet(Empty.instance()));

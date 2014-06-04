@@ -5,6 +5,9 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public abstract class Poisonous extends Keyword
 {
 	protected final int N;
@@ -16,9 +19,9 @@ public abstract class Poisonous extends Keyword
 	}
 
 	@Override
-	protected java.util.List<NonStaticAbility> createNonStaticAbilities()
+	protected List<NonStaticAbility> createNonStaticAbilities()
 	{
-		java.util.List<NonStaticAbility> ret = new java.util.LinkedList<NonStaticAbility>();
+		List<NonStaticAbility> ret = new LinkedList<NonStaticAbility>();
 
 		ret.add(new PoisonousAbility(this.state, this.N));
 

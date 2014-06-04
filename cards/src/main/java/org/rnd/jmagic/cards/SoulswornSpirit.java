@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.Unblockable;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -35,7 +37,7 @@ public final class SoulswornSpirit extends Card
 		this.setToughness(1);
 
 		// Soulsworn Spirit is unblockable.
-		this.addAbility(new org.rnd.jmagic.abilities.Unblockable(state, this.getName()));
+		this.addAbility(new Unblockable(state, this.getName()));
 
 		// When Soulsworn Spirit enters the battlefield, detain target creature
 		// an opponent controls. (Until your next turn, that creature can't

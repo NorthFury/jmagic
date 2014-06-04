@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.DoubleStrike;
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -30,7 +33,7 @@ public final class AjaniCallerofthePride extends Card
 		{
 			super(state, -3, "Target creature gains flying and double strike until end of turn.");
 			SetGenerator target = targetedBy(this.addTarget(CreaturePermanents.instance(), "target creature"));
-			ContinuousEffect.Part part = addAbilityToObject(target, org.rnd.jmagic.abilities.keywords.Flying.class, org.rnd.jmagic.abilities.keywords.DoubleStrike.class);
+			ContinuousEffect.Part part = addAbilityToObject(target, Flying.class, DoubleStrike.class);
 			this.addEffect(createFloatingEffect("Target creature gains flying and double strike until end of turn.", part));
 		}
 	}

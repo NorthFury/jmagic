@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.TapForMana;
+import org.rnd.jmagic.abilities.keywords.Lifelink;
 import org.rnd.jmagic.engine.*;
 
 @Name("Orzhov Keyrune")
@@ -22,7 +25,7 @@ public final class OrzhovKeyrune extends Card
 			animate.addColor(Color.BLACK);
 			animate.addSubType(SubType.THRULL);
 			animate.addType(Type.ARTIFACT);
-			animate.addAbility(org.rnd.jmagic.abilities.keywords.Lifelink.class);
+			animate.addAbility(Lifelink.class);
 			this.addEffect(createFloatingEffect("Orzhov Keyrune becomes a 1/4 white and black Thrull artifact creature with lifelink until end of turn.", animate.getParts()));
 
 		}
@@ -33,7 +36,7 @@ public final class OrzhovKeyrune extends Card
 		super(state);
 
 		// (T): Add (W) or (B) to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapForMana.Final(state, "(WB)"));
+		this.addAbility(new TapForMana.Final(state, "(WB)"));
 
 		// (W)(B): Orzhov Keyrune becomes a 1/4 white and black Thrull artifact
 		// creature with lifelink until end of turn.

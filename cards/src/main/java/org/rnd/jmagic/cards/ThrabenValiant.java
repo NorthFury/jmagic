@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Vigilance;
 import org.rnd.jmagic.engine.*;
 
 @Name("Thraben Valiant")
@@ -18,6 +19,6 @@ public final class ThrabenValiant extends Card
 		this.setToughness(1);
 
 		// Vigilance
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Vigilance(state));
+		this.addAbility(new Vigilance(state));
 	}
 }

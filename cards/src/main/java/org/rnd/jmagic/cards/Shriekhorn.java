@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.EntersTheBattlefieldWithCounters;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -29,7 +31,7 @@ public final class Shriekhorn extends Card
 		super(state);
 
 		// Shriekhorn enters the battlefield with three charge counters on it.
-		this.addAbility(new org.rnd.jmagic.abilities.EntersTheBattlefieldWithCounters(state, this.getName(), 3, Counter.CounterType.CHARGE));
+		this.addAbility(new EntersTheBattlefieldWithCounters(state, this.getName(), 3, Counter.CounterType.CHARGE));
 
 		// (T), Remove a charge counter from Shriekhorn: Target player puts the
 		// top two cards of his or her library into his or her graveyard.

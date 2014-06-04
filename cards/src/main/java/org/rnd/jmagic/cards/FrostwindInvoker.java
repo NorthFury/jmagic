@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 
 @Name("Frostwind Invoker")
@@ -19,7 +21,7 @@ public final class FrostwindInvoker extends Card
 
 			this.setManaCost(new ManaPool("(8)"));
 
-			this.addEffect(addAbilityUntilEndOfTurn(CREATURES_YOU_CONTROL, org.rnd.jmagic.abilities.keywords.Flying.class, "Creatures you control gain flying until end of turn."));
+			this.addEffect(addAbilityUntilEndOfTurn(CREATURES_YOU_CONTROL, Flying.class, "Creatures you control gain flying until end of turn."));
 		}
 	}
 
@@ -31,7 +33,7 @@ public final class FrostwindInvoker extends Card
 		this.setToughness(3);
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// (8): Creatures you control gain flying until end of turn.
 		this.addAbility(new FrostwindInvokerAbility1(state));

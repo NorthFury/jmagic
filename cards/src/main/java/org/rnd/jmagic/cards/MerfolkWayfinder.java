@@ -2,8 +2,12 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Name("Merfolk Wayfinder")
 @Types({Type.CREATURE})
@@ -28,7 +32,7 @@ public final class MerfolkWayfinder extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			MagicSet topThree = parameters.get(Parameter.OBJECT);
 
@@ -44,13 +48,13 @@ public final class MerfolkWayfinder extends Card
 			Player you = parameters.get(Parameter.PLAYER).getOne(Player.class);
 			MagicSet hand = new MagicSet(you.getHand(game.actualState));
 
-			java.util.Map<Parameter, MagicSet> handParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> handParameters = new HashMap<Parameter, MagicSet>();
 			handParameters.put(Parameter.CAUSE, cause);
 			handParameters.put(Parameter.TO, hand);
 			handParameters.put(Parameter.OBJECT, islands);
 			Event handMove = createEvent(game, "Put all Island cards revealed this way into your hand", MOVE_OBJECTS, handParameters);
 
-			java.util.Map<Parameter, MagicSet> bottomParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> bottomParameters = new HashMap<Parameter, MagicSet>();
 			bottomParameters.put(Parameter.CAUSE, cause);
 			bottomParameters.put(Parameter.INDEX, new MagicSet(-1));
 			bottomParameters.put(Parameter.OBJECT, others);
@@ -94,7 +98,7 @@ public final class MerfolkWayfinder extends Card
 		this.setToughness(2);
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// When Merfolk Wayfinder enters the battlefield, reveal the top three
 		// cards of your library. Put all Island cards revealed this way into

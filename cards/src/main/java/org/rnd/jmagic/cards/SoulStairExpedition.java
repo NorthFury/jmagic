@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.LandfallForQuestCounter;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -39,7 +41,7 @@ public final class SoulStairExpedition extends Card
 
 		// Landfall \u2014 Whenever a land enters the battlefield under your
 		// control, you may put a quest counter on Soul Stair Expedition.
-		this.addAbility(new org.rnd.jmagic.abilities.LandfallForQuestCounter(state, this.getName()));
+		this.addAbility(new LandfallForQuestCounter(state, this.getName()));
 
 		// Remove three quest counters from Soul Stair Expedition and sacrifice
 		// it: Return up to two target creature cards from your graveyard to

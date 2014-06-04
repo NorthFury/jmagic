@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Rebound;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -20,6 +22,6 @@ public final class PreysVengeance extends Card
 		this.addEffect(ptChangeUntilEndOfTurn(target, +2, +2, "Target creature gets +2/+2 until end of turn."));
 
 		// Rebound
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Rebound(state));
+		this.addAbility(new Rebound(state));
 	}
 }

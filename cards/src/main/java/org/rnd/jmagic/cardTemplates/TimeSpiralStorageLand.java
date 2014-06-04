@@ -1,8 +1,13 @@
 package org.rnd.jmagic.cardTemplates;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.TapFor1;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public abstract class TimeSpiralStorageLand extends Card
 {
@@ -50,7 +55,7 @@ public abstract class TimeSpiralStorageLand extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			MagicSet source = parameters.get(Parameter.SOURCE);
 			MagicSet you = parameters.get(Parameter.PLAYER);
@@ -63,7 +68,7 @@ public abstract class TimeSpiralStorageLand extends Card
 				mana.append(manaSymbol);
 
 			String eventName = "Add X mana in any combination of " + manaSymbol + " to your mana pool.";
-			java.util.Map<Parameter, MagicSet> manaParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> manaParameters = new HashMap<Parameter, MagicSet>();
 			manaParameters.put(Parameter.SOURCE, source);
 			manaParameters.put(Parameter.PLAYER, you);
 			manaParameters.put(Parameter.MANA, new MagicSet(new ManaPool(mana.toString())));
@@ -112,7 +117,7 @@ public abstract class TimeSpiralStorageLand extends Card
 		super(state);
 
 		// (T): Add (1) to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapFor1(state));
+		this.addAbility(new TapFor1(state));
 
 		// (1), (T): Put a storage counter on [name].
 		this.addAbility(new Store(state, this.getName()));

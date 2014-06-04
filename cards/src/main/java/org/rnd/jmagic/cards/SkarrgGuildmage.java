@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -19,7 +21,7 @@ public final class SkarrgGuildmage extends Card
 			super(state, "(R)(G): Creatures you control gain trample until end of turn.");
 			this.setManaCost(new ManaPool("(R)(G)"));
 
-			this.addEffect(addAbilityUntilEndOfTurn(CREATURES_YOU_CONTROL, org.rnd.jmagic.abilities.keywords.Trample.class, "Creatures you control gain trample until end of turn."));
+			this.addEffect(addAbilityUntilEndOfTurn(CREATURES_YOU_CONTROL, Trample.class, "Creatures you control gain trample until end of turn."));
 		}
 	}
 

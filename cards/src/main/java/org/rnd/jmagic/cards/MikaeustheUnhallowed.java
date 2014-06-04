@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Intimidate;
+import org.rnd.jmagic.abilities.keywords.Undying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -34,7 +37,7 @@ public final class MikaeustheUnhallowed extends Card
 
 			SetGenerator otherNonHumans = RelativeComplement.instance(CREATURES_YOU_CONTROL, Union.instance(HasSubType.instance(SubType.HUMAN), This.instance()));
 			this.addEffectPart(modifyPowerAndToughness(otherNonHumans, +1, +1));
-			this.addEffectPart(addAbilityToObject(otherNonHumans, org.rnd.jmagic.abilities.keywords.Undying.class));
+			this.addEffectPart(addAbilityToObject(otherNonHumans, Undying.class));
 		}
 	}
 
@@ -46,7 +49,7 @@ public final class MikaeustheUnhallowed extends Card
 		this.setToughness(5);
 
 		// Intimidate
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Intimidate(state));
+		this.addAbility(new Intimidate(state));
 
 		// Whenever a Human deals damage to you, destroy it.
 		this.addAbility(new MikaeustheUnhallowedAbility1(state));

@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Defender;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -20,7 +22,7 @@ public final class OvergrownBattlement extends Card
 
 			this.costsTap = true;
 
-			SetGenerator hasDefender = HasKeywordAbility.instance(org.rnd.jmagic.abilities.keywords.Defender.class);
+			SetGenerator hasDefender = HasKeywordAbility.instance(Defender.class);
 			SetGenerator creaturesWithDefender = Intersect.instance(CreaturePermanents.instance(), hasDefender);
 			SetGenerator youControl = ControlledBy.instance(You.instance());
 			SetGenerator creaturesWithDefenderYouControl = Intersect.instance(creaturesWithDefender, youControl);
@@ -41,7 +43,7 @@ public final class OvergrownBattlement extends Card
 		this.setPower(0);
 		this.setToughness(4);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Defender(state));
+		this.addAbility(new Defender(state));
 
 		// (T): Add (G) to your mana pool for each creature with defender you
 		// control.

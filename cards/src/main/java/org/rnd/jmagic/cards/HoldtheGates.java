@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Vigilance;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -19,7 +21,7 @@ public final class HoldtheGates extends Card
 
 			SetGenerator gatesYouControl = Intersect.instance(ControlledBy.instance(You.instance()), HasSubType.instance(SubType.GATE));
 			this.addEffectPart(modifyPowerAndToughness(CREATURES_YOU_CONTROL, numberGenerator(+0), Count.instance(gatesYouControl)));
-			this.addEffectPart(addAbilityToObject(CREATURES_YOU_CONTROL, org.rnd.jmagic.abilities.keywords.Vigilance.class));
+			this.addEffectPart(addAbilityToObject(CREATURES_YOU_CONTROL, Vigilance.class));
 		}
 	}
 

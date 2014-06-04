@@ -2,8 +2,13 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Enchant;
+import org.rnd.jmagic.abilities.keywords.Haste;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Name("Splinter Twin")
 @Types({Type.ENCHANTMENT})
@@ -24,11 +29,11 @@ public final class SplinterTwin extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			MagicSet thatCreature = parameters.get(Parameter.OBJECT);
 			EventFactory exile = exile(Identity.instance(thatCreature), "Exile that token");
-			java.util.Map<Parameter, MagicSet> triggerParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> triggerParameters = new HashMap<Parameter, MagicSet>();
 			triggerParameters.put(EventType.Parameter.CAUSE, new MagicSet(event.getSource()));
 			triggerParameters.put(EventType.Parameter.EVENT, new MagicSet(atTheBeginningOfTheEndStep()));
 			triggerParameters.put(EventType.Parameter.EFFECT, new MagicSet(exile));
@@ -56,7 +61,7 @@ public final class SplinterTwin extends Card
 
 			SetGenerator thatToken = NewObjectOf.instance(EffectResult.instance(copyMe));
 
-			EventFactory haste = addAbilityUntilEndOfTurn(thatToken, org.rnd.jmagic.abilities.keywords.Haste.class, "That token has haste.");
+			EventFactory haste = addAbilityUntilEndOfTurn(thatToken, Haste.class, "That token has haste.");
 			haste.parameters.put(EventType.Parameter.EXPIRES, Identity.instance(Empty.instance()));
 			this.addEffect(haste);
 
@@ -83,7 +88,7 @@ public final class SplinterTwin extends Card
 		super(state);
 
 		// Enchant creature
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Enchant.Creature(state));
+		this.addAbility(new Enchant.Creature(state));
 
 		// Enchanted creature has
 		// "(T): Put a token that's a copy of this creature onto the battlefield. That token has haste. Exile it at the beginning of the next end step."

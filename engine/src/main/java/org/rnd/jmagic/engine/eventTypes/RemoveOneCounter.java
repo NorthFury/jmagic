@@ -3,6 +3,10 @@ package org.rnd.jmagic.engine.eventTypes;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
 public final class RemoveOneCounter extends EventType
 {	public static final EventType INSTANCE = new RemoveOneCounter();
 
@@ -18,7 +22,7 @@ public final class RemoveOneCounter extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean attempt(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		Counter.CounterType counterType = parameters.get(Parameter.COUNTER).getOne(Counter.CounterType.class);
 		GameObject object = parameters.get(Parameter.OBJECT).getOne(GameObject.class);
@@ -28,13 +32,13 @@ public final class RemoveOneCounter extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		Counter.CounterType counterType = parameters.get(Parameter.COUNTER).getOne(Counter.CounterType.class);
 
 		Identified physicalObject = parameters.get(Parameter.OBJECT).getOne(Identified.class).getPhysical();
 
-		java.util.Collection<Counter> counters;
+		Collection<Counter> counters;
 		if(physicalObject.isGameObject())
 			counters = ((GameObject)physicalObject).counters;
 		else
@@ -68,7 +72,7 @@ public final class RemoveOneCounter extends EventType
 
 		if(last)
 		{
-			java.util.Map<Parameter, MagicSet> lastCounterParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> lastCounterParameters = new HashMap<Parameter, MagicSet>();
 			lastCounterParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 			lastCounterParameters.put(Parameter.COUNTER, new MagicSet(counterType));
 			lastCounterParameters.put(Parameter.OBJECT, new MagicSet(physicalObject));

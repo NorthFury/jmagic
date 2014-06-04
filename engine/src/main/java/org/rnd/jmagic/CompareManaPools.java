@@ -2,7 +2,11 @@ package org.rnd.jmagic;
 
 import org.rnd.jmagic.engine.*;
 
-public class CompareManaPools implements java.util.Comparator<ManaPool>, java.io.Serializable
+import java.io.Serializable;
+import java.util.Comparator;
+import java.util.Iterator;
+
+public class CompareManaPools implements Comparator<ManaPool>, Serializable
 {
 	private static final long serialVersionUID = 1L;
 
@@ -13,8 +17,8 @@ public class CompareManaPools implements java.util.Comparator<ManaPool>, java.io
 		if(a.converted() != b.converted())
 			return a.converted() - b.converted();
 
-		java.util.Iterator<ManaSymbol> x = a.iterator();
-		java.util.Iterator<ManaSymbol> y = b.iterator();
+		Iterator<ManaSymbol> x = a.iterator();
+		Iterator<ManaSymbol> y = b.iterator();
 
 		while(true)
 		{

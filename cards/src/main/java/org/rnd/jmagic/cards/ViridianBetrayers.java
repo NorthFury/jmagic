@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Infect;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -18,7 +20,7 @@ public final class ViridianBetrayers extends Card
 		{
 			super(state, "Viridian Betrayers has infect as long as an opponent is poisoned.");
 
-			this.addEffectPart(addAbilityToObject(This.instance(), org.rnd.jmagic.abilities.keywords.Infect.class));
+			this.addEffectPart(addAbilityToObject(This.instance(), Infect.class));
 
 			this.canApply = Both.instance(this.canApply, Intersect.instance(OpponentsOf.instance(You.instance()), Poisoned.instance()));
 		}

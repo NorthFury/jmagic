@@ -2,6 +2,12 @@ package org.rnd.jmagic.engine.eventTypes;
 
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+import org.rnd.util.NumberRange;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public final class RevealChoice extends EventType
 {	public static final EventType INSTANCE = new RevealChoice();
@@ -18,39 +24,39 @@ public final class RevealChoice extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean attempt(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		int number = 1;
 		if(parameters.containsKey(Parameter.NUMBER))
 			number = Sum.get(parameters.get(Parameter.NUMBER));
-		java.util.Set<GameObject> objects = parameters.get(Parameter.OBJECT).getAll(GameObject.class);
+		Set<GameObject> objects = parameters.get(Parameter.OBJECT).getAll(GameObject.class);
 		return (objects.size() >= number);
 	}
 
 	@Override
-	public void makeChoices(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public void makeChoices(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
-		java.util.Set<GameObject> objects = parameters.get(Parameter.OBJECT).getAll(GameObject.class);
-		org.rnd.util.NumberRange number;
+		Set<GameObject> objects = parameters.get(Parameter.OBJECT).getAll(GameObject.class);
+		NumberRange number;
 		if(parameters.containsKey(Parameter.NUMBER))
 			number = getRange(parameters.get(Parameter.NUMBER));
 		else
-			number = new org.rnd.util.NumberRange(1, 1);
+			number = new NumberRange(1, 1);
 
 		Player chooser = parameters.get(Parameter.PLAYER).getOne(Player.class);
-		java.util.List<GameObject> chosen = chooser.sanitizeAndChoose(game.actualState, number.getLower(0), number.getUpper(objects.size()), objects, PlayerInterface.ChoiceType.OBJECTS, PlayerInterface.ChooseReason.CHOOSE_CARD_TO_REVEAL);
+		List<GameObject> chosen = chooser.sanitizeAndChoose(game.actualState, number.getLower(0), number.getUpper(objects.size()), objects, PlayerInterface.ChoiceType.OBJECTS, PlayerInterface.ChooseReason.CHOOSE_CARD_TO_REVEAL);
 		if(!number.contains(chosen.size()))
 			event.allChoicesMade = false;
 		event.putChoices(chooser, chosen);
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		MagicSet cause = parameters.get(Parameter.CAUSE);
 		MagicSet choices = event.getChoices(parameters.get(Parameter.PLAYER).getOne(Player.class));
 
-		java.util.Map<Parameter, MagicSet> revealParameters = new java.util.HashMap<Parameter, MagicSet>();
+		Map<Parameter, MagicSet> revealParameters = new HashMap<Parameter, MagicSet>();
 		revealParameters.put(Parameter.CAUSE, cause);
 		revealParameters.put(Parameter.OBJECT, choices);
 		if(parameters.containsKey(Parameter.EFFECT))

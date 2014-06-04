@@ -2,6 +2,10 @@ package org.rnd.jmagic.engine.generators;
 
 import org.rnd.jmagic.engine.*;
 
+import java.lang.NoSuchMethodException;
+import java.util.EnumSet;
+import java.util.Set;
+
 /**
  * Evaluates to an empty set
  */
@@ -27,8 +31,8 @@ public class Empty extends SetGenerator
 	}
 
 	@Override
-	public java.util.Set<org.rnd.jmagic.engine.ManaSymbol.ManaType> extractColors(org.rnd.jmagic.engine.Game game, org.rnd.jmagic.engine.GameObject thisObject, java.util.Set<org.rnd.jmagic.engine.SetGenerator> ignoreThese) throws java.lang.NoSuchMethodException
+	public Set<ManaSymbol.ManaType> extractColors(Game game, GameObject thisObject, Set<SetGenerator> ignoreThese) throws NoSuchMethodException
 	{
-		return java.util.EnumSet.noneOf(ManaSymbol.ManaType.class);
+		return EnumSet.noneOf(ManaSymbol.ManaType.class);
 	}
 }

@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.TapFor1;
+import org.rnd.jmagic.abilities.keywords.Indestructible;
 import org.rnd.jmagic.engine.*;
 
 @Name("Darksteel Citadel")
@@ -14,9 +16,9 @@ public final class DarksteelCitadel extends Card
 
 		// Darksteel Citadel is indestructible. ("Destroy" effects and lethal
 		// damage don't destroy it.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Indestructible(state));
+		this.addAbility(new Indestructible(state));
 
 		// (T): Add (1) to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapFor1(state));
+		this.addAbility(new TapFor1(state));
 	}
 }

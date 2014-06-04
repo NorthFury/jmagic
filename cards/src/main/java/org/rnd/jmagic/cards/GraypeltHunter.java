@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.ZendikarAllyCounter;
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 
 @Name("Graypelt Hunter")
@@ -18,10 +20,10 @@ public final class GraypeltHunter extends Card
 		this.setToughness(2);
 
 		// Trample
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Trample(state));
+		this.addAbility(new Trample(state));
 
 		// Whenever Graypelt Hunter or another Ally enters the battlefield under
 		// your control, you may put a +1/+1 counter on Graypelt Hunter.
-		this.addAbility(new org.rnd.jmagic.abilities.ZendikarAllyCounter(state, this.getName()));
+		this.addAbility(new ZendikarAllyCounter(state, this.getName()));
 	}
 }

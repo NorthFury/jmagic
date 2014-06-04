@@ -1,5 +1,9 @@
 package org.rnd.jmagic.sanitized;
 
+import org.rnd.jmagic.engine.Zone;
+
+import java.util.List;
+
 public class SanitizedZone extends SanitizedIdentified
 {
 	@Override
@@ -33,9 +37,9 @@ public class SanitizedZone extends SanitizedIdentified
 
 	private static final long serialVersionUID = 2L;
 
-	public final java.util.List<Integer> objects;
+	public final List<Integer> objects;
 
-	public SanitizedZone(org.rnd.jmagic.engine.Zone z)
+	public SanitizedZone(Zone z)
 	{
 		super(z);
 

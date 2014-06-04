@@ -2,6 +2,8 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Forecast;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -23,7 +25,7 @@ public final class SkyHussar extends Card
 		}
 	}
 
-	public static final class SkyHussarAbility2 extends org.rnd.jmagic.abilities.keywords.Forecast
+	public static final class SkyHussarAbility2 extends Forecast
 	{
 		public SkyHussarAbility2(GameState state)
 		{
@@ -50,7 +52,7 @@ public final class SkyHussar extends Card
 		this.setToughness(3);
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// When Sky Hussar enters the battlefield, untap all creatures you
 		// control.

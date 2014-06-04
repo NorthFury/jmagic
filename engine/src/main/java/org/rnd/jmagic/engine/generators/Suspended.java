@@ -1,5 +1,6 @@
 package org.rnd.jmagic.engine.generators;
 
+import org.rnd.jmagic.abilities.keywords.Suspend;
 import org.rnd.jmagic.engine.*;
 
 public class Suspended extends SetGenerator
@@ -9,7 +10,7 @@ public class Suspended extends SetGenerator
 	public static SetGenerator instance()
 	{
 		if(_instance == null)
-			_instance = Intersect.instance(InZone.instance(ExileZone.instance()), Intersect.instance(HasKeywordAbility.instance(org.rnd.jmagic.abilities.keywords.Suspend.class), HasCounterOfType.instance(Counter.CounterType.TIME)));
+			_instance = Intersect.instance(InZone.instance(ExileZone.instance()), Intersect.instance(HasKeywordAbility.instance(Suspend.class), HasCounterOfType.instance(Counter.CounterType.TIME)));
 		return _instance;
 	}
 

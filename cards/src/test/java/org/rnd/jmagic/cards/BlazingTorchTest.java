@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+import org.rnd.jmagic.abilities.keywords.Equip;
 import org.rnd.jmagic.engine.GameTypes;
 import org.rnd.jmagic.engine.Phase;
 import org.rnd.jmagic.testing.JUnitTest;
@@ -31,7 +32,7 @@ public class BlazingTorchTest extends JUnitTest {
 		this.castAndResolveSpell(BlazingTorch.class, "1");
 
 		this.respondWith(this
-				.getAbilityAction(org.rnd.jmagic.abilities.keywords.Equip.EquipAbility.class));
+				.getAbilityAction(Equip.EquipAbility.class));
 		// auto-target goblin
 		this.addMana("1");
 		this.donePlayingManaAbilities();

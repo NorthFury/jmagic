@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Defender;
+import org.rnd.jmagic.abilities.keywords.Equip;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -27,7 +30,7 @@ public final class WarmongersChariot extends Card
 		{
 			super(state, "As long as equipped creature has defender, it can attack as though it didn't have defender.");
 
-			SetGenerator equippedHasDefender = Intersect.instance(EquippedBy.instance(This.instance()), HasKeywordAbility.instance(org.rnd.jmagic.abilities.keywords.Defender.class));
+			SetGenerator equippedHasDefender = Intersect.instance(EquippedBy.instance(This.instance()), HasKeywordAbility.instance(Defender.class));
 			this.canApply = Both.instance(this.canApply, equippedHasDefender);
 
 			ContinuousEffect.Part part = new ContinuousEffect.Part(ContinuousEffectType.ATTACK_AS_THOUGH_DOESNT_HAVE_DEFENDER);
@@ -48,6 +51,6 @@ public final class WarmongersChariot extends Card
 		this.addAbility(new WarmongersChariotAbility1(state));
 
 		// Equip (3)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Equip(state, "(3)"));
+		this.addAbility(new Equip(state, "(3)"));
 	}
 }

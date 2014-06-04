@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Vigilance;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -38,7 +40,7 @@ public final class AjaniGoldmane extends Card
 			this.addEffect(putCounters(1, Counter.CounterType.PLUS_ONE_PLUS_ONE, creaturesYouControl, "Put a +1/+1 counter on each creature you control."));
 
 			// Those creatures gain vigilance until end of turn.
-			this.addEffect(addAbilityUntilEndOfTurn(creaturesYouControl, org.rnd.jmagic.abilities.keywords.Vigilance.class, "Those creatures gain vigilance until end of turn."));
+			this.addEffect(addAbilityUntilEndOfTurn(creaturesYouControl, Vigilance.class, "Those creatures gain vigilance until end of turn."));
 		}
 	}
 

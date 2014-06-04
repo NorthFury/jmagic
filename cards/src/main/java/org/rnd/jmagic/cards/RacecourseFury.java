@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Enchant;
+import org.rnd.jmagic.abilities.keywords.Haste;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -23,7 +26,7 @@ public final class RacecourseFury extends Card
 
 				Target target = this.addTarget(CreaturePermanents.instance(), "target creature");
 
-				this.addEffect(addAbilityUntilEndOfTurn(targetedBy(target), org.rnd.jmagic.abilities.keywords.Haste.class, "Target creature gains haste until end of turn."));
+				this.addEffect(addAbilityUntilEndOfTurn(targetedBy(target), Haste.class, "Target creature gains haste until end of turn."));
 			}
 		}
 
@@ -40,7 +43,7 @@ public final class RacecourseFury extends Card
 		super(state);
 
 		// Enchant land
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Enchant.Land(state));
+		this.addAbility(new Enchant.Land(state));
 
 		// Enchanted land has
 		// "(T): Target creature gains haste until end of turn."

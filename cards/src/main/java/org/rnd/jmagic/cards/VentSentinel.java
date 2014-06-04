@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Defender;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -20,7 +22,7 @@ public final class VentSentinel extends Card
 			this.setManaCost(new ManaPool("(1)(R)"));
 			this.costsTap = true;
 
-			SetGenerator amount = Count.instance(Intersect.instance(CREATURES_YOU_CONTROL, HasKeywordAbility.instance(org.rnd.jmagic.abilities.keywords.Defender.class)));
+			SetGenerator amount = Count.instance(Intersect.instance(CREATURES_YOU_CONTROL, HasKeywordAbility.instance(Defender.class)));
 			SetGenerator target = targetedBy(this.addTarget(Players.instance(), "target player"));
 			this.addEffect(permanentDealDamage(amount, target, "Vent Sentinel deals damage to target player equal to the number of creatures with defender you control."));
 		}
@@ -34,7 +36,7 @@ public final class VentSentinel extends Card
 		this.setToughness(4);
 
 		// Defender
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Defender(state));
+		this.addAbility(new Defender(state));
 
 		// (1)(R), (T): Vent Sentinel deals damage to target player equal to the
 		// number of creatures with defender you control.

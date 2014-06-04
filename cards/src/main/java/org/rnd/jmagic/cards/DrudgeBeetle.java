@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Scavenge;
 import org.rnd.jmagic.engine.*;
 
 @Name("Drudge Beetle")
@@ -20,6 +21,6 @@ public final class DrudgeBeetle extends Card
 		// Scavenge (5)(G) ((5)(G), Exile this card from your graveyard: Put a
 		// number of +1/+1 counters equal to this card's power on target
 		// creature. Scavenge only as a sorcery.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Scavenge(state, "(5)(G)"));
+		this.addAbility(new Scavenge(state, "(5)(G)"));
 	}
 }

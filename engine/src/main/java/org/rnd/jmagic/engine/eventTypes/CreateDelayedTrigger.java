@@ -3,6 +3,11 @@ package org.rnd.jmagic.engine.eventTypes;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
 public final class CreateDelayedTrigger extends EventType
 {	public static final EventType INSTANCE = new CreateDelayedTrigger();
 
@@ -18,7 +23,7 @@ public final class CreateDelayedTrigger extends EventType
 	}
 
 	@Override
-	public boolean perform(final Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(final Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		final GameObject causingObject = parameters.get(Parameter.CAUSE).getOne(GameObject.class);
 		MagicSet events = parameters.get(Parameter.EVENT);
@@ -30,17 +35,17 @@ public final class CreateDelayedTrigger extends EventType
 		final DelayedTrigger trigger;
 		if(parameters.containsKey(Parameter.EVENT))
 		{
-			trigger = new DelayedTrigger(game.physicalState, effect.name, causingObject, events.getAll(EventPattern.class), java.util.Collections.<DamagePattern>emptySet(), java.util.Collections.<ZoneChangePattern>emptySet(), effect, duration);
+			trigger = new DelayedTrigger(game.physicalState, effect.name, causingObject, events.getAll(EventPattern.class), Collections.<DamagePattern>emptySet(), Collections.<ZoneChangePattern>emptySet(), effect, duration);
 			game.physicalState.delayedTriggers.add(trigger);
 		}
 		else if(parameters.containsKey(Parameter.ZONE_CHANGE))
 		{
-			trigger = new DelayedTrigger(game.physicalState, effect.name, causingObject, java.util.Collections.<EventPattern>emptySet(), java.util.Collections.<DamagePattern>emptySet(), zoneChanges.getAll(ZoneChangePattern.class), effect, duration);
+			trigger = new DelayedTrigger(game.physicalState, effect.name, causingObject, Collections.<EventPattern>emptySet(), Collections.<DamagePattern>emptySet(), zoneChanges.getAll(ZoneChangePattern.class), effect, duration);
 			game.physicalState.delayedTriggers.add(trigger);
 		}
 		else if(parameters.containsKey(Parameter.DAMAGE))
 		{
-			trigger = new DelayedTrigger(game.physicalState, effect.name, causingObject, java.util.Collections.<EventPattern>emptySet(), damagePatterns.getAll(DamagePattern.class), java.util.Collections.<ZoneChangePattern>emptySet(), effect, duration);
+			trigger = new DelayedTrigger(game.physicalState, effect.name, causingObject, Collections.<EventPattern>emptySet(), damagePatterns.getAll(DamagePattern.class), Collections.<ZoneChangePattern>emptySet(), effect, duration);
 			game.physicalState.delayedTriggers.add(trigger);
 		}
 		else
@@ -59,9 +64,9 @@ public final class CreateDelayedTrigger extends EventType
 			SpecialActionFactory stopFactory = new SpecialActionFactory()
 			{
 				@Override
-				public java.util.Set<PlayerAction> getActions(GameState state, GameObject source, Player actor)
+				public Set<PlayerAction> getActions(GameState state, GameObject source, Player actor)
 				{
-					return java.util.Collections.<PlayerAction>singleton(new StopDelayedTriggerAction(game, "Stop " + objectName + "'s delayed trigger from triggering", cost, triggerID, actor));
+					return Collections.<PlayerAction>singleton(new StopDelayedTriggerAction(game, "Stop " + objectName + "'s delayed trigger from triggering", cost, triggerID, actor));
 				}
 			};
 
@@ -89,7 +94,7 @@ public final class CreateDelayedTrigger extends EventType
 				}
 			};
 
-			java.util.Map<Parameter, MagicSet> stopParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> stopParameters = new HashMap<Parameter, MagicSet>();
 			stopParameters.put(Parameter.CAUSE, new MagicSet(trigger));
 			stopParameters.put(Parameter.EFFECT, new MagicSet(part));
 			stopParameters.put(Parameter.EXPIRES, new MagicSet(expires));

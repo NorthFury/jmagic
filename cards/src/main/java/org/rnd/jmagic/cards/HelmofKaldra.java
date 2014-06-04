@@ -68,6 +68,6 @@ public final class HelmofKaldra extends Card
 		this.addAbility(new HelmofKaldraAbility1(state));
 
 		// Equip (2)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Equip(state, "(2)"));
+		this.addAbility(new Equip(state, "(2)"));
 	}
 }

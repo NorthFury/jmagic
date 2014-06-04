@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Reach;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -31,7 +33,7 @@ public final class AcidWebSpider extends Card
 		this.setToughness(5);
 
 		// Reach
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Reach(state));
+		this.addAbility(new Reach(state));
 
 		// When Acid Web Spider enters the battlefield, you may destroy target
 		// Equipment.

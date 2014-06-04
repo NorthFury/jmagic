@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Lifelink;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -32,7 +35,7 @@ public final class ArcticAven extends Card
 		{
 			super(state, "(W): Arctic Aven gains lifelink until end of turn.");
 			this.setManaCost(new ManaPool("(W)"));
-			this.addEffect(addAbilityUntilEndOfTurn(ABILITY_SOURCE_OF_THIS, org.rnd.jmagic.abilities.keywords.Lifelink.class, "Arctic Aven gains lifelink until end of turn."));
+			this.addEffect(addAbilityUntilEndOfTurn(ABILITY_SOURCE_OF_THIS, Lifelink.class, "Arctic Aven gains lifelink until end of turn."));
 		}
 	}
 
@@ -44,7 +47,7 @@ public final class ArcticAven extends Card
 		this.setToughness(1);
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// Arctic Aven gets +1/+1 as long as you control a Plains.
 		this.addAbility(new ArcticAvenAbility1(state));

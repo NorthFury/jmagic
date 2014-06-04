@@ -1,7 +1,14 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Protection;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @Name("Brave the Elements")
 @Types({Type.INSTANT})
@@ -25,29 +32,29 @@ public final class BravetheElements extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			MagicSet cause = parameters.get(Parameter.CAUSE);
 			event.setResult(Empty.set);
 
-			java.util.Set<Color> choices = parameters.get(Parameter.CHOICE).getAll(Color.class);
+			Set<Color> choices = parameters.get(Parameter.CHOICE).getAll(Color.class);
 			Player player = parameters.get(Parameter.PLAYER).getOne(Player.class);
 
-			PlayerInterface.ChooseParameters<Color> chooseParameters = new PlayerInterface.ChooseParameters<Color>(1, 1, new java.util.LinkedList<Color>(choices), PlayerInterface.ChoiceType.COLOR, PlayerInterface.ChooseReason.CHOOSE_COLOR);
+			PlayerInterface.ChooseParameters<Color> chooseParameters = new PlayerInterface.ChooseParameters<Color>(1, 1, new LinkedList<Color>(choices), PlayerInterface.ChoiceType.COLOR, PlayerInterface.ChooseReason.CHOOSE_COLOR);
 			chooseParameters.thisID = cause.getOne(GameObject.class).ID;
-			java.util.List<Color> chosenList = player.choose(chooseParameters);
+			List<Color> chosenList = player.choose(chooseParameters);
 			if(chosenList.isEmpty())
 				return false;
 
 			Color color = chosenList.get(0);
 
-			Class<? extends org.rnd.jmagic.abilities.keywords.Protection> ability = org.rnd.jmagic.abilities.keywords.Protection.from(color);
+			Class<? extends Protection> ability = Protection.from(color);
 
 			ContinuousEffect.Part part = new ContinuousEffect.Part(ContinuousEffectType.ADD_ABILITY_TO_OBJECT);
 			part.parameters.put(ContinuousEffectType.Parameter.OBJECT, Intersect.instance(HasColor.instance(Color.WHITE), Intersect.instance(HasType.instance(Type.CREATURE), ControlledBy.instance(You.instance()))));
-			part.parameters.put(ContinuousEffectType.Parameter.ABILITY, Identity.instance(new org.rnd.jmagic.engine.SimpleAbilityFactory(ability)));
+			part.parameters.put(ContinuousEffectType.Parameter.ABILITY, Identity.instance(new SimpleAbilityFactory(ability)));
 
-			java.util.Map<Parameter, MagicSet> fceParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> fceParameters = new HashMap<Parameter, MagicSet>();
 			fceParameters.put(Parameter.CAUSE, cause);
 			fceParameters.put(Parameter.EFFECT, new MagicSet(part));
 			Event protection = createEvent(game, "White creatures you control gain protection from the chosen color until end of turn.", EventType.CREATE_FLOATING_CONTINUOUS_EFFECT, fceParameters);

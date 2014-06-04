@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 
 @Name("Goblin Deathraiders")
@@ -17,6 +18,6 @@ public final class GoblinDeathraiders extends Card
 		this.setPower(3);
 		this.setToughness(1);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Trample(state));
+		this.addAbility(new Trample(state));
 	}
 }

@@ -1,8 +1,12 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.Werewolves;
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+import org.rnd.jmagic.engine.patterns.SimpleEventPattern;
 
 @Name("Ravager of the Fells")
 @Types({Type.CREATURE})
@@ -17,7 +21,7 @@ public final class RavageroftheFells extends AlternateCard
 		{
 			super(state, "Whenever this creature transforms into Ravager of the Fells, it deals 2 damage to target opponent and 2 damage to up to one target creature that player controls.");
 
-			org.rnd.jmagic.engine.patterns.SimpleEventPattern pattern = new org.rnd.jmagic.engine.patterns.SimpleEventPattern(EventType.TRANSFORM_ONE_PERMANENT);
+			SimpleEventPattern pattern = new SimpleEventPattern(EventType.TRANSFORM_ONE_PERMANENT);
 			pattern.put(EventType.Parameter.OBJECT, ABILITY_SOURCE_OF_THIS);
 			this.addPattern(pattern);
 
@@ -39,7 +43,7 @@ public final class RavageroftheFells extends AlternateCard
 		this.setColorIndicator(Color.GREEN, Color.RED);
 
 		// Trample
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Trample(state));
+		this.addAbility(new Trample(state));
 
 		// Whenever this creature transforms into Ravager of the Fells, it deals
 		// 2 damage to target opponent and 2 damage to up to one target creature
@@ -48,6 +52,6 @@ public final class RavageroftheFells extends AlternateCard
 
 		// At the beginning of each upkeep, if a player cast two or more spells
 		// last turn, transform Ravager of the Fells.
-		this.addAbility(new org.rnd.jmagic.abilities.Werewolves.BecomeHuman(state, this.getName()));
+		this.addAbility(new Werewolves.BecomeHuman(state, this.getName()));
 	}
 }

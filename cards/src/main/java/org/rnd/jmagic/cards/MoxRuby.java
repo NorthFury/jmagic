@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.TapForR;
 import org.rnd.jmagic.engine.*;
 
 @Name("Mox Ruby")
@@ -14,6 +15,6 @@ public final class MoxRuby extends Card
 		super(state);
 
 		// (T): Add (R) to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapForR(state));
+		this.addAbility(new TapForR(state));
 	}
 }

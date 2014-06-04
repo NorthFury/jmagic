@@ -4,6 +4,10 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+
 @Name("Delve")
 public final class Delve extends Keyword
 {
@@ -15,9 +19,9 @@ public final class Delve extends Keyword
 	}
 
 	@Override
-	protected java.util.List<org.rnd.jmagic.engine.StaticAbility> createStaticAbilities()
+	protected List<StaticAbility> createStaticAbilities()
 	{
-		return java.util.Collections.<StaticAbility>singletonList(new DelveAbility(this.state));
+		return Collections.<StaticAbility>singletonList(new DelveAbility(this.state));
 	}
 
 	/**
@@ -37,7 +41,7 @@ public final class Delve extends Keyword
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
+		public void apply(GameState state, ContinuousEffect effect, Map<Parameter, MagicSet> parameters)
 		{
 			EventFactory exile = new EventFactory(EventType.EXILE_CHOICE, "Exile any number of cards from your graveyard");
 			exile.parameters.put(EventType.Parameter.CAUSE, This.instance());
@@ -68,7 +72,7 @@ public final class Delve extends Keyword
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
+		public void apply(GameState state, ContinuousEffect effect, Map<Parameter, MagicSet> parameters)
 		{
 			GameObject object = parameters.get(Parameter.OBJECT).getOne(GameObject.class);
 

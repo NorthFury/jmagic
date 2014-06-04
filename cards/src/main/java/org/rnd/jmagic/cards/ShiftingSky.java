@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilityTemplates.AsThisEntersTheBattlefieldChooseAColor;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -10,7 +11,7 @@ import org.rnd.jmagic.engine.generators.*;
 @ColorIdentity({Color.BLUE})
 public final class ShiftingSky extends Card
 {
-	public static final class ShiftingSkyAbility0 extends org.rnd.jmagic.abilityTemplates.AsThisEntersTheBattlefieldChooseAColor
+	public static final class ShiftingSkyAbility0 extends AsThisEntersTheBattlefieldChooseAColor
 	{
 		public ShiftingSkyAbility0(GameState state)
 		{

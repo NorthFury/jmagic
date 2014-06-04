@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.FirstStrike;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -52,7 +53,7 @@ public final class RazormaneMasticore extends Card
 		this.setPower(5);
 		this.setToughness(5);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.FirstStrike(state));
+		this.addAbility(new FirstStrike(state));
 		this.addAbility(new UpkeepTrigger(state));
 		this.addAbility(new DrawStepTrigger(state));
 	}

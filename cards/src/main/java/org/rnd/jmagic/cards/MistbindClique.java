@@ -2,8 +2,14 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Champion;
+import org.rnd.jmagic.abilities.keywords.Flash;
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+
+import java.util.LinkedList;
+import java.util.List;
 
 @Name("Mistbind Clique")
 @Types({Type.CREATURE})
@@ -13,7 +19,7 @@ import org.rnd.jmagic.engine.generators.*;
 @ColorIdentity({Color.BLUE})
 public final class MistbindClique extends Card
 {
-	public static final class ChampionAFaerie extends org.rnd.jmagic.abilities.keywords.Champion
+	public static final class ChampionAFaerie extends Champion
 	{
 		public ChampionAFaerie(GameState state)
 		{
@@ -21,9 +27,9 @@ public final class MistbindClique extends Card
 		}
 
 		@Override
-		protected java.util.List<NonStaticAbility> createNonStaticAbilities()
+		protected List<NonStaticAbility> createNonStaticAbilities()
 		{
-			java.util.List<NonStaticAbility> ret = new java.util.LinkedList<NonStaticAbility>();
+			List<NonStaticAbility> ret = new LinkedList<NonStaticAbility>();
 
 			ret.add(new Exile(this.state));
 			ret.add(new Return(this.state));
@@ -67,10 +73,10 @@ public final class MistbindClique extends Card
 		this.setToughness(4);
 
 		// Flash
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flash(state));
+		this.addAbility(new Flash(state));
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// Champion a Faerie
 		this.addAbility(new ChampionAFaerie(state));

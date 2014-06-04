@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.ShadePump;
 import org.rnd.jmagic.engine.*;
 
 @Name("Looming Shade")
@@ -17,6 +18,6 @@ public final class LoomingShade extends Card
 		this.setPower(1);
 		this.setToughness(1);
 
-		this.addAbility(new org.rnd.jmagic.abilities.ShadePump(state, "Looming Shade"));
+		this.addAbility(new ShadePump(state, "Looming Shade"));
 	}
 }

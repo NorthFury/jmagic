@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.Firebreathing;
 import org.rnd.jmagic.engine.*;
 
 // imported to make the leveler line that adds three abilities not 238490284 characters long.
@@ -26,12 +27,12 @@ public final class KarganDragonlord extends Card
 		// LEVEL 4-7
 		// 4/4
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Level(state, 4, 7, 4, 4, "Flying", Flying.class));
+		this.addAbility(new Level(state, 4, 7, 4, 4, "Flying", Flying.class));
 
 		// LEVEL 8+
 		// 8/8
 		// Flying, trample
 		// (R): Kargan Dragonlord gets +1/+0 until end of turn.
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Level(state, 8, 8, 8, "Flying, trample; (R): Kargan Dragonlord gets +1/+0 until end of turn.", Flying.class, Trample.class, org.rnd.jmagic.abilities.Firebreathing.class));
+		this.addAbility(new Level(state, 8, 8, 8, "Flying, trample; (R): Kargan Dragonlord gets +1/+0 until end of turn.", Flying.class, Trample.class, Firebreathing.class));
 	}
 }

@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Exalted;
+import org.rnd.jmagic.abilities.keywords.Haste;
 import org.rnd.jmagic.engine.*;
 
 @Name("Duskmantle Prowler")
@@ -19,10 +21,10 @@ public final class DuskmantleProwler extends Card
 
 		// Haste (This creature can attack and (T) as soon as it comes under
 		// your control.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Haste(state));
+		this.addAbility(new Haste(state));
 
 		// Exalted (Whenever a creature you control attacks alone, that creature
 		// gets +1/+1 until end of turn.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Exalted(state));
+		this.addAbility(new Exalted(state));
 	}
 }

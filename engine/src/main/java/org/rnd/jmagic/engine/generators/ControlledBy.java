@@ -2,6 +2,9 @@ package org.rnd.jmagic.engine.generators;
 
 import org.rnd.jmagic.engine.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Evaluates to the objects controlled by the given players either on the
  * battlefield, or any other zones if specified
@@ -31,8 +34,8 @@ public class ControlledBy extends SetGenerator
 	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
 		MagicSet ret = new MagicSet();
-		java.util.Set<Zone> zones = this.zone.evaluate(state, thisObject).getAll(Zone.class);
-		java.util.Set<Integer> controllers = new java.util.HashSet<Integer>();
+		Set<Zone> zones = this.zone.evaluate(state, thisObject).getAll(Zone.class);
+		Set<Integer> controllers = new HashSet<Integer>();
 		for(Player player: this.controller.evaluate(state, thisObject).getAll(Player.class))
 			controllers.add(player.ID);
 

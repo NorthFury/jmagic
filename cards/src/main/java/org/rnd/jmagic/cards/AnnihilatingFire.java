@@ -3,6 +3,7 @@ package org.rnd.jmagic.cards;
 import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+import org.rnd.jmagic.engine.patterns.SimpleZoneChangePattern;
 
 @Name("Annihilating Fire")
 @Types({Type.INSTANT})
@@ -23,7 +24,7 @@ public final class AnnihilatingFire extends Card
 		this.addEffect(damage);
 
 		ZoneChangeReplacementEffect exileItInstead = new ZoneChangeReplacementEffect(state.game, "If a creature dealt damage this way would die this turn, exile it instead.");
-		exileItInstead.addPattern(new org.rnd.jmagic.engine.patterns.SimpleZoneChangePattern(null, GraveyardOf.instance(Players.instance()), TakerOfDamage.instance(EventDamage.instance(EffectEvent.instance(damage))), true));
+		exileItInstead.addPattern(new SimpleZoneChangePattern(null, GraveyardOf.instance(Players.instance()), TakerOfDamage.instance(EventDamage.instance(EffectEvent.instance(damage))), true));
 		exileItInstead.changeDestination(ExileZone.instance());
 
 		this.addEffect(createFloatingReplacement(exileItInstead, "If a creature dealt damage this way would die this turn, exile it instead."));

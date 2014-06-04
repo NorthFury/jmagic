@@ -1,10 +1,14 @@
 package org.rnd.util;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Iterator;
+
 public class SeparatedList
 {
 	public static StringBuilder get(String separator, String lastItem, Object... items)
 	{
-		return get(separator, lastItem, java.util.Arrays.asList(items));
+		return get(separator, lastItem, Arrays.asList(items));
 	}
 
 	/**
@@ -17,13 +21,13 @@ public class SeparatedList
 	 * @param items The items to list.
 	 * @return The list.
 	 */
-	public static StringBuilder get(String separator, String lastItem, java.util.Collection<?> items)
+	public static StringBuilder get(String separator, String lastItem, Collection<?> items)
 	{
 		if(items.isEmpty())
 			return new StringBuilder("nothing");
 		if(items.size() == 1)
 			return new StringBuilder(items.iterator().next().toString());
-		java.util.Iterator<?> it = items.iterator();
+		Iterator<?> it = items.iterator();
 		if(items.size() == 2)
 		{
 			StringBuilder ret = new StringBuilder(it.next().toString());
@@ -42,7 +46,7 @@ public class SeparatedList
 	}
 
 	/** cover for get(", ", lastItem, items) */
-	public static StringBuilder get(String lastItem, java.util.Collection<?> items)
+	public static StringBuilder get(String lastItem, Collection<?> items)
 	{
 		return get(", ", lastItem, items);
 	}

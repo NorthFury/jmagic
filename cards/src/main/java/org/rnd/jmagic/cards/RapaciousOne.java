@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -32,7 +34,7 @@ public final class RapaciousOne extends Card
 		this.setToughness(4);
 
 		// Trample
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Trample(state));
+		this.addAbility(new Trample(state));
 
 		// Whenever Rapacious One deals combat damage to a player, put that many
 		// 0/1 colorless Eldrazi Spawn creature tokens onto the battlefield.

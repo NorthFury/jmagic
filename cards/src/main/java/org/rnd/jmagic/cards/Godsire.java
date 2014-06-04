@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Vigilance;
 import org.rnd.jmagic.engine.*;
 
 @Name("Godsire")
@@ -32,7 +34,7 @@ public final class Godsire extends Card
 		this.setPower(8);
 		this.setToughness(8);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Vigilance(state));
+		this.addAbility(new Vigilance(state));
 
 		this.addAbility(new Respawn(state));
 	}

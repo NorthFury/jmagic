@@ -1,6 +1,26 @@
 package org.rnd.util;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.EOFException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.io.Writer;
+import java.net.InetSocketAddress;
+import java.nio.ByteBuffer;
 import java.nio.channels.*;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * <p>
@@ -18,12 +38,12 @@ import java.nio.channels.*;
  * The motivation behind this class is behavior when using
  * {@link Channels#newInputStream(ReadableByteChannel)} and
  * {@link Channels#newOutputStream(WritableByteChannel)} on a channel: reading
- * from the resulting {@link java.io.InputStream} and writing to the resulting
- * {@link java.io.OutputStream} each synchronize on
+ * from the resulting {@link InputStream} and writing to the resulting
+ * {@link OutputStream} each synchronize on
  * {@link SelectableChannel#blockingLock()}. This means writing to the channel
  * can't be done while waiting on a read. This could be solved by using
  * non-blocking reads instead of blocking reads, but that may not be possible
- * (in the case of using {@link java.io.ObjectInputStream} on
+ * (in the case of using {@link ObjectInputStream} on
  * {@link Channels#newInputStream(ReadableByteChannel)}). Instead, use
  * {@link Pipe} and this class together to allow a blocking read on the
  * {@link Pipe} while this class handles non-blocking reads and delivers data to
@@ -35,12 +55,12 @@ import java.nio.channels.*;
  */
 public class ChannelRouter implements Runnable
 {
-	public static void main(String[] args) throws java.io.IOException
+	public static void main(String[] args) throws IOException
 	{
-		ChannelRouter channelRouter = new ChannelRouter(new org.rnd.util.ExceptionListener<java.io.IOException>()
+		ChannelRouter channelRouter = new ChannelRouter(new ExceptionListener<IOException>()
 		{
 			@Override
-			public void exceptionThrown(java.io.IOException exception)
+			public void exceptionThrown(IOException exception)
 			{
 				exception.printStackTrace();
 			}
@@ -52,7 +72,7 @@ public class ChannelRouter implements Runnable
 		{
 			System.out.println("Server mode started; listening on port " + port);
 			ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
-			serverSocketChannel.socket().bind(new java.net.InetSocketAddress(port));
+			serverSocketChannel.socket().bind(new InetSocketAddress(port));
 			socketChannel = serverSocketChannel.accept();
 			System.out.println("Client connected");
 			serverSocketChannel.close();
@@ -61,7 +81,7 @@ public class ChannelRouter implements Runnable
 		{
 			String host = args[0];
 			System.out.println("Client mode started; connecting to " + host + " on port " + port);
-			socketChannel = SocketChannel.open(new java.net.InetSocketAddress(host, port));
+			socketChannel = SocketChannel.open(new InetSocketAddress(host, port));
 			System.out.println("Connected to server");
 		}
 		socketChannel.configureBlocking(false);
@@ -86,8 +106,8 @@ public class ChannelRouter implements Runnable
 				{
 					// BufferedReader.readLine() blocks until an end-of-line is
 					// written, so make sure they get written by the main thread
-					java.io.InputStream temporaryInputStream = Channels.newInputStream(remoteToLocal.source());
-					java.io.BufferedReader in = new java.io.BufferedReader(new java.io.InputStreamReader(temporaryInputStream));
+					InputStream temporaryInputStream = Channels.newInputStream(remoteToLocal.source());
+					BufferedReader in = new BufferedReader(new InputStreamReader(temporaryInputStream));
 					String line = in.readLine();
 					while(null != line)
 					{
@@ -99,7 +119,7 @@ public class ChannelRouter implements Runnable
 				{
 					// The main thread wants us to close, so do nothing
 				}
-				catch(java.io.IOException e)
+				catch(IOException e)
 				{
 					e.printStackTrace();
 				}
@@ -107,11 +127,11 @@ public class ChannelRouter implements Runnable
 		};
 		remoteReaderThread.start();
 
-		java.io.BufferedReader in = new java.io.BufferedReader(new java.io.InputStreamReader(System.in));
+		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 
-		java.io.Writer temporaryWriter = new java.io.OutputStreamWriter(Channels.newOutputStream(localToRemote.sink()));
-		temporaryWriter = new java.io.BufferedWriter(temporaryWriter);
-		java.io.PrintWriter out = new java.io.PrintWriter(temporaryWriter, true);
+		Writer temporaryWriter = new OutputStreamWriter(Channels.newOutputStream(localToRemote.sink()));
+		temporaryWriter = new BufferedWriter(temporaryWriter);
+		PrintWriter out = new PrintWriter(temporaryWriter, true);
 
 		System.out.println("Press end-of-file to terminate (Ctrl+Z on Windows, Ctrl+D on other platforms)");
 		String line = in.readLine();
@@ -133,57 +153,57 @@ public class ChannelRouter implements Runnable
 	 * A convenience method for the following code:
 	 * 
 	 * <pre>
-	 * {@link java.io.InputStream} tempInputStream = {@link Channels#newInputStream(ReadableByteChannel) Channels.newInputStream(input)};
-	 * tempInputStream = new {@link java.io.BufferedInputStream#BufferedInputStream(java.io.InputStream) java.io.BufferedInputStream(tempInputStream)};
-	 * return new {@link java.io.ObjectInputStream#ObjectInputStream(java.io.InputStream) java.io.ObjectInputStream(tempInputStream)};
+	 * {@link InputStream} tempInputStream = {@link Channels#newInputStream(ReadableByteChannel) Channels.newInputStream(input)};
+	 * tempInputStream = new {@link BufferedInputStream#BufferedInputStream(InputStream) java.io.BufferedInputStream(tempInputStream)};
+	 * return new {@link ObjectInputStream#ObjectInputStream(InputStream) java.io.ObjectInputStream(tempInputStream)};
 	 * </pre>
 	 * 
-	 * @throws java.io.IOException pass-through for any
-	 * {@link java.io.IOException} that occurs in the above code
+	 * @throws IOException pass-through for any
+	 * {@link IOException} that occurs in the above code
 	 */
-	public static java.io.ObjectInputStream wrapChannelInObjectInputStream(ReadableByteChannel input) throws java.io.IOException
+	public static ObjectInputStream wrapChannelInObjectInputStream(ReadableByteChannel input) throws IOException
 	{
-		java.io.InputStream tempInputStream = Channels.newInputStream(input);
-		tempInputStream = new java.io.BufferedInputStream(tempInputStream);
-		return new java.io.ObjectInputStream(tempInputStream);
+		InputStream tempInputStream = Channels.newInputStream(input);
+		tempInputStream = new BufferedInputStream(tempInputStream);
+		return new ObjectInputStream(tempInputStream);
 	}
 
 	/**
 	 * A convenience method for the following code:
 	 * 
 	 * <pre>
-	 * {@link java.io.OutputStream} tempOutputStream = {@link Channels#newOutputStream(WritableByteChannel) Channels.newOutputStream(output)};
-	 * tempOutputStream = new {@link java.io.BufferedOutputStream#BufferedOutputStream(java.io.OutputStream) java.io.BufferedOutputStream(tempOutputStream)};
-	 * return new {@link java.io.ObjectOutputStream#ObjectOutputStream(java.io.OutputStream) java.io.ObjectOutputStream(tempOutputStream)};
+	 * {@link OutputStream} tempOutputStream = {@link Channels#newOutputStream(WritableByteChannel) Channels.newOutputStream(output)};
+	 * tempOutputStream = new {@link BufferedOutputStream#BufferedOutputStream(OutputStream) java.io.BufferedOutputStream(tempOutputStream)};
+	 * return new {@link ObjectOutputStream#ObjectOutputStream(OutputStream) java.io.ObjectOutputStream(tempOutputStream)};
 	 * </pre>
 	 * 
-	 * @throws java.io.IOException pass-through for any
-	 * {@link java.io.IOException} that occurs in the above code
+	 * @throws IOException pass-through for any
+	 * {@link IOException} that occurs in the above code
 	 */
-	public static java.io.ObjectOutputStream wrapChannelInObjectOutputStream(WritableByteChannel output) throws java.io.IOException
+	public static ObjectOutputStream wrapChannelInObjectOutputStream(WritableByteChannel output) throws IOException
 	{
-		java.io.OutputStream tempOutputStream = Channels.newOutputStream(output);
-		tempOutputStream = new java.io.BufferedOutputStream(tempOutputStream);
-		return new java.io.ObjectOutputStream(tempOutputStream);
+		OutputStream tempOutputStream = Channels.newOutputStream(output);
+		tempOutputStream = new BufferedOutputStream(tempOutputStream);
+		return new ObjectOutputStream(tempOutputStream);
 	}
 
 	private static int BUFFER_SIZE = 65536;
 
 	private static int SELECT_MILLISECONDS = 100;
 
-	private ExceptionListener<java.io.IOException> exceptionListener;
+	private ExceptionListener<IOException> exceptionListener;
 
-	private java.util.concurrent.ConcurrentMap<SelectableChannel, java.nio.ByteBuffer> outputBuffers;
+	private ConcurrentMap<SelectableChannel, ByteBuffer> outputBuffers;
 
-	private java.util.concurrent.ConcurrentMap<SelectableChannel, SelectableChannel> outputs;
+	private ConcurrentMap<SelectableChannel, SelectableChannel> outputs;
 
 	private Selector selector;
 
-	public ChannelRouter(ExceptionListener<java.io.IOException> exceptionListener) throws java.io.IOException
+	public ChannelRouter(ExceptionListener<IOException> exceptionListener) throws IOException
 	{
 		this.exceptionListener = exceptionListener;
-		this.outputBuffers = new java.util.concurrent.ConcurrentHashMap<SelectableChannel, java.nio.ByteBuffer>();
-		this.outputs = new java.util.concurrent.ConcurrentHashMap<SelectableChannel, SelectableChannel>();
+		this.outputBuffers = new ConcurrentHashMap<SelectableChannel, ByteBuffer>();
+		this.outputs = new ConcurrentHashMap<SelectableChannel, SelectableChannel>();
 		this.selector = Selector.open();
 	}
 
@@ -204,7 +224,7 @@ public class ChannelRouter implements Runnable
 		// Must put into the maps before registering with the Selector in case
 		// this thread is preempted by the input being available for read before
 		// there's an output ready for it
-		this.outputBuffers.put(output, java.nio.ByteBuffer.allocate(BUFFER_SIZE));
+		this.outputBuffers.put(output, ByteBuffer.allocate(BUFFER_SIZE));
 		this.outputs.put(input, output);
 
 		// Register the output channel with the selector if it isn't already
@@ -230,14 +250,14 @@ public class ChannelRouter implements Runnable
 	 * return {@link #wrapChannelInObjectOutputStream(WritableByteChannel) wrapChannelInObjectOutputStream(sink)};
 	 * </pre>
 	 * 
-	 * Users must call {@link java.io.ObjectOutputStream#flush()} before
-	 * attempting to construct a matching {@link java.io.ObjectInputStream} to
+	 * Users must call {@link ObjectOutputStream#flush()} before
+	 * attempting to construct a matching {@link ObjectInputStream} to
 	 * ensure a serialization header is available.
 	 * 
-	 * @throws java.io.IOException pass-through for any
-	 * {@link java.io.IOException} that occurs in the above code
+	 * @throws IOException pass-through for any
+	 * {@link IOException} that occurs in the above code
 	 */
-	public <T extends SelectableChannel & WritableByteChannel> java.io.ObjectOutputStream addRouteFromObjectOutputStream(T output) throws java.io.IOException
+	public <T extends SelectableChannel & WritableByteChannel> ObjectOutputStream addRouteFromObjectOutputStream(T output) throws IOException
 	{
 		Pipe inputToOutput = Pipe.open();
 		Pipe.SourceChannel source = inputToOutput.source();
@@ -261,10 +281,10 @@ public class ChannelRouter implements Runnable
 	 * return {@link #wrapChannelInObjectInputStream(ReadableByteChannel) wrapChannelInObjectInputStream(source)};
 	 * </pre>
 	 * 
-	 * @throws java.io.IOException pass-through for any
-	 * {@link java.io.IOException} that occurs in the above code
+	 * @throws IOException pass-through for any
+	 * {@link IOException} that occurs in the above code
 	 */
-	public <T extends SelectableChannel & ReadableByteChannel> java.io.ObjectInputStream addRouteToObjectInputStream(T input) throws java.io.IOException
+	public <T extends SelectableChannel & ReadableByteChannel> ObjectInputStream addRouteToObjectInputStream(T input) throws IOException
 	{
 		Pipe inputToOutput = Pipe.open();
 		Pipe.SinkChannel sink = inputToOutput.sink();
@@ -281,7 +301,7 @@ public class ChannelRouter implements Runnable
 		{
 			channel.close();
 		}
-		catch(java.io.IOException e)
+		catch(IOException e)
 		{
 			reportIOException(e);
 		}
@@ -295,12 +315,12 @@ public class ChannelRouter implements Runnable
 				return;
 
 			SelectableChannel output = this.outputs.get(channel);
-			java.nio.ByteBuffer buffer = this.outputBuffers.get(output);
+			ByteBuffer buffer = this.outputBuffers.get(output);
 
 			if(-1 == ((ReadableByteChannel)channel).read(buffer))
 				// This has never happened as read has always thrown an
 				// exception instead, but handle it just in case
-				throw new java.io.EOFException();
+				throw new EOFException();
 
 			SelectionKey outputKey = output.keyFor(this.selector);
 			// The channel might have been closed and unregistered by the time
@@ -319,11 +339,11 @@ public class ChannelRouter implements Runnable
 		{
 			// Error-handling code below to avoid code duplication
 		}
-		catch(java.io.EOFException e)
+		catch(EOFException e)
 		{
 			// Error-handling code below to avoid code duplication
 		}
-		catch(java.io.IOException e)
+		catch(IOException e)
 		{
 			reportIOException(e);
 
@@ -353,7 +373,7 @@ public class ChannelRouter implements Runnable
 			if(!key.isWritable())
 				return;
 
-			java.nio.ByteBuffer buffer = this.outputBuffers.get(channel);
+			ByteBuffer buffer = this.outputBuffers.get(channel);
 			buffer.flip();
 			((WritableByteChannel)channel).write(buffer);
 
@@ -375,11 +395,11 @@ public class ChannelRouter implements Runnable
 		{
 			// Error-handling code below to avoid code duplication
 		}
-		catch(java.io.EOFException e)
+		catch(EOFException e)
 		{
 			// Error-handling code below to avoid code duplication
 		}
-		catch(java.io.IOException e)
+		catch(IOException e)
 		{
 			reportIOException(e);
 
@@ -389,10 +409,10 @@ public class ChannelRouter implements Runnable
 		this.outputBuffers.remove(channel);
 
 		// Close and remove any routes that point to this channel as an output
-		java.util.Iterator<java.util.Map.Entry<SelectableChannel, SelectableChannel>> i = this.outputs.entrySet().iterator();
+		Iterator<Map.Entry<SelectableChannel, SelectableChannel>> i = this.outputs.entrySet().iterator();
 		while(i.hasNext())
 		{
-			java.util.Map.Entry<SelectableChannel, SelectableChannel> entry = i.next();
+			Map.Entry<SelectableChannel, SelectableChannel> entry = i.next();
 			if(entry.getValue().equals(channel))
 			{
 				closeChannelAndReportException(entry.getKey());
@@ -415,7 +435,7 @@ public class ChannelRouter implements Runnable
 		closeChannelAndReportException(channel);
 	}
 
-	private void reportIOException(java.io.IOException e)
+	private void reportIOException(IOException e)
 	{
 		if(null != this.exceptionListener)
 			this.exceptionListener.exceptionThrown(e);
@@ -432,7 +452,7 @@ public class ChannelRouter implements Runnable
 				if(Thread.interrupted())
 					break;
 
-				java.util.Iterator<SelectionKey> i = this.selector.selectedKeys().iterator();
+				Iterator<SelectionKey> i = this.selector.selectedKeys().iterator();
 				while(i.hasNext())
 				{
 					SelectionKey key = i.next();
@@ -447,12 +467,12 @@ public class ChannelRouter implements Runnable
 		{
 			// User-requested interrupt, so clean up
 		}
-		catch(java.io.IOException e)
+		catch(IOException e)
 		{
 			reportIOException(e);
 		}
 
-		for(java.util.Map.Entry<SelectableChannel, SelectableChannel> e: this.outputs.entrySet())
+		for(Map.Entry<SelectableChannel, SelectableChannel> e: this.outputs.entrySet())
 		{
 			closeChannelAndReportException(e.getKey());
 			closeChannelAndReportException(e.getValue());

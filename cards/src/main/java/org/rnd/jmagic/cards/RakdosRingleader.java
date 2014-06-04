@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.Regenerate;
+import org.rnd.jmagic.abilities.keywords.FirstStrike;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -38,13 +41,13 @@ public final class RakdosRingleader extends Card
 		this.setToughness(1);
 
 		// First strike
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.FirstStrike(state));
+		this.addAbility(new FirstStrike(state));
 
 		// Whenever Rakdos Ringleader deals combat damage to a player, that
 		// player discards a card at random.
 		this.addAbility(new RakdosRingleaderAbility1(state));
 
 		// (B): Regenerate Rakdos Ringleader.
-		this.addAbility(new org.rnd.jmagic.abilities.Regenerate.Final(state, "(B)", this.getName()));
+		this.addAbility(new Regenerate.Final(state, "(B)", this.getName()));
 	}
 }

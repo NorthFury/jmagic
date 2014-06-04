@@ -3,6 +3,13 @@ package org.rnd.jmagic.abilities.keywords;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.Collections;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 public final class Prowl extends Keyword
 {
 	private final String costString;
@@ -22,9 +29,9 @@ public final class Prowl extends Keyword
 	}
 
 	@Override
-	protected java.util.List<StaticAbility> createStaticAbilities()
+	protected List<StaticAbility> createStaticAbilities()
 	{
-		return java.util.Collections.<StaticAbility>singletonList(new ProwlAbility(this.state, this.costString));
+		return Collections.<StaticAbility>singletonList(new ProwlAbility(this.state, this.costString));
 	}
 
 	public static final class ProwlAbility extends StaticAbility
@@ -42,23 +49,23 @@ public final class Prowl extends Keyword
 			 * subtypes that player controlled that dealt combat damage this
 			 * turn.
 			 */
-			public static class TypesDealingCombatDamageToPlayers extends Tracker<java.util.Map<Integer, java.util.Set<SubType>>>
+			public static class TypesDealingCombatDamageToPlayers extends Tracker<Map<Integer, Set<SubType>>>
 			{
-				private java.util.HashMap<Integer, java.util.Set<SubType>> ids = new java.util.HashMap<Integer, java.util.Set<SubType>>();
-				private java.util.Map<Integer, java.util.Set<SubType>> unmodifiable = java.util.Collections.unmodifiableMap(this.ids);
+				private HashMap<Integer, Set<SubType>> ids = new HashMap<Integer, Set<SubType>>();
+				private Map<Integer, Set<SubType>> unmodifiable = Collections.unmodifiableMap(this.ids);
 
 				@SuppressWarnings("unchecked")
 				@Override
 				public TypesDealingCombatDamageToPlayers clone()
 				{
 					TypesDealingCombatDamageToPlayers ret = (TypesDealingCombatDamageToPlayers)super.clone();
-					ret.ids = (java.util.HashMap<Integer, java.util.Set<SubType>>)this.ids.clone();
-					ret.unmodifiable = java.util.Collections.unmodifiableMap(ret.ids);
+					ret.ids = (HashMap<Integer, Set<SubType>>)this.ids.clone();
+					ret.unmodifiable = Collections.unmodifiableMap(ret.ids);
 					return ret;
 				}
 
 				@Override
-				protected java.util.Map<Integer, java.util.Set<SubType>> getValueInternal()
+				protected Map<Integer, Set<SubType>> getValueInternal()
 				{
 					return this.unmodifiable;
 				}
@@ -78,17 +85,17 @@ public final class Prowl extends Keyword
 				@Override
 				protected void update(GameState state, Event event)
 				{
-					java.util.Set<DamageAssignment> assignments = event.parameters.get(EventType.Parameter.TARGET).evaluate(state, null).getAll(DamageAssignment.class);
+					Set<DamageAssignment> assignments = event.parameters.get(EventType.Parameter.TARGET).evaluate(state, null).getAll(DamageAssignment.class);
 					for(DamageAssignment assignment: assignments)
 						if(state.<Identified>get(assignment.takerID).isPlayer() && assignment.isCombatDamage)
 						{
-							java.util.Set<SubType> controllersTypes;
+							Set<SubType> controllersTypes;
 							GameObject source = state.get(assignment.sourceID);
 							if(this.ids.containsKey(source.controllerID))
 								controllersTypes = this.ids.get(source.controllerID);
 							else
 							{
-								controllersTypes = java.util.EnumSet.noneOf(SubType.class);
+								controllersTypes = EnumSet.noneOf(SubType.class);
 								this.ids.put(source.controllerID, controllersTypes);
 							}
 
@@ -115,8 +122,8 @@ public final class Prowl extends Keyword
 			{
 				MagicSet ret = new MagicSet();
 
-				java.util.Set<Player> controllers = this.controller.evaluate(state, thisObject).getAll(Player.class);
-				java.util.Map<Integer, java.util.Set<SubType>> trackerValue = state.getTracker(TypesDealingCombatDamageToPlayers.class).getValue(state);
+				Set<Player> controllers = this.controller.evaluate(state, thisObject).getAll(Player.class);
+				Map<Integer, Set<SubType>> trackerValue = state.getTracker(TypesDealingCombatDamageToPlayers.class).getValue(state);
 
 				for(Player controller: controllers)
 					if(trackerValue.containsKey(controller.ID))

@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Rebound;
 import org.rnd.jmagic.engine.*;
 
 @Name("Staggershock")
@@ -19,6 +21,6 @@ public final class Staggershock extends Card
 		this.addEffect(spellDealDamage(2, targetedBy(target), "Staggershock deals 2 damage to target creature or player."));
 
 		// Rebound
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Rebound(state));
+		this.addAbility(new Rebound(state));
 	}
 }

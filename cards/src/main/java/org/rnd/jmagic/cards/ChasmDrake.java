@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 
 @Name("Chasm Drake")
@@ -19,7 +21,7 @@ public final class ChasmDrake extends Card
 			this.addPattern(whenThisAttacks());
 
 			SetGenerator target = targetedBy(this.addTarget(CREATURES_YOU_CONTROL, "target creature you control"));
-			this.addEffect(addAbilityUntilEndOfTurn(target, org.rnd.jmagic.abilities.keywords.Flying.class, "Target creature you control gains flying until end of turn."));
+			this.addEffect(addAbilityUntilEndOfTurn(target, Flying.class, "Target creature you control gains flying until end of turn."));
 		}
 	}
 
@@ -31,7 +33,7 @@ public final class ChasmDrake extends Card
 		this.setToughness(3);
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// Whenever Chasm Drake attacks, target creature you control gains
 		// flying until end of turn.

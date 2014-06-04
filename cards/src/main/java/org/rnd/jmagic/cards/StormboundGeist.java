@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Undying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -17,7 +19,7 @@ public final class StormboundGeist extends Card
 		{
 			super(state, "Stormbound Geist can block only creatures with flying.");
 
-			SetGenerator hasFlying = HasKeywordAbility.instance(org.rnd.jmagic.abilities.keywords.Flying.class);
+			SetGenerator hasFlying = HasKeywordAbility.instance(Flying.class);
 			SetGenerator blockingNonFlyer = RelativeComplement.instance(BlockedBy.instance(This.instance()), hasFlying);
 
 			ContinuousEffect.Part part = new ContinuousEffect.Part(ContinuousEffectType.BLOCKING_RESTRICTION);
@@ -34,7 +36,7 @@ public final class StormboundGeist extends Card
 		this.setToughness(2);
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// Stormbound Geist can block only creatures with flying.
 		this.addAbility(new StormboundGeistAbility1(state));
@@ -42,6 +44,6 @@ public final class StormboundGeist extends Card
 		// Undying (When this creature dies, if it had no +1/+1 counters on it,
 		// return it to the battlefield under its owner's control with a +1/+1
 		// counter on it.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Undying(state));
+		this.addAbility(new Undying(state));
 	}
 }

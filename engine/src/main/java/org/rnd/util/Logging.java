@@ -1,5 +1,15 @@
 package org.rnd.util;
 
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import java.awt.EventQueue;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.LogRecord;
+import java.util.logging.Logger;
+
 public class Logging
 {
 	/**
@@ -9,9 +19,9 @@ public class Logging
 	 * 
 	 * @param parent The JFrame to lock-out while this dialog is popped-up.
 	 */
-	public static void addDialogHandler(final String application, final java.util.logging.Logger logger, final javax.swing.JFrame parent)
+	public static void addDialogHandler(final String application, final Logger logger, final JFrame parent)
 	{
-		final java.util.logging.Handler handler = new java.util.logging.Handler()
+		final Handler handler = new Handler()
 		{
 			@Override
 			public void close() throws SecurityException
@@ -26,30 +36,30 @@ public class Logging
 			}
 
 			@Override
-			public void publish(java.util.logging.LogRecord record)
+			public void publish(LogRecord record)
 			{
-				java.util.logging.Level level = record.getLevel();
+				Level level = record.getLevel();
 				final String message = record.getMessage();
 
-				if(java.util.logging.Level.WARNING == level)
+				if(Level.WARNING == level)
 				{
-					java.awt.EventQueue.invokeLater(new Runnable()
+					EventQueue.invokeLater(new Runnable()
 					{
 						@Override
 						public void run()
 						{
-							javax.swing.JOptionPane.showMessageDialog(parent, message, application + " Warning", javax.swing.JOptionPane.WARNING_MESSAGE);
+							JOptionPane.showMessageDialog(parent, message, application + " Warning", JOptionPane.WARNING_MESSAGE);
 						}
 					});
 				}
-				else if(java.util.logging.Level.SEVERE == level)
+				else if(Level.SEVERE == level)
 				{
-					java.awt.EventQueue.invokeLater(new Runnable()
+					EventQueue.invokeLater(new Runnable()
 					{
 						@Override
 						public void run()
 						{
-							javax.swing.JOptionPane.showMessageDialog(parent, message, application + " Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+							JOptionPane.showMessageDialog(parent, message, application + " Error", JOptionPane.ERROR_MESSAGE);
 						}
 					});
 				}
@@ -57,20 +67,20 @@ public class Logging
 		};
 		logger.addHandler(handler);
 
-		parent.addWindowListener(new java.awt.event.WindowAdapter()
+		parent.addWindowListener(new WindowAdapter()
 		{
 			@Override
-			public void windowClosed(java.awt.event.WindowEvent e)
+			public void windowClosed(WindowEvent e)
 			{
 				logger.removeHandler(handler);
 			}
 		});
 	}
 
-	public static java.util.logging.Logger getRootLogger(java.util.logging.Logger reference)
+	public static Logger getRootLogger(Logger reference)
 	{
-		java.util.logging.Logger parentLogger = reference.getParent();
-		java.util.logging.Logger rootLogger = reference;
+		Logger parentLogger = reference.getParent();
+		Logger rootLogger = reference;
 		while(null != parentLogger)
 		{
 			rootLogger = parentLogger;

@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Miracle;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -21,6 +23,6 @@ public final class Vanishment extends Card
 		this.addEffect(putOnTopOfLibrary(target, "Put target nonland permanent on top of its owner's library."));
 
 		// Miracle (U)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Miracle(state, "(U)"));
+		this.addAbility(new Miracle(state, "(U)"));
 	}
 }

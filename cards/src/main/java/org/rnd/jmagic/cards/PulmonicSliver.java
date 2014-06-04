@@ -2,6 +2,9 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.AllSliverCreaturesHave;
+import org.rnd.jmagic.abilities.AllSliversHave;
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -38,10 +41,10 @@ public final class PulmonicSliver extends Card
 		this.setToughness(3);
 
 		// All Sliver creatures have flying.
-		this.addAbility(new org.rnd.jmagic.abilities.AllSliverCreaturesHave(state, org.rnd.jmagic.abilities.keywords.Flying.class, "All Sliver creatures have flying."));
+		this.addAbility(new AllSliverCreaturesHave(state, Flying.class, "All Sliver creatures have flying."));
 
 		// All Slivers have
 		// "If this permanent would be put into a graveyard, you may put it on top of its owner's library instead."
-		this.addAbility(new org.rnd.jmagic.abilities.AllSliversHave(state, GraveyardReplacement.class, "All Slivers have \"If this permanent would be put into a graveyard, you may put it on top of its owner's library instead.\""));
+		this.addAbility(new AllSliversHave(state, GraveyardReplacement.class, "All Slivers have \"If this permanent would be put into a graveyard, you may put it on top of its owner's library instead.\""));
 	}
 }

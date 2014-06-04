@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.EntersTheBattlefieldTapped;
+import org.rnd.jmagic.abilities.TapForMana;
 import org.rnd.jmagic.engine.*;
 
 @Name("Gruul Guildgate")
@@ -14,9 +16,9 @@ public final class GruulGuildgate extends Card
 		super(state);
 
 		// Gruul Guildgate enters the battlefield tapped.
-		this.addAbility(new org.rnd.jmagic.abilities.EntersTheBattlefieldTapped(state, this.getName()));
+		this.addAbility(new EntersTheBattlefieldTapped(state, this.getName()));
 
 		// (T): Add (R) or (G) to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapForMana.Final(state, "(RG)"));
+		this.addAbility(new TapForMana.Final(state, "(RG)"));
 	}
 }

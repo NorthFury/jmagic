@@ -2,6 +2,8 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.StaticPTChange;
+import org.rnd.jmagic.abilities.keywords.Equip;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -49,10 +51,10 @@ public final class SwordoftheMeek extends Card
 		super(state);
 
 		// Equipped creature gets +1/+2.
-		this.addAbility(new org.rnd.jmagic.abilities.StaticPTChange(state, EquippedBy.instance(This.instance()), "Equipped creature", +1, +2, false));
+		this.addAbility(new StaticPTChange(state, EquippedBy.instance(This.instance()), "Equipped creature", +1, +2, false));
 
 		// Equip (2)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Equip(state, "(2)"));
+		this.addAbility(new Equip(state, "(2)"));
 
 		// Whenever a 1/1 creature enters the battlefield under your control,
 		// you may return Sword of the Meek from your graveyard to the

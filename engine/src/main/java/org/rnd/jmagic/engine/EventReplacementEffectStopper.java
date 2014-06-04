@@ -1,9 +1,12 @@
 package org.rnd.jmagic.engine;
 
+import java.util.Collection;
+import java.util.LinkedList;
+
 public class EventReplacementEffectStopper
 {
-	private java.util.Collection<EventPattern> stopFromReplacing;
-	private java.util.Collection<EventPattern> replaceWith;
+	private Collection<EventPattern> stopFromReplacing;
+	private Collection<EventPattern> replaceWith;
 	private int sourceID;
 
 	/**
@@ -24,7 +27,7 @@ public class EventReplacementEffectStopper
 			this.stopFromReplacing = null;
 		else
 		{
-			this.stopFromReplacing = new java.util.LinkedList<EventPattern>();
+			this.stopFromReplacing = new LinkedList<EventPattern>();
 			this.stopFromReplacing.add(stopFromReplacing);
 		}
 
@@ -32,7 +35,7 @@ public class EventReplacementEffectStopper
 			this.replaceWith = null;
 		else
 		{
-			this.replaceWith = new java.util.LinkedList<EventPattern>();
+			this.replaceWith = new LinkedList<EventPattern>();
 			this.replaceWith.add(replaceWith);
 		}
 	}

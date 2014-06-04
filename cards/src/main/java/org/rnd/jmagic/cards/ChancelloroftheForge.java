@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Haste;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -39,7 +40,7 @@ public final class ChancelloroftheForge extends Card
 					CreateTokensFactory factory = new CreateTokensFactory(1, 1, 1, "Put a 1/1 red Goblin creature token with Haste onto the battlefield.");
 					factory.setColors(Color.RED);
 					factory.setSubTypes(SubType.GOBLIN);
-					factory.addAbility(org.rnd.jmagic.abilities.keywords.Haste.class);
+					factory.addAbility(Haste.class);
 					action.parameters.put(EventType.Parameter.EFFECT, Identity.instance(factory.getEventFactory()));
 				}
 
@@ -61,7 +62,7 @@ public final class ChancelloroftheForge extends Card
 			factory.addCreature(1, 1);
 			factory.setColors(Color.RED);
 			factory.setSubTypes(SubType.GOBLIN);
-			factory.addAbility(org.rnd.jmagic.abilities.keywords.Haste.class);
+			factory.addAbility(Haste.class);
 			this.addEffect(factory.getEventFactory());
 		}
 	}

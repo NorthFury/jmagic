@@ -5,6 +5,9 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Name("Mundungu")
 @Types({Type.CREATURE})
 @SubTypes({SubType.WIZARD, SubType.HUMAN})
@@ -27,7 +30,7 @@ public final class Mundungu extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			event.setResult(Empty.set);
 
@@ -38,7 +41,7 @@ public final class Mundungu extends Card
 			if(player.pool.isEmpty())
 				return false;
 
-			java.util.Map<Parameter, MagicSet> lifeParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> lifeParameters = new HashMap<Parameter, MagicSet>();
 			lifeParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 			lifeParameters.put(Parameter.PLAYER, new MagicSet(player));
 			lifeParameters.put(Parameter.NUMBER, ONE);
@@ -52,7 +55,7 @@ public final class Mundungu extends Card
 			factory.parameters.put(Parameter.COST, Identity.instance(cost));
 			factory.parameters.put(Parameter.PLAYER, Identity.instance(playerParameter));
 
-			java.util.Map<Parameter, MagicSet> mayPayParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> mayPayParameters = new HashMap<Parameter, MagicSet>();
 			mayPayParameters.put(Parameter.PLAYER, playerParameter);
 			mayPayParameters.put(Parameter.EVENT, new MagicSet(factory));
 			Event mayPay = createEvent(game, player + " may pay (1)", PLAYER_MAY, mayPayParameters);

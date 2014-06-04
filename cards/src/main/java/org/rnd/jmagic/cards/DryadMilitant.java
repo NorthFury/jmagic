@@ -3,6 +3,7 @@ package org.rnd.jmagic.cards;
 import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+import org.rnd.jmagic.engine.patterns.SimpleZoneChangePattern;
 
 @Name("Dryad Militant")
 @Types({Type.CREATURE})
@@ -19,7 +20,7 @@ public final class DryadMilitant extends Card
 			super(state, "If an instant or sorcery card would be put into a graveyard from anywhere, exile it instead.");
 
 			ZoneChangeReplacementEffect replacement = new ZoneChangeReplacementEffect(this.game, "If an instant or sorcery card would be put into a graveyard from anywhere, exile it instead");
-			replacement.addPattern(new org.rnd.jmagic.engine.patterns.SimpleZoneChangePattern(null, GraveyardOf.instance(Players.instance()), HasType.instance(Type.INSTANT, Type.SORCERY), true));
+			replacement.addPattern(new SimpleZoneChangePattern(null, GraveyardOf.instance(Players.instance()), HasType.instance(Type.INSTANT, Type.SORCERY), true));
 			replacement.changeDestination(ExileZone.instance());
 
 			this.addEffectPart(replacementEffectPart(replacement));

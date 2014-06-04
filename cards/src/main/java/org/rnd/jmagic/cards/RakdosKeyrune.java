@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.TapForMana;
+import org.rnd.jmagic.abilities.keywords.FirstStrike;
 import org.rnd.jmagic.engine.*;
 
 @Name("Rakdos Keyrune")
@@ -22,7 +25,7 @@ public final class RakdosKeyrune extends Card
 			animate.addColor(Color.RED);
 			animate.addSubType(SubType.DEVIL);
 			animate.addType(Type.ARTIFACT);
-			animate.addAbility(org.rnd.jmagic.abilities.keywords.FirstStrike.class);
+			animate.addAbility(FirstStrike.class);
 			this.addEffect(createFloatingEffect("Rakdos Keyrune becomes a 3/1 black and red Devil artifact creature with first strike until end of turn.", animate.getParts()));
 		}
 	}
@@ -32,7 +35,7 @@ public final class RakdosKeyrune extends Card
 		super(state);
 
 		// (T): Add (B) or (R) to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapForMana.Final(state, "(BR)"));
+		this.addAbility(new TapForMana.Final(state, "(BR)"));
 
 		// (B)(R): Rakdos Keyrune becomes a 3/1 black and red Devil artifact
 		// creature with first strike until end of turn.

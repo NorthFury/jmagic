@@ -14,7 +14,7 @@ public class HandOf extends SetGenerator
 
 	private final SetGenerator players;
 
-	private HandOf(org.rnd.jmagic.engine.SetGenerator players)
+	private HandOf(SetGenerator players)
 	{
 		this.players = players;
 	}

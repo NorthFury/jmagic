@@ -1,6 +1,10 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Enchant;
+import org.rnd.jmagic.abilities.keywords.FirstStrike;
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -20,7 +24,7 @@ public final class AngelicDestiny extends Card
 
 			SetGenerator enchantedCreature = EnchantedBy.instance(This.instance());
 			this.addEffectPart(modifyPowerAndToughness(enchantedCreature, +4, +4));
-			this.addEffectPart(addAbilityToObject(enchantedCreature, org.rnd.jmagic.abilities.keywords.Flying.class, org.rnd.jmagic.abilities.keywords.FirstStrike.class));
+			this.addEffectPart(addAbilityToObject(enchantedCreature, Flying.class, FirstStrike.class));
 			this.addEffectPart(addType(enchantedCreature, SubType.ANGEL));
 		}
 	}
@@ -49,7 +53,7 @@ public final class AngelicDestiny extends Card
 		super(state);
 
 		// Enchant creature
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Enchant.Creature(state));
+		this.addAbility(new Enchant.Creature(state));
 
 		// Enchanted creature gets +4/+4, has flying and first strike, and is an
 		// Angel in addition to its other types.

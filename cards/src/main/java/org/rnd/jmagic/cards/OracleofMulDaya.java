@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.PlayExtraLands;
+import org.rnd.jmagic.abilities.RevealTopOfLibrary;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -34,9 +36,9 @@ public final class OracleofMulDaya extends Card
 		this.setPower(2);
 		this.setToughness(2);
 
-		this.addAbility(new org.rnd.jmagic.abilities.PlayExtraLands.Final(state, 1, "You may play an additional land on each of your turns."));
+		this.addAbility(new PlayExtraLands.Final(state, 1, "You may play an additional land on each of your turns."));
 
-		this.addAbility(new org.rnd.jmagic.abilities.RevealTopOfLibrary(state));
+		this.addAbility(new RevealTopOfLibrary(state));
 
 		this.addAbility(new LibraryLands(state));
 	}

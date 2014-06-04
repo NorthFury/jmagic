@@ -2,6 +2,10 @@ package org.rnd.jmagic.engine.eventTypes;
 
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+import org.rnd.jmagic.sanitized.SanitizedEvent;
+
+import java.util.Map;
+import java.util.Set;
 
 public final class Show extends EventType
 {	public static final EventType INSTANCE = new Show();
@@ -18,9 +22,9 @@ public final class Show extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
-		java.util.Set<GameObject> objects = parameters.get(Parameter.OBJECT).getAll(GameObject.class);
+		Set<GameObject> objects = parameters.get(Parameter.OBJECT).getAll(GameObject.class);
 		for(GameObject object: objects)
 		{
 			object = object.getPhysical();
@@ -28,7 +32,7 @@ public final class Show extends EventType
 			{
 				object.setPhysicalVisibility(p, true);
 				object.setActualVisibility(p, true);
-				org.rnd.jmagic.sanitized.SanitizedEvent sanitized = new org.rnd.jmagic.sanitized.SanitizedEvent.Reveal(event, objects, p);
+				SanitizedEvent sanitized = new SanitizedEvent.Reveal(event, objects, p);
 				p.alert(sanitized);
 			}
 		}

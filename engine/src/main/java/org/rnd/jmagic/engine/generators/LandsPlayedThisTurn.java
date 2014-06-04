@@ -2,25 +2,30 @@ package org.rnd.jmagic.engine.generators;
 
 import org.rnd.jmagic.engine.*;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
 public final class LandsPlayedThisTurn extends SetGenerator
 {
-	public static final class LandsPlayedTracker extends Tracker<java.util.Map<Integer, Integer>>
+	public static final class LandsPlayedTracker extends Tracker<Map<Integer, Integer>>
 	{
-		private java.util.HashMap<Integer, Integer> counts = new java.util.HashMap<Integer, Integer>();
-		private java.util.Map<Integer, Integer> unmodifiable = java.util.Collections.unmodifiableMap(this.counts);
+		private HashMap<Integer, Integer> counts = new HashMap<Integer, Integer>();
+		private Map<Integer, Integer> unmodifiable = Collections.unmodifiableMap(this.counts);
 
 		@SuppressWarnings("unchecked")
 		@Override
 		public LandsPlayedTracker clone()
 		{
 			LandsPlayedTracker ret = (LandsPlayedTracker)super.clone();
-			ret.counts = (java.util.HashMap<Integer, Integer>)this.counts.clone();
-			ret.unmodifiable = java.util.Collections.unmodifiableMap(ret.counts);
+			ret.counts = (HashMap<Integer, Integer>)this.counts.clone();
+			ret.unmodifiable = Collections.unmodifiableMap(ret.counts);
 			return ret;
 		}
 
 		@Override
-		protected java.util.Map<Integer, Integer> getValueInternal()
+		protected Map<Integer, Integer> getValueInternal()
 		{
 			return this.unmodifiable;
 		}
@@ -64,7 +69,7 @@ public final class LandsPlayedThisTurn extends SetGenerator
 
 	public static int get(Player player)
 	{
-		java.util.Map<Integer, Integer> playedLandCounts = player.state.getTracker(LandsPlayedTracker.class).getValue(player.state);
+		Map<Integer, Integer> playedLandCounts = player.state.getTracker(LandsPlayedTracker.class).getValue(player.state);
 		if(playedLandCounts.containsKey(player.ID))
 			return playedLandCounts.get(player.ID);
 		return 0;
@@ -74,8 +79,8 @@ public final class LandsPlayedThisTurn extends SetGenerator
 	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
 		MagicSet ret = new MagicSet();
-		java.util.Set<Player> players = this.who.evaluate(state, thisObject).getAll(Player.class);
-		java.util.Map<Integer, Integer> playedLandCounts = state.getTracker(LandsPlayedTracker.class).getValue(state);
+		Set<Player> players = this.who.evaluate(state, thisObject).getAll(Player.class);
+		Map<Integer, Integer> playedLandCounts = state.getTracker(LandsPlayedTracker.class).getValue(state);
 		for(Player player: players)
 		{
 			if(playedLandCounts.containsKey(player.ID))

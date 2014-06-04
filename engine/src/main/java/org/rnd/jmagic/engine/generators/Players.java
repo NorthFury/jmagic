@@ -5,7 +5,7 @@ import org.rnd.jmagic.engine.*;
 /**
  * Evaluates to all players
  */
-public class Players extends org.rnd.jmagic.engine.SetGenerator
+public class Players extends SetGenerator
 {
 	private static final Players _instance = new Players();
 

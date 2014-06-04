@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.Trap;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -46,7 +48,7 @@ public final class PermafrostTrap extends Card
 		SetGenerator opponents = OpponentsOf.instance(You.instance());
 		SetGenerator maxPerOpponent = MaximumPerPlayer.instance(GreenCreaturesPutOntoTheBattlefieldThisTurnCounter.class, opponents);
 		SetGenerator trapCondition = Intersect.instance(Between.instance(2, null), maxPerOpponent);
-		this.addAbility(new org.rnd.jmagic.abilities.Trap(state, this.getName(), trapCondition, "If an opponent had a green creature enter the battlefield under his or her control this turn", "(U)"));
+		this.addAbility(new Trap(state, this.getName(), trapCondition, "If an opponent had a green creature enter the battlefield under his or her control this turn", "(U)"));
 
 		Target target = this.addTarget(CreaturePermanents.instance(), "up to two target creatures");
 		target.setNumber(0, 2);

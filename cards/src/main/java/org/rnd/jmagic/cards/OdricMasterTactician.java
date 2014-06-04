@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.FirstStrike;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -71,7 +73,7 @@ public final class OdricMasterTactician extends Card
 
 		// First strike (This creature deals combat damage before creatures
 		// without first strike.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.FirstStrike(state));
+		this.addAbility(new FirstStrike(state));
 
 		// Whenever Odric, Master Tactician and at least three other creatures
 		// attack, you choose which creatures block this combat and how those

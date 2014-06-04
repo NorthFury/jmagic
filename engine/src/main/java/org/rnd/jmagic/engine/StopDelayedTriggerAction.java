@@ -1,5 +1,8 @@
 package org.rnd.jmagic.engine;
 
+import org.rnd.jmagic.engine.generators.IdentifiedWithID;
+import org.rnd.jmagic.engine.generators.Identity;
+
 public class StopDelayedTriggerAction extends PlayerAction
 {
 	private final CostCollection cost;
@@ -17,9 +20,9 @@ public class StopDelayedTriggerAction extends PlayerAction
 		{
 			Player actor = this.actor();
 			Event payMana = new Event(this.game.physicalState, actor + " pays " + this.cost.manaCost, EventType.PAY_MANA);
-			payMana.parameters.put(EventType.Parameter.CAUSE, org.rnd.jmagic.engine.generators.IdentifiedWithID.instance(this.sourceID));
-			payMana.parameters.put(EventType.Parameter.PLAYER, org.rnd.jmagic.engine.generators.Identity.instance(actor));
-			payMana.parameters.put(EventType.Parameter.COST, org.rnd.jmagic.engine.generators.Identity.instance(this.cost.manaCost));
+			payMana.parameters.put(EventType.Parameter.CAUSE, IdentifiedWithID.instance(this.sourceID));
+			payMana.parameters.put(EventType.Parameter.PLAYER, Identity.instance(actor));
+			payMana.parameters.put(EventType.Parameter.COST, Identity.instance(this.cost.manaCost));
 			if(!payMana.perform(null, true))
 				return false;
 		}

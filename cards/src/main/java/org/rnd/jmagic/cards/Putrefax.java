@@ -1,6 +1,10 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Haste;
+import org.rnd.jmagic.abilities.keywords.Infect;
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 
 @Name("Putrefax")
@@ -29,12 +33,12 @@ public final class Putrefax extends Card
 		this.setToughness(3);
 
 		// Trample, haste
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Trample(state));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Haste(state));
+		this.addAbility(new Trample(state));
+		this.addAbility(new Haste(state));
 
 		// Infect (This creature deals damage to creatures in the form of -1/-1
 		// counters and to players in the form of poison counters.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Infect(state));
+		this.addAbility(new Infect(state));
 
 		// At the beginning of the end step, sacrifice Putrefax.
 		this.addAbility(new PutrefaxAbility2(state));

@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Echo;
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 
 @Name("Cradle Guard")
@@ -18,11 +20,11 @@ public final class CradleGuard extends Card
 		this.setToughness(4);
 
 		// Trample
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Trample(state));
+		this.addAbility(new Trample(state));
 
 		// Echo (1)(G)(G) (At the beginning of your upkeep, if this came under
 		// your control since the beginning of your last upkeep, sacrifice it
 		// unless you pay its echo cost.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Echo(state, "(1)(G)(G)"));
+		this.addAbility(new Echo(state, "(1)(G)(G)"));
 	}
 }

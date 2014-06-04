@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cardTemplates;
 
+import org.rnd.jmagic.abilities.keywords.Protection;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -12,6 +13,6 @@ public abstract class Outlander extends Card
 		this.setPower(2);
 		this.setToughness(2);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Protection.From(state, HasColor.instance(protectionFrom), protectionFrom.toString()));
+		this.addAbility(new Protection.From(state, HasColor.instance(protectionFrom), protectionFrom.toString()));
 	}
 }

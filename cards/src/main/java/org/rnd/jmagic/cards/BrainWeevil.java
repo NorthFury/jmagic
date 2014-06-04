@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Intimidate;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -35,7 +37,7 @@ public final class BrainWeevil extends Card
 
 		// Intimidate (This creature can't be blocked except by artifact
 		// creatures and/or creatures that share a color with it.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Intimidate(state));
+		this.addAbility(new Intimidate(state));
 
 		// Sacrifice Brain Weevil: Target player discards two cards. Activate
 		// this ability only any time you could cast a sorcery.

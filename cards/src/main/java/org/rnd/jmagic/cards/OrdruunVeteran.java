@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.DoubleStrike;
 import org.rnd.jmagic.engine.*;
 
 @Name("Ordruun Veteran")
@@ -17,7 +19,7 @@ public final class OrdruunVeteran extends Card
 		{
 			super(state, "Whenever Ordruun Veteran and at least two other creatures attack, Ordruun Veteran gains double strike until end of turn.");
 			this.addPattern(battalion());
-			this.addEffect(addAbilityUntilEndOfTurn(ABILITY_SOURCE_OF_THIS, org.rnd.jmagic.abilities.keywords.DoubleStrike.class, "Ordruun Veteran gains double strike until end of turn."));
+			this.addEffect(addAbilityUntilEndOfTurn(ABILITY_SOURCE_OF_THIS, DoubleStrike.class, "Ordruun Veteran gains double strike until end of turn."));
 		}
 	}
 

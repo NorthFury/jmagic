@@ -5,6 +5,9 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.Collections;
+import java.util.List;
+
 public final class Transmute extends Keyword
 {
 	private final String cost;
@@ -60,8 +63,8 @@ public final class Transmute extends Keyword
 	}
 
 	@Override
-	public java.util.List<NonStaticAbility> createNonStaticAbilities()
+	public List<NonStaticAbility> createNonStaticAbilities()
 	{
-		return java.util.Collections.<NonStaticAbility>singletonList(new TransmuteAbility(this.state, this.cost));
+		return Collections.<NonStaticAbility>singletonList(new TransmuteAbility(this.state, this.cost));
 	}
 }

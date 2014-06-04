@@ -1,6 +1,11 @@
 package org.rnd.jmagic.sanitized;
 
-public class SanitizedTarget implements java.io.Serializable
+import org.rnd.jmagic.engine.Identified;
+import org.rnd.jmagic.engine.Target;
+
+import java.io.Serializable;
+
+public class SanitizedTarget implements Serializable
 {
 	private static final long serialVersionUID = 2L;
 
@@ -12,14 +17,14 @@ public class SanitizedTarget implements java.io.Serializable
 	 */
 	public int division;
 
-	public SanitizedTarget(org.rnd.jmagic.engine.Target t)
+	public SanitizedTarget(Target t)
 	{
 		this.targetID = t.targetID;
 		this.division = t.division;
 		this.name = t.name;
 	}
 
-	public SanitizedTarget(org.rnd.jmagic.engine.Identified i)
+	public SanitizedTarget(Identified i)
 	{
 		this.targetID = i.ID;
 		this.division = 0;

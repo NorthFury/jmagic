@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.Bloodrush;
+import org.rnd.jmagic.abilities.keywords.FirstStrike;
 import org.rnd.jmagic.engine.*;
 
 @Name("Viashino Shanktail")
@@ -18,10 +20,10 @@ public final class ViashinoShanktail extends Card
 		this.setToughness(1);
 
 		// First strike
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.FirstStrike(state));
+		this.addAbility(new FirstStrike(state));
 
 		// Bloodrush \u2014 (2)(R), Discard Viashino Shanktail: Target attacking
 		// creature gets +3/+1 and gains first strike until end of turn.
-		this.addAbility(new org.rnd.jmagic.abilities.Bloodrush(state, "(2)(R)", "Viashino Shanktail", +3, +1, "Target attacking creature gets +3/+1 and gains first strike until end of turn.", org.rnd.jmagic.abilities.keywords.FirstStrike.class));
+		this.addAbility(new Bloodrush(state, "(2)(R)", "Viashino Shanktail", +3, +1, "Target attacking creature gets +3/+1 and gains first strike until end of turn.", FirstStrike.class));
 	}
 }

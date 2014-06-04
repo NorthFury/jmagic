@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 
 @Name("Devouring Swarm")
@@ -29,7 +31,7 @@ public final class DevouringSwarm extends Card
 		this.setToughness(1);
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// Sacrifice a creature: Devouring Swarm gets +1/+1 until end of turn.
 		this.addAbility(new DevouringSwarmAbility1(state));

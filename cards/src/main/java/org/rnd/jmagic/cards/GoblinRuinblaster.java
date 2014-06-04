@@ -2,6 +2,8 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Haste;
+import org.rnd.jmagic.abilities.keywords.Kicker;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -42,14 +44,14 @@ public final class GoblinRuinblaster extends Card
 
 		this.setPower(2);
 		this.setToughness(1);
-		org.rnd.jmagic.abilities.keywords.Kicker ability = new org.rnd.jmagic.abilities.keywords.Kicker(state, "(R)");
+		Kicker ability = new Kicker(state, "(R)");
 		this.addAbility(ability);
 
 		// Kicker (R) (You may pay an additional (R) as you cast this spell.)
 		CostCollection kickerCost = ability.costCollections[0];
 
 		// Haste
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Haste(state));
+		this.addAbility(new Haste(state));
 
 		// When Goblin Ruinblaster enters the battlefield, if it was kicked,
 		// destroy target nonbasic land.

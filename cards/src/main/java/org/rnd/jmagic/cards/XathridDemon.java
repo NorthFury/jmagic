@@ -2,8 +2,13 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Name("Xathrid Demon")
 @Types({Type.CREATURE})
@@ -28,7 +33,7 @@ public final class XathridDemon extends Card
 			}
 
 			@Override
-			public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+			public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 			{
 				event.setResult(Empty.set);
 
@@ -37,14 +42,14 @@ public final class XathridDemon extends Card
 				GameObject creature = (GameObject)(ability.getSource(game.actualState));
 				Player controller = ability.getController(ability.state);
 
-				java.util.Map<EventType.Parameter, MagicSet> sacParameters = new java.util.HashMap<EventType.Parameter, MagicSet>();
+				Map<EventType.Parameter, MagicSet> sacParameters = new HashMap<EventType.Parameter, MagicSet>();
 				sacParameters.put(EventType.Parameter.CAUSE, cause);
 				sacParameters.put(EventType.Parameter.NUMBER, ONE);
 				sacParameters.put(EventType.Parameter.CHOICE, RelativeComplement.instance(ControlledBy.instance(Identity.instance(controller)), Identity.instance(creature)).evaluate(game, null));
 				sacParameters.put(EventType.Parameter.PLAYER, new MagicSet(controller));
 				Event sacEvent = createEvent(game, "Sacrifice a creature other than Xathrid Demon.", EventType.SACRIFICE_CHOICE, sacParameters);
 
-				java.util.Map<EventType.Parameter, MagicSet> lifeParameters = new java.util.HashMap<EventType.Parameter, MagicSet>();
+				Map<EventType.Parameter, MagicSet> lifeParameters = new HashMap<EventType.Parameter, MagicSet>();
 				lifeParameters.put(EventType.Parameter.CAUSE, cause);
 
 				if(sacEvent.perform(event, true))
@@ -57,7 +62,7 @@ public final class XathridDemon extends Card
 					return lifeEvent.perform(event, false);
 				}
 
-				java.util.Map<EventType.Parameter, MagicSet> tapParameters = new java.util.HashMap<EventType.Parameter, MagicSet>();
+				Map<EventType.Parameter, MagicSet> tapParameters = new HashMap<EventType.Parameter, MagicSet>();
 				tapParameters.put(EventType.Parameter.CAUSE, cause);
 				tapParameters.put(EventType.Parameter.OBJECT, new MagicSet(creature));
 				Event tapEvent = createEvent(game, "Tap Xathrid Demon.", EventType.TAP_PERMANENTS, tapParameters);
@@ -89,8 +94,8 @@ public final class XathridDemon extends Card
 		this.setPower(7);
 		this.setToughness(7);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Trample(state));
+		this.addAbility(new Flying(state));
+		this.addAbility(new Trample(state));
 		this.addAbility(new XathridSac(state));
 	}
 }

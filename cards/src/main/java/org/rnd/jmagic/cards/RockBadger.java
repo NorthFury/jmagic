@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Landwalk;
 import org.rnd.jmagic.engine.*;
 
 @Name("Rock Badger")
@@ -17,6 +18,6 @@ public final class RockBadger extends Card
 		this.setPower(3);
 		this.setToughness(3);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Landwalk.Mountainwalk(state));
+		this.addAbility(new Landwalk.Mountainwalk(state));
 	}
 }

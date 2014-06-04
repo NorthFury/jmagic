@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Cycling;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -19,6 +21,6 @@ public final class SpellSnip extends Card
 
 		this.addEffect(counterTargetUnlessControllerPays("(1)", target));
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Cycling(state, "(2)"));
+		this.addAbility(new Cycling(state, "(2)"));
 	}
 }

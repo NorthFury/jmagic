@@ -1,5 +1,24 @@
 package org.rnd.jmagic.interfaceAdapters;
 
+import org.rnd.jmagic.engine.Answer;
+import org.rnd.jmagic.engine.EventType;
+import org.rnd.jmagic.engine.MagicSet;
+import org.rnd.jmagic.engine.PlayerInterface;
+import org.rnd.jmagic.engine.generators.Maximum;
+import org.rnd.jmagic.engine.generators.Minimum;
+import org.rnd.jmagic.sanitized.SanitizedEvent;
+import org.rnd.jmagic.sanitized.SanitizedReplacement;
+import org.rnd.jmagic.sanitized.SanitizedTarget;
+import org.rnd.util.NumberRange;
+
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+
 /**
  * An adapter interface to "filter out" questions that either have only one
  * answer (dividing a quantity over one target) or are widely seen as completely
@@ -15,7 +34,7 @@ public class ShortcutInterface extends SimplePlayerInterface
 
 	private ReplacementDeclination replacementDeclination;
 
-	public ShortcutInterface(org.rnd.jmagic.engine.PlayerInterface adapt)
+	public ShortcutInterface(PlayerInterface adapt)
 	{
 		super(adapt);
 		this.replacementDeclination = ReplacementDeclination.NONE;
@@ -23,23 +42,23 @@ public class ShortcutInterface extends SimplePlayerInterface
 
 	// We use Strings here in situations where the client wants to reference an
 	// event type define on the server, but not in the client's code.
-	private static final java.util.Set<String> FINAL_EVENT_TYPES;
+	private static final Set<String> FINAL_EVENT_TYPES;
 	static
 	{
-		FINAL_EVENT_TYPES = new java.util.HashSet<String>();
-		FINAL_EVENT_TYPES.add(org.rnd.jmagic.engine.EventType.PUT_INTO_HAND.toString());
-		FINAL_EVENT_TYPES.add(org.rnd.jmagic.engine.EventType.PUT_INTO_HAND_CHOICE.toString());
-		FINAL_EVENT_TYPES.add(org.rnd.jmagic.engine.EventType.DESTROY_PERMANENTS.toString());
-		FINAL_EVENT_TYPES.add(org.rnd.jmagic.engine.EventType.DISCARD_CARDS.toString());
-		FINAL_EVENT_TYPES.add(org.rnd.jmagic.engine.EventType.DISCARD_CHOICE.toString());
-		FINAL_EVENT_TYPES.add(org.rnd.jmagic.engine.EventType.DISCARD_RANDOM.toString());
-		FINAL_EVENT_TYPES.add(org.rnd.jmagic.engine.EventType.DRAW_CARDS.toString());
-		FINAL_EVENT_TYPES.add(org.rnd.jmagic.engine.EventType.EXILE_CHOICE.toString());
-		FINAL_EVENT_TYPES.add(org.rnd.jmagic.engine.EventType.MILL_CARDS.toString());
-		FINAL_EVENT_TYPES.add(org.rnd.jmagic.engine.EventType.MOVE_CHOICE.toString());
-		FINAL_EVENT_TYPES.add(org.rnd.jmagic.engine.EventType.MOVE_OBJECTS.toString());
-		FINAL_EVENT_TYPES.add(org.rnd.jmagic.engine.EventType.SACRIFICE_CHOICE.toString());
-		FINAL_EVENT_TYPES.add(org.rnd.jmagic.engine.EventType.SACRIFICE_PERMANENTS.toString());
+		FINAL_EVENT_TYPES = new HashSet<String>();
+		FINAL_EVENT_TYPES.add(EventType.PUT_INTO_HAND.toString());
+		FINAL_EVENT_TYPES.add(EventType.PUT_INTO_HAND_CHOICE.toString());
+		FINAL_EVENT_TYPES.add(EventType.DESTROY_PERMANENTS.toString());
+		FINAL_EVENT_TYPES.add(EventType.DISCARD_CARDS.toString());
+		FINAL_EVENT_TYPES.add(EventType.DISCARD_CHOICE.toString());
+		FINAL_EVENT_TYPES.add(EventType.DISCARD_RANDOM.toString());
+		FINAL_EVENT_TYPES.add(EventType.DRAW_CARDS.toString());
+		FINAL_EVENT_TYPES.add(EventType.EXILE_CHOICE.toString());
+		FINAL_EVENT_TYPES.add(EventType.MILL_CARDS.toString());
+		FINAL_EVENT_TYPES.add(EventType.MOVE_CHOICE.toString());
+		FINAL_EVENT_TYPES.add(EventType.MOVE_OBJECTS.toString());
+		FINAL_EVENT_TYPES.add(EventType.SACRIFICE_CHOICE.toString());
+		FINAL_EVENT_TYPES.add(EventType.SACRIFICE_PERMANENTS.toString());
 	}
 
 	@Override
@@ -50,7 +69,7 @@ public class ShortcutInterface extends SimplePlayerInterface
 	}
 
 	@Override
-	public <T extends java.io.Serializable> java.util.List<Integer> choose(ChooseParameters<T> parameterObject)
+	public <T extends Serializable> List<Integer> choose(ChooseParameters<T> parameterObject)
 	{
 		switch(parameterObject.type)
 		{
@@ -63,7 +82,7 @@ public class ShortcutInterface extends SimplePlayerInterface
 		case TIMESTAMPS:
 		{
 			// Things we just pick for them
-			java.util.List<Integer> ret = new java.util.LinkedList<Integer>();
+			List<Integer> ret = new LinkedList<Integer>();
 			for(int i = 0; i < parameterObject.choices.size(); ++i)
 				ret.add(i);
 			return ret;
@@ -72,12 +91,12 @@ public class ShortcutInterface extends SimplePlayerInterface
 		// ... Everything else
 		case COSTS:
 		{
-			java.util.Collection<Integer> sacrifices = new java.util.LinkedList<Integer>();
+			Collection<Integer> sacrifices = new LinkedList<Integer>();
 			{
 				int i = 0;
 				for(T choice: parameterObject.choices)
 				{
-					org.rnd.jmagic.sanitized.SanitizedEvent event = (org.rnd.jmagic.sanitized.SanitizedEvent)choice;
+					SanitizedEvent event = (SanitizedEvent)choice;
 					if(FINAL_EVENT_TYPES.contains(event.type))
 						sacrifices.add(i);
 					i++;
@@ -85,7 +104,7 @@ public class ShortcutInterface extends SimplePlayerInterface
 			}
 
 			// Auto-order the costs with sacrifices and exiles last.
-			java.util.List<Integer> ret = new java.util.LinkedList<Integer>();
+			List<Integer> ret = new LinkedList<Integer>();
 			for(int i = 0; i < parameterObject.choices.size(); i++)
 				if(!sacrifices.contains(i))
 					ret.add(i);
@@ -99,16 +118,16 @@ public class ShortcutInterface extends SimplePlayerInterface
 			{
 				for(T choice: parameterObject.choices)
 				{
-					if(!((org.rnd.jmagic.sanitized.SanitizedReplacement)choice).isOptionalForMe())
+					if(!((SanitizedReplacement)choice).isOptionalForMe())
 					{
 						this.replacementDeclination = ReplacementDeclination.NONE;
 						return super.choose(parameterObject);
 					}
 				}
 
-				org.rnd.jmagic.engine.PlayerInterface.ChooseParameters<T> newParams = new ChooseParameters<T>(parameterObject);
-				newParams.number = new org.rnd.jmagic.engine.MagicSet(new org.rnd.util.NumberRange(0, 1));
-				java.util.List<Integer> chosen = super.choose(newParams);
+				PlayerInterface.ChooseParameters<T> newParams = new ChooseParameters<T>(parameterObject);
+				newParams.number = new MagicSet(new NumberRange(0, 1));
+				List<Integer> chosen = super.choose(newParams);
 
 				if(!chosen.isEmpty())
 					return chosen;
@@ -117,7 +136,7 @@ public class ShortcutInterface extends SimplePlayerInterface
 
 			if(parameterObject.choices.size() == 2)
 				this.replacementDeclination = ReplacementDeclination.TWO;
-			return java.util.Collections.singletonList(0);
+			return Collections.singletonList(0);
 		}
 
 		case ENUM:
@@ -135,7 +154,7 @@ public class ShortcutInterface extends SimplePlayerInterface
 			case LOTS:
 				// don't care
 			}
-			return java.util.Collections.singletonList(parameterObject.choices.indexOf(org.rnd.jmagic.engine.Answer.NO));
+			return Collections.singletonList(parameterObject.choices.indexOf(Answer.NO));
 		}
 
 		default:
@@ -146,10 +165,10 @@ public class ShortcutInterface extends SimplePlayerInterface
 		// !parameterObject.type.isOrdered())
 		// return super.choose(parameterObject);
 
-		Integer lowerBound = org.rnd.jmagic.engine.generators.Minimum.get(parameterObject.number);
-		Integer upperBound = org.rnd.jmagic.engine.generators.Maximum.get(parameterObject.number);
+		Integer lowerBound = Minimum.get(parameterObject.number);
+		Integer upperBound = Maximum.get(parameterObject.number);
 
-		java.util.List<Integer> ret = new java.util.LinkedList<Integer>();
+		List<Integer> ret = new LinkedList<Integer>();
 		if(null != upperBound && 0 == upperBound && parameterObject.reason.isPublic)
 			return ret;
 		if((parameterObject.choices.size() == lowerBound) && ((1 == upperBound && 1 == lowerBound) || !parameterObject.type.isOrdered()))
@@ -167,7 +186,7 @@ public class ShortcutInterface extends SimplePlayerInterface
 	}
 
 	@Override
-	public int chooseNumber(org.rnd.util.NumberRange range, String description)
+	public int chooseNumber(NumberRange range, String description)
 	{
 		Integer lower = range.getLower();
 		if(lower != null && lower.equals(range.getUpper()))
@@ -177,7 +196,7 @@ public class ShortcutInterface extends SimplePlayerInterface
 	}
 
 	@Override
-	public void divide(int quantity, int minimum, int whatFrom, String beingDivided, java.util.List<org.rnd.jmagic.sanitized.SanitizedTarget> targets)
+	public void divide(int quantity, int minimum, int whatFrom, String beingDivided, List<SanitizedTarget> targets)
 	{
 		if(targets.size() == 1)
 		{

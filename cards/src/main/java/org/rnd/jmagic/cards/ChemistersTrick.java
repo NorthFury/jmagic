@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Overload;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -27,6 +29,6 @@ public final class ChemistersTrick extends Card
 		// Overload (3)(U)(R) (You may cast this spell for its overload cost. If
 		// you do, change its text by replacing all instances of "target" with
 		// "each.")
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Overload(state, "(3)(U)(R)"));
+		this.addAbility(new Overload(state, "(3)(U)(R)"));
 	}
 }

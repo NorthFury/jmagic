@@ -1,5 +1,8 @@
 package org.rnd.jmagic.engine;
 
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * Creates a replacement effect that will prevent some amount of damage
  */
@@ -40,7 +43,7 @@ public class DamagePreventionShield extends DamageReplacementEffect
 	}
 
 	@Override
-	public java.util.List<EventFactory> prevent(DamageAssignment.Batch damageAssignments)
+	public List<EventFactory> prevent(DamageAssignment.Batch damageAssignments)
 	{
 		if(!damageAssignments.isEmpty())
 		{
@@ -48,6 +51,6 @@ public class DamagePreventionShield extends DamageReplacementEffect
 			damageAssignments.clear();
 		}
 
-		return new java.util.LinkedList<EventFactory>();
+		return new LinkedList<EventFactory>();
 	}
 }

@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.PreventCombatDamage;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -16,7 +18,7 @@ public final class ClingingMists extends Card
 		super(state);
 
 		// Prevent all combat damage that would be dealt this turn.
-		this.addEffect(createFloatingReplacement(new org.rnd.jmagic.abilities.PreventCombatDamage(this.game), "Prevent all combat damage that would be dealt this turn."));
+		this.addEffect(createFloatingReplacement(new PreventCombatDamage(this.game), "Prevent all combat damage that would be dealt this turn."));
 
 		// Fateful hour \u2014 If you have 5 or less life, tap all attacking
 		// creatures. Those creatures don't untap during their controller's next

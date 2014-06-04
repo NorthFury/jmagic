@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.FirstStrike;
 import org.rnd.jmagic.engine.*;
 
 @Name("Precinct Captain")
@@ -33,7 +35,7 @@ public final class PrecinctCaptain extends Card
 		this.setToughness(2);
 
 		// First strike
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.FirstStrike(state));
+		this.addAbility(new FirstStrike(state));
 
 		// Whenever Precinct Captain deals combat damage to a player, put a 1/1
 		// white Soldier creature token onto the battlefield.

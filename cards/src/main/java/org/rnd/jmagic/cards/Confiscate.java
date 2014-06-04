@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Enchant;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -33,7 +34,7 @@ public final class Confiscate extends Card
 
 		// Enchant permanent (Target a permanent as you cast this. This card
 		// enters the battlefield attached to that permanent.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Enchant.Permanent(state));
+		this.addAbility(new Enchant.Permanent(state));
 		this.addAbility(new ControlChange(state));
 	}
 }

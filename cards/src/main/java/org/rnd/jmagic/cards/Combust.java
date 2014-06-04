@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.CantBeCountered;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -16,7 +18,7 @@ public final class Combust extends Card
 		super(state);
 
 		// Combust can't be countered by spells or abilities.
-		this.addAbility(new org.rnd.jmagic.abilities.CantBeCountered(state, this.getName()));
+		this.addAbility(new CantBeCountered(state, this.getName()));
 
 		// Combust deals 5 damage to target white or blue creature. The damage
 		// can't be prevented.

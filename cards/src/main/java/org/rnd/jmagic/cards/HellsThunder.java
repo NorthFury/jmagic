@@ -2,6 +2,9 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Haste;
+import org.rnd.jmagic.abilities.keywords.Unearth;
 import org.rnd.jmagic.engine.*;
 
 @Name("Hell's Thunder")
@@ -29,9 +32,9 @@ public final class HellsThunder extends Card
 		this.setPower(4);
 		this.setToughness(4);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Haste(state));
+		this.addAbility(new Flying(state));
+		this.addAbility(new Haste(state));
 		this.addAbility(new Fizzle(state));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Unearth(state, "(4)(R)"));
+		this.addAbility(new Unearth(state, "(4)(R)"));
 	}
 }

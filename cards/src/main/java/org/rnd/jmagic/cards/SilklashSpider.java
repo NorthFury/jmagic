@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Reach;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -20,7 +23,7 @@ public final class SilklashSpider extends Card
 			super(state, "(X)(G)(G): Silklash Spider deals X damage to each creature with flying.");
 			this.setManaCost(new ManaPool("XGG"));
 
-			SetGenerator victims = Intersect.instance(CreaturePermanents.instance(), HasKeywordAbility.instance(org.rnd.jmagic.abilities.keywords.Flying.class));
+			SetGenerator victims = Intersect.instance(CreaturePermanents.instance(), HasKeywordAbility.instance(Flying.class));
 			this.addEffect(permanentDealDamage(ValueOfX.instance(This.instance()), victims, "Silklash Spider deals X damage to each creature with flying."));
 		}
 	}
@@ -32,7 +35,7 @@ public final class SilklashSpider extends Card
 		this.setPower(2);
 		this.setToughness(7);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Reach(state));
+		this.addAbility(new Reach(state));
 		this.addAbility(new Hurricane(state));
 	}
 }

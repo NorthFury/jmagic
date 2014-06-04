@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Morph;
 import org.rnd.jmagic.engine.*;
 
 @Name("Krosan Colossus")
@@ -18,6 +19,6 @@ public final class KrosanColossus extends Card
 		this.setToughness(9);
 
 		// Morph (6)(G)(G)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Morph(state, "(6)(G)(G)"));
+		this.addAbility(new Morph(state, "(6)(G)(G)"));
 	}
 }

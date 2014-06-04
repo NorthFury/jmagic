@@ -2,8 +2,12 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Kicker;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Name("Blood Tribute")
 @Types({Type.SORCERY})
@@ -27,7 +31,7 @@ public final class BloodTribute extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 
 			MagicSet cause = parameters.get(Parameter.CAUSE);
@@ -35,7 +39,7 @@ public final class BloodTribute extends Card
 			int lifeTotalBefore = target.lifeTotal;
 			int number = DivideBy.get(lifeTotalBefore, 2, true);
 
-			java.util.Map<Parameter, MagicSet> loseLifeParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> loseLifeParameters = new HashMap<Parameter, MagicSet>();
 			loseLifeParameters.put(Parameter.CAUSE, cause);
 			loseLifeParameters.put(Parameter.PLAYER, new MagicSet(target));
 			loseLifeParameters.put(Parameter.NUMBER, new MagicSet(number));
@@ -47,7 +51,7 @@ public final class BloodTribute extends Card
 				target = target.getActual();
 				int lifeLostThisWay = lifeTotalBefore - target.lifeTotal;
 
-				java.util.Map<Parameter, MagicSet> gainLifeParameters = new java.util.HashMap<Parameter, MagicSet>();
+				Map<Parameter, MagicSet> gainLifeParameters = new HashMap<Parameter, MagicSet>();
 				gainLifeParameters.put(Parameter.CAUSE, cause);
 				gainLifeParameters.put(Parameter.PLAYER, parameters.get(Parameter.PLAYER));
 				gainLifeParameters.put(Parameter.NUMBER, new MagicSet(lifeLostThisWay));
@@ -74,8 +78,8 @@ public final class BloodTribute extends Card
 		tapAVampire.parameters.put(EventType.Parameter.PLAYER, You.instance());
 		tapAVampire.parameters.put(EventType.Parameter.NUMBER, numberGenerator(1));
 		tapAVampire.parameters.put(EventType.Parameter.CHOICE, yourUntappedVampires);
-		CostCollection kickerCost = new CostCollection(org.rnd.jmagic.abilities.keywords.Kicker.COST_TYPE, tapAVampire);
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Kicker(state, kickerCost));
+		CostCollection kickerCost = new CostCollection(Kicker.COST_TYPE, tapAVampire);
+		this.addAbility(new Kicker(state, kickerCost));
 
 		// Target opponent loses half his or her life, rounded up. If Blood
 		// Tribute was kicked, you gain life equal to the life lost this way.

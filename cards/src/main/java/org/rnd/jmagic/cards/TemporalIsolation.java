@@ -1,8 +1,15 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Enchant;
+import org.rnd.jmagic.abilities.keywords.Flash;
+import org.rnd.jmagic.abilities.keywords.Shadow;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+
+import java.util.LinkedList;
+import java.util.List;
 
 @Name("Temporal Isolation")
 @Types({Type.ENCHANTMENT})
@@ -17,7 +24,7 @@ public final class TemporalIsolation extends Card
 		public TemporalIsolationAbility2(GameState state)
 		{
 			super(state, "Enchanted creature has shadow.");
-			this.addEffectPart(addAbilityToObject(EnchantedBy.instance(This.instance()), org.rnd.jmagic.abilities.keywords.Shadow.class));
+			this.addEffectPart(addAbilityToObject(EnchantedBy.instance(This.instance()), Shadow.class));
 		}
 	}
 
@@ -45,10 +52,10 @@ public final class TemporalIsolation extends Card
 			}
 
 			@Override
-			public java.util.List<EventFactory> prevent(DamageAssignment.Batch damageAssignments)
+			public List<EventFactory> prevent(DamageAssignment.Batch damageAssignments)
 			{
 				damageAssignments.clear();
-				return new java.util.LinkedList<EventFactory>();
+				return new LinkedList<EventFactory>();
 			}
 		}
 
@@ -67,10 +74,10 @@ public final class TemporalIsolation extends Card
 		super(state);
 
 		// Flash
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flash(state));
+		this.addAbility(new Flash(state));
 
 		// Enchant creature
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Enchant.Creature(state));
+		this.addAbility(new Enchant.Creature(state));
 
 		// Enchanted creature has shadow.
 		this.addAbility(new TemporalIsolationAbility2(state));

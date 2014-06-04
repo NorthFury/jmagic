@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Deathtouch;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -19,6 +21,6 @@ public final class SerpentsGift extends Card
 		// damage it deals to a creature is enough to destroy it.)
 		SetGenerator target = targetedBy(this.addTarget(CreaturePermanents.instance(), "target creature"));
 
-		this.addEffect(addAbilityUntilEndOfTurn(target, org.rnd.jmagic.abilities.keywords.Deathtouch.class, "Target creature gains deathtouch until end of turn."));
+		this.addEffect(addAbilityUntilEndOfTurn(target, Deathtouch.class, "Target creature gains deathtouch until end of turn."));
 	}
 }

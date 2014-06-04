@@ -1,5 +1,8 @@
 package org.rnd.jmagic.comms;
 
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
+
 public class ChatManager
 {
 	public interface Callback
@@ -12,7 +15,7 @@ public class ChatManager
 		public void postMessage(String message);
 	}
 
-	private java.util.List<Callback> clients = new java.util.concurrent.CopyOnWriteArrayList<Callback>();
+	private List<Callback> clients = new CopyOnWriteArrayList<Callback>();
 
 	public MessagePoster addClient(final String playerName, Callback callback)
 	{

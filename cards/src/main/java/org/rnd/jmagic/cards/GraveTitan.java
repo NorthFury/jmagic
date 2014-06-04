@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Deathtouch;
 import org.rnd.jmagic.engine.*;
 
 @Name("Grave Titan")
@@ -33,7 +35,7 @@ public final class GraveTitan extends Card
 		this.setToughness(6);
 
 		// Deathtouch
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Deathtouch(state));
+		this.addAbility(new Deathtouch(state));
 
 		// Whenever Grave Titan enters the battlefield or attacks, put two 2/2
 		// black Zombie creature tokens onto the battlefield.

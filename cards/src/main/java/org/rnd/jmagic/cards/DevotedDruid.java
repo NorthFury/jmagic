@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.TapForG;
 import org.rnd.jmagic.engine.*;
 
 @Name("Devoted Druid")
@@ -28,7 +30,7 @@ public final class DevotedDruid extends Card
 		this.setToughness(2);
 
 		// (T): Add (G) to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapForG(state));
+		this.addAbility(new TapForG(state));
 
 		// Put a -1/-1 counter on Devoted Druid: Untap Devoted Druid.
 		this.addAbility(new DevotedDruidAbility1(state));

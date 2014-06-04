@@ -5,6 +5,11 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 public final class Evoke extends Keyword
 {
 	public static final String EVOKE_COST = "Evoke:Mana";
@@ -24,9 +29,9 @@ public final class Evoke extends Keyword
 	}
 
 	@Override
-	protected java.util.List<StaticAbility> createStaticAbilities()
+	protected List<StaticAbility> createStaticAbilities()
 	{
-		return java.util.Collections.<StaticAbility>singletonList(new EvokeCastAbility(this.state, this));
+		return Collections.<StaticAbility>singletonList(new EvokeCastAbility(this.state, this));
 	}
 
 	public static final class EvokeCastAbility extends StaticAbility
@@ -65,12 +70,12 @@ public final class Evoke extends Keyword
 			}
 
 			@Override
-			public java.util.Set<PlayerAction> getActions(GameState state, GameObject source, Player actor)
+			public Set<PlayerAction> getActions(GameState state, GameObject source, Player actor)
 			{
 				if(!source.getOwner(state).equals(state.getPlayerWithPriority()))
-					return java.util.Collections.<PlayerAction>emptySet();
+					return Collections.<PlayerAction>emptySet();
 
-				java.util.Set<PlayerAction> ret = new java.util.HashSet<PlayerAction>();
+				Set<PlayerAction> ret = new HashSet<PlayerAction>();
 
 				// Only when you could begin casting the spell
 				boolean makeAbility = false;
@@ -128,9 +133,9 @@ public final class Evoke extends Keyword
 	}
 
 	@Override
-	protected java.util.List<NonStaticAbility> createNonStaticAbilities()
+	protected List<NonStaticAbility> createNonStaticAbilities()
 	{
-		return java.util.Collections.<NonStaticAbility>singletonList(new EvokeSacrificeAbility(this.state));
+		return Collections.<NonStaticAbility>singletonList(new EvokeSacrificeAbility(this.state));
 	}
 
 	public static final class EvokeSacrificeAbility extends EventTriggeredAbility

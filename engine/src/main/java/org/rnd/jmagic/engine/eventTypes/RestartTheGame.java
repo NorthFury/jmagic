@@ -2,6 +2,10 @@ package org.rnd.jmagic.engine.eventTypes;
 
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+import org.rnd.jmagic.sanitized.SanitizedEvent;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public final class RestartTheGame extends EventType
 {	public static final EventType INSTANCE = new RestartTheGame();
@@ -18,9 +22,9 @@ public final class RestartTheGame extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
-		org.rnd.jmagic.sanitized.SanitizedEvent sanitized = new org.rnd.jmagic.sanitized.SanitizedEvent(event, "Restart the game");
+		SanitizedEvent sanitized = new SanitizedEvent(event, "Restart the game");
 		for(Player player: game.actualState.players)
 			player.alert(sanitized);
 
@@ -39,7 +43,7 @@ public final class RestartTheGame extends EventType
 		// those objects into the same zone they used to be in. Player IDs
 		// are also represented here, in order to facilitate updating the
 		// controller/owner of the ability that is currently resolving.
-		java.util.Map<Integer, Integer> idMap = new java.util.HashMap<Integer, Integer>();
+		Map<Integer, Integer> idMap = new HashMap<Integer, Integer>();
 		idMap.put(-1, -1);
 		idMap.put(oldPhysical.battlefield().ID, game.physicalState.battlefield().ID);
 		idMap.put(oldPhysical.commandZone().ID, game.physicalState.commandZone().ID);
@@ -47,7 +51,7 @@ public final class RestartTheGame extends EventType
 		idMap.put(oldPhysical.stack().ID, game.physicalState.stack().ID);
 
 		Player firstPlayer = null;
-		java.util.Map<PlayerInterface, Integer> playerMap = new java.util.HashMap<PlayerInterface, Integer>();
+		Map<PlayerInterface, Integer> playerMap = new HashMap<PlayerInterface, Integer>();
 		for(Player p: oldPhysical.players)
 		{
 			Player newPlayer = game.addInterface(p.comm);

@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Morph;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -34,6 +36,6 @@ public final class Boneknitter extends Card
 		this.addAbility(new BoneknitterAbility0(state));
 
 		// Morph (2)(B)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Morph(state, "(2)(B)"));
+		this.addAbility(new Morph(state, "(2)(B)"));
 	}
 }

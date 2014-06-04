@@ -1,6 +1,10 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Equip;
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Vigilance;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -19,7 +23,7 @@ public final class AvacynsCollar extends Card
 		{
 			super(state, "Equipped creature gets +1/+0 and has vigilance.");
 			this.addEffectPart(modifyPowerAndToughness(EquippedBy.instance(This.instance()), +1, +0));
-			this.addEffectPart(addAbilityToObject(EquippedBy.instance(This.instance()), org.rnd.jmagic.abilities.keywords.Vigilance.class));
+			this.addEffectPart(addAbilityToObject(EquippedBy.instance(This.instance()), Vigilance.class));
 		}
 	}
 
@@ -37,7 +41,7 @@ public final class AvacynsCollar extends Card
 			CreateTokensFactory makeSpirit = new CreateTokensFactory(1, 1, 1, "Put a 1/1 white Spirit creature token with flying onto the battlefield");
 			makeSpirit.setColors(Color.WHITE);
 			makeSpirit.setSubTypes(SubType.SPIRIT);
-			makeSpirit.addAbility(org.rnd.jmagic.abilities.keywords.Flying.class);
+			makeSpirit.addAbility(Flying.class);
 			this.addEffect(makeSpirit.getEventFactory());
 		}
 	}
@@ -54,6 +58,6 @@ public final class AvacynsCollar extends Card
 		this.addAbility(new AvacynsCollarAbility1(state));
 
 		// Equip (2)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Equip(state, "(2)"));
+		this.addAbility(new Equip(state, "(2)"));
 	}
 }

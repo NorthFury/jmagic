@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.TotemArmor;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -19,7 +21,7 @@ public final class UmbraMystic extends Card
 			super(state, "Auras attached to permanents you control have totem armor.");
 
 			SetGenerator yourAuras = Intersect.instance(HasSubType.instance(SubType.AURA), AttachedTo.instance(ControlledBy.instance(You.instance())));
-			this.addEffectPart(addAbilityToObject(yourAuras, org.rnd.jmagic.abilities.keywords.TotemArmor.class));
+			this.addEffectPart(addAbilityToObject(yourAuras, TotemArmor.class));
 		}
 	}
 

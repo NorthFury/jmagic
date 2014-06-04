@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Wither;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.gameTypes.*;
 import org.rnd.jmagic.engine.generators.*;
@@ -19,7 +20,7 @@ public final class RavensRun extends Card
 		{
 			super(state, "All creatures have wither.");
 
-			this.addEffectPart(addAbilityToObject(CreaturePermanents.instance(), org.rnd.jmagic.abilities.keywords.Wither.class));
+			this.addEffectPart(addAbilityToObject(CreaturePermanents.instance(), Wither.class));
 
 			this.canApply = Planechase.staticAbilityCanApply;
 		}

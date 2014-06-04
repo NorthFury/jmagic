@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Echo;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -36,7 +38,7 @@ public final class Stingscourger extends Card
 		// Echo (3)(R) (At the beginning of your upkeep, if this came under your
 		// control since the beginning of your last upkeep, sacrifice it unless
 		// you pay its echo cost.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Echo(state, "(3)(R)"));
+		this.addAbility(new Echo(state, "(3)(R)"));
 
 		// When Stingscourger enters the battlefield, return target creature an
 		// opponent controls to its owner's hand.

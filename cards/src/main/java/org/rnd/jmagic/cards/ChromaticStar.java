@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.TapForMana;
 import org.rnd.jmagic.engine.*;
 
 @Name("Chromatic Star")
@@ -11,7 +12,7 @@ import org.rnd.jmagic.engine.*;
 @ColorIdentity({})
 public final class ChromaticStar extends Card
 {
-	public static final class OneTapSacMana extends org.rnd.jmagic.abilities.TapForMana
+	public static final class OneTapSacMana extends TapForMana
 	{
 		public OneTapSacMana(GameState state)
 		{

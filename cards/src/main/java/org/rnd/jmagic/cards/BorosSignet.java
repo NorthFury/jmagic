@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.cardTemplates.Signet;
 import org.rnd.jmagic.engine.*;
 
 @Name("Boros Signet")
@@ -7,7 +8,7 @@ import org.rnd.jmagic.engine.*;
 @Types({Type.ARTIFACT})
 @Printings({@Printings.Printed(ex = Expansion.COMMANDER, r = Rarity.COMMON), @Printings.Printed(ex = Expansion.RAVNICA, r = Rarity.COMMON)})
 @ColorIdentity({Color.WHITE, Color.RED})
-public final class BorosSignet extends org.rnd.jmagic.cardTemplates.Signet
+public final class BorosSignet extends Signet
 {
 	public BorosSignet(GameState state)
 	{

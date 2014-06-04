@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Vigilance;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -18,7 +20,7 @@ public final class ArmoryGuard extends Card
 		{
 			super(state, "Armory Guard has vigilance as long as you control a Gate.");
 
-			this.addEffectPart(addAbilityToObject(This.instance(), org.rnd.jmagic.abilities.keywords.Vigilance.class));
+			this.addEffectPart(addAbilityToObject(This.instance(), Vigilance.class));
 
 			this.canApply = Both.instance(this.canApply, YouControlAGate.instance());
 		}

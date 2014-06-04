@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Protection;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -20,7 +22,7 @@ public final class CommanderEesha extends Card
 		this.setToughness(4);
 
 		// Flying, protection from creatures
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Protection.From(state, CreaturePermanents.instance(), "creatures"));
+		this.addAbility(new Flying(state));
+		this.addAbility(new Protection.From(state, CreaturePermanents.instance(), "creatures"));
 	}
 }

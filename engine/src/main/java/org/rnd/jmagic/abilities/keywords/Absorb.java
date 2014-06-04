@@ -3,6 +3,11 @@ package org.rnd.jmagic.abilities.keywords;
 import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
 public abstract class Absorb extends Keyword
 {
 	public final static class AbsorbAbility extends StaticAbility
@@ -31,11 +36,11 @@ public abstract class Absorb extends Keyword
 			}
 
 			@Override
-			public java.util.List<EventFactory> prevent(DamageAssignment.Batch damageAssignments)
+			public List<EventFactory> prevent(DamageAssignment.Batch damageAssignments)
 			{
 				// keys are source IDs, values are damage to prevent from that
 				// source
-				java.util.Map<Integer, DamageAssignment.Batch> toPrevent = new java.util.HashMap<Integer, DamageAssignment.Batch>();
+				Map<Integer, DamageAssignment.Batch> toPrevent = new HashMap<Integer, DamageAssignment.Batch>();
 
 				// Get the first N damage assignments, or, if there are less
 				// than N, get them all
@@ -50,7 +55,7 @@ public abstract class Absorb extends Keyword
 
 				for(DamageAssignment.Batch prevent: toPrevent.values())
 					damageAssignments.removeAll(prevent);
-				return new java.util.LinkedList<EventFactory>();
+				return new LinkedList<EventFactory>();
 			}
 		}
 
@@ -93,9 +98,9 @@ public abstract class Absorb extends Keyword
 	}
 
 	@Override
-	protected java.util.List<StaticAbility> createStaticAbilities()
+	protected List<StaticAbility> createStaticAbilities()
 	{
-		java.util.List<StaticAbility> ret = new java.util.LinkedList<StaticAbility>();
+		List<StaticAbility> ret = new LinkedList<StaticAbility>();
 		ret.add(new AbsorbAbility(this.state, this.N));
 		return ret;
 	}

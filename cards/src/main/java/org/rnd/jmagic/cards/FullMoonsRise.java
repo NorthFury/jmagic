@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -19,7 +21,7 @@ public final class FullMoonsRise extends Card
 
 			SetGenerator werewolves = Intersect.instance(HasSubType.instance(SubType.WEREWOLF), CreaturePermanents.instance(), ControlledBy.instance(You.instance()));
 			this.addEffectPart(modifyPowerAndToughness(werewolves, +1, +0));
-			this.addEffectPart(addAbilityToObject(werewolves, org.rnd.jmagic.abilities.keywords.Trample.class));
+			this.addEffectPart(addAbilityToObject(werewolves, Trample.class));
 		}
 	}
 

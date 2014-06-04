@@ -1,9 +1,17 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.FirstStrike;
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Lifelink;
+import org.rnd.jmagic.abilities.keywords.Vigilance;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Name("Angelic Skirmisher")
 @Types({Type.CREATURE})
@@ -25,14 +33,14 @@ public final class AngelicSkirmisher extends Card
 			pattern.put(EventType.Parameter.STEP, BeginningOfCombatStepOf.instance(Players.instance()));
 			this.addPattern(pattern);
 
-			Identity abilities = Identity.instance(org.rnd.jmagic.abilities.keywords.FirstStrike.class, org.rnd.jmagic.abilities.keywords.Vigilance.class, org.rnd.jmagic.abilities.keywords.Lifelink.class);
+			Identity abilities = Identity.instance(FirstStrike.class, Vigilance.class, Lifelink.class);
 			EventFactory choose = playerChoose(You.instance(), 1, abilities, PlayerInterface.ChoiceType.CLASS, REASON, "Choose first strike, vigilance, or lifelink.");
 			this.addEffect(choose);
 
-			java.util.Map<Class<? extends Keyword>, AbilityFactory> map = new java.util.HashMap<Class<? extends Keyword>, AbilityFactory>();
-			map.put(org.rnd.jmagic.abilities.keywords.FirstStrike.class, new SimpleAbilityFactory(org.rnd.jmagic.abilities.keywords.FirstStrike.class));
-			map.put(org.rnd.jmagic.abilities.keywords.Vigilance.class, new SimpleAbilityFactory(org.rnd.jmagic.abilities.keywords.Vigilance.class));
-			map.put(org.rnd.jmagic.abilities.keywords.Lifelink.class, new SimpleAbilityFactory(org.rnd.jmagic.abilities.keywords.Lifelink.class));
+			Map<Class<? extends Keyword>, AbilityFactory> map = new HashMap<Class<? extends Keyword>, AbilityFactory>();
+			map.put(FirstStrike.class, new SimpleAbilityFactory(FirstStrike.class));
+			map.put(Vigilance.class, new SimpleAbilityFactory(Vigilance.class));
+			map.put(Lifelink.class, new SimpleAbilityFactory(Lifelink.class));
 
 			ContinuousEffect.Part part = new ContinuousEffect.Part(ContinuousEffectType.ADD_ABILITY_TO_OBJECT);
 			part.parameters.put(ContinuousEffectType.Parameter.OBJECT, CREATURES_YOU_CONTROL);
@@ -53,7 +61,7 @@ public final class AngelicSkirmisher extends Card
 		this.setToughness(4);
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// At the beginning of each combat, choose first strike, vigilance, or
 		// lifelink. Creatures you control gain that ability until end of turn.

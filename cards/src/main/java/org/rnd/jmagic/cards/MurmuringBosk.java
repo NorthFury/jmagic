@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.RevealOrThisEntersTapped;
+import org.rnd.jmagic.abilities.TapForManaPain;
 import org.rnd.jmagic.engine.*;
 
 @Name("Murmuring Bosk")
@@ -25,10 +27,10 @@ public final class MurmuringBosk extends Card
 		// As Murmuring Bosk enters the battlefield, you may reveal a Treefolk
 		// card from your hand. If you don't, Murmuring Bosk enters the
 		// battlefield tapped.
-		this.addAbility(new org.rnd.jmagic.abilities.RevealOrThisEntersTapped(state, this.getName(), SubType.TREEFOLK));
+		this.addAbility(new RevealOrThisEntersTapped(state, this.getName(), SubType.TREEFOLK));
 
 		// (T): Add (W) or (B) to your mana pool. Murmuring Bosk deals 1 damage
 		// to you.
-		this.addAbility(new org.rnd.jmagic.abilities.TapForManaPain(state, this.getName(), "WB"));
+		this.addAbility(new TapForManaPain(state, this.getName(), "WB"));
 	}
 }

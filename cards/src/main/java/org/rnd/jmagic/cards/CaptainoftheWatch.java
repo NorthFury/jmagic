@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.StaticPTChange;
+import org.rnd.jmagic.abilities.keywords.Vigilance;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -33,11 +36,11 @@ public final class CaptainoftheWatch extends Card
 		this.setToughness(3);
 
 		// Vigilance (Attacking doesn't cause this creature to tap.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Vigilance(state));
+		this.addAbility(new Vigilance(state));
 
 		SetGenerator soldiers = Intersect.instance(HasSubType.instance(SubType.SOLDIER), CREATURES_YOU_CONTROL);
 		SetGenerator others = RelativeComplement.instance(soldiers, This.instance());
-		this.addAbility(new org.rnd.jmagic.abilities.StaticPTChange(state, others, "Other Soldier creatures you control", +1, +1, org.rnd.jmagic.abilities.keywords.Vigilance.class, true));
+		this.addAbility(new StaticPTChange(state, others, "Other Soldier creatures you control", +1, +1, Vigilance.class, true));
 
 		this.addAbility(new MakeSoldiers(state));
 	}

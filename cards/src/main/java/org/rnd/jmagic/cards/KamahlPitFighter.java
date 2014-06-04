@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Haste;
 import org.rnd.jmagic.engine.*;
 
 @Name("Kamahl, Pit Fighter")
@@ -34,7 +35,7 @@ public final class KamahlPitFighter extends Card
 		this.setPower(6);
 		this.setToughness(1);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Haste(state));
+		this.addAbility(new Haste(state));
 		this.addAbility(new TapForThreeDamage(state));
 	}
 }

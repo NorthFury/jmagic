@@ -2,6 +2,9 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.EntersTheBattlefieldTapped;
+import org.rnd.jmagic.abilities.TapForG;
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 
 @Name("Treetop Village")
@@ -21,7 +24,7 @@ public final class TreetopVillage extends Card
 			Animator animator = new Animator(ABILITY_SOURCE_OF_THIS, 3, 3);
 			animator.addColor(Color.GREEN);
 			animator.addSubType(SubType.APE);
-			animator.addAbility(org.rnd.jmagic.abilities.keywords.Trample.class);
+			animator.addAbility(Trample.class);
 			this.addEffect(createFloatingEffect("Treetop Village becomes a 3/3 green Ape creature with trample until end of turn. It's still a land.", animator.getParts()));
 		}
 	}
@@ -30,8 +33,8 @@ public final class TreetopVillage extends Card
 	{
 		super(state);
 
-		this.addAbility(new org.rnd.jmagic.abilities.EntersTheBattlefieldTapped(state, this.getName()));
-		this.addAbility(new org.rnd.jmagic.abilities.TapForG(state));
+		this.addAbility(new EntersTheBattlefieldTapped(state, this.getName()));
+		this.addAbility(new TapForG(state));
 		this.addAbility(new AnimateTreetop(state));
 	}
 }

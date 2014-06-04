@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Kicker;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -16,7 +18,7 @@ public final class SpellContortion extends Card
 		super(state);
 
 		// Multikicker (1)(U)
-		org.rnd.jmagic.abilities.keywords.Kicker ability = new org.rnd.jmagic.abilities.keywords.Kicker(state, true, "(1)(U)");
+		Kicker ability = new Kicker(state, true, "(1)(U)");
 		this.addAbility(ability);
 
 		// Counter target spell unless its controller pays (2).

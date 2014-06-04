@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.AlternateCost;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -22,7 +24,7 @@ public final class Gush extends Card
 		bounce.parameters.put(EventType.Parameter.PLAYER, You.instance());
 		bounce.parameters.put(EventType.Parameter.NUMBER, numberGenerator(2));
 		bounce.parameters.put(EventType.Parameter.CHOICE, Intersect.instance(ControlledBy.instance(You.instance()), HasSubType.instance(SubType.ISLAND)));
-		this.addAbility(new org.rnd.jmagic.abilities.AlternateCost(state, "You may return two Islands you control to their owner's hand rather than pay Gush's mana cost.", bounce));
+		this.addAbility(new AlternateCost(state, "You may return two Islands you control to their owner's hand rather than pay Gush's mana cost.", bounce));
 
 		// Draw two cards.
 		this.addEffect(drawCards(You.instance(), 2, "Draw two cards."));

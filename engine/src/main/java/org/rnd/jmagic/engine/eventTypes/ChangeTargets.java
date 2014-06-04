@@ -3,6 +3,12 @@ package org.rnd.jmagic.engine.eventTypes;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 public final class ChangeTargets extends EventType
 {	public static final EventType INSTANCE = new ChangeTargets();
 
@@ -18,7 +24,7 @@ public final class ChangeTargets extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean attempt(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		if(parameters.get(Parameter.PLAYER).getOne(Player.class) == null)
 			return false;
@@ -33,7 +39,7 @@ public final class ChangeTargets extends EventType
 	{
 		for(Mode mode: originalObject.getSelectedModes())
 		{
-			java.util.List<Integer> ignoreThese = new java.util.LinkedList<Integer>();
+			List<Integer> ignoreThese = new LinkedList<Integer>();
 			ignoreThese.add(originalObject.ID);
 
 			for(Target possibleTarget: mode.targets)
@@ -46,7 +52,7 @@ public final class ChangeTargets extends EventType
 					int previousTarget = chosenTarget.targetID;
 
 					MagicSet legalTargetsNow = chosenTarget.legalChoicesNow(game, originalObject);
-					java.util.Set<Target> targetSet = new java.util.HashSet<Target>();
+					Set<Target> targetSet = new HashSet<Target>();
 
 					for(Identified targetObject: legalTargetsNow.getAll(Identified.class))
 						if(!ignoreThese.contains(targetObject.ID) && previousTarget != targetObject.ID)
@@ -64,7 +70,7 @@ public final class ChangeTargets extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		Player chooser = parameters.get(Parameter.PLAYER).getOne(Player.class);
 

@@ -1,8 +1,11 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+import org.rnd.jmagic.engine.patterns.SimpleZoneChangePattern;
 
 @Name("Archon of Redemption")
 @Types({Type.CREATURE})
@@ -19,9 +22,9 @@ public final class ArchonofRedemption extends Card
 			super(state, "Whenever Archon of Redemption or another creature with flying enters the battlefield under your control, you may gain life equal to that creature's power.");
 			this.addPattern(whenThisEntersTheBattlefield());
 
-			SetGenerator flyers = Intersect.instance(CreaturePermanents.instance(), HasKeywordAbility.instance(org.rnd.jmagic.abilities.keywords.Flying.class));
+			SetGenerator flyers = Intersect.instance(CreaturePermanents.instance(), HasKeywordAbility.instance(Flying.class));
 			SetGenerator otherFlyers = RelativeComplement.instance(flyers, ABILITY_SOURCE_OF_THIS);
-			ZoneChangePattern otherFlyersEnter = new org.rnd.jmagic.engine.patterns.SimpleZoneChangePattern(null, Battlefield.instance(), otherFlyers, You.instance(), false);
+			ZoneChangePattern otherFlyersEnter = new SimpleZoneChangePattern(null, Battlefield.instance(), otherFlyers, You.instance(), false);
 			this.addPattern(otherFlyersEnter);
 
 			SetGenerator amount = PowerOf.instance(NewObjectOf.instance(TriggerZoneChange.instance(This.instance())));
@@ -38,7 +41,7 @@ public final class ArchonofRedemption extends Card
 		this.setToughness(4);
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// Whenever Archon of Redemption or another creature with flying enters
 		// the battlefield under your control, you may gain life equal to that

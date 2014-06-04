@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Defender;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -44,7 +45,7 @@ public final class WallofFrost extends Card
 		this.setPower(0);
 		this.setToughness(7);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Defender(state));
+		this.addAbility(new Defender(state));
 		// Defender (This creature can't attack.)
 
 		// Whenever Wall of Frost blocks a creature, that creature doesn't untap

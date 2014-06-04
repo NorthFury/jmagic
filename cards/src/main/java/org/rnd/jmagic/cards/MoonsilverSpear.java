@@ -1,6 +1,10 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Equip;
+import org.rnd.jmagic.abilities.keywords.FirstStrike;
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -19,7 +23,7 @@ public final class MoonsilverSpear extends Card
 		{
 			super(state, "Equipped creature has first strike.");
 
-			this.addEffectPart(addAbilityToObject(EquippedBy.instance(This.instance()), org.rnd.jmagic.abilities.keywords.FirstStrike.class));
+			this.addEffectPart(addAbilityToObject(EquippedBy.instance(This.instance()), FirstStrike.class));
 		}
 	}
 
@@ -36,7 +40,7 @@ public final class MoonsilverSpear extends Card
 			CreateTokensFactory token = new CreateTokensFactory(1, 4, 4, "Put a 4/4 white Angel creature token with flying onto the battlefield.");
 			token.setColors(Color.WHITE);
 			token.setSubTypes(SubType.ANGEL);
-			token.addAbility(org.rnd.jmagic.abilities.keywords.Flying.class);
+			token.addAbility(Flying.class);
 			this.addEffect(token.getEventFactory());
 		}
 	}
@@ -53,6 +57,6 @@ public final class MoonsilverSpear extends Card
 		this.addAbility(new MoonsilverSpearAbility1(state));
 
 		// Equip (4)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Equip(state, "(4)"));
+		this.addAbility(new Equip(state, "(4)"));
 	}
 }

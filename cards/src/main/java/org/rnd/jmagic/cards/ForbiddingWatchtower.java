@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.EntersTheBattlefieldTapped;
+import org.rnd.jmagic.abilities.TapForW;
 import org.rnd.jmagic.engine.*;
 
 @Name("Forbidding Watchtower")
@@ -28,8 +31,8 @@ public final class ForbiddingWatchtower extends Card
 	{
 		super(state);
 
-		this.addAbility(new org.rnd.jmagic.abilities.EntersTheBattlefieldTapped(state, this.getName()));
-		this.addAbility(new org.rnd.jmagic.abilities.TapForW(state));
+		this.addAbility(new EntersTheBattlefieldTapped(state, this.getName()));
+		this.addAbility(new TapForW(state));
 		this.addAbility(new AnimateWatchtower(state));
 	}
 }

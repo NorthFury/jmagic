@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.Unblockable;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -30,7 +32,7 @@ public final class KeymasterRogue extends Card
 		this.setToughness(2);
 
 		// Keymaster Rogue is unblockable.
-		this.addAbility(new org.rnd.jmagic.abilities.Unblockable(state, this.getName()));
+		this.addAbility(new Unblockable(state, this.getName()));
 
 		// When Keymaster Rogue enters the battlefield, return a creature you
 		// control to its owner's hand.

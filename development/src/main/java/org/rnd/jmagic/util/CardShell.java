@@ -1,26 +1,41 @@
 package org.rnd.jmagic.util;
 
 import java.io.*;
+import java.lang.reflect.Method;
+import java.util.Collections;
+import java.util.EnumMap;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import org.rnd.jmagic.CardLoader;
+import org.rnd.jmagic.Convenience;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.abilities.*;
 import org.rnd.jmagic.abilities.keywords.*;
+import org.rnd.util.SeparatedList;
 
 public class CardShell
 {
-	private static final java.util.Map<java.util.regex.Pattern, String> keywords = new java.util.HashMap<java.util.regex.Pattern, String>();
-	private static final java.util.Map<String, String> convenienceMethods = new java.util.HashMap<String, String>();
-	private static final java.util.Map<String, Expansion> expansionNames = new java.util.HashMap<String, Expansion>();
-	private static final java.util.Map<String, Rarity> rarityNames = new java.util.HashMap<String, Rarity>();
+	private static final Map<Pattern, String> keywords = new HashMap<Pattern, String>();
+	private static final Map<String, String> convenienceMethods = new HashMap<String, String>();
+	private static final Map<String, Expansion> expansionNames = new HashMap<String, Expansion>();
+	private static final Map<String, Rarity> rarityNames = new HashMap<String, Rarity>();
 
 	/**
 	 * This should be kept up to date with {@link CardLoader#NON_ASCII_REPLACE}.
 	 */
-	private static final java.util.Map<String, String> NON_ASCII_REPLACE;
+	private static final Map<String, String> NON_ASCII_REPLACE;
 
 	static
 	{
-		NON_ASCII_REPLACE = new java.util.HashMap<String, String>();
+		NON_ASCII_REPLACE = new HashMap<String, String>();
 		// Upper-case combined a-e
 		NON_ASCII_REPLACE.put("\u00C6", "\\u00C6");
 		// Lower-case o with umlaut
@@ -88,9 +103,9 @@ public class CardShell
 		return rarityNames.get(name);
 	}
 
-	private static java.util.List<java.util.Set<?>> getTypes(String typeLine)
+	private static List<Set<?>> getTypes(String typeLine)
 	{
-		java.util.List<java.util.Set<?>> ret = new java.util.LinkedList<java.util.Set<?>>();
+		List<Set<?>> ret = new LinkedList<Set<?>>();
 
 		String left = typeLine;
 		String right = "";
@@ -115,10 +130,10 @@ public class CardShell
 			right = right.trim();
 		}
 
-		java.util.Set<SuperType> superTypes = new java.util.HashSet<SuperType>();
-		java.util.Set<Type> types = new java.util.HashSet<Type>();
+		Set<SuperType> superTypes = new HashSet<SuperType>();
+		Set<Type> types = new HashSet<Type>();
 
-		java.util.Set<SubType> subTypes = new java.util.HashSet<SubType>();
+		Set<SubType> subTypes = new HashSet<SubType>();
 
 		for(String type: left.split(" "))
 		{
@@ -165,7 +180,7 @@ public class CardShell
 
 	private static void populateConvenienceMethods()
 	{
-		for(java.lang.reflect.Method method: org.rnd.jmagic.Convenience.class.getDeclaredMethods())
+		for(Method method: Convenience.class.getDeclaredMethods())
 		{
 			StringBuilder newString = new StringBuilder();
 			for(char c: method.getName().toCharArray())
@@ -256,7 +271,7 @@ public class CardShell
 
 	private static void populateKeywords()
 	{
-		java.util.Map<String, String> newKeywords = new java.util.HashMap<String, String>();
+		Map<String, String> newKeywords = new HashMap<String, String>();
 
 		// Simple keywords
 		newKeywords.put("Battle cry", simpleInstantiation(BattleCry.class));
@@ -358,8 +373,8 @@ public class CardShell
 		// backwards compatibility
 		newKeywords.put("This is indestructible.", simpleInstantiation(Indestructible.class));
 
-		for(java.util.Map.Entry<String, String> entry: newKeywords.entrySet())
-			keywords.put(java.util.regex.Pattern.compile(entry.getKey(), java.util.regex.Pattern.CASE_INSENSITIVE), entry.getValue());
+		for(Map.Entry<String, String> entry: newKeywords.entrySet())
+			keywords.put(Pattern.compile(entry.getKey(), Pattern.CASE_INSENSITIVE), entry.getValue());
 	}
 
 	private static void populateRarities()
@@ -430,13 +445,13 @@ public class CardShell
 	private static String replaceIllegalCharacters(String string)
 	{
 		String ret = string;
-		for(java.util.Map.Entry<String, String> entry: NON_ASCII_REPLACE.entrySet())
+		for(Map.Entry<String, String> entry: NON_ASCII_REPLACE.entrySet())
 			ret = ret.replace(entry.getKey(), entry.getValue());
 		return ret;
 	}
 
-	public java.util.LinkedList<String> abilities = new java.util.LinkedList<String>();
-	public java.util.Set<String> colorIndicator = new java.util.HashSet<String>();
+	public LinkedList<String> abilities = new LinkedList<String>();
+	public Set<String> colorIndicator = new HashSet<String>();
 	public String loyalty = null;
 	public String manaCost = null;
 	public String name = null;
@@ -445,9 +460,9 @@ public class CardShell
 	public String toughness = null;
 	public String types = null;
 
-	private java.util.Set<String> colorIdentity()
+	private Set<String> colorIdentity()
 	{
-		java.util.Set<String> ret = new java.util.HashSet<String>();
+		Set<String> ret = new HashSet<String>();
 
 		if(this.manaCost != null)
 			for(char c: this.manaCost.toUpperCase().toCharArray())
@@ -460,10 +475,10 @@ public class CardShell
 		for(String color: this.colorIndicator)
 			ret.add(color.toUpperCase());
 
-		java.util.regex.Pattern pattern = java.util.regex.Pattern.compile("\\([WUBRG/0-9P]+\\)");
+		Pattern pattern = Pattern.compile("\\([WUBRG/0-9P]+\\)");
 		for(String string: this.abilities)
 		{
-			java.util.regex.Matcher matcher = pattern.matcher(string);
+			Matcher matcher = pattern.matcher(string);
 			while(matcher.find())
 			{
 				String match = matcher.group();
@@ -476,11 +491,11 @@ public class CardShell
 		return ret;
 	}
 
-	private static String printingsString(java.util.Map<Expansion, Rarity> expansions)
+	private static String printingsString(Map<Expansion, Rarity> expansions)
 	{
 		StringBuilder ret = new StringBuilder("@Printings({");
 		boolean first = true;
-		for(java.util.Map.Entry<Expansion, Rarity> entry: expansions.entrySet())
+		for(Map.Entry<Expansion, Rarity> entry: expansions.entrySet())
 		{
 			if(!first)
 				ret.append(", ");
@@ -504,7 +519,7 @@ public class CardShell
 			this.abilities.set(i, replaceIllegalCharacters(this.abilities.get(i)));
 		String nameInFile = replaceIllegalCharacters(this.name);
 
-		java.util.Map<Expansion, Rarity> expansions = new java.util.EnumMap<Expansion, Rarity>(Expansion.class);
+		Map<Expansion, Rarity> expansions = new EnumMap<Expansion, Rarity>(Expansion.class);
 		for(String printing: this.printings.trim().split(", "))
 		{
 			String expansionText = printing.replace(" Mythic Rare", "").replace(" Rare", "").replace(" Uncommon", "").replace(" Common", "").replace(" Land", "").replace(" Special", "");
@@ -517,8 +532,8 @@ public class CardShell
 			}
 		}
 
-		String className = org.rnd.jmagic.CardLoader.formatName(this.name);
-		java.io.File card = new java.io.File("src/org/rnd/jmagic/cards/" + className + ".java");
+		String className = CardLoader.formatName(this.name);
+		File card = new File("src/org/rnd/jmagic/cards/" + className + ".java");
 		if(card.exists())
 		{
 			if(updatePrintings)
@@ -539,7 +554,7 @@ public class CardShell
 					try
 					{
 						StringBuilder newContents = new StringBuilder();
-						java.io.BufferedReader in = new java.io.BufferedReader(new java.io.FileReader(card));
+						BufferedReader in = new BufferedReader(new FileReader(card));
 						String read = null;
 						do
 						{
@@ -555,7 +570,7 @@ public class CardShell
 						while(read != null);
 						in.close();
 
-						java.io.BufferedWriter out = new java.io.BufferedWriter(new java.io.FileWriter(card, false));
+						BufferedWriter out = new BufferedWriter(new FileWriter(card, false));
 						out.write(newContents.toString());
 						out.flush();
 						out.close();
@@ -570,16 +585,16 @@ public class CardShell
 			return false;
 		}
 
-		java.util.List<java.util.Set<?>> info = getTypes(this.types);
+		List<Set<?>> info = getTypes(this.types);
 
 		String anyNumber = "";
 		if(info.get(0).contains(SuperType.BASIC))
 			anyNumber = " implements AnyNumberInADeck";
 
-		java.io.BufferedWriter out;
+		BufferedWriter out;
 		try
 		{
-			out = new java.io.BufferedWriter(new java.io.FileWriter(card));
+			out = new BufferedWriter(new FileWriter(card));
 			out.write("package org.rnd.jmagic.cards;\r\n\r\n");
 			out.write("import static org.rnd.jmagic.Convenience.*;\r\n");
 			out.write("import org.rnd.jmagic.engine.*;\r\n");
@@ -587,7 +602,7 @@ public class CardShell
 
 			out.write("@Name(\"" + nameInFile + "\")\n");
 
-			java.util.Set<SuperType> superTypeSet = (java.util.Set<SuperType>)info.get(0);
+			Set<SuperType> superTypeSet = (Set<SuperType>)info.get(0);
 			if(!superTypeSet.isEmpty())
 			{
 				out.write("@SuperTypes({");
@@ -603,7 +618,7 @@ public class CardShell
 				out.write("})\r\n");
 			}
 
-			java.util.Set<Type> typeSet = (java.util.Set<Type>)info.get(1);
+			Set<Type> typeSet = (Set<Type>)info.get(1);
 			if(!typeSet.isEmpty())
 			{
 				out.write("@Types({");
@@ -619,7 +634,7 @@ public class CardShell
 				out.write("})\r\n");
 			}
 
-			java.util.Set<SubType> subTypeSet = (java.util.Set<SubType>)info.get(2);
+			Set<SubType> subTypeSet = (Set<SubType>)info.get(2);
 			if(!subTypeSet.isEmpty())
 			{
 				out.write("@SubTypes({");
@@ -643,20 +658,20 @@ public class CardShell
 			out.write(printingsString(expansions));
 
 			out.write("@ColorIdentity({");
-			java.util.Set<String> identity = this.colorIdentity();
+			Set<String> identity = this.colorIdentity();
 			if(!identity.isEmpty())
 			{
-				out.write("Color." + org.rnd.util.SeparatedList.get(", Color.", "", this.colorIdentity()).toString());
+				out.write("Color." + SeparatedList.get(", Color.", "", this.colorIdentity()).toString());
 			}
 			out.write("})\r\n");
 
 			out.write("public final class " + className + " extends Card" + anyNumber + "\r\n{\r\n");
 
 			int abilityNumber = 0;
-			java.util.Map<Integer, java.util.List<String>> generatedAbilities = new java.util.HashMap<Integer, java.util.List<String>>();
+			Map<Integer, List<String>> generatedAbilities = new HashMap<Integer, List<String>>();
 			if(this.types.startsWith("Instant") || this.types.startsWith("Sorcery"))
 			{
-				java.util.Iterator<String> abilityIterator = this.abilities.iterator();
+				Iterator<String> abilityIterator = this.abilities.iterator();
 				while(abilityIterator.hasNext())
 				{
 					String ability = removeReminderText(abilityIterator.next());
@@ -666,7 +681,7 @@ public class CardShell
 						continue;
 					}
 
-					java.util.List<String> abilityConstructors = new java.util.LinkedList<String>();
+					List<String> abilityConstructors = new LinkedList<String>();
 
 					ability = ability.trim().replace(nameInFile, "this");
 
@@ -674,9 +689,9 @@ public class CardShell
 					if(keywords.isEmpty())
 						populateKeywords();
 
-					for(java.util.regex.Pattern pattern: keywords.keySet())
+					for(Pattern pattern: keywords.keySet())
 					{
-						java.util.regex.Matcher match = pattern.matcher(ability);
+						Matcher match = pattern.matcher(ability);
 						if(match.matches())
 						{
 							String construction = keywords.get(pattern);
@@ -696,7 +711,7 @@ public class CardShell
 			}
 			else
 			{
-				java.util.Iterator<String> abilityIterator = this.abilities.iterator();
+				Iterator<String> abilityIterator = this.abilities.iterator();
 				while(abilityIterator.hasNext())
 				{
 					String ability = removeReminderText(abilityIterator.next());
@@ -744,7 +759,7 @@ public class CardShell
 						out.write("\t\t}\r\n");
 						out.write("\t}\r\n");
 						out.write("\r\n");
-						generatedAbilities.put(abilityNumber, java.util.Collections.singletonList("new " + abilityClassName + "(state)"));
+						generatedAbilities.put(abilityNumber, Collections.singletonList("new " + abilityClassName + "(state)"));
 					}
 					else if(triggered)
 					{
@@ -764,11 +779,11 @@ public class CardShell
 						out.write("\t\t}\r\n");
 						out.write("\t}\r\n");
 						out.write("\r\n");
-						generatedAbilities.put(abilityNumber, java.util.Collections.singletonList("new " + abilityClassName + "(state)"));
+						generatedAbilities.put(abilityNumber, Collections.singletonList("new " + abilityClassName + "(state)"));
 					}
 					else
 					{
-						java.util.List<String> abilityConstructors = new java.util.LinkedList<String>();
+						List<String> abilityConstructors = new LinkedList<String>();
 						for(String seperateAbility: ability.split(","))
 						{
 							seperateAbility = seperateAbility.trim().replace(nameInFile, "this");
@@ -778,9 +793,9 @@ public class CardShell
 								populateKeywords();
 
 							boolean found = false;
-							for(java.util.regex.Pattern pattern: keywords.keySet())
+							for(Pattern pattern: keywords.keySet())
 							{
-								java.util.regex.Matcher match = pattern.matcher(seperateAbility);
+								Matcher match = pattern.matcher(seperateAbility);
 								if(match.matches())
 								{
 									String construction = keywords.get(pattern);
@@ -815,7 +830,7 @@ public class CardShell
 							out.write("\t\t}\r\n");
 							out.write("\t}\r\n");
 							out.write("\r\n");
-							generatedAbilities.put(abilityNumber, java.util.Collections.singletonList("new " + abilityClassName + "(state)"));
+							generatedAbilities.put(abilityNumber, Collections.singletonList("new " + abilityClassName + "(state)"));
 						}
 					}
 					++abilityNumber;
@@ -873,7 +888,7 @@ public class CardShell
 
 			return true;
 		}
-		catch(java.io.IOException e)
+		catch(IOException e)
 		{
 			e.printStackTrace();
 			throw new RuntimeException(e);

@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 
 @Name("Goblin Balloon Brigade")
@@ -17,7 +19,7 @@ public final class GoblinBalloonBrigade extends Card
 		{
 			super(state, "(R): Goblin Balloon Brigade gains flying until end of turn.");
 			this.setManaCost(new ManaPool("(R)"));
-			this.addEffect(addAbilityUntilEndOfTurn(ABILITY_SOURCE_OF_THIS, org.rnd.jmagic.abilities.keywords.Flying.class, "Goblin Balloon Brigade gains flying until end of turn."));
+			this.addEffect(addAbilityUntilEndOfTurn(ABILITY_SOURCE_OF_THIS, Flying.class, "Goblin Balloon Brigade gains flying until end of turn."));
 		}
 	}
 

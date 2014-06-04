@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Rebound;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -26,6 +28,6 @@ public final class EmergeUnscathed extends Card
 		this.addEffect(addProtectionUntilEndOfTurn(target, color, "Target creature gains protection from the color of your choice until end of turn."));
 
 		// Rebound
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Rebound(state));
+		this.addAbility(new Rebound(state));
 	}
 }

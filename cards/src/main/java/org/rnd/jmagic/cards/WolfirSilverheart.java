@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Soulbond;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -37,7 +38,7 @@ public final class WolfirSilverheart extends Card
 		// Soulbond (You may pair this creature with another unpaired creature
 		// when either enters the battlefield. They remain paired for as long as
 		// you control both of them.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Soulbond(state));
+		this.addAbility(new Soulbond(state));
 
 		// As long as Wolfir Silverheart is paired with another creature, each
 		// of those creatures gets +4/+4.

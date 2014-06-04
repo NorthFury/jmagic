@@ -1,17 +1,23 @@
 package org.rnd.jmagic.engine.gameTypes;
 
+import org.rnd.jmagic.CardLoader;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.gameTypes.packWars.*;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 
 @Name("Pack wars")
 @Description("Initial decks are replaced with the shuffled contents of boosters created by booster factories")
 public class PackWars extends GameType.SimpleGameTypeRule
 {
-	private java.util.List<BoosterFactory> boosterFactories;
+	private List<BoosterFactory> boosterFactories;
 
 	public PackWars()
 	{
-		this.boosterFactories = new java.util.LinkedList<BoosterFactory>();
+		this.boosterFactories = new LinkedList<BoosterFactory>();
 	}
 
 	public PackWars(BoosterFactory... boosterFactories)
@@ -47,12 +53,12 @@ public class PackWars extends GameType.SimpleGameTypeRule
 					physicalState.game.removeObject(o.getActual());
 				sideboard.objects.clear();
 
-				java.util.List<Card> deck = new java.util.LinkedList<Card>();
+				List<Card> deck = new LinkedList<Card>();
 
 				for(BoosterFactory factory: this.boosterFactories)
 					deck.addAll(factory.createBooster(physicalState));
 
-				java.util.Collections.shuffle(deck);
+				Collections.shuffle(deck);
 
 				for(Card card: deck)
 				{
@@ -61,7 +67,7 @@ public class PackWars extends GameType.SimpleGameTypeRule
 				}
 			}
 		}
-		catch(org.rnd.jmagic.CardLoader.CardLoaderException ex)
+		catch(CardLoader.CardLoaderException ex)
 		{
 			throw new RuntimeException(ex);
 		}
@@ -69,7 +75,7 @@ public class PackWars extends GameType.SimpleGameTypeRule
 
 	public void setBoosterFactories(BoosterFactory[] factories)
 	{
-		this.boosterFactories = java.util.Arrays.asList(factories);
+		this.boosterFactories = Arrays.asList(factories);
 	}
 
 	public void setBoosterFactories(int index, BoosterFactory factory)

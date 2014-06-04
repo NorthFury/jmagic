@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.DoubleStrike;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -19,6 +20,6 @@ public final class AssaultStrobe extends Card
 		// Target creature gains double strike until end of turn. (It deals both
 		// first-strike and regular combat damage.)
 		SetGenerator target = targetedBy(this.addTarget(CreaturePermanents.instance(), "target creature"));
-		this.addEffect(createFloatingEffect("Target creature gains double strike until end of turn.", addAbilityToObject(target, org.rnd.jmagic.abilities.keywords.DoubleStrike.class)));
+		this.addEffect(createFloatingEffect("Target creature gains double strike until end of turn.", addAbilityToObject(target, DoubleStrike.class)));
 	}
 }

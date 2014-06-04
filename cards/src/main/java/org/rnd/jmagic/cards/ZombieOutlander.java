@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.cardTemplates.Outlander;
 import org.rnd.jmagic.engine.*;
 
 @Name("Zombie Outlander")
@@ -8,7 +9,7 @@ import org.rnd.jmagic.engine.*;
 @SubTypes({SubType.ZOMBIE, SubType.SCOUT})
 @Printings({@Printings.Printed(ex = Expansion.CONFLUX, r = Rarity.COMMON)})
 @ColorIdentity({Color.BLUE, Color.BLACK})
-public final class ZombieOutlander extends org.rnd.jmagic.cardTemplates.Outlander
+public final class ZombieOutlander extends Outlander
 {
 	public ZombieOutlander(GameState state)
 	{

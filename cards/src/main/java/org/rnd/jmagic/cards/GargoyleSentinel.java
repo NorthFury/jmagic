@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Defender;
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -21,10 +24,10 @@ public final class GargoyleSentinel extends Card
 
 			ContinuousEffect.Part loseDefender = new ContinuousEffect.Part(ContinuousEffectType.REMOVE_ABILITY_FROM_OBJECT);
 			loseDefender.parameters.put(ContinuousEffectType.Parameter.OBJECT, ABILITY_SOURCE_OF_THIS);
-			loseDefender.parameters.put(ContinuousEffectType.Parameter.ABILITY, Identity.instance(org.rnd.jmagic.abilities.keywords.Defender.class));
+			loseDefender.parameters.put(ContinuousEffectType.Parameter.ABILITY, Identity.instance(Defender.class));
 			this.addEffect(createFloatingEffect("Gargoyle Sentinel loses defender", loseDefender));
 
-			this.addEffect(addAbilityUntilEndOfTurn(ABILITY_SOURCE_OF_THIS, org.rnd.jmagic.abilities.keywords.Flying.class, " and gains flying."));
+			this.addEffect(addAbilityUntilEndOfTurn(ABILITY_SOURCE_OF_THIS, Flying.class, " and gains flying."));
 		}
 	}
 
@@ -36,7 +39,7 @@ public final class GargoyleSentinel extends Card
 		this.setToughness(3);
 
 		// Defender (This creature can't attack.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Defender(state));
+		this.addAbility(new Defender(state));
 
 		// (3): Until end of turn, Gargoyle Sentinel loses defender and gains
 		// flying.

@@ -6,6 +6,9 @@ import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.patterns.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Name("Quest for the Holy Relic")
 @Types({Type.ENCHANTMENT})
 @ManaCost("W")
@@ -43,12 +46,12 @@ public final class QuestfortheHolyRelic extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			MagicSet cause = parameters.get(Parameter.CAUSE);
 			MagicSet you = parameters.get(Parameter.PLAYER);
 
-			java.util.Map<Parameter, MagicSet> searchParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> searchParameters = new HashMap<Parameter, MagicSet>();
 			searchParameters.put(Parameter.CAUSE, cause);
 			searchParameters.put(Parameter.PLAYER, you);
 			searchParameters.put(Parameter.NUMBER, new MagicSet(1));
@@ -61,7 +64,7 @@ public final class QuestfortheHolyRelic extends Card
 			MagicSet thatEquipment = search.getResult();
 			MagicSet yourCreatures = parameters.get(Parameter.CHOICE);
 
-			java.util.Map<Parameter, MagicSet> attachParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> attachParameters = new HashMap<Parameter, MagicSet>();
 			attachParameters.put(Parameter.OBJECT, thatEquipment);
 			attachParameters.put(Parameter.PLAYER, you);
 			attachParameters.put(Parameter.CHOICE, yourCreatures);

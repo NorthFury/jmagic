@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.FirstStrike;
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -61,8 +64,8 @@ public final class FigureofDestiny extends Card
 			animator.addSubType(SubType.SPIRIT);
 			animator.addSubType(SubType.WARRIOR);
 			animator.addSubType(SubType.AVATAR);
-			animator.addAbility(org.rnd.jmagic.abilities.keywords.Flying.class);
-			animator.addAbility(org.rnd.jmagic.abilities.keywords.FirstStrike.class);
+			animator.addAbility(Flying.class);
+			animator.addAbility(FirstStrike.class);
 			EventFactory biggest = createFloatingEffect("Figure of Destiny becomes a 8/8 Kithkin Spirit Warrior Avatar with flying and first strike", animator.getParts());
 			biggest.parameters.put(EventType.Parameter.EXPIRES, Identity.instance(Empty.instance()));
 

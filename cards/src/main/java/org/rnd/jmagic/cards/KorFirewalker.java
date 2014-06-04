@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Protection;
+import org.rnd.jmagic.abilityTemplates.ColorTriggeredLife;
 import org.rnd.jmagic.engine.*;
 
 @Name("Kor Firewalker")
@@ -10,7 +12,7 @@ import org.rnd.jmagic.engine.*;
 @ColorIdentity({Color.WHITE})
 public final class KorFirewalker extends Card
 {
-	public static final class LifeGain extends org.rnd.jmagic.abilityTemplates.ColorTriggeredLife
+	public static final class LifeGain extends ColorTriggeredLife
 	{
 		public LifeGain(GameState state)
 		{
@@ -26,7 +28,7 @@ public final class KorFirewalker extends Card
 		this.setToughness(2);
 
 		// Protection from red
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Protection.FromRed(state));
+		this.addAbility(new Protection.FromRed(state));
 
 		// Whenever a player casts a red spell, you may gain 1 life.
 		this.addAbility(new LifeGain(state));

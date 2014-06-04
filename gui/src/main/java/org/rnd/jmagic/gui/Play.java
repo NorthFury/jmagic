@@ -1,9 +1,92 @@
 package org.rnd.jmagic.gui;
 
+import org.rnd.jmagic.CompareCostCollections;
+import org.rnd.jmagic.comms.ChatManager;
 import org.rnd.jmagic.engine.*;
+import org.rnd.jmagic.engine.generators.Maximum;
+import org.rnd.jmagic.engine.generators.Minimum;
 import org.rnd.jmagic.gui.dialogs.*;
 import org.rnd.jmagic.gui.event.*;
 import org.rnd.jmagic.sanitized.*;
+import org.rnd.util.CompareOnToString;
+import org.rnd.util.NumberRange;
+import org.rnd.util.SeparatedList;
+
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+import javax.swing.JRadioButton;
+import javax.swing.JRootPane;
+import javax.swing.JSplitPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.JToggleButton;
+import javax.swing.UIManager;
+import javax.swing.WindowConstants;
+import javax.swing.event.MouseInputAdapter;
+import javax.swing.event.MouseInputListener;
+import javax.swing.plaf.basic.BasicSplitPaneDivider;
+import javax.swing.plaf.basic.BasicSplitPaneUI;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.Insets;
+import java.awt.Point;
+import java.awt.TextField;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelListener;
+import java.awt.event.TextEvent;
+import java.awt.event.TextListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
+import java.io.Serializable;
+import java.lang.String;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.Stack;
 
 public class Play
 {
@@ -88,7 +171,7 @@ public class Play
 
 			if(Play.this.chooseOneAction)
 			{
-				Play.this.choose = java.util.Collections.singletonList(index);
+				Play.this.choose = Collections.singletonList(index);
 				Play.this.choiceReady();
 				Play.this.choiceType = null;
 				Play.this.popDoneListeners();
@@ -96,7 +179,7 @@ public class Play
 			else
 			{
 				if(Play.this.choose == null)
-					Play.this.choose = new java.util.LinkedList<Integer>();
+					Play.this.choose = new LinkedList<Integer>();
 				Play.this.choose.add(index);
 			}
 		}
@@ -119,7 +202,7 @@ public class Play
 
 			if(Play.this.chooseOneAction)
 			{
-				Play.this.choose = java.util.Collections.singletonList(index);
+				Play.this.choose = Collections.singletonList(index);
 				Play.this.choiceReady();
 				return;
 			}
@@ -135,10 +218,10 @@ public class Play
 
 	public class ChoiceListener implements GuiEventListener
 	{
-		private final java.util.Comparator<javax.swing.JMenuItem> compareNames = new java.util.Comparator<javax.swing.JMenuItem>()
+		private final Comparator<JMenuItem> compareNames = new Comparator<JMenuItem>()
 		{
 			@Override
-			public int compare(javax.swing.JMenuItem o1, javax.swing.JMenuItem o2)
+			public int compare(JMenuItem o1, JMenuItem o2)
 			{
 				return o1.getText().compareTo(o2.getText());
 			}
@@ -159,9 +242,9 @@ public class Play
 				return;
 
 			IdentifiedMouseEvent e = (IdentifiedMouseEvent)event;
-			java.awt.event.MouseEvent mouseEvent = e.getMouseEvent();
-			boolean leftButton = (java.awt.event.MouseEvent.BUTTON1 == mouseEvent.getButton());
-			boolean clicked = (java.awt.event.MouseEvent.MOUSE_CLICKED == mouseEvent.getID());
+			MouseEvent mouseEvent = e.getMouseEvent();
+			boolean leftButton = (MouseEvent.BUTTON1 == mouseEvent.getButton());
+			boolean clicked = (MouseEvent.MOUSE_CLICKED == mouseEvent.getID());
 
 			if(Play.this.divisions != null)
 			{
@@ -175,37 +258,37 @@ public class Play
 					return;
 				Play.this.dividingOn = chosenIdentified.ID;
 
-				final javax.swing.JInternalFrame pop = new javax.swing.JInternalFrame(chosenIdentified.name);
-				final javax.swing.JTextArea text = new javax.swing.JTextArea(Integer.toString(Play.this.divisions.get(Play.this.dividingOn)));
+				final JInternalFrame pop = new JInternalFrame(chosenIdentified.name);
+				final JTextArea text = new JTextArea(Integer.toString(Play.this.divisions.get(Play.this.dividingOn)));
 				pop.add(text);
 				pop.setLocation(Play.this.cardLocations.get(Play.this.dividingOn).x - CardGraphics.SMALL_CARD.width / 2, Play.this.cardLocations.get(Play.this.dividingOn).y);
 				text.selectAll();
-				pop.setPreferredSize(new java.awt.Dimension(CardGraphics.SMALL_CARD.width, pop.getPreferredSize().height));
-				text.addFocusListener(new java.awt.event.FocusListener()
+				pop.setPreferredSize(new Dimension(CardGraphics.SMALL_CARD.width, pop.getPreferredSize().height));
+				text.addFocusListener(new FocusListener()
 				{
 					@Override
-					public void focusGained(java.awt.event.FocusEvent e)
+					public void focusGained(FocusEvent e)
 					{
 						// Nothing
 					}
 
 					@Override
-					public void focusLost(java.awt.event.FocusEvent e)
+					public void focusLost(FocusEvent e)
 					{
 						Play.this.finishUpdateDivision(chosenIdentified.ID, text.getText(), pop);
 					}
 				});
-				text.addKeyListener(new java.awt.event.KeyAdapter()
+				text.addKeyListener(new KeyAdapter()
 				{
 					@Override
-					public void keyPressed(java.awt.event.KeyEvent e)
+					public void keyPressed(KeyEvent e)
 					{
-						if(e.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER)
+						if(e.getKeyCode() == KeyEvent.VK_ENTER)
 							Play.this.finishUpdateDivision(chosenIdentified.ID, text.getText(), pop);
 					}
 				});
 
-				((javax.swing.JComponent)Play.this.mainWindow.getGlassPane()).add(pop);
+				((JComponent)Play.this.mainWindow.getGlassPane()).add(pop);
 				pop.pack();
 				pop.setVisible(true);
 				text.requestFocus();
@@ -246,9 +329,9 @@ public class Play
 
 		public void chooseAction(final BattlefieldClickEvent event)
 		{
-			java.awt.event.MouseEvent mouseEvent = event.getClick();
+			MouseEvent mouseEvent = event.getClick();
 
-			final java.util.List<SanitizedPlayerAction> actions = new java.util.LinkedList<SanitizedPlayerAction>();
+			final List<SanitizedPlayerAction> actions = new LinkedList<SanitizedPlayerAction>();
 			for(Object choice: Play.this.choices)
 			{
 				if(choice instanceof SanitizedPlayerAction)
@@ -263,37 +346,37 @@ public class Play
 			if(actions.isEmpty())
 				return;
 
-			java.util.List<javax.swing.JMenuItem> items = new java.util.LinkedList<javax.swing.JMenuItem>();
+			List<JMenuItem> items = new LinkedList<JMenuItem>();
 			for(final SanitizedPlayerAction a: actions)
 			{
-				javax.swing.JMenuItem item = new javax.swing.JMenuItem(a.toString());
+				JMenuItem item = new JMenuItem(a.toString());
 				item.setUI(new ContextDialogPainter());
-				item.addActionListener(new java.awt.event.ActionListener()
+				item.addActionListener(new ActionListener()
 				{
 					@Override
-					public void actionPerformed(java.awt.event.ActionEvent e)
+					public void actionPerformed(ActionEvent e)
 					{
 						Play.this.alertGuiEvent(new ChooseActionEvent(a));
 					}
 				});
 				items.add(item);
 			}
-			java.util.Collections.sort(items, this.compareNames);
+			Collections.sort(items, this.compareNames);
 
-			javax.swing.JPopupMenu popup = new javax.swing.JPopupMenu();
-			for(javax.swing.JMenuItem item: items)
+			JPopupMenu popup = new JPopupMenu();
+			for(JMenuItem item: items)
 				popup.add(item);
 			popup.show(mouseEvent.getComponent(), mouseEvent.getX(), mouseEvent.getY());
 		}
 
 		public void chooseAction(final IdentifiedMouseEvent event)
 		{
-			java.awt.event.MouseEvent mouseEvent = event.getMouseEvent();
+			MouseEvent mouseEvent = event.getMouseEvent();
 
 			final SanitizedIdentified chosenIdentified = event.getIdentified();
 
-			final java.util.List<SanitizedPlayerAction> actionsForChosenObject = new java.util.LinkedList<SanitizedPlayerAction>();
-			java.util.List<Integer> abilitiesOnChosenObject = new java.util.LinkedList<Integer>();
+			final List<SanitizedPlayerAction> actionsForChosenObject = new LinkedList<SanitizedPlayerAction>();
+			List<Integer> abilitiesOnChosenObject = new LinkedList<Integer>();
 			if(chosenIdentified instanceof SanitizedGameObject)
 			{
 				SanitizedCharacteristics c = ((SanitizedGameObject)chosenIdentified).characteristics.get(SanitizedGameObject.CharacteristicSet.ACTUAL);
@@ -333,25 +416,25 @@ public class Play
 				return;
 			}
 
-			java.util.List<javax.swing.JMenuItem> items = new java.util.LinkedList<javax.swing.JMenuItem>();
+			List<JMenuItem> items = new LinkedList<JMenuItem>();
 			for(final SanitizedPlayerAction a: actionsForChosenObject)
 			{
-				javax.swing.JMenuItem item = new javax.swing.JMenuItem(a.toString());
+				JMenuItem item = new JMenuItem(a.toString());
 				item.setUI(new ContextDialogPainter());
-				item.addActionListener(new java.awt.event.ActionListener()
+				item.addActionListener(new ActionListener()
 				{
 					@Override
-					public void actionPerformed(java.awt.event.ActionEvent e)
+					public void actionPerformed(ActionEvent e)
 					{
 						Play.this.alertGuiEvent(new ChooseActionEvent(event, a));
 					}
 				});
 				items.add(item);
 			}
-			java.util.Collections.sort(items, this.compareNames);
+			Collections.sort(items, this.compareNames);
 
-			javax.swing.JPopupMenu popup = new javax.swing.JPopupMenu();
-			for(javax.swing.JMenuItem item: items)
+			JPopupMenu popup = new JPopupMenu();
+			for(JMenuItem item: items)
 				popup.add(item);
 			popup.show(mouseEvent.getComponent(), mouseEvent.getX(), mouseEvent.getY());
 		}
@@ -386,21 +469,21 @@ public class Play
 			// Purely static classes don't need to be constructed
 		}
 
-		public static String colorToString(java.awt.Color color)
+		public static String colorToString(Color color)
 		{
 			return String.format("0x%1$06x", color.getRGB() & 0x00ffffff);
 		}
 
-		public static java.awt.Color colorFromString(String color)
+		public static Color colorFromString(String color)
 		{
-			return java.awt.Color.decode(color);
+			return Color.decode(color);
 		}
 	}
 
-	private static java.util.Map<PlayerInterface.ChooseReason, String> customQueries;
+	private static Map<PlayerInterface.ChooseReason, String> customQueries;
 	static
 	{
-		customQueries = new java.util.HashMap<PlayerInterface.ChooseReason, String>();
+		customQueries = new HashMap<PlayerInterface.ChooseReason, String>();
 		customQueries.put(PlayerInterface.ChooseReason.DAMAGE_ASSIGNMENT_ORDER, PlayerInterface.ChooseReason.DAMAGE_ASSIGNMENT_ORDER.query + " The creature on the left will be first.");
 		customQueries.put(PlayerInterface.ChooseReason.FIRST_PLAYER, "Click on the player card of the player who will take the first turn.");
 		customQueries.put(PlayerInterface.ChooseReason.ORDER_LIBRARY_BOTTOM, PlayerInterface.ChooseReason.ORDER_LIBRARY_BOTTOM.query + " The card on the right will be on the bottom.");
@@ -414,19 +497,19 @@ public class Play
 
 	private static final String noResponsesText = "You wish to pass priority until the stack is empty or something new is added to it.";
 
-	protected static java.awt.Point getLocationInsideWindow(java.awt.Component component)
+	protected static Point getLocationInsideWindow(Component component)
 	{
-		java.awt.Point point = new java.awt.Point(0, 0);
-		while(component.getParent() != null && !(component.getParent() instanceof javax.swing.JRootPane))
+		Point point = new Point(0, 0);
+		while(component.getParent() != null && !(component.getParent() instanceof JRootPane))
 		{
-			java.awt.Point location = component.getLocation();
+			Point location = component.getLocation();
 			point.translate(location.x, location.y);
 			component = component.getParent();
 		}
 		return point;
 	}
 
-	private static <T extends java.io.Serializable> String getQuery(PlayerInterface.ChooseParameters<T> parameterObject)
+	private static <T extends Serializable> String getQuery(PlayerInterface.ChooseParameters<T> parameterObject)
 	{
 		if(customQueries.containsKey(parameterObject.reason))
 			return customQueries.get(parameterObject.reason);
@@ -437,15 +520,15 @@ public class Play
 
 	private ActionsListDialog actionsDialog = null;
 
-	protected java.util.Map<Integer, java.util.Collection<Arrow>> arrows;
+	protected Map<Integer, Collection<Arrow>> arrows;
 
 	private BattlefieldPanel battlefieldPanel;
 
 	CardInfoPanel cardInfoPanel;
 
-	protected java.util.Map<Integer, java.awt.Point> cardLocations;
+	protected Map<Integer, Point> cardLocations;
 
-	public java.util.List<Object> choices;
+	public List<Object> choices;
 
 	public PlayerInterface.ChoiceType choiceType;
 
@@ -457,35 +540,35 @@ public class Play
 
 	protected int dividingOn;
 
-	protected java.util.Map<Integer, Integer> divisions;
+	protected Map<Integer, Integer> divisions;
 
-	private java.util.List<GuiEventListener> guiEventListeners;
+	private List<GuiEventListener> guiEventListeners;
 
 	// this keys on integers because the display type of a small card is always
 	// the same
-	private java.util.Map<Integer, java.awt.Image> smallImageCache;
+	private Map<Integer, Image> smallImageCache;
 
-	private java.util.List<Integer> indicated;
+	private List<Integer> indicated;
 
 	private LogPanel logPanel;
 
-	public volatile javax.swing.JFrame mainWindow;
+	public volatile JFrame mainWindow;
 
-	public org.rnd.jmagic.comms.ChatManager.MessagePoster messagePoster;
+	public ChatManager.MessagePoster messagePoster;
 
 	DoneButton noResponsesButton;
 
-	private java.util.Collection<Integer> notRespondingTo;
+	private Collection<Integer> notRespondingTo;
 
 	DoneButton passButton;
 
 	public int playerID;
 
-	java.util.List<PlayerPanel> playerPanels;
+	List<PlayerPanel> playerPanels;
 
-	private java.util.Stack<javax.swing.JInternalFrame> popups;
+	private Stack<JInternalFrame> popups;
 
-	protected java.util.Properties properties;
+	protected Properties properties;
 
 	/**
 	 * Represents the old player id when the game is being restarted. If the
@@ -493,7 +576,7 @@ public class Play
 	 */
 	private int restarting;
 
-	private javax.swing.JSplitPane splitPane;
+	private JSplitPane splitPane;
 
 	public SanitizedGameState state;
 
@@ -501,32 +584,32 @@ public class Play
 
 	private StepLabel stepLabel;
 
-	private javax.swing.JLabel turnLabel;
+	private JLabel turnLabel;
 
-	private java.util.List<MiscZonePanel> zoneContentsPanels;
+	private List<MiscZonePanel> zoneContentsPanels;
 
 	/**
 	 * The zones for the zone selector of this GUI, in a specific order. Keys
 	 * are display names. Values are zone IDs.
 	 */
-	java.util.LinkedHashMap<String, Integer> zones;
+	LinkedHashMap<String, Integer> zones;
 
 	public boolean choiceReady;
-	public java.util.List<Integer> choose;
+	public List<Integer> choose;
 	public int chooseNumber;
 
 	/**
 	 * A sorted collection of settings panels. This is sorted so that they
 	 * appear in the configuration frame in a consistent order.
 	 */
-	public java.util.SortedSet<ConfigurationFrame.OptionPanel> options;
+	public SortedSet<ConfigurationFrame.OptionPanel> options;
 
 	/**
 	 * Construct a new Play GUI.
 	 */
-	public Play(java.util.SortedSet<ConfigurationFrame.OptionPanel> options)
+	public Play(SortedSet<ConfigurationFrame.OptionPanel> options)
 	{
-		this.arrows = new java.util.HashMap<Integer, java.util.Collection<Arrow>>();
+		this.arrows = new HashMap<Integer, Collection<Arrow>>();
 
 		this.configuration = null;
 
@@ -534,7 +617,7 @@ public class Play
 
 		this.cardInfoPanel = null;
 
-		this.cardLocations = new java.util.HashMap<Integer, java.awt.Point>();
+		this.cardLocations = new HashMap<Integer, Point>();
 
 		this.choices = null;
 
@@ -546,7 +629,7 @@ public class Play
 
 		this.divisions = null;
 
-		this.guiEventListeners = new java.util.LinkedList<GuiEventListener>();
+		this.guiEventListeners = new LinkedList<GuiEventListener>();
 		this.guiEventListeners.add(new ActionDialogListener());
 		this.guiEventListeners.add(new ChoiceListener());
 		this.guiEventListeners.add(new DefaultChooseActionListener());
@@ -555,21 +638,21 @@ public class Play
 
 		this.dividingOn = -1;
 
-		this.smallImageCache = new java.util.HashMap<Integer, java.awt.Image>();
+		this.smallImageCache = new HashMap<Integer, Image>();
 
-		this.indicated = new java.util.LinkedList<Integer>();
+		this.indicated = new LinkedList<Integer>();
 
 		this.mainWindow = null;
 
 		this.logPanel = null;
 
-		this.notRespondingTo = java.util.Collections.emptyList();
+		this.notRespondingTo = Collections.emptyList();
 
-		this.popups = new java.util.Stack<javax.swing.JInternalFrame>();
+		this.popups = new Stack<JInternalFrame>();
 
 		this.playerID = -1;
 
-		this.playerPanels = new java.util.LinkedList<PlayerPanel>();
+		this.playerPanels = new LinkedList<PlayerPanel>();
 
 		this.properties = null;
 
@@ -581,9 +664,9 @@ public class Play
 
 		this.turnLabel = null;
 
-		this.zoneContentsPanels = new java.util.LinkedList<MiscZonePanel>();
+		this.zoneContentsPanels = new LinkedList<MiscZonePanel>();
 
-		this.zones = new java.util.LinkedHashMap<String, Integer>();
+		this.zones = new LinkedHashMap<String, Integer>();
 
 		this.choiceReady = false;
 		this.choose = null;
@@ -637,10 +720,10 @@ public class Play
 				String targetDescription = choice.choices.iterator().next().toString();
 				line.append(Character.toUpperCase(targetDescription.charAt(0)));
 				line.append(targetDescription.substring(1) + ": ");
-				java.util.List<SanitizedIdentified> chosenTargets = new java.util.LinkedList<SanitizedIdentified>();
+				List<SanitizedIdentified> chosenTargets = new LinkedList<SanitizedIdentified>();
 				for(Object t: choice.choices)
 					chosenTargets.add(this.state.get(((SanitizedTarget)t).targetID));
-				line.append(org.rnd.util.SeparatedList.get("and", chosenTargets));
+				line.append(SeparatedList.get("and", chosenTargets));
 			}
 			break;
 
@@ -719,7 +802,7 @@ public class Play
 		if(this.beepOnYourTurn())
 		{
 			if(this.state != null && this.state.turn != this.playerID && state.turn == this.playerID)
-				java.awt.Toolkit.getDefaultToolkit().beep();
+				Toolkit.getDefaultToolkit().beep();
 		}
 
 		this.state = state;
@@ -780,7 +863,7 @@ public class Play
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T extends java.io.Serializable> void choose(final PlayerInterface.ChooseParameters<T> parameterObject)
+	public <T extends Serializable> void choose(final PlayerInterface.ChooseParameters<T> parameterObject)
 	{
 		// Go through all the choices, and for any identifieds that aren't in
 		// the state, put them in the state.
@@ -797,8 +880,8 @@ public class Play
 			if(!this.state.containsKey(i.ID))
 				this.state.put(i.ID, i);
 
-		Integer upperBound = org.rnd.jmagic.engine.generators.Maximum.get(parameterObject.number);
-		Integer lowerBound = org.rnd.jmagic.engine.generators.Minimum.get(parameterObject.number);
+		Integer upperBound = Maximum.get(parameterObject.number);
+		Integer lowerBound = Minimum.get(parameterObject.number);
 		if(lowerBound == null)
 			lowerBound = 0;
 
@@ -830,7 +913,7 @@ public class Play
 
 		if(parameterObject.type.equals(PlayerInterface.ChoiceType.NORMAL_ACTIONS))
 		{
-			for(SanitizedPlayerAction action: (java.util.Collection<SanitizedPlayerAction>)parameterObject.choices)
+			for(SanitizedPlayerAction action: (Collection<SanitizedPlayerAction>)parameterObject.choices)
 				if(action.actOnID == -1)
 				{
 					query = query + "  (At least one action is accessible by clicking an empty area of the battlefield.)";
@@ -846,15 +929,15 @@ public class Play
 
 		if(parameterObject.type.isOrdered())
 		{
-			final javax.swing.JInternalFrame chooseDialog = new javax.swing.JInternalFrame();
-			chooseDialog.setLayout(new java.awt.BorderLayout());
+			final JInternalFrame chooseDialog = new JInternalFrame();
+			chooseDialog.setLayout(new BorderLayout());
 
-			final ScrollingCardPanel.InnerCardPanel<java.io.Serializable> choicesPanel = new ScrollingCardPanel.InnerCardPanel<java.io.Serializable>(this)
+			final ScrollingCardPanel.InnerCardPanel<Serializable> choicesPanel = new ScrollingCardPanel.InnerCardPanel<Serializable>(this)
 			{
 				private static final long serialVersionUID = 1L;
 
 				@Override
-				public java.awt.Image getImage(java.io.Serializable ref)
+				public Image getImage(Serializable ref)
 				{
 					if(ref instanceof SanitizedGameObject)
 						return CardGraphics.getSmallCard((SanitizedGameObject)ref, this.gui.state, false, false, this.getFont());
@@ -864,21 +947,21 @@ public class Play
 				}
 
 				@Override
-				public java.io.Serializable getIdentified(java.io.Serializable ref)
+				public Serializable getIdentified(Serializable ref)
 				{
 					return ref;
 				}
 			};
 			ScrollingCardPanel scroll = new ScrollingCardPanel(choicesPanel);
-			scroll.setMaximumSize(new java.awt.Dimension(Integer.MAX_VALUE, this.mainWindow.getWidth() - 100));
-			chooseDialog.add(scroll, java.awt.BorderLayout.CENTER);
-			choicesPanel.update(new java.util.LinkedList<java.io.Serializable>(parameterObject.choices), true);
+			scroll.setMaximumSize(new Dimension(Integer.MAX_VALUE, this.mainWindow.getWidth() - 100));
+			chooseDialog.add(scroll, BorderLayout.CENTER);
+			choicesPanel.update(new LinkedList<Serializable>(parameterObject.choices), true);
 
-			javax.swing.JButton doneButton = new javax.swing.JButton("Done");
-			doneButton.addActionListener(new java.awt.event.ActionListener()
+			JButton doneButton = new JButton("Done");
+			doneButton.addActionListener(new ActionListener()
 			{
 				@Override
-				public void actionPerformed(java.awt.event.ActionEvent e)
+				public void actionPerformed(ActionEvent e)
 				{
 					for(Object object: choicesPanel.getObjects())
 					{
@@ -890,13 +973,13 @@ public class Play
 				}
 			});
 
-			java.awt.FlowLayout flow = new java.awt.FlowLayout();
-			flow.setAlignment(java.awt.FlowLayout.RIGHT);
-			javax.swing.JPanel bottomPanel = new javax.swing.JPanel(flow);
+			FlowLayout flow = new FlowLayout();
+			flow.setAlignment(FlowLayout.RIGHT);
+			JPanel bottomPanel = new JPanel(flow);
 			bottomPanel.add(doneButton);
-			chooseDialog.add(bottomPanel, java.awt.BorderLayout.PAGE_END);
+			chooseDialog.add(bottomPanel, BorderLayout.PAGE_END);
 
-			this.choose = new java.util.LinkedList<Integer>();
+			this.choose = new LinkedList<Integer>();
 			this.pushPopup(chooseDialog);
 			return;
 		}
@@ -905,7 +988,7 @@ public class Play
 		{
 		case NORMAL_ACTIONS:
 		case ACTIVATE_MANA_ABILITIES:
-			this.choices = new java.util.LinkedList<Object>(parameterObject.choices);
+			this.choices = new LinkedList<Object>(parameterObject.choices);
 			this.choose = null;
 			this.choiceType = parameterObject.type;
 			this.chooseOneAction = (upperBound != null && upperBound == 1);
@@ -940,13 +1023,13 @@ public class Play
 					}
 
 					// otherwise, clear the no responses list
-					this.notRespondingTo = java.util.Collections.emptyList();
+					this.notRespondingTo = Collections.emptyList();
 				}
 
-				this.noResponsesButton.pushListener(new java.awt.event.ActionListener()
+				this.noResponsesButton.pushListener(new ActionListener()
 				{
 					@Override
-					public void actionPerformed(java.awt.event.ActionEvent e)
+					public void actionPerformed(ActionEvent e)
 					{
 						Play.this.noResponses();
 						Play.this.popDoneListeners();
@@ -954,13 +1037,13 @@ public class Play
 				}, "No Responses");
 			}
 
-			this.passButton.pushListener(new java.awt.event.ActionListener()
+			this.passButton.pushListener(new ActionListener()
 			{
 				@Override
-				public void actionPerformed(java.awt.event.ActionEvent e)
+				public void actionPerformed(ActionEvent e)
 				{
 					if(Play.this.choose == null)
-						Play.this.choose = java.util.Collections.emptyList();
+						Play.this.choose = Collections.emptyList();
 					else
 						Play.this.clearIndicated();
 					Play.this.popDoneListeners();
@@ -971,7 +1054,7 @@ public class Play
 
 		case ALTERNATE_COST:
 		{
-			this.chooseText(parameterObject, new org.rnd.util.CompareOnToString<T>());
+			this.chooseText(parameterObject, new CompareOnToString<T>());
 			return;
 		}
 		case COLOR:
@@ -979,8 +1062,8 @@ public class Play
 			if(lowerBound != 1 || upperBound != 1)
 				break;
 
-			ColorChoosePanel colorPanel = new ColorChoosePanel(this, (java.util.List<org.rnd.jmagic.engine.Color>)parameterObject.choices);
-			javax.swing.JInternalFrame colorWindow = new javax.swing.JInternalFrame();
+			ColorChoosePanel colorPanel = new ColorChoosePanel(this, (List<Color>)parameterObject.choices);
+			JInternalFrame colorWindow = new JInternalFrame();
 			colorWindow.add(colorPanel);
 			this.pushPopup(colorWindow);
 			return;
@@ -988,21 +1071,21 @@ public class Play
 
 		case MANA_EXPLOSION:
 		{
-			this.chooseText((PlayerInterface.ChooseParameters<SanitizedCostCollection>)parameterObject, new org.rnd.jmagic.CompareCostCollections());
+			this.chooseText((PlayerInterface.ChooseParameters<SanitizedCostCollection>)parameterObject, new CompareCostCollections());
 			return;
 		}
 
 		case MANA_PAYMENT:
 			this.choiceType = PlayerInterface.ChoiceType.MANA_PAYMENT;
-			this.choose = new java.util.LinkedList<Integer>();
-			final javax.swing.JPanel manaPanel = this.playerPanels.get(0).manaPanel;
+			this.choose = new LinkedList<Integer>();
+			final JPanel manaPanel = this.playerPanels.get(0).manaPanel;
 			final ManaPool pool = ((SanitizedPlayer)this.state.get(this.playerID)).pool;
-			final javax.swing.event.MouseInputListener mouse = new javax.swing.event.MouseInputAdapter()
+			final MouseInputListener mouse = new MouseInputAdapter()
 			{
-				private java.util.Set<Integer> addedNow = null;
+				private Set<Integer> addedNow = null;
 				private Boolean adding = null;
 
-				private int getIndex(java.awt.event.MouseEvent e)
+				private int getIndex(MouseEvent e)
 				{
 					int y = e.getY();
 					y /= (CardGraphics.LARGE_MANA_SYMBOL.height + 1);
@@ -1012,7 +1095,7 @@ public class Play
 				}
 
 				@Override
-				public void mouseDragged(java.awt.event.MouseEvent e)
+				public void mouseDragged(MouseEvent e)
 				{
 					int hover = getIndex(e);
 					if(hover != -1 && !this.addedNow.contains(hover))
@@ -1025,15 +1108,15 @@ public class Play
 				}
 
 				@Override
-				public void mousePressed(java.awt.event.MouseEvent e)
+				public void mousePressed(MouseEvent e)
 				{
-					this.addedNow = new java.util.HashSet<Integer>();
+					this.addedNow = new HashSet<Integer>();
 
 					this.mouseDragged(e);
 				}
 
 				@Override
-				public void mouseReleased(java.awt.event.MouseEvent e)
+				public void mouseReleased(MouseEvent e)
 				{
 					this.addedNow = null;
 					this.adding = null;
@@ -1067,10 +1150,10 @@ public class Play
 			manaPanel.addMouseListener(mouse);
 			manaPanel.addMouseMotionListener(mouse);
 
-			this.passButton.pushListener(new java.awt.event.ActionListener()
+			this.passButton.pushListener(new ActionListener()
 			{
 				@Override
-				public void actionPerformed(java.awt.event.ActionEvent e)
+				public void actionPerformed(ActionEvent e)
 				{
 					Play.this.passButton.popListener();
 					manaPanel.removeMouseListener(mouse);
@@ -1081,8 +1164,8 @@ public class Play
 			return;
 
 		case MODE:
-			ModeChoicePanel panel = new ModeChoicePanel(this, (java.util.List<SanitizedMode>)parameterObject.choices, parameterObject.number);
-			javax.swing.JInternalFrame window = new javax.swing.JInternalFrame(JMagicTextPane.getModeChoiceText(parameterObject.number) + ".");
+			ModeChoicePanel panel = new ModeChoicePanel(this, (List<SanitizedMode>)parameterObject.choices, parameterObject.number);
+			JInternalFrame window = new JInternalFrame(JMagicTextPane.getModeChoiceText(parameterObject.number) + ".");
 			window.add(panel);
 			this.pushPopup(window);
 			return;
@@ -1112,7 +1195,7 @@ public class Play
 		case SINGLE_TARGET:
 			// TODO :
 			// this.chooseSingleTarget(parameterObject);
-			this.chooseText(parameterObject, new org.rnd.util.CompareOnToString<T>());
+			this.chooseText(parameterObject, new CompareOnToString<T>());
 			return;
 
 		case PILE: // new dialog similar to object chooser but with check boxes
@@ -1147,37 +1230,37 @@ public class Play
 			// method
 		}
 
-		this.chooseText(parameterObject, new org.rnd.util.CompareOnToString<T>());
+		this.chooseText(parameterObject, new CompareOnToString<T>());
 	}
 
-	private <T extends java.io.Serializable> void chooseText(final PlayerInterface.ChooseParameters<T> parameterObject, java.util.Comparator<T> comparator)
+	private <T extends Serializable> void chooseText(final PlayerInterface.ChooseParameters<T> parameterObject, Comparator<T> comparator)
 	{
-		Integer lowerBound = org.rnd.jmagic.engine.generators.Minimum.get(parameterObject.number);
-		Integer upperBound = org.rnd.jmagic.engine.generators.Maximum.get(parameterObject.number);
+		Integer lowerBound = Minimum.get(parameterObject.number);
+		Integer upperBound = Maximum.get(parameterObject.number);
 		boolean mustChooseExactlyOne = ((lowerBound == 1) && (upperBound == 1));
 		TextChoicePanel panel = new TextChoicePanel(this, parameterObject.choices, comparator, mustChooseExactlyOne);
-		javax.swing.JInternalFrame window = new javax.swing.JInternalFrame();
+		JInternalFrame window = new JInternalFrame();
 		window.add(panel);
 		this.pushPopup(window);
 	}
 
-	public void chooseNumber(final org.rnd.util.NumberRange range, String description)
+	public void chooseNumber(final NumberRange range, String description)
 	{
-		final java.awt.TextField number = new java.awt.TextField(6);
+		final TextField number = new TextField(6);
 
-		final javax.swing.JInternalFrame window = new javax.swing.JInternalFrame();
-		window.setLayout(new java.awt.BorderLayout());
-		window.add(number, java.awt.BorderLayout.CENTER);
+		final JInternalFrame window = new JInternalFrame();
+		window.setLayout(new BorderLayout());
+		window.add(number, BorderLayout.CENTER);
 
 		this.displayChoiceText(description, true);
 		this.mainWindow.toFront();
 
 		this.passButton.setEnabled(false);
 
-		java.awt.event.ActionListener actionListener = new java.awt.event.ActionListener()
+		ActionListener actionListener = new ActionListener()
 		{
 			@Override
-			public void actionPerformed(java.awt.event.ActionEvent e)
+			public void actionPerformed(ActionEvent e)
 			{
 				String input = number.getText();
 
@@ -1204,13 +1287,13 @@ public class Play
 		};
 		number.addActionListener(actionListener);
 
-		final javax.swing.JButton doneButton = new javax.swing.JButton("Done");
+		final JButton doneButton = new JButton("Done");
 		doneButton.addActionListener(actionListener);
 
-		number.addTextListener(new java.awt.event.TextListener()
+		number.addTextListener(new TextListener()
 		{
 			@Override
-			public void textValueChanged(java.awt.event.TextEvent e)
+			public void textValueChanged(TextEvent e)
 			{
 				String text = number.getText();
 				if((0 == text.length()) || text.matches(".*\\D.*"))
@@ -1220,23 +1303,23 @@ public class Play
 			}
 		});
 
-		java.awt.FlowLayout flow = new java.awt.FlowLayout();
-		flow.setAlignment(java.awt.FlowLayout.RIGHT);
-		javax.swing.JPanel bottomPanel = new javax.swing.JPanel(flow);
+		FlowLayout flow = new FlowLayout();
+		flow.setAlignment(FlowLayout.RIGHT);
+		JPanel bottomPanel = new JPanel(flow);
 		bottomPanel.add(doneButton);
-		window.add(bottomPanel, java.awt.BorderLayout.PAGE_END);
+		window.add(bottomPanel, BorderLayout.PAGE_END);
 
 		this.pushPopup(window);
 	}
 
-	private <T extends java.io.Serializable> void chooseObjectOrPlayer(PlayerInterface.ChooseParameters<T> parameterObject) throws InternalError
+	private <T extends Serializable> void chooseObjectOrPlayer(PlayerInterface.ChooseParameters<T> parameterObject) throws InternalError
 	{
-		this.choices = new java.util.LinkedList<Object>(parameterObject.choices);
-		this.choose = new java.util.LinkedList<Integer>();
+		this.choices = new LinkedList<Object>(parameterObject.choices);
+		this.choose = new LinkedList<Integer>();
 		this.choiceType = parameterObject.type;
 
-		java.util.List<Integer> choiceIDsForDialog = new java.util.LinkedList<Integer>();
-		java.util.Collection<Integer> hands = new java.util.LinkedList<Integer>();
+		List<Integer> choiceIDsForDialog = new LinkedList<Integer>();
+		Collection<Integer> hands = new LinkedList<Integer>();
 		for(int player: this.state.players)
 			hands.add(((SanitizedPlayer)this.state.get(player)).hand);
 		boolean showDialog = false;
@@ -1263,35 +1346,35 @@ public class Play
 		if(showDialog)
 		{
 			ObjectChoosePanel objectPanel = new ObjectChoosePanel(this, choiceIDsForDialog);
-			final javax.swing.JInternalFrame objectWindow = new javax.swing.JInternalFrame();
-			objectWindow.setLayout(new java.awt.BorderLayout());
-			objectWindow.add(objectPanel, java.awt.BorderLayout.CENTER);
+			final JInternalFrame objectWindow = new JInternalFrame();
+			objectWindow.setLayout(new BorderLayout());
+			objectWindow.add(objectPanel, BorderLayout.CENTER);
 
-			java.awt.FlowLayout flow = new java.awt.FlowLayout();
-			flow.setAlignment(java.awt.FlowLayout.RIGHT);
-			javax.swing.JPanel bottomPanel = new javax.swing.JPanel(flow);
+			FlowLayout flow = new FlowLayout();
+			flow.setAlignment(FlowLayout.RIGHT);
+			JPanel bottomPanel = new JPanel(flow);
 
-			javax.swing.JButton doneButton = new javax.swing.JButton("Done");
-			doneButton.addActionListener(new java.awt.event.ActionListener()
+			JButton doneButton = new JButton("Done");
+			doneButton.addActionListener(new ActionListener()
 			{
 				@Override
-				public void actionPerformed(java.awt.event.ActionEvent e)
+				public void actionPerformed(ActionEvent e)
 				{
 					Play.this.alertGuiEvent(new DoneClickedEvent());
 				}
 			});
 			bottomPanel.add(doneButton);
 
-			objectWindow.add(bottomPanel, java.awt.BorderLayout.PAGE_END);
+			objectWindow.add(bottomPanel, BorderLayout.PAGE_END);
 
 			this.pushPopup(objectWindow);
 			return;
 		}
 
-		this.passButton.pushListener(new java.awt.event.ActionListener()
+		this.passButton.pushListener(new ActionListener()
 		{
 			@Override
-			public void actionPerformed(java.awt.event.ActionEvent e)
+			public void actionPerformed(ActionEvent e)
 			{
 				Play.this.choiceType = null;
 				Play.this.passButton.popListener();
@@ -1301,17 +1384,17 @@ public class Play
 
 	// TODO : This is a copy+paste of chooseObject with tweaks. How much of this
 	// can be extracted?
-	private <T extends java.io.Serializable> void chooseTarget(PlayerInterface.ChooseParameters<T> parameterObject) throws InternalError
+	private <T extends Serializable> void chooseTarget(PlayerInterface.ChooseParameters<T> parameterObject) throws InternalError
 	{
-		this.choices = new java.util.LinkedList<Object>();
+		this.choices = new LinkedList<Object>();
 		for(Object t: parameterObject.choices)
 			this.choices.add(this.state.get(((SanitizedTarget)t).targetID));
 
-		this.choose = new java.util.LinkedList<Integer>();
+		this.choose = new LinkedList<Integer>();
 		this.choiceType = parameterObject.type;
 
-		java.util.List<Integer> choiceIDsForDialog = new java.util.LinkedList<Integer>();
-		java.util.Collection<Integer> hands = new java.util.LinkedList<Integer>();
+		List<Integer> choiceIDsForDialog = new LinkedList<Integer>();
+		Collection<Integer> hands = new LinkedList<Integer>();
 		for(int player: this.state.players)
 			hands.add(((SanitizedPlayer)this.state.get(player)).hand);
 		boolean showDialog = false;
@@ -1337,34 +1420,34 @@ public class Play
 		if(showDialog)
 		{
 			ObjectChoosePanel objectPanel = new ObjectChoosePanel(this, choiceIDsForDialog);
-			final javax.swing.JInternalFrame objectWindow = new javax.swing.JInternalFrame();
-			objectWindow.setLayout(new java.awt.BorderLayout());
-			objectWindow.add(objectPanel, java.awt.BorderLayout.CENTER);
+			final JInternalFrame objectWindow = new JInternalFrame();
+			objectWindow.setLayout(new BorderLayout());
+			objectWindow.add(objectPanel, BorderLayout.CENTER);
 
-			javax.swing.JButton doneButton = new javax.swing.JButton("Done");
-			doneButton.addActionListener(new java.awt.event.ActionListener()
+			JButton doneButton = new JButton("Done");
+			doneButton.addActionListener(new ActionListener()
 			{
 				@Override
-				public void actionPerformed(java.awt.event.ActionEvent e)
+				public void actionPerformed(ActionEvent e)
 				{
 					Play.this.alertGuiEvent(new DoneClickedEvent());
 				}
 			});
 
-			java.awt.FlowLayout flow = new java.awt.FlowLayout();
-			flow.setAlignment(java.awt.FlowLayout.RIGHT);
-			javax.swing.JPanel bottomPanel = new javax.swing.JPanel(flow);
+			FlowLayout flow = new FlowLayout();
+			flow.setAlignment(FlowLayout.RIGHT);
+			JPanel bottomPanel = new JPanel(flow);
 			bottomPanel.add(doneButton);
-			objectWindow.add(bottomPanel, java.awt.BorderLayout.PAGE_END);
+			objectWindow.add(bottomPanel, BorderLayout.PAGE_END);
 
 			this.pushPopup(objectWindow);
 			return;
 		}
 
-		this.passButton.pushListener(new java.awt.event.ActionListener()
+		this.passButton.pushListener(new ActionListener()
 		{
 			@Override
-			public void actionPerformed(java.awt.event.ActionEvent e)
+			public void actionPerformed(ActionEvent e)
 			{
 				Play.this.choiceType = null;
 				Play.this.passButton.popListener();
@@ -1375,21 +1458,21 @@ public class Play
 	}
 
 	@SuppressWarnings({"unchecked", "unused"})
-	private <T extends java.io.Serializable> void chooseSingleTarget(final org.rnd.jmagic.engine.PlayerInterface.ChooseParameters<T> parameterObject)
+	private <T extends Serializable> void chooseSingleTarget(final PlayerInterface.ChooseParameters<T> parameterObject)
 	{
 		this.choiceType = PlayerInterface.ChoiceType.SINGLE_TARGET;
 
-		final javax.swing.JInternalFrame chooseDialog = new javax.swing.JInternalFrame();
-		chooseDialog.setLayout(new javax.swing.BoxLayout(chooseDialog.getContentPane(), javax.swing.BoxLayout.Y_AXIS));
+		final JInternalFrame chooseDialog = new JInternalFrame();
+		chooseDialog.setLayout(new BoxLayout(chooseDialog.getContentPane(), BoxLayout.Y_AXIS));
 
 		final ScrollingCardPanel.InnerCardPanel<SanitizedTarget> cardPanel = new ScrollingCardPanel.InnerCardPanel<SanitizedTarget>(this)
 		{
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public java.awt.Image getImage(SanitizedTarget target)
+			public Image getImage(SanitizedTarget target)
 			{
-				java.awt.Image smallCard = null;
+				Image smallCard = null;
 				SanitizedIdentified ref = this.gui.state.get(target.targetID);
 				if(ref instanceof SanitizedGameObject)
 					smallCard = CardGraphics.getSmallCard(ref, this.gui.state, false, false, this.getFont());
@@ -1397,11 +1480,11 @@ public class Play
 					smallCard = CardGraphics.renderTextAsSmallCard(ref.name, this.getFont());
 
 				CardGraphics g2 = new CardGraphics(smallCard.getGraphics(), this.gui.state);
-				g2.setBackground(java.awt.Color.WHITE);
-				g2.setColor(java.awt.Color.BLACK);
+				g2.setBackground(Color.WHITE);
+				g2.setColor(Color.BLACK);
 				g2.clearRect(CardGraphics.SMALL_CARD_PADDING_LEFT, CardGraphics.SMALL_CARD_PADDING_TOP, CardGraphics.SMALL_CARD_TEXT_WIDTH, CardGraphics.SMALL_CARD_TOTAL_TEXT_HEIGHT);
 				g2.drawRect(CardGraphics.SMALL_CARD_PADDING_LEFT, CardGraphics.SMALL_CARD_PADDING_TOP, CardGraphics.SMALL_CARD_TEXT_WIDTH, CardGraphics.SMALL_CARD_TOTAL_TEXT_HEIGHT);
-				g2.drawCardText(target.name, g2.getFont(), CardGraphics.SMALL_CARD_PADDING_LEFT, CardGraphics.SMALL_CARD_PADDING_TOP, new java.awt.Dimension(CardGraphics.SMALL_CARD_TEXT_WIDTH, CardGraphics.SMALL_CARD_TOTAL_TEXT_HEIGHT), false, true);
+				g2.drawCardText(target.name, g2.getFont(), CardGraphics.SMALL_CARD_PADDING_LEFT, CardGraphics.SMALL_CARD_PADDING_TOP, new Dimension(CardGraphics.SMALL_CARD_TEXT_WIDTH, CardGraphics.SMALL_CARD_TOTAL_TEXT_HEIGHT), false, true);
 
 				return smallCard;
 			}
@@ -1413,39 +1496,39 @@ public class Play
 			}
 		};
 		ScrollingCardPanel scroll = new ScrollingCardPanel(cardPanel);
-		scroll.setMaximumSize(new java.awt.Dimension(Integer.MAX_VALUE, this.mainWindow.getWidth() - 100));
-		cardPanel.update(new java.util.LinkedList<SanitizedTarget>((java.util.Collection<SanitizedTarget>)parameterObject.choices), true);
+		scroll.setMaximumSize(new Dimension(Integer.MAX_VALUE, this.mainWindow.getWidth() - 100));
+		cardPanel.update(new LinkedList<SanitizedTarget>((Collection<SanitizedTarget>)parameterObject.choices), true);
 		chooseDialog.add(scroll);
 
-		javax.swing.JButton doneButton = new javax.swing.JButton("Done");
-		doneButton.addActionListener(new java.awt.event.ActionListener()
+		JButton doneButton = new JButton("Done");
+		doneButton.addActionListener(new ActionListener()
 		{
 			@Override
-			public void actionPerformed(java.awt.event.ActionEvent e)
+			public void actionPerformed(ActionEvent e)
 			{
 				Play.this.alertGuiEvent(new DoneClickedEvent());
 			}
 		});
 
-		java.awt.FlowLayout flow = new java.awt.FlowLayout();
-		flow.setAlignment(java.awt.FlowLayout.RIGHT);
-		javax.swing.JPanel bottomPanel = new javax.swing.JPanel(flow);
+		FlowLayout flow = new FlowLayout();
+		flow.setAlignment(FlowLayout.RIGHT);
+		JPanel bottomPanel = new JPanel(flow);
 		bottomPanel.add(doneButton);
 		chooseDialog.add(bottomPanel);
 
-		this.choose = new java.util.LinkedList<Integer>();
+		this.choose = new LinkedList<Integer>();
 		this.pushPopup(chooseDialog);
 	}
 
 	@SuppressWarnings("unchecked")
-	private <T extends java.io.Serializable> void choosePile(final org.rnd.jmagic.engine.PlayerInterface.ChooseParameters<T> parameterObject)
+	private <T extends Serializable> void choosePile(final PlayerInterface.ChooseParameters<T> parameterObject)
 	{
-		final javax.swing.JInternalFrame chooseDialog = new javax.swing.JInternalFrame();
-		chooseDialog.setLayout(new javax.swing.BoxLayout(chooseDialog.getContentPane(), javax.swing.BoxLayout.Y_AXIS));
+		final JInternalFrame chooseDialog = new JInternalFrame();
+		chooseDialog.setLayout(new BoxLayout(chooseDialog.getContentPane(), BoxLayout.Y_AXIS));
 
-		boolean chooseExactlyOne = org.rnd.jmagic.engine.generators.Minimum.get(parameterObject.number) == 1 && org.rnd.jmagic.engine.generators.Maximum.get(parameterObject.number) == 1;
-		javax.swing.ButtonGroup buttons = chooseExactlyOne ? new javax.swing.ButtonGroup() : null;
-		final java.util.List<javax.swing.JToggleButton> toggles = new java.util.LinkedList<javax.swing.JToggleButton>();
+		boolean chooseExactlyOne = Minimum.get(parameterObject.number) == 1 && Maximum.get(parameterObject.number) == 1;
+		ButtonGroup buttons = chooseExactlyOne ? new ButtonGroup() : null;
+		final List<JToggleButton> toggles = new LinkedList<JToggleButton>();
 
 		final boolean renderCounters = Boolean.parseBoolean(this.properties.getProperty(PropertyKeys.RENDER_COUNTERS));
 		for(T pile: parameterObject.choices)
@@ -1455,7 +1538,7 @@ public class Play
 				private static final long serialVersionUID = 1L;
 
 				@Override
-				public java.awt.Image getImage(SanitizedIdentified ref)
+				public Image getImage(SanitizedIdentified ref)
 				{
 					if(ref instanceof SanitizedGameObject)
 						return CardGraphics.getSmallCard(ref, this.gui.state, false, renderCounters, this.getFont());
@@ -1469,19 +1552,19 @@ public class Play
 				}
 			};
 			ScrollingCardPanel scroll = new ScrollingCardPanel(pilePanel);
-			scroll.setMaximumSize(new java.awt.Dimension(Integer.MAX_VALUE, this.mainWindow.getWidth() - 100));
-			pilePanel.update(new java.util.LinkedList<SanitizedIdentified>((java.util.Collection<SanitizedIdentified>)pile), true);
+			scroll.setMaximumSize(new Dimension(Integer.MAX_VALUE, this.mainWindow.getWidth() - 100));
+			pilePanel.update(new LinkedList<SanitizedIdentified>((Collection<SanitizedIdentified>)pile), true);
 
-			javax.swing.Box container = javax.swing.Box.createHorizontalBox();
+			Box container = Box.createHorizontalBox();
 
-			javax.swing.JToggleButton button = null;
+			JToggleButton button = null;
 			if(chooseExactlyOne)
 			{
-				button = new javax.swing.JRadioButton();
+				button = new JRadioButton();
 				buttons.add(button);
 			}
 			else
-				button = new javax.swing.JCheckBox();
+				button = new JCheckBox();
 			toggles.add(button);
 			container.add(button);
 			container.add(scroll);
@@ -1489,16 +1572,16 @@ public class Play
 			chooseDialog.add(container);
 		}
 
-		javax.swing.JButton doneButton = new javax.swing.JButton("Done");
-		doneButton.addActionListener(new java.awt.event.ActionListener()
+		JButton doneButton = new JButton("Done");
+		doneButton.addActionListener(new ActionListener()
 		{
 			@Override
-			public void actionPerformed(java.awt.event.ActionEvent e)
+			public void actionPerformed(ActionEvent e)
 			{
 				Play.this.choose.clear();
 				for(int i = 0; i < toggles.size(); ++i)
 				{
-					javax.swing.JToggleButton toggle = toggles.get(i);
+					JToggleButton toggle = toggles.get(i);
 					if(toggle.isSelected())
 						Play.this.choose.add(i);
 				}
@@ -1506,21 +1589,21 @@ public class Play
 			}
 		});
 
-		java.awt.FlowLayout flow = new java.awt.FlowLayout();
-		flow.setAlignment(java.awt.FlowLayout.RIGHT);
-		javax.swing.JPanel bottomPanel = new javax.swing.JPanel(flow);
+		FlowLayout flow = new FlowLayout();
+		flow.setAlignment(FlowLayout.RIGHT);
+		JPanel bottomPanel = new JPanel(flow);
 		bottomPanel.add(doneButton);
 		chooseDialog.add(bottomPanel);
 
-		this.choose = new java.util.LinkedList<Integer>();
+		this.choose = new LinkedList<Integer>();
 		this.pushPopup(chooseDialog);
 	}
 
-	private void populateScrollListener(java.awt.Component c, java.awt.event.MouseWheelListener l)
+	private void populateScrollListener(Component c, MouseWheelListener l)
 	{
 		c.addMouseWheelListener(l);
-		if(c instanceof java.awt.Container)
-			for(java.awt.Component c2: ((java.awt.Container)c).getComponents())
+		if(c instanceof Container)
+			for(Component c2: ((Container)c).getComponents())
 				populateScrollListener(c2, l);
 	}
 
@@ -1562,20 +1645,20 @@ public class Play
 			this.configuration.addOptionPanel(optionPanel);
 
 		this.cardInfoPanel = new CardInfoPanel(this);
-		java.awt.event.MouseWheelListener scrollListener = this.cardInfoPanel.scroll.getMouseWheelListeners()[0];
+		MouseWheelListener scrollListener = this.cardInfoPanel.scroll.getMouseWheelListeners()[0];
 
 		this.statusLine = new MultilineLabel(4);
 		this.statusLine.setText(" ");
 		this.statusLine.setOpaque(true);
-		java.awt.Font font = new javax.swing.JLabel().getFont();
-		this.statusLine.setFont(font.deriveFont(java.awt.Font.BOLD, 1.25F * font.getSize()));
+		Font font = new JLabel().getFont();
+		this.statusLine.setFont(font.deriveFont(Font.BOLD, 1.25F * font.getSize()));
 		this.statusLine.setMaxWidth(CardGraphics.LARGE_CARD.width);
 
 		this.passButton = new DoneButton("Pass Priority");
-		this.passButton.addActionListener(new java.awt.event.ActionListener()
+		this.passButton.addActionListener(new ActionListener()
 		{
 			@Override
-			public void actionPerformed(java.awt.event.ActionEvent e)
+			public void actionPerformed(ActionEvent e)
 			{
 				Play.this.alertGuiEvent(new DoneClickedEvent());
 			}
@@ -1592,14 +1675,14 @@ public class Play
 		MiscZonePanel exilePanel = new MiscZonePanel(this, this.properties.getProperty(PropertyKeys.MISC_ZONE_R));
 		this.zoneContentsPanels.add(exilePanel);
 
-		javax.swing.JPanel miscObjectsPanel = new javax.swing.JPanel(new java.awt.GridBagLayout());
+		JPanel miscObjectsPanel = new JPanel(new GridBagLayout());
 		// Don't define an inset on the bottom except for the last component
-		java.awt.Insets normalInsets = new java.awt.Insets(labelPaddingAmount, labelPaddingAmount, 0, labelPaddingAmount);
-		java.awt.Insets bottomInsets = new java.awt.Insets(labelPaddingAmount, labelPaddingAmount, labelPaddingAmount, labelPaddingAmount);
+		Insets normalInsets = new Insets(labelPaddingAmount, labelPaddingAmount, 0, labelPaddingAmount);
+		Insets bottomInsets = new Insets(labelPaddingAmount, labelPaddingAmount, labelPaddingAmount, labelPaddingAmount);
 
 		{
-			java.awt.GridBagConstraints c = new java.awt.GridBagConstraints();
-			c.anchor = java.awt.GridBagConstraints.CENTER;
+			GridBagConstraints c = new GridBagConstraints();
+			c.anchor = GridBagConstraints.CENTER;
 			c.gridwidth = 2;
 			c.gridx = 0;
 			c.gridy = 0;
@@ -1610,8 +1693,8 @@ public class Play
 		}
 
 		{
-			java.awt.GridBagConstraints c = new java.awt.GridBagConstraints();
-			c.fill = java.awt.GridBagConstraints.HORIZONTAL;
+			GridBagConstraints c = new GridBagConstraints();
+			c.fill = GridBagConstraints.HORIZONTAL;
 			c.gridwidth = 2;
 			c.gridx = 0;
 			c.gridy = 1;
@@ -1622,8 +1705,8 @@ public class Play
 		}
 
 		{
-			java.awt.GridBagConstraints c = new java.awt.GridBagConstraints();
-			c.fill = java.awt.GridBagConstraints.HORIZONTAL;
+			GridBagConstraints c = new GridBagConstraints();
+			c.fill = GridBagConstraints.HORIZONTAL;
 			c.gridx = 0;
 			c.gridy = 2;
 			c.insets = normalInsets;
@@ -1633,8 +1716,8 @@ public class Play
 		}
 
 		{
-			java.awt.GridBagConstraints c = new java.awt.GridBagConstraints();
-			c.fill = java.awt.GridBagConstraints.HORIZONTAL;
+			GridBagConstraints c = new GridBagConstraints();
+			c.fill = GridBagConstraints.HORIZONTAL;
 			c.gridx = 1;
 			c.gridy = 2;
 			c.insets = normalInsets;
@@ -1644,8 +1727,8 @@ public class Play
 		}
 
 		{
-			java.awt.GridBagConstraints c = new java.awt.GridBagConstraints();
-			c.fill = java.awt.GridBagConstraints.VERTICAL;
+			GridBagConstraints c = new GridBagConstraints();
+			c.fill = GridBagConstraints.VERTICAL;
 			c.gridx = 0;
 			c.gridy = 3;
 			c.insets = bottomInsets;
@@ -1655,8 +1738,8 @@ public class Play
 		}
 
 		{
-			java.awt.GridBagConstraints c = new java.awt.GridBagConstraints();
-			c.fill = java.awt.GridBagConstraints.VERTICAL;
+			GridBagConstraints c = new GridBagConstraints();
+			c.fill = GridBagConstraints.VERTICAL;
 			c.gridx = 1;
 			c.gridy = 3;
 			c.insets = bottomInsets;
@@ -1668,8 +1751,8 @@ public class Play
 		PlayerPanel playerPanel = new PlayerPanel(this, this.playerID);
 		this.playerPanels.add(playerPanel);
 
-		javax.swing.JPanel opponentsPanel = new javax.swing.JPanel(new java.awt.GridLayout(1, 0));
-		java.util.Iterator<Integer> playerCycle = this.state.getPlayerCycle(this.playerID).iterator();
+		JPanel opponentsPanel = new JPanel(new GridLayout(1, 0));
+		Iterator<Integer> playerCycle = this.state.getPlayerCycle(this.playerID).iterator();
 		// Don't process the first player (should be the user)
 		playerCycle.next();
 		while(playerCycle.hasNext())
@@ -1681,26 +1764,26 @@ public class Play
 
 		this.battlefieldPanel = new BattlefieldPanel(this);
 
-		javax.swing.JPanel mainPanel = new javax.swing.JPanel(new java.awt.BorderLayout());
-		mainPanel.add(opponentsPanel, java.awt.BorderLayout.PAGE_START);
+		JPanel mainPanel = new JPanel(new BorderLayout());
+		mainPanel.add(opponentsPanel, BorderLayout.PAGE_START);
 		mainPanel.add(this.battlefieldPanel);
-		mainPanel.add(playerPanel, java.awt.BorderLayout.PAGE_END);
+		mainPanel.add(playerPanel, BorderLayout.PAGE_END);
 
-		this.mainWindow = new javax.swing.JFrame("jMagic");
-		javax.swing.JComponent glassPane = new javax.swing.JComponent()
+		this.mainWindow = new JFrame("jMagic");
+		JComponent glassPane = new JComponent()
 		{
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			protected void paintComponent(java.awt.Graphics g)
+			protected void paintComponent(Graphics g)
 			{
 				super.paintComponent(g);
 
-				java.util.Map<Arrow.ArrowType, Boolean> arrowEnabled = new java.util.HashMap<Arrow.ArrowType, Boolean>();
-				java.util.Map<Arrow.ArrowType, java.awt.Color> arrowColor = new java.util.HashMap<Arrow.ArrowType, java.awt.Color>();
+				Map<Arrow.ArrowType, Boolean> arrowEnabled = new HashMap<Arrow.ArrowType, Boolean>();
+				Map<Arrow.ArrowType, Color> arrowColor = new HashMap<Arrow.ArrowType, Color>();
 
 				int arrowFocus = Play.this.cardInfoPanel.getArrowFocus();
-				java.util.Collection<Arrow> focusArrows = Play.this.arrows.get(arrowFocus);
+				Collection<Arrow> focusArrows = Play.this.arrows.get(arrowFocus);
 				if(focusArrows != null && !focusArrows.isEmpty())
 				{
 					CardGraphics cg = new CardGraphics(g, Play.this.state);
@@ -1714,15 +1797,15 @@ public class Play
 
 							if(enabled)
 							{
-								java.awt.Color color = PropertyKeys.colorFromString(Play.this.properties.getProperty(PropertyKeys.getArrowColorKey(arrow.type)));
+								Color color = PropertyKeys.colorFromString(Play.this.properties.getProperty(PropertyKeys.getArrowColorKey(arrow.type)));
 								arrowColor.put(arrow.type, color);
 							}
 						}
 
 						if(arrowEnabled.get(arrow.type))
 						{
-							java.awt.Point source = Play.this.cardLocations.get(arrow.sourceID);
-							java.awt.Point target = Play.this.cardLocations.get(arrow.targetID);
+							Point source = Play.this.cardLocations.get(arrow.sourceID);
+							Point target = Play.this.cardLocations.get(arrow.targetID);
 							if(target != null && source != null)
 								cg.drawArrow(source, target, arrowColor.get(arrow.type), arrow.type.isHollow());
 						}
@@ -1733,31 +1816,31 @@ public class Play
 		this.mainWindow.setGlassPane(glassPane);
 		glassPane.setVisible(true);
 		this.mainWindow.addMouseWheelListener(scrollListener);
-		this.mainWindow.add(miscObjectsPanel, java.awt.BorderLayout.LINE_START);
+		this.mainWindow.add(miscObjectsPanel, BorderLayout.LINE_START);
 
 		this.logPanel = new LogPanel();
 
-		final javax.swing.JTextField messageField = new javax.swing.JTextField();
-		messageField.addActionListener(new java.awt.event.ActionListener()
+		final JTextField messageField = new JTextField();
+		messageField.addActionListener(new ActionListener()
 		{
 			@Override
-			public void actionPerformed(java.awt.event.ActionEvent e)
+			public void actionPerformed(ActionEvent e)
 			{
 				Play.this.messagePoster.postMessage(messageField.getText());
 				messageField.setText("");
 			}
 		});
 
-		this.turnLabel = new javax.swing.JLabel(" ");
-		this.turnLabel.setFont(this.turnLabel.getFont().deriveFont(java.awt.Font.BOLD));
+		this.turnLabel = new JLabel(" ");
+		this.turnLabel.setFont(this.turnLabel.getFont().deriveFont(Font.BOLD));
 
 		this.stepLabel = new StepLabel();
 
-		javax.swing.JPanel choiceInfoPanel = new javax.swing.JPanel(new java.awt.GridBagLayout());
+		JPanel choiceInfoPanel = new JPanel(new GridBagLayout());
 
 		{
-			java.awt.GridBagConstraints c = new java.awt.GridBagConstraints();
-			c.fill = java.awt.GridBagConstraints.BOTH;
+			GridBagConstraints c = new GridBagConstraints();
+			c.fill = GridBagConstraints.BOTH;
 			c.gridx = 0;
 			c.gridy = 0;
 			c.insets = normalInsets;
@@ -1767,8 +1850,8 @@ public class Play
 		}
 
 		{
-			java.awt.GridBagConstraints c = new java.awt.GridBagConstraints();
-			c.fill = java.awt.GridBagConstraints.BOTH;
+			GridBagConstraints c = new GridBagConstraints();
+			c.fill = GridBagConstraints.BOTH;
 			c.gridx = 0;
 			c.gridy = 1;
 			c.insets = normalInsets;
@@ -1778,8 +1861,8 @@ public class Play
 		}
 
 		{
-			java.awt.GridBagConstraints c = new java.awt.GridBagConstraints();
-			c.fill = java.awt.GridBagConstraints.HORIZONTAL;
+			GridBagConstraints c = new GridBagConstraints();
+			c.fill = GridBagConstraints.HORIZONTAL;
 			c.gridx = 0;
 			c.gridy = 2;
 			c.insets = normalInsets;
@@ -1789,8 +1872,8 @@ public class Play
 		}
 
 		{
-			java.awt.GridBagConstraints c = new java.awt.GridBagConstraints();
-			c.fill = java.awt.GridBagConstraints.HORIZONTAL;
+			GridBagConstraints c = new GridBagConstraints();
+			c.fill = GridBagConstraints.HORIZONTAL;
 			c.gridx = 0;
 			c.gridy = 3;
 			c.insets = bottomInsets;
@@ -1799,47 +1882,47 @@ public class Play
 			choiceInfoPanel.add(this.stepLabel, c);
 		}
 
-		this.splitPane = new javax.swing.JSplitPane(javax.swing.JSplitPane.HORIZONTAL_SPLIT, true, mainPanel, choiceInfoPanel);
+		this.splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, mainPanel, choiceInfoPanel);
 		this.splitPane.setResizeWeight(1);
-		final javax.swing.plaf.basic.BasicSplitPaneDivider divider = ((javax.swing.plaf.basic.BasicSplitPaneUI)this.splitPane.getUI()).getDivider();
-		divider.addMouseListener(new java.awt.event.MouseAdapter()
+		final BasicSplitPaneDivider divider = ((BasicSplitPaneUI)this.splitPane.getUI()).getDivider();
+		divider.addMouseListener(new MouseAdapter()
 		{
 			@Override
-			public void mouseEntered(java.awt.event.MouseEvent me)
+			public void mouseEntered(MouseEvent me)
 			{
-				Play.this.mainWindow.setCursor(java.awt.Cursor.getPredefinedCursor(java.awt.Cursor.E_RESIZE_CURSOR));
+				Play.this.mainWindow.setCursor(Cursor.getPredefinedCursor(Cursor.E_RESIZE_CURSOR));
 			}
 
 			@Override
-			public void mouseExited(java.awt.event.MouseEvent me)
+			public void mouseExited(MouseEvent me)
 			{
-				Play.this.mainWindow.setCursor(java.awt.Cursor.getPredefinedCursor(java.awt.Cursor.DEFAULT_CURSOR));
+				Play.this.mainWindow.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 			}
 		});
 
 		this.mainWindow.add(this.splitPane);
 
-		this.mainWindow.add(new MainMenu(this), java.awt.BorderLayout.PAGE_START);
+		this.mainWindow.add(new MainMenu(this), BorderLayout.PAGE_START);
 
 		populateScrollListener(this.mainWindow, scrollListener);
 		this.mainWindow.getGlassPane().removeMouseWheelListener(scrollListener);
 
 		this.mainWindow.pack();
 
-		this.mainWindow.addComponentListener(new java.awt.event.ComponentAdapter()
+		this.mainWindow.addComponentListener(new ComponentAdapter()
 		{
 			@Override
-			public void componentResized(java.awt.event.ComponentEvent event)
+			public void componentResized(ComponentEvent event)
 			{
 				for(PlayerPanel p: Play.this.playerPanels)
 					p.update(false);
 			}
 		});
-		this.mainWindow.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-		this.mainWindow.addWindowListener(new java.awt.event.WindowAdapter()
+		this.mainWindow.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+		this.mainWindow.addWindowListener(new WindowAdapter()
 		{
 			@Override
-			public void windowClosed(java.awt.event.WindowEvent e)
+			public void windowClosed(WindowEvent e)
 			{
 				synchronized(Play.this.creatingThread)
 				{
@@ -1856,13 +1939,13 @@ public class Play
 
 		if(active)
 		{
-			this.statusLine.setBackground(javax.swing.UIManager.getColor("EditorPane.selectionBackground"));
-			this.statusLine.setForeground(javax.swing.UIManager.getColor("EditorPane.selectionForeground"));
+			this.statusLine.setBackground(UIManager.getColor("EditorPane.selectionBackground"));
+			this.statusLine.setForeground(UIManager.getColor("EditorPane.selectionForeground"));
 		}
 		else
 		{
-			this.statusLine.setBackground(javax.swing.UIManager.getColor("Label.background"));
-			this.statusLine.setForeground(javax.swing.UIManager.getColor("Label.foreground"));
+			this.statusLine.setBackground(UIManager.getColor("Label.background"));
+			this.statusLine.setForeground(UIManager.getColor("Label.foreground"));
 		}
 
 		this.mainWindow.setTitle("jMagic" + (0 == text.length() ? "" : (" - " + text)));
@@ -1882,23 +1965,23 @@ public class Play
 	 * {@link SanitizedTarget#division} set for each object or player indicating
 	 * how much of <code>quantity</code> that object or player has received
 	 */
-	public void divide(int quantity, int minimum, int whatFrom, String beingDivided, final java.util.List<SanitizedTarget> targets)
+	public void divide(int quantity, int minimum, int whatFrom, String beingDivided, final List<SanitizedTarget> targets)
 	{
 		final String oldTitle = this.mainWindow.getTitle();
 		this.displayChoiceText("Divide " + quantity + " " + beingDivided + ".", true);
 		this.mainWindow.toFront();
 
-		this.divisions = new java.util.HashMap<Integer, Integer>();
+		this.divisions = new HashMap<Integer, Integer>();
 		this.divideSomewhatSensibly(quantity, minimum, targets);
 
 		this.clearIndicated();
 		this.indicateObject(whatFrom);
 		this.mainWindow.repaint();
 
-		this.passButton.pushListener(new java.awt.event.ActionListener()
+		this.passButton.pushListener(new ActionListener()
 		{
 			@Override
-			public void actionPerformed(java.awt.event.ActionEvent e)
+			public void actionPerformed(ActionEvent e)
 			{
 				Play.this.passButton.popListener();
 				synchronized(this)
@@ -1918,9 +2001,9 @@ public class Play
 	 * Not a perfect division algorithm (which doesn't exist), but sensible in
 	 * trying to assign damage
 	 */
-	private void divideSomewhatSensibly(int quantity, int minimum, java.util.List<SanitizedTarget> targets)
+	private void divideSomewhatSensibly(int quantity, int minimum, List<SanitizedTarget> targets)
 	{
-		java.util.List<SanitizedTarget> dump = new java.util.LinkedList<SanitizedTarget>();
+		List<SanitizedTarget> dump = new LinkedList<SanitizedTarget>();
 		int total = 0;
 
 		// Assign the minimum to every target
@@ -1976,7 +2059,7 @@ public class Play
 		}
 	}
 
-	private void finishUpdateDivision(int id, String text, javax.swing.JInternalFrame pop)
+	private void finishUpdateDivision(int id, String text, JInternalFrame pop)
 	{
 		try
 		{
@@ -1986,19 +2069,19 @@ public class Play
 		{
 			// Unparseable number, ignore it
 		}
-		((javax.swing.JComponent)this.mainWindow.getGlassPane()).remove(pop);
+		((JComponent)this.mainWindow.getGlassPane()).remove(pop);
 		pop.dispose();
 		if(this.dividingOn == id)
 			this.dividingOn = -1;
 		this.mainWindow.repaint();
 	}
 
-	public org.rnd.jmagic.comms.ChatManager.Callback getChatCallback()
+	public ChatManager.Callback getChatCallback()
 	{
-		return new org.rnd.jmagic.comms.ChatManager.Callback()
+		return new ChatManager.Callback()
 		{
 			@Override
-			public void gotMessage(java.lang.String message)
+			public void gotMessage(String message)
 			{
 				Play.this.logPanel.addLine(message);
 			}
@@ -2010,7 +2093,7 @@ public class Play
 		return new PlayOptions();
 	}
 
-	public java.awt.Image getSmallCardImage(SanitizedIdentified object, boolean renderDamage, boolean renderCounters, java.awt.Font font)
+	public Image getSmallCardImage(SanitizedIdentified object, boolean renderDamage, boolean renderCounters, Font font)
 	{
 		if(object == null)
 			return CardGraphics.getSmallCard(null, this.state, renderDamage, renderCounters, font);
@@ -2025,8 +2108,8 @@ public class Play
 			index = this.choices.indexOf(object);
 		if((this.choose != null && this.choose.contains(index)) || (this.indicated.contains(object.ID)))
 		{
-			java.awt.image.BufferedImage ret = new java.awt.image.BufferedImage(CardGraphics.SMALL_CARD.width, CardGraphics.SMALL_CARD.height, java.awt.image.BufferedImage.TYPE_INT_RGB);
-			java.awt.Graphics2D graphics = ret.createGraphics();
+			BufferedImage ret = new BufferedImage(CardGraphics.SMALL_CARD.width, CardGraphics.SMALL_CARD.height, BufferedImage.TYPE_INT_RGB);
+			Graphics2D graphics = ret.createGraphics();
 			graphics.drawImage(this.smallImageCache.get(key), 0, 0, null);
 			graphics.drawImage(CardGraphics.getImage("smallframes/select.png"), 0, 0, null);
 
@@ -2036,12 +2119,12 @@ public class Play
 		return this.smallImageCache.get(key);
 	}
 
-	void battlefieldClicked(java.awt.event.MouseEvent mouseEvent)
+	void battlefieldClicked(MouseEvent mouseEvent)
 	{
 		this.alertGuiEvent(new BattlefieldClickEvent(mouseEvent));
 	}
 
-	void identifiedMouseEvent(final SanitizedIdentified chosenIdentified, java.awt.event.MouseEvent mouseEvent)
+	void identifiedMouseEvent(final SanitizedIdentified chosenIdentified, MouseEvent mouseEvent)
 	{
 		this.alertGuiEvent(new IdentifiedMouseEvent(chosenIdentified, mouseEvent));
 	}
@@ -2073,13 +2156,13 @@ public class Play
 	private void noResponses()
 	{
 		SanitizedIdentified stack = this.state.get(this.state.stack);
-		this.notRespondingTo = new java.util.LinkedList<Integer>(((SanitizedZone)stack).objects);
+		this.notRespondingTo = new LinkedList<Integer>(((SanitizedZone)stack).objects);
 		this.pass();
 	}
 
 	void pass()
 	{
-		this.choose = new java.util.LinkedList<Integer>();
+		this.choose = new LinkedList<Integer>();
 		this.choiceReady();
 	}
 
@@ -2093,20 +2176,20 @@ public class Play
 
 	public void popPopup()
 	{
-		javax.swing.JInternalFrame window = this.popups.pop();
-		((javax.swing.JComponent)this.mainWindow.getGlassPane()).remove(window);
+		JInternalFrame window = this.popups.pop();
+		((JComponent)this.mainWindow.getGlassPane()).remove(window);
 		window.dispose();
 		this.mainWindow.repaint();
 	}
 
-	public void pushPopup(javax.swing.JInternalFrame window)
+	public void pushPopup(JInternalFrame window)
 	{
-		window.setMaximumSize(new java.awt.Dimension(this.mainWindow.getWidth() - 100, this.mainWindow.getHeight() - 100));
+		window.setMaximumSize(new Dimension(this.mainWindow.getWidth() - 100, this.mainWindow.getHeight() - 100));
 		this.popups.push(window);
-		((javax.swing.JComponent)this.mainWindow.getGlassPane()).add(window);
+		((JComponent)this.mainWindow.getGlassPane()).add(window);
 		window.pack();
-		java.awt.Dimension popupSize = window.getSize();
-		java.awt.Dimension totalSize = this.mainWindow.getSize();
+		Dimension popupSize = window.getSize();
+		Dimension totalSize = this.mainWindow.getSize();
 		window.setLocation((totalSize.width - popupSize.width) / 2, (totalSize.height - popupSize.height) / 2);
 		window.setVisible(true);
 	}
@@ -2126,7 +2209,7 @@ public class Play
 		this.indicated.remove((Object)ID);
 	}
 
-	public void setMessagePoster(org.rnd.jmagic.comms.ChatManager.MessagePoster messagePoster)
+	public void setMessagePoster(ChatManager.MessagePoster messagePoster)
 	{
 		this.messagePoster = messagePoster;
 	}
@@ -2136,7 +2219,7 @@ public class Play
 		this.playerID = playerID;
 	}
 
-	public void setProperties(java.util.Properties properties)
+	public void setProperties(Properties properties)
 	{
 		this.properties = properties;
 		for(Arrow.ArrowType type: Arrow.ArrowType.values())
@@ -2179,16 +2262,16 @@ public class Play
 		{
 			String message = "An unknown error occurred in the host.";
 			if(parameters instanceof PlayerInterface.ErrorParameters.CardLoadingError)
-				message = "The following cards weren't loaded properly: " + org.rnd.util.SeparatedList.get("and", ((PlayerInterface.ErrorParameters.CardLoadingError)parameters).cardNames);
+				message = "The following cards weren't loaded properly: " + SeparatedList.get("and", ((PlayerInterface.ErrorParameters.CardLoadingError)parameters).cardNames);
 			else if(parameters instanceof PlayerInterface.ErrorParameters.HostError)
 				message = "The host has encountered an error. The current game will no longer continue.";
 			else if(parameters instanceof PlayerInterface.ErrorParameters.IllegalCardsError)
-				message = "The following cards aren't legal in a deck list: " + org.rnd.util.SeparatedList.get("and", ((PlayerInterface.ErrorParameters.IllegalCardsError)parameters).cardNames);
+				message = "The following cards aren't legal in a deck list: " + SeparatedList.get("and", ((PlayerInterface.ErrorParameters.IllegalCardsError)parameters).cardNames);
 			else if(parameters instanceof PlayerInterface.ErrorParameters.DeckCheckError)
 				message = "The following deck check failed: " + ((PlayerInterface.ErrorParameters.DeckCheckError)parameters).rule;
 			else if(parameters instanceof PlayerInterface.ErrorParameters.CardCheckError)
 				message = "The following card check failed: " + ((PlayerInterface.ErrorParameters.CardCheckError)parameters).card;
-			javax.swing.JOptionPane.showMessageDialog(this.mainWindow, message, "jMagic Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this.mainWindow, message, "jMagic Error", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 

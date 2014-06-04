@@ -5,6 +5,9 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public final class Unleash extends Keyword
 {
 	public Unleash(GameState state)
@@ -13,9 +16,9 @@ public final class Unleash extends Keyword
 	}
 
 	@Override
-	protected java.util.List<StaticAbility> createStaticAbilities()
+	protected List<StaticAbility> createStaticAbilities()
 	{
-		java.util.List<StaticAbility> ret = new java.util.LinkedList<StaticAbility>();
+		List<StaticAbility> ret = new LinkedList<StaticAbility>();
 		ret.add(new PutCounter(this.state));
 		ret.add(new CantBlock(this.state));
 		return ret;

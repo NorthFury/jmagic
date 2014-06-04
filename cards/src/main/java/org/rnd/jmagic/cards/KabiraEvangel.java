@@ -2,8 +2,13 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Protection;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 @Name("Kabira Evangel")
 @Types({Type.CREATURE})
@@ -27,15 +32,15 @@ public final class KabiraEvangel extends Card
 		}
 
 		@Override
-		public void makeChoices(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public void makeChoices(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			Player you = parameters.get(Parameter.PLAYER).getOne(Player.class);
 			Color color = you.chooseColor(parameters.get(Parameter.CAUSE).getOne(NonStaticAbility.class).getSourceID());
-			event.putChoices(you, java.util.Collections.singleton(color));
+			event.putChoices(you, Collections.singleton(color));
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			MagicSet cause = parameters.get(Parameter.CAUSE);
 			Player you = parameters.get(Parameter.PLAYER).getOne(Player.class);
@@ -45,9 +50,9 @@ public final class KabiraEvangel extends Card
 
 			ContinuousEffect.Part protection = new ContinuousEffect.Part(ContinuousEffectType.ADD_ABILITY_TO_OBJECT);
 			protection.parameters.put(ContinuousEffectType.Parameter.OBJECT, Identity.instance(allies));
-			protection.parameters.put(ContinuousEffectType.Parameter.ABILITY, Identity.instance(new org.rnd.jmagic.abilities.keywords.Protection.AbilityFactory(color)));
+			protection.parameters.put(ContinuousEffectType.Parameter.ABILITY, Identity.instance(new Protection.AbilityFactory(color)));
 
-			java.util.Map<Parameter, MagicSet> fceParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> fceParameters = new HashMap<Parameter, MagicSet>();
 			fceParameters.put(Parameter.CAUSE, cause);
 			fceParameters.put(Parameter.EFFECT, new MagicSet(protection));
 			createEvent(game, "Allies you control gain protection from the chosen color until end of turn", EventType.CREATE_FLOATING_CONTINUOUS_EFFECT, fceParameters).perform(event, true);

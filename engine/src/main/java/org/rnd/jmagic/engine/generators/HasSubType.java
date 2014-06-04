@@ -2,6 +2,9 @@ package org.rnd.jmagic.engine.generators;
 
 import org.rnd.jmagic.engine.*;
 
+import java.util.Collection;
+import java.util.Set;
+
 /**
  * Evaluates to each GameObject which has the at least one of the given SubTypes
  */
@@ -22,7 +25,7 @@ public class HasSubType extends SetGenerator
 		return new HasSubType(what);
 	}
 
-	public static HasSubType instance(java.util.Collection<SubType> what)
+	public static HasSubType instance(Collection<SubType> what)
 	{
 		return new HasSubType(Identity.instance(what));
 	}
@@ -38,7 +41,7 @@ public class HasSubType extends SetGenerator
 	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
 		MagicSet ret = new MagicSet();
-		java.util.Set<SubType> types = this.type.evaluate(state, thisObject).getAll(SubType.class);
+		Set<SubType> types = this.type.evaluate(state, thisObject).getAll(SubType.class);
 		for(GameObject item: state.getAllObjects())
 			for(SubType type: types)
 				if(item.getSubTypes().contains(type))

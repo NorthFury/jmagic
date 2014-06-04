@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Enchant;
+import org.rnd.jmagic.abilities.keywords.Landwalk;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -17,7 +20,7 @@ public final class DryadsFavor extends Card
 		public DryadsFavorAbility1(GameState state)
 		{
 			super(state, "Enchanted creature has forestwalk.");
-			this.addEffectPart(addAbilityToObject(EnchantedBy.instance(This.instance()), org.rnd.jmagic.abilities.keywords.Landwalk.Forestwalk.class));
+			this.addEffectPart(addAbilityToObject(EnchantedBy.instance(This.instance()), Landwalk.Forestwalk.class));
 		}
 	}
 
@@ -26,7 +29,7 @@ public final class DryadsFavor extends Card
 		super(state);
 
 		// Enchant creature
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Enchant.Creature(state));
+		this.addAbility(new Enchant.Creature(state));
 
 		// Enchanted creature has forestwalk. (It's unblockable as long as
 		// defending player controls a Forest.)

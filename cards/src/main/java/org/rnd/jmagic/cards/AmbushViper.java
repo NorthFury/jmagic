@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Deathtouch;
+import org.rnd.jmagic.abilities.keywords.Flash;
 import org.rnd.jmagic.engine.*;
 
 @Name("Ambush Viper")
@@ -18,10 +20,10 @@ public final class AmbushViper extends Card
 		this.setToughness(1);
 
 		// Flash (You may cast this spell any time you could cast an instant.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flash(state));
+		this.addAbility(new Flash(state));
 
 		// Deathtouch (Any amount of damage this deals to a creature is enough
 		// to destroy it.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Deathtouch(state));
+		this.addAbility(new Deathtouch(state));
 	}
 }

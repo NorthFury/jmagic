@@ -3,6 +3,10 @@ package org.rnd.jmagic.engine.eventTypes;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
 public final class TurnPermanentsFaceDown extends EventType
 {	public static final EventType INSTANCE = new TurnPermanentsFaceDown();
 
@@ -18,9 +22,9 @@ public final class TurnPermanentsFaceDown extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
-		java.util.Set<GameObject> result = new java.util.HashSet<GameObject>();
+		Set<GameObject> result = new HashSet<GameObject>();
 		for(GameObject o: parameters.get(Parameter.OBJECT).getAll(GameObject.class))
 		{
 			if(o.isPermanent())

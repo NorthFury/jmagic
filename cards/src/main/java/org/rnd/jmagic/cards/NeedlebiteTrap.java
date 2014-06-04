@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.Trap;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -19,7 +20,7 @@ public final class NeedlebiteTrap extends Card
 
 		// If an opponent gained life this turn, you may pay (B) rather than pay
 		// Needlebite Trap's mana cost.
-		this.addAbility(new org.rnd.jmagic.abilities.Trap(state, "Needlebite Trap", LifeGainedThisTurn.instance(OpponentsOf.instance(You.instance())), "If an opponent gained life this turn", "(B)"));
+		this.addAbility(new Trap(state, "Needlebite Trap", LifeGainedThisTurn.instance(OpponentsOf.instance(You.instance())), "If an opponent gained life this turn", "(B)"));
 		state.ensureTracker(new LifeGainedThisTurn.LifeTracker());
 
 		// Target player loses 5 life and you gain 5 life.

@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.EntersTheBattlefieldWithCounters;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -34,7 +36,7 @@ public final class PrimeSpeakerZegana extends Card
 		// Prime Speaker Zegana enters the battlefield with X +1/+1 counters on
 		// it, where X is the greatest power among other creatures you control.
 		SetGenerator amount = Maximum.instance(PowerOf.instance(CREATURES_YOU_CONTROL));
-		this.addAbility(new org.rnd.jmagic.abilities.EntersTheBattlefieldWithCounters(state, "Prime Speaker Zegana", amount, "X +1/+1 counters on it, where X is the greatest power among other creatures you control", Counter.CounterType.PLUS_ONE_PLUS_ONE));
+		this.addAbility(new EntersTheBattlefieldWithCounters(state, "Prime Speaker Zegana", amount, "X +1/+1 counters on it, where X is the greatest power among other creatures you control", Counter.CounterType.PLUS_ONE_PLUS_ONE));
 
 		// When Prime Speaker Zegana enters the battlefield, draw cards equal to
 		// its power.

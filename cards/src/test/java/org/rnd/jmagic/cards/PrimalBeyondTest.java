@@ -3,6 +3,7 @@ package org.rnd.jmagic.cards;
 import static org.junit.Assert.*;
 
 import org.junit.*;
+import org.rnd.jmagic.abilities.Firebreathing;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.testing.*;
 
@@ -49,7 +50,7 @@ public class PrimalBeyondTest extends JUnitTest
 		assertTrue(this.game.actualState.battlefield().objects.get(0).getName().equals("Char-Rumbler"));
 		assertTrue(this.game.actualState.battlefield().objects.get(0).getPower() == -1);
 
-		this.respondWith(this.getAbilityAction(org.rnd.jmagic.abilities.Firebreathing.class));
+		this.respondWith(this.getAbilityAction(Firebreathing.class));
 		this.donePlayingManaAbilities();
 		this.respondWith(this.getMana(Color.RED));
 		this.pass();
@@ -58,7 +59,7 @@ public class PrimalBeyondTest extends JUnitTest
 		assertTrue(this.game.actualState.battlefield().objects.get(0).getName().equals("Char-Rumbler"));
 		assertEquals(0, this.game.actualState.battlefield().objects.get(0).getPower());
 
-		this.respondWith(this.getAbilityAction(org.rnd.jmagic.abilities.Firebreathing.class));
+		this.respondWith(this.getAbilityAction(Firebreathing.class));
 		this.donePlayingManaAbilities();
 		this.pass();
 		this.pass();
@@ -66,7 +67,7 @@ public class PrimalBeyondTest extends JUnitTest
 		assertTrue(this.game.actualState.battlefield().objects.get(0).getName().equals("Char-Rumbler"));
 		assertEquals(1, this.game.actualState.battlefield().objects.get(0).getPower());
 
-		this.respondWith(this.getAbilityAction(org.rnd.jmagic.abilities.Firebreathing.class));
+		this.respondWith(this.getAbilityAction(Firebreathing.class));
 		this.respondWith(this.getAbilityAction(PrimalBeyond.MakeElementalMana.class));
 		this.respondWith(Color.RED);
 		this.donePlayingManaAbilities();

@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Reach;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -17,8 +19,8 @@ public final class SpireTracer extends Card
 		{
 			super(state, "Spire Tracer can't be blocked except by creatures with flying or reach.");
 
-			SetGenerator hasFlying = HasKeywordAbility.instance(org.rnd.jmagic.abilities.keywords.Flying.class);
-			SetGenerator hasReach = HasKeywordAbility.instance(org.rnd.jmagic.abilities.keywords.Reach.class);
+			SetGenerator hasFlying = HasKeywordAbility.instance(Flying.class);
+			SetGenerator hasReach = HasKeywordAbility.instance(Reach.class);
 			SetGenerator notBlockingWithFlyingOrReach = RelativeComplement.instance(Blocking.instance(This.instance()), Union.instance(hasFlying, hasReach));
 
 			ContinuousEffect.Part part = new ContinuousEffect.Part(ContinuousEffectType.BLOCKING_RESTRICTION);

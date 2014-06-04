@@ -3,6 +3,9 @@ package org.rnd.jmagic.engine.eventTypes;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.LinkedList;
+import java.util.Map;
+
 public final class PlayerMayCast extends EventType
 {	public static final EventType INSTANCE = new PlayerMayCast();
 
@@ -18,7 +21,7 @@ public final class PlayerMayCast extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		GameObject spell = parameters.get(Parameter.OBJECT).getOne(GameObject.class);
 		Player player = parameters.get(Parameter.PLAYER).getOne(Player.class);
@@ -28,7 +31,7 @@ public final class PlayerMayCast extends EventType
 		if(parameters.containsKey(Parameter.ALTERNATE_COST))
 			action.forceAlternateCost(Identity.instance(parameters.get(Parameter.ALTERNATE_COST)));
 
-		PlayerInterface.ChooseParameters<Answer> chooseParameters = new PlayerInterface.ChooseParameters<Answer>(1, 1, new java.util.LinkedList<Answer>(Answer.mayChoices()), PlayerInterface.ChoiceType.ENUM, PlayerInterface.ChooseReason.MAY_CAST);
+		PlayerInterface.ChooseParameters<Answer> chooseParameters = new PlayerInterface.ChooseParameters<Answer>(1, 1, new LinkedList<Answer>(Answer.mayChoices()), PlayerInterface.ChoiceType.ENUM, PlayerInterface.ChooseReason.MAY_CAST);
 		chooseParameters.thisID = spell.ID;
 		Answer answer = player.choose(chooseParameters).get(0);
 

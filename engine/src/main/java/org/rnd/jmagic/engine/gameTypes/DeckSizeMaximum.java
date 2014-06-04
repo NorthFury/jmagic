@@ -2,6 +2,9 @@ package org.rnd.jmagic.engine.gameTypes;
 
 import org.rnd.jmagic.engine.*;
 
+import java.util.List;
+import java.util.Map;
+
 @Name("Deck size maximum")
 @Description("The maximum number of cards that must be in your main deck (excluding any sideboard cards or similar)")
 public class DeckSizeMaximum extends GameType.SimpleGameTypeRule
@@ -19,7 +22,7 @@ public class DeckSizeMaximum extends GameType.SimpleGameTypeRule
 	}
 
 	@Override
-	public boolean checkDeck(java.util.Map<String, java.util.List<Class<? extends Card>>> deck)
+	public boolean checkDeck(Map<String, List<Class<? extends Card>>> deck)
 	{
 		return (deck.get(Deck.MAIN_DECK).size() <= this.maximum);
 	}

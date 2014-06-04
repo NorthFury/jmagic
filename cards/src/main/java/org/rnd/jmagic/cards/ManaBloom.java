@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.EntersTheBattlefieldWithCounters;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -44,7 +46,7 @@ public final class ManaBloom extends Card
 		super(state);
 
 		// Mana Bloom enters the battlefield with X charge counters on it.
-		this.addAbility(new org.rnd.jmagic.abilities.EntersTheBattlefieldWithCounters(state, this.getName(), ValueOfX.instance(This.instance()), "X charge counters on it", Counter.CounterType.CHARGE));
+		this.addAbility(new EntersTheBattlefieldWithCounters(state, this.getName(), ValueOfX.instance(This.instance()), "X charge counters on it", Counter.CounterType.CHARGE));
 
 		// Remove a charge counter from Mana Bloom: Add one mana of any color to
 		// your mana pool. Activate this ability only once each turn.

@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Exalted;
 import org.rnd.jmagic.engine.*;
 
 @Name("Ethercaste Knight")
@@ -17,6 +18,6 @@ public final class EthercasteKnight extends Card
 		this.setPower(1);
 		this.setToughness(3);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Exalted(state));
+		this.addAbility(new Exalted(state));
 	}
 }

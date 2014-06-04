@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.FirstStrike;
+import org.rnd.jmagic.abilities.keywords.Unearth;
 import org.rnd.jmagic.engine.*;
 
 @Name("Fire-Field Ogre")
@@ -17,8 +19,8 @@ public final class FireFieldOgre extends Card
 		this.setPower(4);
 		this.setToughness(2);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.FirstStrike(state));
+		this.addAbility(new FirstStrike(state));
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Unearth(state, "(U)(B)(R)"));
+		this.addAbility(new Unearth(state, "(U)(B)(R)"));
 	}
 }

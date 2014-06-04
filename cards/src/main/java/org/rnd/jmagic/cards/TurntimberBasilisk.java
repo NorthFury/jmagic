@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Deathtouch;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -40,7 +41,7 @@ public final class TurntimberBasilisk extends Card
 		// Deathtouch (Creatures dealt damage by this creature are destroyed.
 		// You can divide this creature's combat damage among any of the
 		// creatures blocking or blocked by it.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Deathtouch(state));
+		this.addAbility(new Deathtouch(state));
 
 		// Landfall \u2014 Whenever a land enters the battlefield under your
 		// control, you may have target creature block Turntimber Basilisk this

@@ -2,6 +2,9 @@ package org.rnd.jmagic.engine.generators;
 
 import org.rnd.jmagic.engine.*;
 
+import java.util.Collection;
+import java.util.LinkedList;
+
 /**
  * Evaluates to the player(s) with the given id(s)
  */
@@ -12,22 +15,22 @@ public class PlayerByID extends SetGenerator
 		return new PlayerByID(what);
 	}
 
-	public static PlayerByID instance(java.util.Collection<Integer> what)
+	public static PlayerByID instance(Collection<Integer> what)
 	{
 		return new PlayerByID(what);
 	}
 
-	private final java.util.Collection<Integer> IDs;
+	private final Collection<Integer> IDs;
 
 	private PlayerByID(int ID)
 	{
-		this.IDs = new java.util.LinkedList<Integer>();
+		this.IDs = new LinkedList<Integer>();
 		this.IDs.add(ID);
 	}
 
-	private PlayerByID(java.util.Collection<Integer> IDs)
+	private PlayerByID(Collection<Integer> IDs)
 	{
-		this.IDs = new java.util.LinkedList<Integer>(IDs);
+		this.IDs = new LinkedList<Integer>(IDs);
 	}
 
 	@Override

@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Delve;
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 
 @Name("Tombstalker")
@@ -18,11 +20,11 @@ public final class Tombstalker extends Card
 		this.setToughness(5);
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// Delve (You may exile any number of cards from your graveyard as you
 		// cast this spell. It costs (1) less to cast for each card exiled this
 		// way.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Delve(state));
+		this.addAbility(new Delve(state));
 	}
 }

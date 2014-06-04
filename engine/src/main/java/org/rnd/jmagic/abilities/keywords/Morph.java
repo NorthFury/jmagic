@@ -3,6 +3,10 @@ package org.rnd.jmagic.abilities.keywords;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+
 public final class Morph extends Keyword
 {
 	public static final String COST_TYPE = "Morph";
@@ -71,7 +75,7 @@ public final class Morph extends Keyword
 	public static final class CastFactory extends SpecialActionFactory
 	{
 		@Override
-		public java.util.Set<PlayerAction> getActions(GameState state, GameObject source, Player actor)
+		public Set<PlayerAction> getActions(GameState state, GameObject source, Player actor)
 		{
 			// TODO : 601.5a If an effect allows a card that's prohibited from
 			// being cast to be cast face down, and the face-down spell would
@@ -89,9 +93,9 @@ public final class Morph extends Keyword
 					}
 
 			if(!makeAbility)
-				return java.util.Collections.emptySet();
+				return Collections.emptySet();
 
-			return java.util.Collections.<PlayerAction>singleton(new CastAction(state.game, source, actor));
+			return Collections.<PlayerAction>singleton(new CastAction(state.game, source, actor));
 		}
 	}
 
@@ -111,9 +115,9 @@ public final class Morph extends Keyword
 	}
 
 	@Override
-	protected java.util.List<org.rnd.jmagic.engine.StaticAbility> createStaticAbilities()
+	protected List<StaticAbility> createStaticAbilities()
 	{
-		return java.util.Collections.<StaticAbility>singletonList(new MorphAbility(this.state));
+		return Collections.<StaticAbility>singletonList(new MorphAbility(this.state));
 	}
 
 	public static final class TurnFaceUpAction extends PlayerAction

@@ -1,5 +1,7 @@
 package org.rnd.jmagic.engine;
 
+import java.util.Set;
+
 public final class DelayedTrigger extends EventTriggeredAbility
 {
 	private SetGenerator duration;
@@ -11,7 +13,7 @@ public final class DelayedTrigger extends EventTriggeredAbility
 	// instead.
 	private int causingObjectID;
 
-	public DelayedTrigger(GameState state, String name, GameObject causingObject, java.util.Set<EventPattern> events, java.util.Set<DamagePattern> damagePatterns, java.util.Set<ZoneChangePattern> zoneChanges, EventFactory effect, SetGenerator duration)
+	public DelayedTrigger(GameState state, String name, GameObject causingObject, Set<EventPattern> events, Set<DamagePattern> damagePatterns, Set<ZoneChangePattern> zoneChanges, EventFactory effect, SetGenerator duration)
 	{
 		super(state, name);
 

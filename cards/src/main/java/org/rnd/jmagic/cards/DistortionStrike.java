@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Rebound;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -22,6 +24,6 @@ public final class DistortionStrike extends Card
 		this.addEffect(createFloatingEffect("Target creature gets +1/+0 until end of turn and is unblockable this turn.", modifyPowerAndToughness(targetedBy(target), +1, +0), unblockable(targetedBy(target))));
 
 		// Rebound
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Rebound(state));
+		this.addAbility(new Rebound(state));
 	}
 }

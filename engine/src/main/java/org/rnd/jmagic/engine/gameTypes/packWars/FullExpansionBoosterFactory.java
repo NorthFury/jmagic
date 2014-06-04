@@ -1,33 +1,39 @@
 package org.rnd.jmagic.engine.gameTypes.packWars;
 
 import org.rnd.jmagic.*;
+import org.rnd.jmagic.CardLoader.CardLoaderException;
 import org.rnd.jmagic.engine.*;
+import org.rnd.util.Constructor;
+
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 @Name("Full expansion")
 public class FullExpansionBoosterFactory implements BoosterFactory
 {
-	private java.util.List<Expansion> expansions;
+	private List<Expansion> expansions;
 
 	public FullExpansionBoosterFactory()
 	{
-		this.expansions = new java.util.LinkedList<Expansion>();
+		this.expansions = new LinkedList<Expansion>();
 	}
 
 	public FullExpansionBoosterFactory(Expansion expansion)
 	{
-		this.expansions = new java.util.LinkedList<Expansion>();
+		this.expansions = new LinkedList<Expansion>();
 		this.expansions.add(expansion);
 	}
 
 	@Override
-	public java.util.List<Card> createBooster(GameState state) throws org.rnd.jmagic.CardLoader.CardLoaderException
+	public List<Card> createBooster(GameState state) throws CardLoaderException
 	{
-		java.util.List<Card> ret = new java.util.LinkedList<Card>();
+		List<Card> ret = new LinkedList<Card>();
 
 		for(Expansion expansion: this.expansions)
-			for(Class<? extends Card> cardClass: CardLoader.getCards(java.util.Arrays.asList(expansion)))
+			for(Class<? extends Card> cardClass: CardLoader.getCards(Arrays.asList(expansion)))
 			{
-				Card card = org.rnd.util.Constructor.construct(cardClass, new Class<?>[] {GameState.class}, new Object[] {state});
+				Card card = Constructor.construct(cardClass, new Class<?>[] {GameState.class}, new Object[] {state});
 				card.setExpansionSymbol(expansion);
 				ret.add(card);
 			}
@@ -47,7 +53,7 @@ public class FullExpansionBoosterFactory implements BoosterFactory
 
 	public void setExpansions(Expansion[] expansions)
 	{
-		this.expansions = java.util.Arrays.asList(expansions);
+		this.expansions = Arrays.asList(expansions);
 	}
 
 	public void setExpansions(int index, Expansion expansion)

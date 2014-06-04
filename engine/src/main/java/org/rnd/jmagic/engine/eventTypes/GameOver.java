@@ -2,6 +2,9 @@ package org.rnd.jmagic.engine.eventTypes;
 
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+import org.rnd.jmagic.sanitized.SanitizedEvent;
+
+import java.util.Map;
 
 public final class GameOver extends EventType
 {	public static final EventType INSTANCE = new GameOver();
@@ -18,9 +21,9 @@ public final class GameOver extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
-		org.rnd.jmagic.sanitized.SanitizedEvent sanitized = new org.rnd.jmagic.sanitized.SanitizedEvent(event);
+		SanitizedEvent sanitized = new SanitizedEvent(event);
 		for(Player player: game.actualState.players)
 			player.alert(sanitized);
 

@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.ShadePump;
 import org.rnd.jmagic.engine.*;
 
 @Name("Nantuko Shade")
@@ -18,6 +19,6 @@ public final class NantukoShade extends Card
 		this.setToughness(1);
 
 		// (B): Nantuko Shade gets +1/+1 until end of turn.
-		this.addAbility(new org.rnd.jmagic.abilities.ShadePump(state, "Nantuko Shade"));
+		this.addAbility(new ShadePump(state, "Nantuko Shade"));
 	}
 }

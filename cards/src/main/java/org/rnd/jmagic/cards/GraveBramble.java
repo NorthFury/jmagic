@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Defender;
+import org.rnd.jmagic.abilities.keywords.Protection;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -19,8 +21,8 @@ public final class GraveBramble extends Card
 		this.setToughness(4);
 
 		// Defender, protection from Zombies
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Defender(state));
+		this.addAbility(new Defender(state));
 		SetGenerator zombies = Intersect.instance(HasSubType.instance(SubType.ZOMBIE), Permanents.instance());
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Protection.From(state, zombies, "Zombies"));
+		this.addAbility(new Protection.From(state, zombies, "Zombies"));
 	}
 }

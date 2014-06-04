@@ -2,10 +2,13 @@ package org.rnd.jmagic.util;
 
 import java.io.*;
 import java.lang.reflect.*;
+import java.util.Set;
 
+import org.rnd.jmagic.CardLoader;
 import org.rnd.jmagic.engine.*;
 import org.springframework.beans.factory.config.*;
 import org.springframework.context.annotation.*;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.type.*;
 import org.springframework.core.type.classreading.*;
 import org.springframework.core.type.filter.*;
@@ -19,13 +22,13 @@ public class CodeChecker
 	{
 		if(CHECK_CREATABLES)
 		{
-			ClassLoader classLoader = org.rnd.jmagic.CardLoader.getInstance();
+			ClassLoader classLoader = CardLoader.getInstance();
 
 			ClassPathScanningCandidateComponentProvider scanner = new ClassPathScanningCandidateComponentProvider(false);
-			scanner.setResourceLoader(new org.springframework.core.io.support.PathMatchingResourcePatternResolver(classLoader));
+			scanner.setResourceLoader(new PathMatchingResourcePatternResolver(classLoader));
 			TypeFilter filter = new CreatableFilter(classLoader);
 			scanner.addIncludeFilter(filter);
-			java.util.Set<BeanDefinition> components = scanner.findCandidateComponents("org.rnd");
+			Set<BeanDefinition> components = scanner.findCandidateComponents("org.rnd");
 			if(!components.isEmpty())
 				System.out.println("Problem components: " + components.size());
 			System.out.println("Done");
@@ -36,7 +39,7 @@ public class CodeChecker
 		{
 			ClassPathScanningCandidateComponentProvider scanner = new ClassPathScanningCandidateComponentProvider(false);
 			scanner.addIncludeFilter(new GeneratorFilter());
-			java.util.Set<BeanDefinition> components = scanner.findCandidateComponents("org.rnd.jmagic");
+			Set<BeanDefinition> components = scanner.findCandidateComponents("org.rnd.jmagic");
 			if(!components.isEmpty())
 				System.out.println("Problem generators: " + components.size());
 			System.out.println("Done");
@@ -46,7 +49,7 @@ public class CodeChecker
 
 	public static class GeneratorFilter implements TypeFilter
 	{
-		private final AssignableTypeFilter includeGenerators = new AssignableTypeFilter(org.rnd.jmagic.engine.SetGenerator.class);
+		private final AssignableTypeFilter includeGenerators = new AssignableTypeFilter(SetGenerator.class);
 
 		@Override
 		public boolean match(MetadataReader metadataReader, MetadataReaderFactory metadataReaderFactory) throws IOException
@@ -166,8 +169,8 @@ public class CodeChecker
 		public CreatableFilter(ClassLoader classLoader)
 		{
 			this.classLoader = classLoader;
-			this.includeGameObjects = new AssignableTypeFilter(org.rnd.jmagic.engine.GameObject.class);
-			this.includeStaticAbilities = new AssignableTypeFilter(org.rnd.jmagic.engine.StaticAbility.class);
+			this.includeGameObjects = new AssignableTypeFilter(GameObject.class);
+			this.includeStaticAbilities = new AssignableTypeFilter(StaticAbility.class);
 			// this.excludeTokens = new
 			// AssignableTypeFilter(org.rnd.jmagic.engine.Token.class);
 		}

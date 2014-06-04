@@ -5,6 +5,10 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+
 @Name("Luminesce")
 @Types({Type.INSTANT})
 @ManaCost("W")
@@ -28,7 +32,7 @@ public final class Luminesce extends Card
 		{
 			DamageAssignment.Batch ret = new DamageAssignment.Batch();
 
-			java.util.Set<Color> colors = this.colorsToPreventFrom.evaluate(context.state, this.getSourceObject(context.state)).getAll(Color.class);
+			Set<Color> colors = this.colorsToPreventFrom.evaluate(context.state, this.getSourceObject(context.state)).getAll(Color.class);
 			damageLoop: for(DamageAssignment damage: damageAssignments)
 				for(Color color: colors)
 				{
@@ -42,10 +46,10 @@ public final class Luminesce extends Card
 		}
 
 		@Override
-		public java.util.List<EventFactory> prevent(DamageAssignment.Batch damageAssignments)
+		public List<EventFactory> prevent(DamageAssignment.Batch damageAssignments)
 		{
 			damageAssignments.clear();
-			return new java.util.LinkedList<EventFactory>();
+			return new LinkedList<EventFactory>();
 		}
 	}
 

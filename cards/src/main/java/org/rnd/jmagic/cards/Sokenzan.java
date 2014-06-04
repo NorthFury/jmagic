@@ -2,9 +2,13 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Haste;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.gameTypes.*;
 import org.rnd.jmagic.engine.generators.*;
+
+import java.util.LinkedList;
+import java.util.List;
 
 @Name("Sokenzan")
 @Types({Type.PLANE})
@@ -21,7 +25,7 @@ public final class Sokenzan extends Card
 
 			this.addEffectPart(modifyPowerAndToughness(CreaturePermanents.instance(), 1, 1));
 
-			this.addEffectPart(addAbilityToObject(CreaturePermanents.instance(), org.rnd.jmagic.abilities.keywords.Haste.class));
+			this.addEffectPart(addAbilityToObject(CreaturePermanents.instance(), Haste.class));
 
 			this.canApply = Planechase.staticAbilityCanApply;
 		}
@@ -44,7 +48,7 @@ public final class Sokenzan extends Card
 				// followed by an additional main phase.
 				SetGenerator thisMainPhase = Intersect.instance(CurrentPhase.instance(), MainPhaseOf.instance(Players.instance()));
 
-				java.util.List<Phase.PhaseType> combatAndMain = new java.util.LinkedList<Phase.PhaseType>();
+				List<Phase.PhaseType> combatAndMain = new LinkedList<Phase.PhaseType>();
 				combatAndMain.add(Phase.PhaseType.COMBAT);
 				combatAndMain.add(Phase.PhaseType.POSTCOMBAT_MAIN);
 

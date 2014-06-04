@@ -1,6 +1,10 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Equip;
+import org.rnd.jmagic.abilities.keywords.Haste;
+import org.rnd.jmagic.abilities.keywords.Shroud;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -17,7 +21,7 @@ public final class LightningGreaves extends Card
 		public LightningGreavesAbility0(GameState state)
 		{
 			super(state, "Equipped creature has haste and shroud.");
-			this.addEffectPart(addAbilityToObject(EquippedBy.instance(This.instance()), org.rnd.jmagic.abilities.keywords.Haste.class, org.rnd.jmagic.abilities.keywords.Shroud.class));
+			this.addEffectPart(addAbilityToObject(EquippedBy.instance(This.instance()), Haste.class, Shroud.class));
 		}
 	}
 
@@ -32,6 +36,6 @@ public final class LightningGreaves extends Card
 		// Equip (0) ((0): Attach to target creature you control. Equip only as
 		// a sorcery. This card enters the battlefield unattached and stays on
 		// the battlefield if the creature leaves.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Equip(state, "(0)"));
+		this.addAbility(new Equip(state, "(0)"));
 	}
 }

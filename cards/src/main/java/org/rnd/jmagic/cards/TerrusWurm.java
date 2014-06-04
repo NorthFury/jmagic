@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Scavenge;
 import org.rnd.jmagic.engine.*;
 
 @Name("Terrus Wurm")
@@ -20,6 +21,6 @@ public final class TerrusWurm extends Card
 		// Scavenge (6)(B) ((6)(B), Exile this card from your graveyard: Put a
 		// number of +1/+1 counters equal to this card's power on target
 		// creature. Scavenge only as a sorcery.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Scavenge(state, "(6)(B)"));
+		this.addAbility(new Scavenge(state, "(6)(B)"));
 	}
 }

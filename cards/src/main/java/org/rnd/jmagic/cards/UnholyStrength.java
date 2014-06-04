@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.StaticPTChange;
+import org.rnd.jmagic.abilities.keywords.Enchant;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -15,9 +17,9 @@ public final class UnholyStrength extends Card
 	{
 		super(state);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Enchant.Creature(state));
+		this.addAbility(new Enchant.Creature(state));
 
 		SetGenerator enchantedCreature = EnchantedBy.instance(This.instance());
-		this.addAbility(new org.rnd.jmagic.abilities.StaticPTChange(state, enchantedCreature, "Enchanted creature", +2, +1, false));
+		this.addAbility(new StaticPTChange(state, enchantedCreature, "Enchanted creature", +2, +1, false));
 	}
 }

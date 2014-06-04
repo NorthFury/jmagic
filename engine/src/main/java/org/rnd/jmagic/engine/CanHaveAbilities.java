@@ -1,10 +1,12 @@
 package org.rnd.jmagic.engine;
 
+import java.util.Collection;
+
 public interface CanHaveAbilities
 {
-	public java.util.Collection<NonStaticAbility> getNonStaticAbilities();
+	public Collection<NonStaticAbility> getNonStaticAbilities();
 
-	public java.util.Collection<Keyword> getKeywordAbilities();
+	public Collection<Keyword> getKeywordAbilities();
 
-	public java.util.Collection<StaticAbility> getStaticAbilities();
+	public Collection<StaticAbility> getStaticAbilities();
 }

@@ -2,6 +2,10 @@ package org.rnd.jmagic.engine.eventTypes;
 
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+import org.rnd.util.NumberRange;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public final class Scry extends EventType
 {	public static final EventType INSTANCE = new Scry();
@@ -18,7 +22,7 @@ public final class Scry extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		int num = Sum.get(parameters.get(Parameter.NUMBER));
 		if(num < 0)
@@ -29,7 +33,7 @@ public final class Scry extends EventType
 
 		MagicSet topCards = TopCards.instance(num, Identity.instance(library)).evaluate(game, null);
 
-		java.util.Map<Parameter, MagicSet> lookParameters = new java.util.HashMap<Parameter, MagicSet>();
+		Map<Parameter, MagicSet> lookParameters = new HashMap<Parameter, MagicSet>();
 		lookParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 		lookParameters.put(Parameter.OBJECT, topCards);
 		lookParameters.put(Parameter.PLAYER, new MagicSet(player));
@@ -39,9 +43,9 @@ public final class Scry extends EventType
 		player = player.getActual();
 		library = library.getActual();
 
-		java.util.Map<Parameter, MagicSet> moveParameters = new java.util.HashMap<Parameter, MagicSet>();
+		Map<Parameter, MagicSet> moveParameters = new HashMap<Parameter, MagicSet>();
 		moveParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
-		moveParameters.put(Parameter.NUMBER, new MagicSet(new org.rnd.util.NumberRange(0, num)));
+		moveParameters.put(Parameter.NUMBER, new MagicSet(new NumberRange(0, num)));
 		moveParameters.put(Parameter.FROM, new MagicSet(library));
 		moveParameters.put(Parameter.TO, new MagicSet(library));
 		moveParameters.put(Parameter.OBJECT, topCards);
@@ -54,7 +58,7 @@ public final class Scry extends EventType
 		player = player.getActual();
 		library = library.getActual();
 
-		java.util.Map<Parameter, MagicSet> reorderParameters = new java.util.HashMap<Parameter, MagicSet>();
+		Map<Parameter, MagicSet> reorderParameters = new HashMap<Parameter, MagicSet>();
 		reorderParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 		reorderParameters.put(Parameter.OBJECT, topCards);
 		reorderParameters.put(Parameter.TO, new MagicSet(library));

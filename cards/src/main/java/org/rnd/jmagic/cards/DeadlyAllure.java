@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Deathtouch;
+import org.rnd.jmagic.abilities.keywords.Flashback;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -19,7 +22,7 @@ public final class DeadlyAllure extends Card
 		// blocked this turn if able.
 		SetGenerator target = targetedBy(this.addTarget(CreaturePermanents.instance(), "target creature"));
 
-		ContinuousEffect.Part deathtouchPart = addAbilityToObject(target, org.rnd.jmagic.abilities.keywords.Deathtouch.class);
+		ContinuousEffect.Part deathtouchPart = addAbilityToObject(target, Deathtouch.class);
 
 		ContinuousEffect.Part lurePart = new ContinuousEffect.Part(ContinuousEffectType.BLOCKING_REQUIREMENT);
 		lurePart.parameters.put(ContinuousEffectType.Parameter.ATTACKING, target);
@@ -29,6 +32,6 @@ public final class DeadlyAllure extends Card
 
 		// Flashback (G) (You may cast this card from your graveyard for its
 		// flashback cost. Then exile it.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flashback(state, "(G)"));
+		this.addAbility(new Flashback(state, "(G)"));
 	}
 }

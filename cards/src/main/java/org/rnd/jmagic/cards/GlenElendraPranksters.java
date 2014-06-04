@@ -2,6 +2,8 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilityTemplates.WhenYouCastASpellDuringOpponentsTurn;
 import org.rnd.jmagic.engine.*;
 
 @Name("Glen Elendra Pranksters")
@@ -12,7 +14,7 @@ import org.rnd.jmagic.engine.*;
 @ColorIdentity({Color.BLUE})
 public final class GlenElendraPranksters extends Card
 {
-	public static final class BounceTrickery extends org.rnd.jmagic.abilityTemplates.WhenYouCastASpellDuringOpponentsTurn
+	public static final class BounceTrickery extends WhenYouCastASpellDuringOpponentsTurn
 	{
 		public BounceTrickery(GameState state)
 		{
@@ -32,7 +34,7 @@ public final class GlenElendraPranksters extends Card
 		this.setToughness(3);
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// Whenever you cast a spell during an opponent's turn, you may return
 		// target creature you control to its owner's hand.

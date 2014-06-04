@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Equip;
+import org.rnd.jmagic.abilities.keywords.Hexproof;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -21,7 +24,7 @@ public final class MaskofAvacyn extends Card
 			SetGenerator equipped = EquippedBy.instance(This.instance());
 
 			this.addEffectPart(modifyPowerAndToughness(equipped, +1, +2));
-			this.addEffectPart(addAbilityToObject(equipped, org.rnd.jmagic.abilities.keywords.Hexproof.class));
+			this.addEffectPart(addAbilityToObject(equipped, Hexproof.class));
 		}
 	}
 
@@ -34,6 +37,6 @@ public final class MaskofAvacyn extends Card
 		this.addAbility(new MaskofAvacynAbility0(state));
 
 		// Equip (3)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Equip(state, "(3)"));
+		this.addAbility(new Equip(state, "(3)"));
 	}
 }

@@ -1,5 +1,13 @@
 package org.rnd.jmagic.engine;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
 /**
  * Represents a replacement effect that applies to damage. Extend this class and
  * override match and replace in order to create prevention effects and other
@@ -47,7 +55,7 @@ public abstract class DamageReplacementEffect extends ReplacementEffect
 	 * appropriate, in accordance with 615.7.
 	 * @return Other events to perform as a result of replacing the damage.
 	 */
-	public final int apply(DamageAssignment.Batch damageAssignments, Player chooser, java.util.List<EventFactory> events)
+	public final int apply(DamageAssignment.Batch damageAssignments, Player chooser, List<EventFactory> events)
 	{
 		this.isReplacing = damageAssignments;
 		int sentToPrevent = 0;
@@ -80,7 +88,7 @@ public abstract class DamageReplacementEffect extends ReplacementEffect
 			{
 				if(toReplace.allTheSame())
 				{
-					java.util.Iterator<DamageAssignment> iter = toReplace.iterator();
+					Iterator<DamageAssignment> iter = toReplace.iterator();
 					int i = fce.damage;
 					while(iter.hasNext())
 					{
@@ -93,7 +101,7 @@ public abstract class DamageReplacementEffect extends ReplacementEffect
 				}
 				else
 				{
-					java.util.List<DamageAssignment> chosen = chooser.sanitizeAndChoose(this.game.actualState, fce.damage, toReplace, PlayerInterface.ChoiceType.DAMAGE, PlayerInterface.ChooseReason.REPLACE_WHICH_DAMAGE);
+					List<DamageAssignment> chosen = chooser.sanitizeAndChoose(this.game.actualState, fce.damage, toReplace, PlayerInterface.ChoiceType.DAMAGE, PlayerInterface.ChooseReason.REPLACE_WHICH_DAMAGE);
 					toReplace.retainAll(chosen);
 				}
 			}
@@ -119,7 +127,7 @@ public abstract class DamageReplacementEffect extends ReplacementEffect
 				// the damage would be redirected, the effect does nothing. If
 				// damage would be redirected to or from a player who has left
 				// the game, the effect does nothing.
-				java.util.Map<DamageAssignment, DamageAssignment> redirections = new java.util.HashMap<DamageAssignment, DamageAssignment>();
+				Map<DamageAssignment, DamageAssignment> redirections = new HashMap<DamageAssignment, DamageAssignment>();
 				for(DamageAssignment assignment: toReplace)
 				{
 					Identified originalTaker = this.game.actualState.get(assignment.takerID);
@@ -139,7 +147,7 @@ public abstract class DamageReplacementEffect extends ReplacementEffect
 					redirections.put(assignment, null);
 				}
 				events.addAll(this.redirect(redirections));
-				for(java.util.Map.Entry<DamageAssignment, DamageAssignment> redirection: redirections.entrySet())
+				for(Map.Entry<DamageAssignment, DamageAssignment> redirection: redirections.entrySet())
 				{
 					DamageAssignment from = redirection.getKey();
 					DamageAssignment to = redirection.getValue();
@@ -214,7 +222,7 @@ public abstract class DamageReplacementEffect extends ReplacementEffect
 	 * damage (possibly empty if all the damage is prevented).
 	 * @return Other events to perform as a result of preventing the damage.
 	 */
-	public java.util.List<EventFactory> prevent(DamageAssignment.Batch damageAssignments)
+	public List<EventFactory> prevent(DamageAssignment.Batch damageAssignments)
 	{
 		throw new RuntimeException("Prevention effect failed to declare prevent(DamageAssignment.Batch)");
 	}
@@ -230,7 +238,7 @@ public abstract class DamageReplacementEffect extends ReplacementEffect
 	 * to the damage replacing it
 	 * @return Other events to perform as a result of redirecting the damage.
 	 */
-	public java.util.List<EventFactory> redirect(java.util.Map<DamageAssignment, DamageAssignment> damageAssignments)
+	public List<EventFactory> redirect(Map<DamageAssignment, DamageAssignment> damageAssignments)
 	{
 		throw new RuntimeException("Redirection effect failed to declare redirect(Map<DamageAssignment, DamageAssignment>)");
 	}
@@ -248,9 +256,9 @@ public abstract class DamageReplacementEffect extends ReplacementEffect
 	 * isn't covered by any of the other categories in rule 609.7a.
 	 */
 	@Override
-	public java.util.Collection<GameObject> refersTo(GameState state)
+	public Collection<GameObject> refersTo(GameState state)
 	{
-		return java.util.Collections.emptySet();
+		return Collections.emptySet();
 	}
 
 	/**
@@ -263,10 +271,10 @@ public abstract class DamageReplacementEffect extends ReplacementEffect
 	 * damage.
 	 * @return Other events to perform as a result of replacing the damage.
 	 */
-	public java.util.List<EventFactory> replace(DamageAssignment.Batch damageAssignments)
+	public List<EventFactory> replace(DamageAssignment.Batch damageAssignments)
 	{
 		// Prevention and Redirection effects won't replace damage, for the most
 		// part. (Weird cards like protean hydra will still use it though)
-		return new java.util.LinkedList<EventFactory>();
+		return new LinkedList<EventFactory>();
 	}
 }

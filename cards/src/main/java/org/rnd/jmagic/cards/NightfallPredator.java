@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.Werewolves;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -38,6 +40,6 @@ public final class NightfallPredator extends AlternateCard
 
 		// At the beginning of each upkeep, if a player cast two or more spells
 		// last turn, transform Nightfall Predator.
-		this.addAbility(new org.rnd.jmagic.abilities.Werewolves.BecomeHuman(state, this.getName()));
+		this.addAbility(new Werewolves.BecomeHuman(state, this.getName()));
 	}
 }

@@ -1,5 +1,8 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.EntersTheBattlefieldTapped;
+import org.rnd.jmagic.abilities.TapForB;
+import org.rnd.jmagic.abilities.keywords.Dredge;
 import org.rnd.jmagic.engine.*;
 
 @Name("Dakmor Salvage")
@@ -13,15 +16,15 @@ public final class DakmorSalvage extends Card
 		super(state);
 
 		// Dakmor Salvage enters the battlefield tapped.
-		this.addAbility(new org.rnd.jmagic.abilities.EntersTheBattlefieldTapped(state, this.getName()));
+		this.addAbility(new EntersTheBattlefieldTapped(state, this.getName()));
 
 		// (T): Add (B) to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapForB(state));
+		this.addAbility(new TapForB(state));
 
 		// Dredge 2 (If you would draw a card, instead you may put exactly two
 		// cards from the top of your library into your graveyard. If you do,
 		// return this card from your graveyard to your hand. Otherwise, draw a
 		// card.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Dredge(state, 2));
+		this.addAbility(new Dredge(state, 2));
 	}
 }

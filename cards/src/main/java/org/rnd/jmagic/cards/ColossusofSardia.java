@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.DoesntUntapDuringYourUntapStep;
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 
 @Name("Colossus of Sardia")
@@ -29,8 +32,8 @@ public final class ColossusofSardia extends Card
 		this.setPower(9);
 		this.setToughness(9);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Trample(state));
-		this.addAbility(new org.rnd.jmagic.abilities.DoesntUntapDuringYourUntapStep(state, "Colossus of Sardia"));
+		this.addAbility(new Trample(state));
+		this.addAbility(new DoesntUntapDuringYourUntapStep(state, "Colossus of Sardia"));
 		this.addAbility(new Waken(state));
 	}
 }

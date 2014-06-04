@@ -4,6 +4,8 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.Map;
+
 @Name("Jace's Archivist")
 @Types({Type.CREATURE})
 @SubTypes({SubType.WIZARD, SubType.VEDALKEN})
@@ -30,7 +32,7 @@ public final class JacesArchivist extends Card
 		public MagicSet evaluate(GameState state, Identified thisObject)
 		{
 			int max = 0;
-			@SuppressWarnings("unchecked") java.util.Map<?, Identity> map = this.map.evaluate(state, thisObject).getOne(java.util.Map.class);
+			@SuppressWarnings("unchecked") Map<?, Identity> map = this.map.evaluate(state, thisObject).getOne(Map.class);
 			for(Identity value: map.values())
 			{
 				MagicSet mapValue = value.evaluate(state, thisObject);

@@ -1,6 +1,12 @@
 package org.rnd.jmagic.engine;
 
 import org.rnd.jmagic.engine.generators.*;
+import org.rnd.jmagic.sanitized.SanitizedStaticAbility;
+import org.rnd.util.Constructor;
+
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.Collections;
 
 /** Represents a static ability. */
 public abstract class StaticAbility extends Identified implements Linkable, Sanitizable
@@ -113,7 +119,7 @@ public abstract class StaticAbility extends Identified implements Linkable, Sani
 
 	public StaticAbility create(Game game)
 	{
-		return org.rnd.util.Constructor.construct(this.getClass(), (new Class[] {GameState.class}), (new Object[] {game.physicalState}));
+		return Constructor.construct(this.getClass(), (new Class[] {GameState.class}), (new Object[] {game.physicalState}));
 	}
 
 	public ContinuousEffect getEffect()
@@ -158,9 +164,9 @@ public abstract class StaticAbility extends Identified implements Linkable, Sani
 	 * @return The characteristics this ability defines, if this is a
 	 * characteristic-defining ability. An empty collection, otherwise.
 	 */
-	public java.util.Collection<Characteristics.Characteristic> definesCharacteristics()
+	public Collection<Characteristics.Characteristic> definesCharacteristics()
 	{
-		return java.util.Collections.emptySet();
+		return Collections.emptySet();
 	}
 
 	/** @return True. */
@@ -171,9 +177,9 @@ public abstract class StaticAbility extends Identified implements Linkable, Sani
 	}
 
 	@Override
-	public java.io.Serializable sanitize(GameState state, Player whoFor)
+	public Serializable sanitize(GameState state, Player whoFor)
 	{
-		return new org.rnd.jmagic.sanitized.SanitizedStaticAbility(state.<StaticAbility>get(this.ID));
+		return new SanitizedStaticAbility(state.<StaticAbility>get(this.ID));
 	}
 
 	/**

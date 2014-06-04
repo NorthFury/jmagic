@@ -5,6 +5,8 @@ import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
 
+import java.util.Arrays;
+
 @Name("Flash Foliage")
 @Types({Type.INSTANT})
 @ManaCost("2G")
@@ -54,7 +56,7 @@ public final class FlashFoliage extends Card
 		token.parameters.put(EventType.Parameter.CONTROLLER, You.instance());
 		token.parameters.put(EventType.Parameter.NUMBER, numberGenerator(1));
 		token.parameters.put(EventType.Parameter.POWER, numberGenerator(1));
-		token.parameters.put(EventType.Parameter.SUBTYPE, Identity.instance((Object)(java.util.Arrays.asList(SubType.SAPROLING))));
+		token.parameters.put(EventType.Parameter.SUBTYPE, Identity.instance((Object)(Arrays.asList(SubType.SAPROLING))));
 		token.parameters.put(EventType.Parameter.TYPE, Identity.instance(Type.CREATURE));
 		token.parameters.put(EventType.Parameter.TOUGHNESS, numberGenerator(1));
 		this.addEffect(token);

@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Haste;
 import org.rnd.jmagic.engine.*;
 
 @Name("Arc Runner")
@@ -30,7 +32,7 @@ public final class ArcRunner extends Card
 
 		// Haste (This creature can attack and (T) as soon as it comes under
 		// your control.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Haste(state));
+		this.addAbility(new Haste(state));
 
 		// At the beginning of the end step, sacrifice Arc Runner.
 		this.addAbility(new ArcRunnerAbility1(state));

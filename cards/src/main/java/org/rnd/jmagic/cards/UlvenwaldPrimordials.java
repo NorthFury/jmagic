@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.Regenerate;
+import org.rnd.jmagic.abilities.Werewolves;
 import org.rnd.jmagic.engine.*;
 
 @Name("Ulvenwald Primordials")
@@ -19,10 +21,10 @@ public final class UlvenwaldPrimordials extends AlternateCard
 		this.setColorIndicator(Color.GREEN);
 
 		// (G): Regenerate Ulvenwald Primordials.
-		this.addAbility(new org.rnd.jmagic.abilities.Regenerate.Final(state, "(G)", this.getName()));
+		this.addAbility(new Regenerate.Final(state, "(G)", this.getName()));
 
 		// At the beginning of each upkeep, if a player cast two or more spells
 		// last turn, transform Ulvenwald Primordials.
-		this.addAbility(new org.rnd.jmagic.abilities.Werewolves.BecomeHuman(state, this.getName()));
+		this.addAbility(new Werewolves.BecomeHuman(state, this.getName()));
 	}
 }

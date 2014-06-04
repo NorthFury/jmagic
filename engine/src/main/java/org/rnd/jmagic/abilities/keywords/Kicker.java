@@ -3,6 +3,9 @@ package org.rnd.jmagic.abilities.keywords;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.Collections;
+import java.util.List;
+
 /** Represents Kicker and Multikicker. */
 public final class Kicker extends Keyword
 {
@@ -47,9 +50,9 @@ public final class Kicker extends Keyword
 	}
 
 	@Override
-	protected java.util.List<StaticAbility> createStaticAbilities()
+	protected List<StaticAbility> createStaticAbilities()
 	{
-		return java.util.Collections.<StaticAbility>singletonList(new KickerCost(this.state, this.costCollections));
+		return Collections.<StaticAbility>singletonList(new KickerCost(this.state, this.costCollections));
 	}
 
 	public static final class KickerCost extends StaticAbility

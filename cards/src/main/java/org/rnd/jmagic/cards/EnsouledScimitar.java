@@ -2,6 +2,9 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.StaticPTChange;
+import org.rnd.jmagic.abilities.keywords.Equip;
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -25,7 +28,7 @@ public final class EnsouledScimitar extends Card
 			animator.addSubType(SubType.SPIRIT);
 			animator.addType(Type.ARTIFACT);
 			animator.removeOldTypes();
-			animator.addAbility(org.rnd.jmagic.abilities.keywords.Flying.class);
+			animator.addAbility(Flying.class);
 			this.addEffect(createFloatingEffect("Ensouled Scimitar becomes a 1/5 Spirit artifact creature with flying until end of turn.", animator.getParts()));
 		}
 	}
@@ -39,8 +42,8 @@ public final class EnsouledScimitar extends Card
 		this.addAbility(new Animate(state));
 
 		// Equipped creature gets +1/+5.
-		this.addAbility(new org.rnd.jmagic.abilities.StaticPTChange(state, EquippedBy.instance(This.instance()), "Equipped creature", +1, +5, false));
+		this.addAbility(new StaticPTChange(state, EquippedBy.instance(This.instance()), "Equipped creature", +1, +5, false));
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Equip(state, "(2)"));
+		this.addAbility(new Equip(state, "(2)"));
 	}
 }

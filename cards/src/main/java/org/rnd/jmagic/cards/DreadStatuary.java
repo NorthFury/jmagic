@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.TapFor1;
 import org.rnd.jmagic.engine.*;
 
 @Name("Dread Statuary")
@@ -29,7 +31,7 @@ public final class DreadStatuary extends Card
 		super(state);
 
 		// (T): Add (1) to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapFor1(state));
+		this.addAbility(new TapFor1(state));
 
 		// (4): Dread Statuary becomes a 4/2 Golem artifact creature until end
 		// of turn. It's still a land.

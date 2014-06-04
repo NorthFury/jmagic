@@ -1,6 +1,7 @@
 package org.rnd.jmagic.engine.generators;
 
 import org.rnd.jmagic.engine.*;
+import org.rnd.util.NumberRange;
 
 /**
  * Evaluates to the largest of the given numbers
@@ -25,7 +26,7 @@ public class Minimum extends SetGenerator
 		for(Integer n: numbers.getAll(Integer.class))
 			if(min == null || (n < min))
 				min = n;
-		for(org.rnd.util.NumberRange r: numbers.getAll(org.rnd.util.NumberRange.class))
+		for(NumberRange r: numbers.getAll(NumberRange.class))
 		{
 			Integer lower = r.getLower();
 			if(lower == null)
@@ -42,7 +43,7 @@ public class Minimum extends SetGenerator
 	{
 		MagicSet a = new MagicSet();
 		a.add(8);
-		a.add(new org.rnd.util.NumberRange(1, 9));
+		a.add(new NumberRange(1, 9));
 		System.out.println("a = " + a);
 		System.out.println("Minimum.get(a) = " + Minimum.get(a));
 	}

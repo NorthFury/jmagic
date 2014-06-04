@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Deathtouch;
+import org.rnd.jmagic.abilities.keywords.Reach;
 import org.rnd.jmagic.engine.*;
 
 @Name("Kessig Recluse")
@@ -18,10 +20,10 @@ public final class KessigRecluse extends Card
 		this.setToughness(3);
 
 		// Reach (This creature can block creatures with flying.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Reach(state));
+		this.addAbility(new Reach(state));
 
 		// Deathtouch (Any amount of damage this deals to a creature is enough
 		// to destroy it.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Deathtouch(state));
+		this.addAbility(new Deathtouch(state));
 	}
 }

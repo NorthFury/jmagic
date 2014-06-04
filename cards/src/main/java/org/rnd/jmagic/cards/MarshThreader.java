@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Landwalk;
 import org.rnd.jmagic.engine.*;
 
 @Name("Marsh Threader")
@@ -18,6 +19,6 @@ public final class MarshThreader extends Card
 		this.setToughness(1);
 
 		// Swampwalk
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Landwalk.Swampwalk(state));
+		this.addAbility(new Landwalk.Swampwalk(state));
 	}
 }

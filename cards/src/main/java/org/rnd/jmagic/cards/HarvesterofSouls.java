@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Deathtouch;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -33,7 +35,7 @@ public final class HarvesterofSouls extends Card
 		this.setToughness(5);
 
 		// Deathtouch
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Deathtouch(state));
+		this.addAbility(new Deathtouch(state));
 
 		// Whenever another nontoken creature dies, you may draw a card.
 		this.addAbility(new HarvesterofSoulsAbility1(state));

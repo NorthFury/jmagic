@@ -6,6 +6,11 @@ import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+
 @Name("X-10")
 @Description("You get ten mana per turn cycle.  Basic lands are removed from your library before the game begins.  Library searches are restricted to sixty random cards plus those basic lands.")
 public class X10 extends GameType.SimpleGameTypeRule
@@ -47,7 +52,7 @@ public class X10 extends GameType.SimpleGameTypeRule
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			MagicSet cardParameter = parameters.get(Parameter.CARD);
 			MagicSet cards = new MagicSet();
@@ -73,9 +78,9 @@ public class X10 extends GameType.SimpleGameTypeRule
 					continue;
 				}
 
-				java.util.List<GameObject> list = new java.util.ArrayList<GameObject>();
+				List<GameObject> list = new ArrayList<GameObject>();
 				list.addAll(library.objects);
-				java.util.Collections.shuffle(list);
+				Collections.shuffle(list);
 				cards.addAll(list.subList(0, 60));
 			}
 
@@ -93,7 +98,7 @@ public class X10 extends GameType.SimpleGameTypeRule
 	{
 		// Give players ability to make mana
 		ContinuousEffect.Part abilityPart = new ContinuousEffect.Part(ContinuousEffectType.ADD_ABILITY_TO_PLAYER);
-		abilityPart.parameters.put(ContinuousEffectType.Parameter.ABILITY, Identity.instance(new org.rnd.jmagic.engine.SimpleAbilityFactory(MakeMana.class)));
+		abilityPart.parameters.put(ContinuousEffectType.Parameter.ABILITY, Identity.instance(new SimpleAbilityFactory(MakeMana.class)));
 		abilityPart.parameters.put(ContinuousEffectType.Parameter.PLAYER, Players.instance());
 
 		EventFactory grantAbility = new EventFactory(EventType.CREATE_FLOATING_CONTINUOUS_EFFECT, "Each player has \"Lose an energy counter: Add one mana of any color to your mana pool.\"");

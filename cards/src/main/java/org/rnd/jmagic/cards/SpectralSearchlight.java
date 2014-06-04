@@ -4,6 +4,11 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
 @Name("Spectral Searchlight")
 @Types({Type.ARTIFACT})
 @ManaCost("3")
@@ -37,13 +42,13 @@ public final class SpectralSearchlight extends Card
 			}
 
 			@Override
-			public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+			public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 			{
 				Player you = parameters.get(Parameter.PLAYER).getOne(Player.class);
-				java.util.Set<Player> choices = parameters.get(Parameter.CHOICE).getAll(Player.class);
-				java.util.Collection<Player> choice = you.sanitizeAndChoose(game.actualState, 1, choices, PlayerInterface.ChoiceType.PLAYER, REASON);
+				Set<Player> choices = parameters.get(Parameter.CHOICE).getAll(Player.class);
+				Collection<Player> choice = you.sanitizeAndChoose(game.actualState, 1, choices, PlayerInterface.ChoiceType.PLAYER, REASON);
 
-				java.util.Map<EventType.Parameter, MagicSet> addManaParameters = new java.util.HashMap<EventType.Parameter, MagicSet>();
+				Map<EventType.Parameter, MagicSet> addManaParameters = new HashMap<EventType.Parameter, MagicSet>();
 				addManaParameters.put(EventType.Parameter.SOURCE, parameters.get(EventType.Parameter.SOURCE));
 				addManaParameters.put(EventType.Parameter.PLAYER, new MagicSet(choice));
 				addManaParameters.put(EventType.Parameter.MANA, parameters.get(EventType.Parameter.MANA));

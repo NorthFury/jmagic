@@ -1,12 +1,18 @@
 package org.rnd.jmagic.engine;
 
-public class Pile implements java.util.Set<GameObject>, Sanitizable
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+
+public class Pile implements Set<GameObject>, Sanitizable
 {
-	private java.util.Set<GameObject> delegate;
+	private Set<GameObject> delegate;
 
 	public Pile()
 	{
-		this.delegate = new java.util.HashSet<GameObject>();
+		this.delegate = new HashSet<GameObject>();
 	}
 
 	@Override
@@ -16,7 +22,7 @@ public class Pile implements java.util.Set<GameObject>, Sanitizable
 	}
 
 	@Override
-	public boolean addAll(java.util.Collection<? extends GameObject> c)
+	public boolean addAll(Collection<? extends GameObject> c)
 	{
 		return this.delegate.addAll(c);
 	}
@@ -34,7 +40,7 @@ public class Pile implements java.util.Set<GameObject>, Sanitizable
 	}
 
 	@Override
-	public boolean containsAll(java.util.Collection<?> c)
+	public boolean containsAll(Collection<?> c)
 	{
 		return this.delegate.containsAll(c);
 	}
@@ -46,7 +52,7 @@ public class Pile implements java.util.Set<GameObject>, Sanitizable
 	}
 
 	@Override
-	public java.util.Iterator<GameObject> iterator()
+	public Iterator<GameObject> iterator()
 	{
 		return this.delegate.iterator();
 	}
@@ -58,21 +64,21 @@ public class Pile implements java.util.Set<GameObject>, Sanitizable
 	}
 
 	@Override
-	public boolean removeAll(java.util.Collection<?> c)
+	public boolean removeAll(Collection<?> c)
 	{
 		return this.delegate.removeAll(c);
 	}
 
 	@Override
-	public boolean retainAll(java.util.Collection<?> c)
+	public boolean retainAll(Collection<?> c)
 	{
 		return this.delegate.retainAll(c);
 	}
 
 	@Override
-	public java.io.Serializable sanitize(GameState state, Player whoFor)
+	public Serializable sanitize(GameState state, Player whoFor)
 	{
-		java.util.HashSet<java.io.Serializable> ret = new java.util.HashSet<java.io.Serializable>();
+		HashSet<Serializable> ret = new HashSet<Serializable>();
 		for(GameObject o: this.delegate)
 			ret.add(o.sanitize(state, whoFor));
 		return ret;

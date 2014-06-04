@@ -2,6 +2,7 @@ package org.rnd.jmagic.cardTemplates;
 
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+import org.rnd.util.CamelCase;
 
 public abstract class Medallion extends Card
 {
@@ -11,7 +12,7 @@ public abstract class Medallion extends Card
 
 		public ColorReduction(GameState state, Color color)
 		{
-			super(state, org.rnd.util.CamelCase.convertWord(color.toString()) + " spells cost you (1) less to cast.");
+			super(state, CamelCase.convertWord(color.toString()) + " spells cost you (1) less to cast.");
 			this.color = color;
 
 			SetGenerator spellsYouCast = Intersect.instance(Spells.instance(), ControlledBy.instance(You.instance(), Stack.instance()));

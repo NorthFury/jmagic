@@ -6,6 +6,11 @@ import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.MagicSet;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
 @Name("Spelltwine")
 @Types({Type.SORCERY})
 @ManaCost("5U")
@@ -31,18 +36,18 @@ public final class Spelltwine extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			boolean success = true;
 
 			MagicSet spells = parameters.get(Parameter.OBJECT);
-			java.util.Map<GameObject, Event> castable = new java.util.HashMap<GameObject, Event>();
+			Map<GameObject, Event> castable = new HashMap<GameObject, Event>();
 
 			MagicSet playerSet = parameters.get(Parameter.PLAYER);
 
 			for(GameObject spell: spells.getAll(GameObject.class))
 			{
-				java.util.Map<Parameter, MagicSet> castParameters = new java.util.HashMap<Parameter, MagicSet>();
+				Map<Parameter, MagicSet> castParameters = new HashMap<Parameter, MagicSet>();
 				castParameters.put(EventType.Parameter.PLAYER, playerSet);
 				castParameters.put(EventType.Parameter.ALTERNATE_COST, new MagicSet());
 				castParameters.put(EventType.Parameter.OBJECT, new MagicSet(spell));
@@ -56,7 +61,7 @@ public final class Spelltwine extends Card
 			{
 				Player player = playerSet.getOne(Player.class);
 
-				java.util.List<GameObject> ordered = new java.util.LinkedList<GameObject>();
+				List<GameObject> ordered = new LinkedList<GameObject>();
 
 				if(size > 1)
 					ordered = player.sanitizeAndChoose(game.actualState, size, castable.keySet(), PlayerInterface.ChoiceType.OBJECTS_ORDERED, REASON);

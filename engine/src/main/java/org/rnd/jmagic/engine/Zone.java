@@ -1,16 +1,24 @@
 package org.rnd.jmagic.engine;
 
+import org.rnd.jmagic.sanitized.SanitizedZone;
+
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+
 /** Represents a zone in the game. */
 public class Zone extends Identified implements Iterable<GameObject>, Ownable, Targetable, Sanitizable
 {
 	/** Objects that are currently in this zone. */
-	public java.util.List<GameObject> objects;
+	public List<GameObject> objects;
 
 	/**
 	 * Who can see this zone. Players with IDs in this collection can see the
 	 * faces of all objects in this zone.
 	 */
-	public java.util.Set<Integer> visibleTo;
+	public Set<Integer> visibleTo;
 
 	/**
 	 * @param state The game state in which this zone will exist.
@@ -23,7 +31,7 @@ public class Zone extends Identified implements Iterable<GameObject>, Ownable, T
 		this.setName(name);
 
 		this.objects = new IDList<GameObject>(state);
-		this.visibleTo = new java.util.HashSet<Integer>();
+		this.visibleTo = new HashSet<Integer>();
 	}
 
 	/**
@@ -81,7 +89,7 @@ public class Zone extends Identified implements Iterable<GameObject>, Ownable, T
 	{
 		Zone ret = (Zone)super.clone(state);
 		ret.objects = new IDList<GameObject>(state, this.objects);
-		ret.visibleTo = new java.util.HashSet<Integer>(this.visibleTo);
+		ret.visibleTo = new HashSet<Integer>(this.visibleTo);
 		return ret;
 	}
 
@@ -139,7 +147,7 @@ public class Zone extends Identified implements Iterable<GameObject>, Ownable, T
 
 	/** @return An iterator over the objects in this zone. */
 	@Override
-	public java.util.Iterator<GameObject> iterator()
+	public Iterator<GameObject> iterator()
 	{
 		return this.objects.iterator();
 	}
@@ -198,8 +206,8 @@ public class Zone extends Identified implements Iterable<GameObject>, Ownable, T
 	}
 
 	@Override
-	public java.io.Serializable sanitize(GameState state, Player whoFor)
+	public Serializable sanitize(GameState state, Player whoFor)
 	{
-		return new org.rnd.jmagic.sanitized.SanitizedZone(state.<Zone>get(this.ID));
+		return new SanitizedZone(state.<Zone>get(this.ID));
 	}
 }

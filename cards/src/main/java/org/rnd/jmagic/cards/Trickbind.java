@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.SplitSecond;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -17,7 +19,7 @@ public final class Trickbind extends Card
 		super(state);
 
 		// Split second
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.SplitSecond(state));
+		this.addAbility(new SplitSecond(state));
 
 		// Counter target activated or triggered ability.
 		SetGenerator target = targetedBy(this.addTarget(AbilitiesOnTheStack.instance(), "Counter target activated or triggered ability."));

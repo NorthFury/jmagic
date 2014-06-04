@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 
 @Name("The Hive")
@@ -23,7 +25,7 @@ public final class TheHive extends Card
 			CreateTokensFactory token = new CreateTokensFactory(1, 1, 1, "Put a 1/1 colorless Insect artifact creature token with flying named Wasp onto the battlefield.");
 			token.setSubTypes(SubType.INSECT);
 			token.setArtifact();
-			token.addAbility(org.rnd.jmagic.abilities.keywords.Flying.class);
+			token.addAbility(Flying.class);
 			token.setName("Wasp");
 			this.addEffect(token.getEventFactory());
 		}

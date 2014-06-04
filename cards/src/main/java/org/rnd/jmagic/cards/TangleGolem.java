@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Affinity;
 import org.rnd.jmagic.engine.*;
 
 @Name("Tangle Golem")
@@ -18,6 +19,6 @@ public final class TangleGolem extends Card
 		this.setToughness(4);
 
 		// Affinity for Forests
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Affinity.ForForests(state));
+		this.addAbility(new Affinity.ForForests(state));
 	}
 }

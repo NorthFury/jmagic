@@ -1,7 +1,12 @@
 package org.rnd.jmagic.abilities.keywords;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilityTemplates.ExaltedBase;
 import org.rnd.jmagic.engine.*;
+
+import java.util.LinkedList;
+import java.util.List;
 
 @Name("Exalted")
 public final class Exalted extends Keyword
@@ -12,14 +17,14 @@ public final class Exalted extends Keyword
 	}
 
 	@Override
-	protected java.util.List<NonStaticAbility> createNonStaticAbilities()
+	protected List<NonStaticAbility> createNonStaticAbilities()
 	{
-		java.util.List<NonStaticAbility> ret = new java.util.LinkedList<NonStaticAbility>();
+		List<NonStaticAbility> ret = new LinkedList<NonStaticAbility>();
 		ret.add(new ExaltedTrigger(this.state));
 		return ret;
 	}
 
-	public static final class ExaltedTrigger extends org.rnd.jmagic.abilityTemplates.ExaltedBase
+	public static final class ExaltedTrigger extends ExaltedBase
 	{
 		public ExaltedTrigger(GameState state)
 		{

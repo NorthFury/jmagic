@@ -2,29 +2,33 @@ package org.rnd.jmagic.engine.generators;
 
 import org.rnd.jmagic.engine.*;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Evaluates to the amount of life gained by each of the given players this
  * turn.
  */
 public class LifeGainedThisTurn extends SetGenerator
 {
-	public static class LifeTracker extends Tracker<java.util.Map<Integer, Integer>>
+	public static class LifeTracker extends Tracker<Map<Integer, Integer>>
 	{
-		private java.util.HashMap<Integer, Integer> lifeGained = new java.util.HashMap<Integer, Integer>();
-		private java.util.Map<Integer, Integer> unmodifiable = java.util.Collections.unmodifiableMap(this.lifeGained);
+		private HashMap<Integer, Integer> lifeGained = new HashMap<Integer, Integer>();
+		private Map<Integer, Integer> unmodifiable = Collections.unmodifiableMap(this.lifeGained);
 
 		@SuppressWarnings("unchecked")
 		@Override
 		public LifeTracker clone()
 		{
 			LifeTracker ret = (LifeTracker)super.clone();
-			ret.lifeGained = (java.util.HashMap<Integer, Integer>)this.lifeGained.clone();
-			ret.unmodifiable = java.util.Collections.unmodifiableMap(ret.lifeGained);
+			ret.lifeGained = (HashMap<Integer, Integer>)this.lifeGained.clone();
+			ret.unmodifiable = Collections.unmodifiableMap(ret.lifeGained);
 			return ret;
 		}
 
 		@Override
-		protected java.util.Map<Integer, Integer> getValueInternal()
+		protected Map<Integer, Integer> getValueInternal()
 		{
 			return this.unmodifiable;
 		}
@@ -77,7 +81,7 @@ public class LifeGainedThisTurn extends SetGenerator
 
 		MagicSet ret = new MagicSet();
 		MagicSet what = this.players.evaluate(state, thisObject);
-		java.util.Map<Integer, Integer> value = state.getTracker(LifeTracker.class).getValue(state);
+		Map<Integer, Integer> value = state.getTracker(LifeTracker.class).getValue(state);
 
 		for(Player p: what.getAll(Player.class))
 		{

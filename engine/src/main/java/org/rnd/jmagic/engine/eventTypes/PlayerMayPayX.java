@@ -2,6 +2,10 @@ package org.rnd.jmagic.engine.eventTypes;
 
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+import org.rnd.util.NumberRange;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public final class PlayerMayPayX extends EventType
 {	public static final EventType INSTANCE = new PlayerMayPayX();
@@ -18,7 +22,7 @@ public final class PlayerMayPayX extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		MagicSet causeParameter = parameters.get(Parameter.CAUSE);
 		GameObject cause = causeParameter.getOne(GameObject.class);
@@ -40,7 +44,7 @@ public final class PlayerMayPayX extends EventType
 		boolean valid = false;
 		while(!valid)
 		{
-			org.rnd.util.NumberRange range = new org.rnd.util.NumberRange(0, max);
+			NumberRange range = new NumberRange(0, max);
 			int X = player.chooseNumber(range, "Choose a value for X.");
 			if(X == 0)
 			{
@@ -68,7 +72,7 @@ public final class PlayerMayPayX extends EventType
 		ManaPool cost = new ManaPool("X");
 		cost.addAll(additional);
 
-		java.util.Map<Parameter, MagicSet> payParameters = new java.util.HashMap<Parameter, MagicSet>();
+		Map<Parameter, MagicSet> payParameters = new HashMap<Parameter, MagicSet>();
 		payParameters.put(EventType.Parameter.CAUSE, causeParameter);
 		payParameters.put(EventType.Parameter.PLAYER, playerParameter);
 		payParameters.put(EventType.Parameter.COST, new MagicSet(cost));

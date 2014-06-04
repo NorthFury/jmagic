@@ -3,6 +3,9 @@ package org.rnd.jmagic.engine.patterns;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class SimpleGroupingPattern implements GroupingPattern
 {
 	private final SetGenerator generator;
@@ -13,9 +16,9 @@ public class SimpleGroupingPattern implements GroupingPattern
 	}
 
 	@Override
-	public java.util.Set<MagicSet> match(MagicSet set, Identified thisObject, GameState state)
+	public Set<MagicSet> match(MagicSet set, Identified thisObject, GameState state)
 	{
-		java.util.Set<MagicSet> ret = new java.util.HashSet<MagicSet>();
+		Set<MagicSet> ret = new HashSet<MagicSet>();
 
 		for(Object object: Intersect.instance(this.generator, Identity.instance(set)).evaluate(state, thisObject))
 			ret.add(new MagicSet(object));

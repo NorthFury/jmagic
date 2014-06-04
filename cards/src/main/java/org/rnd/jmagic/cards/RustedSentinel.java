@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.EntersTheBattlefieldTapped;
 import org.rnd.jmagic.engine.*;
 
 @Name("Rusted Sentinel")
@@ -18,6 +19,6 @@ public final class RustedSentinel extends Card
 		this.setToughness(4);
 
 		// Rusted Sentinel enters the battlefield tapped.
-		this.addAbility(new org.rnd.jmagic.abilities.EntersTheBattlefieldTapped(state, this.getName()));
+		this.addAbility(new EntersTheBattlefieldTapped(state, this.getName()));
 	}
 }

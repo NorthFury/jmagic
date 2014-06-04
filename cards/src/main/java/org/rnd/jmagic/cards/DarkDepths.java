@@ -1,6 +1,10 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.EntersTheBattlefieldWithCounters;
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Indestructible;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -40,8 +44,8 @@ public final class DarkDepths extends Card
 			token.setLegendary();
 			token.setColors(Color.BLACK);
 			token.setSubTypes(SubType.AVATAR);
-			token.addAbility(org.rnd.jmagic.abilities.keywords.Flying.class);
-			token.addAbility(org.rnd.jmagic.abilities.keywords.Indestructible.class);
+			token.addAbility(Flying.class);
+			token.addAbility(Indestructible.class);
 			token.setName("Marit Lage");
 
 			EventFactory ifThenElse = new EventFactory(EventType.IF_EVENT_THEN_ELSE, "Sacrifice Dark Depths.  If you do, put an indestructible legendary 20/20 black Avatar creature token with flying named Marit Lage onto the battlefield.");
@@ -57,7 +61,7 @@ public final class DarkDepths extends Card
 		super(state);
 
 		// Dark Depths enters the battlefield with ten ice counters on it.
-		this.addAbility(new org.rnd.jmagic.abilities.EntersTheBattlefieldWithCounters(state, this.getName(), 10, Counter.CounterType.ICE));
+		this.addAbility(new EntersTheBattlefieldWithCounters(state, this.getName(), 10, Counter.CounterType.ICE));
 
 		// {3}: Remove an ice counter from Dark Depths.
 		this.addAbility(new RemoveCounter(state));

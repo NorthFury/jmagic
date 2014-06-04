@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Haste;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -39,7 +41,7 @@ public final class ObzedatGhostCouncil extends Card
 			EventFactory returnToBattlefield = putOntoBattlefield(inExile, "Return it to the battlefield");
 
 			SetGenerator onBattlefield = NewObjectOf.instance(EffectResult.instance(returnToBattlefield));
-			ContinuousEffect.Part giveHastePart = addAbilityToObject(onBattlefield, org.rnd.jmagic.abilities.keywords.Haste.class);
+			ContinuousEffect.Part giveHastePart = addAbilityToObject(onBattlefield, Haste.class);
 			EventFactory giveHaste = createFloatingEffect(Empty.instance(), "It gains haste", giveHastePart);
 
 			EventFactory returnWithHaste = sequence(returnToBattlefield, giveHaste);

@@ -3,6 +3,10 @@ package org.rnd.jmagic.engine.eventTypes;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
 public final class CreateFloatingContinuousEffect extends EventType
 {	public static final EventType INSTANCE = new CreateFloatingContinuousEffect();
 
@@ -18,11 +22,11 @@ public final class CreateFloatingContinuousEffect extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		GameObject cause = parameters.get(Parameter.CAUSE).getOne(GameObject.class);
 
-		java.util.Set<FloatingContinuousEffect> physicalEffects = new java.util.HashSet<FloatingContinuousEffect>();
+		Set<FloatingContinuousEffect> physicalEffects = new HashSet<FloatingContinuousEffect>();
 
 		FloatingContinuousEffect newEffect = new FloatingContinuousEffect(game, event.getName());
 
@@ -71,7 +75,7 @@ public final class CreateFloatingContinuousEffect extends EventType
 				if(part.type.layer() == ContinuousEffectType.Layer.RULE_CHANGE)
 					continue;
 
-				for(java.util.Map.Entry<ContinuousEffectType.Parameter, SetGenerator> parameter: part.parameters.entrySet())
+				for(Map.Entry<ContinuousEffectType.Parameter, SetGenerator> parameter: part.parameters.entrySet())
 				{
 					ContinuousEffectType.Parameter parameterName = parameter.getKey();
 					MagicSet evaluation = parameter.getValue().evaluate(game, cause);

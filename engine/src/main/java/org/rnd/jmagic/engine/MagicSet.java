@@ -1,5 +1,17 @@
 package org.rnd.jmagic.engine;
 
+import org.rnd.util.NumberRange;
+import org.rnd.util.SeparatedList;
+
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+
 /**
  * Represents a Magic-specific version of a mathematical set.
  * 
@@ -14,19 +26,19 @@ package org.rnd.jmagic.engine;
  * 
  * The other main difference is that only one NumberRange may appear in a Set.
  */
-public class MagicSet implements java.util.Set<Object>, java.io.Serializable
+public class MagicSet implements Set<Object>, Serializable
 {
 	/**
 	 * A special java.util.Set is required to hold multiple instances of Integer
 	 * without the uniqueness condition kicking in.
 	 */
-	private static class IntSet implements java.util.Set<Integer>
+	private static class IntSet implements Set<Integer>
 	{
-		private java.util.List<Integer> wrappers;
+		private List<Integer> wrappers;
 
 		public IntSet()
 		{
-			this.wrappers = new java.util.LinkedList<Integer>();
+			this.wrappers = new LinkedList<Integer>();
 		}
 
 		@Override
@@ -36,7 +48,7 @@ public class MagicSet implements java.util.Set<Object>, java.io.Serializable
 		}
 
 		@Override
-		public boolean addAll(java.util.Collection<? extends Integer> c)
+		public boolean addAll(Collection<? extends Integer> c)
 		{
 			return this.wrappers.addAll(c);
 		}
@@ -54,7 +66,7 @@ public class MagicSet implements java.util.Set<Object>, java.io.Serializable
 		}
 
 		@Override
-		public boolean containsAll(java.util.Collection<?> c)
+		public boolean containsAll(Collection<?> c)
 		{
 			return this.wrappers.containsAll(c);
 		}
@@ -66,7 +78,7 @@ public class MagicSet implements java.util.Set<Object>, java.io.Serializable
 		}
 
 		@Override
-		public java.util.Iterator<Integer> iterator()
+		public Iterator<Integer> iterator()
 		{
 			return this.wrappers.iterator();
 		}
@@ -78,13 +90,13 @@ public class MagicSet implements java.util.Set<Object>, java.io.Serializable
 		}
 
 		@Override
-		public boolean removeAll(java.util.Collection<?> c)
+		public boolean removeAll(Collection<?> c)
 		{
 			return this.wrappers.removeAll(c);
 		}
 
 		@Override
-		public boolean retainAll(java.util.Collection<?> c)
+		public boolean retainAll(Collection<?> c)
 		{
 			return this.wrappers.retainAll(c);
 		}
@@ -108,7 +120,7 @@ public class MagicSet implements java.util.Set<Object>, java.io.Serializable
 		}
 	}
 
-	private static class IntWrapper implements java.io.Serializable
+	private static class IntWrapper implements Serializable
 	{
 		private static final long serialVersionUID = 1L;
 
@@ -136,33 +148,33 @@ public class MagicSet implements java.util.Set<Object>, java.io.Serializable
 
 		public Unmodifiable()
 		{
-			this.store = java.util.Collections.emptySet();
+			this.store = Collections.emptySet();
 		}
 
 		public Unmodifiable(int i)
 		{
-			this.store = java.util.Collections.<Object>singleton(new IntWrapper(i));
+			this.store = Collections.<Object>singleton(new IntWrapper(i));
 		}
 
 		public Unmodifiable(Object o)
 		{
-			this.store = java.util.Collections.singleton(o);
+			this.store = Collections.singleton(o);
 		}
 
 		public Unmodifiable(MagicSet s)
 		{
-			this.store = java.util.Collections.unmodifiableSet(s.store);
+			this.store = Collections.unmodifiableSet(s.store);
 		}
 	}
 
-	protected java.util.Set<Object> store;
+	protected Set<Object> store;
 
 	private static final long serialVersionUID = 1L;
 
 	/** Constructs an empty Set. */
 	public MagicSet()
 	{
-		this.store = new java.util.HashSet<Object>();
+		this.store = new HashSet<Object>();
 	}
 
 	/**
@@ -170,7 +182,7 @@ public class MagicSet implements java.util.Set<Object>, java.io.Serializable
 	 * 
 	 * @param c The collection.
 	 */
-	public MagicSet(java.util.Collection<?> c)
+	public MagicSet(Collection<?> c)
 	{
 		this();
 		if(null == c)
@@ -183,7 +195,7 @@ public class MagicSet implements java.util.Set<Object>, java.io.Serializable
 					this.store.add(new IntWrapper((Integer)e));
 				else
 				{
-					if(e instanceof org.rnd.util.NumberRange)
+					if(e instanceof NumberRange)
 					{
 						if(hasNumberRange)
 							throw new UnsupportedOperationException("Attempt to initialize a Set with a collection containing two NumberRange instances");
@@ -213,7 +225,7 @@ public class MagicSet implements java.util.Set<Object>, java.io.Serializable
 				this.store.add(new IntWrapper((Integer)e));
 			else
 			{
-				if(e instanceof org.rnd.util.NumberRange)
+				if(e instanceof NumberRange)
 				{
 					if(hasNumberRange)
 						throw new UnsupportedOperationException("Attempt to initialize a Set with a collection containing two NumberRange instances");
@@ -238,12 +250,12 @@ public class MagicSet implements java.util.Set<Object>, java.io.Serializable
 		if(e instanceof Integer)
 			return this.store.add(new IntWrapper((Integer)e));
 
-		if(e instanceof org.rnd.util.NumberRange)
+		if(e instanceof NumberRange)
 		{
 			boolean hasNumberRange = false;
 			for(Object o: this)
 			{
-				if(o instanceof org.rnd.util.NumberRange)
+				if(o instanceof NumberRange)
 				{
 					hasNumberRange = true;
 					break;
@@ -263,7 +275,7 @@ public class MagicSet implements java.util.Set<Object>, java.io.Serializable
 	 * otherwise.
 	 */
 	@Override
-	public boolean addAll(java.util.Collection<?> c)
+	public boolean addAll(Collection<?> c)
 	{
 		if(null == c)
 			throw new UnsupportedOperationException("Attempt to add to a Set with a null collection");
@@ -271,7 +283,7 @@ public class MagicSet implements java.util.Set<Object>, java.io.Serializable
 		boolean hasNumberRange = false;
 		for(Object o: this)
 		{
-			if(o instanceof org.rnd.util.NumberRange)
+			if(o instanceof NumberRange)
 			{
 				hasNumberRange = true;
 				break;
@@ -284,7 +296,7 @@ public class MagicSet implements java.util.Set<Object>, java.io.Serializable
 			if(null == e)
 				throw new UnsupportedOperationException("Attempt to add null to a Set");
 
-			if(e instanceof org.rnd.util.NumberRange)
+			if(e instanceof NumberRange)
 			{
 				if(hasNumberRange)
 					throw new UnsupportedOperationException("Attempt to add a second NumberRange to a Set");
@@ -316,7 +328,7 @@ public class MagicSet implements java.util.Set<Object>, java.io.Serializable
 	 * collection; false otherwise.
 	 */
 	@Override
-	public boolean containsAll(java.util.Collection<?> arg0)
+	public boolean containsAll(Collection<?> arg0)
 	{
 		return this.store.containsAll(arg0);
 	}
@@ -349,7 +361,7 @@ public class MagicSet implements java.util.Set<Object>, java.io.Serializable
 	 * @return The elements.
 	 */
 	@SuppressWarnings("unchecked")
-	public <T> java.util.Set<T> getAll(Class<T> c)
+	public <T> Set<T> getAll(Class<T> c)
 	{
 		if(c.equals(Integer.class))
 		{
@@ -357,9 +369,9 @@ public class MagicSet implements java.util.Set<Object>, java.io.Serializable
 			for(Object o: this)
 				if(o instanceof IntWrapper)
 					ret.add(((IntWrapper)o).value);
-			return (java.util.Set<T>)ret;
+			return (Set<T>)ret;
 		}
-		java.util.Set<T> ret = new java.util.HashSet<T>();
+		Set<T> ret = new HashSet<T>();
 		for(Object o: this)
 		{
 			if(c.isAssignableFrom(o.getClass()))
@@ -375,9 +387,9 @@ public class MagicSet implements java.util.Set<Object>, java.io.Serializable
 	 * @return The elements.
 	 */
 	@SuppressWarnings("unchecked")
-	public <T> java.util.Set<Class<? extends T>> getAllClasses(Class<T> c)
+	public <T> Set<Class<? extends T>> getAllClasses(Class<T> c)
 	{
-		java.util.Set<Class<? extends T>> ret = new java.util.HashSet<Class<? extends T>>();
+		Set<Class<? extends T>> ret = new HashSet<Class<? extends T>>();
 		for(Class<?> in: this.getAll(Class.class))
 			if(c.isAssignableFrom(in))
 				ret.add((Class<T>)in);
@@ -428,7 +440,7 @@ public class MagicSet implements java.util.Set<Object>, java.io.Serializable
 
 	/** @return An iterator over the elements of this Set. */
 	@Override
-	public java.util.Iterator<Object> iterator()
+	public Iterator<Object> iterator()
 	{
 		return this.store.iterator();
 	}
@@ -453,7 +465,7 @@ public class MagicSet implements java.util.Set<Object>, java.io.Serializable
 	 * @return Whether this Set changed as a result of this call.
 	 */
 	@Override
-	public boolean removeAll(java.util.Collection<?> arg0)
+	public boolean removeAll(Collection<?> arg0)
 	{
 		return this.store.removeAll(arg0);
 	}
@@ -466,7 +478,7 @@ public class MagicSet implements java.util.Set<Object>, java.io.Serializable
 	 * @return Whether this Set changed as a result of this call.
 	 */
 	@Override
-	public boolean retainAll(java.util.Collection<?> arg0)
+	public boolean retainAll(Collection<?> arg0)
 	{
 		return this.store.retainAll(arg0);
 	}
@@ -514,6 +526,6 @@ public class MagicSet implements java.util.Set<Object>, java.io.Serializable
 	@Override
 	public String toString()
 	{
-		return org.rnd.util.SeparatedList.get("and", this).toString();
+		return SeparatedList.get("and", this).toString();
 	}
 }

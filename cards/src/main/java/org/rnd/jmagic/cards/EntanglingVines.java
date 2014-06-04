@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Enchant;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -33,7 +34,7 @@ public final class EntanglingVines extends Card
 		super(state);
 
 		// Enchant tapped creature
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Enchant.TappedCreature(state));
+		this.addAbility(new Enchant.TappedCreature(state));
 
 		this.addAbility(new Entangle(state));
 	}

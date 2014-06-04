@@ -2,6 +2,8 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Cascade;
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -36,13 +38,13 @@ public final class EnigmaSphinx extends Card
 		this.setToughness(4);
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// When Enigma Sphinx is put into your graveyard from the battlefield,
 		// put it into your library third from the top.
 		this.addAbility(new LongTermPlanning(state));
 
 		// Cascade
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Cascade(state));
+		this.addAbility(new Cascade(state));
 	}
 }

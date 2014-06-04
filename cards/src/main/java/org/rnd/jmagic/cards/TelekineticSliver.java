@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.AllSliversHave;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -35,6 +37,6 @@ public final class TelekineticSliver extends Card
 		this.setToughness(2);
 
 		// All Slivers have "(T): Tap target permanent."
-		this.addAbility(new org.rnd.jmagic.abilities.AllSliversHave(state, SliverTap.class, "All Slivers have \"(T): Tap target permanent.\""));
+		this.addAbility(new AllSliversHave(state, SliverTap.class, "All Slivers have \"(T): Tap target permanent.\""));
 	}
 }

@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Haste;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -32,7 +33,7 @@ public final class MoltenPrimordial extends Card
 
 			this.addEffect(untap(target, "Untap those creatures."));
 
-			this.addEffect(addAbilityUntilEndOfTurn(target, org.rnd.jmagic.abilities.keywords.Haste.class, "They gain haste until end of turn."));
+			this.addEffect(addAbilityUntilEndOfTurn(target, Haste.class, "They gain haste until end of turn."));
 		}
 	}
 
@@ -44,7 +45,7 @@ public final class MoltenPrimordial extends Card
 		this.setToughness(4);
 
 		// Haste
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Haste(state));
+		this.addAbility(new Haste(state));
 
 		// When Molten Primordial enters the battlefield, for each opponent,
 		// gain control of up to one target creature that player controls until

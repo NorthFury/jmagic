@@ -5,6 +5,9 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Name("Chandra Ablaze")
 @Types({Type.PLANESWALKER})
 @SubTypes({SubType.CHANDRA})
@@ -30,13 +33,13 @@ public final class ChandraAblaze extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			MagicSet ability = parameters.get(Parameter.CAUSE);
 			MagicSet you = parameters.get(Parameter.PLAYER);
 			MagicSet cards = parameters.get(Parameter.CARD);
 
-			java.util.Map<Parameter, MagicSet> discardParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> discardParameters = new HashMap<Parameter, MagicSet>();
 			discardParameters.put(Parameter.CAUSE, ability);
 			discardParameters.put(Parameter.PLAYER, you);
 			discardParameters.put(Parameter.CHOICE, cards);
@@ -54,7 +57,7 @@ public final class ChandraAblaze extends Card
 				MagicSet chandra = parameters.get(Parameter.SOURCE);
 				MagicSet target = parameters.get(Parameter.TARGET);
 
-				java.util.Map<Parameter, MagicSet> damageParameters = new java.util.HashMap<Parameter, MagicSet>();
+				Map<Parameter, MagicSet> damageParameters = new HashMap<Parameter, MagicSet>();
 				damageParameters.put(Parameter.SOURCE, chandra);
 				damageParameters.put(Parameter.NUMBER, new MagicSet(4));
 				damageParameters.put(Parameter.TAKER, target);

@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Suspend;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -41,6 +43,6 @@ public final class ShivanSandMage extends Card
 		this.addAbility(new ShivanSandMageAbility0(state));
 
 		// Suspend 4\u2014(R)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Suspend(state, 4, "R"));
+		this.addAbility(new Suspend(state, 4, "R"));
 	}
 }

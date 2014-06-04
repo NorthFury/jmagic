@@ -1,7 +1,12 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
+
+import java.util.LinkedList;
+import java.util.List;
 
 @Name("Moonlight Geist")
 @Types({Type.CREATURE})
@@ -39,10 +44,10 @@ public final class MoonlightGeist extends Card
 			}
 
 			@Override
-			public java.util.List<EventFactory> prevent(DamageAssignment.Batch damageAssignments)
+			public List<EventFactory> prevent(DamageAssignment.Batch damageAssignments)
 			{
 				damageAssignments.clear();
-				return new java.util.LinkedList<EventFactory>();
+				return new LinkedList<EventFactory>();
 			}
 		}
 
@@ -64,7 +69,7 @@ public final class MoonlightGeist extends Card
 		this.setToughness(1);
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// (3)(W): Prevent all combat damage that would be dealt to and dealt by
 		// Moonlight Geist this turn.

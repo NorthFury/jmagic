@@ -2,6 +2,9 @@ package org.rnd.jmagic.engine.generators;
 
 import org.rnd.jmagic.engine.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Evaluates to the result of each of the given events
  */
@@ -29,9 +32,9 @@ public class EventResult extends SetGenerator
 	}
 
 	@Override
-	public java.util.Set<ManaSymbol.ManaType> extractColors(Game game, GameObject thisObject, java.util.Set<SetGenerator> ignoreThese) throws NoSuchMethodException
+	public Set<ManaSymbol.ManaType> extractColors(Game game, GameObject thisObject, Set<SetGenerator> ignoreThese) throws NoSuchMethodException
 	{
-		java.util.Set<ManaSymbol.ManaType> ret = new java.util.HashSet<ManaSymbol.ManaType>();
+		Set<ManaSymbol.ManaType> ret = new HashSet<ManaSymbol.ManaType>();
 
 		for(Event event: this.events.evaluate(game, null).getAll(Event.class))
 		{

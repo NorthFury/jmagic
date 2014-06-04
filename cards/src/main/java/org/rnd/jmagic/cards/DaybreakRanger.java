@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.Werewolves;
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -20,7 +23,7 @@ public final class DaybreakRanger extends Card
 			super(state, "(T): Daybreak Ranger deals 2 damage to target creature with flying.");
 			this.costsTap = true;
 
-			SetGenerator target = targetedBy(this.addTarget(Intersect.instance(CreaturePermanents.instance(), HasKeywordAbility.instance(org.rnd.jmagic.abilities.keywords.Flying.class)), "target creature with flying"));
+			SetGenerator target = targetedBy(this.addTarget(Intersect.instance(CreaturePermanents.instance(), HasKeywordAbility.instance(Flying.class)), "target creature with flying"));
 
 			this.addEffect(permanentDealDamage(2, target, "Daybreak Ranger deals 2 damage to target creature with flying."));
 		}
@@ -38,6 +41,6 @@ public final class DaybreakRanger extends Card
 
 		// At the beginning of each upkeep, if no spells were cast last turn,
 		// transform Daybreak Ranger.
-		this.addAbility(new org.rnd.jmagic.abilities.Werewolves.BecomeFuzzy(state, this.getName()));
+		this.addAbility(new Werewolves.BecomeFuzzy(state, this.getName()));
 	}
 }

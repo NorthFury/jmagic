@@ -1,5 +1,8 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.FirstStrike;
+import org.rnd.jmagic.abilities.keywords.Infect;
+import org.rnd.jmagic.abilities.keywords.Protection;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -19,11 +22,11 @@ public final class PhyrexianCrusader extends Card
 		this.setToughness(2);
 
 		// First strike, protection from red and from white
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.FirstStrike(state));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Protection.From(state, HasColor.instance(Color.RED, Color.WHITE), "red and from white"));
+		this.addAbility(new FirstStrike(state));
+		this.addAbility(new Protection.From(state, HasColor.instance(Color.RED, Color.WHITE), "red and from white"));
 
 		// Infect (This creature deals damage to creatures in the form of -1/-1
 		// counters and to players in the form of poison counters.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Infect(state));
+		this.addAbility(new Infect(state));
 	}
 }

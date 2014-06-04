@@ -2,8 +2,14 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Map;
 
 @Name("Sphinx of the Chimes")
 @Types({Type.CREATURE})
@@ -27,7 +33,7 @@ public final class SphinxoftheChimes extends Card
 		}
 
 		@Override
-		public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean attempt(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			Player player = parameters.get(Parameter.PLAYER).getOne(Player.class);
 			Zone hand = player.getHand(game.actualState);
@@ -35,20 +41,20 @@ public final class SphinxoftheChimes extends Card
 				return false;
 
 			MagicSet cause = parameters.get(Parameter.CAUSE);
-			java.util.ListIterator<GameObject> i = hand.objects.listIterator();
+			ListIterator<GameObject> i = hand.objects.listIterator();
 			while(i.hasNext())
 			{
 				GameObject firstCard = i.next();
 				if(firstCard.getTypes().contains(Type.LAND))
 					continue;
-				java.util.ListIterator<GameObject> j = hand.objects.listIterator(i.nextIndex());
+				ListIterator<GameObject> j = hand.objects.listIterator(i.nextIndex());
 				while(j.hasNext())
 				{
 					GameObject secondCard = j.next();
 					if(!firstCard.getName().equals(secondCard.getName()))
 						continue;
 
-					java.util.Map<Parameter, MagicSet> discardParameters = new java.util.HashMap<Parameter, MagicSet>();
+					Map<Parameter, MagicSet> discardParameters = new HashMap<Parameter, MagicSet>();
 					discardParameters.put(Parameter.CAUSE, cause);
 					discardParameters.put(Parameter.CARD, new MagicSet(firstCard, secondCard));
 					Event discard = createEvent(game, "Discard two cards named " + firstCard, EventType.DISCARD_CARDS, discardParameters);
@@ -61,7 +67,7 @@ public final class SphinxoftheChimes extends Card
 		}
 
 		@Override
-		public void makeChoices(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public void makeChoices(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			Player player = parameters.get(Parameter.PLAYER).getOne(Player.class);
 
@@ -70,7 +76,7 @@ public final class SphinxoftheChimes extends Card
 				boolean valid = false;
 				while(!valid)
 				{
-					java.util.List<GameObject> chosen = player.sanitizeAndChoose(game.actualState, 2, player.getHand(game.actualState).objects, PlayerInterface.ChoiceType.OBJECTS, PlayerInterface.ChooseReason.DISCARD);
+					List<GameObject> chosen = player.sanitizeAndChoose(game.actualState, 2, player.getHand(game.actualState).objects, PlayerInterface.ChoiceType.OBJECTS, PlayerInterface.ChooseReason.DISCARD);
 					if(chosen.get(0).getName().equals(chosen.get(1).getName()) && !chosen.get(0).getTypes().contains(Type.LAND))
 					{
 						event.putChoices(player, chosen);
@@ -83,12 +89,12 @@ public final class SphinxoftheChimes extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			Player you = parameters.get(Parameter.PLAYER).getOne(Player.class);
 			MagicSet discardThese = event.getChoices(you);
 
-			java.util.Map<Parameter, MagicSet> discardParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> discardParameters = new HashMap<Parameter, MagicSet>();
 			discardParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 			discardParameters.put(Parameter.CARD, discardThese);
 			Event discard = createEvent(game, "Discard " + discardThese, DISCARD_CARDS, discardParameters);
@@ -123,7 +129,7 @@ public final class SphinxoftheChimes extends Card
 		this.setToughness(6);
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// Discard two nonland cards with the same name: Draw four cards.
 		this.addAbility(new SphinxoftheChimesAbility1(state));

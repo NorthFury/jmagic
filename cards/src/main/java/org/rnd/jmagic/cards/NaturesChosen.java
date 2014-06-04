@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Enchant;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -77,7 +79,7 @@ public final class NaturesChosen extends Card
 		super(state);
 
 		// Enchant creature you control
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Enchant.CreatureYouControl(state));
+		this.addAbility(new Enchant.CreatureYouControl(state));
 
 		// Enchanted creature has "(0): Untap this creature. Activate this
 		// ability only during your turn and only once each turn."

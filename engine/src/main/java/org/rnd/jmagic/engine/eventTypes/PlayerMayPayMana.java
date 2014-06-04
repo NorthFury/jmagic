@@ -3,6 +3,9 @@ package org.rnd.jmagic.engine.eventTypes;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public final class PlayerMayPayMana extends EventType
 {	public static final EventType INSTANCE = new PlayerMayPayMana();
 
@@ -18,7 +21,7 @@ public final class PlayerMayPayMana extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		MagicSet playerParameter = parameters.get(Parameter.PLAYER);
 		Player player = playerParameter.getOne(Player.class);
@@ -36,7 +39,7 @@ public final class PlayerMayPayMana extends EventType
 		factory.parameters.put(Parameter.COST, Identity.instance(cost));
 		factory.parameters.put(Parameter.PLAYER, Identity.instance(playerParameter));
 
-		java.util.Map<Parameter, MagicSet> mayPayParameters = new java.util.HashMap<Parameter, MagicSet>();
+		Map<Parameter, MagicSet> mayPayParameters = new HashMap<Parameter, MagicSet>();
 		mayPayParameters.put(Parameter.PLAYER, playerParameter);
 		mayPayParameters.put(Parameter.EVENT, new MagicSet(factory));
 		Event mayPay = createEvent(game, player + " may pay " + cost + ".", PLAYER_MAY, mayPayParameters);

@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Reach;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -20,7 +23,7 @@ public final class EzurisArchers extends Card
 			super(state, "Whenever Ezuri's Archers blocks a creature with flying, Ezuri's Archers gets +3/+0 until end of turn.");
 			SimpleEventPattern pattern = new SimpleEventPattern(EventType.DECLARE_ONE_BLOCKER);
 			pattern.put(EventType.Parameter.OBJECT, ABILITY_SOURCE_OF_THIS);
-			pattern.put(EventType.Parameter.ATTACKER, HasKeywordAbility.instance(org.rnd.jmagic.abilities.keywords.Flying.class));
+			pattern.put(EventType.Parameter.ATTACKER, HasKeywordAbility.instance(Flying.class));
 			this.addPattern(pattern);
 
 			this.addEffect(ptChangeUntilEndOfTurn(ABILITY_SOURCE_OF_THIS, +3, +0, "Ezuri's Archers gets +3/+0 until end of turn."));
@@ -35,7 +38,7 @@ public final class EzurisArchers extends Card
 		this.setToughness(2);
 
 		// Reach (This creature can block creatures with flying.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Reach(state));
+		this.addAbility(new Reach(state));
 
 		// Whenever Ezuri's Archers blocks a creature with flying, Ezuri's
 		// Archers gets +3/+0 until end of turn.

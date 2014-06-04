@@ -2,8 +2,15 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Haste;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 @Name("Hellkite Charger")
 @Types({Type.CREATURE})
@@ -26,22 +33,22 @@ public final class HellkiteCharger extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			MagicSet cause = parameters.get(Parameter.CAUSE);
 			MagicSet untap = parameters.get(Parameter.OBJECT);
 
-			java.util.Map<Parameter, MagicSet> untapParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> untapParameters = new HashMap<Parameter, MagicSet>();
 			untapParameters.put(Parameter.CAUSE, cause);
 			untapParameters.put(Parameter.OBJECT, untap);
 			createEvent(game, "Untap all attacking creatures", EventType.UNTAP_PERMANENTS, untapParameters).perform(event, true);
 
-			java.util.List<Phase.PhaseType> combatPhaseList = new java.util.LinkedList<Phase.PhaseType>();
+			List<Phase.PhaseType> combatPhaseList = new LinkedList<Phase.PhaseType>();
 			combatPhaseList.add(Phase.PhaseType.COMBAT);
 			MagicSet combatPhaseSet = new MagicSet();
 			combatPhaseSet.add(combatPhaseList);
 
-			java.util.Map<Parameter, MagicSet> combatParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> combatParameters = new HashMap<Parameter, MagicSet>();
 			combatParameters.put(Parameter.CAUSE, cause);
 			combatParameters.put(Parameter.TARGET, new MagicSet(game.actualState.currentPhase()));
 			combatParameters.put(Parameter.PHASE, combatPhaseSet);
@@ -83,8 +90,8 @@ public final class HellkiteCharger extends Card
 		this.setToughness(5);
 
 		// Flying, haste
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Haste(state));
+		this.addAbility(new Flying(state));
+		this.addAbility(new Haste(state));
 
 		// Whenever Hellkite Charger attacks, you may pay (5)(R)(R). If you do,
 		// untap all attacking creatures and after this phase, there is an

@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.cardTemplates.Medallion;
 import org.rnd.jmagic.engine.*;
 
 @Name("Jet Medallion")
@@ -7,7 +8,7 @@ import org.rnd.jmagic.engine.*;
 @Types({Type.ARTIFACT})
 @Printings({@Printings.Printed(ex = Expansion.TEMPEST, r = Rarity.RARE)})
 @ColorIdentity({})
-public final class JetMedallion extends org.rnd.jmagic.cardTemplates.Medallion
+public final class JetMedallion extends Medallion
 {
 	public JetMedallion(GameState state)
 	{

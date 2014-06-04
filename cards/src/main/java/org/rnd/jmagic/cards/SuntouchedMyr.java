@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Sunburst;
 import org.rnd.jmagic.engine.*;
 
 @Name("Suntouched Myr")
@@ -17,6 +18,6 @@ public final class SuntouchedMyr extends Card
 		this.setPower(0);
 		this.setToughness(0);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Sunburst(state));
+		this.addAbility(new Sunburst(state));
 	}
 }

@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Reach;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -69,7 +71,7 @@ public final class ArachnusSpinner extends Card
 		this.setToughness(7);
 
 		// Reach (This creature can block creatures with flying.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Reach(state));
+		this.addAbility(new Reach(state));
 
 		// Tap an untapped Spider you control: Search your graveyard and/or
 		// library for a card named Arachnus Web and put it onto the battlefield

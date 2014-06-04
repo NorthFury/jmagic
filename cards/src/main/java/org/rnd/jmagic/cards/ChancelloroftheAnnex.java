@@ -2,9 +2,14 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 @Name("Chancellor of the Annex")
 @Types({Type.CREATURE})
@@ -21,22 +26,22 @@ public final class ChancelloroftheAnnex extends Card
 		 * cast this game. If a player is not in the map, they have not cast any
 		 * spells.
 		 */
-		public static final class CastTracker extends Tracker<java.util.Map<Integer, Integer>>
+		public static final class CastTracker extends Tracker<Map<Integer, Integer>>
 		{
-			private java.util.Map<Integer, Integer> map = new java.util.HashMap<Integer, Integer>();
-			private java.util.Map<Integer, Integer> unmodifiable = java.util.Collections.unmodifiableMap(this.map);
+			private Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+			private Map<Integer, Integer> unmodifiable = Collections.unmodifiableMap(this.map);
 
 			@Override
 			public CastTracker clone()
 			{
 				CastTracker ret = (CastTracker)super.clone();
-				ret.map = new java.util.HashMap<Integer, Integer>(this.map);
-				ret.unmodifiable = java.util.Collections.unmodifiableMap(ret.map);
+				ret.map = new HashMap<Integer, Integer>(this.map);
+				ret.unmodifiable = Collections.unmodifiableMap(ret.map);
 				return ret;
 			}
 
 			@Override
-			protected java.util.Map<Integer, Integer> getValueInternal()
+			protected Map<Integer, Integer> getValueInternal()
 			{
 				return this.unmodifiable;
 			}
@@ -82,7 +87,7 @@ public final class ChancelloroftheAnnex extends Card
 			public MagicSet evaluate(GameState state, Identified thisObject)
 			{
 				MagicSet ret = new MagicSet();
-				java.util.Map<Integer, Integer> values = state.getTracker(CastTracker.class).getValue(state);
+				Map<Integer, Integer> values = state.getTracker(CastTracker.class).getValue(state);
 				for(Player player: state.players)
 					if(values.containsKey(player.ID) && values.get(player.ID) == 1)
 						ret.add(player);
@@ -182,7 +187,7 @@ public final class ChancelloroftheAnnex extends Card
 		this.addAbility(new ChancelloroftheAnnexAbility0(state));
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// Whenever an opponent casts a spell, counter it unless that player
 		// pays (1).

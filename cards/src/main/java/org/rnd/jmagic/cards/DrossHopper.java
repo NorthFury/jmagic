@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 
 @Name("Dross Hopper")
@@ -17,7 +19,7 @@ public final class DrossHopper extends Card
 		{
 			super(state, "Sacrifice a creature: Dross Hopper gains flying until end of turn.");
 			this.addCost(sacrificeACreature());
-			this.addEffect(addAbilityUntilEndOfTurn(ABILITY_SOURCE_OF_THIS, org.rnd.jmagic.abilities.keywords.Flying.class, "Dross Hopper gains flying until end of turn."));
+			this.addEffect(addAbilityUntilEndOfTurn(ABILITY_SOURCE_OF_THIS, Flying.class, "Dross Hopper gains flying until end of turn."));
 		}
 	}
 

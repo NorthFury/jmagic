@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.EntersTheBattlefieldWithCounters;
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -19,12 +21,12 @@ public final class CryptbornHorror extends Card
 		this.setToughness(0);
 
 		// Trample
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Trample(state));
+		this.addAbility(new Trample(state));
 
 		// Cryptborn Horror enters the battlefield with X +1/+1 counters on it,
 		// where X is the total life lost by your opponents this turn.
 		SetGenerator X = Sum.instance(LifeLostThisTurn.instance(OpponentsOf.instance(You.instance())));
-		this.addAbility(new org.rnd.jmagic.abilities.EntersTheBattlefieldWithCounters(state, this.getName(), X, "X +1/+1 counters on it, where X is the total life lost by your opponents this turn", Counter.CounterType.PLUS_ONE_PLUS_ONE));
+		this.addAbility(new EntersTheBattlefieldWithCounters(state, this.getName(), X, "X +1/+1 counters on it, where X is the total life lost by your opponents this turn", Counter.CounterType.PLUS_ONE_PLUS_ONE));
 
 		state.ensureTracker(new LifeLostThisTurn.LifeTracker());
 	}

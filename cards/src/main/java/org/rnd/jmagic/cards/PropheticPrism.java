@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.TapForMana;
 import org.rnd.jmagic.engine.*;
 
 @Name("Prophetic Prism")
@@ -20,7 +22,7 @@ public final class PropheticPrism extends Card
 		}
 	}
 
-	public static final class PropheticPrismAbility1 extends org.rnd.jmagic.abilities.TapForMana
+	public static final class PropheticPrismAbility1 extends TapForMana
 	{
 		public PropheticPrismAbility1(GameState state)
 		{

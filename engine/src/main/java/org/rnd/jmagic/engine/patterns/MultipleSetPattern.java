@@ -2,6 +2,9 @@ package org.rnd.jmagic.engine.patterns;
 
 import org.rnd.jmagic.engine.*;
 
+import java.util.Collection;
+import java.util.LinkedList;
+
 /**
  * A SetPattern that matches against multiple categories of criteria (called
  * subpatterns).
@@ -26,7 +29,7 @@ public class MultipleSetPattern implements SetPattern
 		this.all = all;
 	}
 
-	private java.util.Collection<SetPattern> patterns = new java.util.LinkedList<SetPattern>();
+	private Collection<SetPattern> patterns = new LinkedList<SetPattern>();
 
 	/** Adds subpatterns to this multiple set pattern. */
 	public void addPattern(SetPattern pattern)

@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Deathtouch;
+import org.rnd.jmagic.abilities.keywords.Scavenge;
 import org.rnd.jmagic.engine.*;
 
 @Name("Sluiceway Scorpion")
@@ -19,11 +21,11 @@ public final class SluicewayScorpion extends Card
 
 		// Deathtouch (Any amount of damage this deals to a creature is enough
 		// to destroy it.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Deathtouch(state));
+		this.addAbility(new Deathtouch(state));
 
 		// Scavenge (1)(B)(G) ((1)(B)(G), Exile this card from your graveyard:
 		// Put a number of +1/+1 counters equal to this card's power on target
 		// creature. Scavenge only as a sorcery.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Scavenge(state, "(1)(B)(G)"));
+		this.addAbility(new Scavenge(state, "(1)(B)(G)"));
 	}
 }

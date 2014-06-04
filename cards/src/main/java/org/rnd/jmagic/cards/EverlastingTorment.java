@@ -1,8 +1,12 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Wither;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Name("Everlasting Torment")
 @Types({Type.ENCHANTMENT})
@@ -39,9 +43,9 @@ public final class EverlastingTorment extends Card
 		private static final class AllDamagePattern implements DamagePattern
 		{
 			@Override
-			public java.util.Set<DamageAssignment.Batch> match(DamageAssignment.Batch damage, Identified thisObject, GameState state)
+			public Set<DamageAssignment.Batch> match(DamageAssignment.Batch damage, Identified thisObject, GameState state)
 			{
-				java.util.Set<DamageAssignment.Batch> ret = new java.util.HashSet<DamageAssignment.Batch>();
+				Set<DamageAssignment.Batch> ret = new HashSet<DamageAssignment.Batch>();
 				ret.add(new DamageAssignment.Batch(damage));
 				return ret;
 			}
@@ -55,7 +59,7 @@ public final class EverlastingTorment extends Card
 
 			ContinuousEffect.Part part = new ContinuousEffect.Part(ContinuousEffectType.DEAL_DAMAGE_AS_THOUGH_HAS_ABILITY);
 			part.parameters.put(ContinuousEffectType.Parameter.OBJECT, Identity.instance(allDamage));
-			part.parameters.put(ContinuousEffectType.Parameter.ABILITY, Identity.instance(org.rnd.jmagic.abilities.keywords.Wither.class));
+			part.parameters.put(ContinuousEffectType.Parameter.ABILITY, Identity.instance(Wither.class));
 			this.addEffectPart(part);
 		}
 	}

@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Intimidate;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -21,7 +22,7 @@ public final class GuulDrazVampire extends Card
 
 			this.addEffectPart(modifyPowerAndToughness(This.instance(), 2, 1));
 
-			this.addEffectPart(addAbilityToObject(This.instance(), org.rnd.jmagic.abilities.keywords.Intimidate.class));
+			this.addEffectPart(addAbilityToObject(This.instance(), Intimidate.class));
 
 			SetGenerator lifeTotals = LifeTotalOf.instance(OpponentsOf.instance(You.instance()));
 			SetGenerator opponentHasTenOrLess = Intersect.instance(lifeTotals, Between.instance(null, 10));

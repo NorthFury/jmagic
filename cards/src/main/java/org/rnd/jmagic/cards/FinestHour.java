@@ -1,8 +1,14 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Exalted;
+import org.rnd.jmagic.abilityTemplates.ExaltedBase;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+
+import java.util.LinkedList;
+import java.util.List;
 
 @Name("Finest Hour")
 @Types({Type.ENCHANTMENT})
@@ -11,7 +17,7 @@ import org.rnd.jmagic.engine.generators.*;
 @ColorIdentity({Color.BLUE, Color.WHITE, Color.GREEN})
 public final class FinestHour extends Card
 {
-	public static final class ExaltedMoreCombat extends org.rnd.jmagic.abilityTemplates.ExaltedBase
+	public static final class ExaltedMoreCombat extends ExaltedBase
 	{
 		private static final class FirstCombatPhase extends SetGenerator
 		{
@@ -36,7 +42,7 @@ public final class FinestHour extends Card
 
 			this.addEffect(untap(thatCreature, "Untap that creature."));
 
-			java.util.List<Phase.PhaseType> combatPhase = new java.util.LinkedList<Phase.PhaseType>();
+			List<Phase.PhaseType> combatPhase = new LinkedList<Phase.PhaseType>();
 			combatPhase.add(Phase.PhaseType.COMBAT);
 
 			EventFactory moreCombat = new EventFactory(EventType.TAKE_EXTRA_PHASE, "After this phase, there is an additional combat phase.");
@@ -52,7 +58,7 @@ public final class FinestHour extends Card
 		super(state);
 
 		// Exalted
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Exalted(state));
+		this.addAbility(new Exalted(state));
 
 		// Whenever a creature you control attacks alone, if it's the first
 		// combat phase of the turn, untap that creature. After this phase,

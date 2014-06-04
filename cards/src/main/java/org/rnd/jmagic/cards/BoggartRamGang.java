@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Haste;
+import org.rnd.jmagic.abilities.keywords.Wither;
 import org.rnd.jmagic.engine.*;
 
 @Name("Boggart Ram-Gang")
@@ -17,7 +19,7 @@ public final class BoggartRamGang extends Card
 		this.setPower(3);
 		this.setToughness(3);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Haste(state));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Wither(state));
+		this.addAbility(new Haste(state));
+		this.addAbility(new Wither(state));
 	}
 }

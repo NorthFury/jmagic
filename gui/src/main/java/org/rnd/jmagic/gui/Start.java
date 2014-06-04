@@ -1,6 +1,96 @@
 package org.rnd.jmagic.gui;
 
+import org.rnd.jmagic.CardLoader;
+import org.rnd.jmagic.Version;
+import org.rnd.jmagic.comms.ChatManager;
+import org.rnd.jmagic.comms.Client;
+import org.rnd.jmagic.comms.GameFinder;
+import org.rnd.jmagic.comms.Server;
+import org.rnd.jmagic.engine.Deck;
+import org.rnd.jmagic.engine.GameType;
+import org.rnd.jmagic.engine.GameTypes;
+import org.rnd.jmagic.engine.PlayerInterface;
 import org.rnd.jmagic.gui.dialogs.*;
+import org.rnd.jmagic.interfaceAdapters.ConfigurableInterface;
+import org.rnd.jmagic.interfaceAdapters.ConfigurableInterfaceDecorator;
+import org.rnd.jmagic.interfaceAdapters.CountersAcrossCreaturesInterface;
+import org.rnd.jmagic.interfaceAdapters.MulticostAdapter;
+import org.rnd.jmagic.interfaceAdapters.SimpleConfigurableInterface;
+import org.rnd.jmagic.interfaceAdapters.SimplePlayerInterface;
+import org.rnd.jmagic.sanitized.SanitizedGameState;
+import org.rnd.util.Logging;
+import org.rnd.util.SeparatedList;
+import org.rnd.util.StringBooleanTableModel;
+
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
+import javax.swing.JTable;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.KeyStroke;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.SpringLayout;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.WindowConstants;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultHighlighter;
+import javax.swing.text.Highlighter;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.EventQueue;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.LogRecord;
+import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Start
 {
@@ -22,7 +112,7 @@ public class Start
 		}
 	}
 
-	private class ServerHost implements java.awt.event.ActionListener
+	private class ServerHost implements ActionListener
 	{
 		private boolean useGameFinder;
 
@@ -32,7 +122,7 @@ public class Start
 		}
 
 		@Override
-		public void actionPerformed(java.awt.event.ActionEvent event)
+		public void actionPerformed(ActionEvent event)
 		{
 			final String gameFinderLocation;
 			if(this.useGameFinder)
@@ -47,7 +137,7 @@ public class Start
 			}
 			catch(NumberFormatException e)
 			{
-				LOG.log(java.util.logging.Level.SEVERE, "Number of players must be an integer", e);
+				LOG.log(Level.SEVERE, "Number of players must be an integer", e);
 				return;
 			}
 
@@ -58,7 +148,7 @@ public class Start
 			}
 			catch(NumberFormatException e)
 			{
-				LOG.log(java.util.logging.Level.SEVERE, "Port must be an integer", e);
+				LOG.log(Level.SEVERE, "Port must be an integer", e);
 				return;
 			}
 
@@ -75,7 +165,7 @@ public class Start
 				@Override
 				public void run()
 				{
-					org.rnd.jmagic.engine.Deck deck = getDeck();
+					Deck deck = getDeck();
 					// The errors are logged elsewhere, so don't say anything
 					if(null == deck)
 					{
@@ -83,15 +173,15 @@ public class Start
 						return;
 					}
 
-					org.rnd.jmagic.comms.Server server = new org.rnd.jmagic.comms.Server(Start.this.gameType, numPlayers, port);
+					Server server = new Server(Start.this.gameType, numPlayers, port);
 
 					try
 					{
-						LOG.info("Loading cards (" + org.rnd.jmagic.CardLoader.getCardsLoaded() + " loaded so far)");
+						LOG.info("Loading cards (" + CardLoader.getCardsLoaded() + " loaded so far)");
 						while((null != Start.this.cardThread) && Start.this.cardThread.isAlive())
 						{
 							Start.this.cardThread.join(1000);
-							LOG.info("Loading cards (" + org.rnd.jmagic.CardLoader.getCardsLoaded() + " loaded so far)");
+							LOG.info("Loading cards (" + CardLoader.getCardsLoaded() + " loaded so far)");
 						}
 					}
 					catch(InterruptedException e)
@@ -127,7 +217,7 @@ public class Start
 						String description;
 						do
 						{
-							description = javax.swing.JOptionPane.showInputDialog(Start.this.frame, descriptionMessage);
+							description = JOptionPane.showInputDialog(Start.this.frame, descriptionMessage);
 							// The user canceled when giving a description
 							if(null == description)
 							{
@@ -145,10 +235,10 @@ public class Start
 					hideSplash();
 				}
 
-				private void addLocal(org.rnd.jmagic.engine.Deck deck, String name, org.rnd.jmagic.comms.Server server) throws CreateLocalException
+				private void addLocal(Deck deck, String name, Server server) throws CreateLocalException
 				{
 					SwingAdapter swing = new SwingAdapter(deck, name);
-					org.rnd.jmagic.comms.ChatManager.MessagePoster messagePoster = server.addLocalPlayer(createLocal(swing), swing.getChatCallback());
+					ChatManager.MessagePoster messagePoster = server.addLocalPlayer(createLocal(swing), swing.getChatCallback());
 					if(null == messagePoster)
 					{
 						// This error is logged to the same location as if
@@ -162,13 +252,13 @@ public class Start
 			game.start();
 			saveProperties();
 
-			Start.this.splash.addWindowListener(new java.awt.event.WindowAdapter()
+			Start.this.splash.addWindowListener(new WindowAdapter()
 			{
 				@Override
-				public void windowClosing(java.awt.event.WindowEvent e)
+				public void windowClosing(WindowEvent e)
 				{
-					int option = javax.swing.JOptionPane.showConfirmDialog(Start.this.splash, "Are you sure you want to cancel hosting this game?", "jMagic Interrupt", javax.swing.JOptionPane.YES_NO_OPTION);
-					if(javax.swing.JOptionPane.YES_OPTION == option)
+					int option = JOptionPane.showConfirmDialog(Start.this.splash, "Are you sure you want to cancel hosting this game?", "jMagic Interrupt", JOptionPane.YES_NO_OPTION);
+					if(JOptionPane.YES_OPTION == option)
 					{
 						LOG.fine("Interrupting the host thread");
 						game.interrupt();
@@ -185,7 +275,7 @@ public class Start
 	{
 		private static final long serialVersionUID = 1L;
 
-		private static void loadDataIntoTable(java.util.Properties properties, String dataKey, String enabledKey, org.rnd.util.StringBooleanTableModel model)
+		private static void loadDataIntoTable(Properties properties, String dataKey, String enabledKey, StringBooleanTableModel model)
 		{
 			model.clear();
 
@@ -200,13 +290,13 @@ public class Start
 				model.addRow(data[i], (enabled[i] == '1'));
 		}
 
-		private static void saveDataFromTable(java.util.Properties properties, String dataKey, String enabledKey, org.rnd.util.StringBooleanTableModel model)
+		private static void saveDataFromTable(Properties properties, String dataKey, String enabledKey, StringBooleanTableModel model)
 		{
-			java.util.Map<String, Boolean> data = model.getData();
+			Map<String, Boolean> data = model.getData();
 			StringBuilder dataProperty = new StringBuilder();
 			StringBuilder enabledProperty = new StringBuilder();
 
-			for(java.util.Map.Entry<String, Boolean> entry: data.entrySet())
+			for(Map.Entry<String, Boolean> entry: data.entrySet())
 			{
 				if(dataProperty.length() != 0)
 					dataProperty.append('|');
@@ -218,64 +308,64 @@ public class Start
 			properties.setProperty(enabledKey, enabledProperty.toString());
 		}
 
-		private org.rnd.util.StringBooleanTableModel adapterModel;
+		private StringBooleanTableModel adapterModel;
 
-		private javax.swing.JTextField cardArtLocation;
+		private JTextField cardArtLocation;
 
-		private javax.swing.JTextField gameFinderLocation;
+		private JTextField gameFinderLocation;
 
-		private org.rnd.util.StringBooleanTableModel jarModel;
+		private StringBooleanTableModel jarModel;
 
-		private org.rnd.util.StringBooleanTableModel packageModel;
+		private StringBooleanTableModel packageModel;
 
 		public StartOptions()
 		{
 			super("jMagic");
 
-			javax.swing.SpringLayout layout = new javax.swing.SpringLayout();
+			SpringLayout layout = new SpringLayout();
 			this.setLayout(layout);
 
-			this.cardArtLocation = new javax.swing.JTextField(35);
+			this.cardArtLocation = new JTextField(35);
 
-			javax.swing.Box artLocationBox = javax.swing.Box.createHorizontalBox();
-			artLocationBox.add(new javax.swing.JLabel("Card art location:"));
-			artLocationBox.add(javax.swing.Box.createHorizontalStrut(5));
+			Box artLocationBox = Box.createHorizontalBox();
+			artLocationBox.add(new JLabel("Card art location:"));
+			artLocationBox.add(Box.createHorizontalStrut(5));
 			artLocationBox.add(this.cardArtLocation);
 
-			javax.swing.JButton browseArt = new javax.swing.JButton("Browse");
-			browseArt.addActionListener(new java.awt.event.ActionListener()
+			JButton browseArt = new JButton("Browse");
+			browseArt.addActionListener(new ActionListener()
 			{
 				@Override
-				public void actionPerformed(java.awt.event.ActionEvent e)
+				public void actionPerformed(ActionEvent e)
 				{
-					javax.swing.JFileChooser chooser = new javax.swing.JFileChooser();
+					JFileChooser chooser = new JFileChooser();
 					if(0 != StartOptions.this.cardArtLocation.getText().length())
-						chooser.setCurrentDirectory(new java.io.File(StartOptions.this.cardArtLocation.getText()));
-					chooser.setFileSelectionMode(javax.swing.JFileChooser.DIRECTORIES_ONLY);
+						chooser.setCurrentDirectory(new File(StartOptions.this.cardArtLocation.getText()));
+					chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 					chooser.setAcceptAllFileFilterUsed(false);
 
-					if(javax.swing.JFileChooser.APPROVE_OPTION == chooser.showOpenDialog(StartOptions.this))
+					if(JFileChooser.APPROVE_OPTION == chooser.showOpenDialog(StartOptions.this))
 						StartOptions.this.cardArtLocation.setText(chooser.getSelectedFile().getPath());
 				}
 			});
 			artLocationBox.add(browseArt);
 
-			layout.putConstraint(javax.swing.SpringLayout.WEST, artLocationBox, 5, javax.swing.SpringLayout.WEST, this);
-			layout.putConstraint(javax.swing.SpringLayout.NORTH, artLocationBox, 5, javax.swing.SpringLayout.NORTH, this);
+			layout.putConstraint(SpringLayout.WEST, artLocationBox, 5, SpringLayout.WEST, this);
+			layout.putConstraint(SpringLayout.NORTH, artLocationBox, 5, SpringLayout.NORTH, this);
 			this.add(artLocationBox);
 
-			this.gameFinderLocation = new javax.swing.JTextField(35);
+			this.gameFinderLocation = new JTextField(35);
 
-			javax.swing.Box gameFinderBox = javax.swing.Box.createHorizontalBox();
-			gameFinderBox.add(new javax.swing.JLabel("Game finder:"));
-			gameFinderBox.add(javax.swing.Box.createHorizontalStrut(5));
+			Box gameFinderBox = Box.createHorizontalBox();
+			gameFinderBox.add(new JLabel("Game finder:"));
+			gameFinderBox.add(Box.createHorizontalStrut(5));
 			gameFinderBox.add(this.gameFinderLocation);
 
-			layout.putConstraint(javax.swing.SpringLayout.WEST, gameFinderBox, 5, javax.swing.SpringLayout.WEST, this);
-			layout.putConstraint(javax.swing.SpringLayout.NORTH, gameFinderBox, 5, javax.swing.SpringLayout.SOUTH, artLocationBox);
+			layout.putConstraint(SpringLayout.WEST, gameFinderBox, 5, SpringLayout.WEST, this);
+			layout.putConstraint(SpringLayout.NORTH, gameFinderBox, 5, SpringLayout.SOUTH, artLocationBox);
 			this.add(gameFinderBox);
 
-			final org.rnd.util.StringBooleanTableModel adaptersModel = new org.rnd.util.StringBooleanTableModel()
+			final StringBooleanTableModel adaptersModel = new StringBooleanTableModel()
 			{
 				private static final long serialVersionUID = 1L;
 
@@ -305,7 +395,7 @@ public class Start
 					try
 					{
 						Class<?> cls = Class.forName(value);
-						if(!org.rnd.jmagic.interfaceAdapters.SimpleConfigurableInterface.class.isAssignableFrom(cls))
+						if(!SimpleConfigurableInterface.class.isAssignableFrom(cls))
 							// The class isn't an interface adapter, return.
 							return false;
 					}
@@ -320,59 +410,59 @@ public class Start
 			};
 			this.adapterModel = adaptersModel;
 
-			final javax.swing.JTable adapterTable = new javax.swing.JTable(adaptersModel);
-			adapterTable.setPreferredScrollableViewportSize(new java.awt.Dimension(500, 70));
+			final JTable adapterTable = new JTable(adaptersModel);
+			adapterTable.setPreferredScrollableViewportSize(new Dimension(500, 70));
 			// Make the second column take up most of the space.
 			adapterTable.getColumnModel().getColumn(1).setPreferredWidth(450);
 
-			javax.swing.JButton interfaceAdapterMoveUp = new javax.swing.JButton(new javax.swing.ImageIcon(Start.class.getResource("move_up.png")));
-			interfaceAdapterMoveUp.addActionListener(new java.awt.event.ActionListener()
+			JButton interfaceAdapterMoveUp = new JButton(new ImageIcon(Start.class.getResource("move_up.png")));
+			interfaceAdapterMoveUp.addActionListener(new ActionListener()
 			{
 				@Override
-				public void actionPerformed(java.awt.event.ActionEvent e)
+				public void actionPerformed(ActionEvent e)
 				{
 					adaptersModel.moveSelected(true, adapterTable);
 				}
 			});
 
-			javax.swing.JButton interfaceAdapterRemove = new javax.swing.JButton(new javax.swing.ImageIcon(Start.class.getResource("delete.png")));
-			interfaceAdapterRemove.addActionListener(new java.awt.event.ActionListener()
+			JButton interfaceAdapterRemove = new JButton(new ImageIcon(Start.class.getResource("delete.png")));
+			interfaceAdapterRemove.addActionListener(new ActionListener()
 			{
 				@Override
-				public void actionPerformed(java.awt.event.ActionEvent e)
+				public void actionPerformed(ActionEvent e)
 				{
 					adaptersModel.removeSelected(adapterTable);
 				}
 			});
 
-			javax.swing.JButton interfaceAdapterMoveDown = new javax.swing.JButton(new javax.swing.ImageIcon(Start.class.getResource("move_down.png")));
-			interfaceAdapterMoveDown.addActionListener(new java.awt.event.ActionListener()
+			JButton interfaceAdapterMoveDown = new JButton(new ImageIcon(Start.class.getResource("move_down.png")));
+			interfaceAdapterMoveDown.addActionListener(new ActionListener()
 			{
 				@Override
-				public void actionPerformed(java.awt.event.ActionEvent e)
+				public void actionPerformed(ActionEvent e)
 				{
 					adaptersModel.moveSelected(false, adapterTable);
 				}
 			});
 
-			javax.swing.Box interfaceAdaptersButtonsBox = javax.swing.Box.createVerticalBox();
+			Box interfaceAdaptersButtonsBox = Box.createVerticalBox();
 			interfaceAdaptersButtonsBox.add(interfaceAdapterMoveUp);
-			interfaceAdaptersButtonsBox.add(javax.swing.Box.createVerticalStrut(5));
+			interfaceAdaptersButtonsBox.add(Box.createVerticalStrut(5));
 			interfaceAdaptersButtonsBox.add(interfaceAdapterRemove);
-			interfaceAdaptersButtonsBox.add(javax.swing.Box.createVerticalStrut(5));
+			interfaceAdaptersButtonsBox.add(Box.createVerticalStrut(5));
 			interfaceAdaptersButtonsBox.add(interfaceAdapterMoveDown);
 
-			javax.swing.Box interfaceAdaptersBox = javax.swing.Box.createHorizontalBox();
-			interfaceAdaptersBox.setBorder(javax.swing.BorderFactory.createTitledBorder("Interface Adapters"));
-			interfaceAdaptersBox.add(new javax.swing.JScrollPane(adapterTable));
-			interfaceAdaptersBox.add(javax.swing.Box.createHorizontalStrut(5));
+			Box interfaceAdaptersBox = Box.createHorizontalBox();
+			interfaceAdaptersBox.setBorder(BorderFactory.createTitledBorder("Interface Adapters"));
+			interfaceAdaptersBox.add(new JScrollPane(adapterTable));
+			interfaceAdaptersBox.add(Box.createHorizontalStrut(5));
 			interfaceAdaptersBox.add(interfaceAdaptersButtonsBox);
 
-			layout.putConstraint(javax.swing.SpringLayout.WEST, interfaceAdaptersBox, 5, javax.swing.SpringLayout.WEST, this);
-			layout.putConstraint(javax.swing.SpringLayout.NORTH, interfaceAdaptersBox, 5, javax.swing.SpringLayout.SOUTH, gameFinderBox);
+			layout.putConstraint(SpringLayout.WEST, interfaceAdaptersBox, 5, SpringLayout.WEST, this);
+			layout.putConstraint(SpringLayout.NORTH, interfaceAdaptersBox, 5, SpringLayout.SOUTH, gameFinderBox);
 			this.add(interfaceAdaptersBox);
 
-			final org.rnd.util.StringBooleanTableModel jarModel = new org.rnd.util.StringBooleanTableModel()
+			final StringBooleanTableModel jarModel = new StringBooleanTableModel()
 			{
 				private static final long serialVersionUID = 1L;
 
@@ -393,11 +483,11 @@ public class Start
 				{
 					try
 					{
-						java.net.URL rootURL = new java.net.URL("file:///" + System.getProperty("user.dir") + java.io.File.separator);
-						java.net.URL jarURL = new java.net.URL(rootURL, value);
-						return (new java.io.File(jarURL.getFile()).exists());
+						URL rootURL = new URL("file:///" + System.getProperty("user.dir") + File.separator);
+						URL jarURL = new URL(rootURL, value);
+						return (new File(jarURL.getFile()).exists());
 					}
-					catch(java.net.MalformedURLException e)
+					catch(MalformedURLException e)
 					{
 						return false;
 					}
@@ -405,59 +495,59 @@ public class Start
 			};
 			this.jarModel = jarModel;
 
-			final javax.swing.JTable jarTable = new javax.swing.JTable(jarModel);
-			jarTable.setPreferredScrollableViewportSize(new java.awt.Dimension(500, 70));
+			final JTable jarTable = new JTable(jarModel);
+			jarTable.setPreferredScrollableViewportSize(new Dimension(500, 70));
 			// Make the second column take up most of the space.
 			jarTable.getColumnModel().getColumn(1).setPreferredWidth(450);
 
-			javax.swing.JButton jarMoveUp = new javax.swing.JButton(new javax.swing.ImageIcon(Start.class.getResource("move_up.png")));
-			jarMoveUp.addActionListener(new java.awt.event.ActionListener()
+			JButton jarMoveUp = new JButton(new ImageIcon(Start.class.getResource("move_up.png")));
+			jarMoveUp.addActionListener(new ActionListener()
 			{
 				@Override
-				public void actionPerformed(java.awt.event.ActionEvent e)
+				public void actionPerformed(ActionEvent e)
 				{
 					jarModel.moveSelected(true, jarTable);
 				}
 			});
 
-			javax.swing.JButton jarRemove = new javax.swing.JButton(new javax.swing.ImageIcon(Start.class.getResource("delete.png")));
-			jarRemove.addActionListener(new java.awt.event.ActionListener()
+			JButton jarRemove = new JButton(new ImageIcon(Start.class.getResource("delete.png")));
+			jarRemove.addActionListener(new ActionListener()
 			{
 				@Override
-				public void actionPerformed(java.awt.event.ActionEvent e)
+				public void actionPerformed(ActionEvent e)
 				{
 					jarModel.removeSelected(jarTable);
 				}
 			});
 
-			javax.swing.JButton jarMoveDown = new javax.swing.JButton(new javax.swing.ImageIcon(Start.class.getResource("move_down.png")));
-			jarMoveDown.addActionListener(new java.awt.event.ActionListener()
+			JButton jarMoveDown = new JButton(new ImageIcon(Start.class.getResource("move_down.png")));
+			jarMoveDown.addActionListener(new ActionListener()
 			{
 				@Override
-				public void actionPerformed(java.awt.event.ActionEvent e)
+				public void actionPerformed(ActionEvent e)
 				{
 					jarModel.moveSelected(false, jarTable);
 				}
 			});
 
-			javax.swing.Box jarButtonsBox = javax.swing.Box.createVerticalBox();
+			Box jarButtonsBox = Box.createVerticalBox();
 			jarButtonsBox.add(jarMoveUp);
-			jarButtonsBox.add(javax.swing.Box.createVerticalStrut(5));
+			jarButtonsBox.add(Box.createVerticalStrut(5));
 			jarButtonsBox.add(jarRemove);
-			jarButtonsBox.add(javax.swing.Box.createVerticalStrut(5));
+			jarButtonsBox.add(Box.createVerticalStrut(5));
 			jarButtonsBox.add(jarMoveDown);
 
-			javax.swing.Box jarBox = javax.swing.Box.createHorizontalBox();
-			jarBox.setBorder(javax.swing.BorderFactory.createTitledBorder("External Jars (restart required to load changes)"));
-			jarBox.add(new javax.swing.JScrollPane(jarTable));
-			jarBox.add(javax.swing.Box.createHorizontalStrut(5));
+			Box jarBox = Box.createHorizontalBox();
+			jarBox.setBorder(BorderFactory.createTitledBorder("External Jars (restart required to load changes)"));
+			jarBox.add(new JScrollPane(jarTable));
+			jarBox.add(Box.createHorizontalStrut(5));
 			jarBox.add(jarButtonsBox);
 
-			layout.putConstraint(javax.swing.SpringLayout.WEST, jarBox, 5, javax.swing.SpringLayout.WEST, this);
-			layout.putConstraint(javax.swing.SpringLayout.NORTH, jarBox, 5, javax.swing.SpringLayout.SOUTH, interfaceAdaptersBox);
+			layout.putConstraint(SpringLayout.WEST, jarBox, 5, SpringLayout.WEST, this);
+			layout.putConstraint(SpringLayout.NORTH, jarBox, 5, SpringLayout.SOUTH, interfaceAdaptersBox);
 			this.add(jarBox);
 
-			final org.rnd.util.StringBooleanTableModel packageModel = new org.rnd.util.StringBooleanTableModel()
+			final StringBooleanTableModel packageModel = new StringBooleanTableModel()
 			{
 				private static final long serialVersionUID = 1L;
 
@@ -481,77 +571,77 @@ public class Start
 			};
 			this.packageModel = packageModel;
 
-			final javax.swing.JTable packageTable = new javax.swing.JTable(packageModel);
-			packageTable.setPreferredScrollableViewportSize(new java.awt.Dimension(500, 70));
+			final JTable packageTable = new JTable(packageModel);
+			packageTable.setPreferredScrollableViewportSize(new Dimension(500, 70));
 			// Make the second column take up most of the space.
 			packageTable.getColumnModel().getColumn(1).setPreferredWidth(450);
 
-			javax.swing.JButton packageMoveUp = new javax.swing.JButton(new javax.swing.ImageIcon(Start.class.getResource("move_up.png")));
-			packageMoveUp.addActionListener(new java.awt.event.ActionListener()
+			JButton packageMoveUp = new JButton(new ImageIcon(Start.class.getResource("move_up.png")));
+			packageMoveUp.addActionListener(new ActionListener()
 			{
 				@Override
-				public void actionPerformed(java.awt.event.ActionEvent e)
+				public void actionPerformed(ActionEvent e)
 				{
 					packageModel.moveSelected(true, jarTable);
 				}
 			});
 
-			javax.swing.JButton packageRemove = new javax.swing.JButton(new javax.swing.ImageIcon(Start.class.getResource("delete.png")));
-			packageRemove.addActionListener(new java.awt.event.ActionListener()
+			JButton packageRemove = new JButton(new ImageIcon(Start.class.getResource("delete.png")));
+			packageRemove.addActionListener(new ActionListener()
 			{
 				@Override
-				public void actionPerformed(java.awt.event.ActionEvent e)
+				public void actionPerformed(ActionEvent e)
 				{
 					packageModel.removeSelected(jarTable);
 				}
 			});
 
-			javax.swing.JButton packageMoveDown = new javax.swing.JButton(new javax.swing.ImageIcon(Start.class.getResource("move_down.png")));
-			packageMoveDown.addActionListener(new java.awt.event.ActionListener()
+			JButton packageMoveDown = new JButton(new ImageIcon(Start.class.getResource("move_down.png")));
+			packageMoveDown.addActionListener(new ActionListener()
 			{
 				@Override
-				public void actionPerformed(java.awt.event.ActionEvent e)
+				public void actionPerformed(ActionEvent e)
 				{
 					packageModel.moveSelected(false, jarTable);
 				}
 			});
 
-			javax.swing.Box packageButtonsBox = javax.swing.Box.createVerticalBox();
+			Box packageButtonsBox = Box.createVerticalBox();
 			packageButtonsBox.add(packageMoveUp);
-			packageButtonsBox.add(javax.swing.Box.createVerticalStrut(5));
+			packageButtonsBox.add(Box.createVerticalStrut(5));
 			packageButtonsBox.add(packageRemove);
-			packageButtonsBox.add(javax.swing.Box.createVerticalStrut(5));
+			packageButtonsBox.add(Box.createVerticalStrut(5));
 			packageButtonsBox.add(packageMoveDown);
 
-			javax.swing.Box packageBox = javax.swing.Box.createHorizontalBox();
-			packageBox.setBorder(javax.swing.BorderFactory.createTitledBorder("Cards Packages (restart required to load changes)"));
-			packageBox.add(new javax.swing.JScrollPane(packageTable));
-			packageBox.add(javax.swing.Box.createHorizontalStrut(5));
+			Box packageBox = Box.createHorizontalBox();
+			packageBox.setBorder(BorderFactory.createTitledBorder("Cards Packages (restart required to load changes)"));
+			packageBox.add(new JScrollPane(packageTable));
+			packageBox.add(Box.createHorizontalStrut(5));
 			packageBox.add(packageButtonsBox);
 
-			layout.putConstraint(javax.swing.SpringLayout.WEST, packageBox, 5, javax.swing.SpringLayout.WEST, this);
-			layout.putConstraint(javax.swing.SpringLayout.NORTH, packageBox, 5, javax.swing.SpringLayout.SOUTH, jarBox);
+			layout.putConstraint(SpringLayout.WEST, packageBox, 5, SpringLayout.WEST, this);
+			layout.putConstraint(SpringLayout.NORTH, packageBox, 5, SpringLayout.SOUTH, jarBox);
 			this.add(packageBox);
 
-			javax.swing.JButton resetButton = new javax.swing.JButton("Reset Settings");
-			resetButton.addActionListener(new java.awt.event.ActionListener()
+			JButton resetButton = new JButton("Reset Settings");
+			resetButton.addActionListener(new ActionListener()
 			{
 				@Override
-				public void actionPerformed(java.awt.event.ActionEvent e)
+				public void actionPerformed(ActionEvent e)
 				{
 					StartOptions.this.reset();
 				}
 			});
-			javax.swing.Box resetBox = javax.swing.Box.createHorizontalBox();
+			Box resetBox = Box.createHorizontalBox();
 			resetBox.add(resetButton);
 
-			layout.putConstraint(javax.swing.SpringLayout.WEST, resetBox, 5, javax.swing.SpringLayout.WEST, this);
-			layout.putConstraint(javax.swing.SpringLayout.NORTH, resetBox, 5, javax.swing.SpringLayout.SOUTH, packageBox);
+			layout.putConstraint(SpringLayout.WEST, resetBox, 5, SpringLayout.WEST, this);
+			layout.putConstraint(SpringLayout.NORTH, resetBox, 5, SpringLayout.SOUTH, packageBox);
 			this.add(resetBox);
 		}
 
 		@Override
-		public void loadSettings(java.util.Properties properties)
+		public void loadSettings(Properties properties)
 		{
 			this.cardArtLocation.setText(properties.getProperty(Start.PROPERTIES_CARD_IMAGE_LOCATION));
 			this.gameFinderLocation.setText(properties.getProperty(Start.PROPERTIES_GAME_FINDER_LOCATION));
@@ -563,8 +653,8 @@ public class Start
 
 		private void reset()
 		{
-			java.util.Properties defaults = new java.util.Properties();
-			for(java.util.Map.Entry<String, String> entry: defaultProperties.entrySet())
+			Properties defaults = new Properties();
+			for(Map.Entry<String, String> entry: defaultProperties.entrySet())
 				defaults.setProperty(entry.getKey(), entry.getValue());
 			this.adapterModel.getData();
 			this.loadSettings(defaults);
@@ -574,7 +664,7 @@ public class Start
 		}
 
 		@Override
-		public void saveChanges(java.util.Properties properties)
+		public void saveChanges(Properties properties)
 		{
 			String cardArt = this.cardArtLocation.getText();
 			properties.setProperty(Start.PROPERTIES_CARD_IMAGE_LOCATION, cardArt);
@@ -592,21 +682,21 @@ public class Start
 
 	private static final String CUSTOM_GAME_TYPE_VALUE = "Custom";
 
-	private static final java.util.Map<String, String> defaultProperties = new java.util.HashMap<String, String>();
+	private static final Map<String, String> defaultProperties = new HashMap<String, String>();
 
-	private static final java.util.Set<String> FORMAT_STRINGS = new java.util.HashSet<String>();
+	private static final Set<String> FORMAT_STRINGS = new HashSet<String>();
 
 	static
 	{
-		FORMAT_STRINGS.add(org.rnd.jmagic.engine.GameTypes.BLOCK.getName());
-		FORMAT_STRINGS.add(org.rnd.jmagic.engine.GameTypes.STANDARD.getName());
-		FORMAT_STRINGS.add(org.rnd.jmagic.engine.GameTypes.EXTENDED.getName());
-		FORMAT_STRINGS.add(org.rnd.jmagic.engine.GameTypes.MODERN.getName());
-		FORMAT_STRINGS.add(org.rnd.jmagic.engine.GameTypes.LEGACY.getName());
-		FORMAT_STRINGS.add(org.rnd.jmagic.engine.GameTypes.VINTAGE.getName());
+		FORMAT_STRINGS.add(GameTypes.BLOCK.getName());
+		FORMAT_STRINGS.add(GameTypes.STANDARD.getName());
+		FORMAT_STRINGS.add(GameTypes.EXTENDED.getName());
+		FORMAT_STRINGS.add(GameTypes.MODERN.getName());
+		FORMAT_STRINGS.add(GameTypes.LEGACY.getName());
+		FORMAT_STRINGS.add(GameTypes.VINTAGE.getName());
 	}
 
-	private static final java.util.logging.Logger LOG = java.util.logging.Logger.getLogger("org.rnd.jmagic.gui.Start");
+	private static final Logger LOG = Logger.getLogger("org.rnd.jmagic.gui.Start");
 
 	/**
 	 * What log file to write to under the directory set by
@@ -674,11 +764,11 @@ public class Start
 	{
 		String ret = System.getenv("HOME");
 		if(null != ret)
-			return ret + java.io.File.separator + ".jmagic";
+			return ret + File.separator + ".jmagic";
 
 		ret = System.getenv("APPDATA");
 		if(null != ret)
-			return ret + java.io.File.separator + "jMagic";
+			return ret + File.separator + "jMagic";
 
 		return null;
 	}
@@ -688,14 +778,14 @@ public class Start
 		// This will create the directory if it doesn't exist, and the
 		// properties file is stored to the same directory, so don't worry about
 		// creating it later
-		java.io.File file = new java.io.File(directory);
+		File file = new File(directory);
 		if(!file.exists() && !file.mkdirs())
 			LOG.warning("Could not create directory to store log files in");
 
-		java.io.File logFile = null;
+		File logFile = null;
 		for(int i = 0; i < LOG_LIMIT; ++i)
 		{
-			java.io.File current = new java.io.File(directory + java.io.File.separator + LOG_FILE_PATTERN.replace("%d", Integer.toString(i)));
+			File current = new File(directory + File.separator + LOG_FILE_PATTERN.replace("%d", Integer.toString(i)));
 			if((null == logFile) || (current.lastModified() < logFile.lastModified()))
 				logFile = current;
 		}
@@ -703,10 +793,10 @@ public class Start
 		// Set up the logger to capture all events to a file
 		try
 		{
-			java.util.logging.FileHandler handler = new java.util.logging.FileHandler(logFile.getAbsolutePath())
+			FileHandler handler = new FileHandler(logFile.getAbsolutePath())
 			{
 				@Override
-				public synchronized void publish(java.util.logging.LogRecord record)
+				public synchronized void publish(LogRecord record)
 				{
 					super.publish(record);
 					Throwable t = record.getThrown();
@@ -722,13 +812,13 @@ public class Start
 					}
 				}
 			};
-			handler.setLevel(java.util.logging.Level.ALL);
+			handler.setLevel(Level.ALL);
 
-			org.rnd.util.Logging.getRootLogger(LOG).addHandler(handler);
+			Logging.getRootLogger(LOG).addHandler(handler);
 		}
-		catch(java.io.IOException e)
+		catch(IOException e)
 		{
-			LOG.log(java.util.logging.Level.WARNING, "IO error while opening the log file", e);
+			LOG.log(Level.WARNING, "IO error while opening the log file", e);
 		}
 	}
 
@@ -737,85 +827,85 @@ public class Start
 		String directory = getDirectory();
 		if(null == directory)
 		{
-			javax.swing.SwingUtilities.invokeLater(new Runnable()
+			SwingUtilities.invokeLater(new Runnable()
 			{
 				@Override
 				public void run()
 				{
-					javax.swing.JOptionPane.showMessageDialog(null, "Could not determine a directory to store jMagic files to (no HOME or APPDATA environment variables set?)", "jMagic Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Could not determine a directory to store jMagic files to (no HOME or APPDATA environment variables set?)", "jMagic Error", JOptionPane.ERROR_MESSAGE);
 				}
 			});
 		}
 		else
 			initializeLogging(directory);
-		LOG.info("jMagic version " + new org.rnd.jmagic.Version() + " started");
+		LOG.info("jMagic version " + new Version() + " started");
 
 		try
 		{
 			// Set the look-and-feel to the system look-and-feel if possible
-			javax.swing.UIManager.setLookAndFeel(javax.swing.UIManager.getSystemLookAndFeelClassName());
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		}
 		catch(ClassNotFoundException e)
 		{
-			LOG.log(java.util.logging.Level.WARNING, "Could not find system look-and-feel class", e);
+			LOG.log(Level.WARNING, "Could not find system look-and-feel class", e);
 		}
 		catch(InstantiationException e)
 		{
-			LOG.log(java.util.logging.Level.WARNING, "Could not instantiate system look-and-feel class", e);
+			LOG.log(Level.WARNING, "Could not instantiate system look-and-feel class", e);
 		}
 		catch(IllegalAccessException e)
 		{
-			LOG.log(java.util.logging.Level.WARNING, "System look-and-feel class does not have a public instantiatior", e);
+			LOG.log(Level.WARNING, "System look-and-feel class does not have a public instantiatior", e);
 		}
-		catch(javax.swing.UnsupportedLookAndFeelException e)
+		catch(UnsupportedLookAndFeelException e)
 		{
-			LOG.log(java.util.logging.Level.WARNING, "System look-and-feel isn't supported", e);
+			LOG.log(Level.WARNING, "System look-and-feel isn't supported", e);
 		}
 
 		final SavedProperties properties;
 		if(null == directory)
 			properties = new SavedProperties();
 		else
-			properties = SavedProperties.createFromFile(directory + java.io.File.separator + PROPERTIES_FILE);
+			properties = SavedProperties.createFromFile(directory + File.separator + PROPERTIES_FILE);
 
-		javax.swing.SwingUtilities.invokeLater(new Runnable()
+		SwingUtilities.invokeLater(new Runnable()
 		{
 			@Override
 			public void run()
 			{
 				Start start = new Start();
 				start.setProperties(properties);
-				org.rnd.util.Logging.addDialogHandler("jMagic", LOG, start.frame);
+				Logging.addDialogHandler("jMagic", LOG, start.frame);
 				start.frame.setVisible(true);
 			}
 		});
 	}
 
-	private javax.swing.JTextArea cardList;
+	private JTextArea cardList;
 
 	private Thread cardThread;
 
-	private java.util.Set<org.rnd.jmagic.engine.GameType> customGameTypes;
+	private Set<GameType> customGameTypes;
 
-	private javax.swing.JTextField deckField;
+	private JTextField deckField;
 
-	private java.io.File deckFile;
+	private File deckFile;
 
-	private javax.swing.JFrame frame;
+	private JFrame frame;
 
-	private org.rnd.jmagic.engine.GameType gameType;
+	private GameType gameType;
 
-	private javax.swing.JComboBox gameTypeComboBox;
+	private JComboBox gameTypeComboBox;
 
 	private GameTypeDialog gameTypeDialog;
 
-	private javax.swing.JTextField hostField;
+	private JTextField hostField;
 
-	private javax.swing.JTextField nameField;
+	private JTextField nameField;
 
-	private javax.swing.JTextField playersField;
+	private JTextField playersField;
 
-	private javax.swing.JTextField portField;
+	private JTextField portField;
 
 	private SavedProperties properties;
 
@@ -826,31 +916,31 @@ public class Start
 		this.deckFile = null;
 		this.gameType = null;
 
-		this.frame = new javax.swing.JFrame("jMagic Start");
+		this.frame = new JFrame("jMagic Start");
 
 		this.gameTypeDialog = null;
 
 		this.splash = new Splash(this.frame);
 
-		this.nameField = new javax.swing.JTextField();
+		this.nameField = new JTextField();
 
-		this.portField = new javax.swing.JTextField();
+		this.portField = new JTextField();
 		this.portField.setToolTipText("Default is 4099; set this to 0 only if hosting and all players should play locally (on the same screen)");
 
-		this.deckField = new javax.swing.JTextField();
+		this.deckField = new JTextField();
 		this.deckField.setEnabled(false);
 
-		javax.swing.JButton browseDeck = new javax.swing.JButton("Browse");
-		browseDeck.addActionListener(new java.awt.event.ActionListener()
+		JButton browseDeck = new JButton("Browse");
+		browseDeck.addActionListener(new ActionListener()
 		{
 			@Override
-			public void actionPerformed(java.awt.event.ActionEvent e)
+			public void actionPerformed(ActionEvent e)
 			{
-				javax.swing.JFileChooser fileChooser = new javax.swing.JFileChooser();
+				JFileChooser fileChooser = new JFileChooser();
 				if(null != Start.this.deckFile)
 					fileChooser.setCurrentDirectory(Start.this.deckFile);
 
-				if(javax.swing.JFileChooser.APPROVE_OPTION == fileChooser.showOpenDialog(Start.this.frame))
+				if(JFileChooser.APPROVE_OPTION == fileChooser.showOpenDialog(Start.this.frame))
 				{
 					Start.this.deckFile = fileChooser.getSelectedFile();
 					Start.this.deckField.setText(Start.this.deckFile.getName());
@@ -858,85 +948,85 @@ public class Start
 			}
 		});
 
-		javax.swing.JMenuItem optionsMenuItem = new javax.swing.JMenuItem("Settings");
-		optionsMenuItem.addActionListener(new java.awt.event.ActionListener()
+		JMenuItem optionsMenuItem = new JMenuItem("Settings");
+		optionsMenuItem.addActionListener(new ActionListener()
 		{
 			@Override
-			public void actionPerformed(java.awt.event.ActionEvent e)
+			public void actionPerformed(ActionEvent e)
 			{
 				ConfigurationFrame options = new ConfigurationFrame(Start.this.properties);
 				options.addOptionPanel(new StartOptions());
-				options.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+				options.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 				options.load();
 				options.pack();
 				options.setVisible(true);
 			}
 		});
 
-		javax.swing.JMenuItem exitMenuItem = new javax.swing.JMenuItem("Exit");
-		exitMenuItem.addActionListener(new java.awt.event.ActionListener()
+		JMenuItem exitMenuItem = new JMenuItem("Exit");
+		exitMenuItem.addActionListener(new ActionListener()
 		{
 			@Override
-			public void actionPerformed(java.awt.event.ActionEvent e)
+			public void actionPerformed(ActionEvent e)
 			{
 				// Change the accelerator below if this code changes
 				Start.this.frame.dispose();
 			}
 		});
-		exitMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_W, java.awt.Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+		exitMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_W, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 
-		javax.swing.JMenu startMenu = new javax.swing.JMenu("jMagic");
+		JMenu startMenu = new JMenu("jMagic");
 		startMenu.add(optionsMenuItem);
 		startMenu.add(exitMenuItem);
 
-		javax.swing.JMenuBar menuBar = new javax.swing.JMenuBar();
+		JMenuBar menuBar = new JMenuBar();
 		menuBar.add(startMenu);
 		this.frame.setJMenuBar(menuBar);
 
-		this.hostField = new javax.swing.JTextField();
+		this.hostField = new JTextField();
 
-		javax.swing.JButton connectButton = new javax.swing.JButton("Connect");
-		connectButton.addActionListener(new java.awt.event.ActionListener()
+		JButton connectButton = new JButton("Connect");
+		connectButton.addActionListener(new ActionListener()
 		{
 			@Override
-			public void actionPerformed(java.awt.event.ActionEvent event)
+			public void actionPerformed(ActionEvent event)
 			{
 				Start.this.connectFromEventThread(null, -1);
 			}
 		});
 
-		javax.swing.JButton findGames = new javax.swing.JButton("Find Games");
-		findGames.addActionListener(new java.awt.event.ActionListener()
+		JButton findGames = new JButton("Find Games");
+		findGames.addActionListener(new ActionListener()
 		{
 			@Override
-			public void actionPerformed(java.awt.event.ActionEvent event)
+			public void actionPerformed(ActionEvent event)
 			{
 				try
 				{
 					String location = Start.this.properties.getProperty(PROPERTIES_GAME_FINDER_LOCATION);
 					final GameFinderDialog finder = new GameFinderDialog(location, Start.this.frame);
-					finder.setGameFinderExceptionListener(new GameFinderDialog.ExceptionListener<org.rnd.jmagic.comms.GameFinder.GameFinderException>()
+					finder.setGameFinderExceptionListener(new GameFinderDialog.ExceptionListener<GameFinder.GameFinderException>()
 					{
 						@Override
-						public void handleException(org.rnd.jmagic.comms.GameFinder.GameFinderException e)
+						public void handleException(GameFinder.GameFinderException e)
 						{
 							LOG.warning(e.getMessage() + "; can't use game finder");
 							finder.dispose();
 						}
 					});
-					finder.setIOExceptionListener(new GameFinderDialog.ExceptionListener<java.io.IOException>()
+					finder.setIOExceptionListener(new GameFinderDialog.ExceptionListener<IOException>()
 					{
 						@Override
-						public void handleException(java.io.IOException e)
+						public void handleException(IOException e)
 						{
-							LOG.log(java.util.logging.Level.WARNING, "Error reading from game-finder; can't use game-finder", e);
+							LOG.log(Level.WARNING, "Error reading from game-finder; can't use game-finder", e);
 							finder.dispose();
 						}
 					});
 					finder.setJoinGameListener(new GameFinderDialog.JoinGameListener()
 					{
 						@Override
-						public void joinGame(org.rnd.jmagic.comms.GameFinder.Game game)
+						public void joinGame(GameFinder.Game game)
 						{
 							Start.this.connectFromEventThread(game.IP, game.port);
 							finder.dispose();
@@ -946,50 +1036,50 @@ public class Start
 					// This will block until the dialog is invisible
 					finder.setVisible(true);
 				}
-				catch(java.net.URISyntaxException e)
+				catch(URISyntaxException e)
 				{
-					LOG.log(java.util.logging.Level.WARNING, "Can't understand game-finder URL; can't use game-finder", e);
+					LOG.log(Level.WARNING, "Can't understand game-finder URL; can't use game-finder", e);
 				}
 				catch(IllegalArgumentException e)
 				{
-					LOG.log(java.util.logging.Level.WARNING, "Game-finder URL is not absolute; can't use game-finder", e);
+					LOG.log(Level.WARNING, "Game-finder URL is not absolute; can't use game-finder", e);
 				}
-				catch(java.net.MalformedURLException e)
+				catch(MalformedURLException e)
 				{
-					LOG.log(java.util.logging.Level.WARNING, "Game-finder URL is malformed; can't use game-finder", e);
+					LOG.log(Level.WARNING, "Game-finder URL is malformed; can't use game-finder", e);
 				}
-				catch(java.io.IOException e)
+				catch(IOException e)
 				{
-					LOG.log(java.util.logging.Level.WARNING, "Error reading from game-finder; can't use game-finder", e);
+					LOG.log(Level.WARNING, "Error reading from game-finder; can't use game-finder", e);
 				}
-				catch(org.rnd.jmagic.comms.GameFinder.GameFinderException e)
+				catch(GameFinder.GameFinderException e)
 				{
 					LOG.warning(e.getMessage());
 				}
 			}
 		});
 
-		javax.swing.JPanel connectPanel = new javax.swing.JPanel(new java.awt.GridBagLayout());
+		JPanel connectPanel = new JPanel(new GridBagLayout());
 
-		java.awt.Insets insets = new java.awt.Insets(1, 1, 1, 1);
+		Insets insets = new Insets(1, 1, 1, 1);
 
 		{
-			java.awt.GridBagConstraints c = new java.awt.GridBagConstraints();
-			c.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
-			c.fill = java.awt.GridBagConstraints.BOTH;
+			GridBagConstraints c = new GridBagConstraints();
+			c.anchor = GridBagConstraints.FIRST_LINE_START;
+			c.fill = GridBagConstraints.BOTH;
 			c.gridx = 0;
 			c.gridy = 0;
 			c.insets = insets;
 			c.ipadx = 10;
 			c.weightx = 0;
 			c.weighty = 0;
-			connectPanel.add(new javax.swing.JLabel("Host"), c);
+			connectPanel.add(new JLabel("Host"), c);
 		}
 
 		{
-			java.awt.GridBagConstraints c = new java.awt.GridBagConstraints();
-			c.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
-			c.fill = java.awt.GridBagConstraints.BOTH;
+			GridBagConstraints c = new GridBagConstraints();
+			c.anchor = GridBagConstraints.FIRST_LINE_START;
+			c.fill = GridBagConstraints.BOTH;
 			c.gridx = 1;
 			c.gridy = 0;
 			c.insets = insets;
@@ -999,9 +1089,9 @@ public class Start
 		}
 
 		{
-			java.awt.GridBagConstraints c = new java.awt.GridBagConstraints();
-			c.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
-			c.fill = java.awt.GridBagConstraints.BOTH;
+			GridBagConstraints c = new GridBagConstraints();
+			c.anchor = GridBagConstraints.FIRST_LINE_START;
+			c.fill = GridBagConstraints.BOTH;
 			c.gridx = 1;
 			c.gridy = 1;
 			c.insets = insets;
@@ -1011,9 +1101,9 @@ public class Start
 		}
 
 		{
-			java.awt.GridBagConstraints c = new java.awt.GridBagConstraints();
-			c.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
-			c.fill = java.awt.GridBagConstraints.BOTH;
+			GridBagConstraints c = new GridBagConstraints();
+			c.anchor = GridBagConstraints.FIRST_LINE_START;
+			c.fill = GridBagConstraints.BOTH;
 			c.gridx = 1;
 			c.gridy = 2;
 			c.insets = insets;
@@ -1022,18 +1112,18 @@ public class Start
 			connectPanel.add(findGames, c);
 		}
 
-		this.gameTypeComboBox = new javax.swing.JComboBox();
-		for(org.rnd.jmagic.engine.GameType gameType: org.rnd.jmagic.engine.GameTypes.values())
+		this.gameTypeComboBox = new JComboBox();
+		for(GameType gameType: GameTypes.values())
 			this.gameTypeComboBox.addItem(gameType);
 		this.gameTypeComboBox.addItem(CUSTOM_GAME_TYPE_VALUE);
 
-		final java.util.concurrent.atomic.AtomicReference<Object> lastSelectedItem = new java.util.concurrent.atomic.AtomicReference<Object>();
-		this.gameTypeComboBox.addItemListener(new java.awt.event.ItemListener()
+		final AtomicReference<Object> lastSelectedItem = new AtomicReference<Object>();
+		this.gameTypeComboBox.addItemListener(new ItemListener()
 		{
 			@Override
-			public void itemStateChanged(java.awt.event.ItemEvent e)
+			public void itemStateChanged(ItemEvent e)
 			{
-				if(java.awt.event.ItemEvent.DESELECTED == e.getStateChange())
+				if(ItemEvent.DESELECTED == e.getStateChange())
 					lastSelectedItem.set(e.getItem());
 				// Must be SELECTED otherwise
 				else if(e.getItem().equals(CUSTOM_GAME_TYPE_VALUE))
@@ -1042,22 +1132,22 @@ public class Start
 					// until it is hidden, do so later so the rest of the
 					// drop-down events can be processed (like hiding the
 					// drop-down list)
-					java.awt.EventQueue.invokeLater(new Runnable()
+					EventQueue.invokeLater(new Runnable()
 					{
 						@Override
 						public void run()
 						{
 							if(null == Start.this.gameTypeDialog)
 							{
-								java.util.Set<org.rnd.jmagic.engine.GameType> presets = new java.util.HashSet<org.rnd.jmagic.engine.GameType>();
-								for(org.rnd.jmagic.engine.GameType t: org.rnd.jmagic.engine.GameTypes.values())
+								Set<GameType> presets = new HashSet<GameType>();
+								for(GameType t: GameTypes.values())
 									presets.add(t);
 								presets.addAll(Start.this.customGameTypes);
 								Start.this.gameTypeDialog = new GameTypeDialog(Start.this.frame, presets);
 							}
 
 							Start.this.gameTypeDialog.setVisible(true);
-							org.rnd.jmagic.engine.GameType custom = Start.this.gameTypeDialog.getGameType();
+							GameType custom = Start.this.gameTypeDialog.getGameType();
 							if(null == custom)
 								Start.this.gameTypeComboBox.setSelectedItem(lastSelectedItem.get());
 							else
@@ -1074,69 +1164,69 @@ public class Start
 					});
 				}
 				else
-					Start.this.gameType = (org.rnd.jmagic.engine.GameType)(e.getItem());
+					Start.this.gameType = (GameType)(e.getItem());
 			}
 		});
 
-		this.playersField = new javax.swing.JTextField();
+		this.playersField = new JTextField();
 
-		this.cardList = new javax.swing.JTextArea(30, 40);
+		this.cardList = new JTextArea(30, 40);
 		this.cardList.setEditable(false);
 		this.cardList.setText("Loading cards...");
 
-		javax.swing.JButton hostButton = new javax.swing.JButton("Host");
+		JButton hostButton = new JButton("Host");
 		hostButton.addActionListener(new ServerHost(false));
 
-		javax.swing.JButton hostWithGameFinderButton = new javax.swing.JButton("Host Publicly");
+		JButton hostWithGameFinderButton = new JButton("Host Publicly");
 		hostWithGameFinderButton.setToolTipText("Use the game-finding server (location specified in jMagic->Settings)");
 		hostWithGameFinderButton.addActionListener(new ServerHost(true));
 
-		javax.swing.JButton cardsButton = new javax.swing.JButton("Supported Cards");
-		cardsButton.addActionListener(new java.awt.event.ActionListener()
+		JButton cardsButton = new JButton("Supported Cards");
+		cardsButton.addActionListener(new ActionListener()
 		{
-			private java.util.List<Integer> indexes;
+			private List<Integer> indexes;
 			private int lastIndex = -1;
-			private java.util.regex.Matcher search = null;
-			private javax.swing.JTextField searchTextField = null;
+			private Matcher search = null;
+			private JTextField searchTextField = null;
 
 			@Override
-			public void actionPerformed(java.awt.event.ActionEvent e)
+			public void actionPerformed(ActionEvent e)
 			{
-				javax.swing.JScrollPane scrollPane = new javax.swing.JScrollPane(Start.this.cardList, javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+				JScrollPane scrollPane = new JScrollPane(Start.this.cardList, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
-				this.searchTextField = new javax.swing.JTextField("Type a string and press enter to search");
-				this.searchTextField.addActionListener(new java.awt.event.ActionListener()
+				this.searchTextField = new JTextField("Type a string and press enter to search");
+				this.searchTextField.addActionListener(new ActionListener()
 				{
 					@Override
-					public void actionPerformed(java.awt.event.ActionEvent e)
+					public void actionPerformed(ActionEvent e)
 					{
 						selectNext();
 					}
 				});
-				this.searchTextField.getDocument().addDocumentListener(new javax.swing.event.DocumentListener()
+				this.searchTextField.getDocument().addDocumentListener(new DocumentListener()
 				{
 					@Override
-					public void changedUpdate(javax.swing.event.DocumentEvent e)
+					public void changedUpdate(DocumentEvent e)
 					{
 						// Simple-text fields don't call this function
 					}
 
 					@Override
-					public void insertUpdate(javax.swing.event.DocumentEvent e)
+					public void insertUpdate(DocumentEvent e)
 					{
 						updateMatcher();
 					}
 
 					@Override
-					public void removeUpdate(javax.swing.event.DocumentEvent e)
+					public void removeUpdate(DocumentEvent e)
 					{
 						updateMatcher();
 					}
 				});
 
-				javax.swing.JDialog cardsDialog = new javax.swing.JDialog(Start.this.frame, "Cards supported while hosting", true);
-				cardsDialog.add(scrollPane, java.awt.BorderLayout.CENTER);
-				cardsDialog.add(this.searchTextField, java.awt.BorderLayout.PAGE_END);
+				JDialog cardsDialog = new JDialog(Start.this.frame, "Cards supported while hosting", true);
+				cardsDialog.add(scrollPane, BorderLayout.CENTER);
+				cardsDialog.add(this.searchTextField, BorderLayout.PAGE_END);
 				cardsDialog.pack();
 				cardsDialog.setVisible(true);
 			}
@@ -1152,22 +1242,22 @@ public class Start
 
 			private void updateMatcher()
 			{
-				javax.swing.text.Highlighter highlighter = Start.this.cardList.getHighlighter();
+				Highlighter highlighter = Start.this.cardList.getHighlighter();
 				highlighter.removeAllHighlights();
 
-				this.indexes = new java.util.ArrayList<Integer>();
-				this.search = java.util.regex.Pattern.compile(this.searchTextField.getText(), java.util.regex.Pattern.CASE_INSENSITIVE).matcher(Start.this.cardList.getText());
+				this.indexes = new ArrayList<Integer>();
+				this.search = Pattern.compile(this.searchTextField.getText(), Pattern.CASE_INSENSITIVE).matcher(Start.this.cardList.getText());
 				try
 				{
 					while(this.search.find())
 					{
 						this.indexes.add(this.search.start());
-						highlighter.addHighlight(this.search.start(), this.search.end(), javax.swing.text.DefaultHighlighter.DefaultPainter);
+						highlighter.addHighlight(this.search.start(), this.search.end(), DefaultHighlighter.DefaultPainter);
 					}
 				}
-				catch(javax.swing.text.BadLocationException e)
+				catch(BadLocationException e)
 				{
-					LOG.log(java.util.logging.Level.WARNING, "Invalid range for highlighting cards to search", e);
+					LOG.log(Level.WARNING, "Invalid range for highlighting cards to search", e);
 				}
 
 				this.lastIndex = this.indexes.size() - 1;
@@ -1176,25 +1266,25 @@ public class Start
 		});
 		cardsButton.setToolTipText("View all the cards that would be supported if you were hosting");
 
-		javax.swing.JPanel hostPanel = new javax.swing.JPanel(new java.awt.GridBagLayout());
+		JPanel hostPanel = new JPanel(new GridBagLayout());
 
 		{
-			java.awt.GridBagConstraints c = new java.awt.GridBagConstraints();
-			c.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
-			c.fill = java.awt.GridBagConstraints.BOTH;
+			GridBagConstraints c = new GridBagConstraints();
+			c.anchor = GridBagConstraints.FIRST_LINE_START;
+			c.fill = GridBagConstraints.BOTH;
 			c.gridx = 0;
 			c.gridy = 0;
 			c.insets = insets;
 			c.ipadx = 10;
 			c.weightx = 0;
 			c.weighty = 0;
-			hostPanel.add(new javax.swing.JLabel("Game type"), c);
+			hostPanel.add(new JLabel("Game type"), c);
 		}
 
 		{
-			java.awt.GridBagConstraints c = new java.awt.GridBagConstraints();
-			c.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
-			c.fill = java.awt.GridBagConstraints.BOTH;
+			GridBagConstraints c = new GridBagConstraints();
+			c.anchor = GridBagConstraints.FIRST_LINE_START;
+			c.fill = GridBagConstraints.BOTH;
 			c.gridx = 1;
 			c.gridy = 0;
 			c.insets = insets;
@@ -1229,9 +1319,9 @@ public class Start
 		}
 		*/
 		{
-			java.awt.GridBagConstraints c = new java.awt.GridBagConstraints();
-			c.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
-			c.fill = java.awt.GridBagConstraints.BOTH;
+			GridBagConstraints c = new GridBagConstraints();
+			c.anchor = GridBagConstraints.FIRST_LINE_START;
+			c.fill = GridBagConstraints.BOTH;
 			c.gridx = 1;
 			c.gridy = 2;
 			c.insets = insets;
@@ -1241,9 +1331,9 @@ public class Start
 		}
 
 		{
-			java.awt.GridBagConstraints c = new java.awt.GridBagConstraints();
-			c.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
-			c.fill = java.awt.GridBagConstraints.BOTH;
+			GridBagConstraints c = new GridBagConstraints();
+			c.anchor = GridBagConstraints.FIRST_LINE_START;
+			c.fill = GridBagConstraints.BOTH;
 			c.gridx = 1;
 			c.gridy = 3;
 			c.insets = insets;
@@ -1253,9 +1343,9 @@ public class Start
 		}
 
 		{
-			java.awt.GridBagConstraints c = new java.awt.GridBagConstraints();
-			c.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
-			c.fill = java.awt.GridBagConstraints.BOTH;
+			GridBagConstraints c = new GridBagConstraints();
+			c.anchor = GridBagConstraints.FIRST_LINE_START;
+			c.fill = GridBagConstraints.BOTH;
 			c.gridx = 1;
 			c.gridy = 4;
 			c.insets = insets;
@@ -1264,39 +1354,39 @@ public class Start
 			hostPanel.add(cardsButton, c);
 		}
 
-		javax.swing.JTabbedPane hostOrConnect = new javax.swing.JTabbedPane();
+		JTabbedPane hostOrConnect = new JTabbedPane();
 		hostOrConnect.addTab("Connect", connectPanel);
 		hostOrConnect.addTab("Host", hostPanel);
 
-		this.frame.addWindowListener(new java.awt.event.WindowAdapter()
+		this.frame.addWindowListener(new WindowAdapter()
 		{
 			@Override
-			public void windowClosed(java.awt.event.WindowEvent e)
+			public void windowClosed(WindowEvent e)
 			{
 				Start.this.splash.dispose();
 			}
 		});
-		this.frame.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-		this.frame.setLayout(new java.awt.GridBagLayout());
+		this.frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+		this.frame.setLayout(new GridBagLayout());
 		this.frame.setResizable(false);
 
 		{
-			java.awt.GridBagConstraints c = new java.awt.GridBagConstraints();
-			c.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
-			c.fill = java.awt.GridBagConstraints.BOTH;
+			GridBagConstraints c = new GridBagConstraints();
+			c.anchor = GridBagConstraints.FIRST_LINE_START;
+			c.fill = GridBagConstraints.BOTH;
 			c.gridx = 0;
 			c.gridy = 0;
 			c.insets = insets;
 			c.ipadx = 10;
 			c.weightx = 0;
 			c.weighty = 0;
-			this.frame.add(new javax.swing.JLabel("Name"), c);
+			this.frame.add(new JLabel("Name"), c);
 		}
 
 		{
-			java.awt.GridBagConstraints c = new java.awt.GridBagConstraints();
-			c.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
-			c.fill = java.awt.GridBagConstraints.BOTH;
+			GridBagConstraints c = new GridBagConstraints();
+			c.anchor = GridBagConstraints.FIRST_LINE_START;
+			c.fill = GridBagConstraints.BOTH;
 			c.gridx = 1;
 			c.gridy = 0;
 			c.insets = insets;
@@ -1306,22 +1396,22 @@ public class Start
 		}
 
 		{
-			java.awt.GridBagConstraints c = new java.awt.GridBagConstraints();
-			c.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
-			c.fill = java.awt.GridBagConstraints.BOTH;
+			GridBagConstraints c = new GridBagConstraints();
+			c.anchor = GridBagConstraints.FIRST_LINE_START;
+			c.fill = GridBagConstraints.BOTH;
 			c.gridx = 0;
 			c.gridy = 1;
 			c.insets = insets;
 			c.ipadx = 10;
 			c.weightx = 0;
 			c.weighty = 0;
-			this.frame.add(new javax.swing.JLabel("Port"), c);
+			this.frame.add(new JLabel("Port"), c);
 		}
 
 		{
-			java.awt.GridBagConstraints c = new java.awt.GridBagConstraints();
-			c.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
-			c.fill = java.awt.GridBagConstraints.BOTH;
+			GridBagConstraints c = new GridBagConstraints();
+			c.anchor = GridBagConstraints.FIRST_LINE_START;
+			c.fill = GridBagConstraints.BOTH;
 			c.gridx = 1;
 			c.gridy = 1;
 			c.insets = insets;
@@ -1331,22 +1421,22 @@ public class Start
 		}
 
 		{
-			java.awt.GridBagConstraints c = new java.awt.GridBagConstraints();
-			c.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
-			c.fill = java.awt.GridBagConstraints.BOTH;
+			GridBagConstraints c = new GridBagConstraints();
+			c.anchor = GridBagConstraints.FIRST_LINE_START;
+			c.fill = GridBagConstraints.BOTH;
 			c.gridx = 0;
 			c.gridy = 2;
 			c.insets = insets;
 			c.ipadx = 10;
 			c.weightx = 0;
 			c.weighty = 0;
-			this.frame.add(new javax.swing.JLabel("Deck"), c);
+			this.frame.add(new JLabel("Deck"), c);
 		}
 
 		{
-			java.awt.GridBagConstraints c = new java.awt.GridBagConstraints();
-			c.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
-			c.fill = java.awt.GridBagConstraints.BOTH;
+			GridBagConstraints c = new GridBagConstraints();
+			c.anchor = GridBagConstraints.FIRST_LINE_START;
+			c.fill = GridBagConstraints.BOTH;
 			c.gridx = 1;
 			c.gridy = 2;
 			c.insets = insets;
@@ -1356,9 +1446,9 @@ public class Start
 		}
 
 		{
-			java.awt.GridBagConstraints c = new java.awt.GridBagConstraints();
-			c.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
-			c.fill = java.awt.GridBagConstraints.BOTH;
+			GridBagConstraints c = new GridBagConstraints();
+			c.anchor = GridBagConstraints.FIRST_LINE_START;
+			c.fill = GridBagConstraints.BOTH;
 			c.gridx = 1;
 			c.gridy = 3;
 			c.insets = insets;
@@ -1368,9 +1458,9 @@ public class Start
 		}
 
 		{
-			java.awt.GridBagConstraints c = new java.awt.GridBagConstraints();
-			c.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
-			c.fill = java.awt.GridBagConstraints.BOTH;
+			GridBagConstraints c = new GridBagConstraints();
+			c.anchor = GridBagConstraints.FIRST_LINE_START;
+			c.fill = GridBagConstraints.BOTH;
 			c.gridwidth = 2;
 			c.gridx = 0;
 			c.gridy = 4;
@@ -1412,7 +1502,7 @@ public class Start
 			}
 			catch(NumberFormatException e)
 			{
-				LOG.log(java.util.logging.Level.SEVERE, "Port must be an integer", e);
+				LOG.log(Level.SEVERE, "Port must be an integer", e);
 				return;
 			}
 		}
@@ -1432,7 +1522,7 @@ public class Start
 			@Override
 			public void run()
 			{
-				org.rnd.jmagic.engine.Deck deck = getDeck();
+				Deck deck = getDeck();
 				// The errors are logged elsewhere, so don't say anything
 				if(null == deck)
 					return;
@@ -1440,15 +1530,15 @@ public class Start
 				try
 				{
 					SwingAdapter swing = new SwingAdapter(deck, name);
-					org.rnd.jmagic.comms.Client client = new org.rnd.jmagic.comms.Client(newHost, newPort, name, createLocal(swing), swing.getChatCallback());
+					Client client = new Client(newHost, newPort, name, createLocal(swing), swing.getChatCallback());
 					swing.setMessagePoster(client.getMessagePoster());
 
 					client.run();
 					hideSplash();
 				}
-				catch(java.io.IOException e)
+				catch(IOException e)
 				{
-					LOG.log(java.util.logging.Level.SEVERE, "IOException while constructing client", e);
+					LOG.log(Level.SEVERE, "IOException while constructing client", e);
 				}
 				catch(CreateLocalException e)
 				{
@@ -1460,13 +1550,13 @@ public class Start
 		game.start();
 		saveProperties();
 
-		Start.this.splash.addWindowListener(new java.awt.event.WindowAdapter()
+		Start.this.splash.addWindowListener(new WindowAdapter()
 		{
 			@Override
-			public void windowClosing(java.awt.event.WindowEvent e)
+			public void windowClosing(WindowEvent e)
 			{
-				int option = javax.swing.JOptionPane.showConfirmDialog(Start.this.splash, "Are you sure you want to cancel connecting to the host?", "jMagic Interrupt", javax.swing.JOptionPane.YES_NO_OPTION);
-				if(javax.swing.JOptionPane.YES_OPTION == option)
+				int option = JOptionPane.showConfirmDialog(Start.this.splash, "Are you sure you want to cancel connecting to the host?", "jMagic Interrupt", JOptionPane.YES_NO_OPTION);
+				if(JOptionPane.YES_OPTION == option)
 				{
 					LOG.fine("Interrupting the connect thread");
 					game.interrupt();
@@ -1478,9 +1568,9 @@ public class Start
 		Start.this.splash.setVisible(true);
 	}
 
-	private org.rnd.jmagic.interfaceAdapters.ConfigurableInterface createLocal(SwingAdapter swing) throws CreateLocalException
+	private ConfigurableInterface createLocal(SwingAdapter swing) throws CreateLocalException
 	{
-		org.rnd.jmagic.interfaceAdapters.ConfigurableInterface local = new org.rnd.jmagic.interfaceAdapters.ConfigurableInterfaceDecorator(swing, new org.rnd.jmagic.interfaceAdapters.SimplePlayerInterface(swing)
+		ConfigurableInterface local = new ConfigurableInterfaceDecorator(swing, new SimplePlayerInterface(swing)
 		{
 			@Override
 			public void alertError(ErrorParameters parameters)
@@ -1488,19 +1578,19 @@ public class Start
 				if(!this.disposed)
 				{
 					String message;
-					if(parameters instanceof org.rnd.jmagic.engine.PlayerInterface.ErrorParameters.CardLoadingError)
-						message = "The following cards weren't loaded properly: " + org.rnd.util.SeparatedList.get("and", ((org.rnd.jmagic.engine.PlayerInterface.ErrorParameters.CardLoadingError)parameters).cardNames);
-					else if(parameters instanceof org.rnd.jmagic.engine.PlayerInterface.ErrorParameters.HostError)
+					if(parameters instanceof PlayerInterface.ErrorParameters.CardLoadingError)
+						message = "The following cards weren't loaded properly: " + SeparatedList.get("and", ((PlayerInterface.ErrorParameters.CardLoadingError)parameters).cardNames);
+					else if(parameters instanceof PlayerInterface.ErrorParameters.HostError)
 						message = "The host has encountered an error. The current game will no longer continue.";
-					else if(parameters instanceof org.rnd.jmagic.engine.PlayerInterface.ErrorParameters.IllegalCardsError)
-						message = "The following cards aren't legal in a deck list: " + org.rnd.util.SeparatedList.get("and", ((org.rnd.jmagic.engine.PlayerInterface.ErrorParameters.IllegalCardsError)parameters).cardNames);
-					else if(parameters instanceof org.rnd.jmagic.engine.PlayerInterface.ErrorParameters.DeckCheckError)
-						message = "The following deck check failed: " + ((org.rnd.jmagic.engine.PlayerInterface.ErrorParameters.DeckCheckError)parameters).rule;
-					else if(parameters instanceof org.rnd.jmagic.engine.PlayerInterface.ErrorParameters.CardCheckError)
-						message = "The following card check failed: " + ((org.rnd.jmagic.engine.PlayerInterface.ErrorParameters.CardCheckError)parameters).card;
+					else if(parameters instanceof PlayerInterface.ErrorParameters.IllegalCardsError)
+						message = "The following cards aren't legal in a deck list: " + SeparatedList.get("and", ((PlayerInterface.ErrorParameters.IllegalCardsError)parameters).cardNames);
+					else if(parameters instanceof PlayerInterface.ErrorParameters.DeckCheckError)
+						message = "The following deck check failed: " + ((PlayerInterface.ErrorParameters.DeckCheckError)parameters).rule;
+					else if(parameters instanceof PlayerInterface.ErrorParameters.CardCheckError)
+						message = "The following card check failed: " + ((PlayerInterface.ErrorParameters.CardCheckError)parameters).card;
 					else
 						message = "An unknown error occurred in the host.";
-					javax.swing.JOptionPane.showMessageDialog(Start.this.splash, message, "jMagic Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(Start.this.splash, message, "jMagic Error", JOptionPane.ERROR_MESSAGE);
 					Start.this.hideSplash();
 				}
 
@@ -1508,13 +1598,13 @@ public class Start
 			}
 
 			@Override
-			public void alertState(org.rnd.jmagic.sanitized.SanitizedGameState sanitizedGameState)
+			public void alertState(SanitizedGameState sanitizedGameState)
 			{
 				if(!this.disposed)
 				{
 					// When this occurs for the first time, assume the GUI is
 					// about to pop up, so dispose of the Start frame
-					java.awt.EventQueue.invokeLater(new Runnable()
+					EventQueue.invokeLater(new Runnable()
 					{
 						@Override
 						public void run()
@@ -1531,8 +1621,8 @@ public class Start
 
 			private boolean disposed = false;
 		});
-		local = new org.rnd.jmagic.interfaceAdapters.ConfigurableInterfaceDecorator(local, new org.rnd.jmagic.interfaceAdapters.MulticostAdapter(local));
-		local = new org.rnd.jmagic.interfaceAdapters.ConfigurableInterfaceDecorator(local, new org.rnd.jmagic.interfaceAdapters.CountersAcrossCreaturesInterface(local));
+		local = new ConfigurableInterfaceDecorator(local, new MulticostAdapter(local));
+		local = new ConfigurableInterfaceDecorator(local, new CountersAcrossCreaturesInterface(local));
 
 		String[] adapters = this.properties.getProperty(PROPERTIES_ADAPTERS).split("[|]");
 		char[] adapterStates = this.properties.getProperty(PROPERTIES_ADAPTER_STATE).toCharArray();
@@ -1545,14 +1635,14 @@ public class Start
 			try
 			{
 				Class<?> clazz = Class.forName(adapters[i]);
-				if(org.rnd.jmagic.interfaceAdapters.ConfigurableInterface.class.isAssignableFrom(clazz))
+				if(ConfigurableInterface.class.isAssignableFrom(clazz))
 				{
-					local = (org.rnd.jmagic.interfaceAdapters.ConfigurableInterface)clazz.getConstructor(org.rnd.jmagic.interfaceAdapters.ConfigurableInterface.class).newInstance(local);
+					local = (ConfigurableInterface)clazz.getConstructor(ConfigurableInterface.class).newInstance(local);
 				}
-				else if(org.rnd.jmagic.engine.PlayerInterface.class.isAssignableFrom(clazz))
+				else if(PlayerInterface.class.isAssignableFrom(clazz))
 				{
-					org.rnd.jmagic.engine.PlayerInterface pi = (org.rnd.jmagic.engine.PlayerInterface)clazz.getConstructor(org.rnd.jmagic.engine.PlayerInterface.class).newInstance(local);
-					local = new org.rnd.jmagic.interfaceAdapters.ConfigurableInterfaceDecorator(local, pi);
+					PlayerInterface pi = (PlayerInterface)clazz.getConstructor(PlayerInterface.class).newInstance(local);
+					local = new ConfigurableInterfaceDecorator(local, pi);
 				}
 				else
 				{
@@ -1562,27 +1652,27 @@ public class Start
 			}
 			catch(ClassNotFoundException e)
 			{
-				LOG.log(java.util.logging.Level.SEVERE, "Could not find class " + adapters[i], e);
+				LOG.log(Level.SEVERE, "Could not find class " + adapters[i], e);
 				throw new CreateLocalException(e);
 			}
 			catch(NoSuchMethodException e)
 			{
-				LOG.log(java.util.logging.Level.SEVERE, adapters[i] + " does not define a useful constructor", e);
+				LOG.log(Level.SEVERE, adapters[i] + " does not define a useful constructor", e);
 				throw new CreateLocalException(e);
 			}
 			catch(IllegalAccessException e)
 			{
-				LOG.log(java.util.logging.Level.SEVERE, adapters[i] + "'s InterfaceAdapter constructor isn't public", e);
+				LOG.log(Level.SEVERE, adapters[i] + "'s InterfaceAdapter constructor isn't public", e);
 				throw new CreateLocalException(e);
 			}
 			catch(InstantiationException e)
 			{
-				LOG.log(java.util.logging.Level.SEVERE, adapters[i] + " is not a concrete class for an instance to be created", e);
+				LOG.log(Level.SEVERE, adapters[i] + " is not a concrete class for an instance to be created", e);
 				throw new CreateLocalException(e);
 			}
-			catch(java.lang.reflect.InvocationTargetException e)
+			catch(InvocationTargetException e)
 			{
-				LOG.log(java.util.logging.Level.SEVERE, "An exception was thrown when calling " + adapters[i] + "'s InterfaceAdapter constructor", e);
+				LOG.log(Level.SEVERE, "An exception was thrown when calling " + adapters[i] + "'s InterfaceAdapter constructor", e);
 				throw new CreateLocalException(e);
 			}
 		}
@@ -1591,7 +1681,7 @@ public class Start
 		return local;
 	}
 
-	private org.rnd.jmagic.engine.Deck getDeck()
+	private Deck getDeck()
 	{
 		if(null == this.deckFile)
 		{
@@ -1601,7 +1691,7 @@ public class Start
 
 		if(this.deckFile.getPath().isEmpty())
 		{
-			return new org.rnd.jmagic.engine.Deck();
+			return new Deck();
 		}
 
 		if(!this.deckFile.canRead())
@@ -1612,24 +1702,24 @@ public class Start
 
 		try
 		{
-			return org.rnd.jmagic.CardLoader.getDeck(new java.io.BufferedReader(new java.io.FileReader(this.deckFile.getAbsolutePath())));
+			return CardLoader.getDeck(new BufferedReader(new FileReader(this.deckFile.getAbsolutePath())));
 		}
-		catch(java.io.IOException e)
+		catch(IOException e)
 		{
-			LOG.log(java.util.logging.Level.SEVERE, "Error reading deck from file; see the log for details", e);
+			LOG.log(Level.SEVERE, "Error reading deck from file; see the log for details", e);
 			return null;
 		}
 	}
 
 	private void hideSplash()
 	{
-		java.awt.EventQueue.invokeLater(new Runnable()
+		EventQueue.invokeLater(new Runnable()
 		{
 			@Override
 			public void run()
 			{
 				// Get rid of the window listeners host/connect added
-				for(java.awt.event.WindowListener l: Start.this.splash.getWindowListeners())
+				for(WindowListener l: Start.this.splash.getWindowListeners())
 					Start.this.splash.removeWindowListener(l);
 				Start.this.splash.setVisible(false);
 			}
@@ -1659,7 +1749,7 @@ public class Start
 			Object item = this.gameTypeComboBox.getItemAt(i);
 			if(item.toString().equals(gameTypeName))
 			{
-				this.gameType = (org.rnd.jmagic.engine.GameType)item;
+				this.gameType = (GameType)item;
 				this.gameTypeComboBox.setSelectedIndex(i);
 				return true;
 			}
@@ -1673,19 +1763,19 @@ public class Start
 	{
 		this.properties = properties;
 
-		for(java.util.Map.Entry<String, String> entry: defaultProperties.entrySet())
+		for(Map.Entry<String, String> entry: defaultProperties.entrySet())
 			if(!this.properties.containsKey(entry.getKey()))
 				this.properties.setProperty(entry.getKey(), entry.getValue());
 
 		this.portField.setText(this.properties.getProperty(PROPERTIES_PORT));
-		this.deckFile = new java.io.File(this.properties.getProperty(PROPERTIES_DECK));
+		this.deckFile = new File(this.properties.getProperty(PROPERTIES_DECK));
 		this.deckField.setText(this.deckFile.getName());
 
-		this.customGameTypes = (java.util.Set<org.rnd.jmagic.engine.GameType>)this.properties.get(PROPERTIES_CUSTOM_GAME_TYPES);
+		this.customGameTypes = (Set<GameType>)this.properties.get(PROPERTIES_CUSTOM_GAME_TYPES);
 		if(null == this.customGameTypes)
-			this.customGameTypes = new java.util.HashSet<org.rnd.jmagic.engine.GameType>();
+			this.customGameTypes = new HashSet<GameType>();
 		else
-			for(org.rnd.jmagic.engine.GameType t: this.customGameTypes)
+			for(GameType t: this.customGameTypes)
 				this.gameTypeComboBox.addItem(t);
 
 		String gameTypeName = this.properties.getProperty(PROPERTIES_GAME_TYPE);
@@ -1717,35 +1807,35 @@ public class Start
 				for(int i = 0; i < packages.length; ++i)
 					if(loadPackage[i] != '1')
 						packages[i] = null;
-				org.rnd.jmagic.CardLoader.addPackages(packages);
+				CardLoader.addPackages(packages);
 
 				try
 				{
 					String jarProperty = properties.getProperty(PROPERTIES_EXTERNAL_JARS);
 					if(0 != jarProperty.length())
 					{
-						java.net.URL rootURL = new java.net.URL("file:///" + System.getProperty("user.dir") + java.io.File.separator);
+						URL rootURL = new URL("file:///" + System.getProperty("user.dir") + File.separator);
 						String[] jarPaths = jarProperty.split("[|]");
 						char[] loadJar = properties.getProperty(PROPERTIES_EXTERNAL_JARS_LOAD).toCharArray();
-						java.net.URL[] jarURLs = new java.net.URL[jarPaths.length];
+						URL[] jarURLs = new URL[jarPaths.length];
 						for(int i = 0; i < jarPaths.length; ++i)
 							if(loadJar[i] == '1')
-								jarURLs[i] = new java.net.URL(rootURL, jarPaths[i]);
-						org.rnd.jmagic.CardLoader.addURLs(jarURLs);
+								jarURLs[i] = new URL(rootURL, jarPaths[i]);
+						CardLoader.addURLs(jarURLs);
 					}
 				}
-				catch(java.net.MalformedURLException e)
+				catch(MalformedURLException e)
 				{
-					LOG.log(java.util.logging.Level.SEVERE, "External classpath URL malformed: ", e);
+					LOG.log(Level.SEVERE, "External classpath URL malformed: ", e);
 				}
 
-				java.awt.EventQueue.invokeLater(new Runnable()
+				EventQueue.invokeLater(new Runnable()
 				{
 					@Override
 					public void run()
 					{
 						StringBuilder cards = null;
-						for(String card: new java.util.TreeSet<String>(org.rnd.jmagic.CardLoader.getAllCardNames()))
+						for(String card: new TreeSet<String>(CardLoader.getAllCardNames()))
 						{
 							if(null == cards)
 								cards = new StringBuilder(card);

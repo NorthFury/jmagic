@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilityTemplates.ColorTriggeredLife;
 import org.rnd.jmagic.engine.*;
 
 @Name("Wurm's Tooth")
@@ -9,7 +10,7 @@ import org.rnd.jmagic.engine.*;
 @ColorIdentity({})
 public final class WurmsTooth extends Card
 {
-	public static final class GreenLife extends org.rnd.jmagic.abilityTemplates.ColorTriggeredLife
+	public static final class GreenLife extends ColorTriggeredLife
 	{
 		public GreenLife(GameState state)
 		{

@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Defender;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -21,7 +23,7 @@ public final class GrotagSiegeRunner extends Card
 			this.setManaCost(new ManaPool("(R)"));
 			this.addCost(sacrificeThis("Grotag Siege-Runner"));
 
-			SetGenerator target = targetedBy(this.addTarget(Intersect.instance(CreaturePermanents.instance(), HasKeywordAbility.instance(org.rnd.jmagic.abilities.keywords.Defender.class)), "target creature with defender"));
+			SetGenerator target = targetedBy(this.addTarget(Intersect.instance(CreaturePermanents.instance(), HasKeywordAbility.instance(Defender.class)), "target creature with defender"));
 			this.addEffect(destroy(target, "Destroy target creature with defender."));
 			this.addEffect(permanentDealDamage(2, ControllerOf.instance(target), "Grotag Siege-Runner deals 2 damage to that creature's controller."));
 		}

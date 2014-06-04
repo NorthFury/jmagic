@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.Werewolves;
 import org.rnd.jmagic.engine.*;
 
 @Name("Merciless Predator")
@@ -20,6 +21,6 @@ public final class MercilessPredator extends AlternateCard
 
 		// At the beginning of each upkeep, if a player cast two or more spells
 		// last turn, transform Merciless Predator.
-		this.addAbility(new org.rnd.jmagic.abilities.Werewolves.BecomeHuman(state, this.getName()));
+		this.addAbility(new Werewolves.BecomeHuman(state, this.getName()));
 	}
 }

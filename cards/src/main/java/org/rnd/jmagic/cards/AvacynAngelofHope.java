@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Vigilance;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -31,8 +34,8 @@ public final class AvacynAngelofHope extends Card
 		this.setToughness(8);
 
 		// Flying, vigilance
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Vigilance(state));
+		this.addAbility(new Flying(state));
+		this.addAbility(new Vigilance(state));
 
 		// Avacyn, Angel of Hope and other permanents you control are
 		// indestructible.

@@ -3,6 +3,10 @@ package org.rnd.jmagic.engine.patterns;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.DamageAssignment.*;
 
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+
 /**
  * Matches damage based solely on a Grouping pattern for the dealers and/or the
  * takers. Non-combat damage can also be filtered out.
@@ -38,12 +42,12 @@ public class SimpleDamagePattern implements DamagePattern
 	}
 
 	@Override
-	public java.util.Set<Batch> match(Batch batch, Identified thisObject, GameState state)
+	public Set<Batch> match(Batch batch, Identified thisObject, GameState state)
 	{
 		MagicSet dealers = new MagicSet();
 		MagicSet takers = new MagicSet();
 
-		java.util.Iterator<DamageAssignment> iter = batch.iterator();
+		Iterator<DamageAssignment> iter = batch.iterator();
 		while(iter.hasNext())
 		{
 			DamageAssignment damage = iter.next();
@@ -58,7 +62,7 @@ public class SimpleDamagePattern implements DamagePattern
 			takers.add(state.get(damage.takerID));
 		}
 
-		java.util.Set<Batch> ret = new java.util.HashSet<Batch>();
+		Set<Batch> ret = new HashSet<Batch>();
 
 		if(this.dealer != null)
 		{
@@ -80,7 +84,7 @@ public class SimpleDamagePattern implements DamagePattern
 
 		if(this.taker != null)
 		{
-			java.util.Set<Batch> newRet = new java.util.HashSet<Batch>();
+			Set<Batch> newRet = new HashSet<Batch>();
 
 			for(Batch dealerBatch: ret)
 			{

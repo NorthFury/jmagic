@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Defender;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -43,7 +45,7 @@ public final class TinderWall extends Card
 		this.setToughness(3);
 
 		// Defender (This creature can't attack.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Defender(state));
+		this.addAbility(new Defender(state));
 
 		// Sacrifice Tinder Wall: Add (R)(R) to your mana pool.
 		this.addAbility(new TinderWallAbility1(state));

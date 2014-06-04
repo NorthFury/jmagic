@@ -2,6 +2,8 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Landwalk;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -19,7 +21,7 @@ public final class MerfolkSeastalkers extends Card
 		{
 			super(state, "(2)(U): Tap target creature without flying.");
 			this.setManaCost(new ManaPool("2U"));
-			Target target = this.addTarget(RelativeComplement.instance(CreaturePermanents.instance(), HasKeywordAbility.instance(org.rnd.jmagic.abilities.keywords.Flying.class)), "target creature without flying");
+			Target target = this.addTarget(RelativeComplement.instance(CreaturePermanents.instance(), HasKeywordAbility.instance(Flying.class)), "target creature without flying");
 			this.addEffect(tap(targetedBy(target), "Tap target creature without flying."));
 		}
 	}
@@ -32,7 +34,7 @@ public final class MerfolkSeastalkers extends Card
 		this.setToughness(3);
 
 		// Islandwalk
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Landwalk.Islandwalk(state));
+		this.addAbility(new Landwalk.Islandwalk(state));
 
 		// (2)(U): Tap target creature without flying.
 		this.addAbility(new TapStuff(state));

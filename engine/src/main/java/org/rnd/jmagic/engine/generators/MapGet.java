@@ -2,17 +2,19 @@ package org.rnd.jmagic.engine.generators;
 
 import org.rnd.jmagic.engine.*;
 
+import java.util.Map;
+
 public class MapGet extends SetGenerator
 {
-	public static MapGet instance(SetGenerator key, java.util.Map<?, ?> map)
+	public static MapGet instance(SetGenerator key, Map<?, ?> map)
 	{
 		return new MapGet(key, map);
 	}
 
 	private SetGenerator key;
-	private java.util.Map<?, ?> map;
+	private Map<?, ?> map;
 
-	private MapGet(SetGenerator key, java.util.Map<?, ?> map)
+	private MapGet(SetGenerator key, Map<?, ?> map)
 	{
 		this.key = key;
 		this.map = map;

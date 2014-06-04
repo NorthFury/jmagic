@@ -1,12 +1,14 @@
 package org.rnd.jmagic.sanitized;
 
+import org.rnd.jmagic.engine.CastSpellOrActivateAbilityAction;
+
 public class SanitizedCastSpellOrActivateAbilityAction extends SanitizedPlayerAction
 {
 	private static final long serialVersionUID = 2L;
 
 	public final int toBePlayed;
 
-	public SanitizedCastSpellOrActivateAbilityAction(org.rnd.jmagic.engine.CastSpellOrActivateAbilityAction action)
+	public SanitizedCastSpellOrActivateAbilityAction(CastSpellOrActivateAbilityAction action)
 	{
 		super(action);
 		this.toBePlayed = action.toBePlayedID;

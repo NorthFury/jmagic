@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Haste;
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 
 @Name("Thornling")
@@ -85,10 +88,10 @@ public final class Thornling extends Card
 		this.setToughness(4);
 
 		// (G): Thornling gains haste until end of turn.
-		this.addAbility(new GainAbility(state, org.rnd.jmagic.abilities.keywords.Haste.class));
+		this.addAbility(new GainAbility(state, Haste.class));
 
 		// (G): Thornling gains trample until end of turn.
-		this.addAbility(new GainAbility(state, org.rnd.jmagic.abilities.keywords.Trample.class));
+		this.addAbility(new GainAbility(state, Trample.class));
 
 		// (G): Thornling is indestructible this turn.
 		this.addAbility(new BecomeIndestructible(state));

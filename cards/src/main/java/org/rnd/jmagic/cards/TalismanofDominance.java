@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.TapFor1;
+import org.rnd.jmagic.abilities.TapForManaPain;
 import org.rnd.jmagic.engine.*;
 
 @Name("Talisman of Dominance")
@@ -14,10 +16,10 @@ public final class TalismanofDominance extends Card
 		super(state);
 
 		// (T): Add (1) to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapFor1(state));
+		this.addAbility(new TapFor1(state));
 
 		// (T): Add (U) or (B) to your mana pool. Talisman of Dominance deals 1
 		// damage to you.
-		this.addAbility(new org.rnd.jmagic.abilities.TapForManaPain(state, this.getName(), "UB"));
+		this.addAbility(new TapForManaPain(state, this.getName(), "UB"));
 	}
 }

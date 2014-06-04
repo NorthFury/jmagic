@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Landwalk;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -21,7 +23,7 @@ public final class MasterofthePearlTrident extends Card
 			SetGenerator fish = Intersect.instance(HasSubType.instance(SubType.MERFOLK), CREATURES_YOU_CONTROL);
 			SetGenerator otherFish = RelativeComplement.instance(fish, This.instance());
 			this.addEffectPart(modifyPowerAndToughness(otherFish, +1, +1));
-			this.addEffectPart(addAbilityToObject(otherFish, org.rnd.jmagic.abilities.keywords.Landwalk.Islandwalk.class));
+			this.addEffectPart(addAbilityToObject(otherFish, Landwalk.Islandwalk.class));
 		}
 	}
 

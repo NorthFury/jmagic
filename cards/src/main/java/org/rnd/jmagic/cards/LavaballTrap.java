@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.Trap;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -24,7 +25,7 @@ public final class LavaballTrap extends Card
 		SetGenerator opponents = OpponentsOf.instance(You.instance());
 		SetGenerator maxPerOpponent = MaximumPerPlayer.instance(LandsPutOntoTheBattlefieldThisTurnCounter.class, opponents);
 		SetGenerator trapCondition = Intersect.instance(Between.instance(2, null), maxPerOpponent);
-		this.addAbility(new org.rnd.jmagic.abilities.Trap(state, this.getName(), trapCondition, "If an opponent had two or more lands enter the battlefield under his or her control this turn", "(3)(R)(R)"));
+		this.addAbility(new Trap(state, this.getName(), trapCondition, "If an opponent had two or more lands enter the battlefield under his or her control this turn", "(3)(R)(R)"));
 
 		// Destroy two target lands.
 		Target target = this.addTarget(LandPermanents.instance(), "two target lands");

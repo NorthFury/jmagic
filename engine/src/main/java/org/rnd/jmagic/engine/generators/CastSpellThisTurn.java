@@ -2,28 +2,32 @@ package org.rnd.jmagic.engine.generators;
 
 import org.rnd.jmagic.engine.*;
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Resolves to the set of all players that cast a spell this turn.
  */
 public class CastSpellThisTurn extends SetGenerator
 {
 	/** Values are IDs of players that cast a spell this turn. */
-	public static final class Tracker extends org.rnd.jmagic.engine.Tracker<java.util.Set<Integer>>
+	public static final class Tracker extends org.rnd.jmagic.engine.Tracker<Set<Integer>>
 	{
-		private java.util.Set<Integer> values = new java.util.HashSet<Integer>();
-		private java.util.Set<Integer> unmodifiable = java.util.Collections.unmodifiableSet(this.values);
+		private Set<Integer> values = new HashSet<Integer>();
+		private Set<Integer> unmodifiable = Collections.unmodifiableSet(this.values);
 
 		@Override
 		protected Tracker clone()
 		{
 			Tracker ret = (Tracker)super.clone();
-			ret.values = new java.util.HashSet<Integer>(this.values);
-			ret.unmodifiable = java.util.Collections.unmodifiableSet(ret.values);
+			ret.values = new HashSet<Integer>(this.values);
+			ret.unmodifiable = Collections.unmodifiableSet(ret.values);
 			return ret;
 		}
 
 		@Override
-		protected java.util.Set<Integer> getValueInternal()
+		protected Set<Integer> getValueInternal()
 		{
 			return this.unmodifiable;
 		}
@@ -49,7 +53,7 @@ public class CastSpellThisTurn extends SetGenerator
 			if(!event.parameters.containsKey(EventType.Parameter.PLAYER))
 				return;
 
-			java.util.Set<Player> players = event.parameters.get(EventType.Parameter.PLAYER).evaluate(state, null).getAll(Player.class);
+			Set<Player> players = event.parameters.get(EventType.Parameter.PLAYER).evaluate(state, null).getAll(Player.class);
 			for(GameObject o: event.parameters.get(EventType.Parameter.OBJECT).evaluate(state, null).getAll(GameObject.class))
 				if(o.isSpell())
 					for(Player p: players)

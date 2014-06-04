@@ -1,9 +1,14 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.TapFor1;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Name("Rootwater Depths")
 @Types({Type.LAND})
@@ -58,12 +63,12 @@ public final class RootwaterDepths extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			MagicSet player = parameters.get(Parameter.PLAYER);
 			MagicSet land = parameters.get(Parameter.SOURCE);
 			MagicSet mana = parameters.get(Parameter.MANA);
-			java.util.Map<Parameter, MagicSet> manaParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> manaParameters = new HashMap<Parameter, MagicSet>();
 			manaParameters.put(Parameter.SOURCE, land);
 			manaParameters.put(Parameter.PLAYER, player);
 			manaParameters.put(Parameter.MANA, mana);
@@ -78,7 +83,7 @@ public final class RootwaterDepths extends Card
 
 			MagicSet ability = parameters.get(Parameter.CAUSE);
 
-			java.util.Map<Parameter, MagicSet> fceParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> fceParameters = new HashMap<Parameter, MagicSet>();
 			fceParameters.put(Parameter.CAUSE, ability);
 			fceParameters.put(Parameter.EFFECT, new MagicSet(part));
 			fceParameters.put(Parameter.EXPIRES, new MagicSet(expires));
@@ -112,7 +117,7 @@ public final class RootwaterDepths extends Card
 		super(state);
 
 		// (T): Add (1) to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapFor1(state));
+		this.addAbility(new TapFor1(state));
 
 		// (T): Add (U) or (B) to your mana pool. Rootwater Depths doesn't untap
 		// during your next untap step.

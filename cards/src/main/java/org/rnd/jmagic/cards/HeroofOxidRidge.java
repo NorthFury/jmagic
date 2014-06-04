@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.BattleCry;
+import org.rnd.jmagic.abilities.keywords.Haste;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -33,11 +36,11 @@ public final class HeroofOxidRidge extends Card
 		this.setToughness(2);
 
 		// Haste
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Haste(state));
+		this.addAbility(new Haste(state));
 
 		// Battle cry (Whenever this creature attacks, each other attacking
 		// creature gets +1/+0 until end of turn.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.BattleCry(state));
+		this.addAbility(new BattleCry(state));
 
 		// Whenever Hero of Oxid Ridge attacks, creatures with power 1 or less
 		// can't block this turn.

@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.FirstStrike;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -34,7 +36,7 @@ public final class BorosReckoner extends Card
 		{
 			super(state, "(RW): Boros Reckoner gains first strike until end of turn.");
 			this.setManaCost(new ManaPool("(RW)"));
-			this.addEffect(addAbilityUntilEndOfTurn(ABILITY_SOURCE_OF_THIS, org.rnd.jmagic.abilities.keywords.FirstStrike.class, "Boros Reckoner gains first strike until end of turn."));
+			this.addEffect(addAbilityUntilEndOfTurn(ABILITY_SOURCE_OF_THIS, FirstStrike.class, "Boros Reckoner gains first strike until end of turn."));
 		}
 	}
 

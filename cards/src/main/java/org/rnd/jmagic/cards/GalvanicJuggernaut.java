@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.AttacksEachTurnIfAble;
+import org.rnd.jmagic.abilities.DoesntUntapDuringYourUntapStep;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -33,10 +36,10 @@ public final class GalvanicJuggernaut extends Card
 		this.setToughness(5);
 
 		// Galvanic Juggernaut attacks each turn if able.
-		this.addAbility(new org.rnd.jmagic.abilities.AttacksEachTurnIfAble(state, "Galvanic Juggernaut"));
+		this.addAbility(new AttacksEachTurnIfAble(state, "Galvanic Juggernaut"));
 
 		// Galvanic Juggernaut doesn't untap during your untap step.
-		this.addAbility(new org.rnd.jmagic.abilities.DoesntUntapDuringYourUntapStep(state, "Galvanic Juggernaut"));
+		this.addAbility(new DoesntUntapDuringYourUntapStep(state, "Galvanic Juggernaut"));
 
 		// Whenever another creature dies, untap Galvanic Juggernaut.
 		this.addAbility(new GalvanicJuggernautAbility2(state));

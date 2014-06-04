@@ -4,6 +4,9 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.Collections;
+import java.util.List;
+
 @Name("Gideon, Champion of Justice")
 @Types({Type.PLANESWALKER})
 @SubTypes({SubType.GIDEON})
@@ -49,10 +52,10 @@ public final class GideonChampionofJustice extends Card
 			}
 
 			@Override
-			public java.util.List<org.rnd.jmagic.engine.EventFactory> prevent(org.rnd.jmagic.engine.DamageAssignment.Batch damageAssignments)
+			public List<EventFactory> prevent(DamageAssignment.Batch damageAssignments)
 			{
 				damageAssignments.clear();
-				return java.util.Collections.emptyList();
+				return Collections.emptyList();
 			}
 		}
 

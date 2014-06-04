@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -17,7 +18,7 @@ public final class ElvenRiders extends Card
 		{
 			super(state, "Elven Riders can't be blocked except by Walls and/or creatures with flying.");
 
-			SetGenerator hasFlyingOrWall = Union.instance(HasKeywordAbility.instance(org.rnd.jmagic.abilities.keywords.Flying.class), HasSubType.instance(SubType.WALL));
+			SetGenerator hasFlyingOrWall = Union.instance(HasKeywordAbility.instance(Flying.class), HasSubType.instance(SubType.WALL));
 			SetGenerator notBlockingWithFlyingOrWall = RelativeComplement.instance(Blocking.instance(This.instance()), hasFlyingOrWall);
 
 			ContinuousEffect.Part part = new ContinuousEffect.Part(ContinuousEffectType.BLOCKING_RESTRICTION);

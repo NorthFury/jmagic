@@ -2,6 +2,8 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.EntersTheBattlefieldTapped;
+import org.rnd.jmagic.abilities.TapForB;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -27,13 +29,13 @@ public final class BojukaBog extends Card
 		super(state);
 
 		// Bojuka Bog enters the battlefield tapped.
-		this.addAbility(new org.rnd.jmagic.abilities.EntersTheBattlefieldTapped(state, this.getName()));
+		this.addAbility(new EntersTheBattlefieldTapped(state, this.getName()));
 
 		// When Bojuka Bog enters the battlefield, exile all cards from target
 		// player's graveyard.
 		this.addAbility(new UncounterableTormodsCrypt(state));
 
 		// (T): Add (B) to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapForB(state));
+		this.addAbility(new TapForB(state));
 	}
 }

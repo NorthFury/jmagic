@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Scavenge;
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 
 @Name("Korozda Monitor")
@@ -18,11 +20,11 @@ public final class KorozdaMonitor extends Card
 		this.setToughness(3);
 
 		// Trample
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Trample(state));
+		this.addAbility(new Trample(state));
 
 		// Scavenge (5)(G)(G) ((5)(G)(G), Exile this card from your graveyard:
 		// Put a number of +1/+1 counters equal to this card's power on target
 		// creature. Scavenge only as a sorcery.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Scavenge(state, "(5)(G)(G)"));
+		this.addAbility(new Scavenge(state, "(5)(G)(G)"));
 	}
 }

@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.ZendikarAllyCounter;
 import org.rnd.jmagic.engine.*;
 
 @Name("Nimana Sell-Sword")
@@ -17,6 +18,6 @@ public final class NimanaSellSword extends Card
 		this.setPower(2);
 		this.setToughness(2);
 
-		this.addAbility(new org.rnd.jmagic.abilities.ZendikarAllyCounter(state, this.getName()));
+		this.addAbility(new ZendikarAllyCounter(state, this.getName()));
 	}
 }

@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Level;
+import org.rnd.jmagic.abilities.keywords.LevelUp;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -58,18 +61,18 @@ public final class EchoMage extends Card
 		this.setToughness(3);
 
 		// Level up (1)(U)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.LevelUp(state, "(1)(U)"));
+		this.addAbility(new LevelUp(state, "(1)(U)"));
 
 		// LEVEL 2-3
 		// 2/4
 		// (U)(U), (T): Copy target instant or sorcery spell. You may choose new
 		// targets for the copy.
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Level(state, 2, 3, 2, 4, "\"(U)(U), (T): Copy target instant or sorcery spell. You may choose new targets for the copy.\"", EchoMageAbility3.class));
+		this.addAbility(new Level(state, 2, 3, 2, 4, "\"(U)(U), (T): Copy target instant or sorcery spell. You may choose new targets for the copy.\"", EchoMageAbility3.class));
 
 		// LEVEL 4+
 		// 2/5
 		// (U)(U), (T): Copy target instant or sorcery spell twice. You may
 		// choose new targets for the copies.
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Level(state, 4, 2, 5, "\"(U)(U), (T): Copy target instant or sorcery spell twice. You may choose new targets for the copies.\"", EchoMageAbility6.class));
+		this.addAbility(new Level(state, 4, 2, 5, "\"(U)(U), (T): Copy target instant or sorcery spell twice. You may choose new targets for the copies.\"", EchoMageAbility6.class));
 	}
 }

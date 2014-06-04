@@ -1,10 +1,11 @@
 package org.rnd.jmagic.cardTemplates;
 
+import org.rnd.jmagic.abilities.TapForMana;
 import org.rnd.jmagic.engine.*;
 
 public abstract class Signet extends Card
 {
-	public static final class TapForColored extends org.rnd.jmagic.abilities.TapForMana
+	public static final class TapForColored extends TapForMana
 	{
 		protected char mana1;
 		protected char mana2;

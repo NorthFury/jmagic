@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.FirstStrike;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -17,6 +19,6 @@ public final class RallytheForces extends Card
 
 		// Attacking creatures get +1/+0 and gain first strike until end of
 		// turn.
-		this.addEffect(ptChangeAndAbilityUntilEndOfTurn(Attacking.instance(), +1, +0, "Attacking creatures get +1/+0 and gain first strike until end of turn.", org.rnd.jmagic.abilities.keywords.FirstStrike.class));
+		this.addEffect(ptChangeAndAbilityUntilEndOfTurn(Attacking.instance(), +1, +0, "Attacking creatures get +1/+0 and gain first strike until end of turn.", FirstStrike.class));
 	}
 }

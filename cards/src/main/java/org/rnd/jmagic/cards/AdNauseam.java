@@ -3,6 +3,10 @@ package org.rnd.jmagic.cards;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @Name("Ad Nauseam")
 @Types({Type.INSTANT})
 @ManaCost("3BB")
@@ -25,7 +29,7 @@ public final class AdNauseam extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			Player you = parameters.get(Parameter.PLAYER).getOne(Player.class);
 			Zone library = you.getLibrary(game.actualState);
@@ -38,20 +42,20 @@ public final class AdNauseam extends Card
 				{
 					GameObject topCard = library.objects.iterator().next();
 
-					java.util.Map<Parameter, MagicSet> revealParameters = new java.util.HashMap<Parameter, MagicSet>();
+					Map<Parameter, MagicSet> revealParameters = new HashMap<Parameter, MagicSet>();
 					revealParameters.put(EventType.Parameter.CAUSE, cause);
 					revealParameters.put(EventType.Parameter.OBJECT, new MagicSet(topCard));
 					Event reveal = createEvent(game, "Reveal the top card of your library", REVEAL, revealParameters);
 					reveal.perform(event, true);
 
-					java.util.Map<Parameter, MagicSet> moveParameters = new java.util.HashMap<Parameter, MagicSet>();
+					Map<Parameter, MagicSet> moveParameters = new HashMap<Parameter, MagicSet>();
 					moveParameters.put(EventType.Parameter.CAUSE, cause);
 					moveParameters.put(EventType.Parameter.TO, new MagicSet(hand));
 					moveParameters.put(EventType.Parameter.OBJECT, new MagicSet(topCard));
 					Event move = createEvent(game, "Put that card into your hand", MOVE_OBJECTS, moveParameters);
 					move.perform(event, true);
 
-					java.util.Map<Parameter, MagicSet> lifeParameters = new java.util.HashMap<Parameter, MagicSet>();
+					Map<Parameter, MagicSet> lifeParameters = new HashMap<Parameter, MagicSet>();
 					lifeParameters.put(EventType.Parameter.CAUSE, cause);
 					lifeParameters.put(EventType.Parameter.PLAYER, new MagicSet(you));
 					lifeParameters.put(EventType.Parameter.NUMBER, new MagicSet(topCard.getConvertedManaCost()));
@@ -63,7 +67,7 @@ public final class AdNauseam extends Card
 						break;
 
 					you = you.getActual();
-					java.util.List<Answer> answer = you.sanitizeAndChoose(game.actualState, 1, Answer.mayChoices(), PlayerInterface.ChoiceType.ENUM, REASON);
+					List<Answer> answer = you.sanitizeAndChoose(game.actualState, 1, Answer.mayChoices(), PlayerInterface.ChoiceType.ENUM, REASON);
 					if(answer.contains(Answer.NO))
 						repeat = false;
 				}

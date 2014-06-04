@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Cascade;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -17,7 +18,7 @@ public final class DenyReality extends Card
 		super(state);
 
 		// Cascade
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Cascade(state));
+		this.addAbility(new Cascade(state));
 
 		// Return target permanent to its owner's hand.
 		Target target = this.addTarget(Permanents.instance(), "target permanent");

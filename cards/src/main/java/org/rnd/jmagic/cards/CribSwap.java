@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Changeling;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -17,7 +19,7 @@ public final class CribSwap extends Card
 		super(state);
 
 		// Changeling (This card is every creature type at all times.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Changeling(state));
+		this.addAbility(new Changeling(state));
 
 		// Exile target creature.
 		SetGenerator target = targetedBy(this.addTarget(CreaturePermanents.instance(), "target creature"));
@@ -28,7 +30,7 @@ public final class CribSwap extends Card
 		CreateTokensFactory token = new CreateTokensFactory(1, 1, 1, "Its controller puts a 1/1 colorless Shapeshifter creature token with changeling onto the battlefield.");
 		token.setController(ControllerOf.instance(target));
 		token.setSubTypes(SubType.SHAPESHIFTER);
-		token.addAbility(org.rnd.jmagic.abilities.keywords.Changeling.class);
+		token.addAbility(Changeling.class);
 		this.addEffect(token.getEventFactory());
 	}
 }

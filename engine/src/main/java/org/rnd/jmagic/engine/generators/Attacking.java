@@ -2,6 +2,10 @@ package org.rnd.jmagic.engine.generators;
 
 import org.rnd.jmagic.engine.*;
 
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+
 /**
  * Evaluates to each attacking creature, or to each creature attacking a given
  * object. It is safe to assume that this will only return creatures.
@@ -48,7 +52,7 @@ public class Attacking extends SetGenerator
 		if(this.what == null)
 			return allAttackers;
 
-		java.util.Set<Integer> beingAttackedIDs = new java.util.HashSet<Integer>();
+		Set<Integer> beingAttackedIDs = new HashSet<Integer>();
 		MagicSet evaluateWhat = this.what.evaluate(state, thisObject);
 		for(GameObject o: evaluateWhat.getAll(GameObject.class))
 			if(o.getTypes().contains(Type.PLANESWALKER))
@@ -56,8 +60,8 @@ public class Attacking extends SetGenerator
 		for(Player p: evaluateWhat.getAll(Player.class))
 			beingAttackedIDs.add(p.ID);
 
-		java.util.Set<GameObject> attackingThisPlayer = allAttackers.getAll(GameObject.class);
-		java.util.Iterator<GameObject> objectIterator = attackingThisPlayer.iterator();
+		Set<GameObject> attackingThisPlayer = allAttackers.getAll(GameObject.class);
+		Iterator<GameObject> objectIterator = attackingThisPlayer.iterator();
 		while(objectIterator.hasNext())
 		{
 			GameObject attacker = objectIterator.next();

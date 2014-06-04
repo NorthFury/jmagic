@@ -2,6 +2,8 @@ package org.rnd.jmagic.engine.generators;
 
 import org.rnd.jmagic.engine.*;
 
+import java.util.Collection;
+
 /**
  * Evaluates to all the members of all the collections in the given set. Useful
  * after a player has chosen a pile (like for Fact or Fiction) since the pile
@@ -26,7 +28,7 @@ public class ExplodeCollections extends SetGenerator
 	{
 		MagicSet x = this.x.evaluate(state, thisObject);
 		MagicSet ret = new MagicSet();
-		for(java.util.Collection<?> c: x.getAll(java.util.Collection.class))
+		for(Collection<?> c: x.getAll(Collection.class))
 			ret.addAll(c);
 		return ret;
 	}

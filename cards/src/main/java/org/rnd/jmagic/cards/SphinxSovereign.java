@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -35,7 +37,7 @@ public final class SphinxSovereign extends Card
 		this.setToughness(6);
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// At the beginning of your end step, you gain 3 life if Sphinx
 		// Sovereign is untapped. Otherwise, each opponent loses 3 life.

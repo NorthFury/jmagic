@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -16,7 +18,7 @@ public final class AerialPredation extends Card
 		super(state);
 
 		// Destroy target creature with flying. You gain 2 life.
-		SetGenerator hasFlying = HasKeywordAbility.instance(org.rnd.jmagic.abilities.keywords.Flying.class);
+		SetGenerator hasFlying = HasKeywordAbility.instance(Flying.class);
 		SetGenerator creaturesWithFlying = Intersect.instance(CreaturePermanents.instance(), hasFlying);
 		SetGenerator target = targetedBy(this.addTarget(creaturesWithFlying, "target creature with flying"));
 		this.addEffect(destroy(target, "Destroy target creature with flying."));

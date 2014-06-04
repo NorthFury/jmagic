@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Cycling;
 import org.rnd.jmagic.engine.*;
 
 @Name("Ridge Rannet")
@@ -17,6 +18,6 @@ public final class RidgeRannet extends Card
 		this.setPower(6);
 		this.setToughness(4);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Cycling(state, "(2)"));
+		this.addAbility(new Cycling(state, "(2)"));
 	}
 }

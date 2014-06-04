@@ -2,6 +2,8 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Kicker;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -28,7 +30,7 @@ public final class VoyagerDrake extends Card
 
 			ContinuousEffect.Part part = new ContinuousEffect.Part(ContinuousEffectType.ADD_ABILITY_TO_OBJECT);
 			part.parameters.put(ContinuousEffectType.Parameter.OBJECT, targetedBy(t));
-			part.parameters.put(ContinuousEffectType.Parameter.ABILITY, Identity.instance(new org.rnd.jmagic.engine.SimpleAbilityFactory(org.rnd.jmagic.abilities.keywords.Flying.class)));
+			part.parameters.put(ContinuousEffectType.Parameter.ABILITY, Identity.instance(new SimpleAbilityFactory(Flying.class)));
 			this.addEffect(createFloatingEffect("Up to X target creatures gain flying until end of turn, where X is the number of times Voyager Drake was kicked.", part));
 		}
 
@@ -48,11 +50,11 @@ public final class VoyagerDrake extends Card
 
 		// Multikicker (U) (You may pay an additional (U) any number of times as
 		// you cast this spell.)
-		org.rnd.jmagic.abilities.keywords.Kicker kicker = new org.rnd.jmagic.abilities.keywords.Kicker(state, true, "(U)");
+		Kicker kicker = new Kicker(state, true, "(U)");
 		this.addAbility(kicker);
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// When Voyager Drake enters the battlefield, up to X target creatures
 		// gain flying until end of turn, where X is the number of times Voyager

@@ -2,6 +2,14 @@ package org.rnd.jmagic.engine;
 
 import org.rnd.jmagic.engine.generators.*;
 
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+
 /**
  * Represents the player action of declaring blockers. Performing this action
  * causes one player to declare blockers.
@@ -12,7 +20,7 @@ public class DeclareBlockersAction extends PlayerAction
 	 * The set of attacking creatures that are used to determine the maximum
 	 * number of requirements satisfiable.
 	 */
-	private java.util.List<Integer> attackerIDs;
+	private List<Integer> attackerIDs;
 
 	/**
 	 * Which player is declaring blockers.
@@ -36,9 +44,9 @@ public class DeclareBlockersAction extends PlayerAction
 	 * number of requirements satisfiable and for the active player to choose
 	 * from when choosing blockers.
 	 */
-	private java.util.List<Integer> possibleBlockerIDs;
+	private List<Integer> possibleBlockerIDs;
 
-	private java.util.Collection<BlockingRequirement> requirementsToCheck;
+	private Collection<BlockingRequirement> requirementsToCheck;
 
 	/**
 	 * Constructs a declare blockers action that, when performed, will cause a
@@ -61,7 +69,7 @@ public class DeclareBlockersAction extends PlayerAction
 		SetGenerator defendingPlayerControls = ControlledBy.instance(defendingPlayerGenerator);
 		SetGenerator untappedCreatures = Intersect.instance(HasType.instance(Type.CREATURE), Untapped.instance());
 		SetGenerator defendingPlayersUntappedCreatures = Intersect.instance(untappedCreatures, defendingPlayerControls);
-		this.possibleBlockerIDs = new java.util.LinkedList<Integer>();
+		this.possibleBlockerIDs = new LinkedList<Integer>();
 		for(GameObject o: defendingPlayersUntappedCreatures.evaluate(this.game, null).getAll(GameObject.class))
 			this.possibleBlockerIDs.add(o.ID);
 
@@ -71,12 +79,12 @@ public class DeclareBlockersAction extends PlayerAction
 		SetGenerator planeswalkers = HasType.instance(Type.PLANESWALKER);
 		SetGenerator defendingPlayersPlaneswalkers = Intersect.instance(planeswalkers, defendingPlayerControls);
 		SetGenerator defendAgainst = Attacking.instance(Union.instance(defendingPlayerGenerator, defendingPlayersPlaneswalkers));
-		this.attackerIDs = new java.util.LinkedList<Integer>();
+		this.attackerIDs = new LinkedList<Integer>();
 		for(GameObject o: defendAgainst.evaluate(this.game, null).getAll(GameObject.class))
 			this.attackerIDs.add(o.ID);
 
-		this.requirementsToCheck = new java.util.LinkedList<BlockingRequirement>(this.game.actualState.blockingRequirements);
-		java.util.Iterator<BlockingRequirement> i = this.requirementsToCheck.iterator();
+		this.requirementsToCheck = new LinkedList<BlockingRequirement>(this.game.actualState.blockingRequirements);
+		Iterator<BlockingRequirement> i = this.requirementsToCheck.iterator();
 		while(i.hasNext())
 			if(!i.next().defendingPlayerIs(defender, game.actualState))
 				i.remove();
@@ -136,7 +144,7 @@ public class DeclareBlockersAction extends PlayerAction
 			boolean usedToBeNull = false;
 			if(null == attacker.getBlockedByIDs())
 			{
-				attacker.setBlockedByIDs(new java.util.LinkedList<Integer>());
+				attacker.setBlockedByIDs(new LinkedList<Integer>());
 				usedToBeNull = true;
 			}
 			attacker.getBlockedByIDs().add(blockerID);
@@ -165,11 +173,11 @@ public class DeclareBlockersAction extends PlayerAction
 	@Override
 	public boolean perform()
 	{
-		java.util.List<GameObject> attackers = new java.util.LinkedList<GameObject>();
+		List<GameObject> attackers = new LinkedList<GameObject>();
 		for(Integer i: this.attackerIDs)
 			attackers.add(this.game.actualState.<GameObject>get(i));
 
-		java.util.List<GameObject> possibleBlockers = new java.util.LinkedList<GameObject>();
+		List<GameObject> possibleBlockers = new LinkedList<GameObject>();
 		for(Integer i: this.possibleBlockerIDs)
 			possibleBlockers.add(this.game.actualState.<GameObject>get(i));
 
@@ -178,7 +186,7 @@ public class DeclareBlockersAction extends PlayerAction
 			chooser = this.defender.getActual();
 		else
 			chooser = this.game.actualState.get(this.game.actualState.declareBlockersPlayerOverride);
-		java.util.List<GameObject> blockers = chooser.sanitizeAndChoose(this.game.actualState, 0, possibleBlockers.size(), possibleBlockers, PlayerInterface.ChoiceType.BLOCK, PlayerInterface.ChooseReason.DECLARE_BLOCKERS);
+		List<GameObject> blockers = chooser.sanitizeAndChoose(this.game.actualState, 0, possibleBlockers.size(), possibleBlockers, PlayerInterface.ChoiceType.BLOCK, PlayerInterface.ChooseReason.DECLARE_BLOCKERS);
 
 		for(GameObject attacker: attackers)
 		{
@@ -186,26 +194,26 @@ public class DeclareBlockersAction extends PlayerAction
 			attacker.getPhysical().setBlockedByIDs(null);
 		}
 
-		java.util.Set<GameObject> physicalBlockers = new java.util.HashSet<GameObject>();
+		Set<GameObject> physicalBlockers = new HashSet<GameObject>();
 		for(GameObject blocker: blockers)
 		{
 			int maximumBlocks = blocker.getMaximumBlocks();
 			if(maximumBlocks == -1)
 				maximumBlocks = attackers.size();
-			PlayerInterface.ChooseParameters<java.io.Serializable> chooseParameters = new PlayerInterface.ChooseParameters<java.io.Serializable>(1, maximumBlocks, PlayerInterface.ChoiceType.BLOCK_WHAT, PlayerInterface.ChooseReason.DECLARE_BLOCKED_ATTACKER);
+			PlayerInterface.ChooseParameters<Serializable> chooseParameters = new PlayerInterface.ChooseParameters<Serializable>(1, maximumBlocks, PlayerInterface.ChoiceType.BLOCK_WHAT, PlayerInterface.ChooseReason.DECLARE_BLOCKED_ATTACKER);
 			chooseParameters.thisID = blocker.ID;
-			java.util.List<GameObject> blockingWhat = chooser.sanitizeAndChoose(this.game.actualState, attackers, chooseParameters);
+			List<GameObject> blockingWhat = chooser.sanitizeAndChoose(this.game.actualState, attackers, chooseParameters);
 
-			java.util.List<GameObject> blockerAndPhysical = blocker.andPhysical();
+			List<GameObject> blockerAndPhysical = blocker.andPhysical();
 			GameObject physicalBlocker = blockerAndPhysical.get(blockerAndPhysical.size() - 1);
 			physicalBlockers.add(physicalBlocker);
 
 			for(GameObject attacker: blockingWhat)
 			{
-				java.util.List<GameObject> attackerAndPhysical = attacker.andPhysical();
+				List<GameObject> attackerAndPhysical = attacker.andPhysical();
 				if(attackerAndPhysical.get(attackerAndPhysical.size() - 1).getBlockedByIDs() == null)
 					for(GameObject o: attackerAndPhysical)
-						o.setBlockedByIDs(new java.util.LinkedList<Integer>());
+						o.setBlockedByIDs(new LinkedList<Integer>());
 				for(GameObject o: attackerAndPhysical)
 					o.getBlockedByIDs().add(blocker.ID);
 				for(GameObject o: blockerAndPhysical)

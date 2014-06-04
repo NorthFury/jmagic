@@ -1,6 +1,10 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Enchant;
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Lifelink;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -21,7 +25,7 @@ public final class GiftofOrzhova extends Card
 			SetGenerator enchanted = EnchantedBy.instance(This.instance());
 
 			this.addEffectPart(modifyPowerAndToughness(enchanted, +1, +1));
-			this.addEffectPart(addAbilityToObject(enchanted, org.rnd.jmagic.abilities.keywords.Flying.class, org.rnd.jmagic.abilities.keywords.Lifelink.class));
+			this.addEffectPart(addAbilityToObject(enchanted, Flying.class, Lifelink.class));
 		}
 	}
 
@@ -30,7 +34,7 @@ public final class GiftofOrzhova extends Card
 		super(state);
 
 		// Enchant creature
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Enchant.Creature(state));
+		this.addAbility(new Enchant.Creature(state));
 
 		// Enchanted creature gets +1/+1 and has flying and lifelink.
 		this.addAbility(new GiftofOrzhovaAbility1(state));

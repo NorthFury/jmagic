@@ -2,6 +2,9 @@ package org.rnd.jmagic.engine;
 
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.Collection;
+import java.util.EnumSet;
+
 /**
  * 604.3. Some static abilities are characteristic-defining abilities. A
  * characteristic-defining ability conveys information about an object's
@@ -12,7 +15,7 @@ import org.rnd.jmagic.engine.generators.*;
  */
 public abstract class CharacteristicDefiningAbility extends StaticAbility
 {
-	private java.util.Collection<Characteristics.Characteristic> characteristics;
+	private Collection<Characteristics.Characteristic> characteristics;
 
 	/**
 	 * Constructs a characteristic-defining ability that does nothing.
@@ -30,14 +33,14 @@ public abstract class CharacteristicDefiningAbility extends StaticAbility
 		// zones. They also function outside the game.
 		this.canApply = NonEmpty.instance();
 
-		this.characteristics = java.util.EnumSet.of(firstCharacteristic, characteristics);
+		this.characteristics = EnumSet.of(firstCharacteristic, characteristics);
 	}
 
 	/**
 	 * @return An array of Characteristic constants that this effect affects.
 	 */
 	@Override
-	public java.util.Collection<Characteristics.Characteristic> definesCharacteristics()
+	public Collection<Characteristics.Characteristic> definesCharacteristics()
 	{
 		return this.characteristics;
 	}

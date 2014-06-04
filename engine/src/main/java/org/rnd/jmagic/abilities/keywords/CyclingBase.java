@@ -4,6 +4,9 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public abstract class CyclingBase extends Keyword
 {
 	public CyclingBase(GameState state, String name)
@@ -12,12 +15,12 @@ public abstract class CyclingBase extends Keyword
 	}
 
 	@Override
-	protected final java.util.List<NonStaticAbility> createNonStaticAbilities()
+	protected final List<NonStaticAbility> createNonStaticAbilities()
 	{
-		return new java.util.LinkedList<NonStaticAbility>(this.createCyclingAbilities(this.state));
+		return new LinkedList<NonStaticAbility>(this.createCyclingAbilities(this.state));
 	}
 
-	protected abstract java.util.List<CyclingAbilityBase<?>> createCyclingAbilities(GameState state);
+	protected abstract List<CyclingAbilityBase<?>> createCyclingAbilities(GameState state);
 
 	/**
 	 * Child classes will use this to specify what the cost is

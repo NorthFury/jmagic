@@ -2,6 +2,8 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.EntersTheBattlefieldTapped;
+import org.rnd.jmagic.abilities.TapForR;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -27,13 +29,13 @@ public final class TeeteringPeaks extends Card
 		super(state);
 
 		// Teetering Peaks enters the battlefield tapped.
-		this.addAbility(new org.rnd.jmagic.abilities.EntersTheBattlefieldTapped(state, this.getName()));
+		this.addAbility(new EntersTheBattlefieldTapped(state, this.getName()));
 
 		// When Teetering Peaks enters the battlefield, target creature gets
 		// +2/+0 until end of turn.
 		this.addAbility(new ETBPump(state));
 
 		// {T}: Add {R} to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapForR(state));
+		this.addAbility(new TapForR(state));
 	}
 }

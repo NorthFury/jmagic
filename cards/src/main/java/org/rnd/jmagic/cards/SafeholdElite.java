@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Persist;
 import org.rnd.jmagic.engine.*;
 
 @Name("Safehold Elite")
@@ -17,6 +18,6 @@ public final class SafeholdElite extends Card
 		this.setPower(2);
 		this.setToughness(2);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Persist(state));
+		this.addAbility(new Persist(state));
 	}
 }

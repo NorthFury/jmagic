@@ -3,6 +3,7 @@ package org.rnd.jmagic.testing;
 import static org.junit.Assert.*;
 
 import org.junit.*;
+import org.rnd.jmagic.abilities.keywords.LevelUp;
 import org.rnd.jmagic.cards.*;
 import org.rnd.jmagic.engine.*;
 
@@ -29,19 +30,19 @@ public class DependencyTest extends JUnitTest
 
 		castAndResolveSpell(ZulaportEnforcer.class);
 
-		respondWith(getAbilityAction(org.rnd.jmagic.abilities.keywords.LevelUp.LevelUpAbility.class));
+		respondWith(getAbilityAction(LevelUp.LevelUpAbility.class));
 		addMana("4");
 		donePlayingManaAbilities();
 		pass();
 		pass();
 
-		respondWith(getAbilityAction(org.rnd.jmagic.abilities.keywords.LevelUp.LevelUpAbility.class));
+		respondWith(getAbilityAction(LevelUp.LevelUpAbility.class));
 		addMana("4");
 		donePlayingManaAbilities();
 		pass();
 		pass();
 
-		respondWith(getAbilityAction(org.rnd.jmagic.abilities.keywords.LevelUp.LevelUpAbility.class));
+		respondWith(getAbilityAction(LevelUp.LevelUpAbility.class));
 		addMana("4");
 		donePlayingManaAbilities();
 		pass();
@@ -251,7 +252,7 @@ public class DependencyTest extends JUnitTest
 		goToPhase(Phase.PhaseType.PRECOMBAT_MAIN);
 		respondWith(getLandAction(UrborgTombofYawgmoth.class));
 		assertTrue(this.game.actualState.battlefield().objects.get(0).getName().equals("Urborg, Tomb of Yawgmoth"));
-		assertTrue(this.game.actualState.battlefield().objects.get(0).getSubTypes().contains(org.rnd.jmagic.engine.SubType.SWAMP));
+		assertTrue(this.game.actualState.battlefield().objects.get(0).getSubTypes().contains(SubType.SWAMP));
 
 	}
 
@@ -328,11 +329,11 @@ public class DependencyTest extends JUnitTest
 		respondWith(getLandAction(AdarkarWastes.class));
 
 		assertTrue(this.game.actualState.battlefield().objects.get(2).getName().equals("Urborg, Tomb of Yawgmoth"));
-		assertTrue(!this.game.actualState.battlefield().objects.get(2).getSubTypes().contains(org.rnd.jmagic.engine.SubType.SWAMP));
-		assertTrue(this.game.actualState.battlefield().objects.get(2).getSubTypes().contains(org.rnd.jmagic.engine.SubType.MOUNTAIN));
+		assertTrue(!this.game.actualState.battlefield().objects.get(2).getSubTypes().contains(SubType.SWAMP));
+		assertTrue(this.game.actualState.battlefield().objects.get(2).getSubTypes().contains(SubType.MOUNTAIN));
 		assertTrue(this.game.actualState.battlefield().objects.get(0).getName().equals("Adarkar Wastes"));
-		assertTrue(!this.game.actualState.battlefield().objects.get(0).getSubTypes().contains(org.rnd.jmagic.engine.SubType.SWAMP));
-		assertTrue(this.game.actualState.battlefield().objects.get(0).getSubTypes().contains(org.rnd.jmagic.engine.SubType.MOUNTAIN));
+		assertTrue(!this.game.actualState.battlefield().objects.get(0).getSubTypes().contains(SubType.SWAMP));
+		assertTrue(this.game.actualState.battlefield().objects.get(0).getSubTypes().contains(SubType.MOUNTAIN));
 
 	}
 
@@ -367,11 +368,11 @@ public class DependencyTest extends JUnitTest
 		respondWith(getLandAction(AdarkarWastes.class));
 
 		assertTrue(this.game.actualState.battlefield().objects.get(1).getName().equals("Urborg, Tomb of Yawgmoth"));
-		assertTrue(!this.game.actualState.battlefield().objects.get(1).getSubTypes().contains(org.rnd.jmagic.engine.SubType.SWAMP));
-		assertTrue(this.game.actualState.battlefield().objects.get(1).getSubTypes().contains(org.rnd.jmagic.engine.SubType.MOUNTAIN));
+		assertTrue(!this.game.actualState.battlefield().objects.get(1).getSubTypes().contains(SubType.SWAMP));
+		assertTrue(this.game.actualState.battlefield().objects.get(1).getSubTypes().contains(SubType.MOUNTAIN));
 		assertTrue(this.game.actualState.battlefield().objects.get(0).getName().equals("Adarkar Wastes"));
-		assertTrue(!this.game.actualState.battlefield().objects.get(0).getSubTypes().contains(org.rnd.jmagic.engine.SubType.SWAMP));
-		assertTrue(this.game.actualState.battlefield().objects.get(0).getSubTypes().contains(org.rnd.jmagic.engine.SubType.MOUNTAIN));
+		assertTrue(!this.game.actualState.battlefield().objects.get(0).getSubTypes().contains(SubType.SWAMP));
+		assertTrue(this.game.actualState.battlefield().objects.get(0).getSubTypes().contains(SubType.MOUNTAIN));
 
 	}
 

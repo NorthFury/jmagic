@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.DarkConfidantAbility;
 import org.rnd.jmagic.engine.*;
 
 @Name("Dark Tutelage")
@@ -16,6 +17,6 @@ public final class DarkTutelage extends Card
 		// At the beginning of your upkeep, reveal the top card of your library
 		// and put that card into your hand. You lose life equal to its
 		// converted mana cost.
-		this.addAbility(new org.rnd.jmagic.abilities.DarkConfidantAbility(state));
+		this.addAbility(new DarkConfidantAbility(state));
 	}
 }

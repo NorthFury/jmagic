@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Haste;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -25,7 +26,7 @@ public final class RageWeaver extends Card
 
 			Target target = this.addTarget(targets, "target black or green creature");
 
-			this.addEffect(addAbilityUntilEndOfTurn(targetedBy(target), org.rnd.jmagic.abilities.keywords.Haste.class, "Target black or green creature gains haste until end of turn"));
+			this.addEffect(addAbilityUntilEndOfTurn(targetedBy(target), Haste.class, "Target black or green creature gains haste until end of turn"));
 		}
 	}
 

@@ -2,6 +2,10 @@ package org.rnd.jmagic.engine.generators;
 
 import org.rnd.jmagic.engine.*;
 
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+
 /**
  * Evaluates to each GameObject with the given name
  */
@@ -41,13 +45,13 @@ public class HasName extends SetGenerator
 	@Override
 	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		java.util.Set<String> name = this.name.evaluate(state, thisObject).getAll(String.class);
+		Set<String> name = this.name.evaluate(state, thisObject).getAll(String.class);
 
 		// #376: HasName(empty string) should evaluate to nothing
 		name.remove("");
 
-		java.util.Set<HasNameModifier> modifiers = new java.util.HashSet<HasNameModifier>(state.hasNameModifiers);
-		java.util.Iterator<HasNameModifier> iter = modifiers.iterator();
+		Set<HasNameModifier> modifiers = new HashSet<HasNameModifier>(state.hasNameModifiers);
+		Iterator<HasNameModifier> iter = modifiers.iterator();
 		while(iter.hasNext())
 		{
 			HasNameModifier modifier = iter.next();

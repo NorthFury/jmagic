@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Exalted;
+import org.rnd.jmagic.abilityTemplates.ExaltedBase;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -11,7 +14,7 @@ import org.rnd.jmagic.engine.generators.*;
 @ColorIdentity({Color.WHITE})
 public final class AngelicBenediction extends Card
 {
-	public static final class AngelicBenedictionAbility1 extends org.rnd.jmagic.abilityTemplates.ExaltedBase
+	public static final class AngelicBenedictionAbility1 extends ExaltedBase
 	{
 		public AngelicBenedictionAbility1(GameState state)
 		{
@@ -27,7 +30,7 @@ public final class AngelicBenediction extends Card
 
 		// Exalted (Whenever a creature you control attacks alone, that creature
 		// gets +1/+1 until end of turn.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Exalted(state));
+		this.addAbility(new Exalted(state));
 
 		// Whenever a creature you control attacks alone, you may tap target
 		// creature.

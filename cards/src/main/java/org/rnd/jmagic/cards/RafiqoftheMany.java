@@ -2,6 +2,9 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.DoubleStrike;
+import org.rnd.jmagic.abilities.keywords.Exalted;
+import org.rnd.jmagic.abilityTemplates.ExaltedBase;
 import org.rnd.jmagic.engine.*;
 
 @Name("Rafiq of the Many")
@@ -14,12 +17,12 @@ import org.rnd.jmagic.engine.*;
 public final class RafiqoftheMany extends Card
 {
 
-	public static final class ExaltedDoubleStrike extends org.rnd.jmagic.abilityTemplates.ExaltedBase
+	public static final class ExaltedDoubleStrike extends ExaltedBase
 	{
 		public ExaltedDoubleStrike(GameState state)
 		{
 			super(state, "Whenever a creature you control attacks alone, it gains double strike until end of turn.");
-			this.addEffect(addAbilityUntilEndOfTurn(this.thatCreature, org.rnd.jmagic.abilities.keywords.DoubleStrike.class, "It gains double strike until end of turn."));
+			this.addEffect(addAbilityUntilEndOfTurn(this.thatCreature, DoubleStrike.class, "It gains double strike until end of turn."));
 		}
 	}
 
@@ -31,7 +34,7 @@ public final class RafiqoftheMany extends Card
 		this.setToughness(3);
 
 		// Exalted
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Exalted(state));
+		this.addAbility(new Exalted(state));
 
 		// Whenever a creature you control attacks alone, it gains double strike
 		// until end of turn.

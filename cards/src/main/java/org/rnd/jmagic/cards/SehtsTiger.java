@@ -2,8 +2,13 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Flash;
+import org.rnd.jmagic.abilities.keywords.Protection;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Name("Seht's Tiger")
 @Types({Type.CREATURE})
@@ -29,16 +34,16 @@ public final class SehtsTiger extends Card
 			}
 
 			@Override
-			public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+			public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 			{
 				Player player = parameters.get(EventType.Parameter.PLAYER).getOne(Player.class);
 				Color choice = player.chooseColor(parameters.get(Parameter.CAUSE).getOne(NonStaticAbility.class).getSourceID());
 
 				ContinuousEffect.Part part = new ContinuousEffect.Part(ContinuousEffectType.ADD_ABILITY_TO_PLAYER);
-				part.parameters.put(ContinuousEffectType.Parameter.ABILITY, Identity.instance(new org.rnd.jmagic.abilities.keywords.Protection.AbilityFactory(choice)));
+				part.parameters.put(ContinuousEffectType.Parameter.ABILITY, Identity.instance(new Protection.AbilityFactory(choice)));
 				part.parameters.put(ContinuousEffectType.Parameter.PLAYER, Identity.instance(player));
 
-				java.util.Map<EventType.Parameter, MagicSet> fceParameters = new java.util.HashMap<EventType.Parameter, MagicSet>();
+				Map<EventType.Parameter, MagicSet> fceParameters = new HashMap<EventType.Parameter, MagicSet>();
 				fceParameters.put(EventType.Parameter.CAUSE, parameters.get(EventType.Parameter.CAUSE));
 				fceParameters.put(EventType.Parameter.EFFECT, new MagicSet(part));
 				createEvent(game, "You gain protection from the color of your choice until end of turn.", EventType.CREATE_FLOATING_CONTINUOUS_EFFECT, fceParameters).perform(event, false);
@@ -68,7 +73,7 @@ public final class SehtsTiger extends Card
 		this.setPower(3);
 		this.setToughness(3);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flash(state));
+		this.addAbility(new Flash(state));
 
 		this.addAbility(new ProtectPlayer(state));
 	}

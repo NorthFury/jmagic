@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Delve;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -16,7 +18,7 @@ public final class LogicKnot extends Card
 		super(state);
 
 		// Delve
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Delve(state));
+		this.addAbility(new Delve(state));
 
 		// Counter target spell unless its controller pays (X).
 		Target target = this.addTarget(Spells.instance(), "target spell");

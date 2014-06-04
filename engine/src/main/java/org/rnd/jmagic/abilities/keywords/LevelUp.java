@@ -4,6 +4,9 @@ import static org.rnd.jmagic.Convenience.*;
 
 import org.rnd.jmagic.engine.*;
 
+import java.util.Collections;
+import java.util.List;
+
 public final class LevelUp extends Keyword
 {
 	private String manaCostString;
@@ -22,9 +25,9 @@ public final class LevelUp extends Keyword
 	}
 
 	@Override
-	public java.util.List<NonStaticAbility> createNonStaticAbilities()
+	public List<NonStaticAbility> createNonStaticAbilities()
 	{
-		return java.util.Collections.<NonStaticAbility>singletonList(new LevelUpAbility(this.state, this.manaCostString));
+		return Collections.<NonStaticAbility>singletonList(new LevelUpAbility(this.state, this.manaCostString));
 	}
 
 	public static final class LevelUpAbility extends ActivatedAbility

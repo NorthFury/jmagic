@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.PlayExtraLands;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.gameTypes.*;
 import org.rnd.jmagic.engine.generators.*;
@@ -13,7 +14,7 @@ import org.rnd.jmagic.engine.generators.*;
 @ColorIdentity({})
 public final class Naya extends Card
 {
-	public static final class EverBloom extends org.rnd.jmagic.abilities.PlayExtraLands
+	public static final class EverBloom extends PlayExtraLands
 	{
 		public EverBloom(GameState state)
 		{

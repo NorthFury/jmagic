@@ -1,16 +1,22 @@
 package org.rnd.jmagic.util;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.LinkedList;
+import java.util.List;
+
 public class CardReader
 {
 	private static int cardsMade = 0;
 	private static int cardsSkipped = 0;
 	private static int totalCards = 0;
 
-	public static void main(String[] args) throws java.io.IOException
+	public static void main(String[] args) throws IOException
 	{
-		java.io.BufferedReader in = new java.io.BufferedReader(new java.io.InputStreamReader(System.in));
+		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 		String read = "";
-		java.util.LinkedList<String> file = new java.util.LinkedList<String>();
+		LinkedList<String> file = new LinkedList<String>();
 		try
 		{
 			while(true)
@@ -36,7 +42,7 @@ public class CardReader
 		}
 	}
 
-	private static void readCard(java.util.List<String> cardText)
+	private static void readCard(List<String> cardText)
 	{
 		CardShell card = new CardShell();
 

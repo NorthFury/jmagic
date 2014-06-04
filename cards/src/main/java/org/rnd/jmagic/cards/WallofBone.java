@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.Regenerate;
+import org.rnd.jmagic.abilities.keywords.Defender;
 import org.rnd.jmagic.engine.*;
 
 @Name("Wall of Bone")
@@ -17,7 +19,7 @@ public final class WallofBone extends Card
 		this.setPower(1);
 		this.setToughness(4);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Defender(state));
-		this.addAbility(new org.rnd.jmagic.abilities.Regenerate.Final(state, "(B)", this.getName()));
+		this.addAbility(new Defender(state));
+		this.addAbility(new Regenerate.Final(state, "(B)", this.getName()));
 	}
 }

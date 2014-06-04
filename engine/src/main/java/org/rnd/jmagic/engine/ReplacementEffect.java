@@ -1,6 +1,10 @@
 package org.rnd.jmagic.engine;
 
 import org.rnd.jmagic.engine.generators.*;
+import org.rnd.jmagic.sanitized.SanitizedReplacementEffect;
+
+import java.util.Collection;
+import java.util.LinkedList;
 
 /** Encapsulates common functionality between both kinds of replacement effects. */
 public abstract class ReplacementEffect implements Sanitizable
@@ -22,7 +26,7 @@ public abstract class ReplacementEffect implements Sanitizable
 		this.game = game;
 		this.name = name;
 		this.effectID = -1;
-		this.optional = org.rnd.jmagic.engine.generators.Empty.instance();
+		this.optional = Empty.instance();
 	}
 
 	/**
@@ -39,7 +43,7 @@ public abstract class ReplacementEffect implements Sanitizable
 		Answer apply = Answer.YES;
 		if(chooser != null)
 		{
-			PlayerInterface.ChooseParameters<Answer> chooseParameters = new PlayerInterface.ChooseParameters<Answer>(1, 1, new java.util.LinkedList<Answer>(Answer.mayChoices()), PlayerInterface.ChoiceType.ENUM, PlayerInterface.ChooseReason.OPTIONAL_REPLACEMENT);
+			PlayerInterface.ChooseParameters<Answer> chooseParameters = new PlayerInterface.ChooseParameters<Answer>(1, 1, new LinkedList<Answer>(Answer.mayChoices()), PlayerInterface.ChoiceType.ENUM, PlayerInterface.ChooseReason.OPTIONAL_REPLACEMENT);
 			chooseParameters.replacement = this.name;
 			apply = chooser.choose(chooseParameters).get(0);
 		}
@@ -121,12 +125,12 @@ public abstract class ReplacementEffect implements Sanitizable
 	 * that permanent or spell (though it may), since 609.7a explicitly covers
 	 * those objects.
 	 */
-	public abstract java.util.Collection<GameObject> refersTo(GameState state);
+	public abstract Collection<GameObject> refersTo(GameState state);
 
 	@Override
-	public org.rnd.jmagic.sanitized.SanitizedReplacementEffect sanitize(GameState state, Player whoFor)
+	public SanitizedReplacementEffect sanitize(GameState state, Player whoFor)
 	{
-		return new org.rnd.jmagic.sanitized.SanitizedReplacementEffect(state, whoFor, this);
+		return new SanitizedReplacementEffect(state, whoFor, this);
 	}
 
 	/**

@@ -2,6 +2,9 @@ package org.rnd.jmagic.engine.generators;
 
 import org.rnd.jmagic.engine.*;
 
+import java.util.Collection;
+import java.util.LinkedList;
+
 /**
  * Evaluates to the object(s) with the given id(s)
  */
@@ -12,22 +15,22 @@ public class IdentifiedWithID extends SetGenerator
 		return new IdentifiedWithID(what);
 	}
 
-	public static IdentifiedWithID instance(java.util.Collection<Integer> what)
+	public static IdentifiedWithID instance(Collection<Integer> what)
 	{
 		return new IdentifiedWithID(what);
 	}
 
-	private final java.util.Collection<Integer> IDs;
+	private final Collection<Integer> IDs;
 
 	private IdentifiedWithID(int ID)
 	{
-		this.IDs = new java.util.LinkedList<Integer>();
+		this.IDs = new LinkedList<Integer>();
 		this.IDs.add(ID);
 	}
 
-	private IdentifiedWithID(java.util.Collection<Integer> IDs)
+	private IdentifiedWithID(Collection<Integer> IDs)
 	{
-		this.IDs = new java.util.LinkedList<Integer>(IDs);
+		this.IDs = new LinkedList<Integer>(IDs);
 	}
 
 	@Override

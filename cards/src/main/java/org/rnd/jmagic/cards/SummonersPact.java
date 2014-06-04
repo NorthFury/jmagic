@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.cardTemplates.Pact;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -10,7 +11,7 @@ import org.rnd.jmagic.engine.generators.*;
 @Types({Type.INSTANT})
 @Printings({@Printings.Printed(ex = Expansion.FUTURE_SIGHT, r = Rarity.RARE)})
 @ColorIdentity({Color.GREEN})
-public final class SummonersPact extends org.rnd.jmagic.cardTemplates.Pact
+public final class SummonersPact extends Pact
 {
 	public SummonersPact(GameState state)
 	{

@@ -2,7 +2,11 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Enchant;
 import org.rnd.jmagic.engine.*;
+
+import java.util.LinkedList;
+import java.util.List;
 
 @Name("Heart of Light")
 @Types({Type.ENCHANTMENT})
@@ -38,10 +42,10 @@ public final class HeartofLight extends Card
 			}
 
 			@Override
-			public java.util.List<EventFactory> prevent(DamageAssignment.Batch damageAssignments)
+			public List<EventFactory> prevent(DamageAssignment.Batch damageAssignments)
 			{
 				damageAssignments.clear();
-				return new java.util.LinkedList<EventFactory>();
+				return new LinkedList<EventFactory>();
 			}
 		}
 
@@ -59,7 +63,7 @@ public final class HeartofLight extends Card
 	{
 		super(state);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Enchant.Creature(state));
+		this.addAbility(new Enchant.Creature(state));
 		this.addAbility(new PreventDamage(state));
 	}
 }

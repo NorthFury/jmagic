@@ -2,25 +2,30 @@ package org.rnd.jmagic.engine.generators;
 
 import org.rnd.jmagic.engine.*;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
 public class DestroyedThisTurn extends SetGenerator
 {
-	public static class DestroyedTracker extends Tracker<java.util.Map<Integer, Integer>>
+	public static class DestroyedTracker extends Tracker<Map<Integer, Integer>>
 	{
-		private java.util.HashMap<Integer, Integer> IDs = new java.util.HashMap<Integer, Integer>();
-		private java.util.Map<Integer, Integer> unmodifiable = java.util.Collections.unmodifiableMap(this.IDs);
+		private HashMap<Integer, Integer> IDs = new HashMap<Integer, Integer>();
+		private Map<Integer, Integer> unmodifiable = Collections.unmodifiableMap(this.IDs);
 
 		@SuppressWarnings("unchecked")
 		@Override
 		public DestroyedTracker clone()
 		{
 			DestroyedTracker ret = (DestroyedTracker)super.clone();
-			ret.IDs = (java.util.HashMap<Integer, Integer>)this.IDs.clone();
-			ret.unmodifiable = java.util.Collections.unmodifiableMap(ret.IDs);
+			ret.IDs = (HashMap<Integer, Integer>)this.IDs.clone();
+			ret.unmodifiable = Collections.unmodifiableMap(ret.IDs);
 			return ret;
 		}
 
 		@Override
-		protected java.util.Map<Integer, Integer> getValueInternal()
+		protected Map<Integer, Integer> getValueInternal()
 		{
 			return this.unmodifiable;
 		}
@@ -66,7 +71,7 @@ public class DestroyedThisTurn extends SetGenerator
 	@Override
 	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		java.util.Set<Integer> ids = state.getTracker(DestroyedTracker.class).getValue(state).keySet();
+		Set<Integer> ids = state.getTracker(DestroyedTracker.class).getValue(state).keySet();
 		MagicSet ret = new MagicSet();
 
 		for(Integer id: ids)

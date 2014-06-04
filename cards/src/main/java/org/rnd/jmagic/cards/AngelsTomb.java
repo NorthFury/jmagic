@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -20,7 +22,7 @@ public final class AngelsTomb extends Card
 			this.addPattern(new SimpleZoneChangePattern(null, Battlefield.instance(), CreaturePermanents.instance(), ControllerOf.instance(ABILITY_SOURCE_OF_THIS), false));
 
 			Animator animate = new Animator(ABILITY_SOURCE_OF_THIS, 3, 3);
-			animate.addAbility(org.rnd.jmagic.abilities.keywords.Flying.class);
+			animate.addAbility(Flying.class);
 			animate.addColor(Color.WHITE);
 			animate.addSubType(SubType.ANGEL);
 			animate.addType(Type.ARTIFACT);

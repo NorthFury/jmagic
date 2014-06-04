@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Exalted;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.gameTypes.*;
 import org.rnd.jmagic.engine.generators.*;
@@ -19,7 +20,7 @@ public final class Bant extends Card
 		{
 			super(state, "All creatures have exalted.");
 
-			this.addEffectPart(addAbilityToObject(CreaturePermanents.instance(), org.rnd.jmagic.abilities.keywords.Exalted.class));
+			this.addEffectPart(addAbilityToObject(CreaturePermanents.instance(), Exalted.class));
 
 			this.canApply = Planechase.staticAbilityCanApply;
 		}

@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -26,7 +28,7 @@ public final class DragonmasterOutcast extends Card
 			CreateTokensFactory token = new CreateTokensFactory(1, 5, 5, "Put a 5/5 red Dragon creature token with flying onto the battlefield.");
 			token.setColors(Color.RED);
 			token.setSubTypes(SubType.DRAGON);
-			token.addAbility(org.rnd.jmagic.abilities.keywords.Flying.class);
+			token.addAbility(Flying.class);
 			this.addEffect(token.getEventFactory());
 		}
 	}

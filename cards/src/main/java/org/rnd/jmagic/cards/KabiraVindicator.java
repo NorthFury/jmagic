@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Level;
+import org.rnd.jmagic.abilities.keywords.LevelUp;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -46,16 +49,16 @@ public final class KabiraVindicator extends Card
 		this.setToughness(4);
 
 		// Level up (2)(W)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.LevelUp(state, "(2)(W)"));
+		this.addAbility(new LevelUp(state, "(2)(W)"));
 
 		// LEVEL 2-4
 		// 3/6
 		// Other creatures you control get +1/+1.
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Level(state, 2, 4, 3, 6, "Other creatures you control get +1/+1.", One.class));
+		this.addAbility(new Level(state, 2, 4, 3, 6, "Other creatures you control get +1/+1.", One.class));
 
 		// LEVEL 5+
 		// 4/8
 		// Other creatures you control get +2/+2.
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Level(state, 5, 4, 8, "Other creatures you control get +2/+2.", Two.class));
+		this.addAbility(new Level(state, 5, 4, 8, "Other creatures you control get +2/+2.", Two.class));
 	}
 }

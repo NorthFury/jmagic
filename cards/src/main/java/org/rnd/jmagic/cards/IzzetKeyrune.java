@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.TapForMana;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -42,7 +44,7 @@ public final class IzzetKeyrune extends Card
 		super(state);
 
 		// (T): Add (U) or (R) to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapForMana.Final(state, "(UR)"));
+		this.addAbility(new TapForMana.Final(state, "(UR)"));
 
 		// (U)(R): Until end of turn, Izzet Keyrune becomes a 2/1 blue and red
 		// Elemental artifact creature.

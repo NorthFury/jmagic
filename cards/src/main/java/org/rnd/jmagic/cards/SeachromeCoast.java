@@ -18,6 +18,6 @@ public final class SeachromeCoast extends Card
 		this.addAbility(new ScarsTappedLandAbility(state, "Seachrome Coast"));
 
 		// (T): Add (W) or (U) to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapForMana.Final(state, "(WU)"));
+		this.addAbility(new TapForMana.Final(state, "(WU)"));
 	}
 }

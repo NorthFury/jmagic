@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Suspend;
 import org.rnd.jmagic.engine.*;
 
 @Name("Search for Tomorrow")
@@ -17,6 +18,6 @@ public final class SearchforTomorrow extends Card
 
 		this.addEffect(searchYourLibraryForABasicLandCardAndPutItOntoTheBattlefield(false));
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Suspend(state, 2, "(G)"));
+		this.addAbility(new Suspend(state, 2, "(G)"));
 	}
 }

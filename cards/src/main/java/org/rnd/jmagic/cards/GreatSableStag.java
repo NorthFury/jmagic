@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.CantBeCountered;
+import org.rnd.jmagic.abilities.keywords.Protection;
 import org.rnd.jmagic.engine.*;
+import org.rnd.jmagic.engine.generators.HasColor;
 
 @Name("Great Sable Stag")
 @Types({Type.CREATURE})
@@ -18,10 +21,10 @@ public final class GreatSableStag extends Card
 		this.setToughness(3);
 
 		// Great Sable Stag can't be countered.
-		this.addAbility(new org.rnd.jmagic.abilities.CantBeCountered(state, this.getName()));
+		this.addAbility(new CantBeCountered(state, this.getName()));
 
 		// Protection from blue and from black (This creature can't be blocked,
 		// targeted, dealt damage, or enchanted by anything blue or black.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Protection.From(state, org.rnd.jmagic.engine.generators.HasColor.instance(Color.BLUE, Color.BLACK), "blue and from black"));
+		this.addAbility(new Protection.From(state, HasColor.instance(Color.BLUE, Color.BLACK), "blue and from black"));
 	}
 }

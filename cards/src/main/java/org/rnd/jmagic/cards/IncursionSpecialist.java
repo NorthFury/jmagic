@@ -4,6 +4,12 @@ import static org.rnd.jmagic.Convenience.*;
 
 import org.rnd.jmagic.engine.*;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
 @Name("Incursion Specialist")
 @Types({Type.CREATURE})
 @SubTypes({SubType.HUMAN, SubType.WIZARD})
@@ -16,22 +22,22 @@ public final class IncursionSpecialist extends Card
 	 * A tracker that maps each player to the spells they have cast this turn.
 	 * If a player is not in the map, they have not cast any spells.
 	 */
-	public static final class CastTracker extends Tracker<java.util.Map<Integer, java.util.List<Integer>>>
+	public static final class CastTracker extends Tracker<Map<Integer, List<Integer>>>
 	{
-		private java.util.Map<Integer, java.util.List<Integer>> map = new java.util.HashMap<Integer, java.util.List<Integer>>();
-		private java.util.Map<Integer, java.util.List<Integer>> unmodifiable = java.util.Collections.unmodifiableMap(this.map);
+		private Map<Integer, List<Integer>> map = new HashMap<Integer, List<Integer>>();
+		private Map<Integer, List<Integer>> unmodifiable = Collections.unmodifiableMap(this.map);
 
 		@Override
 		public CastTracker clone()
 		{
 			CastTracker ret = (CastTracker)super.clone();
-			ret.map = new java.util.HashMap<Integer, java.util.List<Integer>>(this.map);
-			ret.unmodifiable = java.util.Collections.unmodifiableMap(ret.map);
+			ret.map = new HashMap<Integer, List<Integer>>(this.map);
+			ret.unmodifiable = Collections.unmodifiableMap(ret.map);
 			return ret;
 		}
 
 		@Override
-		protected java.util.Map<Integer, java.util.List<Integer>> getValueInternal()
+		protected Map<Integer, List<Integer>> getValueInternal()
 		{
 			return this.unmodifiable;
 		}
@@ -53,7 +59,7 @@ public final class IncursionSpecialist extends Card
 		{
 			int player = event.parameters.get(EventType.Parameter.PLAYER).evaluate(state, null).getOne(Player.class).ID;
 			if(!this.map.containsKey(player))
-				this.map.put(player, new java.util.LinkedList<Integer>());
+				this.map.put(player, new LinkedList<Integer>());
 
 			GameObject spell = event.parameters.get(EventType.Parameter.OBJECT).evaluate(state, null).getOne(GameObject.class);
 			this.map.get(player).add(spell.ID);
@@ -69,11 +75,11 @@ public final class IncursionSpecialist extends Card
 				return false;
 
 			int you = ((GameObject)((TriggeredAbility)object).getSource(state)).controllerID;
-			java.util.Map<Integer, java.util.List<Integer>> trackerValue = state.getTracker(CastTracker.class).getValue(state);
+			Map<Integer, List<Integer>> trackerValue = state.getTracker(CastTracker.class).getValue(state);
 			if(!trackerValue.containsKey(you))
 				return false;
 
-			java.util.List<Integer> yourSpells = trackerValue.get(you);
+			List<Integer> yourSpells = trackerValue.get(you);
 			if(yourSpells.size() < 2)
 				return false;
 

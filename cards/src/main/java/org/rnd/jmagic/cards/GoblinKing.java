@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.StaticPTChange;
+import org.rnd.jmagic.abilities.keywords.Landwalk;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -20,6 +22,6 @@ public final class GoblinKing extends Card
 		this.setToughness(2);
 
 		SetGenerator otherGoblinCreatures = RelativeComplement.instance(Intersect.instance(CreaturePermanents.instance(), HasSubType.instance(SubType.GOBLIN)), This.instance());
-		this.addAbility(new org.rnd.jmagic.abilities.StaticPTChange(state, otherGoblinCreatures, "Other Goblin creatures", +1, +1, org.rnd.jmagic.abilities.keywords.Landwalk.Mountainwalk.class, true));
+		this.addAbility(new StaticPTChange(state, otherGoblinCreatures, "Other Goblin creatures", +1, +1, Landwalk.Mountainwalk.class, true));
 	}
 }

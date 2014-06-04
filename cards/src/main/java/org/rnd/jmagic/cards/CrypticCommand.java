@@ -3,6 +3,7 @@ package org.rnd.jmagic.cards;
 import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+import org.rnd.util.NumberRange;
 
 @Name("Cryptic Command")
 @Types({Type.INSTANT})
@@ -16,10 +17,10 @@ public final class CrypticCommand extends Card
 		super(state);
 
 		// Choose two -
-		this.setNumModes(new MagicSet(new org.rnd.util.NumberRange(2, 2)));
+		this.setNumModes(new MagicSet(new NumberRange(2, 2)));
 
 		// Counter target spell;
-		Target target1 = this.addTarget(1, org.rnd.jmagic.engine.generators.Spells.instance(), "target spell");
+		Target target1 = this.addTarget(1, Spells.instance(), "target spell");
 		this.addEffect(1, counter(targetedBy(target1), "Counter target spell"));
 
 		// or return target permanent to its owner's hand;

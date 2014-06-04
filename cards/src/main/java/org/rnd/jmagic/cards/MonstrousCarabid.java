@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.AttacksEachTurnIfAble;
+import org.rnd.jmagic.abilities.keywords.Cycling;
 import org.rnd.jmagic.engine.*;
 
 @Name("Monstrous Carabid")
@@ -18,9 +20,9 @@ public final class MonstrousCarabid extends Card
 		this.setToughness(4);
 
 		// Monstrous Carabid attacks each turn if able.
-		this.addAbility(new org.rnd.jmagic.abilities.AttacksEachTurnIfAble(state, this.getName()));
+		this.addAbility(new AttacksEachTurnIfAble(state, this.getName()));
 
 		// Cycling ((b/r)) (((b/r)), Discard this card: Draw a card.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Cycling(state, "(BR)"));
+		this.addAbility(new Cycling(state, "(BR)"));
 	}
 }

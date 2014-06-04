@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Deathtouch;
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -20,7 +23,7 @@ public final class GarruktheVeilCursed extends AlternateCard
 			CreateTokensFactory factory = new CreateTokensFactory(1, 1, 1, "Put a 1/1 black Wolf creature token with deathtouch onto the battlefield.");
 			factory.setColors(Color.BLACK);
 			factory.setSubTypes(SubType.WOLF);
-			factory.addAbility(org.rnd.jmagic.abilities.keywords.Deathtouch.class);
+			factory.addAbility(Deathtouch.class);
 			this.addEffect(factory.getEventFactory());
 		}
 	}
@@ -50,7 +53,7 @@ public final class GarruktheVeilCursed extends AlternateCard
 
 			SetGenerator X = Count.instance(Intersect.instance(HasType.instance(Type.CREATURE), InZone.instance(GraveyardOf.instance(You.instance()))));
 
-			this.addEffect(ptChangeAndAbilityUntilEndOfTurn(CREATURES_YOU_CONTROL, X, X, "Creatures you control gain trample and get +X/+X until end of turn, where X is the number of creature cards in your graveyard.", org.rnd.jmagic.abilities.keywords.Trample.class));
+			this.addEffect(ptChangeAndAbilityUntilEndOfTurn(CREATURES_YOU_CONTROL, X, X, "Creatures you control gain trample and get +X/+X until end of turn, where X is the number of creature cards in your graveyard.", Trample.class));
 		}
 	}
 

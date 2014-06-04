@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Haste;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -20,7 +22,7 @@ public final class KikiJikiMirrorBreaker extends Card
 			super(state, "(T): Put a token that's a copy of target nonlegendary creature you control onto the battlefield. That token has haste. Sacrifice it at the beginning of the next end step.");
 			this.costsTap = true;
 
-			SetGenerator yourNonlegends = RelativeComplement.instance(CREATURES_YOU_CONTROL, org.rnd.jmagic.engine.generators.HasSuperType.instance(org.rnd.jmagic.engine.SuperType.LEGENDARY));
+			SetGenerator yourNonlegends = RelativeComplement.instance(CREATURES_YOU_CONTROL, HasSuperType.instance(SuperType.LEGENDARY));
 			SetGenerator target = targetedBy(this.addTarget(yourNonlegends, "target nonlegendary creature you control"));
 
 			EventFactory copyMe = new EventFactory(EventType.CREATE_TOKEN_COPY, "Put a token that's a copy of target nonlegendary creature you control onto the battlefield.");
@@ -31,7 +33,7 @@ public final class KikiJikiMirrorBreaker extends Card
 
 			SetGenerator thatToken = NewObjectOf.instance(EffectResult.instance(copyMe));
 
-			EventFactory haste = addAbilityUntilEndOfTurn(thatToken, org.rnd.jmagic.abilities.keywords.Haste.class, "That token has haste.");
+			EventFactory haste = addAbilityUntilEndOfTurn(thatToken, Haste.class, "That token has haste.");
 			haste.parameters.put(EventType.Parameter.EXPIRES, Identity.instance(Empty.instance()));
 			this.addEffect(haste);
 
@@ -56,7 +58,7 @@ public final class KikiJikiMirrorBreaker extends Card
 		this.setToughness(2);
 
 		// Haste
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Haste(state));
+		this.addAbility(new Haste(state));
 
 		// (T): Put a token that's a copy of target nonlegendary creature you
 		// control onto the battlefield. That token has haste. Sacrifice it at

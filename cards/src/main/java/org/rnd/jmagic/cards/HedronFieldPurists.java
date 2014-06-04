@@ -1,7 +1,16 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Level;
+import org.rnd.jmagic.abilities.keywords.LevelUp;
 import org.rnd.jmagic.engine.*;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 @Name("Hedron-Field Purists")
 @Types({Type.CREATURE})
@@ -39,11 +48,11 @@ public final class HedronFieldPurists extends Card
 
 		// prevent 1 of that damage.
 		@Override
-		public java.util.List<EventFactory> prevent(DamageAssignment.Batch damageAssignments)
+		public List<EventFactory> prevent(DamageAssignment.Batch damageAssignments)
 		{
 			// keys are source IDs, values are how much is prevented
-			java.util.Map<Integer, Integer> preventedFrom = new java.util.HashMap<Integer, Integer>();
-			java.util.Iterator<DamageAssignment> damageIter = damageAssignments.iterator();
+			Map<Integer, Integer> preventedFrom = new HashMap<Integer, Integer>();
+			Iterator<DamageAssignment> damageIter = damageAssignments.iterator();
 			while(damageIter.hasNext())
 			{
 				DamageAssignment damage = damageIter.next();
@@ -63,7 +72,7 @@ public final class HedronFieldPurists extends Card
 				}
 			}
 
-			return new java.util.LinkedList<EventFactory>();
+			return new LinkedList<EventFactory>();
 		}
 	}
 
@@ -95,10 +104,10 @@ public final class HedronFieldPurists extends Card
 
 		// Level up (2)(W) ((2)(W): Put a level counter on this. Level up only
 		// as a sorcery.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.LevelUp(state, "(2)(W)"));
+		this.addAbility(new LevelUp(state, "(2)(W)"));
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Level(state, 1, 4, 1, 4, "If a source would deal damage to you or a creature you control, prevent 1 of that damage.", Prevent1.class));
+		this.addAbility(new Level(state, 1, 4, 1, 4, "If a source would deal damage to you or a creature you control, prevent 1 of that damage.", Prevent1.class));
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Level(state, 5, 2, 5, "If a source would deal damage to you or a creature you control, prevent 2 of that damage.", Prevent2.class));
+		this.addAbility(new Level(state, 5, 2, 5, "If a source would deal damage to you or a creature you control, prevent 2 of that damage.", Prevent2.class));
 	}
 }

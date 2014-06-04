@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Vigilance;
 import org.rnd.jmagic.engine.*;
 
 @Name("Abbey Griffin")
@@ -18,7 +20,7 @@ public final class AbbeyGriffin extends Card
 		this.setToughness(2);
 
 		// Flying, vigilance
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Vigilance(state));
+		this.addAbility(new Flying(state));
+		this.addAbility(new Vigilance(state));
 	}
 }

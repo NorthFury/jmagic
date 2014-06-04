@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Evolve;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -40,7 +42,7 @@ public final class GyreSage extends Card
 		// Evolve (Whenever a creature enters the battlefield under your
 		// control, if that creature has greater power or toughness than this
 		// creature, put a +1/+1 counter on this creature.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Evolve(state));
+		this.addAbility(new Evolve(state));
 
 		// (T): Add (G) to your mana pool for each +1/+1 counter on Gyre Sage.
 		this.addAbility(new GyreSageAbility1(state));

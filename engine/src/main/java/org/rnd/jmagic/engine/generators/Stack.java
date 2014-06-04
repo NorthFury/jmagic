@@ -5,7 +5,7 @@ import org.rnd.jmagic.engine.*;
 /**
  * Evaluates to the stack
  */
-public class Stack extends org.rnd.jmagic.engine.SetGenerator
+public class Stack extends SetGenerator
 {
 	private static final Stack _instance = new Stack();
 

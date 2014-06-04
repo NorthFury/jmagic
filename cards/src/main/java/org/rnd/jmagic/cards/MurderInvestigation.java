@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Enchant;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -35,7 +37,7 @@ public final class MurderInvestigation extends Card
 		super(state);
 
 		// Enchant creature you control
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Enchant.CreatureYouControl(state));
+		this.addAbility(new Enchant.CreatureYouControl(state));
 
 		// When enchanted creature dies, put X 1/1 white Soldier creature tokens
 		// onto the battlefield, where X is its power.

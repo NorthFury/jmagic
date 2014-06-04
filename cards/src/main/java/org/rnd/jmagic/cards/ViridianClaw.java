@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Equip;
+import org.rnd.jmagic.abilities.keywords.FirstStrike;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -19,7 +22,7 @@ public final class ViridianClaw extends Card
 			super(state, "Equipped creature gets +1/+0 and has first strike.");
 			SetGenerator equippedCreature = EquippedBy.instance(This.instance());
 			this.addEffectPart(modifyPowerAndToughness(equippedCreature, +1, +0));
-			this.addEffectPart(addAbilityToObject(equippedCreature, org.rnd.jmagic.abilities.keywords.FirstStrike.class));
+			this.addEffectPart(addAbilityToObject(equippedCreature, FirstStrike.class));
 		}
 	}
 
@@ -31,6 +34,6 @@ public final class ViridianClaw extends Card
 		this.addAbility(new ViridianClawAbility0(state));
 
 		// Equip (1)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Equip(state, "(1)"));
+		this.addAbility(new Equip(state, "(1)"));
 	}
 }

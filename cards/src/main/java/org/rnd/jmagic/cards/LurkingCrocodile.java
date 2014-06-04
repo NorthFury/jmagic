@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Bloodthirst;
+import org.rnd.jmagic.abilities.keywords.Landwalk;
 import org.rnd.jmagic.engine.*;
 
 @Name("Lurking Crocodile")
@@ -19,10 +21,10 @@ public final class LurkingCrocodile extends Card
 
 		// Bloodthirst 1 (If an opponent was dealt damage this turn, this
 		// creature enters the battlefield with a +1/+1 counter on it.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Bloodthirst.Final(state, 1));
+		this.addAbility(new Bloodthirst.Final(state, 1));
 
 		// Islandwalk (This creature is unblockable as long as defending player
 		// controls an Island.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Landwalk.Islandwalk(state));
+		this.addAbility(new Landwalk.Islandwalk(state));
 	}
 }

@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.StaticPTChange;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -18,6 +19,6 @@ public final class HonorofthePure extends Card
 		SetGenerator whiteCreatures = Intersect.instance(HasColor.instance(Color.WHITE), CreaturePermanents.instance());
 		SetGenerator youControl = ControlledBy.instance(You.instance());
 		SetGenerator who = Intersect.instance(whiteCreatures, youControl);
-		this.addAbility(new org.rnd.jmagic.abilities.StaticPTChange(state, who, "White creatures you control", +1, +1, true));
+		this.addAbility(new StaticPTChange(state, who, "White creatures you control", +1, +1, true));
 	}
 }

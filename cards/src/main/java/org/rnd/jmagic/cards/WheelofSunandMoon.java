@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Enchant;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -42,7 +44,7 @@ public final class WheelofSunandMoon extends Card
 		super(state);
 
 		// Enchant player
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Enchant.Player(state));
+		this.addAbility(new Enchant.Player(state));
 
 		// If a card would be put into enchanted player's graveyard from
 		// anywhere, instead that card is revealed and put on the bottom of that

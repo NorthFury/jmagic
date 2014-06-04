@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.LevelUp;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -19,7 +21,7 @@ public final class VeneratedTeacher extends Card
 			super(state, "When Venerated Teacher enters the battlefield, put two level counters on each creature you control with level up.");
 			this.addPattern(whenThisEntersTheBattlefield());
 
-			SetGenerator levelerCreatures = Intersect.instance(CREATURES_YOU_CONTROL, HasKeywordAbility.instance(org.rnd.jmagic.abilities.keywords.LevelUp.class));
+			SetGenerator levelerCreatures = Intersect.instance(CREATURES_YOU_CONTROL, HasKeywordAbility.instance(LevelUp.class));
 			this.addEffect(putCounters(2, Counter.CounterType.LEVEL, levelerCreatures, "Put two level counters on each creature you control with level up."));
 		}
 	}

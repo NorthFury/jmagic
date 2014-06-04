@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Devour;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -30,7 +32,7 @@ public final class CalderaHellion extends Card
 		this.setToughness(3);
 
 		// Devour 1
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Devour(state, 1));
+		this.addAbility(new Devour(state, 1));
 
 		// When Caldera Hellion enters the battlefield, it deals 3 damage to
 		// each creature.

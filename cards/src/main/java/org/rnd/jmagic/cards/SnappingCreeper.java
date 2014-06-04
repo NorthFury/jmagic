@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Vigilance;
 import org.rnd.jmagic.engine.*;
 
 @Name("Snapping Creeper")
@@ -17,7 +19,7 @@ public final class SnappingCreeper extends Card
 		{
 			super(state, "Whenever a land enters the battlefield under your control, Snapping Creeper gains vigilance until end of turn.");
 			this.addPattern(landfall());
-			this.addEffect(addAbilityUntilEndOfTurn(ABILITY_SOURCE_OF_THIS, org.rnd.jmagic.abilities.keywords.Vigilance.class, "Snapping Creeper gains vigilance until end of turn."));
+			this.addEffect(addAbilityUntilEndOfTurn(ABILITY_SOURCE_OF_THIS, Vigilance.class, "Snapping Creeper gains vigilance until end of turn."));
 		}
 	}
 

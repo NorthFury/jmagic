@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.TapForAnyColor;
+import org.rnd.jmagic.abilities.keywords.Enchant;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -28,7 +31,7 @@ public final class AbundantGrowth extends Card
 		{
 			super(state, "Enchanted land has \"(T): Add one mana of any color to your mana pool.\"");
 
-			this.addEffectPart(addAbilityToObject(EnchantedBy.instance(This.instance()), org.rnd.jmagic.abilities.TapForAnyColor.class));
+			this.addEffectPart(addAbilityToObject(EnchantedBy.instance(This.instance()), TapForAnyColor.class));
 		}
 	}
 
@@ -37,7 +40,7 @@ public final class AbundantGrowth extends Card
 		super(state);
 
 		// Enchant land
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Enchant.Land(state));
+		this.addAbility(new Enchant.Land(state));
 
 		// When Abundant Growth enters the battlefield, draw a card.
 		this.addAbility(new AbundantGrowthAbility1(state));

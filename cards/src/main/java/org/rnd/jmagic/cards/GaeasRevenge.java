@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.CantBeCountered;
+import org.rnd.jmagic.abilities.keywords.Haste;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -39,10 +41,10 @@ public final class GaeasRevenge extends Card
 		this.setToughness(5);
 
 		// Gaea's Revenge can't be countered.
-		this.addAbility(new org.rnd.jmagic.abilities.CantBeCountered(state, this.getName()));
+		this.addAbility(new CantBeCountered(state, this.getName()));
 
 		// Haste
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Haste(state));
+		this.addAbility(new Haste(state));
 
 		// Gaea's Revenge can't be the target of nongreen spells or abilities
 		// from nongreen sources.

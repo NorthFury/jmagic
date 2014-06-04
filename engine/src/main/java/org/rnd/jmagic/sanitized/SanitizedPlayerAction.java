@@ -2,7 +2,9 @@ package org.rnd.jmagic.sanitized;
 
 import org.rnd.jmagic.engine.*;
 
-public class SanitizedPlayerAction implements java.io.Serializable
+import java.io.Serializable;
+
+public class SanitizedPlayerAction implements Serializable
 {
 	private static final long serialVersionUID = 2L;
 

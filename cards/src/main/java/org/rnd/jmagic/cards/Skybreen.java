@@ -7,6 +7,9 @@ import org.rnd.jmagic.engine.gameTypes.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
 
+import java.util.EnumSet;
+import java.util.Set;
+
 @Name("Skybreen")
 @Types({Type.PLANE})
 @SubTypes({SubType.KALDHEIM})
@@ -41,7 +44,7 @@ public final class Skybreen extends Card
 				if(!SetPattern.CASTABLE.match(state, thisObject, set))
 					return false;
 
-				java.util.Set<Type> types = java.util.EnumSet.noneOf(Type.class);
+				Set<Type> types = EnumSet.noneOf(Type.class);
 
 				for(Player player: state.players)
 				{

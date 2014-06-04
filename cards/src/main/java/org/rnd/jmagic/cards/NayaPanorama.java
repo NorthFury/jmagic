@@ -1,12 +1,13 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.cardTemplates.ShardsPanorama;
 import org.rnd.jmagic.engine.*;
 
 @Name("Naya Panorama")
 @Types({Type.LAND})
 @Printings({@Printings.Printed(ex = Expansion.SHARDS_OF_ALARA, r = Rarity.COMMON)})
 @ColorIdentity({})
-public final class NayaPanorama extends org.rnd.jmagic.cardTemplates.ShardsPanorama
+public final class NayaPanorama extends ShardsPanorama
 {
 	public NayaPanorama(GameState state)
 	{

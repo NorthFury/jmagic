@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -39,8 +41,8 @@ public final class AbyssalPersecutor extends Card
 		this.setToughness(6);
 
 		// Flying, trample
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Trample(state));
+		this.addAbility(new Flying(state));
+		this.addAbility(new Trample(state));
 
 		// You can't win the game and your opponents can't lose the game.
 		this.addAbility(new CantLoseCantWin(state));

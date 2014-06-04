@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Shroud;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -19,7 +21,7 @@ public final class SylvanSafekeeper extends Card
 			super(state, "Sacrifice a land: Target creature you control gains shroud until end of turn.");
 			this.addCost(sacrifice(You.instance(), 1, LandPermanents.instance(), "Sacrifice a land"));
 			SetGenerator target = targetedBy(this.addTarget(CreaturePermanents.instance(), "target creature"));
-			this.addEffect(addAbilityUntilEndOfTurn(target, org.rnd.jmagic.abilities.keywords.Shroud.class, "Target creature you control gains shroud until end of turn."));
+			this.addEffect(addAbilityUntilEndOfTurn(target, Shroud.class, "Target creature you control gains shroud until end of turn."));
 		}
 	}
 

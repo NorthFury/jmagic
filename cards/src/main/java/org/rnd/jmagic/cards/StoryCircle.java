@@ -2,8 +2,14 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilityTemplates.AsThisEntersTheBattlefieldChooseAColor;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 @Name("Story Circle")
 @Types({Type.ENCHANTMENT})
@@ -14,7 +20,7 @@ public final class StoryCircle extends Card
 {
 	public static final PlayerInterface.ChooseReason REASON = new PlayerInterface.ChooseReason("StoryCircle", "Choose a source of damage of the chosen color.", true);
 
-	public static final class ColorChoice extends org.rnd.jmagic.abilityTemplates.AsThisEntersTheBattlefieldChooseAColor
+	public static final class ColorChoice extends AsThisEntersTheBattlefieldChooseAColor
 	{
 		public ColorChoice(GameState state)
 		{
@@ -55,10 +61,10 @@ public final class StoryCircle extends Card
 			}
 
 			@Override
-			public java.util.List<EventFactory> prevent(DamageAssignment.Batch damageAssignments)
+			public List<EventFactory> prevent(DamageAssignment.Batch damageAssignments)
 			{
 				damageAssignments.clear();
-				return new java.util.LinkedList<EventFactory>();
+				return new LinkedList<EventFactory>();
 			}
 		}
 
@@ -77,14 +83,14 @@ public final class StoryCircle extends Card
 			}
 
 			@Override
-			public boolean perform(Game game, Event event, java.util.Map<EventType.Parameter, MagicSet> parameters)
+			public boolean perform(Game game, Event event, Map<EventType.Parameter, MagicSet> parameters)
 			{
 				Player you = parameters.get(EventType.Parameter.PLAYER).getOne(Player.class);
 				final Color color = parameters.get(EventType.Parameter.CHOICE).getOne(Color.class);
 
 				SetGenerator validChoices = Intersect.instance(HasColor.instance(Identity.instance(color).noTextChanges()), AllSourcesOfDamage.instance());
 
-				java.util.List<GameObject> chosen = you.sanitizeAndChoose(game.actualState, 1, validChoices.evaluate(game.actualState, null).getAll(GameObject.class), PlayerInterface.ChoiceType.DAMAGE_SOURCE, REASON);
+				List<GameObject> chosen = you.sanitizeAndChoose(game.actualState, 1, validChoices.evaluate(game.actualState, null).getAll(GameObject.class), PlayerInterface.ChoiceType.DAMAGE_SOURCE, REASON);
 				GameObject chosenSource = chosen.iterator().next();
 				final int chosenSourceID = chosenSource.ID;
 
@@ -92,7 +98,7 @@ public final class StoryCircle extends Card
 
 				ContinuousEffect.Part part = replacementEffectPart(replacement);
 
-				java.util.Map<EventType.Parameter, MagicSet> floaterParameters = new java.util.HashMap<EventType.Parameter, MagicSet>();
+				Map<EventType.Parameter, MagicSet> floaterParameters = new HashMap<EventType.Parameter, MagicSet>();
 				floaterParameters.put(EventType.Parameter.CAUSE, parameters.get(EventType.Parameter.CAUSE));
 				floaterParameters.put(EventType.Parameter.EFFECT, new MagicSet(part));
 				floaterParameters.put(EventType.Parameter.USES, ONE);

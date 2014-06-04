@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Deathtouch;
+import org.rnd.jmagic.abilities.keywords.Defender;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -21,7 +24,7 @@ public final class CorpseBlockade extends Card
 			SetGenerator anotherCreature = RelativeComplement.instance(CreaturePermanents.instance(), ABILITY_SOURCE_OF_THIS);
 			this.addCost(sacrifice(You.instance(), 1, anotherCreature, "Sacrifice another creature"));
 
-			this.addEffect(addAbilityUntilEndOfTurn(ABILITY_SOURCE_OF_THIS, org.rnd.jmagic.abilities.keywords.Deathtouch.class, "Corpse Blockade gains deathtouch until end of turn."));
+			this.addEffect(addAbilityUntilEndOfTurn(ABILITY_SOURCE_OF_THIS, Deathtouch.class, "Corpse Blockade gains deathtouch until end of turn."));
 		}
 	}
 
@@ -33,7 +36,7 @@ public final class CorpseBlockade extends Card
 		this.setToughness(4);
 
 		// Defender
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Defender(state));
+		this.addAbility(new Defender(state));
 
 		// Sacrifice another creature: Corpse Blockade gains deathtouch until
 		// end of turn.

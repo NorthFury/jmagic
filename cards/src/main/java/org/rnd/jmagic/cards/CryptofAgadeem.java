@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.EntersTheBattlefieldTapped;
+import org.rnd.jmagic.abilities.TapForB;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -35,10 +38,10 @@ public final class CryptofAgadeem extends Card
 		super(state);
 
 		// Crypt of Agadeem enters the battlefield tapped.
-		this.addAbility(new org.rnd.jmagic.abilities.EntersTheBattlefieldTapped(state, this.getName()));
+		this.addAbility(new EntersTheBattlefieldTapped(state, this.getName()));
 
 		// (T): Add (B) to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapForB(state));
+		this.addAbility(new TapForB(state));
 
 		// (2), (T): Add (B) to your mana pool for each black creature card in
 		// your graveyard.

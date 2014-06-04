@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Infect;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -52,7 +53,7 @@ public final class MeliraSylvokOutcast extends Card
 
 			ContinuousEffect.Part part = new ContinuousEffect.Part(ContinuousEffectType.REMOVE_ABILITY_FROM_OBJECT);
 			part.parameters.put(ContinuousEffectType.Parameter.OBJECT, Intersect.instance(CreaturePermanents.instance(), ControlledBy.instance(OpponentsOf.instance(You.instance()))));
-			part.parameters.put(ContinuousEffectType.Parameter.ABILITY, Identity.instance(org.rnd.jmagic.abilities.keywords.Infect.class));
+			part.parameters.put(ContinuousEffectType.Parameter.ABILITY, Identity.instance(Infect.class));
 			this.addEffectPart(part);
 		}
 	}

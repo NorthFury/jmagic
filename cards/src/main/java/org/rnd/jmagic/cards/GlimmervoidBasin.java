@@ -6,6 +6,9 @@ import org.rnd.jmagic.engine.gameTypes.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Name("Glimmervoid Basin")
 @Types({Type.PLANE})
 @SubTypes({SubType.MIRRODIN})
@@ -28,13 +31,13 @@ public final class GlimmervoidBasin extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			GameObject creature = parameters.get(Parameter.OBJECT).getOne(GameObject.class);
 
 			for(Player player: game.actualState.apnapOrder(parameters.get(Parameter.PLAYER)))
 			{
-				java.util.Map<Parameter, MagicSet> copyParameters = new java.util.HashMap<Parameter, MagicSet>();
+				Map<Parameter, MagicSet> copyParameters = new HashMap<Parameter, MagicSet>();
 				copyParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 				copyParameters.put(Parameter.CONTROLLER, new MagicSet(player));
 				copyParameters.put(Parameter.OBJECT, new MagicSet(creature));

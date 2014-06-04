@@ -1,5 +1,8 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.StaticPTChange;
+import org.rnd.jmagic.abilities.keywords.Equip;
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -17,9 +20,9 @@ public final class Kitesail extends Card
 
 		// Equipped creature gets +1/+0 and has flying.
 		SetGenerator equippedCreature = EquippedBy.instance(This.instance());
-		this.addAbility(new org.rnd.jmagic.abilities.StaticPTChange(state, equippedCreature, "Equipped creature", +1, +0, org.rnd.jmagic.abilities.keywords.Flying.class, false));
+		this.addAbility(new StaticPTChange(state, equippedCreature, "Equipped creature", +1, +0, Flying.class, false));
 
 		// Equip (2)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Equip(state, "(2)"));
+		this.addAbility(new Equip(state, "(2)"));
 	}
 }

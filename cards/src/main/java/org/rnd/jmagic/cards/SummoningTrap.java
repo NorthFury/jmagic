@@ -1,8 +1,16 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.Trap;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 
 @Name("Summoning Trap")
 @Types({Type.INSTANT})
@@ -15,23 +23,23 @@ public final class SummoningTrap extends Card
 	/**
 	 * keys are IDs of creature spells, values are IDs of who cast those spells
 	 */
-	public static final class CreatureSpellsCast extends Tracker<java.util.Map<Integer, Integer>>
+	public static final class CreatureSpellsCast extends Tracker<Map<Integer, Integer>>
 	{
-		private java.util.HashMap<Integer, Integer> value = new java.util.HashMap<Integer, Integer>();
-		private java.util.Map<Integer, Integer> unmodifiable = java.util.Collections.unmodifiableMap(this.value);
+		private HashMap<Integer, Integer> value = new HashMap<Integer, Integer>();
+		private Map<Integer, Integer> unmodifiable = Collections.unmodifiableMap(this.value);
 
 		@Override
 		@SuppressWarnings("unchecked")
 		public CreatureSpellsCast clone()
 		{
 			CreatureSpellsCast ret = (CreatureSpellsCast)super.clone();
-			ret.value = (java.util.HashMap<Integer, Integer>)this.value.clone();
-			ret.unmodifiable = java.util.Collections.unmodifiableMap(ret.value);
+			ret.value = (HashMap<Integer, Integer>)this.value.clone();
+			ret.unmodifiable = Collections.unmodifiableMap(ret.value);
 			return ret;
 		}
 
 		@Override
-		protected java.util.Map<Integer, Integer> getValueInternal()
+		protected Map<Integer, Integer> getValueInternal()
 		{
 			return this.unmodifiable;
 		}
@@ -69,23 +77,23 @@ public final class SummoningTrap extends Card
 		 * 
 		 * This flag requires the CreatureSpellsCast flag to function properly.
 		 */
-		public static final class CounterspellTracker extends Tracker<java.util.Collection<Integer>>
+		public static final class CounterspellTracker extends Tracker<Collection<Integer>>
 		{
-			private java.util.HashSet<Integer> value = new java.util.HashSet<Integer>();
-			private java.util.Collection<Integer> unmodifiable = java.util.Collections.unmodifiableSet(this.value);
+			private HashSet<Integer> value = new HashSet<Integer>();
+			private Collection<Integer> unmodifiable = Collections.unmodifiableSet(this.value);
 
 			@Override
 			@SuppressWarnings("unchecked")
 			public CounterspellTracker clone()
 			{
 				CounterspellTracker ret = (CounterspellTracker)super.clone();
-				ret.value = (java.util.HashSet<Integer>)this.value.clone();
-				ret.unmodifiable = java.util.Collections.unmodifiableSet(ret.value);
+				ret.value = (HashSet<Integer>)this.value.clone();
+				ret.unmodifiable = Collections.unmodifiableSet(ret.value);
 				return ret;
 			}
 
 			@Override
-			protected java.util.Collection<Integer> getValueInternal()
+			protected Collection<Integer> getValueInternal()
 			{
 				return this.unmodifiable;
 			}
@@ -98,7 +106,7 @@ public final class SummoningTrap extends Card
 
 				GameObject countered = event.parametersNow.get(EventType.Parameter.OBJECT).evaluate(state, null).getOne(GameObject.class);
 				CreatureSpellsCast flag = state.getTracker(CreatureSpellsCast.class);
-				java.util.Map<Integer, Integer> flagValue = flag.getValue(state);
+				Map<Integer, Integer> flagValue = flag.getValue(state);
 				if(!flagValue.containsKey(countered.ID))
 					return false;
 
@@ -125,7 +133,7 @@ public final class SummoningTrap extends Card
 			{
 				GameObject countered = event.parametersNow.get(EventType.Parameter.OBJECT).evaluate(state, null).getOne(GameObject.class);
 				CreatureSpellsCast flag = state.getTracker(CreatureSpellsCast.class);
-				java.util.Map<Integer, Integer> flagValue = flag.getValue(state);
+				Map<Integer, Integer> flagValue = flag.getValue(state);
 
 				int castingPlayerID = flagValue.get(countered.ID);
 				this.value.add(castingPlayerID);
@@ -166,7 +174,7 @@ public final class SummoningTrap extends Card
 		state.ensureTracker(new CreatureSpellsCast());
 		state.ensureTracker(new HadACreatureSpellCounteredByAnOpponent.CounterspellTracker());
 		SetGenerator trapCondition = Intersect.instance(HadACreatureSpellCounteredByAnOpponent.instance(), You.instance());
-		this.addAbility(new org.rnd.jmagic.abilities.Trap(state, this.getName(), trapCondition, "If a creature spell you cast this turn was countered by a spell or ability an opponent controlled", "(0)"));
+		this.addAbility(new Trap(state, this.getName(), trapCondition, "If a creature spell you cast this turn was countered by a spell or ability an opponent controlled", "(0)"));
 
 		// Look at the top seven cards of your library.
 		SetGenerator yourLibrary = LibraryOf.instance(You.instance());

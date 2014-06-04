@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.FirstStrike;
+import org.rnd.jmagic.abilities.keywords.Vigilance;
 import org.rnd.jmagic.engine.*;
 
 @Name("Truefire Paladin")
@@ -27,7 +30,7 @@ public final class TruefirePaladin extends Card
 		{
 			super(state, "(R)(W): Truefire Paladin gains first strike until end of turn.");
 			this.setManaCost(new ManaPool("(R)(W)"));
-			this.addEffect(addAbilityUntilEndOfTurn(ABILITY_SOURCE_OF_THIS, org.rnd.jmagic.abilities.keywords.FirstStrike.class, "Truefire Paladin gains first strike until end of turn."));
+			this.addEffect(addAbilityUntilEndOfTurn(ABILITY_SOURCE_OF_THIS, FirstStrike.class, "Truefire Paladin gains first strike until end of turn."));
 		}
 	}
 
@@ -39,7 +42,7 @@ public final class TruefirePaladin extends Card
 		this.setToughness(2);
 
 		// Vigilance
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Vigilance(state));
+		this.addAbility(new Vigilance(state));
 
 		// (R)(W): Truefire Paladin gets +2/+0 until end of turn.
 		this.addAbility(new TruefirePaladinAbility1(state));

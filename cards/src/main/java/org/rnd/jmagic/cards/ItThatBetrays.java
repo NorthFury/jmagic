@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Annihilator;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -45,7 +46,7 @@ public final class ItThatBetrays extends Card
 
 		// Annihilator 2 (Whenever this creature attacks, defending player
 		// sacrifices two permanents.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Annihilator.Final(state, 2));
+		this.addAbility(new Annihilator.Final(state, 2));
 
 		// Whenever an opponent sacrifices a nontoken permanent, put that card
 		// onto the battlefield under your control.

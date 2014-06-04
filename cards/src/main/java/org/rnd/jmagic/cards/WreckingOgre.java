@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.Bloodrush;
+import org.rnd.jmagic.abilities.keywords.DoubleStrike;
 import org.rnd.jmagic.engine.*;
 
 @Name("Wrecking Ogre")
@@ -18,10 +20,10 @@ public final class WreckingOgre extends Card
 		this.setToughness(3);
 
 		// Double strike
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.DoubleStrike(state));
+		this.addAbility(new DoubleStrike(state));
 
 		// Bloodrush \u2014 (3)(R)(R), Discard Wrecking Ogre: Target attacking
 		// creature gets +3/+3 and gains double strike until end of turn.
-		this.addAbility(new org.rnd.jmagic.abilities.Bloodrush(state, "(3)(R)(R)", "Wrecking Ogre", +3, +3, "Target attacking creature gets +3/+3 and gains double strike until end of turn.", org.rnd.jmagic.abilities.keywords.DoubleStrike.class));
+		this.addAbility(new Bloodrush(state, "(3)(R)(R)", "Wrecking Ogre", +3, +3, "Target attacking creature gets +3/+3 and gains double strike until end of turn.", DoubleStrike.class));
 	}
 }

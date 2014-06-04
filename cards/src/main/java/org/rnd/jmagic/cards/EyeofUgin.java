@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.CostsYouLessToCast;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -40,7 +41,7 @@ public final class EyeofUgin extends Card
 		// Colorless Eldrazi spells you cast cost (2) less to cast.
 		SetGenerator eldraziSpells = Intersect.instance(HasSubType.instance(SubType.ELDRAZI), Spells.instance());
 		SetGenerator colorlessEldraziSpells = RelativeComplement.instance(eldraziSpells, HasColor.instance(Color.allColors()));
-		this.addAbility(new org.rnd.jmagic.abilities.CostsYouLessToCast(state, colorlessEldraziSpells, "(2)", "Colorless Eldrazi spells you cast cost (2) less to cast."));
+		this.addAbility(new CostsYouLessToCast(state, colorlessEldraziSpells, "(2)", "Colorless Eldrazi spells you cast cost (2) less to cast."));
 
 		// (7), (T): Search your library for a colorless creature card, reveal
 		// it, and put it into your hand. Then shuffle your library.

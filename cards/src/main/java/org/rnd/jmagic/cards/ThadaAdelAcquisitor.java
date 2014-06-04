@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Landwalk;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -48,7 +50,7 @@ public final class ThadaAdelAcquisitor extends Card
 		this.setToughness(2);
 
 		// Islandwalk
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Landwalk.Islandwalk(state));
+		this.addAbility(new Landwalk.Islandwalk(state));
 
 		// Whenever Thada Adel, Acquisitor deals combat damage to a player,
 		// search that player's library for an artifact card and exile it. Then

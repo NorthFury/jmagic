@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -21,7 +23,7 @@ public final class ArashitheSkyAsunder extends Card
 			this.setManaCost(new ManaPool("(X)(G)"));
 			this.costsTap = true;
 
-			SetGenerator flying = HasKeywordAbility.instance(org.rnd.jmagic.abilities.keywords.Flying.class);
+			SetGenerator flying = HasKeywordAbility.instance(Flying.class);
 			SetGenerator creaturesWithFlying = Intersect.instance(CreaturePermanents.instance(), flying);
 			this.addEffect(permanentDealDamage(ValueOfX.instance(This.instance()), creaturesWithFlying, "Arashi, the Sky Asunder deals X damage to target creature with flying."));
 		}
@@ -42,7 +44,7 @@ public final class ArashitheSkyAsunder extends Card
 			discard.parameters.put(EventType.Parameter.PLAYER, You.instance());
 			this.addCost(discard);
 
-			SetGenerator flying = HasKeywordAbility.instance(org.rnd.jmagic.abilities.keywords.Flying.class);
+			SetGenerator flying = HasKeywordAbility.instance(Flying.class);
 			SetGenerator creaturesWithFlying = Intersect.instance(CreaturePermanents.instance(), flying);
 			this.addEffect(permanentDealDamage(ValueOfX.instance(This.instance()), creaturesWithFlying, "Arashi, the Sky Asunder deals X damage to target creature with flying."));
 		}

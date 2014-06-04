@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.EntersTheBattlefieldWithCounters;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -41,7 +43,7 @@ public final class TrigonofMending extends Card
 
 		// Trigon of Mending enters the battlefield with three charge counters
 		// on it.
-		this.addAbility(new org.rnd.jmagic.abilities.EntersTheBattlefieldWithCounters(state, "Trigon of Mending", 3, Counter.CounterType.CHARGE));
+		this.addAbility(new EntersTheBattlefieldWithCounters(state, "Trigon of Mending", 3, Counter.CounterType.CHARGE));
 
 		// (W)(W), (T): Put a charge counter on Trigon of Mending.
 		this.addAbility(new TrigonofMendingAbility1(state));

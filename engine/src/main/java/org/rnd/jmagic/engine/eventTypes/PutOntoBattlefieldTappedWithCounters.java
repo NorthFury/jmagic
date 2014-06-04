@@ -3,6 +3,9 @@ package org.rnd.jmagic.engine.eventTypes;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public final class PutOntoBattlefieldTappedWithCounters extends EventType
 {	public static final EventType INSTANCE = new PutOntoBattlefieldTappedWithCounters();
 
@@ -18,7 +21,7 @@ public final class PutOntoBattlefieldTappedWithCounters extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean attempt(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		for(GameObject object: parameters.get(Parameter.OBJECT).getAll(GameObject.class))
 			if(object.isGhost())
@@ -27,7 +30,7 @@ public final class PutOntoBattlefieldTappedWithCounters extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		Event putOntoBattlefield = createEvent(game, "Put " + parameters.get(Parameter.OBJECT) + " onto the battlefield.", PUT_ONTO_BATTLEFIELD, parameters);
 		boolean status = putOntoBattlefield.perform(event, false);
@@ -36,7 +39,7 @@ public final class PutOntoBattlefieldTappedWithCounters extends EventType
 			if(object.zoneID == game.actualState.battlefield().ID)
 				object.getPhysical().setTapped(true);
 
-		java.util.Map<Parameter, MagicSet> counterParameters = new java.util.HashMap<Parameter, MagicSet>();
+		Map<Parameter, MagicSet> counterParameters = new HashMap<Parameter, MagicSet>();
 		counterParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 		int number = 1;
 		if(parameters.containsKey(Parameter.NUMBER))

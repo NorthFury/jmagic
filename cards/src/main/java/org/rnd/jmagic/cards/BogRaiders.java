@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Landwalk;
 import org.rnd.jmagic.engine.*;
 
 @Name("Bog Raiders")
@@ -19,6 +20,6 @@ public final class BogRaiders extends Card
 
 		// Swampwalk (This creature is unblockable as long as defending player
 		// controls a Swamp.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Landwalk.Swampwalk(state));
+		this.addAbility(new Landwalk.Swampwalk(state));
 	}
 }

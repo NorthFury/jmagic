@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.EntersTheBattlefieldWithCounters;
+import org.rnd.jmagic.abilities.keywords.Kicker;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -34,13 +37,13 @@ public final class EverflowingChalice extends Card
 		super(state);
 
 		// Multikicker (2)
-		org.rnd.jmagic.abilities.keywords.Kicker ability = new org.rnd.jmagic.abilities.keywords.Kicker(state, true, "(2)");
+		Kicker ability = new Kicker(state, true, "(2)");
 		this.addAbility(ability);
 		CostCollection kickerCost = ability.costCollections[0];
 
 		// Everflowing Chalice enters the battlefield with a charge counter on
 		// it for each time it was kicked.
-		this.addAbility(new org.rnd.jmagic.abilities.EntersTheBattlefieldWithCounters(state, "Everflowing Chalice", ThisSpellWasKicked.instance(kickerCost), "a charge counter on it for each time it was kicked", Counter.CounterType.CHARGE));
+		this.addAbility(new EntersTheBattlefieldWithCounters(state, "Everflowing Chalice", ThisSpellWasKicked.instance(kickerCost), "a charge counter on it for each time it was kicked", Counter.CounterType.CHARGE));
 
 		// (T): Add (1) to your mana pool for each charge counter on Everflowing
 		// Chalice.

@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.TapForW;
 import org.rnd.jmagic.engine.*;
 
 @Name("Gold Myr")
@@ -18,6 +19,6 @@ public final class GoldMyr extends Card
 		this.setToughness(1);
 
 		// (T): Add (W) to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapForW(state));
+		this.addAbility(new TapForW(state));
 	}
 }

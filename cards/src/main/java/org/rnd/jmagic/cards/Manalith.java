@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.TapForAnyColor;
 import org.rnd.jmagic.engine.*;
 
 @Name("Manalith")
@@ -14,6 +15,6 @@ public final class Manalith extends Card
 		super(state);
 
 		// (T): Add one mana of any color to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapForAnyColor(state));
+		this.addAbility(new TapForAnyColor(state));
 	}
 }

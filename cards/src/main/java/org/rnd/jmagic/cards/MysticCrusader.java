@@ -2,6 +2,8 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Protection;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -21,7 +23,7 @@ public final class MysticCrusader extends Card
 
 			this.addEffectPart(modifyPowerAndToughness(This.instance(), +1, +1));
 
-			this.addEffectPart(addAbilityToObject(This.instance(), org.rnd.jmagic.abilities.keywords.Flying.class));
+			this.addEffectPart(addAbilityToObject(This.instance(), Flying.class));
 
 			this.canApply = Both.instance(this.canApply, Threshold.instance());
 		}
@@ -34,7 +36,7 @@ public final class MysticCrusader extends Card
 		this.setPower(2);
 		this.setToughness(1);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Protection.From(state, HasColor.instance(Color.BLACK, Color.RED), "black and from red"));
+		this.addAbility(new Protection.From(state, HasColor.instance(Color.BLACK, Color.RED), "black and from red"));
 
 		this.addAbility(new KingRichard(state));
 	}

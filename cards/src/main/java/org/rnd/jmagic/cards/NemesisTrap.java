@@ -2,8 +2,12 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.Trap;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Name("Nemesis Trap")
 @Types({Type.INSTANT})
@@ -29,7 +33,7 @@ public final class NemesisTrap extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			MagicSet target = parameters.get(Parameter.TARGET);
 			GameObject targeted = target.getOne(GameObject.class);
@@ -46,7 +50,7 @@ public final class NemesisTrap extends Card
 			MagicSet cause = parameters.get(Parameter.CAUSE);
 			MagicSet you = parameters.get(Parameter.PLAYER);
 
-			java.util.Map<Parameter, MagicSet> tokenParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> tokenParameters = new HashMap<Parameter, MagicSet>();
 			tokenParameters.put(Parameter.CAUSE, cause);
 			tokenParameters.put(Parameter.CONTROLLER, you);
 			tokenParameters.put(Parameter.OBJECT, target);
@@ -58,7 +62,7 @@ public final class NemesisTrap extends Card
 
 			EventFactory exileTheToken = exile(Identity.instance(created), "Exile it");
 
-			java.util.Map<Parameter, MagicSet> triggerParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> triggerParameters = new HashMap<Parameter, MagicSet>();
 			triggerParameters.put(Parameter.CAUSE, cause);
 			triggerParameters.put(Parameter.EVENT, new MagicSet(atTheBeginningOfTheEndStep()));
 			triggerParameters.put(Parameter.EFFECT, new MagicSet(exileTheToken));
@@ -78,7 +82,7 @@ public final class NemesisTrap extends Card
 		// If a white creature is attacking, you may pay (B)(B) rather than pay
 		// Nemesis Trap's mana cost.
 		SetGenerator whiteAttacking = Intersect.instance(HasColor.instance(Color.WHITE), Attacking.instance());
-		this.addAbility(new org.rnd.jmagic.abilities.Trap(state, this.getName(), whiteAttacking, "If a white creature is attacking", "(B)(B)"));
+		this.addAbility(new Trap(state, this.getName(), whiteAttacking, "If a white creature is attacking", "(B)(B)"));
 
 		// Exile target attacking creature. Put a token that's a copy of that
 		// creature onto the battlefield. Exile it at the beginning of the next

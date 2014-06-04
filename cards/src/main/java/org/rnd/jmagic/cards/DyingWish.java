@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Enchant;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -34,7 +36,7 @@ public final class DyingWish extends Card
 		super(state);
 
 		// Enchant creature you control
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Enchant.CreatureYouControl(state));
+		this.addAbility(new Enchant.CreatureYouControl(state));
 
 		// When enchanted creature dies, target player loses X life and you gain
 		// X life, where X is its power.

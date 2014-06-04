@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Deathtouch;
 import org.rnd.jmagic.engine.*;
 
 @Name("Typhoid Rats")
@@ -19,6 +20,6 @@ public final class TyphoidRats extends Card
 
 		// Deathtouch (Any amount of damage this deals to a creature is enough
 		// to destroy it.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Deathtouch(state));
+		this.addAbility(new Deathtouch(state));
 	}
 }

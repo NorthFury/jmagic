@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Bloodthirst;
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 
 @Name("Duskhunter Bat")
@@ -19,9 +21,9 @@ public final class DuskhunterBat extends Card
 
 		// Bloodthirst 1 (If an opponent was dealt damage this turn, this
 		// creature enters the battlefield with a +1/+1 counter on it.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Bloodthirst.Final(state, 1));
+		this.addAbility(new Bloodthirst.Final(state, 1));
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 	}
 }

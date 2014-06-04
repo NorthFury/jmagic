@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.FirstStrike;
 import org.rnd.jmagic.engine.*;
 
 @Name("Saberclaw Golem")
@@ -17,7 +19,7 @@ public final class SaberclawGolem extends Card
 		{
 			super(state, "(R): Saberclaw Golem gains first strike until end of turn.");
 			this.setManaCost(new ManaPool("(R)"));
-			this.addEffect(createFloatingEffect("Saberclaw Golem gains first strike until end of turn.", addAbilityToObject(ABILITY_SOURCE_OF_THIS, org.rnd.jmagic.abilities.keywords.FirstStrike.class)));
+			this.addEffect(createFloatingEffect("Saberclaw Golem gains first strike until end of turn.", addAbilityToObject(ABILITY_SOURCE_OF_THIS, FirstStrike.class)));
 		}
 	}
 

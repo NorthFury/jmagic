@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Kicker;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -71,9 +72,9 @@ public final class ThornscapeBattlemage extends Card
 		this.setPower(2);
 		this.setToughness(2);
 
-		CostCollection redKickerCost = new CostCollection(org.rnd.jmagic.abilities.keywords.Kicker.COST_TYPE, "R");
-		CostCollection whiteKickerCost = new CostCollection(org.rnd.jmagic.abilities.keywords.Kicker.COST_TYPE, "W");
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Kicker(state, redKickerCost, whiteKickerCost));
+		CostCollection redKickerCost = new CostCollection(Kicker.COST_TYPE, "R");
+		CostCollection whiteKickerCost = new CostCollection(Kicker.COST_TYPE, "W");
+		this.addAbility(new Kicker(state, redKickerCost, whiteKickerCost));
 
 		this.addAbility(new ElectricBoots(state, redKickerCost));
 

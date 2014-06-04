@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.CostsYouLessToCast;
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -30,7 +33,7 @@ public final class HeraldofWar extends Card
 		this.setToughness(3);
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// Whenever Herald of War attacks, put a +1/+1 counter on it.
 		this.addAbility(new HeraldofWarAbility1(state));
@@ -39,6 +42,6 @@ public final class HeraldofWar extends Card
 		// +1/+1 counter on Herald of War.
 		SetGenerator types = HasSubType.instance(SubType.ANGEL, SubType.HUMAN);
 		SetGenerator number = Count.instance(CountersOn.instance(This.instance(), Counter.CounterType.PLUS_ONE_PLUS_ONE));
-		this.addAbility(new org.rnd.jmagic.abilities.CostsYouLessToCast(state, types, "(1)", number, "Angel spells and Human spells you cast cost (1) less to cast for each +1/+1 counter on Herald of War."));
+		this.addAbility(new CostsYouLessToCast(state, types, "(1)", number, "Angel spells and Human spells you cast cost (1) less to cast for each +1/+1 counter on Herald of War."));
 	}
 }

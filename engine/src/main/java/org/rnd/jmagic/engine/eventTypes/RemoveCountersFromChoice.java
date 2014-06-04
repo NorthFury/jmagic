@@ -5,6 +5,10 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
 public final class RemoveCountersFromChoice extends EventType
 {	public static final EventType INSTANCE = new RemoveCountersFromChoice();
 
@@ -20,7 +24,7 @@ public final class RemoveCountersFromChoice extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean attempt(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		Counter.CounterType type = parameters.get(Parameter.COUNTER).getOne(Counter.CounterType.class);
 		int number = 1;
@@ -38,7 +42,7 @@ public final class RemoveCountersFromChoice extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		Player player = parameters.get(Parameter.PLAYER).getOne(Player.class);
 		Counter.CounterType type = parameters.get(Parameter.COUNTER).getOne(Counter.CounterType.class);
@@ -46,7 +50,7 @@ public final class RemoveCountersFromChoice extends EventType
 		if(parameters.containsKey(Parameter.NUMBER))
 			number = parameters.get(Parameter.NUMBER).getOne(Integer.class);
 
-		java.util.Set<GameObject> objects = new java.util.HashSet<GameObject>();
+		Set<GameObject> objects = new HashSet<GameObject>();
 		for(GameObject o: parameters.get(Parameter.OBJECT).getAll(GameObject.class))
 		{
 			int counters = 0;

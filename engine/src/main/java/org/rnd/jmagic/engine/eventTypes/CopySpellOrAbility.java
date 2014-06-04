@@ -3,6 +3,11 @@ package org.rnd.jmagic.engine.eventTypes;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
 public final class CopySpellOrAbility extends EventType
 {	public static final EventType INSTANCE = new CopySpellOrAbility();
 
@@ -18,7 +23,7 @@ public final class CopySpellOrAbility extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		Player controller = null;
 		if(parameters.containsKey(Parameter.PLAYER))
@@ -32,7 +37,7 @@ public final class CopySpellOrAbility extends EventType
 
 		int number = (parameters.containsKey(Parameter.NUMBER) ? Sum.get(parameters.get(Parameter.NUMBER)) : 1);
 
-		java.util.Map<GameObject, GameObject> copies = new java.util.HashMap<GameObject, GameObject>();
+		Map<GameObject, GameObject> copies = new HashMap<GameObject, GameObject>();
 
 		for(GameObject object: parameters.get(Parameter.OBJECT).getAll(GameObject.class))
 		{
@@ -72,11 +77,11 @@ public final class CopySpellOrAbility extends EventType
 
 		if(!copies.isEmpty())
 		{
-			for(java.util.Map.Entry<GameObject, GameObject> entry: copies.entrySet())
+			for(Map.Entry<GameObject, GameObject> entry: copies.entrySet())
 			{
 				Zone toZone = entry.getValue().getZone();
 
-				java.util.Map<Parameter, MagicSet> moveParameters = new java.util.HashMap<Parameter, MagicSet>();
+				Map<Parameter, MagicSet> moveParameters = new HashMap<Parameter, MagicSet>();
 				moveParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 				if(controllerSet != null)
 					moveParameters.put(Parameter.CONTROLLER, controllerSet);
@@ -102,7 +107,7 @@ public final class CopySpellOrAbility extends EventType
 
 				for(GameObject copy: result.getAll(GameObject.class))
 				{
-					java.util.Set<Integer> targets = new java.util.HashSet<Integer>();
+					Set<Integer> targets = new HashSet<Integer>();
 					for(Mode m: copy.getSelectedModes())
 						for(Target possibleTarget: m.targets)
 							for(Target chosenTarget: copy.getChosenTargets().get(possibleTarget))
@@ -122,7 +127,7 @@ public final class CopySpellOrAbility extends EventType
 						becomesTargetFactory.parameters.put(Parameter.OBJECT, Identity.instance(copy));
 						becomesTargetFactory.parameters.put(Parameter.TARGET, IdentifiedWithID.instance(targets));
 
-						java.util.Map<Parameter, MagicSet> targetParameters = new java.util.HashMap<Parameter, MagicSet>();
+						Map<Parameter, MagicSet> targetParameters = new HashMap<Parameter, MagicSet>();
 						targetParameters.put(Parameter.IF, new MagicSet(mayFactory));
 						targetParameters.put(Parameter.ELSE, new MagicSet(becomesTargetFactory));
 						Event mayEvent = createEvent(game, "You may choose new targets for " + copy, EventType.IF_EVENT_THEN_ELSE, targetParameters);

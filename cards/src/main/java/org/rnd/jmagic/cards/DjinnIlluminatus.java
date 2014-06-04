@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Replicate;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -20,7 +22,7 @@ public final class DjinnIlluminatus extends Card
 			SetGenerator affected = Intersect.instance(HasType.instance(Type.INSTANT, Type.SORCERY), ControlledBy.instance(You.instance(), Stack.instance()));
 
 			ContinuousEffect.Part part = new ContinuousEffect.Part(ContinuousEffectType.GRANT_COSTED_KEYWORD);
-			part.parameters.put(ContinuousEffectType.Parameter.ABILITY, Identity.instance(org.rnd.jmagic.abilities.keywords.Replicate.class));
+			part.parameters.put(ContinuousEffectType.Parameter.ABILITY, Identity.instance(Replicate.class));
 			part.parameters.put(ContinuousEffectType.Parameter.OBJECT, affected);
 			this.addEffectPart(part);
 		}
@@ -33,7 +35,7 @@ public final class DjinnIlluminatus extends Card
 		this.setPower(3);
 		this.setToughness(5);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		this.addAbility(new Replicant(state));
 	}

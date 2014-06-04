@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Level;
+import org.rnd.jmagic.abilities.keywords.LevelUp;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -35,16 +38,16 @@ public final class LighthouseChronologist extends Card
 		this.setToughness(3);
 
 		// Level up (U)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.LevelUp(state, "(U)"));
+		this.addAbility(new LevelUp(state, "(U)"));
 
 		// LEVEL 4-6
 		// 2/4
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Level(state, 4, 6, 2, 4));
+		this.addAbility(new Level(state, 4, 6, 2, 4));
 
 		// LEVEL 7+
 		// 3/5
 		// At the beginning of each end step, if it's not your turn, take an
 		// extra turn after this one.
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Level(state, 7, 3, 5, "At the beginning of each end step, if it's not your turn, take an extra turn after this one.", ExtraTurns.class));
+		this.addAbility(new Level(state, 7, 3, 5, "At the beginning of each end step, if it's not your turn, take an extra turn after this one.", ExtraTurns.class));
 	}
 }

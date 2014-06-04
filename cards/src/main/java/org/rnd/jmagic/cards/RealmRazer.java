@@ -5,6 +5,9 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Name("Realm Razer")
 @Types({Type.CREATURE})
 @SubTypes({SubType.BEAST})
@@ -42,11 +45,11 @@ public final class RealmRazer extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			MagicSet cause = new MagicSet(event.getSource());
 
-			java.util.Map<Parameter, MagicSet> moveParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> moveParameters = new HashMap<Parameter, MagicSet>();
 			moveParameters.put(EventType.Parameter.CAUSE, cause);
 			moveParameters.put(EventType.Parameter.OBJECT, parameters.get(Parameter.OBJECT));
 			Event putOntoBattlefield = createEvent(game, "Return the exiled cards to the battlefield under their owners' control", EventType.PUT_ONTO_BATTLEFIELD_UNDER_OWNER_CONTROL, moveParameters);

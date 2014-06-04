@@ -3,6 +3,8 @@ package org.rnd.jmagic.engine.eventTypes;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.Map;
+
 public final class IfEventThenElse extends EventType
 {	public static final EventType INSTANCE = new IfEventThenElse();
 
@@ -18,7 +20,7 @@ public final class IfEventThenElse extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		Event ifEvent = parameters.get(Parameter.IF).getOne(EventFactory.class).createEvent(game, event.getSource());
 		ifEvent.isCost = true;

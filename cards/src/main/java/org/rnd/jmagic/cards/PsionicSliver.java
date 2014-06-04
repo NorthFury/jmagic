@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.AllSliverCreaturesHave;
 import org.rnd.jmagic.engine.*;
 
 @Name("Psionic Sliver")
@@ -36,6 +38,6 @@ public final class PsionicSliver extends Card
 
 		// All Sliver creatures have
 		// "(T): This creature deals 2 damage to target creature or player and 3 damage to itself."
-		this.addAbility(new org.rnd.jmagic.abilities.AllSliverCreaturesHave(state, PsionicSuicide.class, "All Sliver creatures have \"(T): This creature deals 2 damage to target creature or player and 3 damage to itself.\""));
+		this.addAbility(new AllSliverCreaturesHave(state, PsionicSuicide.class, "All Sliver creatures have \"(T): This creature deals 2 damage to target creature or player and 3 damage to itself.\""));
 	}
 }

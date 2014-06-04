@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Intimidate;
 import org.rnd.jmagic.engine.*;
 
 @Name("Surrakar Marauder")
@@ -18,7 +20,7 @@ public final class SurrakarMarauder extends Card
 			super(state, "Whenever a land enters the battlefield under your control, Surrakar Marauder gains intimidate until end of turn.");
 
 			this.addPattern(landfall());
-			this.addEffect(addAbilityUntilEndOfTurn(ABILITY_SOURCE_OF_THIS, org.rnd.jmagic.abilities.keywords.Intimidate.class, "Surrakar Marauder gains intimidate until end of turn."));
+			this.addEffect(addAbilityUntilEndOfTurn(ABILITY_SOURCE_OF_THIS, Intimidate.class, "Surrakar Marauder gains intimidate until end of turn."));
 		}
 	}
 

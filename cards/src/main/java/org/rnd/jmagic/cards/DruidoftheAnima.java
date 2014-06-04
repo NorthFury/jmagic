@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.TapForMana;
 import org.rnd.jmagic.engine.*;
 
 @Name("Druid of the Anima")
@@ -17,6 +18,6 @@ public final class DruidoftheAnima extends Card
 		this.setPower(1);
 		this.setToughness(1);
 
-		this.addAbility(new org.rnd.jmagic.abilities.TapForMana.Final(state, "(RGW)"));
+		this.addAbility(new TapForMana.Final(state, "(RGW)"));
 	}
 }

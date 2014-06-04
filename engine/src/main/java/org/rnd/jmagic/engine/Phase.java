@@ -1,5 +1,9 @@
 package org.rnd.jmagic.engine;
 
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+
 /** Represents a phase within a turn. */
 public class Phase implements Ownable, Iterable<Step>
 {
@@ -9,9 +13,9 @@ public class Phase implements Ownable, Iterable<Step>
 		BEGINNING
 		{
 			@Override
-			public java.util.LinkedList<Step> steps(Player owner)
+			public LinkedList<Step> steps(Player owner)
 			{
-				java.util.LinkedList<Step> returnValue = new java.util.LinkedList<Step>();
+				LinkedList<Step> returnValue = new LinkedList<Step>();
 				returnValue.add(new Step(owner, Step.StepType.UNTAP));
 				returnValue.add(new Step(owner, Step.StepType.UPKEEP));
 				returnValue.add(new Step(owner, Step.StepType.DRAW));
@@ -27,9 +31,9 @@ public class Phase implements Ownable, Iterable<Step>
 		PRECOMBAT_MAIN
 		{
 			@Override
-			public java.util.LinkedList<Step> steps(Player owner)
+			public LinkedList<Step> steps(Player owner)
 			{
-				java.util.LinkedList<Step> returnValue = new java.util.LinkedList<Step>();
+				LinkedList<Step> returnValue = new LinkedList<Step>();
 				returnValue.add(new Step(owner, Step.StepType.PRECOMBAT_MAIN));
 				return returnValue;
 			}
@@ -43,9 +47,9 @@ public class Phase implements Ownable, Iterable<Step>
 		COMBAT
 		{
 			@Override
-			public java.util.LinkedList<Step> steps(Player owner)
+			public LinkedList<Step> steps(Player owner)
 			{
-				java.util.LinkedList<Step> returnValue = new java.util.LinkedList<Step>();
+				LinkedList<Step> returnValue = new LinkedList<Step>();
 				returnValue.add(new Step(owner, Step.StepType.BEGINNING_OF_COMBAT));
 				returnValue.add(new Step(owner, Step.StepType.DECLARE_ATTACKERS));
 				returnValue.add(new Step(owner, Step.StepType.DECLARE_BLOCKERS));
@@ -63,9 +67,9 @@ public class Phase implements Ownable, Iterable<Step>
 		POSTCOMBAT_MAIN
 		{
 			@Override
-			public java.util.LinkedList<Step> steps(Player owner)
+			public LinkedList<Step> steps(Player owner)
 			{
-				java.util.LinkedList<Step> returnValue = new java.util.LinkedList<Step>();
+				LinkedList<Step> returnValue = new LinkedList<Step>();
 				returnValue.add(new Step(owner, Step.StepType.POSTCOMBAT_MAIN));
 				return returnValue;
 			}
@@ -79,9 +83,9 @@ public class Phase implements Ownable, Iterable<Step>
 		ENDING
 		{
 			@Override
-			public java.util.LinkedList<Step> steps(Player owner)
+			public LinkedList<Step> steps(Player owner)
 			{
-				java.util.LinkedList<Step> returnValue = new java.util.LinkedList<Step>();
+				LinkedList<Step> returnValue = new LinkedList<Step>();
 				returnValue.add(new Step(owner, Step.StepType.END));
 				returnValue.add(new Step(owner, Step.StepType.CLEANUP));
 				return returnValue;
@@ -100,7 +104,7 @@ public class Phase implements Ownable, Iterable<Step>
 		 * @param owner Who owns the phase (and thus owns the steps).
 		 * @return The steps contained in a phase of this type.
 		 */
-		abstract public java.util.LinkedList<Step> steps(Player owner);
+		abstract public LinkedList<Step> steps(Player owner);
 	}
 
 	/**
@@ -116,10 +120,10 @@ public class Phase implements Ownable, Iterable<Step>
 	public int ownerID;
 
 	/** The steps in this phase. */
-	public java.util.List<Step> steps;
+	public List<Step> steps;
 
 	/** Steps in this phase that have been run. */
-	public java.util.List<Step> stepsRan;
+	public List<Step> stepsRan;
 
 	public final PhaseType type;
 
@@ -136,7 +140,7 @@ public class Phase implements Ownable, Iterable<Step>
 
 		this.blockersDeclared = false;
 
-		this.stepsRan = new java.util.LinkedList<Step>();
+		this.stepsRan = new LinkedList<Step>();
 	}
 
 	private void addSteps(Player owner)
@@ -157,7 +161,7 @@ public class Phase implements Ownable, Iterable<Step>
 	 * @return An iterator over the steps in this phase.
 	 */
 	@Override
-	public java.util.Iterator<Step> iterator()
+	public Iterator<Step> iterator()
 	{
 		return this.steps.iterator();
 	}

@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Infect;
 import org.rnd.jmagic.engine.*;
 
 @Name("Flesh-Eater Imp")
@@ -29,11 +32,11 @@ public final class FleshEaterImp extends Card
 		this.setToughness(2);
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// Infect (This creature deals damage to creatures in the form of -1/-1
 		// counters and to players in the form of poison counters.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Infect(state));
+		this.addAbility(new Infect(state));
 
 		// Sacrifice a creature: Flesh-Eater Imp gets +1/+1 until end of turn.
 		this.addAbility(new FleshEaterImpAbility2(state));

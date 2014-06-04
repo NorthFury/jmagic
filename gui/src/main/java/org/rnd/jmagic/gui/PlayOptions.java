@@ -2,6 +2,9 @@ package org.rnd.jmagic.gui;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
 
 import javax.swing.*;
 
@@ -104,13 +107,13 @@ final class PlayOptions extends ConfigurationFrame.OptionPanel
 	private JCheckBox renderDmg;
 	private JCheckBox renderCtrs;
 	private JCheckBox rotate;
-	private java.util.Map<Arrow.ArrowType, Box> arrows;
+	private Map<Arrow.ArrowType, Box> arrows;
 
 	PlayOptions()
 	{
 		super("Play");
 
-		this.setLayout(new java.awt.BorderLayout());
+		this.setLayout(new BorderLayout());
 
 		SpringLayout layout = new SpringLayout();
 
@@ -168,7 +171,7 @@ final class PlayOptions extends ConfigurationFrame.OptionPanel
 		innerPanel.add(Box.createVerticalStrut(5));
 		innerPanel.add(zoneBox);
 
-		this.arrows = new java.util.HashMap<Arrow.ArrowType, Box>();
+		this.arrows = new HashMap<Arrow.ArrowType, Box>();
 
 		JPanel arrowsBox = new JPanel();
 		arrowsBox.setLayout(new BoxLayout(arrowsBox, BoxLayout.Y_AXIS));
@@ -195,7 +198,7 @@ final class PlayOptions extends ConfigurationFrame.OptionPanel
 	}
 
 	@Override
-	public void loadSettings(java.util.Properties properties)
+	public void loadSettings(Properties properties)
 	{
 		this.rotate.setSelected(Boolean.parseBoolean(properties.getProperty(Play.PropertyKeys.ROTATE_OPP_CARDS)));
 		this.actionPopup.setSelected(Boolean.parseBoolean(properties.getProperty(Play.PropertyKeys.ACTIONS_POPUP)));
@@ -207,7 +210,7 @@ final class PlayOptions extends ConfigurationFrame.OptionPanel
 		this.miscL.setSelectedItem(properties.getProperty(Play.PropertyKeys.MISC_ZONE_L));
 		this.miscR.setSelectedItem(properties.getProperty(Play.PropertyKeys.MISC_ZONE_R));
 
-		for(java.util.Map.Entry<Arrow.ArrowType, Box> entry: this.arrows.entrySet())
+		for(Map.Entry<Arrow.ArrowType, Box> entry: this.arrows.entrySet())
 		{
 			Box box = entry.getValue();
 			JCheckBox checkbox = (JCheckBox)box.getComponent(0);
@@ -219,7 +222,7 @@ final class PlayOptions extends ConfigurationFrame.OptionPanel
 	}
 
 	@Override
-	public void saveChanges(java.util.Properties properties)
+	public void saveChanges(Properties properties)
 	{
 		properties.setProperty(Play.PropertyKeys.ROTATE_OPP_CARDS, Boolean.toString(this.rotate.isSelected()));
 		properties.setProperty(Play.PropertyKeys.ACTIONS_POPUP, Boolean.toString(this.actionPopup.isSelected()));
@@ -231,7 +234,7 @@ final class PlayOptions extends ConfigurationFrame.OptionPanel
 		properties.setProperty(Play.PropertyKeys.MISC_ZONE_L, (String)this.miscL.getSelectedItem());
 		properties.setProperty(Play.PropertyKeys.MISC_ZONE_R, (String)this.miscR.getSelectedItem());
 
-		for(java.util.Map.Entry<Arrow.ArrowType, Box> entry: this.arrows.entrySet())
+		for(Map.Entry<Arrow.ArrowType, Box> entry: this.arrows.entrySet())
 		{
 			Box box = entry.getValue();
 			JCheckBox checkbox = (JCheckBox)box.getComponent(0);

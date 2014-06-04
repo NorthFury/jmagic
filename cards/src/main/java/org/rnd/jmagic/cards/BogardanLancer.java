@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Bloodthirst;
+import org.rnd.jmagic.abilities.keywords.Flanking;
 import org.rnd.jmagic.engine.*;
 
 @Name("Bogardan Lancer")
@@ -17,7 +19,7 @@ public final class BogardanLancer extends Card
 		this.setPower(1);
 		this.setToughness(1);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Bloodthirst.Final(state, 1));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flanking(state));
+		this.addAbility(new Bloodthirst.Final(state, 1));
+		this.addAbility(new Flanking(state));
 	}
 }

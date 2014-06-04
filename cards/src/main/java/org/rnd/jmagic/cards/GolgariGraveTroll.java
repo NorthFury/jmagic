@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.EntersTheBattlefieldWithCounters;
+import org.rnd.jmagic.abilities.keywords.Dredge;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -37,7 +40,7 @@ public final class GolgariGraveTroll extends Card
 		SetGenerator yourGraveyard = GraveyardOf.instance(You.instance());
 		SetGenerator creaturesInYourGraveyard = Intersect.instance(HasType.instance(Type.CREATURE), InZone.instance(yourGraveyard));
 		SetGenerator numCounters = Count.instance(creaturesInYourGraveyard);
-		this.addAbility(new org.rnd.jmagic.abilities.EntersTheBattlefieldWithCounters(state, this.getName(), numCounters, "a +1/+1 counter on it for each creature card in your graveyard", Counter.CounterType.PLUS_ONE_PLUS_ONE));
+		this.addAbility(new EntersTheBattlefieldWithCounters(state, this.getName(), numCounters, "a +1/+1 counter on it for each creature card in your graveyard", Counter.CounterType.PLUS_ONE_PLUS_ONE));
 
 		// (1), Remove a +1/+1 counter from Golgari Grave-Troll: Regenerate
 		// Golgari Grave-Troll.
@@ -47,6 +50,6 @@ public final class GolgariGraveTroll extends Card
 		// cards from the top of your library into your graveyard. If you do,
 		// return this card from your graveyard to your hand. Otherwise, draw a
 		// card.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Dredge(state, 6));
+		this.addAbility(new Dredge(state, 6));
 	}
 }

@@ -3,6 +3,7 @@ package org.rnd.jmagic.testing;
 import static org.junit.Assert.*;
 
 import org.junit.*;
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.cards.*;
 import org.rnd.jmagic.engine.*;
 
@@ -171,7 +172,7 @@ public class DelayedTriggersTest extends JUnitTest
 		pass();
 
 		assertEquals("Runeclaw Bear", this.game.actualState.battlefield().objects.get(0).getName());
-		assertTrue(this.game.actualState.battlefield().objects.get(0).hasAbility(org.rnd.jmagic.abilities.keywords.Flying.class));
+		assertTrue(this.game.actualState.battlefield().objects.get(0).hasAbility(Flying.class));
 
 		goToStep(Step.StepType.END);
 

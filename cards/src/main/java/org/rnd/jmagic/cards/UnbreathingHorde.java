@@ -1,8 +1,14 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.EntersTheBattlefieldWithCounters;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 
 @Name("Unbreathing Horde")
 @Types({Type.CREATURE})
@@ -36,17 +42,17 @@ public final class UnbreathingHorde extends Card
 			}
 
 			@Override
-			public java.util.List<EventFactory> prevent(DamageAssignment.Batch damageAssignments)
+			public List<EventFactory> prevent(DamageAssignment.Batch damageAssignments)
 			{
 				damageAssignments.clear();
-				return new java.util.LinkedList<EventFactory>();
+				return new LinkedList<EventFactory>();
 			}
 
 			@Override
-			public java.util.List<EventFactory> replace(DamageAssignment.Batch damageAssignments)
+			public List<EventFactory> replace(DamageAssignment.Batch damageAssignments)
 			{
 				if(damageAssignments.isEmpty())
-					return new java.util.LinkedList<EventFactory>();
+					return new LinkedList<EventFactory>();
 
 				SetGenerator thisThing = Identity.instance(this.getStaticSourceObject(this.game.physicalState));
 				EventFactory effect = new EventFactory(EventType.REMOVE_COUNTERS, "Remove a +1/+1 counter from it");
@@ -54,7 +60,7 @@ public final class UnbreathingHorde extends Card
 				effect.parameters.put(EventType.Parameter.COUNTER, Identity.instance(Counter.CounterType.PLUS_ONE_PLUS_ONE));
 				effect.parameters.put(EventType.Parameter.NUMBER, numberGenerator(1));
 				effect.parameters.put(EventType.Parameter.OBJECT, thisThing);
-				return java.util.Collections.singletonList(effect);
+				return Collections.singletonList(effect);
 			}
 		}
 
@@ -80,7 +86,7 @@ public final class UnbreathingHorde extends Card
 		SetGenerator youControl = ControlledBy.instance(You.instance());
 		SetGenerator inYourYard = InZone.instance(GraveyardOf.instance(You.instance()));
 		SetGenerator number = Count.instance(Intersect.instance(zombies, Union.instance(youControl, inYourYard)));
-		this.addAbility(new org.rnd.jmagic.abilities.EntersTheBattlefieldWithCounters(state, this.getName(), number, "a +1/+1 counter on it for each other Zombie you control and each Zombie card in your graveyard", Counter.CounterType.PLUS_ONE_PLUS_ONE));
+		this.addAbility(new EntersTheBattlefieldWithCounters(state, this.getName(), number, "a +1/+1 counter on it for each other Zombie you control and each Zombie card in your graveyard", Counter.CounterType.PLUS_ONE_PLUS_ONE));
 
 		// If Unbreathing Horde would be dealt damage, prevent that damage and
 		// remove a +1/+1 counter from it.

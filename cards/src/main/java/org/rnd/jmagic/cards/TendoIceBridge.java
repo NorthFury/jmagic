@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.EntersTheBattlefieldWithCounters;
+import org.rnd.jmagic.abilities.TapFor1;
 import org.rnd.jmagic.engine.*;
 
 @Name("Tendo Ice Bridge")
@@ -25,10 +28,10 @@ public final class TendoIceBridge extends Card
 		super(state);
 
 		// Tendo Ice Bridge enters the battlefield with a charge counter on it.
-		this.addAbility(new org.rnd.jmagic.abilities.EntersTheBattlefieldWithCounters(state, this.getName(), 1, Counter.CounterType.CHARGE));
+		this.addAbility(new EntersTheBattlefieldWithCounters(state, this.getName(), 1, Counter.CounterType.CHARGE));
 
 		// (T): Add (1) to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapFor1(state));
+		this.addAbility(new TapFor1(state));
 
 		// (T), Remove a charge counter from Tendo Ice Bridge: Add one mana of
 		// any color to your mana pool.

@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Exalted;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -31,7 +33,7 @@ public final class DutyBoundDead extends Card
 
 		// Exalted (Whenever a creature you control attacks alone, that creature
 		// gets +1/+1 until end of turn.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Exalted(state));
+		this.addAbility(new Exalted(state));
 
 		// (3)(B): Regenerate Duty-Bound Dead. (The next time this creature
 		// would be destroyed this turn, it isn't. Instead tap it, remove all

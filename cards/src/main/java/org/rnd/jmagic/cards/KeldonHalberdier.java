@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.FirstStrike;
+import org.rnd.jmagic.abilities.keywords.Suspend;
 import org.rnd.jmagic.engine.*;
 
 @Name("Keldon Halberdier")
@@ -17,8 +19,8 @@ public final class KeldonHalberdier extends Card
 		this.setPower(4);
 		this.setToughness(1);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.FirstStrike(state));
+		this.addAbility(new FirstStrike(state));
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Suspend(state, 4, "(R)"));
+		this.addAbility(new Suspend(state, 4, "(R)"));
 	}
 }

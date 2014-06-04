@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.SplitSecond;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.patterns.*;
 import org.rnd.jmagic.engine.generators.*;
@@ -17,7 +19,7 @@ public final class AngelsGrace extends Card
 		super(state);
 
 		// Split second
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.SplitSecond(state));
+		this.addAbility(new SplitSecond(state));
 
 		// You can't lose the game this turn and your opponents can't win the
 		// game this turn. Until end of turn, damage that would reduce your life

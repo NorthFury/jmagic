@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Reach;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -17,7 +19,7 @@ public final class Gloomwidow extends Card
 		{
 			super(state, "Gloomwidow can block only creatures with flying.");
 
-			SetGenerator hasFlying = HasKeywordAbility.instance(org.rnd.jmagic.abilities.keywords.Flying.class);
+			SetGenerator hasFlying = HasKeywordAbility.instance(Flying.class);
 			SetGenerator blockingNonFlyer = RelativeComplement.instance(BlockedBy.instance(This.instance()), hasFlying);
 
 			ContinuousEffect.Part part = new ContinuousEffect.Part(ContinuousEffectType.BLOCKING_RESTRICTION);
@@ -34,7 +36,7 @@ public final class Gloomwidow extends Card
 		this.setToughness(3);
 
 		// Reach
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Reach(state));
+		this.addAbility(new Reach(state));
 
 		// Gloomwidow can block only creatures with flying.
 		this.addAbility(new GloomwidowAbility1(state));

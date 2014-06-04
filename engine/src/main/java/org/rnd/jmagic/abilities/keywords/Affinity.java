@@ -5,6 +5,9 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.Collections;
+import java.util.List;
+
 public abstract class Affinity extends Keyword
 {
 	private final SetGenerator whatFor;
@@ -48,9 +51,9 @@ public abstract class Affinity extends Keyword
 	}
 
 	@Override
-	protected java.util.List<StaticAbility> createStaticAbilities()
+	protected List<StaticAbility> createStaticAbilities()
 	{
-		return java.util.Collections.<StaticAbility>singletonList(new AffinityAbility(this.state, this.whatFor, this.whatForText));
+		return Collections.<StaticAbility>singletonList(new AffinityAbility(this.state, this.whatFor, this.whatForText));
 	}
 
 	public static final class ForArtifacts extends Affinity

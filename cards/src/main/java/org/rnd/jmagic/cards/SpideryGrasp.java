@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Reach;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -22,6 +24,6 @@ public final class SpideryGrasp extends Card
 
 		// It gets +2/+4 and gains reach until end of turn. (It can block
 		// creatures with flying.)
-		this.addEffect(ptChangeAndAbilityUntilEndOfTurn(target, +2, +4, "It gets +2/+4 and gains reach until end of turn.", org.rnd.jmagic.abilities.keywords.Reach.class));
+		this.addEffect(ptChangeAndAbilityUntilEndOfTurn(target, +2, +4, "It gets +2/+4 and gains reach until end of turn.", Reach.class));
 	}
 }

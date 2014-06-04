@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Equip;
+import org.rnd.jmagic.abilities.keywords.Protection;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -14,7 +17,7 @@ public final class SwordofFeastandFamine extends Card
 {
 	public static final class SwordofFeastandFamineAbility0 extends StaticAbility
 	{
-		public static final class ProBG extends org.rnd.jmagic.abilities.keywords.Protection
+		public static final class ProBG extends Protection
 		{
 			public ProBG(GameState state)
 			{
@@ -59,6 +62,6 @@ public final class SwordofFeastandFamine extends Card
 		this.addAbility(new SwordofFeastandFamineAbility1(state));
 
 		// Equip (2)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Equip(state, "(2)"));
+		this.addAbility(new Equip(state, "(2)"));
 	}
 }

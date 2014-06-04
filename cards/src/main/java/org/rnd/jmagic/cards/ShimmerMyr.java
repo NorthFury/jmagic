@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Flash;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -34,7 +35,7 @@ public final class ShimmerMyr extends Card
 		this.setToughness(2);
 
 		// Flash
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flash(state));
+		this.addAbility(new Flash(state));
 
 		// You may cast artifact cards as though they had flash.
 		this.addAbility(new ShimmerMyrAbility1(state));

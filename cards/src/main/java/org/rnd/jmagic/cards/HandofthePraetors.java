@@ -51,7 +51,7 @@ public final class HandofthePraetors extends Card
 
 		// Infect (This creature deals damage to creatures in the form of -1/-1
 		// counters and to players in the form of poison counters.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Infect(state));
+		this.addAbility(new Infect(state));
 
 		// Other creatures you control with infect get +1/+1.
 		this.addAbility(new HandofthePraetorsAbility1(state));

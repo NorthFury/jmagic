@@ -2,6 +2,9 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Enchant;
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.TotemArmor;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -23,7 +26,7 @@ public final class DrakeUmbra extends Card
 
 			this.addEffectPart(modifyPowerAndToughness(enchantedCreature, +3, +3));
 
-			this.addEffectPart(addAbilityToObject(enchantedCreature, org.rnd.jmagic.abilities.keywords.Flying.class));
+			this.addEffectPart(addAbilityToObject(enchantedCreature, Flying.class));
 		}
 	}
 
@@ -32,12 +35,12 @@ public final class DrakeUmbra extends Card
 		super(state);
 
 		// Enchant creature
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Enchant.Creature(state));
+		this.addAbility(new Enchant.Creature(state));
 
 		// Enchanted creature gets +3/+3 and has flying.
 		this.addAbility(new DrakePump(state));
 
 		// Totem armor
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.TotemArmor(state));
+		this.addAbility(new TotemArmor(state));
 	}
 }

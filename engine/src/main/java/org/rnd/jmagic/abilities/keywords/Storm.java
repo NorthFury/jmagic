@@ -5,6 +5,10 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * 702.37. Storm
  * 
@@ -15,22 +19,22 @@ import org.rnd.jmagic.engine.generators.*;
  */
 public final class Storm extends Keyword
 {
-	public static class StormTracker extends Tracker<java.util.List<Integer>>
+	public static class StormTracker extends Tracker<List<Integer>>
 	{
-		private java.util.List<Integer> spellIDs = new java.util.LinkedList<Integer>();
-		private java.util.List<Integer> unmodifiable = java.util.Collections.unmodifiableList(this.spellIDs);
+		private List<Integer> spellIDs = new LinkedList<Integer>();
+		private List<Integer> unmodifiable = Collections.unmodifiableList(this.spellIDs);
 
 		@Override
 		public StormTracker clone()
 		{
 			StormTracker ret = (StormTracker)super.clone();
-			ret.spellIDs = new java.util.LinkedList<Integer>(this.spellIDs);
-			ret.unmodifiable = java.util.Collections.unmodifiableList(ret.spellIDs);
+			ret.spellIDs = new LinkedList<Integer>(this.spellIDs);
+			ret.unmodifiable = Collections.unmodifiableList(ret.spellIDs);
 			return ret;
 		}
 
 		@Override
-		protected java.util.List<Integer> getValueInternal()
+		protected List<Integer> getValueInternal()
 		{
 			return this.unmodifiable;
 		}
@@ -65,9 +69,9 @@ public final class Storm extends Keyword
 	}
 
 	@Override
-	public java.util.List<NonStaticAbility> createNonStaticAbilities()
+	public List<NonStaticAbility> createNonStaticAbilities()
 	{
-		return java.util.Collections.<NonStaticAbility>singletonList(new StormAbility(this.state));
+		return Collections.<NonStaticAbility>singletonList(new StormAbility(this.state));
 	}
 
 	public static class StormCount extends SetGenerator
@@ -89,7 +93,7 @@ public final class Storm extends Keyword
 		{
 			GameObject whichSpell = this.what.evaluate(state, thisObject).getOne(GameObject.class);
 
-			java.util.List<Integer> flagValue = state.getTracker(StormTracker.class).getValue(state);
+			List<Integer> flagValue = state.getTracker(StormTracker.class).getValue(state);
 			int count = flagValue.indexOf(whichSpell.ID);
 			return count == -1 ? ZERO : new MagicSet(count);
 		}

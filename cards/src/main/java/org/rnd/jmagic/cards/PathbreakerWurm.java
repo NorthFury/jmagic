@@ -1,5 +1,8 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.AbilityIfPaired;
+import org.rnd.jmagic.abilities.keywords.Soulbond;
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 
 @Name("Pathbreaker Wurm")
@@ -20,10 +23,10 @@ public final class PathbreakerWurm extends Card
 		// Soulbond (You may pair this creature with another unpaired creature
 		// when either enters the battlefield. They remain paired for as long as
 		// you control both of them.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Soulbond(state));
+		this.addAbility(new Soulbond(state));
 
 		// As long as Pathbreaker Wurm is paired with another creature, both
 		// creatures have trample.
-		this.addAbility(new org.rnd.jmagic.abilities.AbilityIfPaired.Final(state, "As long as Pathbreaker Wurm is paired with another creature, both creatures have trample.", org.rnd.jmagic.abilities.keywords.Trample.class));
+		this.addAbility(new AbilityIfPaired.Final(state, "As long as Pathbreaker Wurm is paired with another creature, both creatures have trample.", Trample.class));
 	}
 }

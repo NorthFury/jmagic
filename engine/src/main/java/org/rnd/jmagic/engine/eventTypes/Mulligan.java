@@ -3,6 +3,9 @@ package org.rnd.jmagic.engine.eventTypes;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public final class Mulligan extends EventType
 {	public static final EventType INSTANCE = new Mulligan();
 
@@ -18,7 +21,7 @@ public final class Mulligan extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		Player player = parameters.get(Parameter.PLAYER).getOne(Player.class);
 		Zone library = player.getLibrary(game.actualState);
@@ -31,7 +34,7 @@ public final class Mulligan extends EventType
 		MagicSet shuffleObjects = new MagicSet(cardsInHand);
 		shuffleObjects.add(player);
 
-		java.util.Map<Parameter, MagicSet> shuffleParameters = new java.util.HashMap<Parameter, MagicSet>();
+		Map<Parameter, MagicSet> shuffleParameters = new HashMap<Parameter, MagicSet>();
 		shuffleParameters.put(Parameter.CAUSE, new MagicSet(game));
 		shuffleParameters.put(Parameter.OBJECT, shuffleObjects);
 		shuffleParameters.put(Parameter.ZONE, new MagicSet(library));
@@ -40,7 +43,7 @@ public final class Mulligan extends EventType
 
 		int numberToDraw = hand.objects.size() - ((hasMulliganed || game.actualState.numPlayers() == 2) ? 1 : 0);
 
-		java.util.Map<Parameter, MagicSet> drawParameters = new java.util.HashMap<Parameter, MagicSet>();
+		Map<Parameter, MagicSet> drawParameters = new HashMap<Parameter, MagicSet>();
 		drawParameters.put(Parameter.PLAYER, new MagicSet(player));
 		drawParameters.put(Parameter.CAUSE, new MagicSet(game));
 		drawParameters.put(Parameter.NUMBER, new MagicSet(numberToDraw));

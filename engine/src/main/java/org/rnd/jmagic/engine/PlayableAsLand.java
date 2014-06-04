@@ -2,6 +2,9 @@ package org.rnd.jmagic.engine;
 
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * A class implements the {@link PlayableAsLand} interface to indicate it can be
  * played as a land. Classes that implement this must implement the following
@@ -22,9 +25,9 @@ interface PlayableAsLand
 	 */
 	class Simple implements PlayableAsLand, Cloneable
 	{
-		private java.util.List<PlayPermission> locations;
+		private List<PlayPermission> locations;
 
-		private java.util.List<PlayPermission> timings;
+		private List<PlayPermission> timings;
 
 		Simple(Identified source)
 		{
@@ -35,13 +38,13 @@ interface PlayableAsLand
 			PlayPermission locationPermission = new PlayPermission(OwnerOf.instance(thisHand));
 			locationPermission.setSource(source);
 
-			this.locations = new java.util.LinkedList<PlayPermission>();
+			this.locations = new LinkedList<PlayPermission>();
 			this.locations.add(locationPermission);
 
 			PlayPermission timingPermission = new PlayPermission(PlayerCanPlaySorcerySpeed.instance());
 			timingPermission.setSource(source);
 
-			this.timings = new java.util.LinkedList<PlayPermission>();
+			this.timings = new LinkedList<PlayPermission>();
 			this.timings.add(timingPermission);
 		}
 
@@ -63,8 +66,8 @@ interface PlayableAsLand
 			try
 			{
 				Simple ret = (Simple)super.clone();
-				ret.locations = new java.util.LinkedList<PlayPermission>(this.locations);
-				ret.timings = new java.util.LinkedList<PlayPermission>(this.timings);
+				ret.locations = new LinkedList<PlayPermission>(this.locations);
+				ret.timings = new LinkedList<PlayPermission>(this.timings);
 				return ret;
 			}
 			catch(CloneNotSupportedException e)

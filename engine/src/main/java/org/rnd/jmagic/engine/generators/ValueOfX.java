@@ -2,6 +2,8 @@ package org.rnd.jmagic.engine.generators;
 
 import org.rnd.jmagic.engine.*;
 
+import java.util.Set;
+
 /**
  * Evaluates to the x value of each given GameObject, if it uses X
  */
@@ -24,7 +26,7 @@ public class ValueOfX extends SetGenerator
 	{
 		MagicSet ret = new MagicSet();
 
-		java.util.Set<GameObject> objects = this.what.evaluate(state, thisObject).getAll(GameObject.class);
+		Set<GameObject> objects = this.what.evaluate(state, thisObject).getAll(GameObject.class);
 
 		for(GameObject object: objects)
 			if(object.getValueOfX() >= 0)

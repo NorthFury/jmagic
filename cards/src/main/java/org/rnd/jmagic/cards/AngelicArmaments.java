@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Equip;
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -21,7 +24,7 @@ public final class AngelicArmaments extends Card
 			SetGenerator equipped = EquippedBy.instance(This.instance());
 
 			this.addEffectPart(modifyPowerAndToughness(equipped, +2, +2));
-			this.addEffectPart(addAbilityToObject(equipped, org.rnd.jmagic.abilities.keywords.Flying.class));
+			this.addEffectPart(addAbilityToObject(equipped, Flying.class));
 
 			ContinuousEffect.Part color = new ContinuousEffect.Part(ContinuousEffectType.ADD_COLOR);
 			color.parameters.put(ContinuousEffectType.Parameter.OBJECT, equipped);
@@ -44,6 +47,6 @@ public final class AngelicArmaments extends Card
 		this.addAbility(new AngelicArmamentsAbility0(state));
 
 		// Equip (4)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Equip(state, "(4)"));
+		this.addAbility(new Equip(state, "(4)"));
 	}
 }

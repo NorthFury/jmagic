@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Fortify;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -52,6 +53,6 @@ public final class DarksteelGarrison extends Card
 
 		this.addAbility(new Defense(state));
 		this.addAbility(new Offense(state));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Fortify(state, "(3)"));
+		this.addAbility(new Fortify(state, "(3)"));
 	}
 }

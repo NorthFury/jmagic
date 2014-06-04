@@ -2,6 +2,8 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.PreventCombatDamage;
+import org.rnd.jmagic.abilities.keywords.Cycling;
 import org.rnd.jmagic.engine.*;
 
 @Name("Angelsong")
@@ -14,7 +16,7 @@ public final class Angelsong extends Card
 	public Angelsong(GameState state)
 	{
 		super(state);
-		this.addEffect(createFloatingReplacement(new org.rnd.jmagic.abilities.PreventCombatDamage(this.game), "Prevent all combat damage that would be dealt this turn."));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Cycling(state, "(2)"));
+		this.addEffect(createFloatingReplacement(new PreventCombatDamage(this.game), "Prevent all combat damage that would be dealt this turn."));
+		this.addAbility(new Cycling(state, "(2)"));
 	}
 }

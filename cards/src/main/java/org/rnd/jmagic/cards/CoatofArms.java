@@ -3,6 +3,9 @@ package org.rnd.jmagic.cards;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Name("Coat of Arms")
 @Types({Type.ARTIFACT})
 @ManaCost("5")
@@ -24,9 +27,9 @@ public final class CoatofArms extends Card
 			}
 
 			@Override
-			public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
+			public void apply(GameState state, ContinuousEffect effect, Map<Parameter, MagicSet> parameters)
 			{
-				java.util.Map<GameObject, Integer> sharedTypes = new java.util.HashMap<GameObject, Integer>();
+				Map<GameObject, Integer> sharedTypes = new HashMap<GameObject, Integer>();
 
 				// Note: this algorithm ignores creatures with no creature types
 				// since they do not contribute anything.
@@ -34,7 +37,7 @@ public final class CoatofArms extends Card
 					if(creature.getTypes().contains(Type.CREATURE) && !creature.getSubTypes().isEmpty())
 					{
 						int count = 0;
-						for(java.util.Map.Entry<GameObject, Integer> previousMapping: sharedTypes.entrySet())
+						for(Map.Entry<GameObject, Integer> previousMapping: sharedTypes.entrySet())
 						{
 							GameObject previousCreature = previousMapping.getKey();
 							for(SubType type: SubType.getSubTypesFor(Type.CREATURE, previousCreature.getSubTypes()))
@@ -49,7 +52,7 @@ public final class CoatofArms extends Card
 						sharedTypes.put(creature, count);
 					}
 
-				for(java.util.Map.Entry<GameObject, Integer> entry: sharedTypes.entrySet())
+				for(Map.Entry<GameObject, Integer> entry: sharedTypes.entrySet())
 				{
 					GameObject creature = entry.getKey();
 					int pump = entry.getValue();

@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 
 @Name("Gust-Skimmer")
@@ -17,7 +19,7 @@ public final class GustSkimmer extends Card
 		{
 			super(state, "(U): Gust-Skimmer gains flying until end of turn.");
 			this.setManaCost(new ManaPool("(U)"));
-			this.addEffect(addAbilityUntilEndOfTurn(ABILITY_SOURCE_OF_THIS, org.rnd.jmagic.abilities.keywords.Flying.class, "Gust-Skimmer gains flying until end of turn."));
+			this.addEffect(addAbilityUntilEndOfTurn(ABILITY_SOURCE_OF_THIS, Flying.class, "Gust-Skimmer gains flying until end of turn."));
 		}
 	}
 

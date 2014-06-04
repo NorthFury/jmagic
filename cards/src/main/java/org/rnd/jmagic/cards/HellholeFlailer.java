@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Unleash;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -35,7 +37,7 @@ public final class HellholeFlailer extends Card
 		// Unleash (You may have this creature enter the battlefield with a
 		// +1/+1 counter on it. It can't block as long as it has a +1/+1 counter
 		// on it.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Unleash(state));
+		this.addAbility(new Unleash(state));
 
 		// (2)(B)(R), Sacrifice Hellhole Flailer: Hellhole Flailer deals damage
 		// equal to its power to target player.

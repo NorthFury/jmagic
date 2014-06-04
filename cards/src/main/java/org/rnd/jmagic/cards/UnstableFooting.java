@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Kicker;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -15,7 +17,7 @@ public final class UnstableFooting extends Card
 	{
 		super(state);
 
-		org.rnd.jmagic.abilities.keywords.Kicker ability = new org.rnd.jmagic.abilities.keywords.Kicker(state, "(3)(R)");
+		Kicker ability = new Kicker(state, "(3)(R)");
 		this.addAbility(ability);
 
 		CostCollection kickerCost = ability.costCollections[0];

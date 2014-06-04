@@ -5,6 +5,10 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @Name("Mirror of Fate")
 @Types({Type.ARTIFACT})
 @ManaCost("5")
@@ -30,22 +34,22 @@ public final class MirrorofFate extends Card
 			}
 
 			@Override
-			public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+			public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 			{
 				Player player = parameters.get(Parameter.PLAYER).getOne(Player.class);
 				Zone library = player.getLibrary(game.actualState);
 				MagicSet choices = RelativeComplement.instance(Intersect.instance(OwnedBy.instance(Identity.instance(player)), InZone.instance(ExileZone.instance()), Cards.instance()), Revealed.instance()).evaluate(game, null);
 
-				java.util.List<?> chosenCards = player.sanitizeAndChoose(game.actualState, 0, 7, choices, PlayerInterface.ChoiceType.OBJECTS, REASON);
+				List<?> chosenCards = player.sanitizeAndChoose(game.actualState, 0, 7, choices, PlayerInterface.ChoiceType.OBJECTS, REASON);
 
-				java.util.Map<Parameter, MagicSet> exileParameters = new java.util.HashMap<Parameter, MagicSet>();
+				Map<Parameter, MagicSet> exileParameters = new HashMap<Parameter, MagicSet>();
 				exileParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 				exileParameters.put(Parameter.TO, new MagicSet(game.actualState.exileZone()));
 				exileParameters.put(Parameter.OBJECT, new MagicSet(library.objects));
 				Event exileEvent = createEvent(game, "Exile all the cards from your library.", EventType.MOVE_OBJECTS, exileParameters);
 				boolean ret = exileEvent.perform(event, true);
 
-				java.util.Map<Parameter, MagicSet> libraryParameters = new java.util.HashMap<Parameter, MagicSet>();
+				Map<Parameter, MagicSet> libraryParameters = new HashMap<Parameter, MagicSet>();
 				libraryParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 				libraryParameters.put(Parameter.OBJECT, new MagicSet(chosenCards));
 				Event libraryEvent = createEvent(game, "Put the chosen cards on top of your library.", EventType.PUT_INTO_LIBRARY, libraryParameters);

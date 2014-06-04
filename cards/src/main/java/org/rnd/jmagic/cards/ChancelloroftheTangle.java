@@ -2,6 +2,8 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Reach;
+import org.rnd.jmagic.abilities.keywords.Vigilance;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -59,7 +61,7 @@ public final class ChancelloroftheTangle extends Card
 		this.addAbility(new ChancelloroftheTangleAbility0(state));
 
 		// Vigilance, reach
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Vigilance(state));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Reach(state));
+		this.addAbility(new Vigilance(state));
+		this.addAbility(new Reach(state));
 	}
 }

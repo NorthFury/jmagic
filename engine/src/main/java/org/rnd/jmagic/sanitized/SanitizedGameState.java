@@ -2,25 +2,34 @@ package org.rnd.jmagic.sanitized;
 
 import org.rnd.jmagic.engine.*;
 
-public class SanitizedGameState implements java.util.Map<Integer, SanitizedIdentified>, java.io.Serializable
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+public class SanitizedGameState implements Map<Integer, SanitizedIdentified>, Serializable
 {
 	private static final long serialVersionUID = 5L;
 
-	public static java.util.List<Integer> IDs(Iterable<? extends org.rnd.jmagic.engine.Identified> list)
+	public static List<Integer> IDs(Iterable<? extends Identified> list)
 	{
-		java.util.List<Integer> ret = new java.util.LinkedList<Integer>();
-		for(org.rnd.jmagic.engine.Identified i: list)
+		List<Integer> ret = new LinkedList<Integer>();
+		for(Identified i: list)
 			ret.add(i.ID);
-		return java.util.Collections.unmodifiableList(ret);
+		return Collections.unmodifiableList(ret);
 	}
 
-	private final java.util.Map<Integer, SanitizedIdentified> actual;
+	private final Map<Integer, SanitizedIdentified> actual;
 
 	public final int battlefield;
 
 	public final Phase.PhaseType phase;
 
-	public final java.util.List<Integer> players;
+	public final List<Integer> players;
 
 	public final int commandZone;
 
@@ -40,7 +49,7 @@ public class SanitizedGameState implements java.util.Map<Integer, SanitizedIdent
 
 	public SanitizedGameState(GameState full, Player whoFor, int... ensurePresent)
 	{
-		this.actual = new java.util.HashMap<Integer, SanitizedIdentified>();
+		this.actual = new HashMap<Integer, SanitizedIdentified>();
 
 		for(Zone zone: full.getAll(Zone.class))
 			this.addZoneAndObjects(whoFor, zone);
@@ -129,9 +138,9 @@ public class SanitizedGameState implements java.util.Map<Integer, SanitizedIdent
 		return this.actual.containsKey(key);
 	}
 
-	public java.util.List<Integer> getPlayerCycle(int firstPlayer)
+	public List<Integer> getPlayerCycle(int firstPlayer)
 	{
-		java.util.List<Integer> ret = new java.util.LinkedList<Integer>(this.players);
+		List<Integer> ret = new LinkedList<Integer>(this.players);
 		if(ret.size() > 0 && ret.contains(firstPlayer))
 			while(ret.get(0) != firstPlayer)
 				ret.add(ret.remove(0));
@@ -145,7 +154,7 @@ public class SanitizedGameState implements java.util.Map<Integer, SanitizedIdent
 	}
 
 	@Override
-	public java.util.Set<java.util.Map.Entry<Integer, SanitizedIdentified>> entrySet()
+	public Set<Map.Entry<Integer, SanitizedIdentified>> entrySet()
 	{
 		return this.actual.entrySet();
 	}
@@ -163,7 +172,7 @@ public class SanitizedGameState implements java.util.Map<Integer, SanitizedIdent
 	}
 
 	@Override
-	public java.util.Set<Integer> keySet()
+	public Set<Integer> keySet()
 	{
 		return this.actual.keySet();
 	}
@@ -175,7 +184,7 @@ public class SanitizedGameState implements java.util.Map<Integer, SanitizedIdent
 	}
 
 	@Override
-	public void putAll(java.util.Map<? extends Integer, ? extends SanitizedIdentified> m)
+	public void putAll(Map<? extends Integer, ? extends SanitizedIdentified> m)
 	{
 		this.actual.putAll(m);
 	}
@@ -193,7 +202,7 @@ public class SanitizedGameState implements java.util.Map<Integer, SanitizedIdent
 	}
 
 	@Override
-	public java.util.Collection<SanitizedIdentified> values()
+	public Collection<SanitizedIdentified> values()
 	{
 		return this.actual.values();
 	}

@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.Trap;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -46,7 +47,7 @@ public final class RavenousTrap extends Card
 		SetGenerator opponents = OpponentsOf.instance(You.instance());
 		SetGenerator maxPerOpponent = MaximumPerPlayer.instance(CardsPutIntoAGraveyardThisTurnCounter.class, opponents);
 		SetGenerator trapCondition = Intersect.instance(Between.instance(3, null), maxPerOpponent);
-		this.addAbility(new org.rnd.jmagic.abilities.Trap(state, this.getName(), trapCondition, "If an opponent had three or more cards put into his or her graveyard from anywhere this turn", "(0)"));
+		this.addAbility(new Trap(state, this.getName(), trapCondition, "If an opponent had three or more cards put into his or her graveyard from anywhere this turn", "(0)"));
 
 		// Exile all cards from target player's graveyard.
 		Target target = this.addTarget(Players.instance(), "target player");

@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.FirstStrike;
+import org.rnd.jmagic.abilities.keywords.Protection;
 import org.rnd.jmagic.engine.*;
 
 @Name("White Knight")
@@ -18,7 +20,7 @@ public final class WhiteKnight extends Card
 		this.setToughness(2);
 
 		// First strike, protection from black
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.FirstStrike(state));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Protection.FromBlack(state));
+		this.addAbility(new FirstStrike(state));
+		this.addAbility(new Protection.FromBlack(state));
 	}
 }

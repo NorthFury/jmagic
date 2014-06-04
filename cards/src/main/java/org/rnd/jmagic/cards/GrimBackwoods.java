@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.TapFor1;
 import org.rnd.jmagic.engine.*;
 
 @Name("Grim Backwoods")
@@ -26,7 +28,7 @@ public final class GrimBackwoods extends Card
 		super(state);
 
 		// (T): Add (1) to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapFor1(state));
+		this.addAbility(new TapFor1(state));
 
 		// (2)(B)(G), (T), Sacrifice a creature: Draw a card.
 		this.addAbility(new GrimBackwoodsAbility1(state));

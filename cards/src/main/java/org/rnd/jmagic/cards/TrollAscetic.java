@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.Regenerate;
+import org.rnd.jmagic.abilities.keywords.Hexproof;
 import org.rnd.jmagic.engine.*;
 
 @Name("Troll Ascetic")
@@ -17,7 +19,7 @@ public final class TrollAscetic extends Card
 		this.setPower(3);
 		this.setToughness(2);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Hexproof(state));
-		this.addAbility(new org.rnd.jmagic.abilities.Regenerate.Final(state, "(1)(G)", this.getName()));
+		this.addAbility(new Hexproof(state));
+		this.addAbility(new Regenerate.Final(state, "(1)(G)", this.getName()));
 	}
 }

@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Landwalk;
+import org.rnd.jmagic.abilities.keywords.Scavenge;
 import org.rnd.jmagic.engine.*;
 
 @Name("Sewer Shambler")
@@ -19,11 +21,11 @@ public final class SewerShambler extends Card
 
 		// Swampwalk (This creature is unblockable as long as defending player
 		// controls a Swamp.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Landwalk.Swampwalk(state));
+		this.addAbility(new Landwalk.Swampwalk(state));
 
 		// Scavenge (2)(B) ((2)(B), Exile this card from your graveyard: Put a
 		// number of +1/+1 counters equal to this card's power on target
 		// creature. Scavenge only as a sorcery.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Scavenge(state, "(2)(B)"));
+		this.addAbility(new Scavenge(state, "(2)(B)"));
 	}
 }

@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Exalted;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -34,7 +35,7 @@ public final class QasaliPridemage extends Card
 
 		// Exalted (Whenever a creature you control attacks alone, that creature
 		// gets +1/+1 until end of turn.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Exalted(state));
+		this.addAbility(new Exalted(state));
 
 		// {1}, Sacrifice Qasali Pridemage: Destroy target artifact or
 		// enchantment.

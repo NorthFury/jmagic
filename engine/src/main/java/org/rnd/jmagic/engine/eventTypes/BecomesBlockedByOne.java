@@ -3,6 +3,8 @@ package org.rnd.jmagic.engine.eventTypes;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.Map;
+
 public final class BecomesBlockedByOne extends EventType
 {	public static final EventType INSTANCE = new BecomesBlockedByOne();
 
@@ -18,7 +20,7 @@ public final class BecomesBlockedByOne extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		int blockerID = parameters.get(Parameter.DEFENDER).getOne(GameObject.class).ID;
 		for(GameObject attacker: parameters.get(Parameter.ATTACKER).getAll(GameObject.class))

@@ -2,6 +2,10 @@ package org.rnd.jmagic.engine.generators;
 
 import org.rnd.jmagic.engine.*;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Evaluates to the maximum number of objects some movement happened to this
  * turn under a given player's control. The movement being tracked is defined by
@@ -16,23 +20,23 @@ public class MaximumPerPlayer extends SetGenerator
 	 * are not on the battlefield or the stack) in the result of any matches
 	 * this turn.
 	 */
-	public abstract static class GameObjectsThisTurnCounter extends Tracker<java.util.Map<Integer, Integer>>
+	public abstract static class GameObjectsThisTurnCounter extends Tracker<Map<Integer, Integer>>
 	{
-		protected java.util.HashMap<Integer, Integer> counts = new java.util.HashMap<Integer, Integer>();
-		private java.util.Map<Integer, Integer> unmodifiable = java.util.Collections.unmodifiableMap(this.counts);
+		protected HashMap<Integer, Integer> counts = new HashMap<Integer, Integer>();
+		private Map<Integer, Integer> unmodifiable = Collections.unmodifiableMap(this.counts);
 
 		@SuppressWarnings("unchecked")
 		@Override
 		public GameObjectsThisTurnCounter clone()
 		{
 			GameObjectsThisTurnCounter ret = (GameObjectsThisTurnCounter)super.clone();
-			ret.counts = (java.util.HashMap<Integer, Integer>)(this.counts.clone());
-			ret.unmodifiable = java.util.Collections.unmodifiableMap(ret.counts);
+			ret.counts = (HashMap<Integer, Integer>)(this.counts.clone());
+			ret.unmodifiable = Collections.unmodifiableMap(ret.counts);
 			return ret;
 		}
 
 		@Override
-		protected java.util.Map<Integer, Integer> getValueInternal()
+		protected Map<Integer, Integer> getValueInternal()
 		{
 			return this.unmodifiable;
 		}
@@ -76,7 +80,7 @@ public class MaximumPerPlayer extends SetGenerator
 	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
 		MagicSet players = this.players.evaluate(state, thisObject);
-		java.util.Map<Integer, Integer> flag = state.getTracker(this.tracker).getValue(state);
+		Map<Integer, Integer> flag = state.getTracker(this.tracker).getValue(state);
 		int count = 0;
 
 		for(Player player: players.getAll(Player.class))

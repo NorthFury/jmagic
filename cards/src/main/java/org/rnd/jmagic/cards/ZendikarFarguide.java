@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Landwalk;
 import org.rnd.jmagic.engine.*;
 
 @Name("Zendikar Farguide")
@@ -17,6 +18,6 @@ public final class ZendikarFarguide extends Card
 		this.setPower(3);
 		this.setToughness(3);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Landwalk.Forestwalk(state));
+		this.addAbility(new Landwalk.Forestwalk(state));
 	}
 }

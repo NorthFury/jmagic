@@ -1,18 +1,22 @@
 package org.rnd.jmagic.gui;
 
-public class DoneButton extends javax.swing.JButton
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.util.Stack;
+
+public class DoneButton extends JButton
 {
 	private static final long serialVersionUID = 1L;
 
-	private java.util.Stack<java.awt.event.ActionListener> listeners;
-	private java.util.Stack<String> texts;
+	private Stack<ActionListener> listeners;
+	private Stack<String> texts;
 
 	public DoneButton(String defaultText)
 	{
 		this.setEnabled(false);
 		this.setText(defaultText);
-		this.listeners = new java.util.Stack<java.awt.event.ActionListener>();
-		this.texts = new java.util.Stack<String>();
+		this.listeners = new Stack<ActionListener>();
+		this.texts = new Stack<String>();
 	}
 
 	public boolean hasListeners()
@@ -31,7 +35,7 @@ public class DoneButton extends javax.swing.JButton
 			this.setText(this.texts.peek());
 	}
 
-	public void pushListener(java.awt.event.ActionListener actionListener, String text)
+	public void pushListener(ActionListener actionListener, String text)
 	{
 		if(this.listeners.isEmpty())
 			this.setEnabled(true);

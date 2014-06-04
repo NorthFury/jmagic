@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Reinforce;
 import org.rnd.jmagic.engine.*;
 
 @Name("Hunting Triad")
@@ -22,6 +24,6 @@ public final class HuntingTriad extends Card
 		this.addEffect(tokens.getEventFactory());
 
 		// Reinforce 3
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Reinforce(state, numberGenerator(3), "3", "3G"));
+		this.addAbility(new Reinforce(state, numberGenerator(3), "3", "3G"));
 	}
 }

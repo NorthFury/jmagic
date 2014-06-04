@@ -6,6 +6,10 @@ import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
 
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+
 @Name("Protean Hydra")
 @Types({Type.CREATURE})
 @SubTypes({SubType.HYDRA})
@@ -54,17 +58,17 @@ public final class ProteanHydra extends Card
 			}
 
 			@Override
-			public java.util.List<EventFactory> prevent(DamageAssignment.Batch damageAssignments)
+			public List<EventFactory> prevent(DamageAssignment.Batch damageAssignments)
 			{
 				damageAssignments.clear();
-				return new java.util.LinkedList<EventFactory>();
+				return new LinkedList<EventFactory>();
 			}
 
 			@Override
-			public java.util.List<EventFactory> replace(DamageAssignment.Batch damageAssignments)
+			public List<EventFactory> replace(DamageAssignment.Batch damageAssignments)
 			{
 				if(damageAssignments.isEmpty())
-					return new java.util.LinkedList<EventFactory>();
+					return new LinkedList<EventFactory>();
 
 				SetGenerator thisThing = Identity.instance(this.getStaticSourceObject(this.game.physicalState));
 				EventFactory effect = new EventFactory(EventType.REMOVE_COUNTERS, "Remove that many +1/+1 counters from it");
@@ -72,7 +76,7 @@ public final class ProteanHydra extends Card
 				effect.parameters.put(EventType.Parameter.COUNTER, Identity.instance(Counter.CounterType.PLUS_ONE_PLUS_ONE));
 				effect.parameters.put(EventType.Parameter.NUMBER, numberGenerator(damageAssignments.size()));
 				effect.parameters.put(EventType.Parameter.OBJECT, thisThing);
-				return java.util.Collections.singletonList(effect);
+				return Collections.singletonList(effect);
 			}
 		}
 

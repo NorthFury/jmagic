@@ -2,9 +2,14 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.EntersTheBattlefieldTapped;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
+
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
 
 @Name("Boseiju, Who Shelters All")
 @SuperTypes({SuperType.LEGENDARY})
@@ -31,23 +36,23 @@ public final class BoseijuWhoSheltersAll extends Card
 	}
 
 	/** IDs of spells and abilities on which a Boseiju mana was spent */
-	public static final class BoseijuTracker extends Tracker<java.util.Collection<Integer>>
+	public static final class BoseijuTracker extends Tracker<Collection<Integer>>
 	{
-		private java.util.HashSet<Integer> value = new java.util.HashSet<Integer>();
-		private java.util.Collection<Integer> unmodifiable = java.util.Collections.unmodifiableSet(this.value);
+		private HashSet<Integer> value = new HashSet<Integer>();
+		private Collection<Integer> unmodifiable = Collections.unmodifiableSet(this.value);
 
 		@Override
 		@SuppressWarnings("unchecked")
 		public BoseijuTracker clone()
 		{
 			BoseijuTracker ret = (BoseijuTracker)super.clone();
-			ret.value = (java.util.HashSet<Integer>)this.value.clone();
-			ret.unmodifiable = java.util.Collections.unmodifiableSet(ret.value);
+			ret.value = (HashSet<Integer>)this.value.clone();
+			ret.unmodifiable = Collections.unmodifiableSet(ret.value);
 			return ret;
 		}
 
 		@Override
-		protected java.util.Collection<Integer> getValueInternal()
+		protected Collection<Integer> getValueInternal()
 		{
 			return this.unmodifiable;
 		}
@@ -96,7 +101,7 @@ public final class BoseijuWhoSheltersAll extends Card
 		{
 			MagicSet ret = new MagicSet();
 
-			java.util.Collection<Integer> trackerValue = state.getTracker(BoseijuTracker.class).getValue(state);
+			Collection<Integer> trackerValue = state.getTracker(BoseijuTracker.class).getValue(state);
 			for(int id: trackerValue)
 				ret.add(state.<GameObject>get(id));
 
@@ -145,7 +150,7 @@ public final class BoseijuWhoSheltersAll extends Card
 		super(state);
 
 		// Boseiju, Who Shelters All enters the battlefield tapped.
-		this.addAbility(new org.rnd.jmagic.abilities.EntersTheBattlefieldTapped(state, this.getName()));
+		this.addAbility(new EntersTheBattlefieldTapped(state, this.getName()));
 
 		// (T), Pay 2 life: Add (1) to your mana pool. If that mana is spent on
 		// an instant or sorcery spell, that spell can't be countered by spells

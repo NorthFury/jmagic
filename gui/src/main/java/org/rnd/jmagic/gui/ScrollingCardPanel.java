@@ -2,9 +2,35 @@ package org.rnd.jmagic.gui;
 
 import org.rnd.jmagic.sanitized.*;
 
-public class ScrollingCardPanel extends javax.swing.JComponent
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import javax.swing.JViewport;
+import javax.swing.SwingConstants;
+import javax.swing.Timer;
+import javax.swing.event.MouseInputAdapter;
+import javax.swing.plaf.basic.BasicArrowButton;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.LayoutManager;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.Serializable;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+
+public class ScrollingCardPanel extends JComponent
 {
-	public static abstract class InnerCardPanel<T> extends javax.swing.JPanel
+	public static abstract class InnerCardPanel<T> extends JPanel
 	{
 		private static final long serialVersionUID = 1L;
 
@@ -13,9 +39,9 @@ public class ScrollingCardPanel extends javax.swing.JComponent
 		// calculate it using its font's metrics.
 		private static int MAXIMUM_CARD_OVERLAP = -1;
 
-		protected java.util.List<T> displayOrder;
+		protected List<T> displayOrder;
 		protected T heldCard;
-		protected java.awt.Rectangle heldRectangle;
+		protected Rectangle heldRectangle;
 		protected Play gui;
 		private int cardSpacing;
 
@@ -38,32 +64,32 @@ public class ScrollingCardPanel extends javax.swing.JComponent
 			this.cardSpacing = CardGraphics.SMALL_CARD_PADDING.width;
 			this.heldCard = null;
 			this.gui = gui;
-			this.displayOrder = new java.util.LinkedList<T>();
+			this.displayOrder = new LinkedList<T>();
 			this.heldRectangle = null;
-			javax.swing.event.MouseInputAdapter mouseInputListener = new javax.swing.event.MouseInputAdapter()
+			MouseInputAdapter mouseInputListener = new MouseInputAdapter()
 			{
-				private java.awt.Point offset = null;
+				private Point offset = null;
 				private int insertIndex = -1;
 
 				@Override
-				public void mouseClicked(java.awt.event.MouseEvent e)
+				public void mouseClicked(MouseEvent e)
 				{
 					T cardClicked = getHovered(e);
 					if(cardClicked != null)
 					{
-						java.io.Serializable identified = InnerCardPanel.this.getIdentified(cardClicked);
+						Serializable identified = InnerCardPanel.this.getIdentified(cardClicked);
 						if(identified instanceof SanitizedIdentified)
 							InnerCardPanel.this.gui.identifiedMouseEvent((SanitizedIdentified)identified, e);
 					}
 				}
 
 				@Override
-				public void mousePressed(java.awt.event.MouseEvent e)
+				public void mousePressed(MouseEvent e)
 				{
 					T cardClicked = getHovered(e);
 					if(cardClicked != null)
 					{
-						java.io.Serializable identified = InnerCardPanel.this.getIdentified(cardClicked);
+						Serializable identified = InnerCardPanel.this.getIdentified(cardClicked);
 						if(identified instanceof SanitizedIdentified)
 							InnerCardPanel.this.gui.identifiedMouseEvent((SanitizedIdentified)identified, e);
 					}
@@ -74,7 +100,7 @@ public class ScrollingCardPanel extends javax.swing.JComponent
 						this.insertIndex = InnerCardPanel.this.displayOrder.indexOf(InnerCardPanel.this.heldCard);
 						InnerCardPanel.this.displayOrder.set(this.insertIndex, InnerCardPanel.this.heldCard);
 						InnerCardPanel.this.heldRectangle = this.getCardRectangle(e);
-						this.offset = new java.awt.Point(e.getX() - InnerCardPanel.this.heldRectangle.x, e.getY() - InnerCardPanel.this.heldRectangle.y);
+						this.offset = new Point(e.getX() - InnerCardPanel.this.heldRectangle.x, e.getY() - InnerCardPanel.this.heldRectangle.y);
 						InnerCardPanel.this.repaint();
 					}
 					else
@@ -82,12 +108,12 @@ public class ScrollingCardPanel extends javax.swing.JComponent
 				}
 
 				@Override
-				public void mouseDragged(java.awt.event.MouseEvent e)
+				public void mouseDragged(MouseEvent e)
 				{
 					if(InnerCardPanel.this.heldCard != null)
 					{
-						java.awt.Rectangle movingArea = InnerCardPanel.this.heldRectangle;
-						java.awt.Rectangle newPosition = new java.awt.Rectangle(e.getX() - this.offset.x, e.getY() - this.offset.y, movingArea.width, movingArea.height);
+						Rectangle movingArea = InnerCardPanel.this.heldRectangle;
+						Rectangle newPosition = new Rectangle(e.getX() - this.offset.x, e.getY() - this.offset.y, movingArea.width, movingArea.height);
 						InnerCardPanel.this.heldRectangle = newPosition;
 
 						int nearestIndex = getNearestIndex(e);
@@ -103,18 +129,18 @@ public class ScrollingCardPanel extends javax.swing.JComponent
 				}
 
 				@Override
-				public void mouseExited(java.awt.event.MouseEvent e)
+				public void mouseExited(MouseEvent e)
 				{
 					InnerCardPanel.this.gui.cardInfoPanel.clearArrows();
 				}
 
 				@Override
-				public void mouseReleased(java.awt.event.MouseEvent e)
+				public void mouseReleased(MouseEvent e)
 				{
 					T cardClicked = getHovered(e);
 					if(cardClicked != null)
 					{
-						java.io.Serializable identified = InnerCardPanel.this.getIdentified(cardClicked);
+						Serializable identified = InnerCardPanel.this.getIdentified(cardClicked);
 						if(identified instanceof SanitizedIdentified)
 							InnerCardPanel.this.gui.identifiedMouseEvent((SanitizedIdentified)identified, e);
 					}
@@ -132,7 +158,7 @@ public class ScrollingCardPanel extends javax.swing.JComponent
 				}
 
 				@Override
-				public void mouseMoved(java.awt.event.MouseEvent e)
+				public void mouseMoved(MouseEvent e)
 				{
 					T hoveredCard = getHovered(e);
 					if(hoveredCard != null)
@@ -146,7 +172,7 @@ public class ScrollingCardPanel extends javax.swing.JComponent
 						if(display != null)
 						{
 							int index = InnerCardPanel.this.displayOrder.indexOf(hoveredCard);
-							java.awt.Point cardStart = new java.awt.Point(index * (CardGraphics.SMALL_CARD.width + InnerCardPanel.this.cardSpacing), 0);
+							Point cardStart = new Point(index * (CardGraphics.SMALL_CARD.width + InnerCardPanel.this.cardSpacing), 0);
 							SanitizedGameObject.CharacteristicSet displayOption = CardGraphics.getLargeCardDisplayOption(e, cardStart, display, false);
 							InnerCardPanel.this.gui.cardInfoPanel.setFocusToGameObject(display, InnerCardPanel.this.gui.state, displayOption);
 							return;
@@ -160,9 +186,9 @@ public class ScrollingCardPanel extends javax.swing.JComponent
 				 * Find the card in this hand which contains the current mouse
 				 * position
 				 */
-				private T getHovered(java.awt.event.MouseEvent e)
+				private T getHovered(MouseEvent e)
 				{
-					java.util.List<T> cards = InnerCardPanel.this.displayOrder;
+					List<T> cards = InnerCardPanel.this.displayOrder;
 					if(0 == cards.size())
 						return null;
 
@@ -185,12 +211,12 @@ public class ScrollingCardPanel extends javax.swing.JComponent
 					return cards.get(index);
 				}
 
-				private java.awt.Rectangle getCardRectangle(java.awt.event.MouseEvent e)
+				private Rectangle getCardRectangle(MouseEvent e)
 				{
-					return new java.awt.Rectangle(e.getX() - (e.getX() % (CardGraphics.SMALL_CARD.width + InnerCardPanel.this.cardSpacing)), 0, CardGraphics.SMALL_CARD.width, CardGraphics.SMALL_CARD.height);
+					return new Rectangle(e.getX() - (e.getX() % (CardGraphics.SMALL_CARD.width + InnerCardPanel.this.cardSpacing)), 0, CardGraphics.SMALL_CARD.width, CardGraphics.SMALL_CARD.height);
 				}
 
-				private int getNearestIndex(java.awt.event.MouseEvent e)
+				private int getNearestIndex(MouseEvent e)
 				{
 					return Math.min(Math.max((e.getX() + (InnerCardPanel.this.cardSpacing / 2)) / (CardGraphics.SMALL_CARD.width + InnerCardPanel.this.cardSpacing), 0), InnerCardPanel.this.displayOrder.size() - 1);
 				}
@@ -199,13 +225,13 @@ public class ScrollingCardPanel extends javax.swing.JComponent
 			this.addMouseListener(mouseInputListener);
 		}
 
-		public java.util.List<T> getObjects()
+		public List<T> getObjects()
 		{
-			return new java.util.LinkedList<T>(this.displayOrder);
+			return new LinkedList<T>(this.displayOrder);
 		}
 
 		@Override
-		protected void paintComponent(java.awt.Graphics g)
+		protected void paintComponent(Graphics g)
 		{
 			super.paintComponent(g);
 
@@ -230,9 +256,9 @@ public class ScrollingCardPanel extends javax.swing.JComponent
 			}
 		}
 
-		public abstract java.awt.Image getImage(T ref);
+		public abstract Image getImage(T ref);
 
-		public abstract java.io.Serializable getIdentified(T ref);
+		public abstract Serializable getIdentified(T ref);
 
 		private void recalcSize()
 		{
@@ -253,15 +279,15 @@ public class ScrollingCardPanel extends javax.swing.JComponent
 				// System.out.println("Min: " + minimumWidth + ", Max: " +
 				// maximumWidth);
 
-				this.setMinimumSize(new java.awt.Dimension(minimumWidth, CardGraphics.SMALL_CARD.height));
+				this.setMinimumSize(new Dimension(minimumWidth, CardGraphics.SMALL_CARD.height));
 
-				java.awt.Dimension preferredSize = new java.awt.Dimension(maximumWidth, CardGraphics.SMALL_CARD.height);
+				Dimension preferredSize = new Dimension(maximumWidth, CardGraphics.SMALL_CARD.height);
 				this.setPreferredSize(preferredSize);
 				this.setMaximumSize(preferredSize);
 			}
 			else
 			{
-				java.awt.Dimension preferredSize = new java.awt.Dimension(0, CardGraphics.SMALL_CARD.height);
+				Dimension preferredSize = new Dimension(0, CardGraphics.SMALL_CARD.height);
 
 				this.setMinimumSize(preferredSize);
 				this.setPreferredSize(preferredSize);
@@ -269,10 +295,10 @@ public class ScrollingCardPanel extends javax.swing.JComponent
 			}
 		}
 
-		public void update(java.util.List<T> objects, boolean resize)
+		public void update(List<T> objects, boolean resize)
 		{
 			// Remove cards that aren't here anymore
-			java.util.Iterator<T> iter = this.displayOrder.iterator();
+			Iterator<T> iter = this.displayOrder.iterator();
 			while(iter.hasNext())
 				if(!objects.contains(iter.next()))
 					iter.remove();
@@ -290,25 +316,25 @@ public class ScrollingCardPanel extends javax.swing.JComponent
 		}
 	}
 
-	private final static class JHandLayout implements java.awt.LayoutManager
+	private final static class JHandLayout implements LayoutManager
 	{
-		private java.awt.LayoutManager _delegate;
+		private LayoutManager _delegate;
 		private ScrollingCardPanel view;
 
 		public JHandLayout(ScrollingCardPanel view)
 		{
-			this._delegate = new java.awt.BorderLayout();
+			this._delegate = new BorderLayout();
 			this.view = view;
 		}
 
 		@Override
-		public void addLayoutComponent(String name, java.awt.Component comp)
+		public void addLayoutComponent(String name, Component comp)
 		{
 			this._delegate.addLayoutComponent(name, comp);
 		}
 
 		@Override
-		public void layoutContainer(java.awt.Container parent)
+		public void layoutContainer(Container parent)
 		{
 			this.view.view.recalcSize();
 
@@ -320,26 +346,26 @@ public class ScrollingCardPanel extends javax.swing.JComponent
 		}
 
 		@Override
-		public java.awt.Dimension minimumLayoutSize(java.awt.Container parent)
+		public Dimension minimumLayoutSize(Container parent)
 		{
-			java.awt.Dimension minimumLayoutSize = this._delegate.minimumLayoutSize(parent);
+			Dimension minimumLayoutSize = this._delegate.minimumLayoutSize(parent);
 			return minimumLayoutSize;
 		}
 
 		@Override
-		public java.awt.Dimension preferredLayoutSize(java.awt.Container parent)
+		public Dimension preferredLayoutSize(Container parent)
 		{
 			return this._delegate.preferredLayoutSize(parent);
 		}
 
 		@Override
-		public void removeLayoutComponent(java.awt.Component comp)
+		public void removeLayoutComponent(Component comp)
 		{
 			this._delegate.removeLayoutComponent(comp);
 		}
 	}
 
-	private final static class ScrollListener extends java.awt.event.MouseAdapter implements java.awt.event.ActionListener
+	private final static class ScrollListener extends MouseAdapter implements ActionListener
 	{
 		private static final int SCROLL_DISTANCE = (CardGraphics.SMALL_CARD.width + CardGraphics.SMALL_CARD_PADDING.width) / 2;
 		private static final int REPEAT_DISTANCE = 20;
@@ -350,10 +376,10 @@ public class ScrollingCardPanel extends javax.swing.JComponent
 		public static final int RIGHT = 1;
 
 		private final int direction;
-		private final javax.swing.JViewport viewport;
-		private javax.swing.Timer timer;
+		private final JViewport viewport;
+		private Timer timer;
 
-		public ScrollListener(int direction, javax.swing.JViewport viewport)
+		public ScrollListener(int direction, JViewport viewport)
 		{
 			this.direction = direction;
 			this.viewport = viewport;
@@ -362,7 +388,7 @@ public class ScrollingCardPanel extends javax.swing.JComponent
 		private void adjust(int amount)
 		{
 			// Translate origin by some amount
-			java.awt.Point origin = this.viewport.getViewPosition();
+			Point origin = this.viewport.getViewPosition();
 			origin.x += amount;
 			if(origin.x > this.viewport.getViewSize().width - this.viewport.getExtentSize().width)
 				origin.x = this.viewport.getViewSize().width - this.viewport.getExtentSize().width;
@@ -373,7 +399,7 @@ public class ScrollingCardPanel extends javax.swing.JComponent
 		}
 
 		@Override
-		public void actionPerformed(java.awt.event.ActionEvent e)
+		public void actionPerformed(ActionEvent e)
 		{
 			if(e == null)
 				this.adjust(this.direction * SCROLL_DISTANCE);
@@ -382,18 +408,18 @@ public class ScrollingCardPanel extends javax.swing.JComponent
 		}
 
 		@Override
-		public void mousePressed(java.awt.event.MouseEvent e)
+		public void mousePressed(MouseEvent e)
 		{
 			this.actionPerformed(null);
 
-			this.timer = new javax.swing.Timer(INITIAL_DELAY, this);
+			this.timer = new Timer(INITIAL_DELAY, this);
 			this.timer.setRepeats(true);
 			this.timer.setDelay(REPEAT_DELAY);
 			this.timer.start();
 		}
 
 		@Override
-		public void mouseReleased(java.awt.event.MouseEvent e)
+		public void mouseReleased(MouseEvent e)
 		{
 			this.timer.stop();
 			this.timer = null;
@@ -402,9 +428,9 @@ public class ScrollingCardPanel extends javax.swing.JComponent
 
 	private static final long serialVersionUID = 1L;
 
-	final javax.swing.JButton left;
-	final javax.swing.JButton right;
-	final javax.swing.JViewport viewport;
+	final JButton left;
+	final JButton right;
+	final JViewport viewport;
 	final InnerCardPanel<?> view;
 
 	public ScrollingCardPanel(InnerCardPanel<?> view)
@@ -415,18 +441,18 @@ public class ScrollingCardPanel extends javax.swing.JComponent
 
 		this.view = view;
 
-		this.viewport = new javax.swing.JViewport();
+		this.viewport = new JViewport();
 		this.viewport.setView(view);
-		this.add(this.viewport, java.awt.BorderLayout.CENTER);
+		this.add(this.viewport, BorderLayout.CENTER);
 
-		this.left = new javax.swing.plaf.basic.BasicArrowButton(javax.swing.SwingConstants.WEST);
+		this.left = new BasicArrowButton(SwingConstants.WEST);
 		ScrollingCardPanel.ScrollListener leftListener = new ScrollListener(ScrollListener.LEFT, this.viewport);
 		this.left.addMouseListener(leftListener);
-		this.add(this.left, java.awt.BorderLayout.LINE_START);
+		this.add(this.left, BorderLayout.LINE_START);
 
-		this.right = new javax.swing.plaf.basic.BasicArrowButton(javax.swing.SwingConstants.EAST);
+		this.right = new BasicArrowButton(SwingConstants.EAST);
 		ScrollingCardPanel.ScrollListener rightListener = new ScrollListener(ScrollListener.RIGHT, this.viewport);
 		this.right.addMouseListener(rightListener);
-		this.add(this.right, java.awt.BorderLayout.LINE_END);
+		this.add(this.right, BorderLayout.LINE_END);
 	}
 }

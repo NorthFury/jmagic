@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 
 @Name("Rampaging Baloths")
@@ -34,7 +35,7 @@ public final class RampagingBaloths extends Card
 		this.setToughness(6);
 
 		// Trample
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Trample(state));
+		this.addAbility(new Trample(state));
 
 		// Landfall \u2014 Whenever a land enters the battlefield under your
 		// control, you may put a 4/4 green Beast creature token onto the

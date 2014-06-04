@@ -5,6 +5,9 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.Collection;
+import java.util.Map;
+
 @Name("Muse Vessel")
 @Types({Type.ARTIFACT})
 @ManaCost("4")
@@ -48,12 +51,12 @@ public final class MuseVessel extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			Player you = parameters.get(Parameter.PLAYER).getOne(Player.class);
 			MagicSet objects = parameters.get(Parameter.OBJECT);
 
-			java.util.Collection<GameObject> chosen = you.sanitizeAndChoose(game.actualState, 1, objects.getAll(GameObject.class), PlayerInterface.ChoiceType.OBJECTS, REASON);
+			Collection<GameObject> chosen = you.sanitizeAndChoose(game.actualState, 1, objects.getAll(GameObject.class), PlayerInterface.ChoiceType.OBJECTS, REASON);
 
 			ContinuousEffect.Part permission = new ContinuousEffect.Part(ContinuousEffectType.MAY_PLAY_LOCATION);
 			permission.parameters.put(ContinuousEffectType.Parameter.OBJECT, Identity.instance(chosen));

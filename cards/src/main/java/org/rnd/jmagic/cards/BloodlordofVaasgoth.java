@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Bloodthirst;
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -13,7 +16,7 @@ import org.rnd.jmagic.engine.patterns.*;
 @ColorIdentity({Color.BLACK})
 public final class BloodlordofVaasgoth extends Card
 {
-	public static final class Bloodthirst3 extends org.rnd.jmagic.abilities.keywords.Bloodthirst
+	public static final class Bloodthirst3 extends Bloodthirst
 	{
 		public Bloodthirst3(GameState state)
 		{
@@ -48,10 +51,10 @@ public final class BloodlordofVaasgoth extends Card
 
 		// Bloodthirst 3 (If an opponent was dealt damage this turn, this
 		// creature enters the battlefield with three +1/+1 counters on it.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Bloodthirst.Final(state, 3));
+		this.addAbility(new Bloodthirst.Final(state, 3));
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// Whenever you cast a Vampire creature spell, it gains bloodthirst 3.
 		this.addAbility(new BloodlordofVaasgothAbility2(state));

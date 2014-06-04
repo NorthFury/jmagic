@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Infect;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -34,7 +36,7 @@ public final class ReaperofSheoldred extends Card
 
 		// Infect (This creature deals damage to creatures in the form of -1/-1
 		// counters and to players in the form of poison counters.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Infect(state));
+		this.addAbility(new Infect(state));
 
 		// Whenever a source deals damage to Reaper of Sheoldred, that source's
 		// controller gets a poison counter.

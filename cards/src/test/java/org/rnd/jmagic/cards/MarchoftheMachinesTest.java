@@ -101,47 +101,47 @@ public class MarchoftheMachinesTest extends JUnitTest
 
 		assertTrue(this.game.actualState.battlefield().objects.get(0).getName().equals("Chromatic Star"));
 		assertEquals(1, this.game.actualState.battlefield().objects.get(0).getTypes().size());
-		assertTrue(this.game.actualState.battlefield().objects.get(0).getTypes().contains(org.rnd.jmagic.engine.Type.ARTIFACT));
+		assertTrue(this.game.actualState.battlefield().objects.get(0).getTypes().contains(Type.ARTIFACT));
 
 		assertTrue(this.game.actualState.battlefield().objects.get(1).getName().equals("Angelic Wall"));
 		assertEquals(1, this.game.actualState.battlefield().objects.get(1).getTypes().size());
-		assertTrue(this.game.actualState.battlefield().objects.get(1).getTypes().contains(org.rnd.jmagic.engine.Type.CREATURE));
+		assertTrue(this.game.actualState.battlefield().objects.get(1).getTypes().contains(Type.CREATURE));
 		assertEquals(0, this.game.actualState.battlefield().objects.get(1).getPower());
 		assertEquals(4, this.game.actualState.battlefield().objects.get(1).getToughness());
 
 		assertTrue(this.game.actualState.battlefield().objects.get(2).getName().equals("Island"));
 		assertEquals(1, this.game.actualState.battlefield().objects.get(2).getTypes().size());
-		assertTrue(this.game.actualState.battlefield().objects.get(2).getTypes().contains(org.rnd.jmagic.engine.Type.LAND));
+		assertTrue(this.game.actualState.battlefield().objects.get(2).getTypes().contains(Type.LAND));
 
 		assertTrue(this.game.actualState.battlefield().objects.get(3).getName().equals("Phyrexian Walker"));
 		assertEquals(2, this.game.actualState.battlefield().objects.get(3).getTypes().size());
-		assertTrue(this.game.actualState.battlefield().objects.get(3).getTypes().contains(org.rnd.jmagic.engine.Type.ARTIFACT));
-		assertTrue(this.game.actualState.battlefield().objects.get(3).getTypes().contains(org.rnd.jmagic.engine.Type.CREATURE));
+		assertTrue(this.game.actualState.battlefield().objects.get(3).getTypes().contains(Type.ARTIFACT));
+		assertTrue(this.game.actualState.battlefield().objects.get(3).getTypes().contains(Type.CREATURE));
 		assertEquals(0, this.game.actualState.battlefield().objects.get(3).getPower());
 		assertEquals(3, this.game.actualState.battlefield().objects.get(3).getToughness());
 
 		assertTrue(this.game.actualState.battlefield().objects.get(4).getName().equals("Black Lotus"));
 		assertEquals(1, this.game.actualState.battlefield().objects.get(4).getTypes().size());
-		assertTrue(this.game.actualState.battlefield().objects.get(4).getTypes().contains(org.rnd.jmagic.engine.Type.ARTIFACT));
+		assertTrue(this.game.actualState.battlefield().objects.get(4).getTypes().contains(Type.ARTIFACT));
 
 		assertTrue(this.game.actualState.battlefield().objects.get(5).getName().equals("Chromatic Star"));
 		assertEquals(1, this.game.actualState.battlefield().objects.get(5).getTypes().size());
-		assertTrue(this.game.actualState.battlefield().objects.get(5).getTypes().contains(org.rnd.jmagic.engine.Type.ARTIFACT));
+		assertTrue(this.game.actualState.battlefield().objects.get(5).getTypes().contains(Type.ARTIFACT));
 
 		assertTrue(this.game.actualState.battlefield().objects.get(6).getName().equals("Plains"));
 		assertEquals(1, this.game.actualState.battlefield().objects.get(6).getTypes().size());
-		assertTrue(this.game.actualState.battlefield().objects.get(6).getTypes().contains(org.rnd.jmagic.engine.Type.LAND));
+		assertTrue(this.game.actualState.battlefield().objects.get(6).getTypes().contains(Type.LAND));
 
 		// 2x Black Lotus
 		assertEquals(2, this.getGraveyard(1).objects.size());
 
 		assertTrue(this.getGraveyard(1).objects.get(0).getName().equals("Black Lotus"));
 		assertEquals(1, this.getGraveyard(1).objects.get(0).getTypes().size());
-		assertTrue(this.getGraveyard(1).objects.get(0).getTypes().contains(org.rnd.jmagic.engine.Type.ARTIFACT));
+		assertTrue(this.getGraveyard(1).objects.get(0).getTypes().contains(Type.ARTIFACT));
 
 		assertTrue(this.getGraveyard(1).objects.get(1).getName().equals("Black Lotus"));
 		assertEquals(1, this.getGraveyard(1).objects.get(1).getTypes().size());
-		assertTrue(this.getGraveyard(1).objects.get(1).getTypes().contains(org.rnd.jmagic.engine.Type.ARTIFACT));
+		assertTrue(this.getGraveyard(1).objects.get(1).getTypes().contains(Type.ARTIFACT));
 
 		// Resolve the March of the Machines
 		this.pass();
@@ -152,56 +152,56 @@ public class MarchoftheMachinesTest extends JUnitTest
 
 		assertTrue(this.game.actualState.battlefield().objects.get(0).getName().equals("March of the Machines"));
 		assertEquals(1, this.game.actualState.battlefield().objects.get(0).getTypes().size());
-		assertTrue(this.game.actualState.battlefield().objects.get(0).getTypes().contains(org.rnd.jmagic.engine.Type.ENCHANTMENT));
+		assertTrue(this.game.actualState.battlefield().objects.get(0).getTypes().contains(Type.ENCHANTMENT));
 
 		assertTrue(this.game.actualState.battlefield().objects.get(1).getName().equals("Chromatic Star"));
 		assertEquals(2, this.game.actualState.battlefield().objects.get(1).getTypes().size());
-		assertTrue(this.game.actualState.battlefield().objects.get(1).getTypes().contains(org.rnd.jmagic.engine.Type.ARTIFACT));
-		assertTrue(this.game.actualState.battlefield().objects.get(1).getTypes().contains(org.rnd.jmagic.engine.Type.CREATURE));
+		assertTrue(this.game.actualState.battlefield().objects.get(1).getTypes().contains(Type.ARTIFACT));
+		assertTrue(this.game.actualState.battlefield().objects.get(1).getTypes().contains(Type.CREATURE));
 		assertEquals(1, this.game.actualState.battlefield().objects.get(1).getPower());
 		assertEquals(1, this.game.actualState.battlefield().objects.get(1).getToughness());
 
 		assertTrue(this.game.actualState.battlefield().objects.get(2).getName().equals("Angelic Wall"));
 		assertEquals(1, this.game.actualState.battlefield().objects.get(2).getTypes().size());
-		assertTrue(this.game.actualState.battlefield().objects.get(2).getTypes().contains(org.rnd.jmagic.engine.Type.CREATURE));
+		assertTrue(this.game.actualState.battlefield().objects.get(2).getTypes().contains(Type.CREATURE));
 		assertEquals(0, this.game.actualState.battlefield().objects.get(2).getPower());
 		assertEquals(4, this.game.actualState.battlefield().objects.get(2).getToughness());
 
 		assertTrue(this.game.actualState.battlefield().objects.get(3).getName().equals("Island"));
 		assertEquals(1, this.game.actualState.battlefield().objects.get(3).getTypes().size());
-		assertTrue(this.game.actualState.battlefield().objects.get(3).getTypes().contains(org.rnd.jmagic.engine.Type.LAND));
+		assertTrue(this.game.actualState.battlefield().objects.get(3).getTypes().contains(Type.LAND));
 
 		assertTrue(this.game.actualState.battlefield().objects.get(4).getName().equals("Phyrexian Walker"));
 		assertEquals(2, this.game.actualState.battlefield().objects.get(4).getTypes().size());
-		assertTrue(this.game.actualState.battlefield().objects.get(4).getTypes().contains(org.rnd.jmagic.engine.Type.ARTIFACT));
-		assertTrue(this.game.actualState.battlefield().objects.get(4).getTypes().contains(org.rnd.jmagic.engine.Type.CREATURE));
+		assertTrue(this.game.actualState.battlefield().objects.get(4).getTypes().contains(Type.ARTIFACT));
+		assertTrue(this.game.actualState.battlefield().objects.get(4).getTypes().contains(Type.CREATURE));
 		assertEquals(0, this.game.actualState.battlefield().objects.get(4).getPower());
 		assertEquals(3, this.game.actualState.battlefield().objects.get(4).getToughness());
 
 		assertTrue(this.game.actualState.battlefield().objects.get(5).getName().equals("Chromatic Star"));
 		assertEquals(2, this.game.actualState.battlefield().objects.get(5).getTypes().size());
-		assertTrue(this.game.actualState.battlefield().objects.get(5).getTypes().contains(org.rnd.jmagic.engine.Type.ARTIFACT));
-		assertTrue(this.game.actualState.battlefield().objects.get(5).getTypes().contains(org.rnd.jmagic.engine.Type.CREATURE));
+		assertTrue(this.game.actualState.battlefield().objects.get(5).getTypes().contains(Type.ARTIFACT));
+		assertTrue(this.game.actualState.battlefield().objects.get(5).getTypes().contains(Type.CREATURE));
 		assertEquals(1, this.game.actualState.battlefield().objects.get(5).getPower());
 		assertEquals(1, this.game.actualState.battlefield().objects.get(5).getToughness());
 
 		assertTrue(this.game.actualState.battlefield().objects.get(6).getName().equals("Plains"));
 		assertEquals(1, this.game.actualState.battlefield().objects.get(6).getTypes().size());
-		assertTrue(this.game.actualState.battlefield().objects.get(6).getTypes().contains(org.rnd.jmagic.engine.Type.LAND));
+		assertTrue(this.game.actualState.battlefield().objects.get(6).getTypes().contains(Type.LAND));
 
 		// 3x Black Lotus
 		assertEquals(3, this.getGraveyard(1).objects.size());
 
 		assertTrue(this.getGraveyard(1).objects.get(0).getName().equals("Black Lotus"));
 		assertEquals(1, this.getGraveyard(1).objects.get(0).getTypes().size());
-		assertTrue(this.getGraveyard(1).objects.get(0).getTypes().contains(org.rnd.jmagic.engine.Type.ARTIFACT));
+		assertTrue(this.getGraveyard(1).objects.get(0).getTypes().contains(Type.ARTIFACT));
 
 		assertTrue(this.getGraveyard(1).objects.get(1).getName().equals("Black Lotus"));
 		assertEquals(1, this.getGraveyard(1).objects.get(1).getTypes().size());
-		assertTrue(this.getGraveyard(1).objects.get(1).getTypes().contains(org.rnd.jmagic.engine.Type.ARTIFACT));
+		assertTrue(this.getGraveyard(1).objects.get(1).getTypes().contains(Type.ARTIFACT));
 
 		assertTrue(this.getGraveyard(1).objects.get(2).getName().equals("Black Lotus"));
 		assertEquals(1, this.getGraveyard(1).objects.get(2).getTypes().size());
-		assertTrue(this.getGraveyard(1).objects.get(2).getTypes().contains(org.rnd.jmagic.engine.Type.ARTIFACT));
+		assertTrue(this.getGraveyard(1).objects.get(2).getTypes().contains(Type.ARTIFACT));
 	}
 }

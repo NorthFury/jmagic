@@ -2,6 +2,9 @@ package org.rnd.jmagic.engine.eventTypes;
 
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+import org.rnd.util.NumberRange;
+
+import java.util.Map;
 
 public final class PlayerChooseNumber extends EventType
 {	public static final EventType INSTANCE = new PlayerChooseNumber();
@@ -18,10 +21,10 @@ public final class PlayerChooseNumber extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		Player player = parameters.get(Parameter.PLAYER).getOne(Player.class);
-		org.rnd.util.NumberRange range = getRange(parameters.get(Parameter.CHOICE));
+		NumberRange range = getRange(parameters.get(Parameter.CHOICE));
 		String description = parameters.get(Parameter.TYPE).getOne(String.class);
 
 		int chosen = player.chooseNumber(range, description);

@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.EntersTheBattlefieldTapped;
+import org.rnd.jmagic.abilities.TapForG;
 import org.rnd.jmagic.engine.*;
 
 @Name("Khalni Garden")
@@ -28,13 +31,13 @@ public final class KhalniGarden extends Card
 		super(state);
 
 		// Khalni Garden enters the battlefield tapped.
-		this.addAbility(new org.rnd.jmagic.abilities.EntersTheBattlefieldTapped(state, this.getName()));
+		this.addAbility(new EntersTheBattlefieldTapped(state, this.getName()));
 
 		// When Khalni Garden enters the battlefield, put a 0/1 green Plant
 		// creature token onto the battlefield.
 		this.addAbility(new SpawnPlant(state));
 
 		// (T): Add (G) to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapForG(state));
+		this.addAbility(new TapForG(state));
 	}
 }

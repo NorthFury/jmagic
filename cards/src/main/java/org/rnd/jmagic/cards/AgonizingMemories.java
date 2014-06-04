@@ -3,6 +3,11 @@ package org.rnd.jmagic.cards;
 import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+import org.rnd.util.NumberNames;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Name("Agonizing Memories")
 @Types({Type.SORCERY})
@@ -29,7 +34,7 @@ public final class AgonizingMemories extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			Player victim = parameters.get(EventType.Parameter.PLAYER).getOne(Player.class);
 			Player chooser = parameters.get(EventType.Parameter.CONTROLLER).getOne(Player.class);
@@ -37,12 +42,12 @@ public final class AgonizingMemories extends Card
 
 			boolean ret = true;
 
-			java.util.Map<EventType.Parameter, MagicSet> searchParameters = new java.util.HashMap<EventType.Parameter, MagicSet>();
+			Map<EventType.Parameter, MagicSet> searchParameters = new HashMap<EventType.Parameter, MagicSet>();
 			searchParameters.put(EventType.Parameter.CAUSE, parameters.get(EventType.Parameter.CAUSE));
 			searchParameters.put(EventType.Parameter.PLAYER, new MagicSet(chooser));
 			searchParameters.put(EventType.Parameter.NUMBER, new MagicSet(number));
 			searchParameters.put(EventType.Parameter.CARD, new MagicSet(victim.getHand(game.actualState)));
-			Event searchEvent = createEvent(game, chooser + " looks at " + victim + "'s hand and chooses " + org.rnd.util.NumberNames.get(number) + " cards.", EventType.SEARCH, searchParameters);
+			Event searchEvent = createEvent(game, chooser + " looks at " + victim + "'s hand and chooses " + NumberNames.get(number) + " cards.", EventType.SEARCH, searchParameters);
 			ret = searchEvent.perform(event, true) && ret;
 
 			// Perform refreshes the state, so update our stateful
@@ -52,11 +57,11 @@ public final class AgonizingMemories extends Card
 
 			MagicSet cards = searchEvent.getResult();
 
-			java.util.List<GameObject> chosen = chooser.sanitizeAndChoose(game.actualState, cards.size(), cards.getAll(GameObject.class), PlayerInterface.ChoiceType.MOVEMENT_LIBRARY, REASON);
+			List<GameObject> chosen = chooser.sanitizeAndChoose(game.actualState, cards.size(), cards.getAll(GameObject.class), PlayerInterface.ChoiceType.MOVEMENT_LIBRARY, REASON);
 
 			for(GameObject object: chosen)
 			{
-				java.util.Map<EventType.Parameter, MagicSet> moveParameters = new java.util.HashMap<EventType.Parameter, MagicSet>();
+				Map<EventType.Parameter, MagicSet> moveParameters = new HashMap<EventType.Parameter, MagicSet>();
 				moveParameters.put(EventType.Parameter.CAUSE, parameters.get(EventType.Parameter.CAUSE));
 				moveParameters.put(EventType.Parameter.TO, new MagicSet(victim.getLibrary(game.actualState)));
 				moveParameters.put(EventType.Parameter.OBJECT, new MagicSet(object));

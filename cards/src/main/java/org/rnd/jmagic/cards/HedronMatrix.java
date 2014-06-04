@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Equip;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -33,6 +35,6 @@ public final class HedronMatrix extends Card
 		this.addAbility(new PumpByCMC(state));
 
 		// Equip (4)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Equip(state, new CostCollection(org.rnd.jmagic.abilities.keywords.Equip.COST_TYPE, "(4)")));
+		this.addAbility(new Equip(state, new CostCollection(Equip.COST_TYPE, "(4)")));
 	}
 }

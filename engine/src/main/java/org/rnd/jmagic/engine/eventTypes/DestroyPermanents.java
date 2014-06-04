@@ -3,6 +3,9 @@ package org.rnd.jmagic.engine.eventTypes;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public final class DestroyPermanents extends EventType
 {	public static final EventType INSTANCE = new DestroyPermanents();
 
@@ -18,7 +21,7 @@ public final class DestroyPermanents extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		boolean allDestroyed = true;
 		MagicSet cause = parameters.get(Parameter.CAUSE);
@@ -27,7 +30,7 @@ public final class DestroyPermanents extends EventType
 		{
 			if(object.isPermanent())
 			{
-				java.util.Map<Parameter, MagicSet> destroyParameters = new java.util.HashMap<Parameter, MagicSet>();
+				Map<Parameter, MagicSet> destroyParameters = new HashMap<Parameter, MagicSet>();
 				destroyParameters.put(Parameter.CAUSE, cause);
 				destroyParameters.put(Parameter.PERMANENT, new MagicSet(object));
 				Event destroy = createEvent(game, "Destroy " + object + ".", EventType.DESTROY_ONE_PERMANENT, destroyParameters);

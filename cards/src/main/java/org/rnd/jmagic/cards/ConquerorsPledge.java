@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Kicker;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -15,7 +17,7 @@ public final class ConquerorsPledge extends Card
 	{
 		super(state);
 
-		org.rnd.jmagic.abilities.keywords.Kicker ability = new org.rnd.jmagic.abilities.keywords.Kicker(state, "6");
+		Kicker ability = new Kicker(state, "6");
 		this.addAbility(ability);
 
 		// Kicker (6) (You may pay an additional (6) as you cast this spell.)

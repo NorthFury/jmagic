@@ -146,6 +146,6 @@ public class GuileTest extends JUnitTest
 		// Go to player 0's upkeep to make sure his stolen pact triggers
 		this.goToPhase(Phase.PhaseType.BEGINNING);
 		assertEquals(1, this.game.actualState.stack().objects.size());
-		assertEquals(org.rnd.jmagic.engine.DelayedTrigger.class, this.game.actualState.stack().objects.get(0).getClass());
+		assertEquals(DelayedTrigger.class, this.game.actualState.stack().objects.get(0).getClass());
 	}
 }

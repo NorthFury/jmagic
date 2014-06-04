@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Protection;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -19,7 +21,7 @@ public final class AzoriusFirstWing extends Card
 		this.setToughness(2);
 
 		// Flying, protection from enchantments
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Protection.From(state, HasType.instance(Type.ENCHANTMENT), "enchantments"));
+		this.addAbility(new Flying(state));
+		this.addAbility(new Protection.From(state, HasType.instance(Type.ENCHANTMENT), "enchantments"));
 	}
 }

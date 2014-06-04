@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cardTemplates;
 
+import org.rnd.jmagic.abilities.TapFor1;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -40,7 +41,7 @@ public abstract class ShadowmoorDualLand extends Card
 	{
 		super(state);
 
-		this.addAbility(new org.rnd.jmagic.abilities.TapFor1(state));
+		this.addAbility(new TapFor1(state));
 		this.addAbility(new TapForColored(state, mana1, mana2));
 	}
 }

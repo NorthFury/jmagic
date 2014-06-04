@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.TapForMana;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -53,7 +55,7 @@ public final class LilianaoftheDarkRealms extends Card
 	{
 		public static final class SuperSwampGrant extends StaticAbility
 		{
-			public static final class SuperSwamps extends org.rnd.jmagic.abilities.TapForMana
+			public static final class SuperSwamps extends TapForMana
 			{
 				public SuperSwamps(GameState state)
 				{

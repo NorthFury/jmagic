@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.RevealTopOfLibrary;
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -37,10 +39,10 @@ public final class GarruksHorde extends Card
 		this.setToughness(7);
 
 		// Trample
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Trample(state));
+		this.addAbility(new Trample(state));
 
 		// Play with the top card of your library revealed.
-		this.addAbility(new org.rnd.jmagic.abilities.RevealTopOfLibrary(state));
+		this.addAbility(new RevealTopOfLibrary(state));
 
 		// You may cast the top card of your library if it's a creature card.
 		// (Do this only any time you could cast that creature card. You still

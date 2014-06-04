@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.TapForMana;
 import org.rnd.jmagic.engine.*;
 
 @Name("Silver Myr")
@@ -18,6 +19,6 @@ public final class SilverMyr extends Card
 		this.setToughness(1);
 
 		// (T): Add (U) to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapForMana.Final(state, "(U)"));
+		this.addAbility(new TapForMana.Final(state, "(U)"));
 	}
 }

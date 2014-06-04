@@ -3,6 +3,13 @@ package org.rnd.jmagic.engine.eventTypes;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.Set;
+
 public final class Attach extends EventType
 {	public static final EventType INSTANCE = new Attach();
 
@@ -18,7 +25,7 @@ public final class Attach extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean attempt(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		AttachableTo targetObject = parameters.get(Parameter.TARGET).getOne(AttachableTo.class);
 
@@ -33,10 +40,10 @@ public final class Attach extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		boolean attachedAll = true;
-		java.util.Set<GameObject> attachments = parameters.get(Parameter.OBJECT).getAll(GameObject.class);
+		Set<GameObject> attachments = parameters.get(Parameter.OBJECT).getAll(GameObject.class);
 		AttachableTo target = parameters.get(Parameter.TARGET).getOne(AttachableTo.class);
 		if(target == null || (target.isGameObject() && ((GameObject)target).isGhost()))
 		{
@@ -47,7 +54,7 @@ public final class Attach extends EventType
 
 		// a collection of things that are already attached to the specified
 		// object or player
-		java.util.Collection<Integer> reAttachments = new java.util.LinkedList<Integer>();
+		Collection<Integer> reAttachments = new LinkedList<Integer>();
 		MagicSet detachables = new MagicSet();
 		for(GameObject o: attachments)
 			if(o.getAttachedTo() != -1)
@@ -58,7 +65,7 @@ public final class Attach extends EventType
 					detachables.add(o);
 			}
 
-		java.util.Iterator<GameObject> iter = attachments.iterator();
+		Iterator<GameObject> iter = attachments.iterator();
 		while(iter.hasNext())
 		{
 			GameObject o = iter.next();
@@ -72,7 +79,7 @@ public final class Attach extends EventType
 
 		if(!detachables.isEmpty())
 		{
-			java.util.Map<Parameter, MagicSet> detachParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> detachParameters = new HashMap<Parameter, MagicSet>();
 			detachParameters.put(Parameter.OBJECT, detachables);
 			createEvent(game, "Unattach before attaching", EventType.UNATTACH, detachParameters).perform(event, false);
 		}

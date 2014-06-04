@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Flashback;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -28,7 +29,7 @@ public final class DreadReturn extends Card
 		// Flashback-Sacrifice three creatures. (You may cast this card
 		// from your graveyard for its flashback cost. Then exile it.)
 		EventFactory sacrificeThreeCreatures = sacrifice(You.instance(), 3, CreaturePermanents.instance(), "Sacrifice three creatures.");
-		CostCollection flashbackCost = new CostCollection(org.rnd.jmagic.abilities.keywords.Flashback.COST_TYPE, sacrificeThreeCreatures);
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flashback(state, flashbackCost));
+		CostCollection flashbackCost = new CostCollection(Flashback.COST_TYPE, sacrificeThreeCreatures);
+		this.addAbility(new Flashback(state, flashbackCost));
 	}
 }

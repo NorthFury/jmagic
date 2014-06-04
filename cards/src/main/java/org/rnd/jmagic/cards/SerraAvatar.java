@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.LorwynIncarnationTrigger;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -35,6 +37,6 @@ public final class SerraAvatar extends Card
 
 		// When Serra Avatar is put into a graveyard from anywhere, shuffle it
 		// into its owner's library.
-		this.addAbility(new org.rnd.jmagic.abilities.LorwynIncarnationTrigger(state, this.getName()));
+		this.addAbility(new LorwynIncarnationTrigger(state, this.getName()));
 	}
 }

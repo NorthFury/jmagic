@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.LeylineAbility;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -32,7 +33,7 @@ public final class LeylineofAnticipation extends Card
 
 		// If Leyline of Anticipation is in your opening hand, you may begin the
 		// game with it on the battlefield.
-		this.addAbility(new org.rnd.jmagic.abilities.LeylineAbility(state, "Leyline of Anticipation"));
+		this.addAbility(new LeylineAbility(state, "Leyline of Anticipation"));
 
 		// You may cast nonland cards as though they had flash. (You may cast
 		// them any time you could cast an instant.)

@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.EntersTheBattlefieldWithCounters;
 import org.rnd.jmagic.engine.*;
 
 @Name("Triskelion")
@@ -31,7 +33,7 @@ public final class Triskelion extends Card
 		this.setToughness(1);
 
 		// Triskelion enters the battlefield with three +1/+1 counters on it.
-		this.addAbility(new org.rnd.jmagic.abilities.EntersTheBattlefieldWithCounters(state, this.getName(), 3, Counter.CounterType.PLUS_ONE_PLUS_ONE));
+		this.addAbility(new EntersTheBattlefieldWithCounters(state, this.getName(), 3, Counter.CounterType.PLUS_ONE_PLUS_ONE));
 
 		// Remove a +1/+1 counter from Triskelion: Triskelion deals 1 damage to
 		// target creature or player.

@@ -1,6 +1,10 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Enchant;
+import org.rnd.jmagic.abilities.keywords.FirstStrike;
+import org.rnd.jmagic.abilities.keywords.TotemArmor;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -22,7 +26,7 @@ public final class HyenaUmbra extends Card
 
 			this.addEffectPart(modifyPowerAndToughness(enchantedCreature, +1, +1));
 
-			this.addEffectPart(addAbilityToObject(enchantedCreature, org.rnd.jmagic.abilities.keywords.FirstStrike.class));
+			this.addEffectPart(addAbilityToObject(enchantedCreature, FirstStrike.class));
 		}
 	}
 
@@ -31,12 +35,12 @@ public final class HyenaUmbra extends Card
 		super(state);
 
 		// Enchant creature
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Enchant.Creature(state));
+		this.addAbility(new Enchant.Creature(state));
 
 		// Enchanted creature gets +1/+1 and has first strike.
 		this.addAbility(new HyenaPump(state));
 
 		// Totem armor
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.TotemArmor(state));
+		this.addAbility(new TotemArmor(state));
 	}
 }

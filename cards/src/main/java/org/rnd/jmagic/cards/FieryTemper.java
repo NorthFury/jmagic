@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Madness;
 import org.rnd.jmagic.engine.*;
 
 @Name("Fiery Temper")
@@ -20,6 +22,6 @@ public final class FieryTemper extends Card
 
 		// Madness (R) (If you discard this card, you may cast it for its
 		// madness cost instead of putting it into your graveyard.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Madness(state, "(R)"));
+		this.addAbility(new Madness(state, "(R)"));
 	}
 }

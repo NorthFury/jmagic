@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Convoke;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -16,7 +18,7 @@ public final class DevouringLight extends Card
 		super(state);
 
 		// Convoke
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Convoke(state));
+		this.addAbility(new Convoke(state));
 
 		// Exile target attacking or blocking creature.
 		Target target = this.addTarget(Union.instance(Attacking.instance(), Blocking.instance()), "target attacking or blocking creature");

@@ -3,6 +3,10 @@ package org.rnd.jmagic.engine.eventTypes;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
 public final class PutIntoLibrary extends EventType
 {	public static final EventType INSTANCE = new PutIntoLibrary();
 
@@ -18,7 +22,7 @@ public final class PutIntoLibrary extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean attempt(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		for(GameObject object: parameters.get(Parameter.OBJECT).getAll(GameObject.class))
 			if(object.isGhost())
@@ -27,18 +31,18 @@ public final class PutIntoLibrary extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		boolean allMoved = true;
 
-		java.util.Set<GameObject> objects = parameters.get(Parameter.OBJECT).getAll(GameObject.class);
+		Set<GameObject> objects = parameters.get(Parameter.OBJECT).getAll(GameObject.class);
 		if(objects.isEmpty())
 		{
 			event.setResult(Empty.set);
 			return true;
 		}
 
-		java.util.Map<Zone, MagicSet> objectMap = new java.util.HashMap<Zone, MagicSet>();
+		Map<Zone, MagicSet> objectMap = new HashMap<Zone, MagicSet>();
 		for(GameObject object: objects)
 		{
 			Zone targetLibrary = object.getOwner(game.actualState).getLibrary(game.actualState);
@@ -48,12 +52,12 @@ public final class PutIntoLibrary extends EventType
 		}
 
 		MagicSet result = new MagicSet();
-		for(java.util.Map.Entry<Zone, MagicSet> toEntry: objectMap.entrySet())
+		for(Map.Entry<Zone, MagicSet> toEntry: objectMap.entrySet())
 		{
 			Zone to = toEntry.getKey();
 			MagicSet theseObjects = toEntry.getValue();
 
-			java.util.Map<Parameter, MagicSet> moveParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> moveParameters = new HashMap<Parameter, MagicSet>();
 			moveParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 			moveParameters.put(Parameter.TO, new MagicSet(to));
 			moveParameters.put(Parameter.OBJECT, theseObjects);

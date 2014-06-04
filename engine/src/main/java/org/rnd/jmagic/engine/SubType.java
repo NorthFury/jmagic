@@ -1,5 +1,16 @@
 package org.rnd.jmagic.engine;
 
+import org.rnd.util.CamelCase;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.EnumMap;
+import java.util.EnumSet;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 public enum SubType
 {
 	// ***Creature Types***
@@ -149,7 +160,7 @@ public enum SubType
 		this.category = category;
 	}
 
-	public java.util.List<Type> getTypes()
+	public List<Type> getTypes()
 	{
 		return this.category.types;
 	}
@@ -157,7 +168,7 @@ public enum SubType
 	@Override
 	public String toString()
 	{
-		return org.rnd.util.CamelCase.enumValueToDisplay(this.name());
+		return CamelCase.enumValueToDisplay(this.name());
 	}
 
 	/**
@@ -171,11 +182,11 @@ public enum SubType
 
 		// Use a List instead of an Array so we can enforce immutability while
 		// retaining the ability to compare by reference.
-		public final java.util.List<Type> types;
+		public final List<Type> types;
 
 		Category(Type... types)
 		{
-			this.types = java.util.Collections.unmodifiableList(java.util.Arrays.asList(types));
+			this.types = Collections.unmodifiableList(Arrays.asList(types));
 		}
 
 		public static Category getCategory(Type type)
@@ -187,45 +198,45 @@ public enum SubType
 		}
 	}
 
-	private static java.util.Map<Category, java.util.Set<SubType>> map = null;
+	private static Map<Category, Set<SubType>> map = null;
 
-	public static java.util.Set<SubType> getAllSubTypesFor(Type type)
+	public static Set<SubType> getAllSubTypesFor(Type type)
 	{
 		synchronized(SubType.class)
 		{
 			if(map == null)
 			{
-				map = new java.util.EnumMap<Category, java.util.Set<SubType>>(Category.class);
+				map = new EnumMap<Category, Set<SubType>>(Category.class);
 				for(Category category: Category.values())
-					map.put(category, java.util.EnumSet.noneOf(SubType.class));
+					map.put(category, EnumSet.noneOf(SubType.class));
 				for(SubType subType: SubType.values())
 					map.get(subType.category).add(subType);
-				for(java.util.Map.Entry<Category, java.util.Set<SubType>> entry: map.entrySet())
-					entry.setValue(java.util.Collections.unmodifiableSet(entry.getValue()));
-				map = java.util.Collections.unmodifiableMap(map);
+				for(Map.Entry<Category, Set<SubType>> entry: map.entrySet())
+					entry.setValue(Collections.unmodifiableSet(entry.getValue()));
+				map = Collections.unmodifiableMap(map);
 			}
 		}
 
 		return map.get(Category.getCategory(type));
 	}
 
-	public static java.util.Set<SubType> getSubTypesFor(Type type, java.util.Set<SubType> subTypes)
+	public static Set<SubType> getSubTypesFor(Type type, Set<SubType> subTypes)
 	{
 		Category cat = Category.getCategory(type);
-		java.util.Set<SubType> ret = new java.util.HashSet<SubType>();
+		Set<SubType> ret = new HashSet<SubType>();
 		for(SubType subType: subTypes)
 			if(subType.category == cat)
 				ret.add(subType);
 		return ret;
 	}
 
-	public static java.util.Set<SubType> getBasicLandTypes()
+	public static Set<SubType> getBasicLandTypes()
 	{
-		return java.util.EnumSet.of(SubType.PLAINS, SubType.ISLAND, SubType.SWAMP, SubType.MOUNTAIN, SubType.FOREST);
+		return EnumSet.of(SubType.PLAINS, SubType.ISLAND, SubType.SWAMP, SubType.MOUNTAIN, SubType.FOREST);
 	}
 
 	// TODO: inline this...
-	public static java.util.Set<SubType> getAllCreatureTypes()
+	public static Set<SubType> getAllCreatureTypes()
 	{
 		return getAllSubTypesFor(Type.CREATURE);
 	}

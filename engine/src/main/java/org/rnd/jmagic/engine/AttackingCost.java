@@ -1,11 +1,15 @@
 package org.rnd.jmagic.engine;
 
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+
 public class AttackingCost
 {
 	private MagicSet cost;
 	private int number;
-	private java.util.Set<Integer> creatureIDs;
-	private java.util.Set<Integer> playerIDs;
+	private Set<Integer> creatureIDs;
+	private Set<Integer> playerIDs;
 
 	/**
 	 * Creates a new attacking cost.
@@ -22,11 +26,11 @@ public class AttackingCost
 		this.cost = cost;
 		this.number = number;
 
-		this.creatureIDs = new java.util.HashSet<Integer>();
+		this.creatureIDs = new HashSet<Integer>();
 		for(GameObject o: creatures.getAll(GameObject.class))
 			this.creatureIDs.add(o.ID);
 
-		this.playerIDs = new java.util.HashSet<Integer>();
+		this.playerIDs = new HashSet<Integer>();
 		if(players != null)
 			for(Player p: players.getAll(Player.class))
 				this.playerIDs.add(p.ID);
@@ -40,7 +44,7 @@ public class AttackingCost
 	 * @return The total cost to attack that this attacking cost imposes. Null
 	 * if this attacking cost does not apply to these attackers at all.
 	 */
-	public MagicSet evaluate(java.util.Collection<GameObject> attackers)
+	public MagicSet evaluate(Collection<GameObject> attackers)
 	{
 		MagicSet ret = new MagicSet();
 		boolean applies = false;

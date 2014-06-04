@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.FirstStrike;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -34,7 +36,7 @@ public final class KnightExemplar extends Card
 
 		// First strike (This creature deals combat damage before creatures
 		// without first strike.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.FirstStrike(state));
+		this.addAbility(new FirstStrike(state));
 
 		// Other Knight creatures you control get +1/+1 and are indestructible.
 		// (Lethal damage and effects that say "destroy" don't destroy them.)

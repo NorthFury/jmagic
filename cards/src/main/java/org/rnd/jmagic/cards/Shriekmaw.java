@@ -2,6 +2,8 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Evoke;
+import org.rnd.jmagic.abilities.keywords.Fear;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -35,13 +37,13 @@ public final class Shriekmaw extends Card
 		this.setToughness(2);
 
 		// Fear
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Fear(state));
+		this.addAbility(new Fear(state));
 
 		// When Shriekmaw enters the battlefield, destroy target nonartifact,
 		// nonblack creature.
 		this.addAbility(new ETBTerror(state));
 
 		// Evoke (1)(B)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Evoke(state, "(1)(B)"));
+		this.addAbility(new Evoke(state, "(1)(B)"));
 	}
 }

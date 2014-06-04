@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Deathtouch;
 import org.rnd.jmagic.engine.*;
 
 @Name("Onyx Mage")
@@ -19,7 +21,7 @@ public final class OnyxMage extends Card
 			this.setManaCost(new ManaPool("(1)(B)"));
 
 			SetGenerator target = targetedBy(this.addTarget(CREATURES_YOU_CONTROL, "target creature you control"));
-			this.addEffect(addAbilityUntilEndOfTurn(target, org.rnd.jmagic.abilities.keywords.Deathtouch.class, "Target creature you control gains deathtouch until end of turn."));
+			this.addEffect(addAbilityUntilEndOfTurn(target, Deathtouch.class, "Target creature you control gains deathtouch until end of turn."));
 		}
 	}
 

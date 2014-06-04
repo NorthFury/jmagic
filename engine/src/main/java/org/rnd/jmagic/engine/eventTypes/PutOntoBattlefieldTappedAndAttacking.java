@@ -3,6 +3,10 @@ package org.rnd.jmagic.engine.eventTypes;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.io.Serializable;
+import java.util.Map;
+import java.util.Set;
+
 public final class PutOntoBattlefieldTappedAndAttacking extends EventType
 {	public static final EventType INSTANCE = new PutOntoBattlefieldTappedAndAttacking();
 
@@ -18,7 +22,7 @@ public final class PutOntoBattlefieldTappedAndAttacking extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean attempt(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		for(GameObject object: parameters.get(Parameter.OBJECT).getAll(GameObject.class))
 			if(object.isGhost())
@@ -27,7 +31,7 @@ public final class PutOntoBattlefieldTappedAndAttacking extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		Event putOntoBattlefield = createEvent(game, "Put " + parameters.get(Parameter.OBJECT) + " onto the battlefield.", PUT_ONTO_BATTLEFIELD, parameters);
 		boolean status = putOntoBattlefield.perform(event, false);
@@ -35,7 +39,7 @@ public final class PutOntoBattlefieldTappedAndAttacking extends EventType
 		Player controller = parameters.get(Parameter.CONTROLLER).getOne(Player.class);
 
 		int attackingID;
-		java.util.Set<Identified> defenders;
+		Set<Identified> defenders;
 		if(parameters.containsKey(Parameter.ATTACKER))
 		{
 			attackingID = parameters.get(Parameter.ATTACKER).getOne(Integer.class);
@@ -63,7 +67,7 @@ public final class PutOntoBattlefieldTappedAndAttacking extends EventType
 
 			if(null != defenders)
 			{
-				PlayerInterface.ChooseParameters<java.io.Serializable> chooseParameters = new PlayerInterface.ChooseParameters<java.io.Serializable>(1, 1, PlayerInterface.ChoiceType.ATTACK_WHAT, PlayerInterface.ChooseReason.DECLARE_ATTACK_DEFENDER);
+				PlayerInterface.ChooseParameters<Serializable> chooseParameters = new PlayerInterface.ChooseParameters<Serializable>(1, 1, PlayerInterface.ChoiceType.ATTACK_WHAT, PlayerInterface.ChooseReason.DECLARE_ATTACK_DEFENDER);
 				chooseParameters.thisID = attacker.ID;
 				attackingID = controller.sanitizeAndChoose(game.actualState, defenders, chooseParameters).get(0).ID;
 			}

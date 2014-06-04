@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -17,7 +19,7 @@ public final class GravitationalShift extends Card
 		{
 			super(state, "Creatures with flying get +2/+0.");
 
-			this.addEffectPart(modifyPowerAndToughness(Intersect.instance(CreaturePermanents.instance(), HasKeywordAbility.instance(org.rnd.jmagic.abilities.keywords.Flying.class)), +2, +0));
+			this.addEffectPart(modifyPowerAndToughness(Intersect.instance(CreaturePermanents.instance(), HasKeywordAbility.instance(Flying.class)), +2, +0));
 		}
 	}
 
@@ -27,7 +29,7 @@ public final class GravitationalShift extends Card
 		{
 			super(state, "Creatures without flying get -2/-0.");
 
-			this.addEffectPart(modifyPowerAndToughness(RelativeComplement.instance(CreaturePermanents.instance(), HasKeywordAbility.instance(org.rnd.jmagic.abilities.keywords.Flying.class)), -2, -0));
+			this.addEffectPart(modifyPowerAndToughness(RelativeComplement.instance(CreaturePermanents.instance(), HasKeywordAbility.instance(Flying.class)), -2, -0));
 		}
 	}
 

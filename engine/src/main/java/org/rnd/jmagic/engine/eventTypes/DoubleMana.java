@@ -3,6 +3,9 @@ package org.rnd.jmagic.engine.eventTypes;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public final class DoubleMana extends EventType
 {	public static final EventType INSTANCE = new DoubleMana();
 
@@ -24,7 +27,7 @@ public final class DoubleMana extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		MagicSet result = new MagicSet();
 		boolean success = true;
@@ -53,7 +56,7 @@ public final class DoubleMana extends EventType
 				}
 			}
 
-			java.util.Map<Parameter, MagicSet> manaParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> manaParameters = new HashMap<Parameter, MagicSet>();
 			manaParameters.put(Parameter.SOURCE, parameters.get(Parameter.SOURCE));
 			manaParameters.put(Parameter.MANA, new MagicSet(newMana));
 			manaParameters.put(Parameter.PLAYER, new MagicSet(player));

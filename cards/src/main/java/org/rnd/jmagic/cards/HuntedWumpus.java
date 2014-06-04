@@ -5,6 +5,11 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @Name("Hunted Wumpus")
 @Types({Type.CREATURE})
 @SubTypes({SubType.BEAST})
@@ -32,7 +37,7 @@ public final class HuntedWumpus extends Card
 			}
 
 			@Override
-			public void makeChoices(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+			public void makeChoices(Game game, Event event, Map<Parameter, MagicSet> parameters)
 			{
 				MagicSet filter = parameters.get(EventType.Parameter.CHOICE);
 
@@ -43,30 +48,30 @@ public final class HuntedWumpus extends Card
 					{
 						// They can't put a card onto the battlefield if they
 						// don't have one
-						event.putChoices(player, java.util.Collections.emptySet());
+						event.putChoices(player, Collections.emptySet());
 						continue;
 					}
 
-					java.util.List<Answer> yesNo = player.sanitizeAndChoose(game.actualState, 1, Answer.mayChoices(), PlayerInterface.ChoiceType.ENUM, REASON);
+					List<Answer> yesNo = player.sanitizeAndChoose(game.actualState, 1, Answer.mayChoices(), PlayerInterface.ChoiceType.ENUM, REASON);
 					if(yesNo.iterator().next() == Answer.NO)
 						// They won't put a card onto the battlefield if they
 						// choose not to
 						continue;
 
 					// Choose a card to put onto the battlefield
-					java.util.List<GameObject> choice = player.sanitizeAndChoose(game.actualState, 1, allowedCards.getAll(GameObject.class), PlayerInterface.ChoiceType.OBJECTS, PlayerInterface.ChooseReason.PUT_ONTO_BATTLEFIELD);
+					List<GameObject> choice = player.sanitizeAndChoose(game.actualState, 1, allowedCards.getAll(GameObject.class), PlayerInterface.ChoiceType.OBJECTS, PlayerInterface.ChooseReason.PUT_ONTO_BATTLEFIELD);
 					event.putChoices(player, choice);
 				}
 			}
 
 			@Override
-			public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+			public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 			{
 				MagicSet objects = new MagicSet();
 				for(Player player: parameters.get(Parameter.PLAYER).getAll(Player.class))
 					objects.addAll(event.getChoices(player));
 
-				java.util.Map<Parameter, MagicSet> moveParameters = new java.util.HashMap<Parameter, MagicSet>();
+				Map<Parameter, MagicSet> moveParameters = new HashMap<Parameter, MagicSet>();
 				moveParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 				moveParameters.put(Parameter.OBJECT, objects);
 				Event putOntoField = createEvent(game, "Put the chosen cards onto the battlefield under their owners' control.", EventType.PUT_ONTO_BATTLEFIELD_UNDER_OWNER_CONTROL, moveParameters);

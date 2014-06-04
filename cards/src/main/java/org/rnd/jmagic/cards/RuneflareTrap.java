@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.Trap;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -46,7 +48,7 @@ public final class RuneflareTrap extends Card
 		SetGenerator opponents = OpponentsOf.instance(You.instance());
 		SetGenerator cardsDrawn = MaximumPerPlayer.instance(CardsDrawn.class, opponents);
 		SetGenerator trapCondition = Intersect.instance(cardsDrawn, Between.instance(3, null));
-		this.addAbility(new org.rnd.jmagic.abilities.Trap(state, this.getName(), trapCondition, "If an opponent drew three or more cards this turn", "(R)"));
+		this.addAbility(new Trap(state, this.getName(), trapCondition, "If an opponent drew three or more cards this turn", "(R)"));
 
 		// Runeflare Trap deals damage to target player equal to the number of
 		// cards in that player's hand.

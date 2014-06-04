@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 
 @Name("Thraben Militia")
@@ -19,6 +20,6 @@ public final class ThrabenMilitia extends AlternateCard
 		this.setColorIndicator(Color.WHITE);
 
 		// Trample
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Trample(state));
+		this.addAbility(new Trample(state));
 	}
 }

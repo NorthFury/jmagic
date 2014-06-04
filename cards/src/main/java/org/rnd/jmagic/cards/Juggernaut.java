@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.AttacksEachTurnIfAble;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -33,7 +34,7 @@ public final class Juggernaut extends Card
 		this.setToughness(3);
 
 		// Juggernaut attacks each turn if able.
-		this.addAbility(new org.rnd.jmagic.abilities.AttacksEachTurnIfAble(state, this.getName()));
+		this.addAbility(new AttacksEachTurnIfAble(state, this.getName()));
 
 		// Juggernaut can't be blocked by Walls.
 		this.addAbility(new CantBeBlockedByWalls(state));

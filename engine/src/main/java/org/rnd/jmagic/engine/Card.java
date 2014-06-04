@@ -3,6 +3,8 @@ package org.rnd.jmagic.engine;
 import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.List;
+
 public abstract class Card extends GameObject implements Castable, PlayableAsLand
 {
 	private Castable.Simple castableDelegate;
@@ -117,7 +119,7 @@ public abstract class Card extends GameObject implements Castable, PlayableAsLan
 	}
 
 	@Override
-	public java.util.List<CastSpellAction> getCastActions(GameState state, Player who)
+	public List<CastSpellAction> getCastActions(GameState state, Player who)
 	{
 		return this.castableDelegate.getCastActions(state, who, this);
 	}

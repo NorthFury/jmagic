@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.AlternateCost;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -26,7 +28,7 @@ public final class Contagion extends Card
 		exileFactory.parameters.put(EventType.Parameter.PLAYER, You.instance());
 
 		CostCollection altCost = new CostCollection(CostCollection.TYPE_ALTERNATE, lifeFactory, exileFactory);
-		this.addAbility(new org.rnd.jmagic.abilities.AlternateCost(state, "You may pay 1 life and exile a black card from your hand rather than pay Contagion's mana cost.", altCost));
+		this.addAbility(new AlternateCost(state, "You may pay 1 life and exile a black card from your hand rather than pay Contagion's mana cost.", altCost));
 
 		// Distribute two -2/-1 counters among one or two target creatures.
 		Target target = this.addTarget(CreaturePermanents.instance(), "one or two target creatures");

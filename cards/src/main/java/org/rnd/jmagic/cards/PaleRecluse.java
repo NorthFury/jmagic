@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Reach;
+import org.rnd.jmagic.abilities.keywords.TypeCycling;
 import org.rnd.jmagic.engine.*;
 
 @Name("Pale Recluse")
@@ -17,9 +19,9 @@ public final class PaleRecluse extends Card
 		this.setPower(4);
 		this.setToughness(5);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Reach(state));
+		this.addAbility(new Reach(state));
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.TypeCycling.ForestCycling(state, "(2)"));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.TypeCycling.PlainsCycling(state, "(2)"));
+		this.addAbility(new TypeCycling.ForestCycling(state, "(2)"));
+		this.addAbility(new TypeCycling.PlainsCycling(state, "(2)"));
 	}
 }

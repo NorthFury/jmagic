@@ -1,6 +1,15 @@
 package org.rnd.jmagic.engine;
 
-public class DamageAssignment implements java.io.Serializable
+import org.rnd.jmagic.sanitized.SanitizedDamageAssignment;
+
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.Set;
+
+public class DamageAssignment implements Serializable
 {
 	private static final long serialVersionUID = 1L;
 
@@ -8,18 +17,18 @@ public class DamageAssignment implements java.io.Serializable
 	 * A convenience class to represent a collection of DamageAssignment
 	 * instances.
 	 */
-	public static class Batch implements java.util.Collection<DamageAssignment>
+	public static class Batch implements Collection<DamageAssignment>
 	{
-		public final java.util.Collection<DamageAssignment> store;
+		public final Collection<DamageAssignment> store;
 
 		public Batch()
 		{
-			this.store = new java.util.LinkedList<DamageAssignment>();
+			this.store = new LinkedList<DamageAssignment>();
 		}
 
-		public Batch(java.util.Collection<DamageAssignment> copy)
+		public Batch(Collection<DamageAssignment> copy)
 		{
-			this.store = new java.util.LinkedList<DamageAssignment>(copy);
+			this.store = new LinkedList<DamageAssignment>(copy);
 		}
 
 		@Override
@@ -29,7 +38,7 @@ public class DamageAssignment implements java.io.Serializable
 		}
 
 		@Override
-		public boolean addAll(java.util.Collection<? extends DamageAssignment> c)
+		public boolean addAll(Collection<? extends DamageAssignment> c)
 		{
 			return this.store.addAll(c);
 		}
@@ -45,8 +54,8 @@ public class DamageAssignment implements java.io.Serializable
 			if(this.size() < 2)
 				return true;
 
-			java.util.Iterator<DamageAssignment> iter = this.iterator();
-			java.util.Iterator<DamageAssignment> other = this.iterator();
+			Iterator<DamageAssignment> iter = this.iterator();
+			Iterator<DamageAssignment> other = this.iterator();
 			other.next();
 			while(other.hasNext())
 			{
@@ -71,7 +80,7 @@ public class DamageAssignment implements java.io.Serializable
 		}
 
 		@Override
-		public boolean containsAll(java.util.Collection<?> c)
+		public boolean containsAll(Collection<?> c)
 		{
 			return this.store.containsAll(c);
 		}
@@ -83,7 +92,7 @@ public class DamageAssignment implements java.io.Serializable
 		}
 
 		@Override
-		public java.util.Iterator<DamageAssignment> iterator()
+		public Iterator<DamageAssignment> iterator()
 		{
 			return this.store.iterator();
 		}
@@ -95,13 +104,13 @@ public class DamageAssignment implements java.io.Serializable
 		}
 
 		@Override
-		public boolean removeAll(java.util.Collection<?> c)
+		public boolean removeAll(Collection<?> c)
 		{
 			return this.store.removeAll(c);
 		}
 
 		@Override
-		public boolean retainAll(java.util.Collection<?> c)
+		public boolean retainAll(Collection<?> c)
 		{
 			return this.store.retainAll(c);
 		}
@@ -147,9 +156,9 @@ public class DamageAssignment implements java.io.Serializable
 		}
 
 		@Override
-		public java.io.Serializable sanitize(GameState state, Player whoFor)
+		public Serializable sanitize(GameState state, Player whoFor)
 		{
-			return new org.rnd.jmagic.sanitized.SanitizedDamageAssignment.Replacement(state, whoFor, this);
+			return new SanitizedDamageAssignment.Replacement(state, whoFor, this);
 		}
 
 		@Override
@@ -169,7 +178,7 @@ public class DamageAssignment implements java.io.Serializable
 	// TODO : make this field nontransient (i.e., make this class Sanitizable
 	// rather than Serializable)
 	/** Replacement effects that have replaced this ONE damage. */
-	public transient final java.util.Set<ReplacementEffect> replacedBy;
+	public transient final Set<ReplacementEffect> replacedBy;
 
 	/** The source of this damage. */
 	public final int sourceID;
@@ -187,7 +196,7 @@ public class DamageAssignment implements java.io.Serializable
 		this.name = copy.name;
 		this.sourceID = copy.sourceID;
 		this.takerID = copy.takerID;
-		this.replacedBy = new java.util.LinkedHashSet<ReplacementEffect>(copy.replacedBy);
+		this.replacedBy = new LinkedHashSet<ReplacementEffect>(copy.replacedBy);
 	}
 
 	/**
@@ -203,7 +212,7 @@ public class DamageAssignment implements java.io.Serializable
 		this.name = source + " deals one " + (this.isCombatDamage ? "combat " : "") + "damage to " + taker;
 		this.sourceID = source.ID;
 		this.takerID = taker.ID;
-		this.replacedBy = new java.util.LinkedHashSet<ReplacementEffect>();
+		this.replacedBy = new LinkedHashSet<ReplacementEffect>();
 	}
 
 	// DO NOT OVERRIDE EQUALS. Reference semantics for equals are required;

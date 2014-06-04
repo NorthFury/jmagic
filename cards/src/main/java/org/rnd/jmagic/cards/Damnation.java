@@ -3,6 +3,7 @@ package org.rnd.jmagic.cards;
 import static org.rnd.jmagic.Convenience.*;
 
 import org.rnd.jmagic.engine.*;
+import org.rnd.jmagic.engine.generators.CreaturePermanents;
 
 @Name("Damnation")
 @Types({Type.SORCERY})
@@ -15,6 +16,6 @@ public final class Damnation extends Card
 	{
 		super(state);
 
-		this.addEffects(bury(this, org.rnd.jmagic.engine.generators.CreaturePermanents.instance(), "Destroy all creatures. They can't be regenerated."));
+		this.addEffects(bury(this, CreaturePermanents.instance(), "Destroy all creatures. They can't be regenerated."));
 	}
 }

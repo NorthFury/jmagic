@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -16,6 +18,6 @@ public final class AngelicBlessing extends Card
 		super(state);
 
 		Target target = this.addTarget(CreaturePermanents.instance(), "target creature");
-		this.addEffect(ptChangeAndAbilityUntilEndOfTurn(targetedBy(target), +3, +3, "Target creature gets +3/+3 and gains flying until end of turn.", org.rnd.jmagic.abilities.keywords.Flying.class));
+		this.addEffect(ptChangeAndAbilityUntilEndOfTurn(targetedBy(target), +3, +3, "Target creature gets +3/+3 and gains flying until end of turn.", Flying.class));
 	}
 }

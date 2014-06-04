@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.Bloodrush;
+import org.rnd.jmagic.abilities.keywords.Deathtouch;
 import org.rnd.jmagic.engine.*;
 
 @Name("Wasteland Viper")
@@ -18,10 +20,10 @@ public final class WastelandViper extends Card
 		this.setToughness(2);
 
 		// Deathtouch
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Deathtouch(state));
+		this.addAbility(new Deathtouch(state));
 
 		// Bloodrush \u2014 (G), Discard Wasteland Viper: Target attacking
 		// creature gets +1/+2 and gains deathtouch until end of turn.
-		this.addAbility(new org.rnd.jmagic.abilities.Bloodrush(state, "(G)", "Wasteland Viper", +1, +2, "Target attacking creature gets +1/+2 and gains deathtouch until end of turn.", org.rnd.jmagic.abilities.keywords.Deathtouch.class));
+		this.addAbility(new Bloodrush(state, "(G)", "Wasteland Viper", +1, +2, "Target attacking creature gets +1/+2 and gains deathtouch until end of turn.", Deathtouch.class));
 	}
 }

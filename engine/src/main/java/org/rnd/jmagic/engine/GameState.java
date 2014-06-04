@@ -1,31 +1,43 @@
 package org.rnd.jmagic.engine;
 
+import org.rnd.jmagic.engine.generators.HasName;
+import org.rnd.jmagic.engine.generators.LandsPlayedThisTurn;
 import org.rnd.jmagic.engine.patterns.*;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.Stack;
 
 /** Represents the game state. */
 public class GameState implements Cloneable
 {
-	public java.util.Map<String, java.util.Map<Integer, MagicSet>> abilityExemptions;
+	public Map<String, Map<Integer, MagicSet>> abilityExemptions;
 
 	/** The Doran flag. */
 	public boolean assignCombatDamageUsingToughness;
 
-	public java.util.Collection<AttackingCost> attackingCosts;
+	public Collection<AttackingCost> attackingCosts;
 
-	public java.util.Collection<AttackingRequirement> attackingRequirements;
-	public java.util.Collection<CombatRestriction> attackingRestrictions;
+	public Collection<AttackingRequirement> attackingRequirements;
+	public Collection<CombatRestriction> attackingRestrictions;
 
 	private int battlefieldID;
 
-	public java.util.Collection<BlockingRequirement> blockingRequirements;
-	public java.util.Collection<CombatRestriction> blockingRestrictions;
+	public Collection<BlockingRequirement> blockingRequirements;
+	public Collection<CombatRestriction> blockingRestrictions;
 
 	private int commandZoneID;
 
 	/** keys are controlled players, values are controlling players */
-	protected java.util.Map<Integer, Integer> controlledPlayers;
+	protected Map<Integer, Integer> controlledPlayers;
 
-	public java.util.List<NonStaticAbility> currentlyResolvingManaAbilities;
+	public List<NonStaticAbility> currentlyResolvingManaAbilities;
 
 	private Phase currentPhase;
 
@@ -33,12 +45,12 @@ public class GameState implements Cloneable
 
 	private Turn currentTurn;
 
-	public java.util.Collection<DamageReplacementEffect> damageReplacementEffects;
+	public Collection<DamageReplacementEffect> damageReplacementEffects;
 
 	/**
 	 * keys are IDs of source GameObjects
 	 */
-	public java.util.Map<Integer, ContinuousEffectType.DamageAbility> dealDamageAsThoughHasAbility;
+	public Map<Integer, ContinuousEffectType.DamageAbility> dealDamageAsThoughHasAbility;
 
 	/**
 	 * If not -1, this overrides who chooses attackers and what to attack with
@@ -52,69 +64,69 @@ public class GameState implements Cloneable
 	 */
 	public int declareBlockersPlayerOverride;
 
-	public java.util.Collection<DelayedTrigger> delayedTriggers;
+	public Collection<DelayedTrigger> delayedTriggers;
 
-	public java.util.Collection<EventReplacementEffect> eventReplacementEffects;
+	public Collection<EventReplacementEffect> eventReplacementEffects;
 
-	public java.util.Collection<EventReplacementEffectStopper> eventReplacementEffectStoppers;
-	public java.util.Collection<EventTriggeredAbilityStopper> eventTriggeredAbilityStoppers;
+	public Collection<EventReplacementEffectStopper> eventReplacementEffectStoppers;
+	public Collection<EventTriggeredAbilityStopper> eventTriggeredAbilityStoppers;
 
 	private int exileZoneID;
 
 	/** Should only be added to by ContinuousEffectType.ADD_UNTAP_EVENT */
-	public java.util.List<Event> extraEvents;
+	public List<Event> extraEvents;
 
-	private java.util.Map<Class<? extends Tracker<?>>, Tracker<?>> flags;
+	private Map<Class<? extends Tracker<?>>, Tracker<?>> flags;
 
-	public java.util.List<FloatingContinuousEffect> floatingEffects;
+	public List<FloatingContinuousEffect> floatingEffects;
 
-	public java.util.List<Turn> futureTurns;
+	public List<Turn> futureTurns;
 
 	public Game game;
 
-	public java.util.Set<org.rnd.jmagic.engine.generators.HasName.HasNameModifier> hasNameModifiers;
+	public Set<HasName.HasNameModifier> hasNameModifiers;
 
-	private java.util.Map<Integer, Identified> identifieds;
+	private Map<Integer, Identified> identifieds;
 
 	/**
 	 * This map describes cost additions for playing spells and abilities. The
 	 * keys to the map are sets that describe which spells and abilities the
 	 * cost applies to; the values are the costs.
 	 */
-	public java.util.Map<MagicSet, ManaPool> manaCostAdditions;
+	public Map<MagicSet, ManaPool> manaCostAdditions;
 
 	/**
 	 * This map describes cost minimums for playing spells and abilities. The
 	 * keys to the map are sets that describe which spells and abilities the
 	 * cost applies to; the values are the minimums. (Trinisphere)
 	 */
-	public java.util.Map<MagicSet, Integer> manaCostMinimums;
+	public Map<MagicSet, Integer> manaCostMinimums;
 
 	/**
 	 * This map describes cost reductions for playing spells and abilities. The
 	 * keys to the map are sets that describe which spells and abilities the
 	 * reduction applies to; the values are the costs.
 	 */
-	public java.util.Map<MagicSet, ManaPool> manaCostReductions;
+	public Map<MagicSet, ManaPool> manaCostReductions;
 
 	/**
 	 * Like manaCostReductions except that these effects can't reduce the amount
 	 * of mana something costs to play to less than one mana.
 	 */
-	public java.util.Map<MagicSet, ManaPool> manaCostRestrictedReductions;
+	public Map<MagicSet, ManaPool> manaCostRestrictedReductions;
 
 	/**
 	 * Keys are player IDs; values are patterns describing what kind of mana
 	 * doesn't empty from that players mana pool as steps and phases end.
 	 */
-	public java.util.Map<Integer, MultipleSetPattern> manaThatDoesntEmpty;
+	public Map<Integer, MultipleSetPattern> manaThatDoesntEmpty;
 
 	private int nextTimestamp;
 
 	/** What actions the acting player is allowed to take. */
-	public java.util.Set<PlayerAction> playerActions;
+	public Set<PlayerAction> playerActions;
 
-	public java.util.List<Player> players;
+	public List<Player> players;
 
 	public int playerWithPriorityID;
 
@@ -122,12 +134,12 @@ public class GameState implements Cloneable
 
 	private Step previousStep;
 
-	public java.util.Collection<EventPattern> eventProhibitions;
-	public java.util.Collection<ZoneChangePattern> zoneChangeProhibitions;
+	public Collection<EventPattern> eventProhibitions;
+	public Collection<ZoneChangePattern> zoneChangeProhibitions;
 
-	public java.util.Collection<GameObject> sourcesOfUnpreventableDamage;
+	public Collection<GameObject> sourcesOfUnpreventableDamage;
 
-	public java.util.Map<SpecialActionFactory, GameObject> specialActionFactories;
+	public Map<SpecialActionFactory, GameObject> specialActionFactories;
 
 	private int stackID;
 
@@ -135,71 +147,71 @@ public class GameState implements Cloneable
 	 * Map from player ID to collection of object ID representing the objects
 	 * that, if they are creatures, "have summoning sickness".
 	 */
-	public java.util.Map<Integer, java.util.Collection<Integer>> summoningSick;
+	public Map<Integer, Collection<Integer>> summoningSick;
 
 	/** Triggered abilities that have triggered but not gone on the stack. */
-	public java.util.Map<Integer, java.util.Collection<TriggeredAbility>> waitingTriggers;
+	public Map<Integer, Collection<TriggeredAbility>> waitingTriggers;
 
-	public java.util.Collection<ZoneChangeReplacementEffect> zoneChangeReplacementEffects;
+	public Collection<ZoneChangeReplacementEffect> zoneChangeReplacementEffects;
 
 	/** Constructs a shiny new game state. */
 	public GameState(Game game)
 	{
 		// initialize this first because other things require it
-		this.identifieds = new java.util.HashMap<Integer, Identified>();
+		this.identifieds = new HashMap<Integer, Identified>();
 		this.game = game;
 
-		this.abilityExemptions = new java.util.HashMap<String, java.util.Map<Integer, MagicSet>>();
+		this.abilityExemptions = new HashMap<String, Map<Integer, MagicSet>>();
 		this.assignCombatDamageUsingToughness = false;
-		this.attackingCosts = new java.util.LinkedList<AttackingCost>();
-		this.attackingRequirements = new java.util.LinkedList<AttackingRequirement>();
+		this.attackingCosts = new LinkedList<AttackingCost>();
+		this.attackingRequirements = new LinkedList<AttackingRequirement>();
 		this.attackingRestrictions = null;
 		this.battlefieldID = new Zone(this, "The Battlefield").ID;
-		this.blockingRequirements = new java.util.LinkedList<BlockingRequirement>();
+		this.blockingRequirements = new LinkedList<BlockingRequirement>();
 		this.blockingRestrictions = null;
 		this.commandZoneID = new Zone(this, "The Command Zone").ID;
-		this.controlledPlayers = new java.util.HashMap<Integer, Integer>();
-		this.currentlyResolvingManaAbilities = new java.util.Stack<NonStaticAbility>();
+		this.controlledPlayers = new HashMap<Integer, Integer>();
+		this.currentlyResolvingManaAbilities = new Stack<NonStaticAbility>();
 		this.currentPhase = null;
 		this.currentStep = null;
 		this.currentTurn = null;
-		this.damageReplacementEffects = new java.util.LinkedList<DamageReplacementEffect>();
-		this.dealDamageAsThoughHasAbility = new java.util.HashMap<Integer, ContinuousEffectType.DamageAbility>();
-		this.delayedTriggers = new java.util.LinkedList<DelayedTrigger>();
+		this.damageReplacementEffects = new LinkedList<DamageReplacementEffect>();
+		this.dealDamageAsThoughHasAbility = new HashMap<Integer, ContinuousEffectType.DamageAbility>();
+		this.delayedTriggers = new LinkedList<DelayedTrigger>();
 		this.declareAttackersPlayerOverride = -1;
 		this.declareBlockersPlayerOverride = -1;
-		this.eventReplacementEffects = new java.util.LinkedList<EventReplacementEffect>();
-		this.eventReplacementEffectStoppers = new java.util.LinkedList<EventReplacementEffectStopper>();
-		this.eventTriggeredAbilityStoppers = new java.util.LinkedList<EventTriggeredAbilityStopper>();
+		this.eventReplacementEffects = new LinkedList<EventReplacementEffect>();
+		this.eventReplacementEffectStoppers = new LinkedList<EventReplacementEffectStopper>();
+		this.eventTriggeredAbilityStoppers = new LinkedList<EventTriggeredAbilityStopper>();
 		this.exileZoneID = new Zone(this, "The Exile Zone").ID;
-		this.extraEvents = new java.util.LinkedList<Event>();
-		this.flags = new java.util.HashMap<Class<? extends Tracker<?>>, Tracker<?>>();
-		this.floatingEffects = new java.util.LinkedList<FloatingContinuousEffect>();
-		this.futureTurns = new java.util.LinkedList<Turn>();
+		this.extraEvents = new LinkedList<Event>();
+		this.flags = new HashMap<Class<? extends Tracker<?>>, Tracker<?>>();
+		this.floatingEffects = new LinkedList<FloatingContinuousEffect>();
+		this.futureTurns = new LinkedList<Turn>();
 		this.hasNameModifiers = null;
-		this.manaCostAdditions = new java.util.HashMap<MagicSet, ManaPool>();
-		this.manaCostMinimums = new java.util.HashMap<MagicSet, Integer>();
-		this.manaCostReductions = new java.util.HashMap<MagicSet, ManaPool>();
-		this.manaCostRestrictedReductions = new java.util.HashMap<MagicSet, ManaPool>();
-		this.manaThatDoesntEmpty = new java.util.HashMap<Integer, MultipleSetPattern>();
+		this.manaCostAdditions = new HashMap<MagicSet, ManaPool>();
+		this.manaCostMinimums = new HashMap<MagicSet, Integer>();
+		this.manaCostReductions = new HashMap<MagicSet, ManaPool>();
+		this.manaCostRestrictedReductions = new HashMap<MagicSet, ManaPool>();
+		this.manaThatDoesntEmpty = new HashMap<Integer, MultipleSetPattern>();
 		this.nextTimestamp = 0;
-		this.playerActions = new java.util.HashSet<PlayerAction>();
+		this.playerActions = new HashSet<PlayerAction>();
 		this.playerWithPriorityID = -1;
 		this.players = new IDList<Player>(this);
 		this.playingFirstID = -1;
 		this.previousStep = null;
-		this.eventProhibitions = new java.util.LinkedList<EventPattern>();
-		this.sourcesOfUnpreventableDamage = new java.util.LinkedList<GameObject>();
-		this.specialActionFactories = new java.util.HashMap<SpecialActionFactory, GameObject>();
+		this.eventProhibitions = new LinkedList<EventPattern>();
+		this.sourcesOfUnpreventableDamage = new LinkedList<GameObject>();
+		this.specialActionFactories = new HashMap<SpecialActionFactory, GameObject>();
 		this.stackID = new Zone(this, "The Stack").ID;
-		this.summoningSick = new java.util.HashMap<Integer, java.util.Collection<Integer>>();
-		this.waitingTriggers = new java.util.HashMap<Integer, java.util.Collection<TriggeredAbility>>();
-		this.zoneChangeProhibitions = new java.util.LinkedList<ZoneChangePattern>();
-		this.zoneChangeReplacementEffects = new java.util.LinkedList<ZoneChangeReplacementEffect>();
+		this.summoningSick = new HashMap<Integer, Collection<Integer>>();
+		this.waitingTriggers = new HashMap<Integer, Collection<TriggeredAbility>>();
+		this.zoneChangeProhibitions = new LinkedList<ZoneChangePattern>();
+		this.zoneChangeReplacementEffects = new LinkedList<ZoneChangeReplacementEffect>();
 
 		// The set of Trackers that the game always needs
 		this.ensureTracker(new SuccessfullyAttacked());
-		this.ensureTracker(new org.rnd.jmagic.engine.generators.LandsPlayedThisTurn.LandsPlayedTracker());
+		this.ensureTracker(new LandsPlayedThisTurn.LandsPlayedTracker());
 	}
 
 	/**
@@ -223,7 +235,7 @@ public class GameState implements Cloneable
 		this.players.add(player);
 
 		this.manaThatDoesntEmpty.put(player.ID, new MultipleSetPattern(false));
-		this.summoningSick.put(player.ID, new java.util.LinkedList<Integer>());
+		this.summoningSick.put(player.ID, new LinkedList<Integer>());
 		this.waitingTriggers.put(player.ID, new IDList<TriggeredAbility>(this));
 		this.battlefield().visibleTo.add(player.ID);
 		this.exileZone().visibleTo.add(player.ID);
@@ -239,12 +251,12 @@ public class GameState implements Cloneable
 		player.getSideboard(this).visibleTo.add(player.ID);
 	}
 
-	public java.util.List<Player> apnapOrder(MagicSet players)
+	public List<Player> apnapOrder(MagicSet players)
 	{
 		if(!this.game.hasStarted())
 			throw new UnsupportedOperationException("Can't get APNAP order before the game starts");
 
-		java.util.List<Player> ret = new java.util.LinkedList<Player>();
+		List<Player> ret = new LinkedList<Player>();
 		Turn t = this.currentTurn();
 		Player activePlayer = t.getOwner(this);
 		if(players.contains(activePlayer))
@@ -320,14 +332,14 @@ public class GameState implements Cloneable
 			GameState ret = (GameState)super.clone();
 			if(complete)
 			{
-				ret.identifieds = new java.util.HashMap<Integer, Identified>();
+				ret.identifieds = new HashMap<Integer, Identified>();
 
-				for(java.util.Map.Entry<Integer, Identified> e: this.identifieds.entrySet())
+				for(Map.Entry<Integer, Identified> e: this.identifieds.entrySet())
 					e.getValue().clone(ret);
 			}
 			else
 			{
-				ret.identifieds = new java.util.HashMap<Integer, Identified>(this.identifieds);
+				ret.identifieds = new HashMap<Integer, Identified>(this.identifieds);
 
 				for(Zone zone: ret.getAll(Zone.class))
 					ret.identifieds.put(zone.ID, zone.clone(ret));
@@ -339,60 +351,60 @@ public class GameState implements Cloneable
 			ret.currentTurn = this.currentTurn;
 			ret.delayedTriggers = new IDList<DelayedTrigger>(ret, this.delayedTriggers);
 			ret.exileZoneID = this.exileZoneID;
-			ret.flags = new java.util.HashMap<Class<? extends Tracker<?>>, Tracker<?>>();
-			for(java.util.Map.Entry<Class<? extends Tracker<?>>, Tracker<?>> entry: this.flags.entrySet())
+			ret.flags = new HashMap<Class<? extends Tracker<?>>, Tracker<?>>();
+			for(Map.Entry<Class<? extends Tracker<?>>, Tracker<?>> entry: this.flags.entrySet())
 				ret.flags.put(entry.getKey(), entry.getValue().clone());
 			ret.floatingEffects = new IDList<FloatingContinuousEffect>(ret, this.floatingEffects);
-			ret.futureTurns = new java.util.LinkedList<Turn>(this.futureTurns);
+			ret.futureTurns = new LinkedList<Turn>(this.futureTurns);
 			ret.battlefieldID = this.battlefieldID;
 			ret.nextTimestamp = this.nextTimestamp;
 			ret.previousStep = this.previousStep;
 			ret.players = new IDList<Player>(ret, this.players);
 			ret.stackID = this.stackID;
-			ret.summoningSick = new java.util.HashMap<Integer, java.util.Collection<Integer>>();
+			ret.summoningSick = new HashMap<Integer, Collection<Integer>>();
 			for(Integer i: this.summoningSick.keySet())
 			{
-				java.util.Collection<Integer> objects = new java.util.LinkedList<Integer>();
+				Collection<Integer> objects = new LinkedList<Integer>();
 				for(Integer j: this.summoningSick.get(i))
 					objects.add(j);
 
 				ret.summoningSick.put(i, objects);
 			}
-			ret.waitingTriggers = new java.util.HashMap<Integer, java.util.Collection<TriggeredAbility>>();
+			ret.waitingTriggers = new HashMap<Integer, Collection<TriggeredAbility>>();
 			for(Integer i: this.waitingTriggers.keySet())
 				ret.waitingTriggers.put(i, new IDList<TriggeredAbility>(ret, this.waitingTriggers.get(i)));
 
 			// clone() should only ever be called on the physical state and,
 			// since the following fields are always empty in the physical
 			// state, don't copy them
-			ret.abilityExemptions = new java.util.HashMap<String, java.util.Map<Integer, MagicSet>>();
+			ret.abilityExemptions = new HashMap<String, Map<Integer, MagicSet>>();
 			ret.assignCombatDamageUsingToughness = false;
-			ret.attackingCosts = new java.util.LinkedList<AttackingCost>();
-			ret.attackingRequirements = new java.util.LinkedList<AttackingRequirement>();
-			ret.attackingRestrictions = new java.util.HashSet<CombatRestriction>();
-			ret.blockingRequirements = new java.util.LinkedList<BlockingRequirement>();
-			ret.blockingRestrictions = new java.util.HashSet<CombatRestriction>();
-			ret.controlledPlayers = new java.util.HashMap<Integer, Integer>();
-			ret.damageReplacementEffects = new java.util.LinkedList<DamageReplacementEffect>();
-			ret.dealDamageAsThoughHasAbility = new java.util.HashMap<Integer, ContinuousEffectType.DamageAbility>();
-			ret.eventReplacementEffects = new java.util.LinkedList<EventReplacementEffect>();
-			ret.eventReplacementEffectStoppers = new java.util.LinkedList<EventReplacementEffectStopper>();
-			ret.eventTriggeredAbilityStoppers = new java.util.LinkedList<EventTriggeredAbilityStopper>();
-			ret.extraEvents = new java.util.LinkedList<Event>();
-			ret.hasNameModifiers = new java.util.HashSet<org.rnd.jmagic.engine.generators.HasName.HasNameModifier>();
-			ret.manaCostAdditions = new java.util.HashMap<MagicSet, ManaPool>();
-			ret.manaCostMinimums = new java.util.HashMap<MagicSet, Integer>();
-			ret.manaCostReductions = new java.util.HashMap<MagicSet, ManaPool>();
-			ret.manaCostRestrictedReductions = new java.util.HashMap<MagicSet, ManaPool>();
-			ret.manaThatDoesntEmpty = new java.util.HashMap<Integer, MultipleSetPattern>();
+			ret.attackingCosts = new LinkedList<AttackingCost>();
+			ret.attackingRequirements = new LinkedList<AttackingRequirement>();
+			ret.attackingRestrictions = new HashSet<CombatRestriction>();
+			ret.blockingRequirements = new LinkedList<BlockingRequirement>();
+			ret.blockingRestrictions = new HashSet<CombatRestriction>();
+			ret.controlledPlayers = new HashMap<Integer, Integer>();
+			ret.damageReplacementEffects = new LinkedList<DamageReplacementEffect>();
+			ret.dealDamageAsThoughHasAbility = new HashMap<Integer, ContinuousEffectType.DamageAbility>();
+			ret.eventReplacementEffects = new LinkedList<EventReplacementEffect>();
+			ret.eventReplacementEffectStoppers = new LinkedList<EventReplacementEffectStopper>();
+			ret.eventTriggeredAbilityStoppers = new LinkedList<EventTriggeredAbilityStopper>();
+			ret.extraEvents = new LinkedList<Event>();
+			ret.hasNameModifiers = new HashSet<HasName.HasNameModifier>();
+			ret.manaCostAdditions = new HashMap<MagicSet, ManaPool>();
+			ret.manaCostMinimums = new HashMap<MagicSet, Integer>();
+			ret.manaCostReductions = new HashMap<MagicSet, ManaPool>();
+			ret.manaCostRestrictedReductions = new HashMap<MagicSet, ManaPool>();
+			ret.manaThatDoesntEmpty = new HashMap<Integer, MultipleSetPattern>();
 			for(int key: this.manaThatDoesntEmpty.keySet())
 				ret.manaThatDoesntEmpty.put(key, new MultipleSetPattern(false));
-			ret.playerActions = new java.util.HashSet<PlayerAction>();
-			ret.eventProhibitions = new java.util.LinkedList<EventPattern>();
-			ret.zoneChangeProhibitions = new java.util.LinkedList<ZoneChangePattern>();
-			ret.sourcesOfUnpreventableDamage = new java.util.LinkedList<GameObject>();
-			ret.specialActionFactories = new java.util.HashMap<SpecialActionFactory, GameObject>();
-			ret.zoneChangeReplacementEffects = new java.util.LinkedList<ZoneChangeReplacementEffect>();
+			ret.playerActions = new HashSet<PlayerAction>();
+			ret.eventProhibitions = new LinkedList<EventPattern>();
+			ret.zoneChangeProhibitions = new LinkedList<ZoneChangePattern>();
+			ret.sourcesOfUnpreventableDamage = new LinkedList<GameObject>();
+			ret.specialActionFactories = new HashMap<SpecialActionFactory, GameObject>();
+			ret.zoneChangeReplacementEffects = new LinkedList<ZoneChangeReplacementEffect>();
 
 			return ret;
 		}
@@ -486,14 +498,14 @@ public class GameState implements Cloneable
 	@SuppressWarnings("unchecked")
 	public <T> Iterable<T> getAll(final Class<T> cls)
 	{
-		java.util.Set<T> ret = new java.util.HashSet<T>();
+		Set<T> ret = new HashSet<T>();
 		for(Identified i: GameState.this.identifieds.values())
 			if(cls.isAssignableFrom(i.getClass()))
 				ret.add((T)i);
 		return ret;
 	}
 
-	public java.util.Collection<Tracker<?>> getAllFlags()
+	public Collection<Tracker<?>> getAllFlags()
 	{
 		return this.flags.values();
 	}
@@ -505,7 +517,7 @@ public class GameState implements Cloneable
 	 */
 	public Iterable<GameObject> getAllObjects()
 	{
-		java.util.Set<GameObject> ret = new java.util.HashSet<GameObject>();
+		Set<GameObject> ret = new HashSet<GameObject>();
 		for(Identified i: GameState.this.identifieds.values())
 			if(i.isGameObject() && !((GameObject)i).isGhost())
 				ret.add((GameObject)i);
@@ -551,12 +563,12 @@ public class GameState implements Cloneable
 	 * @return The players in this state, in seat order, with the specified
 	 * player first.
 	 */
-	public java.util.List<Player> getPlayerCycle(Player firstPlayer)
+	public List<Player> getPlayerCycle(Player firstPlayer)
 	{
 		if(null == firstPlayer)
 			throw new NullPointerException("Can't cycle player list to a null first player");
 
-		java.util.List<Player> ret = new java.util.LinkedList<Player>(this.players);
+		List<Player> ret = new LinkedList<Player>(this.players);
 		if(ret.size() > 0)
 			while(ret.get(0).ID != firstPlayer.ID)
 				ret.add(ret.remove(0));
@@ -642,7 +654,7 @@ public class GameState implements Cloneable
 	 * 
 	 * @param players The players to remove.
 	 */
-	public void removePlayers(java.util.Collection<Player> players)
+	public void removePlayers(Collection<Player> players)
 	{
 		if(players.isEmpty())
 			return;
@@ -659,7 +671,7 @@ public class GameState implements Cloneable
 			this.summoningSick.remove(player.ID);
 			this.waitingTriggers.remove(player.ID);
 
-			java.util.Iterator<Turn> turnIterator = this.futureTurns.iterator();
+			Iterator<Turn> turnIterator = this.futureTurns.iterator();
 			while(turnIterator.hasNext())
 			{
 				Turn turn = turnIterator.next();

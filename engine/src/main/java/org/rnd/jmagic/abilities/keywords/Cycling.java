@@ -4,6 +4,9 @@ import static org.rnd.jmagic.Convenience.*;
 
 import org.rnd.jmagic.engine.*;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public final class Cycling extends CyclingBase
 {
 	public static final String COST_TYPE = "Cycling";
@@ -29,9 +32,9 @@ public final class Cycling extends CyclingBase
 	}
 
 	@Override
-	protected java.util.List<CyclingAbilityBase<?>> createCyclingAbilities(GameState state)
+	protected List<CyclingAbilityBase<?>> createCyclingAbilities(GameState state)
 	{
-		java.util.List<CyclingAbilityBase<?>> ret = new java.util.LinkedList<CyclingAbilityBase<?>>();
+		List<CyclingAbilityBase<?>> ret = new LinkedList<CyclingAbilityBase<?>>();
 
 		ret.add(new CyclingAbility(state, this));
 

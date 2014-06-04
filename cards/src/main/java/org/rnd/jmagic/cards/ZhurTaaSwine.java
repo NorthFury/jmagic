@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.Bloodrush;
 import org.rnd.jmagic.engine.*;
 
 @Name("Zhur-Taa Swine")
@@ -19,6 +20,6 @@ public final class ZhurTaaSwine extends Card
 
 		// Bloodrush \u2014 (1)(R)(G), Discard Zhur-Taa Swine: Target attacking
 		// creature gets +5/+4 until end of turn.
-		this.addAbility(new org.rnd.jmagic.abilities.Bloodrush(state, "(1)(R)(G)", "Zhur-Taa Swine", +5, +4, "Target attacking creature gets +5/+4 until end of turn."));
+		this.addAbility(new Bloodrush(state, "(1)(R)(G)", "Zhur-Taa Swine", +5, +4, "Target attacking creature gets +5/+4 until end of turn."));
 	}
 }

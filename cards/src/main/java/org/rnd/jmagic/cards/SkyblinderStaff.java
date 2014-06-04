@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Equip;
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -21,7 +24,7 @@ public final class SkyblinderStaff extends Card
 			SetGenerator equippedCreature = EquippedBy.instance(This.instance());
 			this.addEffectPart(modifyPowerAndToughness(equippedCreature, +1, +0));
 
-			SetGenerator hasFlying = HasKeywordAbility.instance(org.rnd.jmagic.abilities.keywords.Flying.class);
+			SetGenerator hasFlying = HasKeywordAbility.instance(Flying.class);
 			SetGenerator illegalBlock = Intersect.instance(Blocking.instance(equippedCreature), CreaturePermanents.instance(), hasFlying);
 
 			ContinuousEffect.Part part = new ContinuousEffect.Part(ContinuousEffectType.BLOCKING_RESTRICTION);
@@ -40,6 +43,6 @@ public final class SkyblinderStaff extends Card
 
 		// Equip (3) ((3): Attach to target creature you control. Equip only as
 		// a sorcery.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Equip(state, "(3)"));
+		this.addAbility(new Equip(state, "(3)"));
 	}
 }

@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.LandfallForPump;
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 
 @Name("Windrider Eel")
@@ -18,10 +20,10 @@ public final class WindriderEel extends Card
 		this.setToughness(2);
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// Landfall \u2014 Whenever a land enters the battlefield under your
 		// control, Windrider Eel gets +2/+2 until end of turn.
-		this.addAbility(new org.rnd.jmagic.abilities.LandfallForPump(state, this.getName(), +2, +2));
+		this.addAbility(new LandfallForPump(state, this.getName(), +2, +2));
 	}
 }

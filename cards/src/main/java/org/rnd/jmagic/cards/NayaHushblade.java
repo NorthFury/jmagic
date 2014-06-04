@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Shroud;
 import org.rnd.jmagic.cardTemplates.*;
 import org.rnd.jmagic.engine.*;
 
@@ -13,6 +14,6 @@ public final class NayaHushblade extends AlaraRebornBlade
 {
 	public NayaHushblade(GameState state)
 	{
-		super(state, org.rnd.jmagic.abilities.keywords.Shroud.class);
+		super(state, Shroud.class);
 	}
 }

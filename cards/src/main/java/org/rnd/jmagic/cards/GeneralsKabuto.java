@@ -1,8 +1,14 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Equip;
+import org.rnd.jmagic.abilities.keywords.Shroud;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+
+import java.util.Collections;
+import java.util.List;
 
 @Name("General's Kabuto")
 @Types({Type.ARTIFACT})
@@ -17,7 +23,7 @@ public final class GeneralsKabuto extends Card
 		public GeneralsKabutoAbility0(GameState state)
 		{
 			super(state, "Equipped creature has shroud.");
-			this.addEffectPart(addAbilityToObject(EquippedBy.instance(This.instance()), org.rnd.jmagic.abilities.keywords.Shroud.class));
+			this.addEffectPart(addAbilityToObject(EquippedBy.instance(This.instance()), Shroud.class));
 		}
 	}
 
@@ -47,10 +53,10 @@ public final class GeneralsKabuto extends Card
 			}
 
 			@Override
-			public java.util.List<EventFactory> prevent(DamageAssignment.Batch damageAssignments)
+			public List<EventFactory> prevent(DamageAssignment.Batch damageAssignments)
 			{
 				damageAssignments.clear();
-				return java.util.Collections.emptyList();
+				return Collections.emptyList();
 			}
 		}
 
@@ -75,6 +81,6 @@ public final class GeneralsKabuto extends Card
 		this.addAbility(new MCHammer(state));
 
 		// Equip (2)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Equip(state, "(2)"));
+		this.addAbility(new Equip(state, "(2)"));
 	}
 }

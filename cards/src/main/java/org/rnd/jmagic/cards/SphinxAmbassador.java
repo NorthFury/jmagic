@@ -1,8 +1,15 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @Name("Sphinx Ambassador")
 @Types({Type.CREATURE})
@@ -49,15 +56,15 @@ public final class SphinxAmbassador extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			MagicSet cause = parameters.get(Parameter.CAUSE);
 			Player you = parameters.get(Parameter.PLAYER).getOne(Player.class);
 			Player target = parameters.get(Parameter.TARGET).getOne(Player.class);
-			java.util.Set<String> names = parameters.get(Parameter.CHOICE).getAll(String.class);
+			Set<String> names = parameters.get(Parameter.CHOICE).getAll(String.class);
 
 			// search that player's library for a card,
-			java.util.Map<Parameter, MagicSet> searchParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> searchParameters = new HashMap<Parameter, MagicSet>();
 			searchParameters.put(Parameter.CAUSE, cause);
 			searchParameters.put(Parameter.PLAYER, new MagicSet(you));
 			searchParameters.put(Parameter.NUMBER, ONE);
@@ -67,7 +74,7 @@ public final class SphinxAmbassador extends Card
 
 			// then that player names a card.
 			target = target.getActual();
-			java.util.List<String> choice = target.choose(1, names, PlayerInterface.ChoiceType.STRING, REASON);
+			List<String> choice = target.choose(1, names, PlayerInterface.ChoiceType.STRING, REASON);
 			String namedCard = choice.get(0);
 
 			// If you searched for a creature card that isn't the named card,
@@ -81,7 +88,7 @@ public final class SphinxAmbassador extends Card
 				ontoFieldParameters.put(Parameter.CONTROLLER, Identity.instance(you));
 				ontoFieldParameters.put(Parameter.OBJECT, Identity.instance(searchedFor));
 
-				java.util.Map<Parameter, MagicSet> mayParameters = new java.util.HashMap<Parameter, MagicSet>();
+				Map<Parameter, MagicSet> mayParameters = new HashMap<Parameter, MagicSet>();
 				mayParameters.put(Parameter.CAUSE, cause);
 				mayParameters.put(Parameter.PLAYER, new MagicSet(you));
 				mayParameters.put(Parameter.EVENT, new MagicSet(new EventFactory(PUT_ONTO_BATTLEFIELD, ontoFieldParameters, "Put it onto the battlefield under your control.")));
@@ -89,7 +96,7 @@ public final class SphinxAmbassador extends Card
 			}
 
 			// Then that player shuffles his or her library.
-			java.util.Map<Parameter, MagicSet> shuffleParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> shuffleParameters = new HashMap<Parameter, MagicSet>();
 			shuffleParameters.put(Parameter.CAUSE, cause);
 			shuffleParameters.put(Parameter.PLAYER, new MagicSet(target));
 			createEvent(game, "That player shuffles his or her library.", SHUFFLE_LIBRARY, shuffleParameters).perform(event, true);
@@ -107,7 +114,7 @@ public final class SphinxAmbassador extends Card
 		this.setToughness(5);
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		this.addAbility(new WtfIsThisDoingInACoreSet(state));
 	}

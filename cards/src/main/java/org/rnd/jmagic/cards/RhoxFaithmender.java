@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Lifelink;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -40,7 +42,7 @@ public final class RhoxFaithmender extends Card
 
 		// Lifelink (Damage dealt by this creature also causes you to gain that
 		// much life.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Lifelink(state));
+		this.addAbility(new Lifelink(state));
 
 		// If you would gain life, you gain twice that much life instead.
 		this.addAbility(new RhoxFaithmenderAbility1(state));

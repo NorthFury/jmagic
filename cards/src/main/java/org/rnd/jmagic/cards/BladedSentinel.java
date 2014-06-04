@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Vigilance;
 import org.rnd.jmagic.engine.*;
 
 @Name("Bladed Sentinel")
@@ -17,7 +19,7 @@ public final class BladedSentinel extends Card
 		{
 			super(state, "(W): Bladed Sentinel gains vigilance until end of turn.");
 			this.setManaCost(new ManaPool("(W)"));
-			this.addEffect(addAbilityUntilEndOfTurn(ABILITY_SOURCE_OF_THIS, org.rnd.jmagic.abilities.keywords.Vigilance.class, "Bladed Sentinel gains vigilance until end of turn."));
+			this.addEffect(addAbilityUntilEndOfTurn(ABILITY_SOURCE_OF_THIS, Vigilance.class, "Bladed Sentinel gains vigilance until end of turn."));
 		}
 	}
 

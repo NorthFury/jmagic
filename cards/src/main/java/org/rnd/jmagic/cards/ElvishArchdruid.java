@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.StaticPTChange;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -44,7 +46,7 @@ public final class ElvishArchdruid extends Card
 		// Other Elf creatures you control get +1/+1.
 		SetGenerator elves = Intersect.instance(HasSubType.instance(SubType.ELF), CREATURES_YOU_CONTROL);
 		SetGenerator who = RelativeComplement.instance(elves, This.instance());
-		this.addAbility(new org.rnd.jmagic.abilities.StaticPTChange(state, who, "Other Elf creatures you control", +1, +1, true));
+		this.addAbility(new StaticPTChange(state, who, "Other Elf creatures you control", +1, +1, true));
 
 		this.addAbility(new LotsOfMana(state));
 	}

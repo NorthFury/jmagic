@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Enchant;
+import org.rnd.jmagic.abilities.keywords.Hexproof;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -20,7 +23,7 @@ public final class AlphaAuthority extends Card
 
 			SetGenerator enchanted = EnchantedBy.instance(This.instance());
 
-			this.addEffectPart(addAbilityToObject(enchanted, org.rnd.jmagic.abilities.keywords.Hexproof.class));
+			this.addEffectPart(addAbilityToObject(enchanted, Hexproof.class));
 
 			SetGenerator blockingWithMoreThanOneCreature = Intersect.instance(Between.instance(2, null), Count.instance(Blocking.instance(enchanted)));
 
@@ -35,7 +38,7 @@ public final class AlphaAuthority extends Card
 		super(state);
 
 		// Enchant creature
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Enchant.Creature(state));
+		this.addAbility(new Enchant.Creature(state));
 
 		// Enchanted creature has hexproof and can't be blocked by more than one
 		// creature.

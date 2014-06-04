@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 
 @Name("Insatiable Souleater")
@@ -17,7 +19,7 @@ public final class InsatiableSouleater extends Card
 		{
 			super(state, "(g/p): Insatiable Souleater gains trample until end of turn.");
 			this.setManaCost(new ManaPool("(g/p)"));
-			this.addEffect(addAbilityUntilEndOfTurn(ABILITY_SOURCE_OF_THIS, org.rnd.jmagic.abilities.keywords.Trample.class, "Insatiable Souleater gains trample until end of turn."));
+			this.addEffect(addAbilityUntilEndOfTurn(ABILITY_SOURCE_OF_THIS, Trample.class, "Insatiable Souleater gains trample until end of turn."));
 		}
 	}
 

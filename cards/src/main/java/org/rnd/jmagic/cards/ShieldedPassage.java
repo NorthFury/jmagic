@@ -4,6 +4,11 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 @Name("Shielded Passage")
 @Types({Type.INSTANT})
 @ManaCost("W")
@@ -29,7 +34,7 @@ public final class ShieldedPassage extends Card
 
 			Identified ability = this.getSourceObject(context.game.actualState);
 
-			java.util.Set<Integer> ids = new java.util.HashSet<Integer>();
+			Set<Integer> ids = new HashSet<Integer>();
 			for(Identified identified: this.target.evaluate(context.state, ability).getAll(Identified.class))
 				ids.add(identified.ID);
 
@@ -41,10 +46,10 @@ public final class ShieldedPassage extends Card
 		}
 
 		@Override
-		public java.util.List<EventFactory> prevent(DamageAssignment.Batch damageAssignments)
+		public List<EventFactory> prevent(DamageAssignment.Batch damageAssignments)
 		{
 			damageAssignments.clear();
-			return java.util.Collections.emptyList();
+			return Collections.emptyList();
 		}
 	}
 

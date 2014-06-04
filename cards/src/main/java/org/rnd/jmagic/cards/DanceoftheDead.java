@@ -2,6 +2,8 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.AnimateDeadCreature;
+import org.rnd.jmagic.abilities.keywords.Enchant;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -14,7 +16,7 @@ import org.rnd.jmagic.engine.patterns.*;
 @ColorIdentity({Color.BLACK})
 public final class DanceoftheDead extends Card
 {
-	public static final class EnchantDeadCreature extends org.rnd.jmagic.abilities.keywords.Enchant
+	public static final class EnchantDeadCreature extends Enchant
 	{
 		public EnchantDeadCreature(GameState state)
 		{
@@ -84,7 +86,7 @@ public final class DanceoftheDead extends Card
 		// Return enchanted creature card to the battlefield tapped under your
 		// control and attach Dance of the Dead to it. When Dance of the Dead
 		// leaves the battlefield, that creature's controller sacrifices it.
-		this.addAbility(new org.rnd.jmagic.abilities.AnimateDeadCreature(state, this.getName(), EnchantDeadCreature.class, EnchantAnimatedCreature.class, true));
+		this.addAbility(new AnimateDeadCreature(state, this.getName(), EnchantDeadCreature.class, EnchantAnimatedCreature.class, true));
 
 		// Enchanted creature gets +1/+1 and doesn't untap during its
 		// controller's untap step.

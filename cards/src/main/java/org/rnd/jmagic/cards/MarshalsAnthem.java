@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.StaticPTChange;
+import org.rnd.jmagic.abilities.keywords.Kicker;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -44,12 +47,12 @@ public final class MarshalsAnthem extends Card
 		super(state);
 
 		// Multikicker (1)(W)
-		org.rnd.jmagic.abilities.keywords.Kicker kicker = new org.rnd.jmagic.abilities.keywords.Kicker(state, true, "(1)(W)");
+		Kicker kicker = new Kicker(state, true, "(1)(W)");
 		CostCollection kickerCost = kicker.costCollections[0];
 		this.addAbility(kicker);
 
 		// Creatures you control get +1/+1.
-		this.addAbility(new org.rnd.jmagic.abilities.StaticPTChange(state, CREATURES_YOU_CONTROL, "Creatures you control", +1, +1, true));
+		this.addAbility(new StaticPTChange(state, CREATURES_YOU_CONTROL, "Creatures you control", +1, +1, true));
 
 		// When Marshal's Anthem enters the battlefield, return up to X target
 		// creature cards from your graveyard to the battlefield, where X is the

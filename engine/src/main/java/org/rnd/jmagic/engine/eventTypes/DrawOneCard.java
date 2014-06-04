@@ -3,6 +3,9 @@ package org.rnd.jmagic.engine.eventTypes;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public final class DrawOneCard extends EventType
 {	public static final EventType INSTANCE = new DrawOneCard();
 
@@ -18,7 +21,7 @@ public final class DrawOneCard extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		Player player = parameters.get(Parameter.PLAYER).getOne(Player.class);
 		Zone library = player.getLibrary(game.actualState);
@@ -31,7 +34,7 @@ public final class DrawOneCard extends EventType
 		}
 
 		Zone hand = player.getHand(game.actualState);
-		java.util.Map<Parameter, MagicSet> moveParameters = new java.util.HashMap<Parameter, MagicSet>();
+		Map<Parameter, MagicSet> moveParameters = new HashMap<Parameter, MagicSet>();
 		moveParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 		moveParameters.put(Parameter.TO, new MagicSet(hand));
 		moveParameters.put(Parameter.OBJECT, new MagicSet(library.objects.get(0)));

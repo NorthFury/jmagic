@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Replicate;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -17,7 +18,7 @@ public final class ShatteringSpree extends Card
 		super(state);
 
 		// Replicate (R)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Replicate(state, "(R)"));
+		this.addAbility(new Replicate(state, "(R)"));
 
 		// Destroy target artifact.
 		Target target = this.addTarget(ArtifactPermanents.instance(), "target artifact");

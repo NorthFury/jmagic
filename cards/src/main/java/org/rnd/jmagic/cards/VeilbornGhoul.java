@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.CantBlock;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -37,7 +38,7 @@ public final class VeilbornGhoul extends Card
 		this.setToughness(1);
 
 		// Veilborn Ghoul can't block.
-		this.addAbility(new org.rnd.jmagic.abilities.CantBlock(state, this.getName()));
+		this.addAbility(new CantBlock(state, this.getName()));
 
 		// Whenever a Swamp enters the battlefield under your control, you may
 		// return Veilborn Ghoul from your graveyard to your hand.

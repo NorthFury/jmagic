@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.RevealOrThisEntersTapped;
+import org.rnd.jmagic.abilities.TapForMana;
 import org.rnd.jmagic.engine.*;
 
 @Name("Auntie's Hovel")
@@ -12,7 +14,7 @@ public final class AuntiesHovel extends Card
 	{
 		super(state);
 
-		this.addAbility(new org.rnd.jmagic.abilities.RevealOrThisEntersTapped(state, this.getName(), SubType.GOBLIN));
-		this.addAbility(new org.rnd.jmagic.abilities.TapForMana.Final(state, "(BR)"));
+		this.addAbility(new RevealOrThisEntersTapped(state, this.getName(), SubType.GOBLIN));
+		this.addAbility(new TapForMana.Final(state, "(BR)"));
 	}
 }

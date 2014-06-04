@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Recover;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -25,7 +27,7 @@ public final class GrimHarvest extends Card
 		returnParameters.put(EventType.Parameter.OBJECT, targetedBy(target));
 		this.addEffect(new EventFactory(EventType.MOVE_OBJECTS, returnParameters, "Return target creature card from your graveyard to your hand."));
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Recover.ForMana(state, "(2)(B)"));
+		this.addAbility(new Recover.ForMana(state, "(2)(B)"));
 	}
 
 }

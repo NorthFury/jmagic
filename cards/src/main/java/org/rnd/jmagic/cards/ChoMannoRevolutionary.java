@@ -4,6 +4,9 @@ import static org.rnd.jmagic.Convenience.*;
 
 import org.rnd.jmagic.engine.*;
 
+import java.util.LinkedList;
+import java.util.List;
+
 @Name("Cho-Manno, Revolutionary")
 @SuperTypes({SuperType.LEGENDARY})
 @Types({Type.CREATURE})
@@ -37,10 +40,10 @@ public final class ChoMannoRevolutionary extends Card
 			}
 
 			@Override
-			public java.util.List<EventFactory> prevent(DamageAssignment.Batch damageAssignments)
+			public List<EventFactory> prevent(DamageAssignment.Batch damageAssignments)
 			{
 				damageAssignments.clear();
-				return new java.util.LinkedList<EventFactory>();
+				return new LinkedList<EventFactory>();
 			}
 		}
 

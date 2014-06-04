@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.SplitSecond;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -17,7 +18,7 @@ public final class Extirpate extends Card
 		super(state);
 
 		// Split second
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.SplitSecond(state));
+		this.addAbility(new SplitSecond(state));
 
 		// Choose target card in a graveyard other than a basic land card.
 		SetGenerator inGraveyards = InZone.instance(GraveyardOf.instance(Players.instance()));

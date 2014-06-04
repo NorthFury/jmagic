@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.cardTemplates.Outlander;
 import org.rnd.jmagic.engine.*;
 
 @Name("Vedalken Outlander")
@@ -8,7 +9,7 @@ import org.rnd.jmagic.engine.*;
 @SubTypes({SubType.VEDALKEN, SubType.SCOUT})
 @Printings({@Printings.Printed(ex = Expansion.CONFLUX, r = Rarity.COMMON)})
 @ColorIdentity({Color.BLUE, Color.WHITE})
-public final class VedalkenOutlander extends org.rnd.jmagic.cardTemplates.Outlander
+public final class VedalkenOutlander extends Outlander
 {
 	public VedalkenOutlander(GameState state)
 	{

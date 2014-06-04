@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Deathtouch;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -23,7 +24,7 @@ public final class DeathBaron extends Card
 
 			this.addEffectPart(modifyPowerAndToughness(objects, 1, 1));
 
-			this.addEffectPart(addAbilityToObject(objects, org.rnd.jmagic.abilities.keywords.Deathtouch.class));
+			this.addEffectPart(addAbilityToObject(objects, Deathtouch.class));
 		}
 	}
 

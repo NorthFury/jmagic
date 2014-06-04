@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -18,7 +19,7 @@ public final class TreetopScout extends Card
 			super(state, "Treetop Scout can't be blocked except by creatures with flying.");
 
 			ContinuousEffect.Part part = new ContinuousEffect.Part(ContinuousEffectType.BLOCKING_RESTRICTION);
-			part.parameters.put(ContinuousEffectType.Parameter.RESTRICTION, Identity.instance(RelativeComplement.instance(Blocking.instance(This.instance()), HasKeywordAbility.instance(org.rnd.jmagic.abilities.keywords.Flying.class))));
+			part.parameters.put(ContinuousEffectType.Parameter.RESTRICTION, Identity.instance(RelativeComplement.instance(Blocking.instance(This.instance()), HasKeywordAbility.instance(Flying.class))));
 			this.addEffectPart(part);
 		}
 	}

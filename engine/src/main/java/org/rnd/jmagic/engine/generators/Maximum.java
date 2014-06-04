@@ -1,6 +1,7 @@
 package org.rnd.jmagic.engine.generators;
 
 import org.rnd.jmagic.engine.*;
+import org.rnd.util.NumberRange;
 
 /**
  * Evaluates to the largest of the given numbers
@@ -25,7 +26,7 @@ public class Maximum extends SetGenerator
 		for(Integer n: numbers.getAll(Integer.class))
 			if(max == null || (max < n))
 				max = n;
-		for(org.rnd.util.NumberRange r: numbers.getAll(org.rnd.util.NumberRange.class))
+		for(NumberRange r: numbers.getAll(NumberRange.class))
 		{
 			Integer upper = r.getUpper();
 			if(upper == null)

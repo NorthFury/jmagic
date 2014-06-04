@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.cardTemplates.Pact;
 import org.rnd.jmagic.engine.*;
 
 @Name("Pact of the Titan")
@@ -8,7 +10,7 @@ import org.rnd.jmagic.engine.*;
 @Types({Type.INSTANT})
 @Printings({@Printings.Printed(ex = Expansion.FUTURE_SIGHT, r = Rarity.RARE)})
 @ColorIdentity({Color.RED})
-public final class PactoftheTitan extends org.rnd.jmagic.cardTemplates.Pact
+public final class PactoftheTitan extends Pact
 {
 	public PactoftheTitan(GameState state)
 	{

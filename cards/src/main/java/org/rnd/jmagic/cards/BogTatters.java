@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Landwalk;
 import org.rnd.jmagic.engine.*;
 
 @Name("Bog Tatters")
@@ -17,6 +18,6 @@ public final class BogTatters extends Card
 		this.setPower(4);
 		this.setToughness(2);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Landwalk.Swampwalk(state));
+		this.addAbility(new Landwalk.Swampwalk(state));
 	}
 }

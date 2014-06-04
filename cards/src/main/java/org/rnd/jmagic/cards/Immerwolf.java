@@ -1,8 +1,11 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Intimidate;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+import org.rnd.jmagic.engine.patterns.SimpleEventPattern;
 
 @Name("Immerwolf")
 @Types({Type.CREATURE})
@@ -31,7 +34,7 @@ public final class Immerwolf extends Card
 
 			SetGenerator affected = Intersect.instance(RelativeComplement.instance(HasSubType.instance(SubType.WEREWOLF), HasSubType.instance(SubType.HUMAN)), CREATURES_YOU_CONTROL);
 
-			org.rnd.jmagic.engine.patterns.SimpleEventPattern pattern = new org.rnd.jmagic.engine.patterns.SimpleEventPattern(EventType.TRANSFORM_ONE_PERMANENT);
+			SimpleEventPattern pattern = new SimpleEventPattern(EventType.TRANSFORM_ONE_PERMANENT);
 			pattern.put(EventType.Parameter.OBJECT, affected);
 
 			ContinuousEffect.Part part = new ContinuousEffect.Part(ContinuousEffectType.PROHIBIT);
@@ -49,7 +52,7 @@ public final class Immerwolf extends Card
 
 		// Intimidate (This creature can't be blocked except by artifact
 		// creatures and/or creatures that share a color with it.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Intimidate(state));
+		this.addAbility(new Intimidate(state));
 
 		// Other Wolf and Werewolf creatures you control get +1/+1.
 		this.addAbility(new ImmerwolfAbility1(state));

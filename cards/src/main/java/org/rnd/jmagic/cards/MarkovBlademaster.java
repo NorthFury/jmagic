@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.DoubleStrike;
 import org.rnd.jmagic.engine.*;
 
 @Name("Markov Blademaster")
@@ -29,7 +31,7 @@ public final class MarkovBlademaster extends Card
 		this.setToughness(1);
 
 		// Double strike
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.DoubleStrike(state));
+		this.addAbility(new DoubleStrike(state));
 
 		// Whenever Markov Blademaster deals combat damage to a player, put a
 		// +1/+1 counter on it.

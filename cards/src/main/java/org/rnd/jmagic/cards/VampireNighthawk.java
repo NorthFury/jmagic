@@ -1,5 +1,8 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Deathtouch;
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Lifelink;
 import org.rnd.jmagic.engine.*;
 
 @Name("Vampire Nighthawk")
@@ -17,8 +20,8 @@ public final class VampireNighthawk extends Card
 		this.setPower(2);
 		this.setToughness(3);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Deathtouch(state));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Lifelink(state));
+		this.addAbility(new Flying(state));
+		this.addAbility(new Deathtouch(state));
+		this.addAbility(new Lifelink(state));
 	}
 }

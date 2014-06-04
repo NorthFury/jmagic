@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.CantBeCountered;
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 
 @Name("Terra Stomper")
@@ -17,8 +19,8 @@ public final class TerraStomper extends Card
 		this.setPower(8);
 		this.setToughness(8);
 
-		this.addAbility(new org.rnd.jmagic.abilities.CantBeCountered(state, "Terra Stomper"));
+		this.addAbility(new CantBeCountered(state, "Terra Stomper"));
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Trample(state));
+		this.addAbility(new Trample(state));
 	}
 }

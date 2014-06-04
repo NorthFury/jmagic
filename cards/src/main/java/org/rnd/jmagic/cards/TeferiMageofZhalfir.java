@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flash;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -23,7 +25,7 @@ public final class TeferiMageofZhalfir extends Card
 			SetGenerator creatureCardsYouOwn = Intersect.instance(HasType.instance(Type.CREATURE), OwnedBy.instance(You.instance()));
 			SetGenerator thatArentOnTheBattlefield = RelativeComplement.instance(creatureCardsYouOwn, InZone.instance(Battlefield.instance()));
 
-			this.addEffectPart(addAbilityToObject(thatArentOnTheBattlefield, org.rnd.jmagic.abilities.keywords.Flash.class));
+			this.addEffectPart(addAbilityToObject(thatArentOnTheBattlefield, Flash.class));
 		}
 	}
 
@@ -89,7 +91,7 @@ public final class TeferiMageofZhalfir extends Card
 		this.setToughness(4);
 
 		// Flash (You may cast this spell any time you could cast an instant.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flash(state));
+		this.addAbility(new Flash(state));
 
 		// Creature cards you own that aren't on the battlefield have flash.
 		this.addAbility(new Permission(state));

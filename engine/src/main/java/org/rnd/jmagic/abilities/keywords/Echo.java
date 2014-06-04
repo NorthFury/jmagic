@@ -4,6 +4,15 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
 /**
  * 702.28. Echo
  * 
@@ -32,9 +41,9 @@ public final class Echo extends Keyword
 	}
 
 	@Override
-	public java.util.List<NonStaticAbility> createNonStaticAbilities()
+	public List<NonStaticAbility> createNonStaticAbilities()
 	{
-		java.util.List<NonStaticAbility> ret = new java.util.LinkedList<NonStaticAbility>();
+		List<NonStaticAbility> ret = new LinkedList<NonStaticAbility>();
 		ret.add(new EchoAbility(this.state, this.manaCostString));
 		return ret;
 	}
@@ -51,60 +60,60 @@ public final class Echo extends Keyword
 			 * ends, the old view map should be discarded and should point to
 			 * the add map.
 			 */
-			public static final class Tracker extends org.rnd.jmagic.engine.Tracker<java.util.Map<Integer, java.util.Set<Integer>>>
+			public static final class Tracker extends org.rnd.jmagic.engine.Tracker<Map<Integer, Set<Integer>>>
 			{
-				private java.util.Map<Integer, java.util.Set<Integer>> addedSinceLastUpkeep = new java.util.HashMap<Integer, java.util.Set<Integer>>();
+				private Map<Integer, Set<Integer>> addedSinceLastUpkeep = new HashMap<Integer, Set<Integer>>();
 
 				/**
 				 * An map of player ID to objects that came under that player's
 				 * control since that player's last upkeep
 				 */
-				private java.util.Map<Integer, java.util.Set<Integer>> controlledSinceLastUpkeep = new java.util.HashMap<Integer, java.util.Set<Integer>>();
+				private Map<Integer, Set<Integer>> controlledSinceLastUpkeep = new HashMap<Integer, Set<Integer>>();
 
-				private java.util.Map<Integer, java.util.Set<Integer>> toRemoveAtEndOfUpkeep = new java.util.HashMap<Integer, java.util.Set<Integer>>();
+				private Map<Integer, Set<Integer>> toRemoveAtEndOfUpkeep = new HashMap<Integer, Set<Integer>>();
 
 				/**
 				 * An map of player ID to an unmodifiable view of objects that
 				 * came under that player's control since that player's last
 				 * upkeep
 				 */
-				private java.util.Map<Integer, java.util.Set<Integer>> unmodifiables = new java.util.HashMap<Integer, java.util.Set<Integer>>();
+				private Map<Integer, Set<Integer>> unmodifiables = new HashMap<Integer, Set<Integer>>();
 
 				/**
 				 * An unmodifiable map of player ID to an unmodifiable view of
 				 * objects that came under that player's control since that
 				 * player's last upkeep
 				 */
-				private java.util.Map<Integer, java.util.Set<Integer>> unmodifiable = java.util.Collections.unmodifiableMap(this.unmodifiables);
+				private Map<Integer, Set<Integer>> unmodifiable = Collections.unmodifiableMap(this.unmodifiables);
 
 				@Override
 				protected Tracker clone()
 				{
 					Tracker ret = (Tracker)super.clone();
 
-					ret.addedSinceLastUpkeep = new java.util.HashMap<Integer, java.util.Set<Integer>>();
-					for(java.util.Map.Entry<Integer, java.util.Set<Integer>> entry: this.addedSinceLastUpkeep.entrySet())
-						ret.addedSinceLastUpkeep.put(entry.getKey(), new java.util.HashSet<Integer>(entry.getValue()));
+					ret.addedSinceLastUpkeep = new HashMap<Integer, Set<Integer>>();
+					for(Entry<Integer, Set<Integer>> entry: this.addedSinceLastUpkeep.entrySet())
+						ret.addedSinceLastUpkeep.put(entry.getKey(), new HashSet<Integer>(entry.getValue()));
 
-					ret.controlledSinceLastUpkeep = new java.util.HashMap<Integer, java.util.Set<Integer>>();
-					for(java.util.Map.Entry<Integer, java.util.Set<Integer>> entry: this.controlledSinceLastUpkeep.entrySet())
-						ret.controlledSinceLastUpkeep.put(entry.getKey(), new java.util.HashSet<Integer>(entry.getValue()));
+					ret.controlledSinceLastUpkeep = new HashMap<Integer, Set<Integer>>();
+					for(Entry<Integer, Set<Integer>> entry: this.controlledSinceLastUpkeep.entrySet())
+						ret.controlledSinceLastUpkeep.put(entry.getKey(), new HashSet<Integer>(entry.getValue()));
 
-					ret.toRemoveAtEndOfUpkeep = new java.util.HashMap<Integer, java.util.Set<Integer>>();
-					for(java.util.Map.Entry<Integer, java.util.Set<Integer>> entry: this.toRemoveAtEndOfUpkeep.entrySet())
-						ret.toRemoveAtEndOfUpkeep.put(entry.getKey(), new java.util.HashSet<Integer>(entry.getValue()));
+					ret.toRemoveAtEndOfUpkeep = new HashMap<Integer, Set<Integer>>();
+					for(Entry<Integer, Set<Integer>> entry: this.toRemoveAtEndOfUpkeep.entrySet())
+						ret.toRemoveAtEndOfUpkeep.put(entry.getKey(), new HashSet<Integer>(entry.getValue()));
 
-					ret.unmodifiables = new java.util.HashMap<Integer, java.util.Set<Integer>>();
-					for(java.util.Map.Entry<Integer, java.util.Set<Integer>> entry: ret.controlledSinceLastUpkeep.entrySet())
-						ret.unmodifiables.put(entry.getKey(), java.util.Collections.unmodifiableSet(entry.getValue()));
+					ret.unmodifiables = new HashMap<Integer, Set<Integer>>();
+					for(Entry<Integer, Set<Integer>> entry: ret.controlledSinceLastUpkeep.entrySet())
+						ret.unmodifiables.put(entry.getKey(), Collections.unmodifiableSet(entry.getValue()));
 
-					ret.unmodifiable = java.util.Collections.unmodifiableMap(ret.unmodifiables);
+					ret.unmodifiable = Collections.unmodifiableMap(ret.unmodifiables);
 
 					return ret;
 				}
 
 				@Override
-				protected final java.util.Map<Integer, java.util.Set<Integer>> getValueInternal()
+				protected final Map<Integer, Set<Integer>> getValueInternal()
 				{
 					return this.unmodifiable;
 				}
@@ -144,7 +153,7 @@ public final class Echo extends Keyword
 
 						if(this.addedSinceLastUpkeep.containsKey(player.ID))
 							this.toRemoveAtEndOfUpkeep.put(player.ID, this.addedSinceLastUpkeep.get(player.ID));
-						this.addedSinceLastUpkeep.put(player.ID, new java.util.HashSet<Integer>());
+						this.addedSinceLastUpkeep.put(player.ID, new HashSet<Integer>());
 					}
 					else if(EventType.END_STEP == event.type)
 					{
@@ -160,24 +169,24 @@ public final class Echo extends Keyword
 						GameObject object = event.parameters.get(EventType.Parameter.OBJECT).evaluate(state, null).getOne(GameObject.class);
 						Player player = event.parameters.get(EventType.Parameter.TARGET).evaluate(state, null).getOne(Player.class);
 
-						java.util.Set<Integer> added;
+						Set<Integer> added;
 						if(this.addedSinceLastUpkeep.containsKey(player.ID))
 							added = this.addedSinceLastUpkeep.get(player.ID);
 						else
 						{
-							added = new java.util.HashSet<Integer>();
+							added = new HashSet<Integer>();
 							this.addedSinceLastUpkeep.put(player.ID, added);
 						}
 						added.add(object.ID);
 
-						java.util.Set<Integer> controlled;
+						Set<Integer> controlled;
 						if(this.controlledSinceLastUpkeep.containsKey(player.ID))
 							controlled = this.controlledSinceLastUpkeep.get(player.ID);
 						else
 						{
-							controlled = new java.util.HashSet<Integer>();
+							controlled = new HashSet<Integer>();
 							this.controlledSinceLastUpkeep.put(player.ID, controlled);
-							this.unmodifiables.put(player.ID, java.util.Collections.unmodifiableSet(controlled));
+							this.unmodifiables.put(player.ID, Collections.unmodifiableSet(controlled));
 						}
 						controlled.add(object.ID);
 					}
@@ -202,7 +211,7 @@ public final class Echo extends Keyword
 				MagicSet ret = new MagicSet();
 				for(Player p: this.controller.evaluate(state, thisObject).getAll(Player.class))
 				{
-					java.util.Map<Integer, java.util.Set<Integer>> map = state.getTracker(Tracker.class).getValue(state);
+					Map<Integer, Set<Integer>> map = state.getTracker(Tracker.class).getValue(state);
 					if(!map.containsKey(p.ID))
 						continue;
 					for(int ID: map.get(p.ID))

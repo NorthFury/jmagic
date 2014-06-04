@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Haste;
 import org.rnd.jmagic.engine.*;
 
 @Name("Hellraiser Goblin")
@@ -17,7 +19,7 @@ public final class HellraiserGoblin extends Card
 		{
 			super(state, "Creatures you control have haste and attack each combat if able.");
 
-			this.addEffectPart(addAbilityToObject(CREATURES_YOU_CONTROL, org.rnd.jmagic.abilities.keywords.Haste.class));
+			this.addEffectPart(addAbilityToObject(CREATURES_YOU_CONTROL, Haste.class));
 
 			ContinuousEffect.Part part = new ContinuousEffect.Part(ContinuousEffectType.ATTACKING_REQUIREMENT);
 			part.parameters.put(ContinuousEffectType.Parameter.ATTACKING, CREATURES_YOU_CONTROL);

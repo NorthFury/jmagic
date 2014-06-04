@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilityTemplates.ColorTriggeredLife;
 import org.rnd.jmagic.engine.*;
 
 @Name("Demon's Horn")
@@ -9,7 +10,7 @@ import org.rnd.jmagic.engine.*;
 @ColorIdentity({})
 public final class DemonsHorn extends Card
 {
-	public static final class BlackLife extends org.rnd.jmagic.abilityTemplates.ColorTriggeredLife
+	public static final class BlackLife extends ColorTriggeredLife
 	{
 		public BlackLife(GameState state)
 		{

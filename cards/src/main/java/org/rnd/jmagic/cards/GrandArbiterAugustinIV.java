@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.CostsYouLessToCast;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -38,11 +40,11 @@ public final class GrandArbiterAugustinIV extends Card
 
 		// White spells you cast cost (1) less to cast.
 		SetGenerator whiteSpells = Intersect.instance(HasColor.instance(Color.WHITE), Spells.instance());
-		this.addAbility(new org.rnd.jmagic.abilities.CostsYouLessToCast(state, whiteSpells, "(1)", "White spells you cast cost (1) less to cast."));
+		this.addAbility(new CostsYouLessToCast(state, whiteSpells, "(1)", "White spells you cast cost (1) less to cast."));
 
 		// Blue spells you cast cost (1) less to cast.
 		SetGenerator blueSpells = Intersect.instance(HasColor.instance(Color.BLUE), Spells.instance());
-		this.addAbility(new org.rnd.jmagic.abilities.CostsYouLessToCast(state, blueSpells, "(1)", "Blue spells you cast cost (1) less to cast."));
+		this.addAbility(new CostsYouLessToCast(state, blueSpells, "(1)", "Blue spells you cast cost (1) less to cast."));
 
 		// Spells your opponents cast cost (1) more to cast.
 		this.addAbility(new OpponentsSpellsCostMore(state));

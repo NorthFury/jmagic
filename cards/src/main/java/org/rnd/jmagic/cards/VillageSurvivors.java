@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Vigilance;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -20,7 +22,7 @@ public final class VillageSurvivors extends Card
 			this.canApply = Both.instance(this.canApply, FatefulHour.instance());
 
 			SetGenerator others = RelativeComplement.instance(CREATURES_YOU_CONTROL, This.instance());
-			this.addEffectPart(addAbilityToObject(others, org.rnd.jmagic.abilities.keywords.Vigilance.class));
+			this.addEffectPart(addAbilityToObject(others, Vigilance.class));
 		}
 	}
 
@@ -32,7 +34,7 @@ public final class VillageSurvivors extends Card
 		this.setToughness(5);
 
 		// Vigilance
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Vigilance(state));
+		this.addAbility(new Vigilance(state));
 
 		// Fateful hour \u2014 As long as you have 5 or less life, other
 		// creatures you control have vigilance.

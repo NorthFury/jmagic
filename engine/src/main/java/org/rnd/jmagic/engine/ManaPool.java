@@ -1,19 +1,37 @@
 package org.rnd.jmagic.engine;
 
+import org.rnd.jmagic.Convenience;
+import org.rnd.jmagic.engine.generators.You;
+
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
+
 /** Represents a "pool" of mana. */
-public class ManaPool implements java.util.SortedSet<ManaSymbol>, java.io.Serializable
+public class ManaPool implements SortedSet<ManaSymbol>, Serializable
 {
 	private static final long serialVersionUID = 1L;
 
-	private java.util.SortedSet<ManaSymbol> _delegate;
+	private SortedSet<ManaSymbol> _delegate;
 
-	private java.util.List<ManaSymbol> originalOrder;
+	private List<ManaSymbol> originalOrder;
 
 	/** Creates an empty mana pool. */
 	public ManaPool()
 	{
-		this._delegate = new java.util.TreeSet<ManaSymbol>();
-		this.originalOrder = new java.util.LinkedList<ManaSymbol>();
+		this._delegate = new TreeSet<ManaSymbol>();
+		this.originalOrder = new LinkedList<ManaSymbol>();
 	}
 
 	/**
@@ -21,12 +39,12 @@ public class ManaPool implements java.util.SortedSet<ManaSymbol>, java.io.Serial
 	 * 
 	 * @param c The symbols the mana pool is to contain.
 	 */
-	public ManaPool(java.util.Collection<? extends ManaSymbol> c)
+	public ManaPool(Collection<? extends ManaSymbol> c)
 	{
-		this._delegate = new java.util.TreeSet<ManaSymbol>();
+		this._delegate = new TreeSet<ManaSymbol>();
 		this._delegate.addAll(c);
 
-		this.originalOrder = new java.util.LinkedList<ManaSymbol>();
+		this.originalOrder = new LinkedList<ManaSymbol>();
 		this.originalOrder.addAll(c);
 	}
 
@@ -39,10 +57,10 @@ public class ManaPool implements java.util.SortedSet<ManaSymbol>, java.io.Serial
 	 */
 	public ManaPool(ManaPool toCopy)
 	{
-		this._delegate = new java.util.TreeSet<ManaSymbol>();
+		this._delegate = new TreeSet<ManaSymbol>();
 		this._delegate.addAll(toCopy);
 
-		this.originalOrder = new java.util.LinkedList<ManaSymbol>();
+		this.originalOrder = new LinkedList<ManaSymbol>();
 		this.originalOrder.addAll(toCopy.originalOrder);
 	}
 
@@ -53,10 +71,10 @@ public class ManaPool implements java.util.SortedSet<ManaSymbol>, java.io.Serial
 	 * @param c The symbols the mana pool is to contain.
 	 * @param ignore The symbol in c not to add to this collection.
 	 */
-	public ManaPool(java.util.Collection<? extends ManaSymbol> c, ManaSymbol ignore)
+	public ManaPool(Collection<? extends ManaSymbol> c, ManaSymbol ignore)
 	{
-		this._delegate = new java.util.TreeSet<ManaSymbol>();
-		this.originalOrder = new java.util.LinkedList<ManaSymbol>();
+		this._delegate = new TreeSet<ManaSymbol>();
+		this.originalOrder = new LinkedList<ManaSymbol>();
 		for(ManaSymbol s: c)
 			if(!s.equals(ignore))
 			{
@@ -94,8 +112,8 @@ public class ManaPool implements java.util.SortedSet<ManaSymbol>, java.io.Serial
 	{
 		boolean compound = false;
 		ManaSymbol compoundSymbol = null;
-		this._delegate = new java.util.TreeSet<ManaSymbol>();
-		this.originalOrder = new java.util.LinkedList<ManaSymbol>();
+		this._delegate = new TreeSet<ManaSymbol>();
+		this.originalOrder = new LinkedList<ManaSymbol>();
 
 		poolString = poolString.toUpperCase();
 
@@ -223,7 +241,7 @@ public class ManaPool implements java.util.SortedSet<ManaSymbol>, java.io.Serial
 	}
 
 	@Override
-	public boolean addAll(java.util.Collection<? extends ManaSymbol> arg0)
+	public boolean addAll(Collection<? extends ManaSymbol> arg0)
 	{
 		return this._delegate.addAll(arg0) && this.originalOrder.addAll(arg0);
 	}
@@ -236,7 +254,7 @@ public class ManaPool implements java.util.SortedSet<ManaSymbol>, java.io.Serial
 	}
 
 	@Override
-	public java.util.Comparator<? super ManaSymbol> comparator()
+	public Comparator<? super ManaSymbol> comparator()
 	{
 		return this._delegate.comparator();
 	}
@@ -250,7 +268,7 @@ public class ManaPool implements java.util.SortedSet<ManaSymbol>, java.io.Serial
 	}
 
 	@Override
-	public boolean containsAll(java.util.Collection<?> arg0)
+	public boolean containsAll(Collection<?> arg0)
 	{
 		return this._delegate.containsAll(arg0);
 	}
@@ -316,7 +334,7 @@ public class ManaPool implements java.util.SortedSet<ManaSymbol>, java.io.Serial
 		if(this.converted() != other.converted())
 			return false;
 
-		java.util.Collection<ManaSymbol> toBeChecked = new java.util.LinkedList<ManaSymbol>(other);
+		Collection<ManaSymbol> toBeChecked = new LinkedList<ManaSymbol>(other);
 		// these keep track of the amount of "pure colorless" (that is, no 2/C
 		// symbols) in each pool.
 		int thisColorless = 0;
@@ -331,7 +349,7 @@ public class ManaPool implements java.util.SortedSet<ManaSymbol>, java.io.Serial
 			}
 
 			// colored or X/C symbol; must match exactly
-			for(java.util.Iterator<ManaSymbol> otherItr = toBeChecked.iterator(); otherItr.hasNext();)
+			for(Iterator<ManaSymbol> otherItr = toBeChecked.iterator(); otherItr.hasNext();)
 			{
 				ManaSymbol otherSymbol = otherItr.next();
 				if(symbol.colorless != otherSymbol.colorless)
@@ -365,8 +383,8 @@ public class ManaPool implements java.util.SortedSet<ManaSymbol>, java.io.Serial
 	public ManaPool expandX(int X, ManaSymbol.ManaType restriction)
 	{
 		ManaPool ret = new ManaPool();
-		java.util.Set<ManaSymbol> remove = new java.util.HashSet<ManaSymbol>();
-		java.util.Set<ManaSymbol> setX = new java.util.HashSet<ManaSymbol>();
+		Set<ManaSymbol> remove = new HashSet<ManaSymbol>();
+		Set<ManaSymbol> setX = new HashSet<ManaSymbol>();
 		for(ManaSymbol symbol: this)
 		{
 			if(symbol.isX)
@@ -406,14 +424,14 @@ public class ManaPool implements java.util.SortedSet<ManaSymbol>, java.io.Serial
 	 * @param costType The cost type to use for the resulting CostCollections.
 	 * @return The exploded mana pool.
 	 */
-	public final java.util.Set<CostCollection> explode(Object costType)
+	public final Set<CostCollection> explode(Object costType)
 	{
 		if(this.isEmpty())
-			return java.util.Collections.singleton(new CostCollection(costType));
+			return Collections.singleton(new CostCollection(costType));
 
 		// Keys are expansions of this pool prior to the symbol at i; values are
 		// the amount of life to pay because of Phyrexian mana
-		java.util.Map<ManaPool, Integer> expansions = new java.util.HashMap<ManaPool, Integer>();
+		Map<ManaPool, Integer> expansions = new HashMap<ManaPool, Integer>();
 		for(ManaSymbol poolSymbol: this)
 		{
 			// A mana symbol can be exploded into (a mana symbol with a single
@@ -431,7 +449,7 @@ public class ManaPool implements java.util.SortedSet<ManaSymbol>, java.io.Serial
 				{
 					ManaSymbol s = poolSymbol.create();
 					s.isPhyrexian = false;
-					s.colors = java.util.EnumSet.of(color);
+					s.colors = EnumSet.of(color);
 					s.colorless = 0;
 					coloredSymbols.add(s);
 				}
@@ -439,7 +457,7 @@ public class ManaPool implements java.util.SortedSet<ManaSymbol>, java.io.Serial
 				{
 					ManaSymbol s = poolSymbol.create();
 					s.isPhyrexian = false;
-					s.colors = java.util.EnumSet.noneOf(Color.class);
+					s.colors = EnumSet.noneOf(Color.class);
 					s.colorless = 1;
 					colorlessSymbols.add(s);
 				}
@@ -462,8 +480,8 @@ public class ManaPool implements java.util.SortedSet<ManaSymbol>, java.io.Serial
 			}
 			else
 			{
-				java.util.Map<ManaPool, Integer> newExpansions = new java.util.HashMap<ManaPool, Integer>();
-				for(java.util.Map.Entry<ManaPool, Integer> oldExpansion: expansions.entrySet())
+				Map<ManaPool, Integer> newExpansions = new HashMap<ManaPool, Integer>();
+				for(Map.Entry<ManaPool, Integer> oldExpansion: expansions.entrySet())
 				{
 					ManaPool oldKey = oldExpansion.getKey();
 					int oldLifeLoss = oldExpansion.getValue();
@@ -487,15 +505,15 @@ public class ManaPool implements java.util.SortedSet<ManaSymbol>, java.io.Serial
 			}
 		}
 
-		java.util.Set<CostCollection> ret = new java.util.HashSet<CostCollection>();
-		for(java.util.Map.Entry<ManaPool, Integer> expansion: expansions.entrySet())
+		Set<CostCollection> ret = new HashSet<CostCollection>();
+		for(Map.Entry<ManaPool, Integer> expansion: expansions.entrySet())
 		{
 			int lifePayment = expansion.getValue();
 			ManaPool manaCost = expansion.getKey();
 
 			if(0 < lifePayment)
 			{
-				EventFactory payLife = org.rnd.jmagic.Convenience.payLife(org.rnd.jmagic.engine.generators.You.instance(), lifePayment, "Pay " + lifePayment + " life");
+				EventFactory payLife = Convenience.payLife(You.instance(), lifePayment, "Pay " + lifePayment + " life");
 
 				if(manaCost.isEmpty())
 					ret.add(new CostCollection(costType, payLife));
@@ -514,15 +532,15 @@ public class ManaPool implements java.util.SortedSet<ManaSymbol>, java.io.Serial
 		return this._delegate.first();
 	}
 
-	public java.util.List<ManaSymbol> getDisplayOrder()
+	public List<ManaSymbol> getDisplayOrder()
 	{
-		java.util.LinkedList<ManaSymbol> ret = new java.util.LinkedList<ManaSymbol>(this.originalOrder);
-		java.util.Collections.reverse(ret);
+		LinkedList<ManaSymbol> ret = new LinkedList<ManaSymbol>(this.originalOrder);
+		Collections.reverse(ret);
 		return ret;
 	}
 
 	@Override
-	public java.util.SortedSet<ManaSymbol> headSet(ManaSymbol toElement)
+	public SortedSet<ManaSymbol> headSet(ManaSymbol toElement)
 	{
 		return this._delegate.headSet(toElement);
 	}
@@ -538,7 +556,7 @@ public class ManaPool implements java.util.SortedSet<ManaSymbol>, java.io.Serial
 	}
 
 	@Override
-	public java.util.Iterator<ManaSymbol> iterator()
+	public Iterator<ManaSymbol> iterator()
 	{
 		return this._delegate.iterator();
 	}
@@ -579,7 +597,7 @@ public class ManaPool implements java.util.SortedSet<ManaSymbol>, java.io.Serial
 		return false;
 	}
 
-	private boolean paysExplodedCost(GameState state, java.util.SortedSet<ManaSymbol> cost)
+	private boolean paysExplodedCost(GameState state, SortedSet<ManaSymbol> cost)
 	{
 		if(cost.isEmpty())
 			return true;
@@ -629,7 +647,7 @@ public class ManaPool implements java.util.SortedSet<ManaSymbol>, java.io.Serial
 			else if(r.colors.size() == 1)
 			{
 				Color reductionColor = r.colors.iterator().next();
-				java.util.Iterator<ManaSymbol> tIter = this.iterator();
+				Iterator<ManaSymbol> tIter = this.iterator();
 				while(tIter.hasNext())
 				{
 					ManaSymbol t = tIter.next();
@@ -653,7 +671,7 @@ public class ManaPool implements java.util.SortedSet<ManaSymbol>, java.io.Serial
 
 	private void reduceColorless(int colorlessReduction)
 	{
-		java.util.Iterator<ManaSymbol> tIter = this.iterator();
+		Iterator<ManaSymbol> tIter = this.iterator();
 		while(tIter.hasNext())
 		{
 			ManaSymbol t = tIter.next();
@@ -707,13 +725,13 @@ public class ManaPool implements java.util.SortedSet<ManaSymbol>, java.io.Serial
 	}
 
 	@Override
-	public boolean removeAll(java.util.Collection<?> arg0)
+	public boolean removeAll(Collection<?> arg0)
 	{
 		return this._delegate.removeAll(arg0) && this.originalOrder.removeAll(arg0);
 	}
 
 	@Override
-	public boolean retainAll(java.util.Collection<?> arg0)
+	public boolean retainAll(Collection<?> arg0)
 	{
 		return this._delegate.retainAll(arg0) && this.originalOrder.retainAll(arg0);
 	}
@@ -725,13 +743,13 @@ public class ManaPool implements java.util.SortedSet<ManaSymbol>, java.io.Serial
 	}
 
 	@Override
-	public java.util.SortedSet<ManaSymbol> subSet(ManaSymbol fromElement, ManaSymbol toElement)
+	public SortedSet<ManaSymbol> subSet(ManaSymbol fromElement, ManaSymbol toElement)
 	{
 		return this._delegate.subSet(fromElement, toElement);
 	}
 
 	@Override
-	public java.util.SortedSet<ManaSymbol> tailSet(ManaSymbol fromElement)
+	public SortedSet<ManaSymbol> tailSet(ManaSymbol fromElement)
 	{
 		return this._delegate.tailSet(fromElement);
 	}

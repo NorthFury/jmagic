@@ -1,14 +1,18 @@
 package org.rnd.jmagic.engine;
 
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+
 public abstract class EventTriggeredAbility extends TriggeredAbility
 {
 	public DamageAssignment.Batch damageCause;
 	public int eventCause;
 	public ZoneChange zoneChangeCause;
 
-	protected java.util.Set<EventPattern> eventPatterns;
-	protected java.util.Set<ZoneChangePattern> zoneChangePatterns;
-	protected java.util.Set<DamagePattern> damagePatterns;
+	protected Set<EventPattern> eventPatterns;
+	protected Set<ZoneChangePattern> zoneChangePatterns;
+	protected Set<DamagePattern> damagePatterns;
 
 	protected EventTriggeredAbility(GameState state, String abilityText)
 	{
@@ -18,9 +22,9 @@ public abstract class EventTriggeredAbility extends TriggeredAbility
 		this.damageCause = null;
 		this.zoneChangeCause = null;
 
-		this.eventPatterns = new java.util.HashSet<EventPattern>();
-		this.zoneChangePatterns = new java.util.HashSet<ZoneChangePattern>();
-		this.damagePatterns = new java.util.HashSet<DamagePattern>();
+		this.eventPatterns = new HashSet<EventPattern>();
+		this.zoneChangePatterns = new HashSet<ZoneChangePattern>();
+		this.damagePatterns = new HashSet<DamagePattern>();
 	}
 
 	public void addPattern(EventPattern pattern)
@@ -44,11 +48,11 @@ public abstract class EventTriggeredAbility extends TriggeredAbility
 	{
 		EventTriggeredAbility ret = (EventTriggeredAbility)super.clone(state);
 
-		ret.eventPatterns = new java.util.HashSet<EventPattern>();
+		ret.eventPatterns = new HashSet<EventPattern>();
 		for(EventPattern e: this.eventPatterns)
 			ret.eventPatterns.add(e);
 
-		ret.zoneChangePatterns = new java.util.HashSet<ZoneChangePattern>();
+		ret.zoneChangePatterns = new HashSet<ZoneChangePattern>();
 		for(ZoneChangePattern e: this.zoneChangePatterns)
 			ret.zoneChangePatterns.add(e);
 
@@ -112,7 +116,7 @@ public abstract class EventTriggeredAbility extends TriggeredAbility
 		}
 
 		if(ret)
-			for(java.util.Collection<? extends TriggeredAbility> c: this.game.physicalState.waitingTriggers.values())
+			for(Collection<? extends TriggeredAbility> c: this.game.physicalState.waitingTriggers.values())
 				for(TriggeredAbility t: c)
 					if(t.printedVersionID == this.ID)
 						return false;

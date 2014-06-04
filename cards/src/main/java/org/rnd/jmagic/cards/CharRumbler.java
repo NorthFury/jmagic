@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.Firebreathing;
+import org.rnd.jmagic.abilities.keywords.DoubleStrike;
 import org.rnd.jmagic.engine.*;
 
 @Name("Char-Rumbler")
@@ -17,7 +19,7 @@ public final class CharRumbler extends Card
 		this.setPower(-1);
 		this.setToughness(3);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.DoubleStrike(state));
-		this.addAbility(new org.rnd.jmagic.abilities.Firebreathing(state, this.getName()));
+		this.addAbility(new DoubleStrike(state));
+		this.addAbility(new Firebreathing(state, this.getName()));
 	}
 }

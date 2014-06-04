@@ -4,6 +4,11 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+
 @Name("Auriok Replica")
 @Types({Type.ARTIFACT, Type.CREATURE})
 @SubTypes({SubType.CLERIC})
@@ -33,7 +38,7 @@ public final class AuriokReplica extends Card
 				GameObject sourceObject = (GameObject)this.getSourceObject(context.game.actualState);
 				Player you = sourceObject.getController(context.game.actualState);
 
-				java.util.Set<Integer> ids = new java.util.HashSet<Integer>();
+				Set<Integer> ids = new HashSet<Integer>();
 
 				for(Identified i: this.chosenSource.evaluate(context.game, sourceObject).getAll(Identified.class))
 					ids.add(i.ID);
@@ -46,10 +51,10 @@ public final class AuriokReplica extends Card
 			}
 
 			@Override
-			public java.util.List<EventFactory> prevent(DamageAssignment.Batch damageAssignments)
+			public List<EventFactory> prevent(DamageAssignment.Batch damageAssignments)
 			{
 				damageAssignments.clear();
-				return new java.util.LinkedList<EventFactory>();
+				return new LinkedList<EventFactory>();
 			}
 		}
 

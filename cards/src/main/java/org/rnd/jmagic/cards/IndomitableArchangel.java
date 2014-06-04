@@ -34,7 +34,7 @@ public final class IndomitableArchangel extends Card
 		this.setToughness(4);
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// Metalcraft \u2014 Artifacts you control have shroud as long as you
 		// control three or more artifacts.

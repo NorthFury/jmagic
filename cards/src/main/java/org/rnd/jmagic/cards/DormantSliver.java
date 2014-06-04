@@ -2,6 +2,9 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.AllSliverCreaturesHave;
+import org.rnd.jmagic.abilities.AllSliversHave;
+import org.rnd.jmagic.abilities.keywords.Defender;
 import org.rnd.jmagic.engine.*;
 
 @Name("Dormant Sliver")
@@ -36,10 +39,10 @@ public final class DormantSliver extends Card
 		this.setToughness(2);
 
 		// All Sliver creatures have defender.
-		this.addAbility(new org.rnd.jmagic.abilities.AllSliverCreaturesHave(state, org.rnd.jmagic.abilities.keywords.Defender.class, "All Sliver creatures have defender."));
+		this.addAbility(new AllSliverCreaturesHave(state, Defender.class, "All Sliver creatures have defender."));
 
 		// All Slivers have
 		// "When this permanent enters the battlefield, draw a card."
-		this.addAbility(new org.rnd.jmagic.abilities.AllSliversHave(state, SliverDraw.class, "All Slivers have \"When this permanent enters the battlefield, draw a card.\""));
+		this.addAbility(new AllSliversHave(state, SliverDraw.class, "All Slivers have \"When this permanent enters the battlefield, draw a card.\""));
 	}
 }

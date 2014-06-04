@@ -2,8 +2,12 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Enchant;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+
+import java.util.List;
+import java.util.Map;
 
 @Name("Convincing Mirage")
 @Types({Type.ENCHANTMENT})
@@ -32,10 +36,10 @@ public final class ConvincingMirage extends Card
 			}
 
 			@Override
-			public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+			public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 			{
 				Player player = parameters.get(Parameter.PLAYER).getOne(Player.class);
-				java.util.List<SubType> chosen = player.choose(1, SubType.getBasicLandTypes(), PlayerInterface.ChoiceType.ENUM, PlayerInterface.ChooseReason.CHOOSE_BASIC_LAND_TYPE);
+				List<SubType> chosen = player.choose(1, SubType.getBasicLandTypes(), PlayerInterface.ChoiceType.ENUM, PlayerInterface.ChooseReason.CHOOSE_BASIC_LAND_TYPE);
 				Linkable link = parameters.get(Parameter.SOURCE).getOne(Linkable.class).getPhysical();
 				for(Object object: chosen)
 					link.getLinkManager().addLinkInformation(object);
@@ -92,7 +96,7 @@ public final class ConvincingMirage extends Card
 		super(state);
 
 		// Enchant land
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Enchant.Land(state));
+		this.addAbility(new Enchant.Land(state));
 
 		this.addAbility(new LandTypeChoice(state));
 		this.addAbility(new ChangeLandType(state));

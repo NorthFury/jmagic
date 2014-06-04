@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Haste;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -27,7 +29,7 @@ public final class TraitorousInstinct extends Card
 		this.addEffect(untap(targetedBy(target), "Untap that creature."));
 
 		// Until end of turn, it gets +2/+0 and gains haste.
-		this.addEffect(ptChangeAndAbilityUntilEndOfTurn(targetedBy(target), +2, +0, "Until end of turn, it gets +2/+0 and gains haste.", org.rnd.jmagic.abilities.keywords.Haste.class));
+		this.addEffect(ptChangeAndAbilityUntilEndOfTurn(targetedBy(target), +2, +0, "Until end of turn, it gets +2/+0 and gains haste.", Haste.class));
 
 	}
 }

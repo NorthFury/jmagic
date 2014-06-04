@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Kicker;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -45,7 +47,7 @@ public final class WolfbriarElemental extends Card
 		this.setToughness(4);
 
 		// Multikicker (G)
-		org.rnd.jmagic.abilities.keywords.Kicker ability = new org.rnd.jmagic.abilities.keywords.Kicker(state, true, "(G)");
+		Kicker ability = new Kicker(state, true, "(G)");
 		this.addAbility(ability);
 
 		// When Wolfbriar Elemental enters the battlefield, put a 2/2 green Wolf

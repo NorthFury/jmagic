@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.TapForU;
 import org.rnd.jmagic.engine.*;
 
 @Name("Mox Sapphire")
@@ -14,6 +15,6 @@ public final class MoxSapphire extends Card
 		super(state);
 
 		// (T): Add (U) to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapForU(state));
+		this.addAbility(new TapForU(state));
 	}
 }

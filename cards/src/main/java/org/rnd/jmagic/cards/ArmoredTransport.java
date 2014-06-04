@@ -3,6 +3,9 @@ package org.rnd.jmagic.cards;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.Collections;
+import java.util.List;
+
 @Name("Armored Transport")
 @Types({Type.ARTIFACT, Type.CREATURE})
 @SubTypes({SubType.CONSTRUCT})
@@ -40,10 +43,10 @@ public final class ArmoredTransport extends Card
 			}
 
 			@Override
-			public java.util.List<EventFactory> prevent(DamageAssignment.Batch damageAssignments)
+			public List<EventFactory> prevent(DamageAssignment.Batch damageAssignments)
 			{
 				damageAssignments.clear();
-				return java.util.Collections.emptyList();
+				return Collections.emptyList();
 			}
 		}
 

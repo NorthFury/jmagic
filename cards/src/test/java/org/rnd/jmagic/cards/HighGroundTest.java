@@ -6,6 +6,9 @@ import org.junit.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.testing.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class HighGroundTest extends JUnitTest
 {
 	@Test
@@ -66,7 +69,7 @@ public class HighGroundTest extends JUnitTest
 		this.respondArbitrarily();
 
 		this.goToStep(Step.StepType.COMBAT_DAMAGE);
-		java.util.Map<Integer, Integer> divisions = new java.util.HashMap<Integer, Integer>();
+		Map<Integer, Integer> divisions = new HashMap<Integer, Integer>();
 		divisions.put(RagingGoblinA.ID, 1);
 		divisions.put(RagingGoblinB.ID, 1);
 		this.divide(divisions);

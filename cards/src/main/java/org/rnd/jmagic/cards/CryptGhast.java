@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Extort;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -37,7 +39,7 @@ public final class CryptGhast extends Card
 
 		// Extort (Whenever you cast a spell, you may pay (w/b). If you do, each
 		// opponent loses 1 life and you gain that much life.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Extort(state));
+		this.addAbility(new Extort(state));
 
 		// Whenever you tap a Swamp for mana, add (B) to your mana pool (in
 		// addition to the mana the land produces).

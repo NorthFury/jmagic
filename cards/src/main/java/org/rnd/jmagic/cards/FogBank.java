@@ -1,6 +1,10 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.PreventCombatDamageDealtToOrBy;
+import org.rnd.jmagic.abilities.keywords.Defender;
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -18,7 +22,7 @@ public final class FogBank extends Card
 		{
 			super(state, "Prevent all combat damage that would be dealt to and dealt by Fog Bank.");
 
-			ReplacementEffect replacement = new org.rnd.jmagic.abilities.PreventCombatDamageDealtToOrBy(state.game, This.instance(), "Fog Bank");
+			ReplacementEffect replacement = new PreventCombatDamageDealtToOrBy(state.game, This.instance(), "Fog Bank");
 			this.addEffectPart(replacementEffectPart(replacement));
 		}
 	}
@@ -31,10 +35,10 @@ public final class FogBank extends Card
 		this.setToughness(2);
 
 		// Defender (This creature can't attack.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Defender(state));
+		this.addAbility(new Defender(state));
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// Prevent all combat damage that would be dealt to and dealt by Fog
 		// Bank.

@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Dredge;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -37,6 +38,6 @@ public final class GolgariBrownscale extends Card
 		this.setToughness(3);
 
 		this.addAbility(new GainLife(state));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Dredge(state, 2));
+		this.addAbility(new Dredge(state, 2));
 	}
 }

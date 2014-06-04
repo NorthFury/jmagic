@@ -4,11 +4,21 @@ import org.rnd.jmagic.engine.PlayerInterface.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
 import org.rnd.jmagic.sanitized.*;
+import org.rnd.util.NumberRange;
+
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 /** Represents someone playing the game. */
 public final class Player extends Identified implements AttachableTo, Attackable, Sanitizable, Targetable, CanHaveAbilities
 {
-	public java.util.Collection<Integer> attachments;
+	public Collection<Integer> attachments;
 
 	private MultipleSetPattern cantBeTheTargetOf;
 	private MultipleSetPattern cantBeAttachedBy;
@@ -16,10 +26,10 @@ public final class Player extends Identified implements AttachableTo, Attackable
 	/** The interface through which this player communicates with the game. */
 	public PlayerInterface comm;
 
-	public java.util.List<Counter> counters;
+	public List<Counter> counters;
 
 	/** The creatures currently attacking this player. */
-	public java.util.List<Integer> defendingIDs;
+	public List<Integer> defendingIDs;
 
 	private Integer maxHandSize;
 
@@ -37,14 +47,14 @@ public final class Player extends Identified implements AttachableTo, Attackable
 	 * keys are source object IDs, values are mulligan options (i.e. Serum
 	 * Powder)
 	 */
-	public java.util.Map<Integer, EventFactory> mulliganOptions;
+	public Map<Integer, EventFactory> mulliganOptions;
 	public boolean outOfGame;
 	public ManaPool pool;
 	private int sideboardID;
 
-	private java.util.Collection<Keyword> keywordAbilities;
-	private java.util.Collection<StaticAbility> staticAbilities;
-	private java.util.Collection<NonStaticAbility> nonStaticAbilities;
+	private Collection<Keyword> keywordAbilities;
+	private Collection<StaticAbility> staticAbilities;
+	private Collection<NonStaticAbility> nonStaticAbilities;
 	private final SetGenerator thisPlayer;
 
 	/**
@@ -68,26 +78,26 @@ public final class Player extends Identified implements AttachableTo, Attackable
 
 		this.setName(name);
 
-		this.attachments = new java.util.LinkedList<Integer>();
+		this.attachments = new LinkedList<Integer>();
 		this.cantBeTheTargetOf = null;
 		this.cantBeAttachedBy = null;
 		this.comm = comm;
-		this.counters = new java.util.LinkedList<Counter>();
-		this.defendingIDs = new java.util.LinkedList<Integer>();
+		this.counters = new LinkedList<Counter>();
+		this.defendingIDs = new LinkedList<Integer>();
 		this.maxHandSize = 7;
 		this.graveyardID = new Zone(state, name + "'s Graveyard").ID;
 		this.handID = new Zone(state, name + "'s Hand").ID;
 		this.libraryID = new Zone(state, name + "'s Library").ID;
 		this.lifeTotal = 0;
 		this.minimumLifeTotalFromDamage = null;
-		this.mulliganOptions = new java.util.HashMap<Integer, EventFactory>();
+		this.mulliganOptions = new HashMap<Integer, EventFactory>();
 		this.outOfGame = false;
 		this.pool = new ManaPool();
 		this.sideboardID = new Zone(state, name + "'s Sideboard").ID;
-		this.keywordAbilities = new java.util.LinkedList<Keyword>();
-		this.nonStaticAbilities = new java.util.LinkedList<NonStaticAbility>();
-		this.staticAbilities = new java.util.LinkedList<StaticAbility>();
-		this.thisPlayer = org.rnd.jmagic.engine.generators.PlayerByID.instance(this.ID);
+		this.keywordAbilities = new LinkedList<Keyword>();
+		this.nonStaticAbilities = new LinkedList<NonStaticAbility>();
+		this.staticAbilities = new LinkedList<StaticAbility>();
+		this.thisPlayer = PlayerByID.instance(this.ID);
 		this.totalLandActions = 1;
 		this.unableToDraw = false;
 		this.wonGame = false;
@@ -142,7 +152,7 @@ public final class Player extends Identified implements AttachableTo, Attackable
 			if(this.state != this.game.physicalState)
 				this.getPhysical().alert(state, ensurePresent);
 			else
-				this.comm.alertState(new org.rnd.jmagic.sanitized.SanitizedGameState(state, this, ensurePresent));
+				this.comm.alertState(new SanitizedGameState(state, this, ensurePresent));
 		}
 	}
 
@@ -214,7 +224,7 @@ public final class Player extends Identified implements AttachableTo, Attackable
 	 * possible choices, the lowerbound/upperbound, and the choice type.
 	 * @return The chosen T's.
 	 */
-	public <T extends java.io.Serializable> java.util.List<T> choose(ChooseParameters<T> chooseParameters)
+	public <T extends Serializable> List<T> choose(ChooseParameters<T> chooseParameters)
 	{
 		if(this.game.actualState.controlledPlayers.containsKey(this.ID))
 		{
@@ -232,7 +242,7 @@ public final class Player extends Identified implements AttachableTo, Attackable
 		if(maximumChoices < Minimum.get(chooseParameters.number))
 			chooseParameters.number = new MagicSet(maximumChoices);
 		else if(!chooseParameters.allowMultiples)
-			chooseParameters.number = Intersect.get(chooseParameters.number, new MagicSet(new org.rnd.util.NumberRange(0, maximumChoices)));
+			chooseParameters.number = Intersect.get(chooseParameters.number, new MagicSet(new NumberRange(0, maximumChoices)));
 
 		// This if-block is very important, because during these events, the
 		// objects have been moved, and are likely not visible to the player
@@ -254,11 +264,11 @@ public final class Player extends Identified implements AttachableTo, Attackable
 		}
 
 		boolean choicesValid = false;
-		java.util.List<Integer> chosen = null;
-		java.util.List<T> ret = null;
+		List<Integer> chosen = null;
+		List<T> ret = null;
 		while(!choicesValid)
 		{
-			ret = new java.util.LinkedList<T>();
+			ret = new LinkedList<T>();
 			choicesValid = true;
 
 			for(Player p: this.game.actualState.players)
@@ -302,9 +312,9 @@ public final class Player extends Identified implements AttachableTo, Attackable
 		return ret;
 	}
 
-	public <T extends java.io.Serializable> java.util.List<T> choose(int lowerBound, int upperBound, java.util.Collection<T> choices, PlayerInterface.ChoiceType type, ChooseReason description)
+	public <T extends Serializable> List<T> choose(int lowerBound, int upperBound, Collection<T> choices, PlayerInterface.ChoiceType type, ChooseReason description)
 	{
-		return this.choose(new PlayerInterface.ChooseParameters<T>(lowerBound, upperBound, new java.util.LinkedList<T>(choices), type, description));
+		return this.choose(new PlayerInterface.ChooseParameters<T>(lowerBound, upperBound, new LinkedList<T>(choices), type, description));
 	}
 
 	/**
@@ -316,7 +326,7 @@ public final class Player extends Identified implements AttachableTo, Attackable
 	 * @param type What kind of choice this is.
 	 * @return The chosen T's
 	 */
-	public <T extends java.io.Serializable> java.util.List<T> choose(int number, java.util.Collection<T> choices, PlayerInterface.ChoiceType type, ChooseReason description)
+	public <T extends Serializable> List<T> choose(int number, Collection<T> choices, PlayerInterface.ChoiceType type, ChooseReason description)
 	{
 		return this.choose(number, number, choices, type, description);
 	}
@@ -338,9 +348,9 @@ public final class Player extends Identified implements AttachableTo, Attackable
 	 * 
 	 * @return The chosen color.
 	 */
-	public Color chooseColor(java.util.Collection<Color> choices, int whatForID)
+	public Color chooseColor(Collection<Color> choices, int whatForID)
 	{
-		PlayerInterface.ChooseParameters<Color> chooseParameters = new PlayerInterface.ChooseParameters<Color>(1, 1, new java.util.LinkedList<Color>(choices), PlayerInterface.ChoiceType.COLOR, PlayerInterface.ChooseReason.CHOOSE_COLOR);
+		PlayerInterface.ChooseParameters<Color> chooseParameters = new PlayerInterface.ChooseParameters<Color>(1, 1, new LinkedList<Color>(choices), PlayerInterface.ChoiceType.COLOR, PlayerInterface.ChooseReason.CHOOSE_COLOR);
 		chooseParameters.thisID = whatForID;
 		return this.choose(chooseParameters).iterator().next();
 	}
@@ -352,7 +362,7 @@ public final class Player extends Identified implements AttachableTo, Attackable
 	 * @param description An explanation of what the player is choosing.
 	 * @return The chosen number.
 	 */
-	public int chooseNumber(org.rnd.util.NumberRange range, String description)
+	public int chooseNumber(NumberRange range, String description)
 	{
 		if(this.game.actualState.controlledPlayers.containsKey(this.ID))
 		{
@@ -375,9 +385,9 @@ public final class Player extends Identified implements AttachableTo, Attackable
 	public Player clone(GameState state)
 	{
 		Player ret = (Player)super.clone(state);
-		ret.attachments = new java.util.LinkedList<Integer>(this.attachments);
-		ret.counters = new java.util.LinkedList<Counter>(this.counters);
-		ret.defendingIDs = new java.util.LinkedList<Integer>(ret.defendingIDs);
+		ret.attachments = new LinkedList<Integer>(this.attachments);
+		ret.counters = new LinkedList<Counter>(this.counters);
+		ret.defendingIDs = new LinkedList<Integer>(ret.defendingIDs);
 
 		ret.pool = new ManaPool(this.pool);
 
@@ -389,12 +399,12 @@ public final class Player extends Identified implements AttachableTo, Attackable
 		// players don't natively have abilities, so we can just make empty
 		// lists on clone (abilities will be regenerated when the game state is
 		// refreshed)
-		ret.keywordAbilities = new java.util.LinkedList<Keyword>();
-		ret.nonStaticAbilities = new java.util.LinkedList<NonStaticAbility>();
-		ret.staticAbilities = new java.util.LinkedList<StaticAbility>();
+		ret.keywordAbilities = new LinkedList<Keyword>();
+		ret.nonStaticAbilities = new LinkedList<NonStaticAbility>();
+		ret.staticAbilities = new LinkedList<StaticAbility>();
 
 		// mulligan options are only produced by effects
-		ret.mulliganOptions = new java.util.HashMap<Integer, EventFactory>();
+		ret.mulliganOptions = new HashMap<Integer, EventFactory>();
 
 		return ret;
 	}
@@ -420,7 +430,7 @@ public final class Player extends Identified implements AttachableTo, Attackable
 	 * function is finished, each target's division member will contain the
 	 * player's division for that target.
 	 */
-	public void divide(int quantity, int minimum, int whatFrom, String beingDivided, java.util.List<Target> targets)
+	public void divide(int quantity, int minimum, int whatFrom, String beingDivided, List<Target> targets)
 	{
 		if(this.game.actualState.controlledPlayers.containsKey(this.ID))
 		{
@@ -432,7 +442,7 @@ public final class Player extends Identified implements AttachableTo, Attackable
 			}
 		}
 
-		java.util.List<SanitizedTarget> sanitizedTargets = new java.util.LinkedList<SanitizedTarget>();
+		List<SanitizedTarget> sanitizedTargets = new LinkedList<SanitizedTarget>();
 		for(Target target: targets)
 		{
 			sanitizedTargets.add(new SanitizedTarget(target));
@@ -475,9 +485,9 @@ public final class Player extends Identified implements AttachableTo, Attackable
 	}
 
 	@Override
-	public java.util.Collection<Integer> getAttachments()
+	public Collection<Integer> getAttachments()
 	{
-		return new java.util.LinkedList<Integer>(this.attachments);
+		return new LinkedList<Integer>(this.attachments);
 	}
 
 	/** @return This player's graveyard */
@@ -492,9 +502,9 @@ public final class Player extends Identified implements AttachableTo, Attackable
 	}
 
 	@Override
-	public java.util.Collection<Keyword> getKeywordAbilities()
+	public Collection<Keyword> getKeywordAbilities()
 	{
-		return java.util.Collections.unmodifiableCollection(this.keywordAbilities);
+		return Collections.unmodifiableCollection(this.keywordAbilities);
 	}
 
 	/** @return This player's hand */
@@ -525,9 +535,9 @@ public final class Player extends Identified implements AttachableTo, Attackable
 	}
 
 	@Override
-	public java.util.Collection<NonStaticAbility> getNonStaticAbilities()
+	public Collection<NonStaticAbility> getNonStaticAbilities()
 	{
-		return java.util.Collections.unmodifiableCollection(this.nonStaticAbilities);
+		return Collections.unmodifiableCollection(this.nonStaticAbilities);
 	}
 
 	/** @return This player in the physical game state. */
@@ -549,9 +559,9 @@ public final class Player extends Identified implements AttachableTo, Attackable
 	}
 
 	@Override
-	public java.util.Collection<StaticAbility> getStaticAbilities()
+	public Collection<StaticAbility> getStaticAbilities()
 	{
-		return java.util.Collections.unmodifiableCollection(this.staticAbilities);
+		return Collections.unmodifiableCollection(this.staticAbilities);
 	}
 
 	/** @return Whether this player has the specified ability. */
@@ -584,7 +594,7 @@ public final class Player extends Identified implements AttachableTo, Attackable
 		{
 			Player thisPlayer = this.getActual();
 			this.game.generatePlayerActions(thisPlayer, true);
-			java.util.List<PlayerAction> actions = thisPlayer.sanitizeAndChoose(this.game.actualState, 0, 1, this.game.actualState.playerActions, PlayerInterface.ChoiceType.ACTIVATE_MANA_ABILITIES, PlayerInterface.ChooseReason.ACTIVATE_MANA_ABILITIES);
+			List<PlayerAction> actions = thisPlayer.sanitizeAndChoose(this.game.actualState, 0, 1, this.game.actualState.playerActions, PlayerInterface.ChoiceType.ACTIVATE_MANA_ABILITIES, PlayerInterface.ChooseReason.ACTIVATE_MANA_ABILITIES);
 			if(0 == actions.size())
 				break;
 			if(!actions.get(0).saveStateAndPerform())
@@ -639,43 +649,43 @@ public final class Player extends Identified implements AttachableTo, Attackable
 		return new SanitizedPlayer(state.<Player>get(this.ID));
 	}
 
-	public <T> java.util.List<T> sanitizeAndChoose(GameState state, int low, Integer high, java.util.Collection<T> choices, PlayerInterface.ChoiceType type, ChooseReason description)
+	public <T> List<T> sanitizeAndChoose(GameState state, int low, Integer high, Collection<T> choices, PlayerInterface.ChoiceType type, ChooseReason description)
 	{
-		return this.sanitizeAndChoose(state, choices, new ChooseParameters<java.io.Serializable>(low, high, type, description));
+		return this.sanitizeAndChoose(state, choices, new ChooseParameters<Serializable>(low, high, type, description));
 	}
 
-	public <T> java.util.List<T> sanitizeAndChoose(GameState state, int number, java.util.Collection<T> choices, PlayerInterface.ChoiceType type, ChooseReason description)
+	public <T> List<T> sanitizeAndChoose(GameState state, int number, Collection<T> choices, PlayerInterface.ChoiceType type, ChooseReason description)
 	{
 		return this.sanitizeAndChoose(state, number, number, choices, type, description);
 	}
 
-	public <T> java.util.List<T> sanitizeAndChoose(GameState state, java.util.Collection<T> choices, ChooseParameters<java.io.Serializable> chooseParameters)
+	public <T> List<T> sanitizeAndChoose(GameState state, Collection<T> choices, ChooseParameters<Serializable> chooseParameters)
 	{
 		if(null == this.state)
 			throw new IllegalStateException("Tried to have a player in an old state make a choice.");
 
 		// Use a Linked Hash Map here so that iterators over the map return
 		// elements in a predictable order (insertion order).
-		java.util.Map<java.io.Serializable, T> sanitizedChoices = new java.util.LinkedHashMap<java.io.Serializable, T>();
+		Map<Serializable, T> sanitizedChoices = new LinkedHashMap<Serializable, T>();
 
 		for(T choice: choices)
 			sanitizedChoices.put(serializable(state, choice), choice);
 
 		chooseParameters.choices.addAll(sanitizedChoices.keySet());
-		java.util.List<java.io.Serializable> result = this.choose(chooseParameters);
-		java.util.List<T> dirtyResult = new java.util.LinkedList<T>();
+		List<Serializable> result = this.choose(chooseParameters);
+		List<T> dirtyResult = new LinkedList<T>();
 
-		for(java.io.Serializable choice: result)
+		for(Serializable choice: result)
 			dirtyResult.add(sanitizedChoices.get(choice));
 
 		return dirtyResult;
 	}
 
-	private java.io.Serializable serializable(GameState state, Object o)
+	private Serializable serializable(GameState state, Object o)
 	{
 		if(o instanceof Sanitizable)
 		{
-			if(o instanceof java.io.Serializable)
+			if(o instanceof Serializable)
 				throw new UnsupportedOperationException(o + " is both Sanitizable and Serializable");
 			return ((Sanitizable)o).sanitize(state, this);
 		}
@@ -683,9 +693,9 @@ public final class Player extends Identified implements AttachableTo, Attackable
 		{
 			return ((Class<?>)o).getAnnotation(Name.class).value();
 		}
-		else if(o instanceof java.io.Serializable)
+		else if(o instanceof Serializable)
 		{
-			return (java.io.Serializable)o;
+			return (Serializable)o;
 		}
 		else
 		{
@@ -705,19 +715,19 @@ public final class Player extends Identified implements AttachableTo, Attackable
 	 * number, a collection of {@link MagicSet}s where each {@link MagicSet} in the
 	 * collection is a pile.
 	 */
-	public java.util.Collection<Pile> separateIntoPiles(int numPiles, MagicSet objects)
+	public Collection<Pile> separateIntoPiles(int numPiles, MagicSet objects)
 	{
 		if(numPiles < 1)
-			return java.util.Collections.emptySet();
+			return Collections.emptySet();
 		if(numPiles == 1)
 		{
 			Pile pile = new Pile();
 			pile.addAll(objects.getAll(GameObject.class));
-			return java.util.Collections.singleton(pile);
+			return Collections.singleton(pile);
 		}
 
-		java.util.Collection<Pile> ret = new java.util.LinkedList<Pile>();
-		java.util.List<GameObject> objectsInNewPile = this.sanitizeAndChoose(this.game.actualState, 0, objects.size(), objects.getAll(GameObject.class), ChoiceType.OBJECTS, ChooseReason.MAKE_PILE);
+		Collection<Pile> ret = new LinkedList<Pile>();
+		List<GameObject> objectsInNewPile = this.sanitizeAndChoose(this.game.actualState, 0, objects.size(), objects.getAll(GameObject.class), ChoiceType.OBJECTS, ChooseReason.MAKE_PILE);
 
 		Pile newPile = new Pile();
 		newPile.addAll(objectsInNewPile);

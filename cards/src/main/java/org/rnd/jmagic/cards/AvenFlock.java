@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 
 @Name("Aven Flock")
@@ -31,7 +33,7 @@ public final class AvenFlock extends Card
 
 		// Flying (This creature can't be blocked except by creatures with
 		// flying or reach.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// (W): Aven Flock gets +0/+1 until end of turn.
 		this.addAbility(new AvenFlockAbility1(state));

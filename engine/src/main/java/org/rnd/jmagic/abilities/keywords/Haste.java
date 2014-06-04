@@ -2,6 +2,9 @@ package org.rnd.jmagic.abilities.keywords;
 
 import org.rnd.jmagic.engine.*;
 
+import java.util.LinkedList;
+import java.util.List;
+
 @Name("Haste")
 public final class Haste extends Keyword
 {
@@ -11,9 +14,9 @@ public final class Haste extends Keyword
 	}
 
 	@Override
-	protected java.util.List<StaticAbility> createStaticAbilities()
+	protected List<StaticAbility> createStaticAbilities()
 	{
-		java.util.List<StaticAbility> abilities = new java.util.LinkedList<StaticAbility>();
+		List<StaticAbility> abilities = new LinkedList<StaticAbility>();
 		abilities.add(new HasteStatic(this.state));
 		return abilities;
 	}

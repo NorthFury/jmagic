@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cardTemplates;
 
+import org.rnd.jmagic.abilities.TapForMana;
 import org.rnd.jmagic.engine.*;
 
 public abstract class ShardsObelisk extends Card
@@ -8,6 +9,6 @@ public abstract class ShardsObelisk extends Card
 	{
 		super(state);
 
-		this.addAbility(new org.rnd.jmagic.abilities.TapForMana.Final(state, mana));
+		this.addAbility(new TapForMana.Final(state, mana));
 	}
 }

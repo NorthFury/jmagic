@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -20,7 +22,7 @@ public final class Hydroform extends Card
 		SetGenerator target = targetedBy(this.addTarget(LandPermanents.instance(), "target land"));
 		Animator a = new Animator(target, 3, 3);
 		a.addSubType(SubType.ELEMENTAL);
-		a.addAbility(org.rnd.jmagic.abilities.keywords.Flying.class);
+		a.addAbility(Flying.class);
 		this.addEffect(createFloatingEffect("Target land becomes a 3/3 Elemental creature with flying until end of turn. It's still a land.", a.getParts()));
 	}
 }

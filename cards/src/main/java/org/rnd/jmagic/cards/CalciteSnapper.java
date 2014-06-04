@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Shroud;
 import org.rnd.jmagic.engine.*;
 
 @Name("Calcite Snapper")
@@ -34,7 +36,7 @@ public final class CalciteSnapper extends Card
 		this.setToughness(4);
 
 		// Shroud
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Shroud(state));
+		this.addAbility(new Shroud(state));
 
 		// Whenever a land enters the battlefield under your control, you may
 		// switch Calcite Snapper's power and toughness until end of turn.

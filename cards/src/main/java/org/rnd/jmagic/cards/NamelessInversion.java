@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Changeling;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -18,7 +19,7 @@ public final class NamelessInversion extends Card
 		super(state);
 
 		// Changeling (This card is every creature type at all times.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Changeling(state));
+		this.addAbility(new Changeling(state));
 
 		// Target creature gets +3/-3 and loses all creature types until end of
 		// turn.

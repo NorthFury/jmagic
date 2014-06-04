@@ -1,5 +1,7 @@
 package org.rnd.jmagic.engine;
 
+import java.util.EnumSet;
+
 /**
  * Represents a 2/2 creature with no text, no name, no subtypes, no expansion
  * symbol, and no mana cost, for use by the following rules:
@@ -20,6 +22,6 @@ public class FaceDownCard extends Characteristics
 		super();
 		this.power = 2;
 		this.toughness = 2;
-		this.types = java.util.EnumSet.of(Type.CREATURE);
+		this.types = EnumSet.of(Type.CREATURE);
 	}
 }

@@ -2,8 +2,13 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Equip;
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+
+import java.util.LinkedList;
+import java.util.List;
 
 @Name("Magebane Armor")
 @Types({Type.ARTIFACT})
@@ -25,7 +30,7 @@ public final class MagebaneArmor extends Card
 
 			ContinuousEffect.Part abilityPart = new ContinuousEffect.Part(ContinuousEffectType.REMOVE_ABILITY_FROM_OBJECT);
 			abilityPart.parameters.put(ContinuousEffectType.Parameter.OBJECT, who);
-			abilityPart.parameters.put(ContinuousEffectType.Parameter.ABILITY, Identity.instance(org.rnd.jmagic.abilities.keywords.Flying.class));
+			abilityPart.parameters.put(ContinuousEffectType.Parameter.ABILITY, Identity.instance(Flying.class));
 			this.addEffectPart(abilityPart);
 		}
 	}
@@ -54,10 +59,10 @@ public final class MagebaneArmor extends Card
 			}
 
 			@Override
-			public java.util.List<EventFactory> prevent(DamageAssignment.Batch damageAssignments)
+			public List<EventFactory> prevent(DamageAssignment.Batch damageAssignments)
 			{
 				damageAssignments.clear();
-				return new java.util.LinkedList<EventFactory>();
+				return new LinkedList<EventFactory>();
 			}
 		}
 
@@ -77,6 +82,6 @@ public final class MagebaneArmor extends Card
 
 		this.addAbility(new Magebane(state));
 		this.addAbility(new PreventDamage(state));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Equip(state, "(2)"));
+		this.addAbility(new Equip(state, "(2)"));
 	}
 }

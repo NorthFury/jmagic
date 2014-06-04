@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.cardTemplates.Outlander;
 import org.rnd.jmagic.engine.*;
 
 @Name("Nacatl Outlander")
@@ -8,7 +9,7 @@ import org.rnd.jmagic.engine.*;
 @SubTypes({SubType.CAT, SubType.SCOUT})
 @Printings({@Printings.Printed(ex = Expansion.CONFLUX, r = Rarity.COMMON)})
 @ColorIdentity({Color.GREEN, Color.RED})
-public final class NacatlOutlander extends org.rnd.jmagic.cardTemplates.Outlander
+public final class NacatlOutlander extends Outlander
 {
 	public NacatlOutlander(GameState state)
 	{

@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilityTemplates.WhenYouCastASpellDuringOpponentsTurn;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -12,7 +14,7 @@ import org.rnd.jmagic.engine.generators.*;
 @ColorIdentity({Color.BLACK})
 public final class FaerieTauntings extends Card
 {
-	public static final class LoseLifeTrickery extends org.rnd.jmagic.abilityTemplates.WhenYouCastASpellDuringOpponentsTurn
+	public static final class LoseLifeTrickery extends WhenYouCastASpellDuringOpponentsTurn
 	{
 		public LoseLifeTrickery(GameState state)
 		{

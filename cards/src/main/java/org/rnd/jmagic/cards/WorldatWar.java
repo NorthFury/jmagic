@@ -1,9 +1,14 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Rebound;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
+
+import java.util.LinkedList;
+import java.util.List;
 
 @Name("World at War")
 @Types({Type.SORCERY})
@@ -52,7 +57,7 @@ public final class WorldatWar extends Card
 		// additional combat phase followed by an additional main phase. At the
 		// beginning of that combat, untap all creatures that attacked this
 		// turn.
-		java.util.List<Phase.PhaseType> combatAndMain = new java.util.LinkedList<Phase.PhaseType>();
+		List<Phase.PhaseType> combatAndMain = new LinkedList<Phase.PhaseType>();
 		combatAndMain.add(Phase.PhaseType.COMBAT);
 		combatAndMain.add(Phase.PhaseType.POSTCOMBAT_MAIN);
 
@@ -79,6 +84,6 @@ public final class WorldatWar extends Card
 		// Rebound (If you cast this spell from your hand, exile it as it
 		// resolves. At the beginning of your next upkeep, you may cast this
 		// card from exile without paying its mana cost.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Rebound(state));
+		this.addAbility(new Rebound(state));
 	}
 }

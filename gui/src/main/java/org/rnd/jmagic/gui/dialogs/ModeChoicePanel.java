@@ -1,35 +1,44 @@
 package org.rnd.jmagic.gui.dialogs;
 
 import java.awt.event.*;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 
 import javax.swing.*;
 
+import org.rnd.jmagic.engine.MagicSet;
+import org.rnd.jmagic.engine.generators.Intersect;
+import org.rnd.jmagic.engine.generators.Maximum;
+import org.rnd.jmagic.engine.generators.Minimum;
 import org.rnd.jmagic.gui.*;
 import org.rnd.jmagic.sanitized.*;
+import org.rnd.util.NumberRange;
 
 public class ModeChoicePanel extends JPanel
 {
 	private static final long serialVersionUID = 1L;
 
 	private Play gui;
-	private java.util.List<SanitizedMode> choices;
-	private java.util.Set<SanitizedMode> choice;
+	private List<SanitizedMode> choices;
+	private Set<SanitizedMode> choice;
 	private int minimum;
 	private int maximum;
 	private JButton doneButton;
 
-	public ModeChoicePanel(Play gui, final java.util.List<SanitizedMode> modes, org.rnd.jmagic.engine.MagicSet number)
+	public ModeChoicePanel(Play gui, final List<SanitizedMode> modes, MagicSet number)
 	{
 		super();
 
-		this.setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.Y_AXIS));
+		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
 		this.gui = gui;
 		this.choices = modes;
-		this.choice = new java.util.HashSet<SanitizedMode>();
-		number = org.rnd.jmagic.engine.generators.Intersect.get(number, new org.rnd.jmagic.engine.MagicSet(new org.rnd.util.NumberRange(0, modes.size())));
-		this.minimum = org.rnd.jmagic.engine.generators.Minimum.get(number);
-		this.maximum = org.rnd.jmagic.engine.generators.Maximum.get(number);
+		this.choice = new HashSet<SanitizedMode>();
+		number = Intersect.get(number, new MagicSet(new NumberRange(0, modes.size())));
+		this.minimum = Minimum.get(number);
+		this.maximum = Maximum.get(number);
 
 		for(final SanitizedMode mode: modes)
 		{
@@ -58,7 +67,7 @@ public class ModeChoicePanel extends JPanel
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				ModeChoicePanel.this.gui.choose = new java.util.LinkedList<Integer>();
+				ModeChoicePanel.this.gui.choose = new LinkedList<Integer>();
 				for(int i = 0; i < ModeChoicePanel.this.choices.size(); ++i)
 					if(ModeChoicePanel.this.choice.contains(ModeChoicePanel.this.choices.get(i)))
 						ModeChoicePanel.this.gui.choose.add(i);

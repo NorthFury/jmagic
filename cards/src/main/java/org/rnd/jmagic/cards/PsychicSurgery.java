@@ -6,6 +6,12 @@ import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
 
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 @Name("Psychic Surgery")
 @Types({Type.ENCHANTMENT})
 @ManaCost("1U")
@@ -28,21 +34,21 @@ public final class PsychicSurgery extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			event.setResult(Empty.set);
 
 			MagicSet cause = parameters.get(Parameter.CAUSE);
-			java.util.Set<GameObject> choices = parameters.get(Parameter.OBJECT).getAll(GameObject.class);
-			java.util.List<GameObject> ordered = null;
+			Set<GameObject> choices = parameters.get(Parameter.OBJECT).getAll(GameObject.class);
+			List<GameObject> ordered = null;
 			if(choices.size() > 1)
 				ordered = parameters.get(Parameter.PLAYER).getOne(Player.class).sanitizeAndChoose(game.actualState, choices.size(), choices, PlayerInterface.ChoiceType.MOVEMENT_LIBRARY, PlayerInterface.ChooseReason.ORDER_LIBRARY_TARGET);
 			else
-				ordered = new java.util.LinkedList<GameObject>(choices);
+				ordered = new LinkedList<GameObject>(choices);
 
 			for(GameObject o: ordered)
 			{
-				java.util.Map<Parameter, MagicSet> moveParameters = new java.util.HashMap<Parameter, MagicSet>();
+				Map<Parameter, MagicSet> moveParameters = new HashMap<Parameter, MagicSet>();
 				moveParameters.put(EventType.Parameter.CAUSE, cause);
 				moveParameters.put(EventType.Parameter.INDEX, ONE);
 				moveParameters.put(EventType.Parameter.OBJECT, new MagicSet(o));

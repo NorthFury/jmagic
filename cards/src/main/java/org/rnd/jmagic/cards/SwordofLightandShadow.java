@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Equip;
+import org.rnd.jmagic.abilities.keywords.Protection;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -14,7 +17,7 @@ public final class SwordofLightandShadow extends Card
 {
 	public static final class SwordofLightandShadowAbility0 extends StaticAbility
 	{
-		public static final class ProtectionFromWhiteAndFromBlack extends org.rnd.jmagic.abilities.keywords.Protection
+		public static final class ProtectionFromWhiteAndFromBlack extends Protection
 		{
 			public ProtectionFromWhiteAndFromBlack(GameState state)
 			{
@@ -68,6 +71,6 @@ public final class SwordofLightandShadow extends Card
 		this.addAbility(new SwordofLightandShadowAbility1(state));
 
 		// Equip (2)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Equip(state, "(2)"));
+		this.addAbility(new Equip(state, "(2)"));
 	}
 }

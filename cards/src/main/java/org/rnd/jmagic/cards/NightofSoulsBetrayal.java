@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.StaticPTChange;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -15,6 +16,6 @@ public final class NightofSoulsBetrayal extends Card
 	{
 		super(state);
 
-		this.addAbility(new org.rnd.jmagic.abilities.StaticPTChange(state, CreaturePermanents.instance(), "All creatures", -1, -1, true));
+		this.addAbility(new StaticPTChange(state, CreaturePermanents.instance(), "All creatures", -1, -1, true));
 	}
 }

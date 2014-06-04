@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.Regenerate;
 import org.rnd.jmagic.engine.*;
 
 @Name("Dutiful Thrull")
@@ -18,6 +19,6 @@ public final class DutifulThrull extends Card
 		this.setToughness(1);
 
 		// (B): Regenerate Dutiful Thrull.
-		this.addAbility(new org.rnd.jmagic.abilities.Regenerate.Final(state, "(B)", this.getName()));
+		this.addAbility(new Regenerate.Final(state, "(B)", this.getName()));
 	}
 }

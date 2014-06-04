@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 
 @Name("Seascape Aerialist")
@@ -20,7 +21,7 @@ public final class SeascapeAerialist extends Card
 
 			this.addPattern(allyTrigger());
 
-			EventFactory abilityFactory = addAbilityUntilEndOfTurn(ALLY_CREATURES_YOU_CONTROL, org.rnd.jmagic.abilities.keywords.Flying.class, "Ally creatures you control gain flying until end of turn");
+			EventFactory abilityFactory = addAbilityUntilEndOfTurn(ALLY_CREATURES_YOU_CONTROL, Flying.class, "Ally creatures you control gain flying until end of turn");
 			this.addEffect(youMay(abilityFactory, "You may have Ally creatures you control gain flying until end of turn."));
 		}
 	}

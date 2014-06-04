@@ -3,6 +3,9 @@ package org.rnd.jmagic.engine.eventTypes;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.Iterator;
+import java.util.Map;
+
 public final class EmptyManaPool extends EventType
 {	public static final EventType INSTANCE = new EmptyManaPool();
 
@@ -18,7 +21,7 @@ public final class EmptyManaPool extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		GameObject cause = parameters.get(Parameter.CAUSE).getOne(GameObject.class);
 		MagicSet result = new MagicSet();
@@ -29,7 +32,7 @@ public final class EmptyManaPool extends EventType
 			if(cause == null)
 			{
 				SetPattern doesntEmpty = game.actualState.manaThatDoesntEmpty.get(player.ID);
-				java.util.Iterator<ManaSymbol> m = player.getPhysical().pool.iterator();
+				Iterator<ManaSymbol> m = player.getPhysical().pool.iterator();
 				while(m.hasNext())
 				{
 					ManaSymbol mana = m.next();

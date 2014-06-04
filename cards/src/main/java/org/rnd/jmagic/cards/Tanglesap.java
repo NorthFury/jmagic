@@ -2,7 +2,11 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
+
+import java.util.LinkedList;
+import java.util.List;
 
 @Name("Tanglesap")
 @Types({Type.INSTANT})
@@ -24,16 +28,16 @@ public final class Tanglesap extends Card
 		{
 			DamageAssignment.Batch ret = new DamageAssignment.Batch();
 			for(DamageAssignment assignment: damageAssignments)
-				if(assignment.isCombatDamage && !context.state.<GameObject>get(assignment.sourceID).hasAbility(org.rnd.jmagic.abilities.keywords.Trample.class))
+				if(assignment.isCombatDamage && !context.state.<GameObject>get(assignment.sourceID).hasAbility(Trample.class))
 					ret.add(assignment);
 			return ret;
 		}
 
 		@Override
-		public java.util.List<EventFactory> prevent(DamageAssignment.Batch damageAssignments)
+		public List<EventFactory> prevent(DamageAssignment.Batch damageAssignments)
 		{
 			damageAssignments.clear();
-			return new java.util.LinkedList<EventFactory>();
+			return new LinkedList<EventFactory>();
 		}
 	}
 

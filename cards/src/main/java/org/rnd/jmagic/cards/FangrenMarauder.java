@@ -3,6 +3,7 @@ package org.rnd.jmagic.cards;
 import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+import org.rnd.jmagic.engine.patterns.SimpleZoneChangePattern;
 
 @Name("Fangren Marauder")
 @Types({Type.CREATURE})
@@ -17,7 +18,7 @@ public final class FangrenMarauder extends Card
 		public FangrenMarauderAbility0(GameState state)
 		{
 			super(state, "Whenever an artifact is put into a graveyard from the battlefield, you may gain 5 life.");
-			this.addPattern(new org.rnd.jmagic.engine.patterns.SimpleZoneChangePattern(Battlefield.instance(), GraveyardOf.instance(Players.instance()), ArtifactPermanents.instance(), true));
+			this.addPattern(new SimpleZoneChangePattern(Battlefield.instance(), GraveyardOf.instance(Players.instance()), ArtifactPermanents.instance(), true));
 			this.addEffect(youMay(gainLife(You.instance(), 5, "Gain 5 life."), "You may gain 5 life."));
 		}
 	}

@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilityTemplates.ColorTriggeredLife;
 import org.rnd.jmagic.engine.*;
 
 @Name("Kraken's Eye")
@@ -9,7 +10,7 @@ import org.rnd.jmagic.engine.*;
 @ColorIdentity({})
 public final class KrakensEye extends Card
 {
-	public static final class BlueLife extends org.rnd.jmagic.abilityTemplates.ColorTriggeredLife
+	public static final class BlueLife extends ColorTriggeredLife
 	{
 		public BlueLife(GameState state)
 		{

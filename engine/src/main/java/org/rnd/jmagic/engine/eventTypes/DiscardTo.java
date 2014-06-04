@@ -3,6 +3,9 @@ package org.rnd.jmagic.engine.eventTypes;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public final class DiscardTo extends EventType
 {	public static final EventType INSTANCE = new DiscardTo();
 
@@ -18,7 +21,7 @@ public final class DiscardTo extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		// get the number of cards out of the parameter
 		int numberOfCards = Sum.get(parameters.get(Parameter.NUMBER));
@@ -39,7 +42,7 @@ public final class DiscardTo extends EventType
 			if(numberToDiscard <= 0)
 				continue;
 
-			java.util.Map<Parameter, MagicSet> discardParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> discardParameters = new HashMap<Parameter, MagicSet>();
 			discardParameters.put(Parameter.CAUSE, cause);
 			discardParameters.put(Parameter.PLAYER, new MagicSet(player));
 			discardParameters.put(Parameter.NUMBER, new MagicSet(numberToDiscard));

@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Hexproof;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -20,7 +22,7 @@ public final class LordoftheUnreal extends Card
 
 			SetGenerator yourIllusions = Intersect.instance(HasSubType.instance(SubType.ILLUSION), CREATURES_YOU_CONTROL);
 			this.addEffectPart(modifyPowerAndToughness(yourIllusions, +1, +1));
-			this.addEffectPart(addAbilityToObject(yourIllusions, org.rnd.jmagic.abilities.keywords.Hexproof.class));
+			this.addEffectPart(addAbilityToObject(yourIllusions, Hexproof.class));
 		}
 	}
 

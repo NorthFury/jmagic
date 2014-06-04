@@ -1,7 +1,12 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Suspend;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Name("Hypergenesis")
 @Types({Type.SORCERY})
@@ -22,12 +27,12 @@ public final class Hypergenesis extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			MagicSet hypergenesis = parameters.get(Parameter.CAUSE);
 
 			Player you = parameters.get(Parameter.PLAYER).getOne(Player.class);
-			java.util.List<Player> players = game.actualState.getPlayerCycle(you);
+			List<Player> players = game.actualState.getPlayerCycle(you);
 			while(true)
 			{
 				boolean noOnePutACardOntoTheBattlefield = true;
@@ -43,7 +48,7 @@ public final class Hypergenesis extends Card
 					putOntoBattlefield.parameters.put(Parameter.CONTROLLER, Identity.instance(player));
 					putOntoBattlefield.parameters.put(Parameter.OBJECT, Identity.instance(available));
 
-					java.util.Map<Parameter, MagicSet> mayParameters = new java.util.HashMap<Parameter, MagicSet>();
+					Map<Parameter, MagicSet> mayParameters = new HashMap<Parameter, MagicSet>();
 					mayParameters.put(Parameter.PLAYER, new MagicSet(player));
 					mayParameters.put(Parameter.EVENT, new MagicSet(putOntoBattlefield));
 					Event mayPut = createEvent(game, player + " may put an artifact, creature, enchantment, or land card from his or her hand onto the battlefield.", PLAYER_MAY, mayParameters);
@@ -69,7 +74,7 @@ public final class Hypergenesis extends Card
 		this.setColorIndicator(Color.GREEN);
 
 		// Suspend 3\u2014(1)(G)(G)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Suspend(state, 3, "(1)(G)(G)"));
+		this.addAbility(new Suspend(state, 3, "(1)(G)(G)"));
 
 		// Starting with you, each player may put an artifact, creature,
 		// enchantment, or land card from his or her hand onto the battlefield.

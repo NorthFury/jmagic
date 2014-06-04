@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Deathtouch;
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 
 @Name("Searchlight Geist")
@@ -17,7 +20,7 @@ public final class SearchlightGeist extends Card
 		{
 			super(state, "(3)(B): Searchlight Geist gains deathtouch until end of turn.");
 			this.setManaCost(new ManaPool("(3)(B)"));
-			this.addEffect(addAbilityUntilEndOfTurn(ABILITY_SOURCE_OF_THIS, org.rnd.jmagic.abilities.keywords.Deathtouch.class, "Searchlight Geist gains deathtouch until end of turn."));
+			this.addEffect(addAbilityUntilEndOfTurn(ABILITY_SOURCE_OF_THIS, Deathtouch.class, "Searchlight Geist gains deathtouch until end of turn."));
 		}
 	}
 
@@ -29,7 +32,7 @@ public final class SearchlightGeist extends Card
 		this.setToughness(1);
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// (3)(B): Searchlight Geist gains deathtouch until end of turn. (Any
 		// amount of damage it deals to a creature is enough to destroy it.)

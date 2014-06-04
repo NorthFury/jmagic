@@ -4,6 +4,12 @@ import static org.rnd.jmagic.Convenience.*;
 
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+import org.rnd.util.NumberNames;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public final class LookAndPutBack extends EventType
 {	public static final EventType INSTANCE = new LookAndPutBack();
@@ -20,7 +26,7 @@ public final class LookAndPutBack extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 
 		MagicSet cause = parameters.get(Parameter.CAUSE);
@@ -43,18 +49,18 @@ public final class LookAndPutBack extends EventType
 			cards.add(library.objects.get(i));
 		}
 
-		java.util.Map<Parameter, MagicSet> lookParameters = new java.util.HashMap<Parameter, MagicSet>();
+		Map<Parameter, MagicSet> lookParameters = new HashMap<Parameter, MagicSet>();
 		lookParameters.put(Parameter.CAUSE, cause);
 		lookParameters.put(EventType.Parameter.OBJECT, cards);
 		lookParameters.put(EventType.Parameter.PLAYER, new MagicSet(player));
-		createEvent(game, "Look at the top " + org.rnd.util.NumberNames.get(number) + " cards of your library.", EventType.LOOK, lookParameters).perform(event, false);
+		createEvent(game, "Look at the top " + NumberNames.get(number) + " cards of your library.", EventType.LOOK, lookParameters).perform(event, false);
 
 		// then put them back in any order.
 		if(target.equals(player))
 		{
 			// If the player looking owns the library being looked at, we
 			// can do this the easy way ...
-			java.util.Map<Parameter, MagicSet> moveParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> moveParameters = new HashMap<Parameter, MagicSet>();
 			moveParameters.put(EventType.Parameter.CAUSE, cause);
 			moveParameters.put(EventType.Parameter.INDEX, ONE);
 			moveParameters.put(EventType.Parameter.OBJECT, cards);
@@ -66,13 +72,13 @@ public final class LookAndPutBack extends EventType
 		{
 			// ... otherwise we'll have to manually ask the player to order
 			// the cards.
-			java.util.Set<GameObject> choices = cards.getAll(GameObject.class);
-			java.util.List<GameObject> ordered = player.sanitizeAndChoose(game.actualState, choices.size(), choices, PlayerInterface.ChoiceType.MOVEMENT_LIBRARY, PlayerInterface.ChooseReason.ORDER_LIBRARY_TARGET);
+			Set<GameObject> choices = cards.getAll(GameObject.class);
+			List<GameObject> ordered = player.sanitizeAndChoose(game.actualState, choices.size(), choices, PlayerInterface.ChoiceType.MOVEMENT_LIBRARY, PlayerInterface.ChooseReason.ORDER_LIBRARY_TARGET);
 
 			MagicSet result = new MagicSet();
 			for(GameObject o: ordered)
 			{
-				java.util.Map<Parameter, MagicSet> moveParameters = new java.util.HashMap<Parameter, MagicSet>();
+				Map<Parameter, MagicSet> moveParameters = new HashMap<Parameter, MagicSet>();
 				moveParameters.put(EventType.Parameter.CAUSE, cause);
 				moveParameters.put(EventType.Parameter.INDEX, ONE);
 				moveParameters.put(EventType.Parameter.OBJECT, new MagicSet(o));

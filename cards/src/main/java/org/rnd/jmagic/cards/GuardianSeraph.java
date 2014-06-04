@@ -2,8 +2,15 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 
 @Name("Guardian Seraph")
 @Types({Type.CREATURE})
@@ -48,10 +55,10 @@ public final class GuardianSeraph extends Card
 
 			// prevent 1 of that damage.
 			@Override
-			public java.util.List<EventFactory> prevent(DamageAssignment.Batch damageAssignments)
+			public List<EventFactory> prevent(DamageAssignment.Batch damageAssignments)
 			{
-				java.util.Set<Integer> preventedFrom = new java.util.HashSet<Integer>();
-				java.util.Iterator<DamageAssignment> damageIter = damageAssignments.iterator();
+				Set<Integer> preventedFrom = new HashSet<Integer>();
+				Iterator<DamageAssignment> damageIter = damageAssignments.iterator();
 				while(damageIter.hasNext())
 				{
 					DamageAssignment damage = damageIter.next();
@@ -62,7 +69,7 @@ public final class GuardianSeraph extends Card
 					}
 				}
 
-				return new java.util.LinkedList<EventFactory>();
+				return new LinkedList<EventFactory>();
 			}
 		}
 
@@ -82,7 +89,7 @@ public final class GuardianSeraph extends Card
 		this.setToughness(4);
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		this.addAbility(new PreventOneDamage(state));
 	}

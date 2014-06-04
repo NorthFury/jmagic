@@ -2,6 +2,8 @@ package org.rnd.jmagic.engine.generators;
 
 import org.rnd.jmagic.engine.*;
 
+import java.util.Set;
+
 /**
  * This essentially represents the ternary operator
  */
@@ -32,7 +34,7 @@ public class IfThenElse extends SetGenerator
 	}
 
 	@Override
-	public java.util.Set<ManaSymbol.ManaType> extractColors(Game game, GameObject thisObject, java.util.Set<SetGenerator> ignoreThese) throws NoSuchMethodException
+	public Set<ManaSymbol.ManaType> extractColors(Game game, GameObject thisObject, Set<SetGenerator> ignoreThese) throws NoSuchMethodException
 	{
 		if(this.ifCondition.evaluate(game, thisObject).isEmpty())
 			return this.elseSet.extractColors(game, thisObject, ignoreThese);

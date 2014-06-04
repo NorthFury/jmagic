@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.EntersTheBattlefieldWithCounters;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -31,7 +33,7 @@ public final class SurgeNode extends Card
 		super(state);
 
 		// Surge Node enters the battlefield with six charge counters on it.
-		this.addAbility(new org.rnd.jmagic.abilities.EntersTheBattlefieldWithCounters(state, this.getName(), 6, Counter.CounterType.CHARGE));
+		this.addAbility(new EntersTheBattlefieldWithCounters(state, this.getName(), 6, Counter.CounterType.CHARGE));
 
 		// (1), (T), Remove a charge counter from Surge Node: Put a charge
 		// counter on target artifact.

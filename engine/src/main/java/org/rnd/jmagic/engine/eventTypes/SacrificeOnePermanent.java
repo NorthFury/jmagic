@@ -3,6 +3,9 @@ package org.rnd.jmagic.engine.eventTypes;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public final class SacrificeOnePermanent extends EventType
 {	public static final EventType INSTANCE = new SacrificeOnePermanent();
 
@@ -18,7 +21,7 @@ public final class SacrificeOnePermanent extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean attempt(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		GameObject permanent = parameters.get(Parameter.PERMANENT).getOne(GameObject.class);
 		Player controller = parameters.get(Parameter.PLAYER).getOne(Player.class);
@@ -26,7 +29,7 @@ public final class SacrificeOnePermanent extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		if(!this.attempt(game, event, parameters))
 		{
@@ -38,7 +41,7 @@ public final class SacrificeOnePermanent extends EventType
 		MagicSet permanentSet = new MagicSet(permanent);
 		Zone graveyard = permanent.getOwner(game.actualState).getGraveyard(game.actualState);
 
-		java.util.Map<Parameter, MagicSet> moveParameters = new java.util.HashMap<Parameter, MagicSet>();
+		Map<Parameter, MagicSet> moveParameters = new HashMap<Parameter, MagicSet>();
 		moveParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 		moveParameters.put(Parameter.TO, new MagicSet(graveyard));
 		moveParameters.put(Parameter.OBJECT, permanentSet);

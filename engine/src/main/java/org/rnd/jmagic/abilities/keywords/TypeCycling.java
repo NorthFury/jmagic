@@ -5,6 +5,10 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+
 public abstract class TypeCycling extends CyclingBase
 {
 	protected MagicSet filterTypes;
@@ -38,9 +42,9 @@ public abstract class TypeCycling extends CyclingBase
 	}
 
 	@Override
-	protected java.util.List<CyclingAbilityBase<?>> createCyclingAbilities(GameState state)
+	protected List<CyclingAbilityBase<?>> createCyclingAbilities(GameState state)
 	{
-		java.util.List<CyclingAbilityBase<?>> ret = new java.util.LinkedList<CyclingAbilityBase<?>>();
+		List<CyclingAbilityBase<?>> ret = new LinkedList<CyclingAbilityBase<?>>();
 
 		ret.add(new TypeCyclingAbility(state, this));
 
@@ -56,9 +60,9 @@ public abstract class TypeCycling extends CyclingBase
 			SetGenerator filter = null;
 			if(parent.filterTypes != null)
 			{
-				java.util.Set<SuperType> superType = parent.filterTypes.getAll(SuperType.class);
-				java.util.Set<Type> type = parent.filterTypes.getAll(Type.class);
-				java.util.Set<SubType> subTypes = parent.filterTypes.getAll(SubType.class);
+				Set<SuperType> superType = parent.filterTypes.getAll(SuperType.class);
+				Set<Type> type = parent.filterTypes.getAll(Type.class);
+				Set<SubType> subTypes = parent.filterTypes.getAll(SubType.class);
 
 				if(!superType.isEmpty())
 					filter = HasSuperType.instance(Identity.instance(superType));

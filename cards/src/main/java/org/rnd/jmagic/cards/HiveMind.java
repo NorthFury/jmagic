@@ -4,6 +4,9 @@ import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Name("Hive Mind")
 @Types({Type.ENCHANTMENT})
 @ManaCost("5U")
@@ -26,13 +29,13 @@ public final class HiveMind extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			MagicSet cause = parameters.get(Parameter.CAUSE);
 			MagicSet toCopy = parameters.get(Parameter.OBJECT);
 			for(Player player: event.state.apnapOrder(parameters.get(Parameter.PLAYER)))
 			{
-				java.util.Map<Parameter, MagicSet> newParameters = new java.util.HashMap<Parameter, MagicSet>();
+				Map<Parameter, MagicSet> newParameters = new HashMap<Parameter, MagicSet>();
 				newParameters.put(Parameter.CAUSE, cause);
 				newParameters.put(Parameter.OBJECT, toCopy);
 				newParameters.put(Parameter.PLAYER, new MagicSet(player));

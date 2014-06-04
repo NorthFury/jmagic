@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Forecast;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -18,7 +21,7 @@ public final class PrideoftheClouds extends Card
 		{
 			super(state, "Pride of the Clouds gets +1/+1 for each other creature with flying on the battlefield.");
 
-			SetGenerator flying = Count.instance(HasKeywordAbility.instance(org.rnd.jmagic.abilities.keywords.Flying.class));
+			SetGenerator flying = Count.instance(HasKeywordAbility.instance(Flying.class));
 			SetGenerator creaturesWithFlying = Intersect.instance(CreaturePermanents.instance(), flying);
 			SetGenerator other = RelativeComplement.instance(creaturesWithFlying, This.instance());
 			SetGenerator forEach = Count.instance(other);
@@ -26,7 +29,7 @@ public final class PrideoftheClouds extends Card
 		}
 	}
 
-	public static final class PrideoftheCloudsAbility2 extends org.rnd.jmagic.abilities.keywords.Forecast
+	public static final class PrideoftheCloudsAbility2 extends Forecast
 	{
 		public PrideoftheCloudsAbility2(GameState state)
 		{
@@ -36,7 +39,7 @@ public final class PrideoftheClouds extends Card
 			CreateTokensFactory token = new CreateTokensFactory(1, 1, 1, "Put a 1/1 white and blue Bird creature token with flying onto the battlefield.");
 			token.setColors(Color.WHITE, Color.BLUE);
 			token.setSubTypes(SubType.BIRD);
-			token.addAbility(org.rnd.jmagic.abilities.keywords.Flying.class);
+			token.addAbility(Flying.class);
 			this.addEffect(token.getEventFactory());
 		}
 	}
@@ -49,7 +52,7 @@ public final class PrideoftheClouds extends Card
 		this.setToughness(1);
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// Pride of the Clouds gets +1/+1 for each other creature with flying on
 		// the battlefield.

@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.TypeCycling;
+import org.rnd.jmagic.abilities.keywords.Vigilance;
 import org.rnd.jmagic.engine.*;
 
 @Name("Noble Templar")
@@ -18,9 +20,9 @@ public final class NobleTemplar extends Card
 		this.setToughness(6);
 
 		// Vigilance
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Vigilance(state));
+		this.addAbility(new Vigilance(state));
 
 		// Plainscycling (2)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.TypeCycling.PlainsCycling(state, "2"));
+		this.addAbility(new TypeCycling.PlainsCycling(state, "2"));
 	}
 }

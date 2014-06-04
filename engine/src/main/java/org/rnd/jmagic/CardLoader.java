@@ -1,23 +1,44 @@
 package org.rnd.jmagic;
 
 import org.rnd.jmagic.engine.*;
+import org.rnd.util.CamelCase;
+import org.rnd.util.SeparatedList;
 import org.springframework.beans.factory.config.*;
 import org.springframework.context.annotation.*;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.type.filter.*;
 
-public class CardLoader extends java.net.URLClassLoader
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.lang.annotation.AnnotationFormatError;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class CardLoader extends URLClassLoader
 {
 	public static class CardLoaderException extends Exception
 	{
 		private static final long serialVersionUID = 1L;
 
-		public final java.util.Set<String> cardNames;
+		public final Set<String> cardNames;
 
 		public CardLoaderException()
 		{
 			super("Unrecognized Cards");
 
-			this.cardNames = new java.util.HashSet<String>();
+			this.cardNames = new HashSet<String>();
 		}
 
 		public CardLoaderException(String cardName)
@@ -45,21 +66,21 @@ public class CardLoader extends java.net.URLClassLoader
 		@Override
 		public String getMessage()
 		{
-			return "Unrecognized Cards: " + org.rnd.util.SeparatedList.get("", this.cardNames);
+			return "Unrecognized Cards: " + SeparatedList.get("", this.cardNames);
 		}
 	}
 
-	private static java.util.regex.Pattern DECK_LINE_PATTERN;
+	private static Pattern DECK_LINE_PATTERN;
 
 	private static CardLoader _instance = new CardLoader();
 
-	private static java.util.Map<String, Class<? extends Card>> cardClasses = new java.util.HashMap<String, Class<? extends Card>>();
+	private static Map<String, Class<? extends Card>> cardClasses = new HashMap<String, Class<? extends Card>>();
 
-	private static java.util.Map<String, String> NON_ASCII_REPLACE;
+	private static Map<String, String> NON_ASCII_REPLACE;
 
 	static
 	{
-		NON_ASCII_REPLACE = new java.util.HashMap<String, String>();
+		NON_ASCII_REPLACE = new HashMap<String, String>();
 		// Upper-case combined a-e
 		NON_ASCII_REPLACE.put("\u00C6", "AE");
 		// Lower-case e with an accent
@@ -75,9 +96,9 @@ public class CardLoader extends java.net.URLClassLoader
 				_instance.addPackage(pkg);
 	}
 
-	public static void addURLs(java.net.URL... urls)
+	public static void addURLs(URL... urls)
 	{
-		for(java.net.URL url: urls)
+		for(URL url: urls)
 			if(url != null)
 				_instance.addURL(url);
 	}
@@ -87,25 +108,25 @@ public class CardLoader extends java.net.URLClassLoader
 	 */
 	public static String formatName(String name)
 	{
-		String ret = org.rnd.util.CamelCase.removeNonAlpha(name);
-		for(java.util.Map.Entry<String, String> entry: NON_ASCII_REPLACE.entrySet())
+		String ret = CamelCase.removeNonAlpha(name);
+		for(Map.Entry<String, String> entry: NON_ASCII_REPLACE.entrySet())
 			ret = ret.replace(entry.getKey(), entry.getValue());
 		return ret;
 	}
 
-	public static java.util.Set<String> getAllCardNames()
+	public static Set<String> getAllCardNames()
 	{
-		return java.util.Collections.unmodifiableSet(cardClasses.keySet());
+		return Collections.unmodifiableSet(cardClasses.keySet());
 	}
 
-	public static java.util.Set<Class<? extends Card>> getAllCards()
+	public static Set<Class<? extends Card>> getAllCards()
 	{
 		return getAllCards(false);
 	}
 
-	public static java.util.Set<Class<? extends Card>> getAllCards(boolean includeAlternateCards)
+	public static Set<Class<? extends Card>> getAllCards(boolean includeAlternateCards)
 	{
-		java.util.Set<Class<? extends Card>> ret = new java.util.HashSet<Class<? extends Card>>();
+		Set<Class<? extends Card>> ret = new HashSet<Class<? extends Card>>();
 
 		for(Class<? extends Card> card: cardClasses.values())
 			if(includeAlternateCards || !AlternateCard.class.isAssignableFrom(card))
@@ -135,7 +156,7 @@ public class CardLoader extends java.net.URLClassLoader
 	 * least one of the given sets
 	 * @throws CardLoaderException
 	 */
-	public static java.util.Set<Class<? extends Card>> getCards(java.util.Collection<Expansion> sets)
+	public static Set<Class<? extends Card>> getCards(Collection<Expansion> sets)
 	{
 		return getCards(sets, false);
 	}
@@ -145,13 +166,13 @@ public class CardLoader extends java.net.URLClassLoader
 	 * @return A set containing the class object of every card printed in at
 	 * least one of the given sets
 	 */
-	public static java.util.Set<Class<? extends Card>> getCards(java.util.Collection<Expansion> sets, boolean includeAlternateCards)
+	public static Set<Class<? extends Card>> getCards(Collection<Expansion> sets, boolean includeAlternateCards)
 	{
-		java.util.Set<Class<? extends Card>> ret = new java.util.HashSet<Class<? extends Card>>();
+		Set<Class<? extends Card>> ret = new HashSet<Class<? extends Card>>();
 
 		for(Class<? extends Card> c: getAllCards(includeAlternateCards))
 		{
-			java.util.Map<Expansion, Rarity> printingsArray = getPrintings(c);
+			Map<Expansion, Rarity> printingsArray = getPrintings(c);
 
 			for(Expansion printing: printingsArray.keySet())
 				if(sets.contains(printing))
@@ -169,15 +190,15 @@ public class CardLoader extends java.net.URLClassLoader
 		return _instance.cardsLoaded;
 	}
 
-	public static Deck getDeck(java.io.BufferedReader in) throws java.io.IOException
+	public static Deck getDeck(BufferedReader in) throws IOException
 	{
-		java.util.List<String> deck = new java.util.LinkedList<String>();
-		java.util.List<String> sideboard = new java.util.LinkedList<String>();
+		List<String> deck = new LinkedList<String>();
+		List<String> sideboard = new LinkedList<String>();
 
 		String line = in.readLine();
 		while(null != line)
 		{
-			java.util.regex.Matcher matcher = getDeckLinePattern().matcher(line);
+			Matcher matcher = getDeckLinePattern().matcher(line);
 			// The deck-line pattern matches every possible input, so it's a
 			// major error if it doesn't match
 			if(!matcher.matches())
@@ -220,10 +241,10 @@ public class CardLoader extends java.net.URLClassLoader
 	 * the number of cards is in group 5, and the name of the card is in group
 	 * 6.
 	 */
-	private static java.util.regex.Pattern getDeckLinePattern()
+	private static Pattern getDeckLinePattern()
 	{
 		if(null == DECK_LINE_PATTERN)
-			DECK_LINE_PATTERN = java.util.regex.Pattern.compile("\\s*(((SB):\\s*)?((\\d+)\\s+)?([^#/]*[^#/\\s]))?\\s*(#.*)?(//.*)?");
+			DECK_LINE_PATTERN = Pattern.compile("\\s*(((SB):\\s*)?((\\d+)\\s+)?([^#/]*[^#/\\s]))?\\s*(#.*)?(//.*)?");
 		return DECK_LINE_PATTERN;
 	}
 
@@ -235,14 +256,14 @@ public class CardLoader extends java.net.URLClassLoader
 	public static Printings.Printed[] getPrintedAnnotation(Class<? extends Card> c)
 	{
 		if(!c.isAnnotationPresent(Printings.class))
-			throw new java.lang.annotation.AnnotationFormatError(c.getSimpleName() + " has no @Printed annotation");
+			throw new AnnotationFormatError(c.getSimpleName() + " has no @Printed annotation");
 
 		return c.getAnnotation(Printings.class).value();
 	}
 
-	public static java.util.SortedMap<Expansion, Rarity> getPrintings(Class<? extends Card> c)
+	public static SortedMap<Expansion, Rarity> getPrintings(Class<? extends Card> c)
 	{
-		java.util.SortedMap<Expansion, Rarity> ret = new java.util.TreeMap<Expansion, Rarity>();
+		SortedMap<Expansion, Rarity> ret = new TreeMap<Expansion, Rarity>();
 
 		Printings.Printed[] printings = getPrintedAnnotation(c);
 		for(Printings.Printed print: printings)
@@ -250,14 +271,14 @@ public class CardLoader extends java.net.URLClassLoader
 		return ret;
 	}
 
-	public static java.util.Map<Rarity, java.util.Set<Class<? extends Card>>> getRarityMap(Expansion ex)
+	public static Map<Rarity, Set<Class<? extends Card>>> getRarityMap(Expansion ex)
 	{
-		java.util.Map<Rarity, java.util.Set<Class<? extends Card>>> ret = new java.util.HashMap<Rarity, java.util.Set<Class<? extends Card>>>();
+		Map<Rarity, Set<Class<? extends Card>>> ret = new HashMap<Rarity, Set<Class<? extends Card>>>();
 
-		for(Class<? extends Card> card: getCards(java.util.Collections.singleton(ex)))
+		for(Class<? extends Card> card: getCards(Collections.singleton(ex)))
 		{
 			Rarity rarity = null;
-			for(java.util.Map.Entry<Expansion, Rarity> entry: getPrintings(card).entrySet())
+			for(Map.Entry<Expansion, Rarity> entry: getPrintings(card).entrySet())
 				if(entry.getKey().equals(ex))
 				{
 					rarity = entry.getValue();
@@ -268,7 +289,7 @@ public class CardLoader extends java.net.URLClassLoader
 				throw new RuntimeException("getCards(" + ex + ") returned a card such that getPrintings(card) didn't contain '" + ex + "'");
 
 			if(!ret.containsKey(rarity))
-				ret.put(rarity, new java.util.HashSet<Class<? extends Card>>());
+				ret.put(rarity, new HashSet<Class<? extends Card>>());
 			ret.get(rarity).add(card);
 		}
 
@@ -281,7 +302,7 @@ public class CardLoader extends java.net.URLClassLoader
 
 		for(Expansion ex: Expansion.values())
 		{
-			java.util.Collection<Class<? extends Card>> cards = getCards(java.util.Collections.singleton(ex));
+			Collection<Class<? extends Card>> cards = getCards(Collections.singleton(ex));
 
 			System.out.println(ex + ": \t" + cards.size());
 
@@ -290,16 +311,16 @@ public class CardLoader extends java.net.URLClassLoader
 		}
 	}
 
-	private final java.util.Set<String> cardPackages;
+	private final Set<String> cardPackages;
 
 	private int cardsLoaded;
 
 	// Singleton constructor
 	private CardLoader()
 	{
-		super(new java.net.URL[] {});
+		super(new URL[] {});
 
-		this.cardPackages = new java.util.HashSet<String>();
+		this.cardPackages = new HashSet<String>();
 		this.cardsLoaded = 0;
 	}
 
@@ -307,14 +328,14 @@ public class CardLoader extends java.net.URLClassLoader
 	{
 		if(this.cardPackages.add(pkg))
 		{
-			loadCardsFromClassLoader(org.rnd.jmagic.engine.Card.class.getClassLoader(), pkg);
-			for(java.net.URL url: this.getURLs())
-				loadCardsFromClassLoader(new java.net.URLClassLoader(new java.net.URL[] {url}), pkg);
+			loadCardsFromClassLoader(Card.class.getClassLoader(), pkg);
+			for(URL url: this.getURLs())
+				loadCardsFromClassLoader(new URLClassLoader(new URL[] {url}), pkg);
 		}
 	}
 
 	@Override
-	public void addURL(java.net.URL url)
+	public void addURL(URL url)
 	{
 		super.addURL(url);
 
@@ -333,10 +354,10 @@ public class CardLoader extends java.net.URLClassLoader
 	private void loadCardsFromClassLoader(ClassLoader temploader, String pkg)
 	{
 		ClassPathScanningCandidateComponentProvider scanner = new ClassPathScanningCandidateComponentProvider(false);
-		scanner.setResourceLoader(new org.springframework.core.io.support.PathMatchingResourcePatternResolver(temploader));
+		scanner.setResourceLoader(new PathMatchingResourcePatternResolver(temploader));
 		scanner.addIncludeFilter(new AssignableTypeFilter(Card.class));
 
-		java.util.Set<BeanDefinition> components = scanner.findCandidateComponents(pkg);
+		Set<BeanDefinition> components = scanner.findCandidateComponents(pkg);
 		for(BeanDefinition bean: components)
 		{
 			try
@@ -345,8 +366,8 @@ public class CardLoader extends java.net.URLClassLoader
 
 				String name = cls.getAnnotation(Name.class).value();
 
-				java.util.List<String> additionalNames = new java.util.LinkedList<String>();
-				for(java.util.Map.Entry<String, String> entry: NON_ASCII_REPLACE.entrySet())
+				List<String> additionalNames = new LinkedList<String>();
+				for(Map.Entry<String, String> entry: NON_ASCII_REPLACE.entrySet())
 					additionalNames.add(name.replace(entry.getKey(), entry.getValue()));
 
 				if(bean instanceof ScannedGenericBeanDefinition && !((ScannedGenericBeanDefinition)bean).getMetadata().hasEnclosingClass())
@@ -366,9 +387,9 @@ public class CardLoader extends java.net.URLClassLoader
 		}
 	}
 
-	private void loadCardsFromURL(java.net.URL url)
+	private void loadCardsFromURL(URL url)
 	{
 		for(String pkg: this.cardPackages)
-			loadCardsFromClassLoader(new java.net.URLClassLoader(new java.net.URL[] {url}), pkg);
+			loadCardsFromClassLoader(new URLClassLoader(new URL[] {url}), pkg);
 	}
 }

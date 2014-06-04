@@ -3,6 +3,9 @@ package org.rnd.jmagic.engine.eventTypes;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public final class PayLife extends EventType
 {	public static final EventType INSTANCE = new PayLife();
 
@@ -18,7 +21,7 @@ public final class PayLife extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean attempt(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		int number = Sum.get(parameters.get(Parameter.NUMBER));
 
@@ -37,14 +40,14 @@ public final class PayLife extends EventType
 		// or her life total; in other words, the player loses that much
 		// life.
 		// They can't pay life if they can't lose it.
-		java.util.HashMap<Parameter, MagicSet> newParameters = new java.util.HashMap<Parameter, MagicSet>(parameters);
+		HashMap<Parameter, MagicSet> newParameters = new HashMap<Parameter, MagicSet>(parameters);
 		newParameters.put(Parameter.PLAYER, new MagicSet(player));
 		Event loseLifeOnePlayer = createEvent(game, player + " loses " + number + " life", LOSE_LIFE_ONE_PLAYER, newParameters);
 		return loseLifeOnePlayer.attempt(event);
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		boolean status = this.attempt(game, event, parameters);
 

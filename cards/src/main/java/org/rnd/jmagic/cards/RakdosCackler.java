@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Unleash;
 import org.rnd.jmagic.engine.*;
 
 @Name("Rakdos Cackler")
@@ -20,6 +21,6 @@ public final class RakdosCackler extends Card
 		// Unleash (You may have this creature enter the battlefield with a
 		// +1/+1 counter on it. It can't block as long as it has a +1/+1 counter
 		// on it.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Unleash(state));
+		this.addAbility(new Unleash(state));
 	}
 }

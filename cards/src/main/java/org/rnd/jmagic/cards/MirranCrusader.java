@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.DoubleStrike;
+import org.rnd.jmagic.abilities.keywords.Protection;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -19,7 +21,7 @@ public final class MirranCrusader extends Card
 		this.setToughness(2);
 
 		// Double strike, protection from black and from green
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.DoubleStrike(state));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Protection.From(state, HasColor.instance(Color.BLACK, Color.GREEN), "black and from green"));
+		this.addAbility(new DoubleStrike(state));
+		this.addAbility(new Protection.From(state, HasColor.instance(Color.BLACK, Color.GREEN), "black and from green"));
 	}
 }

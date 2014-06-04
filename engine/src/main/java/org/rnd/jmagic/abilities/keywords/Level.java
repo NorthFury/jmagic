@@ -5,6 +5,9 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public final class Level extends Keyword
 {
 	public static final class LevelAbility extends StaticAbility
@@ -159,9 +162,9 @@ public final class Level extends Keyword
 	}
 
 	@Override
-	protected java.util.List<StaticAbility> createStaticAbilities()
+	protected List<StaticAbility> createStaticAbilities()
 	{
-		java.util.LinkedList<StaticAbility> ret = new java.util.LinkedList<StaticAbility>();
+		LinkedList<StaticAbility> ret = new LinkedList<StaticAbility>();
 		ret.add(new LevelAbility(this.state, this.keywordName, this.minimumLevel, this.maximumLevel, this.power, this.toughness, this.abilities));
 		return ret;
 	}

@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Vanishing;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -33,10 +36,10 @@ public final class AvenRiftwatcher extends Card
 		this.setToughness(3);
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// Vanishing 3
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Vanishing(state, 3));
+		this.addAbility(new Vanishing(state, 3));
 
 		// When Aven Riftwatcher enters the battlefield or leaves the
 		// battlefield, you gain 2 life.

@@ -1,5 +1,8 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.TapForMana;
+import org.rnd.jmagic.abilities.Werewolves;
+import org.rnd.jmagic.abilities.keywords.Vigilance;
 import org.rnd.jmagic.engine.*;
 
 @Name("Moonscarred Werewolf")
@@ -19,13 +22,13 @@ public final class MoonscarredWerewolf extends AlternateCard
 		this.setColorIndicator(Color.GREEN);
 
 		// Vigilance
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Vigilance(state));
+		this.addAbility(new Vigilance(state));
 
 		// (T): Add (G)(G) to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapForMana.Final(state, "(G)(G)"));
+		this.addAbility(new TapForMana.Final(state, "(G)(G)"));
 
 		// At the beginning of each upkeep, if a player cast two or more spells
 		// last turn, transform Moonscarred Werewolf.
-		this.addAbility(new org.rnd.jmagic.abilities.Werewolves.BecomeHuman(state, this.getName()));
+		this.addAbility(new Werewolves.BecomeHuman(state, this.getName()));
 	}
 }

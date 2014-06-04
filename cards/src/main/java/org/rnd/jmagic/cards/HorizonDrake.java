@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Protection;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -19,7 +21,7 @@ public final class HorizonDrake extends Card
 		this.setToughness(1);
 
 		// Flying, protection from lands
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Protection.From(state, LandPermanents.instance(), "lands"));
+		this.addAbility(new Flying(state));
+		this.addAbility(new Protection.From(state, LandPermanents.instance(), "lands"));
 	}
 }

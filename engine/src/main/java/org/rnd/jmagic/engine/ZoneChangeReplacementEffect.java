@@ -1,5 +1,11 @@
 package org.rnd.jmagic.engine;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * Represents a replacement effect that applies to zone changes. Extend this
  * class and override match and replace in order to create prevention effects
@@ -17,19 +23,19 @@ package org.rnd.jmagic.engine;
  */
 public class ZoneChangeReplacementEffect extends ReplacementEffect
 {
-	public java.util.Collection<ZoneChange> isReplacing;
+	public Collection<ZoneChange> isReplacing;
 
 	private SetGenerator newDestination;
 	private Integer newDestinationIndex;
-	private java.util.List<EventFactory> effects;
+	private List<EventFactory> effects;
 
 	/**
 	 * Effects that happen distinctly after the zone change, with a distinct
 	 * game state in between.
 	 */
-	public java.util.List<EventFactory> afterEffects;
+	public List<EventFactory> afterEffects;
 
-	private java.util.Collection<ZoneChangePattern> patterns;
+	private Collection<ZoneChangePattern> patterns;
 	private final boolean removeReplacedZoneChanges;
 
 	/**
@@ -49,10 +55,10 @@ public class ZoneChangeReplacementEffect extends ReplacementEffect
 		super(game, name);
 		this.newDestination = null;
 		this.newDestinationIndex = null;
-		this.effects = new java.util.LinkedList<EventFactory>();
-		this.afterEffects = new java.util.LinkedList<EventFactory>();
-		this.isReplacing = new java.util.LinkedList<ZoneChange>();
-		this.patterns = new java.util.LinkedList<ZoneChangePattern>();
+		this.effects = new LinkedList<EventFactory>();
+		this.afterEffects = new LinkedList<EventFactory>();
+		this.isReplacing = new LinkedList<ZoneChange>();
+		this.patterns = new LinkedList<ZoneChangePattern>();
 		this.removeReplacedZoneChanges = removeReplacedZoneChanges;
 	}
 
@@ -133,11 +139,11 @@ public class ZoneChangeReplacementEffect extends ReplacementEffect
 	 * @return Other events to perform as a result of replacing the zone
 	 * changes.
 	 */
-	public final java.util.Collection<EventFactory> apply(java.util.Collection<ZoneChange> zoneChanges)
+	public final Collection<EventFactory> apply(Collection<ZoneChange> zoneChanges)
 	{
-		this.isReplacing = new java.util.LinkedList<ZoneChange>(zoneChanges);
+		this.isReplacing = new LinkedList<ZoneChange>(zoneChanges);
 
-		java.util.Collection<Integer> replacingEntersTheBattlefield = new java.util.LinkedList<Integer>();
+		Collection<Integer> replacingEntersTheBattlefield = new LinkedList<Integer>();
 		for(ZoneChange change: zoneChanges)
 		{
 			change.replacedBy.add(this);
@@ -145,11 +151,11 @@ public class ZoneChangeReplacementEffect extends ReplacementEffect
 				replacingEntersTheBattlefield.add(change.oldObjectID);
 		}
 
-		java.util.Collection<EventFactory> ret = null;
+		Collection<EventFactory> ret = null;
 		if(this.apply(this.game.actualState))
 			ret = this.replace(zoneChanges, replacingEntersTheBattlefield);
 		else
-			ret = java.util.Collections.emptyList();
+			ret = Collections.emptyList();
 
 		return ret;
 	}
@@ -162,9 +168,9 @@ public class ZoneChangeReplacementEffect extends ReplacementEffect
 	 * @param changes The ZoneChanges to check against.
 	 * @return Collection of ZoneChanges this effect matches against.
 	 */
-	public final java.util.Collection<ZoneChange> match(GameState state, java.util.Collection<ZoneChange> changes)
+	public final Collection<ZoneChange> match(GameState state, Collection<ZoneChange> changes)
 	{
-		java.util.Collection<ZoneChange> ret = new java.util.HashSet<ZoneChange>();
+		Collection<ZoneChange> ret = new HashSet<ZoneChange>();
 		for(ZoneChangePattern pattern: this.patterns)
 			for(ZoneChange change: changes)
 				if(pattern.match(change, this.getSourceObject(state), state))
@@ -180,7 +186,7 @@ public class ZoneChangeReplacementEffect extends ReplacementEffect
 	 * @return Other events to perform as a result of replacing the zone
 	 * changes.
 	 */
-	protected java.util.List<EventFactory> replace(java.util.Collection<ZoneChange> zoneChanges, java.util.Collection<Integer> replacingEntersTheBattlefield)
+	protected List<EventFactory> replace(Collection<ZoneChange> zoneChanges, Collection<Integer> replacingEntersTheBattlefield)
 	{
 		if(this.removeReplacedZoneChanges)
 			zoneChanges.clear();
@@ -201,8 +207,8 @@ public class ZoneChangeReplacementEffect extends ReplacementEffect
 
 	// TODO : ... Do we care?
 	@Override
-	public java.util.Collection<GameObject> refersTo(GameState state)
+	public Collection<GameObject> refersTo(GameState state)
 	{
-		return java.util.Collections.emptySet();
+		return Collections.emptySet();
 	}
 }

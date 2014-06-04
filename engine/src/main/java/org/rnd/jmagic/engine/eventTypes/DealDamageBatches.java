@@ -1,7 +1,15 @@
 package org.rnd.jmagic.engine.eventTypes;
 
+import org.rnd.jmagic.abilities.keywords.Deathtouch;
+import org.rnd.jmagic.abilities.keywords.Infect;
+import org.rnd.jmagic.abilities.keywords.Lifelink;
+import org.rnd.jmagic.abilities.keywords.Wither;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 public final class DealDamageBatches extends EventType
 {	public static final EventType INSTANCE = new DealDamageBatches();
@@ -19,7 +27,7 @@ public final class DealDamageBatches extends EventType
 
 	private boolean fakeAbilityForDamage(DamageAssignment.Batch damage, Class<? extends Keyword> ability, GameState state)
 	{
-		for(java.util.Map.Entry<Integer, ContinuousEffectType.DamageAbility> entry: state.dealDamageAsThoughHasAbility.entrySet())
+		for(Map.Entry<Integer, ContinuousEffectType.DamageAbility> entry: state.dealDamageAsThoughHasAbility.entrySet())
 			if(!entry.getValue().dp.match(damage, state.get(entry.getKey()), state).isEmpty())
 				if(entry.getValue().k.isAssignableFrom(ability))
 					return true;
@@ -27,23 +35,23 @@ public final class DealDamageBatches extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		// the structure of these maps is:
 		// map<player, map<source, amount>>
-		java.util.Map<Player, java.util.Map<GameObject, Integer>> lifeLosses = new java.util.HashMap<Player, java.util.Map<GameObject, Integer>>();
-		java.util.Map<Player, java.util.Map<GameObject, Integer>> lifeGains = new java.util.HashMap<Player, java.util.Map<GameObject, Integer>>();
+		Map<Player, Map<GameObject, Integer>> lifeLosses = new HashMap<Player, Map<GameObject, Integer>>();
+		Map<Player, Map<GameObject, Integer>> lifeGains = new HashMap<Player, Map<GameObject, Integer>>();
 		// the maps are split up in this manner because of this rule:
 		// 118.9. Some triggered abilities are written, "Whenever [a player]
 		// gains life, . . . ." Such abilities are treated as though they
 		// are written, "Whenever a source causes [a player] to gain life, .
 		// . . ."
 
-		java.util.Map<GameObject, Integer> creaturesGettingCounters = new java.util.HashMap<GameObject, Integer>();
-		java.util.Map<Player, Integer> playersGettingPoisonCounters = new java.util.HashMap<Player, Integer>();
-		java.util.Map<GameObject, Integer> planeswalkersLosingCounters = new java.util.HashMap<GameObject, Integer>();
+		Map<GameObject, Integer> creaturesGettingCounters = new HashMap<GameObject, Integer>();
+		Map<Player, Integer> playersGettingPoisonCounters = new HashMap<Player, Integer>();
+		Map<GameObject, Integer> planeswalkersLosingCounters = new HashMap<GameObject, Integer>();
 
-		java.util.Set<DamageAssignment> assignments = parameters.get(Parameter.TARGET).getAll(DamageAssignment.class);
+		Set<DamageAssignment> assignments = parameters.get(Parameter.TARGET).getAll(DamageAssignment.class);
 		for(DamageAssignment assignment: assignments)
 		{
 			// for checking as-though effects:
@@ -53,15 +61,15 @@ public final class DealDamageBatches extends EventType
 			GameObject source = game.actualState.get(assignment.sourceID);
 			Identified taker = game.actualState.get(assignment.takerID);
 
-			boolean lifelink = source.hasAbility(org.rnd.jmagic.abilities.keywords.Lifelink.class);
+			boolean lifelink = source.hasAbility(Lifelink.class);
 			if(!lifelink)
-				lifelink = fakeAbilityForDamage(batch, org.rnd.jmagic.abilities.keywords.Lifelink.class, game.actualState);
+				lifelink = fakeAbilityForDamage(batch, Lifelink.class, game.actualState);
 			if(lifelink)
 			{
 				Player controller = source.getController(source.state);
 				if(lifeGains.containsKey(controller))
 				{
-					java.util.Map<GameObject, Integer> lifeGain = lifeGains.get(controller);
+					Map<GameObject, Integer> lifeGain = lifeGains.get(controller);
 					if(lifeGain.containsKey(source))
 						lifeGain.put(source, lifeGain.get(source) + 1);
 					else
@@ -69,15 +77,15 @@ public final class DealDamageBatches extends EventType
 				}
 				else
 				{
-					java.util.Map<GameObject, Integer> lifeGain = new java.util.HashMap<GameObject, Integer>();
+					Map<GameObject, Integer> lifeGain = new HashMap<GameObject, Integer>();
 					lifeGain.put(source, 1);
 					lifeGains.put(controller, lifeGain);
 				}
 			}
 
-			boolean infect = source.hasAbility(org.rnd.jmagic.abilities.keywords.Infect.class);
+			boolean infect = source.hasAbility(Infect.class);
 			if(!infect)
-				infect = fakeAbilityForDamage(batch, org.rnd.jmagic.abilities.keywords.Infect.class, game.actualState);
+				infect = fakeAbilityForDamage(batch, Infect.class, game.actualState);
 			if(taker.isPlayer())
 			{
 				Player losingLife = (Player)taker;
@@ -93,7 +101,7 @@ public final class DealDamageBatches extends EventType
 				{
 					if(lifeLosses.containsKey(losingLife))
 					{
-						java.util.Map<GameObject, Integer> lifeLoss = lifeLosses.get(losingLife);
+						Map<GameObject, Integer> lifeLoss = lifeLosses.get(losingLife);
 						if(lifeLoss.containsKey(source))
 							lifeLoss.put(source, lifeLoss.get(source) + 1);
 						else
@@ -101,7 +109,7 @@ public final class DealDamageBatches extends EventType
 					}
 					else
 					{
-						java.util.Map<GameObject, Integer> lifeLoss = new java.util.HashMap<GameObject, Integer>();
+						Map<GameObject, Integer> lifeLoss = new HashMap<GameObject, Integer>();
 						lifeLoss.put(source, 1);
 						lifeLosses.put(losingLife, lifeLoss);
 					}
@@ -116,9 +124,9 @@ public final class DealDamageBatches extends EventType
 			{
 				// If the source has wither/infect add -1/-1 counters,
 				// otherwise, increment damage
-				boolean wither = source.hasAbility(org.rnd.jmagic.abilities.keywords.Wither.class);
+				boolean wither = source.hasAbility(Wither.class);
 				if(!wither)
-					wither = fakeAbilityForDamage(batch, org.rnd.jmagic.abilities.keywords.Wither.class, game.actualState);
+					wither = fakeAbilityForDamage(batch, Wither.class, game.actualState);
 				if(wither || infect)
 				{
 					if(!creaturesGettingCounters.containsKey(takerObject))
@@ -132,7 +140,7 @@ public final class DealDamageBatches extends EventType
 					// Mark any creature damaged by deathtouch so SBAs can
 					// destroy them
 					GameObject physical = takerObject.getPhysical();
-					if(source.hasAbility(org.rnd.jmagic.abilities.keywords.Deathtouch.class))
+					if(source.hasAbility(Deathtouch.class))
 						physical.setDamagedByDeathtouchSinceLastSBA(true);
 					physical.setDamage(physical.getDamage() + 1);
 				}
@@ -147,23 +155,23 @@ public final class DealDamageBatches extends EventType
 			}
 		}
 
-		for(java.util.Map.Entry<Player, Integer> playerPoisonCounter: playersGettingPoisonCounters.entrySet())
+		for(Map.Entry<Player, Integer> playerPoisonCounter: playersGettingPoisonCounters.entrySet())
 		{
 			Player player = playerPoisonCounter.getKey();
 			int number = playerPoisonCounter.getValue();
 
-			java.util.Map<Parameter, MagicSet> witherParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> witherParameters = new HashMap<Parameter, MagicSet>();
 			witherParameters.put(Parameter.PLAYER, new MagicSet(player));
 			witherParameters.put(Parameter.NUMBER, new MagicSet(number));
 			createEvent(game, "Put " + number + " poison counter" + (number == 1 ? "" : "s") + " on " + player + ".", ADD_POISON_COUNTERS, witherParameters).perform(event, false);
 		}
 
-		for(java.util.Map.Entry<Player, java.util.Map<GameObject, Integer>> playerLifeGain: lifeGains.entrySet())
+		for(Map.Entry<Player, Map<GameObject, Integer>> playerLifeGain: lifeGains.entrySet())
 		{
 			Player player = playerLifeGain.getKey();
-			for(java.util.Map.Entry<GameObject, Integer> lifeGain: playerLifeGain.getValue().entrySet())
+			for(Map.Entry<GameObject, Integer> lifeGain: playerLifeGain.getValue().entrySet())
 			{
-				java.util.Map<Parameter, MagicSet> gainLifeParameters = new java.util.HashMap<Parameter, MagicSet>();
+				Map<Parameter, MagicSet> gainLifeParameters = new HashMap<Parameter, MagicSet>();
 				gainLifeParameters.put(Parameter.CAUSE, new MagicSet(lifeGain.getKey()));
 				gainLifeParameters.put(Parameter.PLAYER, new MagicSet(player));
 				gainLifeParameters.put(Parameter.NUMBER, new MagicSet(lifeGain.getValue()));
@@ -171,12 +179,12 @@ public final class DealDamageBatches extends EventType
 			}
 		}
 
-		for(java.util.Map.Entry<Player, java.util.Map<GameObject, Integer>> playerLifeLoss: lifeLosses.entrySet())
+		for(Map.Entry<Player, Map<GameObject, Integer>> playerLifeLoss: lifeLosses.entrySet())
 		{
 			Player player = playerLifeLoss.getKey();
-			for(java.util.Map.Entry<GameObject, Integer> lifeLoss: playerLifeLoss.getValue().entrySet())
+			for(Map.Entry<GameObject, Integer> lifeLoss: playerLifeLoss.getValue().entrySet())
 			{
-				java.util.Map<Parameter, MagicSet> loseLifeParameters = new java.util.HashMap<Parameter, MagicSet>();
+				Map<Parameter, MagicSet> loseLifeParameters = new HashMap<Parameter, MagicSet>();
 				loseLifeParameters.put(Parameter.CAUSE, new MagicSet(lifeLoss.getKey()));
 				loseLifeParameters.put(Parameter.PLAYER, new MagicSet(player));
 				loseLifeParameters.put(Parameter.NUMBER, new MagicSet(lifeLoss.getValue()));
@@ -186,12 +194,12 @@ public final class DealDamageBatches extends EventType
 		}
 
 		// same for creatures and -1/-1 counters
-		for(java.util.Map.Entry<GameObject, Integer> witherCounter: creaturesGettingCounters.entrySet())
+		for(Map.Entry<GameObject, Integer> witherCounter: creaturesGettingCounters.entrySet())
 		{
 			GameObject taker = witherCounter.getKey();
 			int number = witherCounter.getValue();
 
-			java.util.Map<Parameter, MagicSet> witherParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> witherParameters = new HashMap<Parameter, MagicSet>();
 			witherParameters.put(Parameter.CAUSE, new MagicSet(game));
 			witherParameters.put(Parameter.COUNTER, new MagicSet(Counter.CounterType.MINUS_ONE_MINUS_ONE));
 			witherParameters.put(Parameter.NUMBER, new MagicSet(number));
@@ -199,12 +207,12 @@ public final class DealDamageBatches extends EventType
 			createEvent(game, "Put " + number + " -1/-1 counter" + (number == 1 ? "" : "s") + " on " + taker + ".", PUT_COUNTERS, witherParameters).perform(event, false);
 		}
 
-		for(java.util.Map.Entry<GameObject, Integer> loyaltyCounter: planeswalkersLosingCounters.entrySet())
+		for(Map.Entry<GameObject, Integer> loyaltyCounter: planeswalkersLosingCounters.entrySet())
 		{
 			GameObject taker = loyaltyCounter.getKey();
 			int number = planeswalkersLosingCounters.get(taker);
 
-			java.util.Map<Parameter, MagicSet> removeCounterParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> removeCounterParameters = new HashMap<Parameter, MagicSet>();
 			removeCounterParameters.put(Parameter.CAUSE, new MagicSet(game));
 			removeCounterParameters.put(Parameter.COUNTER, new MagicSet(Counter.CounterType.LOYALTY));
 			removeCounterParameters.put(Parameter.NUMBER, new MagicSet(number));

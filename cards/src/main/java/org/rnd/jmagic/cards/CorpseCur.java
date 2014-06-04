@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Infect;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -20,7 +22,7 @@ public final class CorpseCur extends Card
 			this.addPattern(whenThisEntersTheBattlefield());
 
 			SetGenerator yourGraveyard = GraveyardOf.instance(You.instance());
-			SetGenerator target = targetedBy(this.addTarget(Intersect.instance(HasType.instance(Type.CREATURE), InZone.instance(yourGraveyard), HasKeywordAbility.instance(org.rnd.jmagic.abilities.keywords.Infect.class)), "target creature card with infect in your graveyard"));
+			SetGenerator target = targetedBy(this.addTarget(Intersect.instance(HasType.instance(Type.CREATURE), InZone.instance(yourGraveyard), HasKeywordAbility.instance(Infect.class)), "target creature card with infect in your graveyard"));
 
 			EventFactory factory = new EventFactory(EventType.MOVE_OBJECTS, "Return target creature card with infect from your graveyard to your hand.");
 			factory.parameters.put(EventType.Parameter.CAUSE, This.instance());
@@ -39,7 +41,7 @@ public final class CorpseCur extends Card
 
 		// Infect (This creature deals damage to creatures in the form of -1/-1
 		// counters and to players in the form of poison counters.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Infect(state));
+		this.addAbility(new Infect(state));
 
 		// When Corpse Cur enters the battlefield, you may return target
 		// creature card with infect from your graveyard to your hand.

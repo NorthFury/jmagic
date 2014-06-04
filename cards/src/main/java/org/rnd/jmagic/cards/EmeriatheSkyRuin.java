@@ -2,6 +2,8 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.EntersTheBattlefieldTapped;
+import org.rnd.jmagic.abilities.TapForW;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -18,7 +20,7 @@ public final class EmeriatheSkyRuin extends Card
 			super(state, "At the beginning of your upkeep, if you control seven or more Plains, you may return target creature card from your graveyard to the battlefield.");
 			this.addPattern(atTheBeginningOfYourUpkeep());
 
-			SetGenerator yourPlains = Intersect.instance(HasSubType.instance(SubType.PLAINS), org.rnd.jmagic.engine.generators.ControlledBy.instance(You.instance()));
+			SetGenerator yourPlains = Intersect.instance(HasSubType.instance(SubType.PLAINS), ControlledBy.instance(You.instance()));
 			this.interveningIf = Intersect.instance(Count.instance(yourPlains), Between.instance(7, null));
 
 			Target target = this.addTarget(Intersect.instance(HasType.instance(Type.CREATURE), InZone.instance(GraveyardOf.instance(You.instance()))), "target creature card from your graveyard");
@@ -37,7 +39,7 @@ public final class EmeriatheSkyRuin extends Card
 		super(state);
 
 		// Emeria, the Sky Ruin enters the battlefield tapped.
-		this.addAbility(new org.rnd.jmagic.abilities.EntersTheBattlefieldTapped(state, this.getName()));
+		this.addAbility(new EntersTheBattlefieldTapped(state, this.getName()));
 
 		// At the beginning of your upkeep, if you control seven or more Plains,
 		// you may return target creature card from your graveyard to the
@@ -45,6 +47,6 @@ public final class EmeriatheSkyRuin extends Card
 		this.addAbility(new LateGameInevitability(state));
 
 		// (T): Add (W) to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapForW(state));
+		this.addAbility(new TapForW(state));
 	}
 }

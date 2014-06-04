@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Kicker;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -16,7 +17,7 @@ public final class MarshCasualties extends Card
 	{
 		super(state);
 
-		org.rnd.jmagic.abilities.keywords.Kicker ability = new org.rnd.jmagic.abilities.keywords.Kicker(state, "(3)");
+		Kicker ability = new Kicker(state, "(3)");
 		this.addAbility(ability);
 
 		// Kicker (3) (You may pay an additional (3) as you cast this spell.)

@@ -1,5 +1,8 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.FirstStrike;
+import org.rnd.jmagic.abilities.keywords.Protection;
+import org.rnd.jmagic.abilities.keywords.Vigilance;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -11,7 +14,7 @@ import org.rnd.jmagic.engine.generators.*;
 @ColorIdentity({Color.WHITE})
 public final class EliteInquisitor extends Card
 {
-	public static final class EliteInquisitorAbility1 extends org.rnd.jmagic.abilities.keywords.Protection
+	public static final class EliteInquisitorAbility1 extends Protection
 	{
 		private static SetGenerator from()
 		{
@@ -32,8 +35,8 @@ public final class EliteInquisitor extends Card
 		this.setToughness(2);
 
 		// First strike, vigilance
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.FirstStrike(state));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Vigilance(state));
+		this.addAbility(new FirstStrike(state));
+		this.addAbility(new Vigilance(state));
 
 		// Protection from Vampires, from Werewolves, and from Zombies
 		this.addAbility(new EliteInquisitorAbility1(state));

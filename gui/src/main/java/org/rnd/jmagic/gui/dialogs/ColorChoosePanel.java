@@ -3,37 +3,50 @@ package org.rnd.jmagic.gui.dialogs;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.gui.*;
 
-public class ColorChoosePanel extends javax.swing.JPanel
+import javax.swing.JPanel;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.geom.Arc2D;
+import java.util.Collections;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class ColorChoosePanel extends JPanel
 {
 	private static final long serialVersionUID = 1L;
 
-	public final java.util.Map<java.awt.geom.Arc2D, org.rnd.jmagic.engine.Color> colors;
-	private org.rnd.jmagic.engine.Color choice;
+	public final Map<Arc2D, Color> colors;
+	private Color choice;
 	public boolean choiceReady;
 
-	public ColorChoosePanel(final Play gui, final java.util.List<org.rnd.jmagic.engine.Color> choices)
+	public ColorChoosePanel(final Play gui, final List<Color> choices)
 	{
 		this.choiceReady = false;
 		this.choice = null;
-		this.colors = new java.util.HashMap<java.awt.geom.Arc2D, org.rnd.jmagic.engine.Color>();
+		this.colors = new HashMap<Arc2D, Color>();
 
 		this.setSize(100, 100);
-		this.setPreferredSize(new java.awt.Dimension(100, 100));
+		this.setPreferredSize(new Dimension(100, 100));
 
-		java.util.EnumSet<Color> colorsSet = java.util.EnumSet.copyOf(choices);
+		EnumSet<Color> colorsSet = EnumSet.copyOf(choices);
 
 		int wedgeDegrees = -360 / colorsSet.size();
 		int initAngle = 90 - (wedgeDegrees / 2);
 		int i = 0;
-		for(org.rnd.jmagic.engine.Color color: colorsSet)
-			this.colors.put(new java.awt.geom.Arc2D.Float(0, 0, this.getWidth(), this.getHeight(), initAngle + i++ * wedgeDegrees, wedgeDegrees, java.awt.geom.Arc2D.PIE), color);
+		for(Color color: colorsSet)
+			this.colors.put(new Arc2D.Float(0, 0, this.getWidth(), this.getHeight(), initAngle + i++ * wedgeDegrees, wedgeDegrees, Arc2D.PIE), color);
 
-		this.addMouseListener(new java.awt.event.MouseAdapter()
+		this.addMouseListener(new MouseAdapter()
 		{
 			@Override
-			public void mouseClicked(java.awt.event.MouseEvent e)
+			public void mouseClicked(MouseEvent e)
 			{
-				for(java.awt.geom.Arc2D arc: ColorChoosePanel.this.colors.keySet())
+				for(Arc2D arc: ColorChoosePanel.this.colors.keySet())
 				{
 					if(arc.contains(e.getPoint()))
 					{
@@ -42,9 +55,9 @@ public class ColorChoosePanel extends javax.swing.JPanel
 						int i = choices.indexOf(color);
 
 						if(i != -1)
-							gui.choose = java.util.Collections.singletonList(i);
+							gui.choose = Collections.singletonList(i);
 						else
-							gui.choose = java.util.Collections.emptyList();
+							gui.choose = Collections.emptyList();
 						gui.choiceReady();
 					}
 				}
@@ -53,12 +66,12 @@ public class ColorChoosePanel extends javax.swing.JPanel
 	}
 
 	@Override
-	public void paintComponent(java.awt.Graphics g)
+	public void paintComponent(Graphics g)
 	{
 		super.paintComponent(g);
 
-		java.awt.Graphics2D g2 = (java.awt.Graphics2D)g;
-		for(java.awt.geom.Arc2D arc: this.colors.keySet())
+		Graphics2D g2 = (Graphics2D)g;
+		for(Arc2D arc: this.colors.keySet())
 		{
 			java.awt.Color newColor = null;
 			switch(this.colors.get(arc))
@@ -84,7 +97,7 @@ public class ColorChoosePanel extends javax.swing.JPanel
 		}
 	}
 
-	public org.rnd.jmagic.engine.Color getChoice()
+	public Color getChoice()
 	{
 		return this.choice;
 	}

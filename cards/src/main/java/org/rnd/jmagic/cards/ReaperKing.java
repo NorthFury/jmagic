@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.StaticPTChange;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -34,7 +36,7 @@ public final class ReaperKing extends Card
 
 		// Other Scarecrow creatures you control get +1/+1.
 		SetGenerator yourOtherScarecrows = Intersect.instance(HasSubType.instance(SubType.SCARECROW), CREATURES_YOU_CONTROL);
-		this.addAbility(new org.rnd.jmagic.abilities.StaticPTChange(state, yourOtherScarecrows, "Other Scarecrow creatures you control", +1, +1, true));
+		this.addAbility(new StaticPTChange(state, yourOtherScarecrows, "Other Scarecrow creatures you control", +1, +1, true));
 
 		// Whenever another Scarecrow enters the battlefield under your control,
 		// destroy target permanent.

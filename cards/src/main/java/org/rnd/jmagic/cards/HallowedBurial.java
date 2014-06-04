@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.Convenience;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -16,7 +17,7 @@ public final class HallowedBurial extends Card
 
 		EventFactory factory = new EventFactory(EventType.PUT_INTO_LIBRARY, "Put all creatures on the bottom of their owners' libraries.");
 		factory.parameters.put(EventType.Parameter.CAUSE, This.instance());
-		factory.parameters.put(EventType.Parameter.INDEX, org.rnd.jmagic.Convenience.numberGenerator(-1));
+		factory.parameters.put(EventType.Parameter.INDEX, Convenience.numberGenerator(-1));
 		factory.parameters.put(EventType.Parameter.OBJECT, CreaturePermanents.instance());
 		this.addEffect(factory);
 	}

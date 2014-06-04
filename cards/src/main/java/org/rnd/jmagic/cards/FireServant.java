@@ -3,6 +3,10 @@ package org.rnd.jmagic.cards;
 import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
+
 @Name("Fire Servant")
 @Types({Type.CREATURE})
 @SubTypes({SubType.ELEMENTAL})
@@ -37,14 +41,14 @@ public final class FireServant extends Card
 		}
 
 		@Override
-		public java.util.List<EventFactory> replace(DamageAssignment.Batch damageAssignments)
+		public List<EventFactory> replace(DamageAssignment.Batch damageAssignments)
 		{
-			java.util.Collection<DamageAssignment> duplicates = new java.util.LinkedList<DamageAssignment>();
+			Collection<DamageAssignment> duplicates = new LinkedList<DamageAssignment>();
 			for(DamageAssignment assignment: damageAssignments)
 				duplicates.add(new DamageAssignment(assignment));
 			damageAssignments.addAll(duplicates);
 
-			return new java.util.LinkedList<EventFactory>();
+			return new LinkedList<EventFactory>();
 		}
 	}
 

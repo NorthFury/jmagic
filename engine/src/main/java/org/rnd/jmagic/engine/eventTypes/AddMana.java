@@ -3,6 +3,11 @@ package org.rnd.jmagic.engine.eventTypes;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.Collections;
+import java.util.EnumSet;
+import java.util.Map;
+import java.util.Set;
+
 public final class AddMana extends EventType
 {	public static final EventType INSTANCE = new AddMana();
 
@@ -24,12 +29,12 @@ public final class AddMana extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		MagicSet result = new MagicSet();
 		Identified producer = parameters.get(Parameter.SOURCE).getOne(Identified.class);
-		java.util.Set<Color> colors = parameters.get(Parameter.MANA).getAll(Color.class);
-		java.util.Set<ManaSymbol.ManaType> types = parameters.get(Parameter.MANA).getAll(ManaSymbol.ManaType.class);
+		Set<Color> colors = parameters.get(Parameter.MANA).getAll(Color.class);
+		Set<ManaSymbol.ManaType> types = parameters.get(Parameter.MANA).getAll(ManaSymbol.ManaType.class);
 		ManaPool pool = new ManaPool();
 
 		ManaSymbol addition = new ManaSymbol("");
@@ -82,7 +87,7 @@ public final class AddMana extends EventType
 		for(Player actualPlayer: parameters.get(Parameter.PLAYER).getAll(Player.class))
 		{
 			Player physicalPlayer = actualPlayer.getPhysical();
-			java.util.Set<CostCollection> choices = pool.explode("Add");
+			Set<CostCollection> choices = pool.explode("Add");
 			// TODO : Ticket 430
 
 			ManaPool chosen = null;
@@ -118,15 +123,15 @@ public final class AddMana extends EventType
 
 				if(allSingleColorSymbols)
 				{
-					java.util.Set<Color> colorChoices = java.util.EnumSet.noneOf(Color.class);
+					Set<Color> colorChoices = EnumSet.noneOf(Color.class);
 					for(CostCollection choice: choices)
 						colorChoices.add(choice.manaCost.first().colors.iterator().next());
 					Color chosenColor = physicalPlayer.chooseColor(colorChoices, producer.ID);
 
 					ManaSymbol s = pool.first().create();
-					s.colors = java.util.EnumSet.of(chosenColor);
+					s.colors = EnumSet.of(chosenColor);
 					s.colorless = 0;
-					chosen = new ManaPool(java.util.Collections.singleton(s));
+					chosen = new ManaPool(Collections.singleton(s));
 				}
 				else
 					chosen = physicalPlayer.sanitizeAndChoose(game.actualState, 1, choices, PlayerInterface.ChoiceType.MANA_EXPLOSION, PlayerInterface.ChooseReason.HYBRID_MANA).iterator().next().manaCost;

@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Cycling;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -35,7 +36,7 @@ public final class ResoundingThunder extends Card
 		Target target = this.addTarget(CREATURES_AND_PLAYERS, "target creature or player");
 		this.addEffect(spellDealDamage(3, targetedBy(target), "Resounding Thunder deals 3 damage to target creature or player."));
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Cycling(state, "(5)(B)(R)(G)"));
+		this.addAbility(new Cycling(state, "(5)(B)(R)(G)"));
 		this.addAbility(new ResoundingTrigger(state));
 	}
 }

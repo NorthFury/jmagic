@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.StaticPTChange;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -33,11 +35,11 @@ public final class CrovaxAscendantHero extends Card
 		// Other white creatures get +1/+1.
 		SetGenerator whiteCreatures = Intersect.instance(CreaturePermanents.instance(), HasColor.instance(Color.WHITE));
 		SetGenerator otherWhiteCreatures = RelativeComplement.instance(whiteCreatures, This.instance());
-		this.addAbility(new org.rnd.jmagic.abilities.StaticPTChange(state, otherWhiteCreatures, "Other white creatures", +1, +1, true));
+		this.addAbility(new StaticPTChange(state, otherWhiteCreatures, "Other white creatures", +1, +1, true));
 
 		// Nonwhite creatures get -1/-1.
 		SetGenerator nonwhiteCreatures = RelativeComplement.instance(CreaturePermanents.instance(), HasColor.instance(Color.WHITE));
-		this.addAbility(new org.rnd.jmagic.abilities.StaticPTChange(state, nonwhiteCreatures, "Nonwhite creatures", -1, -1, true));
+		this.addAbility(new StaticPTChange(state, nonwhiteCreatures, "Nonwhite creatures", -1, -1, true));
 
 		// Pay 2 life: Return Crovax, Ascendant Hero to its owner's hand.
 		this.addAbility(new CrovaxAscendantHeroAbility2(state));

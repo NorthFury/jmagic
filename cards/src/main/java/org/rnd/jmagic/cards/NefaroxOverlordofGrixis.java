@@ -1,6 +1,10 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Exalted;
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilityTemplates.ExaltedBase;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -13,7 +17,7 @@ import org.rnd.jmagic.engine.generators.*;
 @ColorIdentity({Color.BLACK})
 public final class NefaroxOverlordofGrixis extends Card
 {
-	public static final class NefaroxOverlordofGrixisAbility2 extends org.rnd.jmagic.abilityTemplates.ExaltedBase
+	public static final class NefaroxOverlordofGrixisAbility2 extends ExaltedBase
 	{
 		public NefaroxOverlordofGrixisAbility2(GameState state)
 		{
@@ -32,11 +36,11 @@ public final class NefaroxOverlordofGrixis extends Card
 		this.setToughness(5);
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// Exalted (Whenever a creature you control attacks alone, that creature
 		// gets +1/+1 until end of turn.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Exalted(state));
+		this.addAbility(new Exalted(state));
 
 		// Whenever Nefarox, Overlord of Grixis attacks alone, defending player
 		// sacrifices a creature.

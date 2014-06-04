@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Enchant;
+import org.rnd.jmagic.abilities.keywords.FirstStrike;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -24,7 +27,7 @@ public final class ClawsofValakut extends Card
 			SetGenerator amount = Count.instance(Intersect.instance(mountains, youControl));
 
 			this.addEffectPart(modifyPowerAndToughness(enchantedCreature, amount, numberGenerator(0)));
-			this.addEffectPart(addAbilityToObject(enchantedCreature, org.rnd.jmagic.abilities.keywords.FirstStrike.class));
+			this.addEffectPart(addAbilityToObject(enchantedCreature, FirstStrike.class));
 		}
 	}
 
@@ -33,7 +36,7 @@ public final class ClawsofValakut extends Card
 		super(state);
 
 		// Enchant creature
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Enchant.Creature(state));
+		this.addAbility(new Enchant.Creature(state));
 
 		// Enchanted creature gets +1/+0 for each Mountain you control and has
 		// first strike.

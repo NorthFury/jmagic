@@ -2,6 +2,8 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Dredge;
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -33,7 +35,7 @@ public final class StinkweedImp extends Card
 		this.setToughness(2);
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// Whenever Stinkweed Imp deals combat damage to a creature, destroy
 		// that creature.
@@ -43,6 +45,6 @@ public final class StinkweedImp extends Card
 		// cards from the top of your library into your graveyard. If you do,
 		// return this card from your graveyard to your hand. Otherwise, draw a
 		// card.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Dredge(state, 5));
+		this.addAbility(new Dredge(state, 5));
 	}
 }

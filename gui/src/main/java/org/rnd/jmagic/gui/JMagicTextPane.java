@@ -3,8 +3,23 @@ package org.rnd.jmagic.gui;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.sanitized.*;
+import org.rnd.util.NumberNames;
+import org.rnd.util.SeparatedList;
 
-public class JMagicTextPane extends javax.swing.JTextPane
+import javax.swing.ImageIcon;
+import javax.swing.JTextPane;
+import javax.swing.border.EmptyBorder;
+import javax.swing.text.DefaultCaret;
+import javax.swing.text.Style;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
+import java.lang.String;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
+public class JMagicTextPane extends JTextPane
 {
 	private static final long serialVersionUID = 1L;
 
@@ -18,14 +33,14 @@ public class JMagicTextPane extends javax.swing.JTextPane
 	public JMagicTextPane(boolean largeIcons)
 	{
 		this.largeIcons = largeIcons;
-		this.setBorder(new javax.swing.border.EmptyBorder(0, 0, 0, 0));
+		this.setBorder(new EmptyBorder(0, 0, 0, 0));
 		this.setEditable(false);
 
-		javax.swing.text.DefaultCaret caret = (javax.swing.text.DefaultCaret)(this.getCaret());
-		caret.setUpdatePolicy(javax.swing.text.DefaultCaret.NEVER_UPDATE);
+		DefaultCaret caret = (DefaultCaret)(this.getCaret());
+		caret.setUpdatePolicy(DefaultCaret.NEVER_UPDATE);
 	}
 
-	public static String getModeChoiceText(org.rnd.jmagic.engine.MagicSet number)
+	public static String getModeChoiceText(MagicSet number)
 	{
 		Integer lower = Minimum.get(number);
 		Integer upper = Maximum.get(number);
@@ -33,13 +48,13 @@ public class JMagicTextPane extends javax.swing.JTextPane
 			lower = 1;
 
 		if(lower.equals(upper))
-			return "Choose " + org.rnd.util.NumberNames.get(lower);
+			return "Choose " + NumberNames.get(lower);
 		else if(upper == null)
-			return "Choose " + org.rnd.util.NumberNames.get(lower) + " or more";
+			return "Choose " + NumberNames.get(lower) + " or more";
 		else if(lower == 1 && upper == 2)
 			return "Choose one or both";
 		else
-			return "Choose between " + org.rnd.util.NumberNames.get(lower) + " and " + org.rnd.util.NumberNames.get(upper);
+			return "Choose between " + NumberNames.get(lower) + " and " + NumberNames.get(upper);
 	}
 
 	@Override
@@ -49,23 +64,23 @@ public class JMagicTextPane extends javax.swing.JTextPane
 	}
 
 	@Override
-	public void setText(java.lang.String text)
+	public void setText(String text)
 	{
 		this.setText(text, null);
 	}
 
-	public void setText(java.lang.String text, java.util.Map<Integer, Integer> bolds)
+	public void setText(String text, Map<Integer, Integer> bolds)
 	{
 		super.setText(text);
 
-		javax.swing.text.StyledDocument document = this.getStyledDocument();
-		java.util.Map<String, javax.swing.text.Style> styles = new java.util.HashMap<String, javax.swing.text.Style>();
+		StyledDocument document = this.getStyledDocument();
+		Map<String, Style> styles = new HashMap<String, Style>();
 
 		// Use the style from the first position in the text before any styles
 		// have been applied
-		javax.swing.text.Style defaultStyle = document.getLogicalStyle(0);
-		javax.swing.text.Style halfSize = document.addStyle("half-size", defaultStyle);
-		javax.swing.text.StyleConstants.setFontSize(halfSize, javax.swing.text.StyleConstants.getFontSize(defaultStyle) / 2);
+		Style defaultStyle = document.getLogicalStyle(0);
+		Style halfSize = document.addStyle("half-size", defaultStyle);
+		StyleConstants.setFontSize(halfSize, StyleConstants.getFontSize(defaultStyle) / 2);
 
 		int leftParenthesis = text.indexOf('(');
 		while(-1 != leftParenthesis)
@@ -73,13 +88,13 @@ public class JMagicTextPane extends javax.swing.JTextPane
 			int rightParenthesis = text.indexOf(')', leftParenthesis);
 			String symbol = text.substring(leftParenthesis, rightParenthesis + 1);
 
-			javax.swing.text.Style style;
+			Style style;
 			if(styles.containsKey(symbol))
 				style = styles.get(symbol);
 			else
 			{
 				style = document.addStyle(symbol, null);
-				javax.swing.text.StyleConstants.setIcon(style, new javax.swing.ImageIcon(CardGraphics.getIcon(symbol, !this.largeIcons)));
+				StyleConstants.setIcon(style, new ImageIcon(CardGraphics.getIcon(symbol, !this.largeIcons)));
 				styles.put(symbol, style);
 			}
 
@@ -89,10 +104,10 @@ public class JMagicTextPane extends javax.swing.JTextPane
 
 		if(null != bolds)
 		{
-			for(java.util.Map.Entry<Integer, Integer> e: bolds.entrySet())
+			for(Map.Entry<Integer, Integer> e: bolds.entrySet())
 			{
-				javax.swing.text.Style boldStyle = document.addStyle("bold", null);
-				javax.swing.text.StyleConstants.setBold(boldStyle, true);
+				Style boldStyle = document.addStyle("bold", null);
+				StyleConstants.setBold(boldStyle, true);
 				document.setCharacterAttributes(e.getKey(), e.getValue() - e.getKey() + 1, boldStyle, false);
 			}
 		}
@@ -112,7 +127,7 @@ public class JMagicTextPane extends javax.swing.JTextPane
 
 		if(o.counters.size() > 0)
 		{
-			java.util.Map<Counter.CounterType, Integer> counterQuantities = new java.util.HashMap<Counter.CounterType, Integer>();
+			Map<Counter.CounterType, Integer> counterQuantities = new HashMap<Counter.CounterType, Integer>();
 			for(Counter counter: o.counters)
 			{
 				if(counterQuantities.containsKey(counter.getType()))
@@ -122,7 +137,7 @@ public class JMagicTextPane extends javax.swing.JTextPane
 			}
 
 			// Use the EnumSet to order the output consistently
-			for(java.util.Map.Entry<Counter.CounterType, Integer> counterQuantity: counterQuantities.entrySet())
+			for(Map.Entry<Counter.CounterType, Integer> counterQuantity: counterQuantities.entrySet())
 			{
 				Counter.CounterType type = counterQuantity.getKey();
 				Integer count = counterQuantity.getValue();
@@ -207,8 +222,8 @@ public class JMagicTextPane extends javax.swing.JTextPane
 			firstLine = false;
 		}
 
-		java.util.Map<Integer, Integer> bolds = new java.util.HashMap<Integer, Integer>();
-		java.util.List<String> keywordStrings = new java.util.LinkedList<String>();
+		Map<Integer, Integer> bolds = new HashMap<Integer, Integer>();
+		List<String> keywordStrings = new LinkedList<String>();
 		abilityLoop: for(int abilityID: c.abilities)
 		{
 			// -1 is a marker for where on the card the modes with effects are
@@ -283,7 +298,7 @@ public class JMagicTextPane extends javax.swing.JTextPane
 
 			if(!keywordStrings.isEmpty())
 			{
-				StringBuilder keywordText = org.rnd.util.SeparatedList.get("", keywordStrings);
+				StringBuilder keywordText = SeparatedList.get("", keywordStrings);
 				textBuilder.append((firstLine ? "" : "\n\n") + keywordText);
 				firstLine = false;
 				keywordStrings.clear();
@@ -294,7 +309,7 @@ public class JMagicTextPane extends javax.swing.JTextPane
 
 		if(!keywordStrings.isEmpty())
 		{
-			StringBuilder keywordText = org.rnd.util.SeparatedList.get("", keywordStrings);
+			StringBuilder keywordText = SeparatedList.get("", keywordStrings);
 			textBuilder.append((firstLine ? "" : "\n\n") + keywordText);
 			firstLine = false;
 			keywordStrings.clear();

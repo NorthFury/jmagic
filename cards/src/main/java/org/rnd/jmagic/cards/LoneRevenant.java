@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Hexproof;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -38,7 +40,7 @@ public final class LoneRevenant extends Card
 
 		// Hexproof (This creature can't be the target of spells or abilities
 		// your opponents control.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Hexproof(state));
+		this.addAbility(new Hexproof(state));
 
 		// Whenever Lone Revenant deals combat damage to a player, if you
 		// control no other creatures, look at the top four cards of your

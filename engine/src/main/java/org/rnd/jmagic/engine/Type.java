@@ -1,5 +1,8 @@
 package org.rnd.jmagic.engine;
 
+import java.util.EnumSet;
+import java.util.Set;
+
 /** Represents the different card types. */
 public enum Type
 {
@@ -83,9 +86,9 @@ public enum Type
 		}
 	};
 
-	public static java.util.Set<Type> permanentTypes()
+	public static Set<Type> permanentTypes()
 	{
-		return java.util.EnumSet.of(ARTIFACT, ENCHANTMENT, LAND, CREATURE, PLANESWALKER);
+		return EnumSet.of(ARTIFACT, ENCHANTMENT, LAND, CREATURE, PLANESWALKER);
 	}
 
 	public boolean isTraditional()

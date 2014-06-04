@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -42,7 +44,7 @@ public final class StoneIdolTrap extends Card
 		CreateTokensFactory token = new CreateTokensFactory(1, 6, 12, "Put a 6/12 colorless Construct artifact creature token with trample onto the battlefield.");
 		token.setSubTypes(SubType.CONSTRUCT);
 		token.setArtifact();
-		token.addAbility(org.rnd.jmagic.abilities.keywords.Trample.class);
+		token.addAbility(Trample.class);
 		EventFactory factory = token.getEventFactory();
 		this.addEffect(factory);
 

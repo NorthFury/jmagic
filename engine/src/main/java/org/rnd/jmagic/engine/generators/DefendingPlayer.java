@@ -2,6 +2,9 @@ package org.rnd.jmagic.engine.generators;
 
 import org.rnd.jmagic.engine.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Evaluates to the player being attacked or the controller of the planeswalker
  * being attacked by the given {@link GameObject}s
@@ -23,7 +26,7 @@ public class DefendingPlayer extends SetGenerator
 	@Override
 	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		java.util.Set<Integer> ids = new java.util.HashSet<Integer>();
+		Set<Integer> ids = new HashSet<Integer>();
 
 		for(GameObject object: this.what.evaluate(state, thisObject).getAll(GameObject.class))
 			if(object.getAttackingID() != -1)

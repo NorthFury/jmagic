@@ -1,5 +1,8 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Defender;
+import org.rnd.jmagic.abilities.keywords.Flash;
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 
 @Name("Plumeveil")
@@ -18,10 +21,10 @@ public final class Plumeveil extends Card
 		this.setToughness(4);
 
 		// Flash
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flash(state));
+		this.addAbility(new Flash(state));
 
 		// Defender, flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Defender(state));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Defender(state));
+		this.addAbility(new Flying(state));
 	}
 }

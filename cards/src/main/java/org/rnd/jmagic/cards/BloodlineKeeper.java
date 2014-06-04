@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -23,7 +25,7 @@ public final class BloodlineKeeper extends Card
 			CreateTokensFactory token = new CreateTokensFactory(1, 2, 2, "Put a 2/2 black Vampire creature token with flying onto the battlefield.");
 			token.setColors(Color.BLACK);
 			token.setSubTypes(SubType.VAMPIRE);
-			token.addAbility(org.rnd.jmagic.abilities.keywords.Flying.class);
+			token.addAbility(Flying.class);
 			this.addEffect(token.getEventFactory());
 		}
 	}
@@ -51,7 +53,7 @@ public final class BloodlineKeeper extends Card
 		this.setToughness(3);
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// (T): Put a 2/2 black Vampire creature token with flying onto the
 		// battlefield.

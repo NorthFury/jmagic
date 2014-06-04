@@ -3,6 +3,9 @@ package org.rnd.jmagic.engine.eventTypes;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public final class MoveCounters extends EventType
 {	public static final EventType INSTANCE = new MoveCounters();
 
@@ -21,7 +24,7 @@ public final class MoveCounters extends EventType
 	// back through the repository and find it.
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		GameObject from = parameters.get(Parameter.FROM).getOne(GameObject.class);
 		GameObject to = parameters.get(Parameter.TO).getOne(GameObject.class);
@@ -43,7 +46,7 @@ public final class MoveCounters extends EventType
 			return true;
 		}
 
-		java.util.Map<Parameter, MagicSet> removeParameters = new java.util.HashMap<Parameter, MagicSet>();
+		Map<Parameter, MagicSet> removeParameters = new HashMap<Parameter, MagicSet>();
 		removeParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 		removeParameters.put(Parameter.COUNTER, new MagicSet(type));
 		removeParameters.put(Parameter.NUMBER, new MagicSet(number));
@@ -51,7 +54,7 @@ public final class MoveCounters extends EventType
 		Event removeEvent = createEvent(game, "Remove counters from " + from.getName(), EventType.REMOVE_COUNTERS, removeParameters);
 		success = removeEvent.perform(event, false) && success;
 
-		java.util.Map<Parameter, MagicSet> addParameters = new java.util.HashMap<Parameter, MagicSet>();
+		Map<Parameter, MagicSet> addParameters = new HashMap<Parameter, MagicSet>();
 		addParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 		addParameters.put(Parameter.COUNTER, new MagicSet(type));
 		addParameters.put(Parameter.NUMBER, new MagicSet(removeEvent.getResult().size()));

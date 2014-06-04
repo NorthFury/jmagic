@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Lifelink;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -21,7 +23,7 @@ public final class SorinLordofInnistrad extends Card
 			CreateTokensFactory factory = new CreateTokensFactory(1, 1, 1, "Put a 1/1 black Vampire creature token with lifelink onto the battlefield.");
 			factory.setColors(Color.BLACK);
 			factory.setSubTypes(SubType.VAMPIRE);
-			factory.addAbility(org.rnd.jmagic.abilities.keywords.Lifelink.class);
+			factory.addAbility(Lifelink.class);
 			this.addEffect(factory.getEventFactory());
 		}
 	}

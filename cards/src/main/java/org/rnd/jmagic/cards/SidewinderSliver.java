@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.AllSliverCreaturesHave;
+import org.rnd.jmagic.abilities.keywords.Flanking;
 import org.rnd.jmagic.engine.*;
 
 @Name("Sidewinder Sliver")
@@ -18,6 +20,6 @@ public final class SidewinderSliver extends Card
 		this.setToughness(1);
 
 		// All Sliver creatures have flanking.
-		this.addAbility(new org.rnd.jmagic.abilities.AllSliverCreaturesHave(state, org.rnd.jmagic.abilities.keywords.Flanking.class, "All Sliver creatures have flanking."));
+		this.addAbility(new AllSliverCreaturesHave(state, Flanking.class, "All Sliver creatures have flanking."));
 	}
 }

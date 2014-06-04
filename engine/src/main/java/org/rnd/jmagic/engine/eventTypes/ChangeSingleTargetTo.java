@@ -3,6 +3,12 @@ package org.rnd.jmagic.engine.eventTypes;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 public final class ChangeSingleTargetTo extends EventType
 {	public static final EventType INSTANCE = new ChangeSingleTargetTo();
 
@@ -18,21 +24,21 @@ public final class ChangeSingleTargetTo extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		GameObject object = parameters.get(Parameter.OBJECT).getOne(GameObject.class);
 		Identified newTarget = parameters.get(Parameter.TARGET).getOne(Identified.class);
-		java.util.Set<Target> canBeChanged = new java.util.HashSet<Target>();
+		Set<Target> canBeChanged = new HashSet<Target>();
 
-		java.util.Map<Target, Boolean> wasLegal = new java.util.HashMap<Target, Boolean>();
+		Map<Target, Boolean> wasLegal = new HashMap<Target, Boolean>();
 
 		{
-			java.util.Set<Integer> restricted = new java.util.HashSet<Integer>();
+			Set<Integer> restricted = new HashSet<Integer>();
 			for(Mode checkMode: object.getSelectedModes())
 			{
 				for(Target checkBaseTarget: checkMode.targets)
 				{
-					java.util.Set<Integer> thisBaseTarget = new java.util.HashSet<Integer>();
+					Set<Integer> thisBaseTarget = new HashSet<Integer>();
 					for(Target checkTarget: object.getChosenTargets().get(checkBaseTarget))
 					{
 						MagicSet legalCheck = checkTarget.legalChoicesNow(game, object);
@@ -64,12 +70,12 @@ public final class ChangeSingleTargetTo extends EventType
 						target.targetID = newTarget.ID;
 
 						boolean illegal = false;
-						java.util.Set<Integer> restricted = new java.util.HashSet<Integer>();
+						Set<Integer> restricted = new HashSet<Integer>();
 						legalityCheck: for(Mode checkMode: object.getSelectedModes())
 						{
 							for(Target checkBaseTarget: checkMode.targets)
 							{
-								java.util.Set<Integer> thisBaseTarget = new java.util.HashSet<Integer>();
+								Set<Integer> thisBaseTarget = new HashSet<Integer>();
 								for(Target checkTarget: object.getChosenTargets().get(checkBaseTarget))
 								{
 									MagicSet legalCheck = checkTarget.legalChoicesNow(game, object);
@@ -98,7 +104,7 @@ public final class ChangeSingleTargetTo extends EventType
 		}
 
 		Player player = parameters.get(Parameter.PLAYER).getOne(Player.class);
-		java.util.List<Target> choice = player.sanitizeAndChoose(game.actualState, 1, canBeChanged, PlayerInterface.ChoiceType.SINGLE_TARGET, PlayerInterface.ChooseReason.TARGET);
+		List<Target> choice = player.sanitizeAndChoose(game.actualState, 1, canBeChanged, PlayerInterface.ChoiceType.SINGLE_TARGET, PlayerInterface.ChooseReason.TARGET);
 
 		if(!choice.isEmpty())
 		{
@@ -107,7 +113,7 @@ public final class ChangeSingleTargetTo extends EventType
 			chosenTarget.targetID = newTarget.ID;
 
 			// Also set the target on the physical object
-			setPhysicalTarget: for(java.util.Map.Entry<Target, java.util.List<Target>> entry: object.getChosenTargets().entrySet())
+			setPhysicalTarget: for(Map.Entry<Target, List<Target>> entry: object.getChosenTargets().entrySet())
 			{
 				for(int i = 0; i < entry.getValue().size(); ++i)
 				{

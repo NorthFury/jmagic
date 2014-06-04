@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.LandfallForPump;
 import org.rnd.jmagic.engine.*;
 
 @Name("Steppe Lynx")
@@ -17,6 +18,6 @@ public final class SteppeLynx extends Card
 		this.setPower(0);
 		this.setToughness(1);
 
-		this.addAbility(new org.rnd.jmagic.abilities.LandfallForPump(state, this.getName(), +2, +2));
+		this.addAbility(new LandfallForPump(state, this.getName(), +2, +2));
 	}
 }

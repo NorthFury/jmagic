@@ -2,6 +2,8 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Enchant;
+import org.rnd.jmagic.abilities.keywords.Fear;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -18,7 +20,7 @@ public final class SleepersRobe extends Card
 		public SleepersRobeAbility1(GameState state)
 		{
 			super(state, "Enchanted creature has fear.");
-			this.addEffectPart(addAbilityToObject(EnchantedBy.instance(This.instance()), org.rnd.jmagic.abilities.keywords.Fear.class));
+			this.addEffectPart(addAbilityToObject(EnchantedBy.instance(This.instance()), Fear.class));
 		}
 	}
 
@@ -40,7 +42,7 @@ public final class SleepersRobe extends Card
 		super(state);
 
 		// Enchant creature
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Enchant.Creature(state));
+		this.addAbility(new Enchant.Creature(state));
 
 		// Enchanted creature has fear.
 		this.addAbility(new SleepersRobeAbility1(state));

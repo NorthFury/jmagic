@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Haste;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -21,7 +22,7 @@ public final class FlameKinZealot extends Card
 			this.addPattern(whenThisEntersTheBattlefield());
 
 			SetGenerator creaturesYouControl = Intersect.instance(HasType.instance(Type.CREATURE), ControlledBy.instance(You.instance()));
-			this.addEffect(ptChangeAndAbilityUntilEndOfTurn(creaturesYouControl, +1, +1, "Creatures you control get +1/+1 and gain haste until end of turn.", org.rnd.jmagic.abilities.keywords.Haste.class));
+			this.addEffect(ptChangeAndAbilityUntilEndOfTurn(creaturesYouControl, +1, +1, "Creatures you control get +1/+1 and gain haste until end of turn.", Haste.class));
 		}
 	}
 

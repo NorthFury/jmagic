@@ -2,6 +2,8 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.EntersTheBattlefieldTapped;
+import org.rnd.jmagic.abilities.TapForMana;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -45,10 +47,10 @@ public final class LavaclawReaches extends Card
 		super(state);
 
 		// Lavaclaw Reaches enters the battlefield tapped.
-		this.addAbility(new org.rnd.jmagic.abilities.EntersTheBattlefieldTapped(state, this.getName()));
+		this.addAbility(new EntersTheBattlefieldTapped(state, this.getName()));
 
 		// (T): Add (B) or (R) to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapForMana.Final(state, "(BR)"));
+		this.addAbility(new TapForMana.Final(state, "(BR)"));
 
 		// (1)(B)(R): Until end of turn, Lavaclaw Reaches becomes a 2/2 black
 		// and red Elemental creature with

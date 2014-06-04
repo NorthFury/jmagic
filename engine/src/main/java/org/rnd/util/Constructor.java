@@ -1,5 +1,7 @@
 package org.rnd.util;
 
+import java.lang.reflect.InvocationTargetException;
+
 /**
  * A convenience class to hold the convenient method Constructor.construct().
  */
@@ -29,7 +31,7 @@ public class Constructor
 		{
 			throw new RuntimeException(e);
 		}
-		catch(java.lang.reflect.InvocationTargetException e)
+		catch(InvocationTargetException e)
 		{
 			throw new RuntimeException(e);
 		}

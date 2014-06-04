@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Lifelink;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -21,7 +23,7 @@ public final class VizkopaGuildmage extends Card
 			this.setManaCost(new ManaPool("(1)(W)(B)"));
 
 			SetGenerator target = targetedBy(this.addTarget(CreaturePermanents.instance(), "target creature"));
-			this.addEffect(addAbilityUntilEndOfTurn(target, org.rnd.jmagic.abilities.keywords.Lifelink.class, "Target creature gains lifelink until end of turn."));
+			this.addEffect(addAbilityUntilEndOfTurn(target, Lifelink.class, "Target creature gains lifelink until end of turn."));
 		}
 	}
 

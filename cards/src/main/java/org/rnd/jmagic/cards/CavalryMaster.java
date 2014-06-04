@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flanking;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -18,10 +20,10 @@ public final class CavalryMaster extends Card
 		{
 			super(state, "Other creatures you control with flanking have flanking.");
 
-			SetGenerator hasFlanking = HasKeywordAbility.instance(org.rnd.jmagic.abilities.keywords.Flanking.class);
+			SetGenerator hasFlanking = HasKeywordAbility.instance(Flanking.class);
 			SetGenerator yourFlanking = Intersect.instance(CREATURES_YOU_CONTROL, hasFlanking);
 			SetGenerator other = RelativeComplement.instance(yourFlanking, This.instance());
-			this.addEffectPart(addAbilityToObject(other, org.rnd.jmagic.abilities.keywords.Flanking.class));
+			this.addEffectPart(addAbilityToObject(other, Flanking.class));
 		}
 	}
 
@@ -34,7 +36,7 @@ public final class CavalryMaster extends Card
 
 		// Flanking (Whenever a creature without flanking blocks this creature,
 		// the blocking creature gets -1/-1 until end of turn.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flanking(state));
+		this.addAbility(new Flanking(state));
 
 		// Other creatures you control with flanking have flanking. (Each
 		// instance of flanking triggers separately.)

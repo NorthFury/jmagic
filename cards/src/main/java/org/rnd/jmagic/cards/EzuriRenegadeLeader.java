@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -30,7 +32,7 @@ public final class EzuriRenegadeLeader extends Card
 		{
 			super(state, "(2)(G)(G)(G): Elf creatures you control get +3/+3 and gain trample until end of turn.");
 			this.setManaCost(new ManaPool("(2)(G)(G)(G)"));
-			this.addEffect(ptChangeAndAbilityUntilEndOfTurn(Intersect.instance(HasSubType.instance(SubType.ELF), CREATURES_YOU_CONTROL), +3, +3, "Elf creatures you control get +3/+3 and gain trample until end of turn.", org.rnd.jmagic.abilities.keywords.Trample.class));
+			this.addEffect(ptChangeAndAbilityUntilEndOfTurn(Intersect.instance(HasSubType.instance(SubType.ELF), CREATURES_YOU_CONTROL), +3, +3, "Elf creatures you control get +3/+3 and gain trample until end of turn.", Trample.class));
 		}
 	}
 

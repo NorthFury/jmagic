@@ -6,6 +6,9 @@ import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public final class CreateRegenerationShield extends EventType
 {	public static final EventType INSTANCE = new CreateRegenerationShield();
 
@@ -21,7 +24,7 @@ public final class CreateRegenerationShield extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		MagicSet result = new MagicSet();
 		for(GameObject object: parameters.get(Parameter.OBJECT).getAll(GameObject.class))
@@ -40,7 +43,7 @@ public final class CreateRegenerationShield extends EventType
 
 			ContinuousEffect.Part part = replacementEffectPart(regenerate);
 
-			java.util.Map<Parameter, MagicSet> FCEparameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> FCEparameters = new HashMap<Parameter, MagicSet>();
 			FCEparameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 			FCEparameters.put(Parameter.EFFECT, new MagicSet(part));
 			FCEparameters.put(Parameter.USES, ONE);

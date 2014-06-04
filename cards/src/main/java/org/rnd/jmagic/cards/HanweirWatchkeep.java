@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.Werewolves;
+import org.rnd.jmagic.abilities.keywords.Defender;
 import org.rnd.jmagic.engine.*;
 
 @Name("Hanweir Watchkeep")
@@ -19,10 +21,10 @@ public final class HanweirWatchkeep extends Card
 		this.setToughness(5);
 
 		// Defender
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Defender(state));
+		this.addAbility(new Defender(state));
 
 		// At the beginning of each upkeep, if no spells were cast last turn,
 		// transform Hanweir Watchkeep.
-		this.addAbility(new org.rnd.jmagic.abilities.Werewolves.BecomeFuzzy(state, "Hanweir Watchkeep"));
+		this.addAbility(new Werewolves.BecomeFuzzy(state, "Hanweir Watchkeep"));
 	}
 }

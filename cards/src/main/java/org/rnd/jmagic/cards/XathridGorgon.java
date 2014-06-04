@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Deathtouch;
+import org.rnd.jmagic.abilities.keywords.Defender;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -25,7 +28,7 @@ public final class XathridGorgon extends Card
 
 			this.addEffect(putCounters(1, Counter.CounterType.PETRIFICATION, target, "Put a petrification counter on target creature."));
 
-			ContinuousEffect.Part ability = addAbilityToObject(target, new SimpleAbilityFactory(org.rnd.jmagic.abilities.keywords.Defender.class));
+			ContinuousEffect.Part ability = addAbilityToObject(target, new SimpleAbilityFactory(Defender.class));
 
 			ContinuousEffect.Part color = new ContinuousEffect.Part(ContinuousEffectType.SET_COLOR);
 			color.parameters.put(ContinuousEffectType.Parameter.OBJECT, target);
@@ -54,7 +57,7 @@ public final class XathridGorgon extends Card
 
 		// Deathtouch (Any amount of damage this deals to a creature is enough
 		// to destroy it.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Deathtouch(state));
+		this.addAbility(new Deathtouch(state));
 
 		// (2)(B), (T): Put a petrification counter on target creature. It gains
 		// defender and becomes a colorless artifact in addition to its other

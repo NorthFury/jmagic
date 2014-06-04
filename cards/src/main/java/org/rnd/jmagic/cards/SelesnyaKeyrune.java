@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.TapForMana;
 import org.rnd.jmagic.engine.*;
 
 @Name("Selesnya Keyrune")
@@ -32,7 +34,7 @@ public final class SelesnyaKeyrune extends Card
 		super(state);
 
 		// (T): Add (G) or (W) to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapForMana.Final(state, "(GW)"));
+		this.addAbility(new TapForMana.Final(state, "(GW)"));
 
 		// (G)(W): Selesnya Keyrune becomes a 3/3 green and white Wolf artifact
 		// creature until end of turn.

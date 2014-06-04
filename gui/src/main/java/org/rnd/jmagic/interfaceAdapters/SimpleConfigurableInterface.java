@@ -1,8 +1,14 @@
 package org.rnd.jmagic.interfaceAdapters;
 
 import org.rnd.jmagic.engine.*;
+import org.rnd.jmagic.gui.dialogs.ConfigurationFrame;
 import org.rnd.jmagic.sanitized.*;
 import org.rnd.util.*;
+
+import java.io.Serializable;
+import java.util.List;
+import java.util.Properties;
+import java.util.SortedSet;
 
 /**
  * An implementation of PlayerInterface intended to sit between interfaces.
@@ -11,14 +17,14 @@ import org.rnd.util.*;
  */
 public abstract class SimpleConfigurableInterface implements ConfigurableInterface
 {
-	private final java.util.SortedSet<org.rnd.jmagic.gui.dialogs.ConfigurationFrame.OptionPanel> options;
+	private final SortedSet<ConfigurationFrame.OptionPanel> options;
 	private final ConfigurableInterface adapt;
 
 	public SimpleConfigurableInterface(ConfigurableInterface adapt)
 	{
 		this.adapt = adapt;
 		this.options = adapt.getOptions();
-		org.rnd.jmagic.gui.dialogs.ConfigurationFrame.OptionPanel optionPanel = this.getOptionPanel();
+		ConfigurationFrame.OptionPanel optionPanel = this.getOptionPanel();
 		if(optionPanel != null)
 			this.options.add(optionPanel);
 	}
@@ -60,7 +66,7 @@ public abstract class SimpleConfigurableInterface implements ConfigurableInterfa
 	}
 
 	@Override
-	public <T extends java.io.Serializable> java.util.List<Integer> choose(ChooseParameters<T> parameterObject)
+	public <T extends Serializable> List<Integer> choose(ChooseParameters<T> parameterObject)
 	{
 		return this.adapt.choose(parameterObject);
 	}
@@ -72,7 +78,7 @@ public abstract class SimpleConfigurableInterface implements ConfigurableInterfa
 	}
 
 	@Override
-	public void divide(int quantity, int minimum, int whatFrom, String beingDivided, java.util.List<SanitizedTarget> targets)
+	public void divide(int quantity, int minimum, int whatFrom, String beingDivided, List<SanitizedTarget> targets)
 	{
 		this.adapt.divide(quantity, minimum, whatFrom, beingDivided, targets);
 	}
@@ -84,13 +90,13 @@ public abstract class SimpleConfigurableInterface implements ConfigurableInterfa
 	}
 
 	@Override
-	public org.rnd.jmagic.gui.dialogs.ConfigurationFrame.OptionPanel getOptionPanel()
+	public ConfigurationFrame.OptionPanel getOptionPanel()
 	{
 		return null;
 	}
 
 	@Override
-	public java.util.SortedSet<org.rnd.jmagic.gui.dialogs.ConfigurationFrame.OptionPanel> getOptions()
+	public SortedSet<ConfigurationFrame.OptionPanel> getOptions()
 	{
 		return this.options;
 	}
@@ -108,7 +114,7 @@ public abstract class SimpleConfigurableInterface implements ConfigurableInterfa
 	}
 
 	@Override
-	public void setProperties(java.util.Properties properties)
+	public void setProperties(Properties properties)
 	{
 		this.adapt.setProperties(properties);
 	}

@@ -2,9 +2,15 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.AsThisEntersTheBattlefieldChooseACreatureType;
+import org.rnd.jmagic.abilities.TapFor1;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
+
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
 
 @Name("Cavern of Souls")
 @Types({Type.LAND})
@@ -12,7 +18,7 @@ import org.rnd.jmagic.engine.patterns.*;
 @ColorIdentity({})
 public final class CavernofSouls extends Card
 {
-	public static final class ChooseType extends org.rnd.jmagic.abilities.AsThisEntersTheBattlefieldChooseACreatureType
+	public static final class ChooseType extends AsThisEntersTheBattlefieldChooseACreatureType
 	{
 		public ChooseType(GameState state)
 		{
@@ -68,23 +74,23 @@ public final class CavernofSouls extends Card
 	}
 
 	/** IDs of spells and abilities on which a Cavern of Souls mana was spent */
-	public static final class CavernofSoulsTracker extends Tracker<java.util.Collection<Integer>>
+	public static final class CavernofSoulsTracker extends Tracker<Collection<Integer>>
 	{
-		private java.util.HashSet<Integer> value = new java.util.HashSet<Integer>();
-		private java.util.Collection<Integer> unmodifiable = java.util.Collections.unmodifiableSet(this.value);
+		private HashSet<Integer> value = new HashSet<Integer>();
+		private Collection<Integer> unmodifiable = Collections.unmodifiableSet(this.value);
 
 		@Override
 		@SuppressWarnings("unchecked")
 		public CavernofSoulsTracker clone()
 		{
 			CavernofSoulsTracker ret = (CavernofSoulsTracker)super.clone();
-			ret.value = (java.util.HashSet<Integer>)this.value.clone();
-			ret.unmodifiable = java.util.Collections.unmodifiableSet(ret.value);
+			ret.value = (HashSet<Integer>)this.value.clone();
+			ret.unmodifiable = Collections.unmodifiableSet(ret.value);
 			return ret;
 		}
 
 		@Override
-		protected java.util.Collection<Integer> getValueInternal()
+		protected Collection<Integer> getValueInternal()
 		{
 			return this.unmodifiable;
 		}
@@ -134,7 +140,7 @@ public final class CavernofSouls extends Card
 		{
 			MagicSet ret = new MagicSet();
 
-			java.util.Collection<Integer> trackerValue = state.getTracker(CavernofSoulsTracker.class).getValue(state);
+			Collection<Integer> trackerValue = state.getTracker(CavernofSoulsTracker.class).getValue(state);
 			for(int id: trackerValue)
 				ret.add(state.<GameObject>get(id));
 
@@ -183,7 +189,7 @@ public final class CavernofSouls extends Card
 		this.addAbility(new ChooseType(state));
 
 		// (T): Add (1) to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapFor1(state));
+		this.addAbility(new TapFor1(state));
 
 		// (T): Add one mana of any color to your mana pool. Spend this mana
 		// only to cast a creature spell of the chosen type, and that spell

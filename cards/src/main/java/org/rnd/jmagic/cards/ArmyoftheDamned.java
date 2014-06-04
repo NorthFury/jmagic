@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flashback;
 import org.rnd.jmagic.engine.*;
 
 @Name("Army of the Damned")
@@ -24,6 +26,6 @@ public final class ArmyoftheDamned extends Card
 
 		// Flashback (7)(B)(B)(B) (You may cast this card from your graveyard
 		// for its flashback cost. Then exile it.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flashback(state, "(7)(B)(B)(B)"));
+		this.addAbility(new Flashback(state, "(7)(B)(B)(B)"));
 	}
 }

@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.LeylineAbility;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -39,7 +40,7 @@ public final class LeylineofPunishment extends Card
 
 		// If Leyline of Punishment is in your opening hand, you may begin the
 		// game with it on the battlefield.
-		this.addAbility(new org.rnd.jmagic.abilities.LeylineAbility(state, "Leyline of Punishment"));
+		this.addAbility(new LeylineAbility(state, "Leyline of Punishment"));
 
 		// Players can't gain life.
 		this.addAbility(new ProhibitLifeGain(state));

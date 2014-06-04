@@ -2,8 +2,15 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Flash;
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map;
 
 @Name("Vendilion Clique")
 @SuperTypes({SuperType.LEGENDARY})
@@ -25,7 +32,7 @@ public final class VendilionClique extends Card
 	public static EventType CARD_NAPPING = new EventType("CARD_NAPPING")
 	{
 		@Override
-		public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean attempt(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			Player target = parameters.get(Parameter.TARGET).getOne(Player.class);
 			for(GameObject card: target.getHand(game.actualState).objects)
@@ -41,34 +48,34 @@ public final class VendilionClique extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			MagicSet cause = parameters.get(Parameter.CAUSE);
 			Player you = parameters.get(Parameter.PLAYER).getOne(Player.class);
 			Player target = parameters.get(Parameter.TARGET).getOne(Player.class);
 
 			// choose a nonland card from it.
-			java.util.Collection<GameObject> nonlandCards = new java.util.LinkedList<GameObject>();
+			Collection<GameObject> nonlandCards = new LinkedList<GameObject>();
 			for(GameObject card: target.getHand(game.actualState).objects)
 				if(!card.getTypes().contains(Type.LAND))
 					nonlandCards.add(card);
 			MagicSet chosen = new MagicSet(you.sanitizeAndChoose(game.actualState, 1, nonlandCards, PlayerInterface.ChoiceType.OBJECTS, REASON));
 
 			// If you do, that player reveals the chosen card,
-			java.util.Map<Parameter, MagicSet> revealParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> revealParameters = new HashMap<Parameter, MagicSet>();
 			revealParameters.put(Parameter.CAUSE, cause);
 			revealParameters.put(Parameter.OBJECT, chosen);
 			createEvent(game, "That player reveals that card", REVEAL, revealParameters).perform(event, true);
 
 			// puts it on the bottom of his or her library,
-			java.util.Map<Parameter, MagicSet> moveParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> moveParameters = new HashMap<Parameter, MagicSet>();
 			moveParameters.put(Parameter.CAUSE, cause);
 			moveParameters.put(Parameter.INDEX, NEGATIVE_ONE);
 			moveParameters.put(Parameter.OBJECT, chosen);
 			createEvent(game, "That player puts that card on the bottom of his or her library", PUT_INTO_LIBRARY, moveParameters).perform(event, true);
 
 			// then draws a card.
-			java.util.Map<Parameter, MagicSet> drawParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> drawParameters = new HashMap<Parameter, MagicSet>();
 			drawParameters.put(Parameter.CAUSE, cause);
 			drawParameters.put(Parameter.NUMBER, ONE);
 			drawParameters.put(Parameter.PLAYER, new MagicSet(target));
@@ -94,14 +101,14 @@ public final class VendilionClique extends Card
 		 * @eparam TARGET the target of Clique's ability
 		 */
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			MagicSet cause = parameters.get(Parameter.CAUSE);
 			Player you = parameters.get(Parameter.PLAYER).getOne(Player.class);
 			Player target = parameters.get(Parameter.TARGET).getOne(Player.class);
 
 			// look at target player's hand.
-			java.util.Map<Parameter, MagicSet> lookParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> lookParameters = new HashMap<Parameter, MagicSet>();
 			lookParameters.put(Parameter.CAUSE, cause);
 			lookParameters.put(Parameter.OBJECT, new MagicSet(target.getHand(game.actualState).objects));
 			lookParameters.put(Parameter.PLAYER, new MagicSet(you));
@@ -115,7 +122,7 @@ public final class VendilionClique extends Card
 			napParameters.put(Parameter.TARGET, Identity.instance(target));
 
 			// You may...
-			java.util.Map<Parameter, MagicSet> mayParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> mayParameters = new HashMap<Parameter, MagicSet>();
 			mayParameters.put(Parameter.PLAYER, new MagicSet(you));
 			mayParameters.put(Parameter.EVENT, new MagicSet(new EventFactory(CARD_NAPPING, napParameters, "Choose a nonland card from it.  That player reveals the chosen card, puts it on the bottom of his or her library, then draws a card.")));
 			createEvent(game, "You may choose a nonland card from it.  If you do, that player reveals the chosen card, puts it on the bottom of his or her library, then draws a card.", PLAYER_MAY, mayParameters).perform(event, true);
@@ -153,10 +160,10 @@ public final class VendilionClique extends Card
 		this.setToughness(1);
 
 		// Flash
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flash(state));
+		this.addAbility(new Flash(state));
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		this.addAbility(new CardNapper(state));
 	}

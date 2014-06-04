@@ -5,6 +5,9 @@ import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public abstract class Recover extends Keyword
 {
 	public Recover(GameState state, String costName)
@@ -13,9 +16,9 @@ public abstract class Recover extends Keyword
 	}
 
 	@Override
-	protected java.util.List<NonStaticAbility> createNonStaticAbilities()
+	protected List<NonStaticAbility> createNonStaticAbilities()
 	{
-		java.util.List<NonStaticAbility> ret = new java.util.LinkedList<NonStaticAbility>();
+		List<NonStaticAbility> ret = new LinkedList<NonStaticAbility>();
 
 		ret.add(new RecoverAbility(this.state, this));
 

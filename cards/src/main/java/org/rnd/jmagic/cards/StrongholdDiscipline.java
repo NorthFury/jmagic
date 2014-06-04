@@ -3,6 +3,9 @@ package org.rnd.jmagic.cards;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Name("Stronghold Discipline")
 @Types({Type.SORCERY})
 @ManaCost("2BB")
@@ -23,13 +26,13 @@ public final class StrongholdDiscipline extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			boolean ret = true;
 
 			for(Player player: game.actualState.players)
 			{
-				java.util.Map<Parameter, MagicSet> lifeLossParameters = new java.util.HashMap<Parameter, MagicSet>();
+				Map<Parameter, MagicSet> lifeLossParameters = new HashMap<Parameter, MagicSet>();
 				lifeLossParameters.put(EventType.Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 				lifeLossParameters.put(EventType.Parameter.PLAYER, new MagicSet(player));
 				lifeLossParameters.put(EventType.Parameter.NUMBER, Intersect.instance(ControlledBy.instance(Identity.instance(player)), CreaturePermanents.instance()).evaluate(game, null));

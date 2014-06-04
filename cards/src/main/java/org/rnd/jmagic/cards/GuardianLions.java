@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Vigilance;
 import org.rnd.jmagic.engine.*;
 
 @Name("Guardian Lions")
@@ -18,6 +19,6 @@ public final class GuardianLions extends Card
 		this.setToughness(6);
 
 		// Vigilance (Attacking doesn't cause this creature to tap.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Vigilance(state));
+		this.addAbility(new Vigilance(state));
 	}
 }

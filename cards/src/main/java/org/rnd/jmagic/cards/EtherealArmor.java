@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Enchant;
+import org.rnd.jmagic.abilities.keywords.FirstStrike;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -21,7 +24,7 @@ public final class EtherealArmor extends Card
 			SetGenerator enchanted = EnchantedBy.instance(This.instance());
 			SetGenerator X = Count.instance(Intersect.instance(EnchantmentPermanents.instance(), ControlledBy.instance(You.instance())));
 			this.addEffectPart(modifyPowerAndToughness(enchanted, X, X));
-			this.addEffectPart(addAbilityToObject(enchanted, org.rnd.jmagic.abilities.keywords.FirstStrike.class));
+			this.addEffectPart(addAbilityToObject(enchanted, FirstStrike.class));
 		}
 	}
 
@@ -30,7 +33,7 @@ public final class EtherealArmor extends Card
 		super(state);
 
 		// Enchant creature
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Enchant.Creature(state));
+		this.addAbility(new Enchant.Creature(state));
 
 		// Enchanted creature gets +1/+1 for each enchantment you control and
 		// has first strike.

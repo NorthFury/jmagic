@@ -2,9 +2,13 @@ package org.rnd.jmagic.abilities.keywords;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.EntersTheBattlefieldWithCounters;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
+
+import java.util.LinkedList;
+import java.util.List;
 
 public final class Graft extends Keyword
 {
@@ -34,9 +38,9 @@ public final class Graft extends Keyword
 	}
 
 	@Override
-	protected java.util.List<NonStaticAbility> createNonStaticAbilities()
+	protected List<NonStaticAbility> createNonStaticAbilities()
 	{
-		java.util.List<NonStaticAbility> ret = new java.util.LinkedList<NonStaticAbility>();
+		List<NonStaticAbility> ret = new LinkedList<NonStaticAbility>();
 
 		ret.add(new GraftTriggered(this.state));
 
@@ -44,11 +48,11 @@ public final class Graft extends Keyword
 	}
 
 	@Override
-	protected java.util.List<StaticAbility> createStaticAbilities()
+	protected List<StaticAbility> createStaticAbilities()
 	{
-		java.util.List<StaticAbility> ret = new java.util.LinkedList<StaticAbility>();
+		List<StaticAbility> ret = new LinkedList<StaticAbility>();
 
-		ret.add(new org.rnd.jmagic.abilities.EntersTheBattlefieldWithCounters(this.state, "This permanent", this.N, Counter.CounterType.PLUS_ONE_PLUS_ONE));
+		ret.add(new EntersTheBattlefieldWithCounters(this.state, "This permanent", this.N, Counter.CounterType.PLUS_ONE_PLUS_ONE));
 
 		return ret;
 	}

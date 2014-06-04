@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 
 @Name("Talrand's Invocation")
@@ -19,7 +21,7 @@ public final class TalrandsInvocation extends Card
 		CreateTokensFactory factory = new CreateTokensFactory(2, 2, 2, "Put two 2/2 blue Drake creature tokens with flying onto the battlefield.");
 		factory.setColors(Color.BLUE);
 		factory.setSubTypes(SubType.DRAKE);
-		factory.addAbility(org.rnd.jmagic.abilities.keywords.Flying.class);
+		factory.addAbility(Flying.class);
 		this.addEffect(factory.getEventFactory());
 	}
 }

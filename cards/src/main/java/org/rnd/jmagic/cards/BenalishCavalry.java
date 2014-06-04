@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Flanking;
 import org.rnd.jmagic.engine.*;
 
 @Name("Benalish Cavalry")
@@ -17,6 +18,6 @@ public final class BenalishCavalry extends Card
 		this.setPower(2);
 		this.setToughness(2);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flanking(state));
+		this.addAbility(new Flanking(state));
 	}
 }

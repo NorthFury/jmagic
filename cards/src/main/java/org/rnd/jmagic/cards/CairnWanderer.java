@@ -1,7 +1,26 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Changeling;
+import org.rnd.jmagic.abilities.keywords.Deathtouch;
+import org.rnd.jmagic.abilities.keywords.DoubleStrike;
+import org.rnd.jmagic.abilities.keywords.Fear;
+import org.rnd.jmagic.abilities.keywords.FirstStrike;
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Haste;
+import org.rnd.jmagic.abilities.keywords.Landwalk;
+import org.rnd.jmagic.abilities.keywords.Lifelink;
+import org.rnd.jmagic.abilities.keywords.Protection;
+import org.rnd.jmagic.abilities.keywords.Reach;
+import org.rnd.jmagic.abilities.keywords.Shroud;
+import org.rnd.jmagic.abilities.keywords.Trample;
+import org.rnd.jmagic.abilities.keywords.Vigilance;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+
+import java.util.HashMap;
+import java.util.LinkedHashSet;
+import java.util.Map;
+import java.util.Set;
 
 @Name("Cairn Wanderer")
 @Types({Type.CREATURE})
@@ -13,15 +32,15 @@ public final class CairnWanderer extends Card
 {
 	private static class Filter extends SetGenerator
 	{
-		public static Filter instance(SetGenerator abilities, java.util.Set<Class<?>> toKeep)
+		public static Filter instance(SetGenerator abilities, Set<Class<?>> toKeep)
 		{
 			return new Filter(abilities, toKeep);
 		}
 
 		private SetGenerator abilities;
-		private java.util.Set<Class<?>> toKeep;
+		private Set<Class<?>> toKeep;
 
-		private Filter(SetGenerator abilities, java.util.Set<Class<?>> toKeep)
+		private Filter(SetGenerator abilities, Set<Class<?>> toKeep)
 		{
 			this.abilities = abilities;
 			this.toKeep = toKeep;
@@ -31,7 +50,7 @@ public final class CairnWanderer extends Card
 		public MagicSet evaluate(GameState state, Identified thisObject)
 		{
 			MagicSet abilities = this.abilities.evaluate(state, thisObject);
-			java.util.Map<String, Identified> ret = new java.util.HashMap<String, Identified>();
+			Map<String, Identified> ret = new HashMap<String, Identified>();
 
 			for(Keyword a: abilities.getAll(Keyword.class))
 				for(Class<?> c: this.toKeep)
@@ -48,20 +67,20 @@ public final class CairnWanderer extends Card
 		{
 			super(state, "As long as a creature card with flying is in a graveyard, Cairn Wanderer has flying. The same is true for fear, first strike, double strike, deathtouch, haste, landwalk, lifelink, protection, reach, trample, shroud, and vigilance.");
 
-			java.util.Set<Class<?>> abilityClasses = new java.util.LinkedHashSet<Class<?>>();
-			abilityClasses.add(org.rnd.jmagic.abilities.keywords.Flying.class);
-			abilityClasses.add(org.rnd.jmagic.abilities.keywords.Fear.class);
-			abilityClasses.add(org.rnd.jmagic.abilities.keywords.FirstStrike.class);
-			abilityClasses.add(org.rnd.jmagic.abilities.keywords.DoubleStrike.class);
-			abilityClasses.add(org.rnd.jmagic.abilities.keywords.Deathtouch.class);
-			abilityClasses.add(org.rnd.jmagic.abilities.keywords.Haste.class);
-			abilityClasses.add(org.rnd.jmagic.abilities.keywords.Landwalk.class);
-			abilityClasses.add(org.rnd.jmagic.abilities.keywords.Lifelink.class);
-			abilityClasses.add(org.rnd.jmagic.abilities.keywords.Protection.class);
-			abilityClasses.add(org.rnd.jmagic.abilities.keywords.Reach.class);
-			abilityClasses.add(org.rnd.jmagic.abilities.keywords.Trample.class);
-			abilityClasses.add(org.rnd.jmagic.abilities.keywords.Shroud.class);
-			abilityClasses.add(org.rnd.jmagic.abilities.keywords.Vigilance.class);
+			Set<Class<?>> abilityClasses = new LinkedHashSet<Class<?>>();
+			abilityClasses.add(Flying.class);
+			abilityClasses.add(Fear.class);
+			abilityClasses.add(FirstStrike.class);
+			abilityClasses.add(DoubleStrike.class);
+			abilityClasses.add(Deathtouch.class);
+			abilityClasses.add(Haste.class);
+			abilityClasses.add(Landwalk.class);
+			abilityClasses.add(Lifelink.class);
+			abilityClasses.add(Protection.class);
+			abilityClasses.add(Reach.class);
+			abilityClasses.add(Trample.class);
+			abilityClasses.add(Shroud.class);
+			abilityClasses.add(Vigilance.class);
 
 			SetGenerator inGraveyards = InZone.instance(GraveyardOf.instance(Players.instance()));
 			SetGenerator creatureCardsInGraveyards = Intersect.instance(HasType.instance(Type.CREATURE), Cards.instance(), inGraveyards);
@@ -83,7 +102,7 @@ public final class CairnWanderer extends Card
 		this.setToughness(4);
 
 		// Changeling (This card is every creature type at all times.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Changeling(state));
+		this.addAbility(new Changeling(state));
 
 		// As long as a creature card with flying is in a graveyard, Cairn
 		// Wanderer has flying. The same is true for fear, first strike, double

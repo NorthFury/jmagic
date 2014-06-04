@@ -1,17 +1,21 @@
 package org.rnd.jmagic.engine;
 
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Comparator that compares effects based on their timestamps (earlier effects
  * are sorted first). This comparator is stateful and caches timestamps, so
  * don't use the same one in different states or between refreshes of the same
  * state.
  */
-public final class CompareOnTimestamp implements java.util.Comparator<ContinuousEffect>
+public final class CompareOnTimestamp implements Comparator<ContinuousEffect>
 {
 	// We want to cache the timestamps we calculate, in case an effect
 	// starts to apply and is then removed (but needs to continue to
 	// apply).
-	private java.util.Map<ContinuousEffect, Integer> timestamps = new java.util.HashMap<ContinuousEffect, Integer>();
+	private Map<ContinuousEffect, Integer> timestamps = new HashMap<ContinuousEffect, Integer>();
 
 	@Override
 	public int compare(ContinuousEffect o1, ContinuousEffect o2)

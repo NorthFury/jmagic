@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Defender;
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 
 @Name("Soulbound Guardians")
@@ -18,7 +20,7 @@ public final class SoulboundGuardians extends Card
 		this.setToughness(5);
 
 		// Defender, flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Defender(state));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Defender(state));
+		this.addAbility(new Flying(state));
 	}
 }

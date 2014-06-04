@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.CantBlock;
 import org.rnd.jmagic.engine.*;
 
 @Name("Unhallowed Cathar")
@@ -19,6 +20,6 @@ public final class UnhallowedCathar extends AlternateCard
 		this.setColorIndicator(Color.BLACK);
 
 		// Unhallowed Cathar can't block.
-		this.addAbility(new org.rnd.jmagic.abilities.CantBlock(state, this.getName()));
+		this.addAbility(new CantBlock(state, this.getName()));
 	}
 }

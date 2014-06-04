@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.CumulativeUpkeep;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -48,7 +49,7 @@ public final class ElephantGrass extends Card
 		// Cumulative upkeep (1) (At the beginning of your upkeep, put an age
 		// counter on this permanent, then sacrifice it unless you pay its
 		// upkeep cost for each age counter on it.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.CumulativeUpkeep.ForMana(state, "(1)"));
+		this.addAbility(new CumulativeUpkeep.ForMana(state, "(1)"));
 
 		// Black creatures can't attack you.
 		this.addAbility(new ElephantGrassAbility1(state));

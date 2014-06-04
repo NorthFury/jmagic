@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.EntersTheBattlefieldWithCounters;
+import org.rnd.jmagic.abilities.keywords.Kicker;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -33,12 +36,12 @@ public final class JoragaWarcaller extends Card
 		this.setToughness(1);
 
 		// Multikicker (1)(G)
-		org.rnd.jmagic.abilities.keywords.Kicker kicker = new org.rnd.jmagic.abilities.keywords.Kicker(state, true, "(1)(G)");
+		Kicker kicker = new Kicker(state, true, "(1)(G)");
 		this.addAbility(kicker);
 
 		// Joraga Warcaller enters the battlefield with a +1/+1 counter on it
 		// for each time it was kicked.
-		this.addAbility(new org.rnd.jmagic.abilities.EntersTheBattlefieldWithCounters(state, "Joraga Warcaller", ThisSpellWasKicked.instance(kicker.costCollections[0]), "a +1/+1 counter on it for each time it was kicked", Counter.CounterType.PLUS_ONE_PLUS_ONE));
+		this.addAbility(new EntersTheBattlefieldWithCounters(state, "Joraga Warcaller", ThisSpellWasKicked.instance(kicker.costCollections[0]), "a +1/+1 counter on it for each time it was kicked", Counter.CounterType.PLUS_ONE_PLUS_ONE));
 
 		// Other Elf creatures you control get +1/+1 for each +1/+1 counter on
 		// Joraga Warcaller.

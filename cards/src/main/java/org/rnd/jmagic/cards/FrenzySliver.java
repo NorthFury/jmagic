@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.AllSliverCreaturesHave;
+import org.rnd.jmagic.abilities.keywords.Frenzy;
 import org.rnd.jmagic.engine.*;
 
 @Name("Frenzy Sliver")
@@ -11,7 +13,7 @@ import org.rnd.jmagic.engine.*;
 public final class FrenzySliver extends Card
 {
 	@Name("Frenzy 1")
-	public static final class Frenzy1 extends org.rnd.jmagic.abilities.keywords.Frenzy
+	public static final class Frenzy1 extends Frenzy
 	{
 		public Frenzy1(GameState state)
 		{
@@ -26,7 +28,7 @@ public final class FrenzySliver extends Card
 		this.setPower(1);
 		this.setToughness(1);
 
-		this.addAbility(new org.rnd.jmagic.abilities.AllSliverCreaturesHave(state, Frenzy1.class, "All Sliver creatures have frenzy 1."));
+		this.addAbility(new AllSliverCreaturesHave(state, Frenzy1.class, "All Sliver creatures have frenzy 1."));
 	}
 
 }

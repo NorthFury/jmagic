@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Enchant;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -31,7 +32,7 @@ public final class Annex extends Card
 
 		// Enchant land (Target a land as you cast this. This card enters the
 		// battlefield attached to that land.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Enchant.Land(state));
+		this.addAbility(new Enchant.Land(state));
 
 		// You control enchanted land.
 		this.addAbility(new AnnexAbility1(state));

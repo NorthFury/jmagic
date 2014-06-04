@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.TapFor1;
+import org.rnd.jmagic.abilities.keywords.DoubleStrike;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -20,7 +23,7 @@ public final class SunhomeFortressoftheLegion extends Card
 
 			Target target = this.addTarget(CreaturePermanents.instance(), "target creature");
 
-			this.addEffect(addAbilityUntilEndOfTurn(targetedBy(target), org.rnd.jmagic.abilities.keywords.DoubleStrike.class, "Target creature gains double strike until end of turn."));
+			this.addEffect(addAbilityUntilEndOfTurn(targetedBy(target), DoubleStrike.class, "Target creature gains double strike until end of turn."));
 		}
 	}
 
@@ -29,7 +32,7 @@ public final class SunhomeFortressoftheLegion extends Card
 		super(state);
 
 		// (T): Add (1) to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapFor1(state));
+		this.addAbility(new TapFor1(state));
 
 		// (2)(R)(W), (T): Target creature gains double strike until end of
 		// turn.

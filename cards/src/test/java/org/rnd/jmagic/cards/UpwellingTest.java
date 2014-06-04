@@ -40,12 +40,12 @@ public class UpwellingTest extends JUnitTest
 		this.pass();
 
 		assertEquals(20, this.player(0).lifeTotal);
-		assertTrue(this.player(0).pool.toArray(new ManaSymbol[0])[0].colors.contains(org.rnd.jmagic.engine.Color.RED));
-		assertTrue(this.player(0).pool.toArray(new ManaSymbol[0])[1].colors.contains(org.rnd.jmagic.engine.Color.GREEN));
+		assertTrue(this.player(0).pool.toArray(new ManaSymbol[0])[0].colors.contains(Color.RED));
+		assertTrue(this.player(0).pool.toArray(new ManaSymbol[0])[1].colors.contains(Color.GREEN));
 
 		this.goToPhase(Phase.PhaseType.COMBAT);
 		assertEquals(20, this.player(0).lifeTotal);
-		assertTrue(this.player(0).pool.toArray(new ManaSymbol[0])[0].colors.contains(org.rnd.jmagic.engine.Color.RED));
-		assertTrue(this.player(0).pool.toArray(new ManaSymbol[0])[1].colors.contains(org.rnd.jmagic.engine.Color.GREEN));
+		assertTrue(this.player(0).pool.toArray(new ManaSymbol[0])[0].colors.contains(Color.RED));
+		assertTrue(this.player(0).pool.toArray(new ManaSymbol[0])[1].colors.contains(Color.GREEN));
 	}
 }

@@ -1,5 +1,9 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.FirstStrike;
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Lifelink;
+import org.rnd.jmagic.abilities.keywords.Protection;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -18,9 +22,9 @@ public final class BaneslayerAngel extends Card
 		this.setPower(5);
 		this.setToughness(5);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.FirstStrike(state));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Lifelink(state));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Protection.From(state, Union.instance(HasSubType.instance(SubType.DEMON), HasSubType.instance(SubType.DRAGON)), "Demons and from Dragons"));
+		this.addAbility(new Flying(state));
+		this.addAbility(new FirstStrike(state));
+		this.addAbility(new Lifelink(state));
+		this.addAbility(new Protection.From(state, Union.instance(HasSubType.instance(SubType.DEMON), HasSubType.instance(SubType.DRAGON)), "Demons and from Dragons"));
 	}
 }

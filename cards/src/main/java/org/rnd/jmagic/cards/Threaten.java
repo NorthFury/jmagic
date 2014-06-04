@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Haste;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -23,7 +25,7 @@ public final class Threaten extends Card
 		part1.parameters.put(ContinuousEffectType.Parameter.OBJECT, targetedBy(target));
 		part1.parameters.put(ContinuousEffectType.Parameter.PLAYER, You.instance());
 
-		ContinuousEffect.Part part2 = addAbilityToObject(targetedBy(target), org.rnd.jmagic.abilities.keywords.Haste.class);
+		ContinuousEffect.Part part2 = addAbilityToObject(targetedBy(target), Haste.class);
 
 		this.addEffect(createFloatingEffect("and gain control of it until end of turn. That creature gains haste until end of turn.", part1, part2));
 	}

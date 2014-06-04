@@ -4,6 +4,12 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @Name("Divine Deflection")
 @Types({Type.INSTANT})
 @ManaCost("XW")
@@ -40,26 +46,26 @@ public final class DivineDeflection extends Card
 		}
 
 		@Override
-		public java.util.List<EventFactory> prevent(DamageAssignment.Batch damageAssignments)
+		public List<EventFactory> prevent(DamageAssignment.Batch damageAssignments)
 		{
 			if(damageAssignments.isEmpty())
-				return java.util.Collections.emptyList();
+				return Collections.emptyList();
 
 			FloatingContinuousEffect fce = this.getFloatingContinuousEffect(this.game.physicalState);
 			if(fce.damage == 0)
-				return java.util.Collections.emptyList();
+				return Collections.emptyList();
 
 			// This will never get more damage than it can prevent
 			int prevented = damageAssignments.size();
 			fce.damage -= prevented;
 			damageAssignments.clear();
-			return java.util.Collections.singletonList(spellDealDamage(prevented, Identity.instance(this.game.actualState.get(this.target)), "Divine Deflection deals that much damage to target creature or player."));
+			return Collections.singletonList(spellDealDamage(prevented, Identity.instance(this.game.actualState.get(this.target)), "Divine Deflection deals that much damage to target creature or player."));
 		}
 
 		@Override
-		public java.util.Collection<GameObject> refersTo(GameState state)
+		public Collection<GameObject> refersTo(GameState state)
 		{
-			return java.util.Collections.singleton((GameObject)this.getSourceObject(state));
+			return Collections.singleton((GameObject)this.getSourceObject(state));
 		}
 	}
 
@@ -79,7 +85,7 @@ public final class DivineDeflection extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			final Identified target = parameters.get(Parameter.TARGET).getOne(Identified.class);
 
@@ -87,7 +93,7 @@ public final class DivineDeflection extends Card
 
 			ContinuousEffect.Part part = replacementEffectPart(replacement);
 
-			java.util.Map<Parameter, MagicSet> fceParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> fceParameters = new HashMap<Parameter, MagicSet>();
 			fceParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 			fceParameters.put(Parameter.EFFECT, new MagicSet(part));
 			fceParameters.put(Parameter.DAMAGE, new MagicSet(Sum.get(parameters.get(Parameter.NUMBER))));

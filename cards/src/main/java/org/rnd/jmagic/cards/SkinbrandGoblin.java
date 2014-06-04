@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.Bloodrush;
 import org.rnd.jmagic.engine.*;
 
 @Name("Skinbrand Goblin")
@@ -19,6 +20,6 @@ public final class SkinbrandGoblin extends Card
 
 		// Bloodrush \u2014 (R), Discard Skinbrand Goblin: Target attacking
 		// creature gets +2/+1 until end of turn.
-		this.addAbility(new org.rnd.jmagic.abilities.Bloodrush(state, "(R)", "Skinbrand Goblin", +2, +1, "Target attacking creature gets +2/+1 until end of turn."));
+		this.addAbility(new Bloodrush(state, "(R)", "Skinbrand Goblin", +2, +1, "Target attacking creature gets +2/+1 until end of turn."));
 	}
 }

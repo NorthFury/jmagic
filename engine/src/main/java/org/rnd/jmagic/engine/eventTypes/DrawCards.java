@@ -3,6 +3,9 @@ package org.rnd.jmagic.engine.eventTypes;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public final class DrawCards extends EventType
 {	public static final EventType INSTANCE = new DrawCards();
 
@@ -18,7 +21,7 @@ public final class DrawCards extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		boolean allDrawn = true;
 		MagicSet cause = parameters.get(Parameter.CAUSE);
@@ -30,7 +33,7 @@ public final class DrawCards extends EventType
 		// each other player in turn order does the same.
 		for(Player player: parameters.get(Parameter.PLAYER).getAll(Player.class))
 		{
-			java.util.Map<Parameter, MagicSet> drawParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> drawParameters = new HashMap<Parameter, MagicSet>();
 			drawParameters.put(Parameter.CAUSE, cause);
 
 			// this player draws one card numberOfCards times

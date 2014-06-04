@@ -7,6 +7,10 @@ import org.rnd.jmagic.cards.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.sanitized.*;
 
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
+
 public class CombatBasicsTest extends JUnitTest
 {
 	@Test
@@ -271,7 +275,7 @@ public class CombatBasicsTest extends JUnitTest
 
 		// Declare Blockers
 		assertEquals(player(1).ID, this.choosingPlayerID);
-		respondWith(pullChoice(org.rnd.jmagic.engine.Token.class), pullChoice(org.rnd.jmagic.engine.Token.class), pullChoice(org.rnd.jmagic.engine.Token.class));
+		respondWith(pullChoice(Token.class), pullChoice(Token.class), pullChoice(Token.class));
 		respondArbitrarily();
 
 		// Make sure the ability triggered 3 times, once for each blocker
@@ -349,7 +353,7 @@ public class CombatBasicsTest extends JUnitTest
 		// guard's damage assignment order:
 
 		SanitizedGameObject[] order = new SanitizedGameObject[] {pullChoice(RagingGoblin.class), pullChoice(RagingGoblin.class), pullChoice(RagingGoblin.class), pullChoice(RagingGoblin.class)};
-		respondWith((java.io.Serializable[])order);
+		respondWith((Serializable[])order);
 
 		// damage assignment:
 		goToStep(Step.StepType.COMBAT_DAMAGE);
@@ -357,14 +361,14 @@ public class CombatBasicsTest extends JUnitTest
 		for(int i = 0; i < 4; ++i)
 			assertEquals(order[i].ID, this.game.actualState.battlefield().objects.get(8).getBlockingIDs().get(i).intValue());
 
-		java.util.Map<Integer, Integer> illegalDamageAssignments = new java.util.HashMap<Integer, Integer>();
+		Map<Integer, Integer> illegalDamageAssignments = new HashMap<Integer, Integer>();
 		illegalDamageAssignments.put(this.game.actualState.battlefield().objects.get(8).getBlockingIDs().get(0), 0);
 		illegalDamageAssignments.put(this.game.actualState.battlefield().objects.get(8).getBlockingIDs().get(1), 1);
 		illegalDamageAssignments.put(this.game.actualState.battlefield().objects.get(8).getBlockingIDs().get(2), 0);
 		illegalDamageAssignments.put(this.game.actualState.battlefield().objects.get(8).getBlockingIDs().get(3), 0);
 		divide(illegalDamageAssignments);
 
-		java.util.Map<Integer, Integer> legalDamageAssignments = new java.util.HashMap<Integer, Integer>();
+		Map<Integer, Integer> legalDamageAssignments = new HashMap<Integer, Integer>();
 		legalDamageAssignments.put(this.game.actualState.battlefield().objects.get(8).getBlockingIDs().get(0), 1);
 		legalDamageAssignments.put(this.game.actualState.battlefield().objects.get(8).getBlockingIDs().get(1), 0);
 		legalDamageAssignments.put(this.game.actualState.battlefield().objects.get(8).getBlockingIDs().get(2), 0);

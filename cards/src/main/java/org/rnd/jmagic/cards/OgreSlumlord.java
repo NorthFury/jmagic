@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Deathtouch;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -37,7 +39,7 @@ public final class OgreSlumlord extends Card
 			super(state, "Rats you control have deathtouch.");
 
 			SetGenerator ratsYouControl = Intersect.instance(HasSubType.instance(SubType.RAT), ControlledBy.instance(You.instance()));
-			this.addEffectPart(addAbilityToObject(ratsYouControl, org.rnd.jmagic.abilities.keywords.Deathtouch.class));
+			this.addEffectPart(addAbilityToObject(ratsYouControl, Deathtouch.class));
 		}
 	}
 

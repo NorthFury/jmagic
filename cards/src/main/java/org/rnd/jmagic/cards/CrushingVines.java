@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -18,7 +20,7 @@ public final class CrushingVines extends Card
 		// Choose one \u2014 Destroy target creature with flying; or destroy
 		// target artifact.
 		{
-			SetGenerator creatures = Intersect.instance(CreaturePermanents.instance(), HasKeywordAbility.instance(org.rnd.jmagic.abilities.keywords.Flying.class));
+			SetGenerator creatures = Intersect.instance(CreaturePermanents.instance(), HasKeywordAbility.instance(Flying.class));
 			SetGenerator target = targetedBy(this.addTarget(1, creatures, "target creature with flying"));
 			this.addEffect(1, destroy(target, "Destroy target creature with flying"));
 		}

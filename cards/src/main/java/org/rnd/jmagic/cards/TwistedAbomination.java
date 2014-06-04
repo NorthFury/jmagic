@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.Regenerate;
+import org.rnd.jmagic.abilities.keywords.TypeCycling;
 import org.rnd.jmagic.engine.*;
 
 @Name("Twisted Abomination")
@@ -18,9 +20,9 @@ public final class TwistedAbomination extends Card
 		this.setToughness(3);
 
 		// (B): Regenerate Twisted Abomination.
-		this.addAbility(new org.rnd.jmagic.abilities.Regenerate.Final(state, "(B)", this.getName()));
+		this.addAbility(new Regenerate.Final(state, "(B)", this.getName()));
 
 		// Swampcycling (2)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.TypeCycling.SwampCycling(state, "(2)"));
+		this.addAbility(new TypeCycling.SwampCycling(state, "(2)"));
 	}
 }

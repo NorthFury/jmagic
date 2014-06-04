@@ -1,5 +1,7 @@
 package org.rnd.jmagic.engine;
 
+import org.rnd.util.Constructor;
+
 public class SimpleAbilityFactory implements AbilityFactory
 {
 	private Class<?> clazz;
@@ -14,7 +16,7 @@ public class SimpleAbilityFactory implements AbilityFactory
 	{
 		Class<?>[] classArray = new Class[] {GameState.class};
 		Object[] objectArray = new Object[] {state.game.physicalState};
-		return (Identified)org.rnd.util.Constructor.construct(this.clazz, classArray, objectArray);
+		return (Identified) Constructor.construct(this.clazz, classArray, objectArray);
 	}
 
 	@Override

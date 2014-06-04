@@ -3,6 +3,12 @@ package org.rnd.jmagic.engine.eventTypes;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.io.Serializable;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 public final class DeclareBlockers extends EventType
 {	public static final EventType INSTANCE = new DeclareBlockers();
 
@@ -18,13 +24,13 @@ public final class DeclareBlockers extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		Player activePlayer = game.actualState.currentTurn().getOwner(game.actualState);
 
 		// 509.1. First, the defending player declares blockers. This
 		// turn-based action doesn't use the stack.
-		java.util.Set<Player> isAttacked = IsAttacked.get(game.actualState).getAll(Player.class);
+		Set<Player> isAttacked = IsAttacked.get(game.actualState).getAll(Player.class);
 		for(Player player: game.physicalState.getPlayerCycle(activePlayer))
 		{
 			if(!isAttacked.contains(player))
@@ -48,11 +54,11 @@ public final class DeclareBlockers extends EventType
 		{
 			if(attacker.getBlockedByIDs() != null && attacker.getBlockedByIDs().size() > 1)
 			{
-				java.util.List<GameObject> blockers = new java.util.LinkedList<GameObject>();
+				List<GameObject> blockers = new LinkedList<GameObject>();
 				for(int blockerID: attacker.getBlockedByIDs())
 					blockers.add(game.actualState.<GameObject>get(blockerID));
 				int numBlockers = blockers.size();
-				PlayerInterface.ChooseParameters<java.io.Serializable> chooseParameters = new PlayerInterface.ChooseParameters<java.io.Serializable>(numBlockers, numBlockers, PlayerInterface.ChoiceType.OBJECTS_ORDERED, PlayerInterface.ChooseReason.DAMAGE_ASSIGNMENT_ORDER);
+				PlayerInterface.ChooseParameters<Serializable> chooseParameters = new PlayerInterface.ChooseParameters<Serializable>(numBlockers, numBlockers, PlayerInterface.ChoiceType.OBJECTS_ORDERED, PlayerInterface.ChooseReason.DAMAGE_ASSIGNMENT_ORDER);
 				chooseParameters.thisID = attacker.ID;
 				blockers = activePlayer.sanitizeAndChoose(game.actualState, blockers, chooseParameters);
 				attacker = attacker.getPhysical();
@@ -72,11 +78,11 @@ public final class DeclareBlockers extends EventType
 			{
 				if(blocker.controllerID == player.ID && blocker.getBlockingIDs().size() > 1)
 				{
-					java.util.List<GameObject> attackers = new java.util.LinkedList<GameObject>();
+					List<GameObject> attackers = new LinkedList<GameObject>();
 					for(int attackerID: blocker.getBlockingIDs())
 						attackers.add(game.actualState.<GameObject>get(attackerID));
 					int numAttackers = attackers.size();
-					PlayerInterface.ChooseParameters<java.io.Serializable> chooseParameters = new PlayerInterface.ChooseParameters<java.io.Serializable>(numAttackers, numAttackers, PlayerInterface.ChoiceType.OBJECTS_ORDERED, PlayerInterface.ChooseReason.DAMAGE_ASSIGNMENT_ORDER);
+					PlayerInterface.ChooseParameters<Serializable> chooseParameters = new PlayerInterface.ChooseParameters<Serializable>(numAttackers, numAttackers, PlayerInterface.ChoiceType.OBJECTS_ORDERED, PlayerInterface.ChooseReason.DAMAGE_ASSIGNMENT_ORDER);
 					chooseParameters.thisID = blocker.ID;
 					attackers = player.sanitizeAndChoose(game.actualState, attackers, chooseParameters);
 					blocker = blocker.getPhysical();

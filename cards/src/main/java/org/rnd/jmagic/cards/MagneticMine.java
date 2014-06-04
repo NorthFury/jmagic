@@ -3,6 +3,7 @@ package org.rnd.jmagic.cards;
 import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+import org.rnd.jmagic.engine.patterns.SimpleZoneChangePattern;
 
 @Name("Magnetic Mine")
 @Types({Type.ARTIFACT})
@@ -16,7 +17,7 @@ public final class MagneticMine extends Card
 		public MagneticMineAbility0(GameState state)
 		{
 			super(state, "Whenever another artifact is put into a graveyard from the battlefield, Magnetic Mine deals 2 damage to that artifact's controller.");
-			this.addPattern(new org.rnd.jmagic.engine.patterns.SimpleZoneChangePattern(Battlefield.instance(), GraveyardOf.instance(Players.instance()), RelativeComplement.instance(ArtifactPermanents.instance(), ABILITY_SOURCE_OF_THIS), true));
+			this.addPattern(new SimpleZoneChangePattern(Battlefield.instance(), GraveyardOf.instance(Players.instance()), RelativeComplement.instance(ArtifactPermanents.instance(), ABILITY_SOURCE_OF_THIS), true));
 
 			SetGenerator thatObject = OldObjectOf.instance(TriggerZoneChange.instance(This.instance()));
 

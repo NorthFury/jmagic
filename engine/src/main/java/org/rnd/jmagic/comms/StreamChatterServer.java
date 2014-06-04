@@ -1,16 +1,23 @@
 package org.rnd.jmagic.comms;
 
+import org.rnd.util.ExceptionListener;
+
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.lang.String;
+
 public class StreamChatterServer implements ChatManager.Callback, Runnable
 {
-	private java.io.ObjectInputStream in;
+	private ObjectInputStream in;
 
-	private org.rnd.util.ExceptionListener<java.io.IOException> ioExceptionListener;
+	private ExceptionListener<IOException> ioExceptionListener;
 
 	private ChatManager.MessagePoster messagePoster;
 
-	private java.io.ObjectOutputStream out;
+	private ObjectOutputStream out;
 
-	public StreamChatterServer(java.io.ObjectInputStream in, java.io.ObjectOutputStream out, org.rnd.util.ExceptionListener<java.io.IOException> ioExceptionListener)
+	public StreamChatterServer(ObjectInputStream in, ObjectOutputStream out, ExceptionListener<IOException> ioExceptionListener)
 	{
 		this.in = in;
 		this.ioExceptionListener = ioExceptionListener;
@@ -18,14 +25,14 @@ public class StreamChatterServer implements ChatManager.Callback, Runnable
 	}
 
 	@Override
-	public void gotMessage(java.lang.String message)
+	public void gotMessage(String message)
 	{
 		try
 		{
 			this.out.writeUTF(message);
 			this.out.flush();
 		}
-		catch(java.io.IOException e)
+		catch(IOException e)
 		{
 			this.ioExceptionListener.exceptionThrown(e);
 		}
@@ -42,7 +49,7 @@ public class StreamChatterServer implements ChatManager.Callback, Runnable
 			while(true)
 				this.messagePoster.postMessage(this.in.readUTF());
 		}
-		catch(java.io.IOException e)
+		catch(IOException e)
 		{
 			this.ioExceptionListener.exceptionThrown(e);
 		}

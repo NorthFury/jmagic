@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Kicker;
+import org.rnd.jmagic.abilities.keywords.Lifelink;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -15,7 +18,7 @@ public final class VampiresBite extends Card
 	{
 		super(state);
 
-		org.rnd.jmagic.abilities.keywords.Kicker ability = new org.rnd.jmagic.abilities.keywords.Kicker(state, "2B");
+		Kicker ability = new Kicker(state, "2B");
 		this.addAbility(ability);
 
 		// Kicker (2)(B) (You may pay an additional (2)(B) as you cast this
@@ -28,7 +31,7 @@ public final class VampiresBite extends Card
 		Target target = this.addTarget(CreaturePermanents.instance(), "target creature");
 
 		ContinuousEffect.Part ptPart = modifyPowerAndToughness(targetedBy(target), +3, +0);
-		ContinuousEffect.Part lifelinkPart = addAbilityToObject(targetedBy(target), org.rnd.jmagic.abilities.keywords.Lifelink.class);
+		ContinuousEffect.Part lifelinkPart = addAbilityToObject(targetedBy(target), Lifelink.class);
 
 		EventFactory ctsEffect = new EventFactory(EventType.CREATE_FLOATING_CONTINUOUS_EFFECT, "Target creature gets +3/+0 until end of turn. If Vampire's Bite was kicked, that creature gains lifelink until end of turn.");
 		ctsEffect.parameters.put(EventType.Parameter.CAUSE, This.instance());

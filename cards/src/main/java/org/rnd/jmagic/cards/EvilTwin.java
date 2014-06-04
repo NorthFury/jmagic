@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.YouMayHaveThisEnterTheBattlefieldAsACopy;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -36,6 +38,6 @@ public final class EvilTwin extends Card
 		// You may have Evil Twin enter the battlefield as a copy of any
 		// creature on the battlefield except it gains
 		// "(U)(B), (T): Destroy target creature with the same name as this creature."
-		this.addAbility(new org.rnd.jmagic.abilities.YouMayHaveThisEnterTheBattlefieldAsACopy(CreaturePermanents.instance()).setName("You may have Evil Twin enter the battlefield as a copy of any creature on the battlefield except it gains \"(U)(B), (T): Destroy target creature with the same name as this creature.\"").setAbility(EvilTwinAbility1.class).getStaticAbility(state));
+		this.addAbility(new YouMayHaveThisEnterTheBattlefieldAsACopy(CreaturePermanents.instance()).setName("You may have Evil Twin enter the battlefield as a copy of any creature on the battlefield except it gains \"(U)(B), (T): Destroy target creature with the same name as this creature.\"").setAbility(EvilTwinAbility1.class).getStaticAbility(state));
 	}
 }

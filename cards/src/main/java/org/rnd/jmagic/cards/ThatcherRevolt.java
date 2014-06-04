@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Haste;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -21,7 +22,7 @@ public final class ThatcherRevolt extends Card
 		CreateTokensFactory f = new CreateTokensFactory(3, 1, 1, "Put three 1/1 red Human creature tokens with haste onto the battlefield.");
 		f.setColors(Color.RED);
 		f.setSubTypes(SubType.HUMAN);
-		f.addAbility(org.rnd.jmagic.abilities.keywords.Haste.class);
+		f.addAbility(Haste.class);
 		EventFactory createTokens = f.getEventFactory();
 		this.addEffect(createTokens);
 

@@ -6,6 +6,8 @@ import org.junit.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.testing.*;
 
+import java.util.Collection;
+
 public class ChromeMoxTest extends JUnitTest
 {
 	@Test
@@ -39,7 +41,7 @@ public class ChromeMoxTest extends JUnitTest
 		this.respondWith(this.getAbilityAction(ChromeMox.ImprintMana.class));
 		{
 			ManaPool pool = this.player(0).pool;
-			java.util.Collection<Color> symbolColors = pool.iterator().next().colors;
+			Collection<Color> symbolColors = pool.iterator().next().colors;
 			assertEquals(1, pool.converted());
 			assertEquals(1, symbolColors.size());
 			assertEquals(Color.GREEN, symbolColors.iterator().next());

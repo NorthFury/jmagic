@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.Regenerate;
+import org.rnd.jmagic.abilities.keywords.Enchant;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -12,7 +15,7 @@ import org.rnd.jmagic.engine.generators.*;
 @ColorIdentity({Color.GREEN})
 public final class Trollhide extends Card
 {
-	public static final class Regenerate1G extends org.rnd.jmagic.abilities.Regenerate
+	public static final class Regenerate1G extends Regenerate
 	{
 		public Regenerate1G(GameState state)
 		{
@@ -35,7 +38,7 @@ public final class Trollhide extends Card
 		super(state);
 
 		// Enchant creature
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Enchant.Creature(state));
+		this.addAbility(new Enchant.Creature(state));
 
 		// Enchanted creature gets +2/+2 and has
 		// "(1)(G): Regenerate this creature."

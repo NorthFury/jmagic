@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Cycling;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -36,7 +38,7 @@ public final class GempalmPolluter extends Card
 		this.setPower(4);
 		this.setToughness(3);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Cycling(state, "(B)(B)"));
+		this.addAbility(new Cycling(state, "(B)(B)"));
 
 		// When you cycle Gempalm Polluter, you may have target player lose life
 		// equal to the number of Zombies on the battlefield.

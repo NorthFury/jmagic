@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.Ping;
+import org.rnd.jmagic.abilities.keywords.Equip;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -31,7 +34,7 @@ public final class WolfhuntersQuiver extends Card
 		{
 			super(state, "Equipped creature has \"(T): This creature deals 1 damage to target creature or player\" and \"(T): This creature deals 3 damage to target Werewolf creature.\"");
 
-			this.addEffectPart(addAbilityToObject(EquippedBy.instance(This.instance()), org.rnd.jmagic.abilities.Ping.class, ShootWerewolves.class));
+			this.addEffectPart(addAbilityToObject(EquippedBy.instance(This.instance()), Ping.class, ShootWerewolves.class));
 		}
 	}
 
@@ -45,6 +48,6 @@ public final class WolfhuntersQuiver extends Card
 		this.addAbility(new WolfhuntersQuiverAbility0(state));
 
 		// Equip (5)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Equip(state, "(5)"));
+		this.addAbility(new Equip(state, "(5)"));
 	}
 }

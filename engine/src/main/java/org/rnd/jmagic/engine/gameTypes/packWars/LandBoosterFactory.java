@@ -2,6 +2,10 @@ package org.rnd.jmagic.engine.gameTypes.packWars;
 
 import org.rnd.jmagic.*;
 import org.rnd.jmagic.engine.*;
+import org.rnd.util.Constructor;
+
+import java.util.LinkedList;
+import java.util.List;
 
 @Name("Land booster")
 public class LandBoosterFactory implements BoosterFactory
@@ -24,14 +28,14 @@ public class LandBoosterFactory implements BoosterFactory
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public java.util.List<Card> createBooster(GameState state) throws CardLoader.CardLoaderException
+	public List<Card> createBooster(GameState state) throws CardLoader.CardLoaderException
 	{
-		java.util.List<Card> ret = new java.util.LinkedList<Card>();
+		List<Card> ret = new LinkedList<Card>();
 
 		for(Class<?> clazz: new Class<?>[] {CardLoader.getCard("Plains"), CardLoader.getCard("Island"), CardLoader.getCard("Swamp"), CardLoader.getCard("Mountain"), CardLoader.getCard("Forest")})
 			for(int i = 0; i < this.landsOfEachBasicLandType; ++i)
 			{
-				Card instance = org.rnd.util.Constructor.construct((Class<? extends Card>)clazz, new Class<?>[] {GameState.class}, new Object[] {state});
+				Card instance = Constructor.construct((Class<? extends Card>)clazz, new Class<?>[] {GameState.class}, new Object[] {state});
 				instance.setExpansionSymbol(Expansion.MAGIC_2011);
 				ret.add(instance);
 			}

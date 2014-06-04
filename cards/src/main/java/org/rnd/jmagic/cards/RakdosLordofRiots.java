@@ -1,5 +1,8 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.CostsYouLessToCast;
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -44,13 +47,13 @@ public final class RakdosLordofRiots extends Card
 		this.addAbility(new RakdosLordofRiotsAbility0(state));
 
 		// Flying, trample
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Trample(state));
+		this.addAbility(new Flying(state));
+		this.addAbility(new Trample(state));
 
 		// Creature spells you cast cost (1) less to cast for each 1 life your
 		// opponents have lost this turn.
 		state.ensureTracker(new LifeLostThisTurn.LifeTracker());
 		SetGenerator lifeLost = LifeLostThisTurn.instance(OpponentsOf.instance(You.instance()));
-		this.addAbility(new org.rnd.jmagic.abilities.CostsYouLessToCast(state, HasType.instance(Type.CREATURE), "(1)", lifeLost, "Creature spells you cast cost (1) less to cast for each 1 life your opponents have lost this turn."));
+		this.addAbility(new CostsYouLessToCast(state, HasType.instance(Type.CREATURE), "(1)", lifeLost, "Creature spells you cast cost (1) less to cast for each 1 life your opponents have lost this turn."));
 	}
 }

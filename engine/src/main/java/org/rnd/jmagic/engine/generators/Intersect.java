@@ -1,6 +1,9 @@
 package org.rnd.jmagic.engine.generators;
 
 import org.rnd.jmagic.engine.*;
+import org.rnd.util.NumberRange;
+
+import java.util.Set;
 
 /**
  * Evaluates to the common elements between each of the given sets
@@ -21,14 +24,14 @@ public class Intersect extends SetGenerator
 		MagicSet ret = new MagicSet(a);
 		ret.retainAll(b);
 
-		java.util.Set<Integer> bNumbers = b.getAll(Integer.class);
-		java.util.Set<org.rnd.util.NumberRange> bRanges = b.getAll(org.rnd.util.NumberRange.class);
-		for(org.rnd.util.NumberRange aRange: a.getAll(org.rnd.util.NumberRange.class))
+		Set<Integer> bNumbers = b.getAll(Integer.class);
+		Set<NumberRange> bRanges = b.getAll(NumberRange.class);
+		for(NumberRange aRange: a.getAll(NumberRange.class))
 		{
 			Integer aLower = aRange.getLower();
 			Integer aUpper = aRange.getUpper();
 
-			for(org.rnd.util.NumberRange bRange: bRanges)
+			for(NumberRange bRange: bRanges)
 			{
 				Integer bLower = bRange.getLower();
 				Integer bUpper = bRange.getUpper();
@@ -52,7 +55,7 @@ public class Intersect extends SetGenerator
 					else
 						newUpper = Math.min(aUpper, bUpper);
 
-					ret.add(new org.rnd.util.NumberRange(newLower, newUpper));
+					ret.add(new NumberRange(newLower, newUpper));
 				}
 			}
 			for(Integer bNumber: bNumbers)
@@ -61,7 +64,7 @@ public class Intersect extends SetGenerator
 		}
 		for(Integer aNumber: a.getAll(Integer.class))
 		{
-			for(org.rnd.util.NumberRange bRange: bRanges)
+			for(NumberRange bRange: bRanges)
 				if((null == bRange.getLower() || bRange.getLower() <= aNumber) && (null == bRange.getUpper() || aNumber <= bRange.getUpper()))
 					ret.add(aNumber);
 			for(Integer bNumber: bNumbers)

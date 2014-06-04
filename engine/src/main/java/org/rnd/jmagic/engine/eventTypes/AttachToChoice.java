@@ -3,6 +3,13 @@ package org.rnd.jmagic.engine.eventTypes;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+
 public final class AttachToChoice extends EventType
 {	public static final EventType INSTANCE = new AttachToChoice();
 
@@ -18,7 +25,7 @@ public final class AttachToChoice extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean attempt(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		MagicSet object = parameters.get(Parameter.OBJECT);
 		MagicSet choices = parameters.get(Parameter.CHOICE);
@@ -34,7 +41,7 @@ public final class AttachToChoice extends EventType
 
 			GameObject thisCard = choices.getOne(GameObject.class);
 			choices.remove(thisCard);
-			java.util.Map<Parameter, MagicSet> newParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> newParameters = new HashMap<Parameter, MagicSet>();
 			parameters.put(Parameter.OBJECT, object);
 			parameters.put(Parameter.TARGET, new MagicSet(thisCard));
 
@@ -54,17 +61,17 @@ public final class AttachToChoice extends EventType
 	}
 
 	@Override
-	public void makeChoices(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public void makeChoices(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
-		java.util.Set<AttachableTo> validChoices = parameters.get(Parameter.CHOICE).getAll(AttachableTo.class);
+		Set<AttachableTo> validChoices = parameters.get(Parameter.CHOICE).getAll(AttachableTo.class);
 		GameObject object = parameters.get(Parameter.OBJECT).getOne(GameObject.class);
 		Player player = parameters.get(Parameter.PLAYER).getOne(Player.class);
 
-		java.util.Iterator<AttachableTo> i = validChoices.iterator();
+		Iterator<AttachableTo> i = validChoices.iterator();
 		while(i.hasNext())
 		{
 			AttachableTo to = i.next();
-			java.util.Map<Parameter, MagicSet> attachParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> attachParameters = new HashMap<Parameter, MagicSet>();
 			attachParameters.put(Parameter.OBJECT, new MagicSet(object));
 			attachParameters.put(Parameter.TARGET, new MagicSet(to));
 			Event attachEvent = createEvent(game, player + " attaches " + object + " to " + to + ".", ATTACH, attachParameters);
@@ -72,16 +79,16 @@ public final class AttachToChoice extends EventType
 				i.remove();
 		}
 
-		PlayerInterface.ChooseParameters<java.io.Serializable> chooseParameters = new PlayerInterface.ChooseParameters<java.io.Serializable>(1, 1, PlayerInterface.ChoiceType.OBJECTS, PlayerInterface.ChooseReason.ATTACH);
+		PlayerInterface.ChooseParameters<Serializable> chooseParameters = new PlayerInterface.ChooseParameters<Serializable>(1, 1, PlayerInterface.ChoiceType.OBJECTS, PlayerInterface.ChooseReason.ATTACH);
 		chooseParameters.thisID = object.ID;
-		java.util.Collection<AttachableTo> choices = player.sanitizeAndChoose(game.actualState, validChoices, chooseParameters);
+		Collection<AttachableTo> choices = player.sanitizeAndChoose(game.actualState, validChoices, chooseParameters);
 		if(choices.isEmpty())
 			event.allChoicesMade = false;
 		event.putChoices(player, choices);
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		boolean ret = event.allChoicesMade;
 		MagicSet result = new MagicSet();
@@ -92,7 +99,7 @@ public final class AttachToChoice extends EventType
 		if(!choices.isEmpty())
 		{
 			// perform the attach event
-			java.util.Map<Parameter, MagicSet> attachParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> attachParameters = new HashMap<Parameter, MagicSet>();
 			attachParameters.put(Parameter.OBJECT, object);
 			attachParameters.put(Parameter.TARGET, choices);
 			Event attachEvent = createEvent(game, player + " attaches " + object + " to " + choices + ".", ATTACH, attachParameters);

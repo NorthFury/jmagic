@@ -1,5 +1,8 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.EntersTheBattlefieldTapped;
+import org.rnd.jmagic.abilities.TapForG;
+import org.rnd.jmagic.abilities.keywords.Graft;
 import org.rnd.jmagic.engine.*;
 
 @Name("Llanowar Reborn")
@@ -12,8 +15,8 @@ public final class LlanowarReborn extends Card
 	{
 		super(state);
 
-		this.addAbility(new org.rnd.jmagic.abilities.EntersTheBattlefieldTapped(state, this.getName()));
-		this.addAbility(new org.rnd.jmagic.abilities.TapForG(state));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Graft(state, 1));
+		this.addAbility(new EntersTheBattlefieldTapped(state, this.getName()));
+		this.addAbility(new TapForG(state));
+		this.addAbility(new Graft(state, 1));
 	}
 }

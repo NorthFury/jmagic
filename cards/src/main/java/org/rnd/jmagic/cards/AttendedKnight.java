@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.FirstStrike;
 import org.rnd.jmagic.engine.*;
 
 @Name("Attended Knight")
@@ -34,7 +36,7 @@ public final class AttendedKnight extends Card
 
 		// First strike (This creature deals combat damage before creatures
 		// without first strike.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.FirstStrike(state));
+		this.addAbility(new FirstStrike(state));
 
 		// When Attended Knight enters the battlefield, put a 1/1 white Soldier
 		// creature token onto the battlefield.

@@ -4,24 +4,33 @@
 package org.rnd.jmagic.gui;
 
 import org.rnd.jmagic.engine.*;
+import org.rnd.util.NumberRange;
 
-class StepLabel extends javax.swing.JTextPane
+import javax.swing.JTextPane;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultHighlighter;
+import javax.swing.text.Highlighter;
+import java.awt.Color;
+import java.util.HashMap;
+import java.util.Map;
+
+class StepLabel extends JTextPane
 {
 	private static final long serialVersionUID = 1L;
 
 	private int currentIndex;
 	private Step.StepType highlighted;
-	private transient javax.swing.text.Highlighter highlighter;
+	private transient Highlighter highlighter;
 
-	private transient javax.swing.text.Highlighter.HighlightPainter highlightPainter;
-	java.util.Map<Step.StepType, org.rnd.util.NumberRange> stepTextRanges;
+	private transient Highlighter.HighlightPainter highlightPainter;
+	Map<Step.StepType, NumberRange> stepTextRanges;
 	private StringBuilder text;
 
 	public StepLabel()
 	{
 		super();
 
-		this.stepTextRanges = new java.util.HashMap<Step.StepType, org.rnd.util.NumberRange>();
+		this.stepTextRanges = new HashMap<Step.StepType, NumberRange>();
 		this.currentIndex = 0;
 		this.text = new StringBuilder();
 		this.addStep(Step.StepType.UNTAP);
@@ -44,9 +53,9 @@ class StepLabel extends javax.swing.JTextPane
 		this.setEditable(false);
 
 		this.highlighted = null;
-		this.highlighter = new javax.swing.text.DefaultHighlighter();
+		this.highlighter = new DefaultHighlighter();
 		this.setHighlighter(this.highlighter);
-		this.highlightPainter = new javax.swing.text.DefaultHighlighter.DefaultHighlightPainter(java.awt.Color.YELLOW);
+		this.highlightPainter = new DefaultHighlighter.DefaultHighlightPainter(Color.YELLOW);
 
 		this.setMinimumSize(this.getPreferredSize());
 	}
@@ -55,7 +64,7 @@ class StepLabel extends javax.swing.JTextPane
 	{
 		String text = s.toString();
 		int length = text.length();
-		this.stepTextRanges.put(s, new org.rnd.util.NumberRange(this.currentIndex, this.currentIndex + length));
+		this.stepTextRanges.put(s, new NumberRange(this.currentIndex, this.currentIndex + length));
 
 		this.text.append(text + (s == Step.StepType.CLEANUP ? "" : "\n"));
 		this.currentIndex += length + 1;
@@ -68,14 +77,14 @@ class StepLabel extends javax.swing.JTextPane
 		this.highlighted = s;
 
 		this.highlighter.removeAllHighlights();
-		org.rnd.util.NumberRange range = this.stepTextRanges.get(s);
+		NumberRange range = this.stepTextRanges.get(s);
 
 		try
 		{
 			if(range != null)
 				this.highlighter.addHighlight(range.getLower(), range.getUpper(), this.highlightPainter);
 		}
-		catch(javax.swing.text.BadLocationException e)
+		catch(BadLocationException e)
 		{
 			throw new RuntimeException("[ this should never happen ] Error highlighting " + s);
 		}

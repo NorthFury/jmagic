@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.YouMayHaveThisEnterTheBattlefieldAsACopy;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -34,6 +36,6 @@ public final class PhantasmalImage extends Card
 		// creature on the battlefield, except it's an Illusion in addition to
 		// its other types and it gains "When this creature becomes the target
 		// of a spell or ability, sacrifice it."
-		this.addAbility(new org.rnd.jmagic.abilities.YouMayHaveThisEnterTheBattlefieldAsACopy(CreaturePermanents.instance()).setName("You may have Phantasmal Image enter the battlefield as a copy of any creature on the battlefield, except it's an Illusion in addition to its other types and it gains \"When this creature becomes the target of a spell or ability, sacrifice it.\"").setAdditionalSubTypes(SubType.ILLUSION).setAbility(PhantasmalAbility.class).getStaticAbility(state));
+		this.addAbility(new YouMayHaveThisEnterTheBattlefieldAsACopy(CreaturePermanents.instance()).setName("You may have Phantasmal Image enter the battlefield as a copy of any creature on the battlefield, except it's an Illusion in addition to its other types and it gains \"When this creature becomes the target of a spell or ability, sacrifice it.\"").setAdditionalSubTypes(SubType.ILLUSION).setAbility(PhantasmalAbility.class).getStaticAbility(state));
 	}
 }

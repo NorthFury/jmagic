@@ -1,6 +1,9 @@
 package org.rnd.jmagic.engine.generators;
 
 import org.rnd.jmagic.engine.*;
+import org.rnd.util.NumberRange;
+
+import java.util.Set;
 
 /**
  * Evaluates to each GameObject whose mana cost is either given, or contained in
@@ -25,8 +28,8 @@ public class HasConvertedManaCost extends SetGenerator
 	{
 		MagicSet ret = new MagicSet();
 
-		java.util.Set<Integer> numbers = this.numbers.evaluate(state, thisObject).getAll(Integer.class);
-		org.rnd.util.NumberRange range = this.numbers.evaluate(state, thisObject).getOne(org.rnd.util.NumberRange.class);
+		Set<Integer> numbers = this.numbers.evaluate(state, thisObject).getAll(Integer.class);
+		NumberRange range = this.numbers.evaluate(state, thisObject).getOne(NumberRange.class);
 
 		for(GameObject object: state.getAllObjects())
 		{

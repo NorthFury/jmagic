@@ -5,6 +5,9 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Name("Wild Evocation")
 @Types({Type.ENCHANTMENT})
 @ManaCost("5R")
@@ -30,12 +33,12 @@ public final class WildEvocation extends Card
 			}
 
 			@Override
-			public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+			public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 			{
 				Player player = parameters.get(Parameter.PLAYER).getOne(Player.class);
 				GameObject card = parameters.get(Parameter.OBJECT).getOne(GameObject.class);
 
-				java.util.Map<Parameter, MagicSet> castParameters = new java.util.HashMap<Parameter, MagicSet>();
+				Map<Parameter, MagicSet> castParameters = new HashMap<Parameter, MagicSet>();
 				castParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 				castParameters.put(Parameter.PLAYER, new MagicSet(player));
 				castParameters.put(Parameter.ALTERNATE_COST, Empty.set);

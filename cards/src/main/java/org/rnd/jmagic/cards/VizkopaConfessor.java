@@ -1,8 +1,13 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Extort;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+import org.rnd.util.NumberRange;
+
+import java.util.Map;
 
 @Name("Vizkopa Confessor")
 @Types({Type.CREATURE})
@@ -21,10 +26,10 @@ public final class VizkopaConfessor extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			Player player = parameters.get(Parameter.PLAYER).getOne(Player.class);
-			int number = player.chooseNumber(new org.rnd.util.NumberRange(0, player.lifeTotal), "Pay any amount of life.");
+			int number = player.chooseNumber(new NumberRange(0, player.lifeTotal), "Pay any amount of life.");
 
 			Event payLife = payLife(Identity.instance(player), number, "Pay " + number + " life").createEvent(game, event.getSource());
 			boolean ret = payLife.perform(event, false);
@@ -70,7 +75,7 @@ public final class VizkopaConfessor extends Card
 
 		// Extort (Whenever you cast a spell, you may pay (w/b). If you do, each
 		// opponent loses 1 life and you gain that much life.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Extort(state));
+		this.addAbility(new Extort(state));
 
 		// When Vizkopa Confessor enters the battlefield, pay any amount of
 		// life. Target opponent reveals that many cards from his or her hand.

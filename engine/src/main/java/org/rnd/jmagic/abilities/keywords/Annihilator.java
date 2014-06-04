@@ -4,6 +4,10 @@ import static org.rnd.jmagic.Convenience.*;
 
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+import org.rnd.util.NumberNames;
+
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * 702.84. Annihilator
@@ -26,9 +30,9 @@ public abstract class Annihilator extends Keyword
 	}
 
 	@Override
-	public java.util.List<NonStaticAbility> createNonStaticAbilities()
+	public List<NonStaticAbility> createNonStaticAbilities()
 	{
-		java.util.List<NonStaticAbility> ret = new java.util.LinkedList<NonStaticAbility>();
+		List<NonStaticAbility> ret = new LinkedList<NonStaticAbility>();
 		ret.add(new AnnihilatorAbility(this.state, this.number));
 		return ret;
 	}
@@ -39,11 +43,11 @@ public abstract class Annihilator extends Keyword
 
 		public AnnihilatorAbility(GameState state, int number)
 		{
-			super(state, "Whenever this creature attacks, defending player sacrifices " + org.rnd.util.NumberNames.get(number, "a") + " permanent" + (number == 1 ? "" : "s") + ".");
+			super(state, "Whenever this creature attacks, defending player sacrifices " + NumberNames.get(number, "a") + " permanent" + (number == 1 ? "" : "s") + ".");
 			this.number = number;
 
 			this.addPattern(whenThisAttacks());
-			this.addEffect(sacrifice(DefendingPlayer.instance(ABILITY_SOURCE_OF_THIS), number, Permanents.instance(), "Defending player sacrifices " + org.rnd.util.NumberNames.get(number, "a") + " permanent" + (number == 1 ? "" : "s")));
+			this.addEffect(sacrifice(DefendingPlayer.instance(ABILITY_SOURCE_OF_THIS), number, Permanents.instance(), "Defending player sacrifices " + NumberNames.get(number, "a") + " permanent" + (number == 1 ? "" : "s")));
 		}
 
 		@Override

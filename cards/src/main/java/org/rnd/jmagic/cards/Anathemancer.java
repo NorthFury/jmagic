@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Unearth;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -37,6 +38,6 @@ public final class Anathemancer extends Card
 
 		this.addAbility(new NonBasicHate(state));
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Unearth(state, "(5)(B)(R)"));
+		this.addAbility(new Unearth(state, "(5)(B)(R)"));
 	}
 }

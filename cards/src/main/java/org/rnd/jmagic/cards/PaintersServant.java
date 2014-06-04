@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilityTemplates.AsThisEntersTheBattlefieldChooseAColor;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -11,7 +12,7 @@ import org.rnd.jmagic.engine.generators.*;
 @ColorIdentity({})
 public final class PaintersServant extends Card
 {
-	public static final class ColorChoice extends org.rnd.jmagic.abilityTemplates.AsThisEntersTheBattlefieldChooseAColor
+	public static final class ColorChoice extends AsThisEntersTheBattlefieldChooseAColor
 	{
 		public ColorChoice(GameState state)
 		{

@@ -1,6 +1,13 @@
 package org.rnd.jmagic.engine.eventTypes;
 
 import org.rnd.jmagic.engine.*;
+import org.rnd.util.NumberRange;
+
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public final class RemoveCountersChoice extends EventType
 {	public static final EventType INSTANCE = new RemoveCountersChoice();
@@ -17,15 +24,15 @@ public final class RemoveCountersChoice extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean attempt(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
-		java.util.Set<Counter> counters = parameters.get(Parameter.COUNTER).getAll(Counter.class);
+		Set<Counter> counters = parameters.get(Parameter.COUNTER).getAll(Counter.class);
 
-		org.rnd.util.NumberRange number = null;
+		NumberRange number = null;
 		if(parameters.containsKey(Parameter.NUMBER))
 			number = getRange(parameters.get(Parameter.NUMBER));
 		else
-			number = new org.rnd.util.NumberRange(1, 1);
+			number = new NumberRange(1, 1);
 
 		if(counters.size() < number.getLower(0))
 			return false;
@@ -33,17 +40,17 @@ public final class RemoveCountersChoice extends EventType
 	}
 
 	@Override
-	public void makeChoices(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public void makeChoices(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		Player player = parameters.get(Parameter.PLAYER).getOne(Player.class);
-		java.util.Set<Counter> counters = parameters.get(Parameter.COUNTER).getAll(Counter.class);
-		org.rnd.util.NumberRange number = null;
+		Set<Counter> counters = parameters.get(Parameter.COUNTER).getAll(Counter.class);
+		NumberRange number = null;
 		if(parameters.containsKey(Parameter.NUMBER))
 			number = getRange(parameters.get(Parameter.NUMBER));
 		else
-			number = new org.rnd.util.NumberRange(1, 1);
+			number = new NumberRange(1, 1);
 
-		java.util.List<Counter> choice = new java.util.LinkedList<Counter>();
+		List<Counter> choice = new LinkedList<Counter>();
 		if(counters.size() <= number.getLower(0))
 		{
 			choice.addAll(counters);
@@ -52,14 +59,14 @@ public final class RemoveCountersChoice extends EventType
 		}
 		else
 		{
-			choice.addAll(player.choose(new PlayerInterface.ChooseParameters<Counter>(new MagicSet(number), new java.util.LinkedList<Counter>(counters), PlayerInterface.ChoiceType.STRING, PlayerInterface.ChooseReason.CHOOSE_COUNTERS)));
+			choice.addAll(player.choose(new PlayerInterface.ChooseParameters<Counter>(new MagicSet(number), new LinkedList<Counter>(counters), PlayerInterface.ChoiceType.STRING, PlayerInterface.ChooseReason.CHOOSE_COUNTERS)));
 			event.allChoicesMade = true;
 			event.putChoices(player, choice);
 		}
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		Player player = parameters.get(Parameter.PLAYER).getOne(Player.class);
 		MagicSet choice = event.getChoices(player);
@@ -70,7 +77,7 @@ public final class RemoveCountersChoice extends EventType
 		MagicSet result = new MagicSet();
 		for(Counter counter: choice.getAll(Counter.class))
 		{
-			java.util.Map<Parameter, MagicSet> counterParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> counterParameters = new HashMap<Parameter, MagicSet>();
 			counterParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 			counterParameters.put(Parameter.COUNTER, new MagicSet(counter.getType()));
 			counterParameters.put(Parameter.OBJECT, new MagicSet(game.actualState.get(counter.sourceID)));

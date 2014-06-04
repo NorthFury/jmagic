@@ -5,6 +5,11 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @Name("World Queller")
 @Types({Type.CREATURE})
 @SubTypes({SubType.AVATAR})
@@ -26,13 +31,13 @@ public final class WorldQueller extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			Player you = parameters.get(Parameter.PLAYER).getOne(Player.class);
-			java.util.List<Type> chosenType = you.sanitizeAndChoose(game.actualState, 1, java.util.EnumSet.allOf(Type.class), PlayerInterface.ChoiceType.ENUM, PlayerInterface.ChooseReason.CHOOSE_CARD_TYPE);
+			List<Type> chosenType = you.sanitizeAndChoose(game.actualState, 1, EnumSet.allOf(Type.class), PlayerInterface.ChoiceType.ENUM, PlayerInterface.ChooseReason.CHOOSE_CARD_TYPE);
 
 			MagicSet cause = parameters.get(Parameter.CAUSE);
-			java.util.Map<Parameter, MagicSet> sacParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> sacParameters = new HashMap<Parameter, MagicSet>();
 			sacParameters.put(Parameter.CAUSE, cause);
 			sacParameters.put(Parameter.NUMBER, new MagicSet(1));
 			sacParameters.put(Parameter.CHOICE, HasType.get(game.actualState, chosenType));

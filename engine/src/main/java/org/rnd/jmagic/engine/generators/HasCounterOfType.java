@@ -2,6 +2,9 @@ package org.rnd.jmagic.engine.generators;
 
 import org.rnd.jmagic.engine.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Evaluates to each GameObject which has (a | at least the given number of)
  * counter(s) of the given type on it
@@ -36,7 +39,7 @@ public class HasCounterOfType extends SetGenerator
 	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
 		MagicSet ret = new MagicSet();
-		java.util.Set<Counter.CounterType> types = new java.util.HashSet<Counter.CounterType>();
+		Set<Counter.CounterType> types = new HashSet<Counter.CounterType>();
 		MagicSet counters = this.counter.evaluate(state, thisObject);
 		for(Counter counter: counters.getAll(Counter.class))
 			types.add(counter.getType());

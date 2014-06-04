@@ -1,7 +1,14 @@
 package org.rnd.jmagic.engine;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Haste;
 import org.rnd.jmagic.engine.generators.*;
+import org.rnd.jmagic.sanitized.SanitizedActivatedAbility;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Represents an activated ability. An activated ability is an ability that is
@@ -9,7 +16,7 @@ import org.rnd.jmagic.engine.generators.*;
  * <ul>
  * <li>An ability may not be activated if it includes a tap or untap symbol in
  * its cost and the source of this ability has summoning sickness but not
- * {@link org.rnd.jmagic.abilities.keywords.Haste Haste}.</li>
+ * {@link Haste Haste}.</li>
  * <li>An ability may be activated by the controller of its source.</li>
  * <li>An ability may be activated if its source is an object on the
  * battlefield, a player, or an emblem.</li>
@@ -24,23 +31,23 @@ import org.rnd.jmagic.engine.generators.*;
 public abstract class ActivatedAbility extends NonStaticAbility
 {
 	/** keys are ability IDs, values are activation counts */
-	public static class ActivationsThisTurn extends Tracker<java.util.Map<Integer, Integer>>
+	public static class ActivationsThisTurn extends Tracker<Map<Integer, Integer>>
 	{
-		private java.util.HashMap<Integer, Integer> counts = new java.util.HashMap<Integer, Integer>();
-		private java.util.Map<Integer, Integer> unmodifiable = java.util.Collections.unmodifiableMap(this.counts);
+		private HashMap<Integer, Integer> counts = new HashMap<Integer, Integer>();
+		private Map<Integer, Integer> unmodifiable = Collections.unmodifiableMap(this.counts);
 
 		@SuppressWarnings("unchecked")
 		@Override
 		public ActivationsThisTurn clone()
 		{
 			ActivationsThisTurn ret = (ActivationsThisTurn)super.clone();
-			ret.counts = (java.util.HashMap<Integer, Integer>)this.counts.clone();
-			ret.unmodifiable = java.util.Collections.unmodifiableMap(ret.counts);
+			ret.counts = (HashMap<Integer, Integer>)this.counts.clone();
+			ret.unmodifiable = Collections.unmodifiableMap(ret.counts);
 			return ret;
 		}
 
 		@Override
-		protected java.util.Map<Integer, Integer> getValueInternal()
+		protected Map<Integer, Integer> getValueInternal()
 		{
 			return this.unmodifiable;
 		}
@@ -127,7 +134,7 @@ public abstract class ActivatedAbility extends NonStaticAbility
 
 		SetGenerator thisHasSummoningSickness = Intersect.instance(HasSummoningSickness.instance(), thisCard);
 		SetGenerator thisCostsTapOrUntap = CostsTapOrUntap.instance(This.instance());
-		SetGenerator thisHasHaste = Intersect.instance(HasKeywordAbility.instance(org.rnd.jmagic.abilities.keywords.Haste.class), thisCard);
+		SetGenerator thisHasHaste = Intersect.instance(HasKeywordAbility.instance(Haste.class), thisCard);
 		this.activateRestriction = Both.instance(Not.instance(thisHasHaste), Both.instance(thisCostsTapOrUntap, thisHasSummoningSickness));
 	}
 
@@ -299,9 +306,9 @@ public abstract class ActivatedAbility extends NonStaticAbility
 	}
 
 	@Override
-	public org.rnd.jmagic.sanitized.SanitizedActivatedAbility sanitize(GameState state, Player whoFor)
+	public SanitizedActivatedAbility sanitize(GameState state, Player whoFor)
 	{
-		return new org.rnd.jmagic.sanitized.SanitizedActivatedAbility(state.<ActivatedAbility>get(this.ID), whoFor);
+		return new SanitizedActivatedAbility(state.<ActivatedAbility>get(this.ID), whoFor);
 	}
 
 	/**
@@ -329,7 +336,7 @@ public abstract class ActivatedAbility extends NonStaticAbility
 	public final int timesActivatedThisTurn()
 	{
 		ActivationsThisTurn flag = this.game.actualState.getTracker(ActivationsThisTurn.class);
-		java.util.Map<Integer, Integer> map = flag.getValue(this.game.actualState);
+		Map<Integer, Integer> map = flag.getValue(this.game.actualState);
 		if(map.containsKey(this.printedVersionID))
 			return map.get(this.printedVersionID);
 		return 0;

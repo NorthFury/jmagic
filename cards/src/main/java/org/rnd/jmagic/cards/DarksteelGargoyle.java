@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Indestructible;
 import org.rnd.jmagic.engine.*;
 
 @Name("Darksteel Gargoyle")
@@ -17,7 +19,7 @@ public final class DarksteelGargoyle extends Card
 		this.setPower(3);
 		this.setToughness(3);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Indestructible(state));
+		this.addAbility(new Flying(state));
+		this.addAbility(new Indestructible(state));
 	}
 }

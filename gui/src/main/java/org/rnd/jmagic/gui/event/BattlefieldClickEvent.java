@@ -1,18 +1,20 @@
 package org.rnd.jmagic.gui.event;
 
+import java.awt.event.MouseEvent;
+
 public class BattlefieldClickEvent extends GuiEvent
 {
 	public static final Object TYPE = "BattlefieldClickEvent";
 
-	private java.awt.event.MouseEvent click;
+	private MouseEvent click;
 
-	public BattlefieldClickEvent(java.awt.event.MouseEvent click)
+	public BattlefieldClickEvent(MouseEvent click)
 	{
 		super(TYPE);
 		this.click = click;
 	}
 
-	public java.awt.event.MouseEvent getClick()
+	public MouseEvent getClick()
 	{
 		return this.click;
 	}

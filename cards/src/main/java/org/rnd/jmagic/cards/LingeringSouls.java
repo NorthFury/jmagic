@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flashback;
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 
 @Name("Lingering Souls")
@@ -19,11 +22,11 @@ public final class LingeringSouls extends Card
 		CreateTokensFactory factory = new CreateTokensFactory(2, 1, 1, "Put two 1/1 white Spirit creature tokens with flying onto the battlefield.");
 		factory.setColors(Color.WHITE);
 		factory.setSubTypes(SubType.SPIRIT);
-		factory.addAbility(org.rnd.jmagic.abilities.keywords.Flying.class);
+		factory.addAbility(Flying.class);
 		this.addEffect(factory.getEventFactory());
 
 		// Flashback (1)(B) (You may cast this card from your graveyard for its
 		// flashback cost. Then exile it.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flashback(state, "(1)(B)"));
+		this.addAbility(new Flashback(state, "(1)(B)"));
 	}
 }

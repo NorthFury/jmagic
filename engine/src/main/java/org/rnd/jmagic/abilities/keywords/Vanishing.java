@@ -2,9 +2,14 @@ package org.rnd.jmagic.abilities.keywords;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.EntersTheBattlefieldWithCounters;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
+
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 
 public final class Vanishing extends Keyword
 {
@@ -28,11 +33,11 @@ public final class Vanishing extends Keyword
 	}
 
 	@Override
-	protected java.util.List<StaticAbility> createStaticAbilities()
+	protected List<StaticAbility> createStaticAbilities()
 	{
 		if(this.N == 0)
 			return super.createStaticAbilities();
-		return java.util.Collections.<StaticAbility>singletonList(new org.rnd.jmagic.abilities.EntersTheBattlefieldWithCounters(this.state, "This permanent", this.N, Counter.CounterType.TIME));
+		return Collections.<StaticAbility>singletonList(new EntersTheBattlefieldWithCounters(this.state, "This permanent", this.N, Counter.CounterType.TIME));
 	}
 
 	public static final class RemoveCounter extends EventTriggeredAbility
@@ -75,9 +80,9 @@ public final class Vanishing extends Keyword
 	}
 
 	@Override
-	protected java.util.List<NonStaticAbility> createNonStaticAbilities()
+	protected List<NonStaticAbility> createNonStaticAbilities()
 	{
-		java.util.List<NonStaticAbility> ret = new java.util.LinkedList<NonStaticAbility>();
+		List<NonStaticAbility> ret = new LinkedList<NonStaticAbility>();
 
 		ret.add(new RemoveCounter(this.state));
 		ret.add(new KillMe(this.state));

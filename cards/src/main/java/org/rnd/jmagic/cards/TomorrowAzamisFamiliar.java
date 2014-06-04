@@ -3,6 +3,7 @@ package org.rnd.jmagic.cards;
 import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+import org.rnd.jmagic.engine.patterns.SimpleEventPattern;
 
 @Name("Tomorrow, Azami's Familiar")
 @SuperTypes({SuperType.LEGENDARY})
@@ -21,7 +22,7 @@ public final class TomorrowAzamisFamiliar extends Card
 		{
 			super(state, "If you would draw a card, look at the top three cards of your library instead. Put one of those cards into your hand and the rest on the bottom of your library in any order.");
 
-			org.rnd.jmagic.engine.patterns.SimpleEventPattern youDrawACard = new org.rnd.jmagic.engine.patterns.SimpleEventPattern(EventType.DRAW_ONE_CARD);
+			SimpleEventPattern youDrawACard = new SimpleEventPattern(EventType.DRAW_ONE_CARD);
 			youDrawACard.put(EventType.Parameter.PLAYER, You.instance());
 
 			EventReplacementEffect replacement = new EventReplacementEffect(this.game, "If you would draw a card, look at the top three cards of your library instead. Put one of those cards into your hand and the rest on the bottom of your library in any order.", youDrawACard);

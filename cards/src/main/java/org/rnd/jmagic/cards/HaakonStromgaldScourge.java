@@ -3,6 +3,7 @@ package org.rnd.jmagic.cards;
 import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+import org.rnd.jmagic.engine.patterns.SimpleEventPattern;
 
 @Name("Haakon, Stromgald Scourge")
 @SuperTypes({SuperType.LEGENDARY})
@@ -26,7 +27,7 @@ public final class HaakonStromgaldScourge extends Card
 			playEffect.parameters.put(ContinuousEffectType.Parameter.PERMISSION, Identity.instance(new PlayPermission(You.instance())));
 			this.addEffectPart(playEffect);
 
-			org.rnd.jmagic.engine.patterns.SimpleEventPattern castSpell = new org.rnd.jmagic.engine.patterns.SimpleEventPattern(EventType.CAST_SPELL_OR_ACTIVATE_ABILITY);
+			SimpleEventPattern castSpell = new SimpleEventPattern(EventType.CAST_SPELL_OR_ACTIVATE_ABILITY);
 			castSpell.put(EventType.Parameter.PLAYER, You.instance());
 			castSpell.put(EventType.Parameter.OBJECT, RelativeComplement.instance(This.instance(), inGraveyard));
 

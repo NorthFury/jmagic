@@ -1,6 +1,10 @@
 package org.rnd.jmagic.testing;
 
 import java.io.*;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 import org.junit.*;
 import static org.junit.Assert.*;
@@ -30,7 +34,7 @@ public class DistributingTest extends JUnitTest
 		pass();
 		pass();
 
-		java.util.List<Integer> ids = new java.util.LinkedList<Integer>();
+		List<Integer> ids = new LinkedList<Integer>();
 		{
 			Zone battlefield = this.game.physicalState.battlefield();
 			assertEquals(4, battlefield.objects.size());
@@ -59,7 +63,7 @@ public class DistributingTest extends JUnitTest
 			respondWith(responses);
 		}
 
-		java.util.Map<Integer, Integer> divisions = new java.util.HashMap<Integer, Integer>();
+		Map<Integer, Integer> divisions = new HashMap<Integer, Integer>();
 		divisions.put(ids.get(1), 1);
 		divisions.put(ids.get(3), 1);
 		divisions.put(ids.get(2), 2);

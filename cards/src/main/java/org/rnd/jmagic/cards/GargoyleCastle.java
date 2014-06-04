@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.TapFor1;
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 
 @Name("Gargoyle Castle")
@@ -25,7 +28,7 @@ public final class GargoyleCastle extends Card
 			CreateTokensFactory token = new CreateTokensFactory(1, 3, 4, "Put a 3/4 colorless Gargoyle artifact creature token with flying onto the battlefield.");
 			token.setSubTypes(SubType.GARGOYLE);
 			token.setArtifact();
-			token.addAbility(org.rnd.jmagic.abilities.keywords.Flying.class);
+			token.addAbility(Flying.class);
 			this.addEffect(token.getEventFactory());
 
 		}
@@ -36,7 +39,7 @@ public final class GargoyleCastle extends Card
 		super(state);
 
 		// (T): Add (1) to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapFor1(state));
+		this.addAbility(new TapFor1(state));
 
 		this.addAbility(new MakeGargoyle(state));
 	}

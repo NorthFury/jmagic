@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.StaticPTChange;
+import org.rnd.jmagic.abilities.keywords.Deathtouch;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -33,12 +36,12 @@ public final class DiregrafCaptain extends Card
 		this.setToughness(2);
 
 		// Deathtouch
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Deathtouch(state));
+		this.addAbility(new Deathtouch(state));
 
 		// Other Zombie creatures you control get +1/+1.
 		SetGenerator otherZombieCreatures = RelativeComplement.instance(Intersect.instance(CreaturePermanents.instance(), HasSubType.instance(SubType.ZOMBIE)), This.instance());
 		SetGenerator yourZombies = Intersect.instance(otherZombieCreatures, ControlledBy.instance(You.instance()));
-		this.addAbility(new org.rnd.jmagic.abilities.StaticPTChange(state, yourZombies, "Other Zombie creatures you control", +1, +1, true));
+		this.addAbility(new StaticPTChange(state, yourZombies, "Other Zombie creatures you control", +1, +1, true));
 
 		// Whenever another Zombie you control dies, target opponent loses 1
 		// life.

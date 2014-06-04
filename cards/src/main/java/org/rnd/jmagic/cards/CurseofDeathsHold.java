@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Enchant;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -29,7 +31,7 @@ public final class CurseofDeathsHold extends Card
 		super(state);
 
 		// Enchant player
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Enchant.Player(state));
+		this.addAbility(new Enchant.Player(state));
 
 		// Creatures enchanted player controls get -1/-1.
 		this.addAbility(new CurseofDeathsHoldAbility1(state));

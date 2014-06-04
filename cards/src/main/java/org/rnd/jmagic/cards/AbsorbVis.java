@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.TypeCycling;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -21,6 +22,6 @@ public final class AbsorbVis extends Card
 		this.addEffect(loseLife(targetedBy(target), 4, "Target player loses 4 life"));
 		this.addEffect(gainLife(You.instance(), 4, "and you gain 4 life."));
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.TypeCycling.BasicLandCycling(state, "(1)(B)"));
+		this.addAbility(new TypeCycling.BasicLandCycling(state, "(1)(B)"));
 	}
 }

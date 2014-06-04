@@ -1,6 +1,10 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Intimidate;
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -37,9 +41,9 @@ public final class WithengarUnbound extends AlternateCard
 		this.setColorIndicator(Color.BLACK);
 
 		// Flying, intimidate, trample
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Intimidate(state));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Trample(state));
+		this.addAbility(new Flying(state));
+		this.addAbility(new Intimidate(state));
+		this.addAbility(new Trample(state));
 
 		// Whenever a player loses the game, put thirteen +1/+1 counters on
 		// Withengar Unbound.

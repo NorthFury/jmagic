@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.TapForG;
+import org.rnd.jmagic.abilities.keywords.Vigilance;
 import org.rnd.jmagic.engine.*;
 
 @Name("Steward of Valeron")
@@ -17,8 +19,8 @@ public final class StewardofValeron extends Card
 		this.setPower(2);
 		this.setToughness(2);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Vigilance(state));
+		this.addAbility(new Vigilance(state));
 
-		this.addAbility(new org.rnd.jmagic.abilities.TapForG(state));
+		this.addAbility(new TapForG(state));
 	}
 }

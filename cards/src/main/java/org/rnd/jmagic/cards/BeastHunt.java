@@ -3,6 +3,9 @@ package org.rnd.jmagic.cards;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Name("Beast Hunt")
 @Types({Type.SORCERY})
 @ManaCost("3G")
@@ -24,7 +27,7 @@ public final class BeastHunt extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			MagicSet topThree = parameters.get(Parameter.OBJECT);
 			MagicSet creatures = new MagicSet();
@@ -35,7 +38,7 @@ public final class BeastHunt extends Card
 			MagicSet beastHunt = parameters.get(Parameter.CAUSE);
 			Player you = parameters.get(Parameter.PLAYER).getOne(Player.class);
 
-			java.util.Map<Parameter, MagicSet> handParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> handParameters = new HashMap<Parameter, MagicSet>();
 			handParameters.put(Parameter.CAUSE, beastHunt);
 			handParameters.put(Parameter.TO, new MagicSet(you.getHand(game.actualState)));
 			handParameters.put(Parameter.OBJECT, creatures);
@@ -44,7 +47,7 @@ public final class BeastHunt extends Card
 
 			you = you.getActual();
 			topThree.removeAll(creatures);
-			java.util.Map<Parameter, MagicSet> graveyardParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> graveyardParameters = new HashMap<Parameter, MagicSet>();
 			graveyardParameters.put(Parameter.CAUSE, beastHunt);
 			graveyardParameters.put(Parameter.TO, new MagicSet(you.getGraveyard(game.actualState)));
 			graveyardParameters.put(Parameter.OBJECT, topThree);

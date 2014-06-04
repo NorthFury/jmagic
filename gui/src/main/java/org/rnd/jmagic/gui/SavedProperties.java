@@ -1,25 +1,51 @@
 package org.rnd.jmagic.gui;
 
+import java.beans.DefaultPersistenceDelegate;
+import java.beans.Encoder;
+import java.beans.ExceptionListener;
+import java.beans.Expression;
+import java.beans.PersistenceDelegate;
+import java.beans.Statement;
+import java.beans.XMLDecoder;
+import java.beans.XMLEncoder;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  * XML-encodes properties to a file whenever any property is changed via
  * {@link #put(Object, Object)}. Use {@link #setFileName(String)} to set what
  * filename the properties are encoded to.
  */
-public class SavedProperties extends java.util.Properties
+public class SavedProperties extends Properties
 {
-	private static final java.util.Set<String> OLD_CLASSES;
+	private static final Set<String> OLD_CLASSES;
 
 	static
 	{
-		OLD_CLASSES = new java.util.HashSet<String>();
+		OLD_CLASSES = new HashSet<String>();
 		OLD_CLASSES.add("org/rnd/jmagic/gui/Properties");
 		OLD_CLASSES.add("org.rnd.jmagic.gui.Properties");
 	}
 
 	public static SavedProperties createFromFile(String filePath)
 	{
-		final java.util.concurrent.atomic.AtomicBoolean fix = new java.util.concurrent.atomic.AtomicBoolean(false);
-		java.beans.ExceptionListener exceptionListener = new java.beans.ExceptionListener()
+		final AtomicBoolean fix = new AtomicBoolean(false);
+		ExceptionListener exceptionListener = new ExceptionListener()
 		{
 			private boolean firstException = true;
 
@@ -34,15 +60,15 @@ public class SavedProperties extends java.util.Properties
 						fix.set(true);
 					this.firstException = false;
 				}
-				LOG.log(java.util.logging.Level.WARNING, "Error during decoding properties object or closing XML decoder", e);
+				LOG.log(Level.WARNING, "Error during decoding properties object or closing XML decoder", e);
 			}
 		};
 
 		SavedProperties ret;
-		java.beans.XMLDecoder xml = null;
+		XMLDecoder xml = null;
 		try
 		{
-			xml = new java.beans.XMLDecoder(new java.io.BufferedInputStream(new java.io.FileInputStream(filePath)), null, exceptionListener);
+			xml = new XMLDecoder(new BufferedInputStream(new FileInputStream(filePath)), null, exceptionListener);
 
 			ret = (SavedProperties)xml.readObject();
 			// This happens in Java 6 instead of throwing an
@@ -50,9 +76,9 @@ public class SavedProperties extends java.util.Properties
 			if(null == ret)
 				throw new ArrayIndexOutOfBoundsException();
 		}
-		catch(java.io.FileNotFoundException e)
+		catch(FileNotFoundException e)
 		{
-			LOG.log(java.util.logging.Level.WARNING, "Could not find properties file", e);
+			LOG.log(Level.WARNING, "Could not find properties file", e);
 			ret = new SavedProperties();
 		}
 		// Since the encoded properties object should be the only object in the
@@ -78,10 +104,10 @@ public class SavedProperties extends java.util.Properties
 	{
 		try
 		{
-			java.nio.charset.Charset propertiesCharset = java.nio.charset.Charset.forName("UTF-8");
-			java.io.FileInputStream propertiesFile = new java.io.FileInputStream(filePath);
-			java.io.InputStreamReader propertiesFileDecoded = new java.io.InputStreamReader(propertiesFile, propertiesCharset);
-			java.io.BufferedReader in = new java.io.BufferedReader(propertiesFileDecoded);
+			Charset propertiesCharset = Charset.forName("UTF-8");
+			FileInputStream propertiesFile = new FileInputStream(filePath);
+			InputStreamReader propertiesFileDecoded = new InputStreamReader(propertiesFile, propertiesCharset);
+			BufferedReader in = new BufferedReader(propertiesFileDecoded);
 
 			StringBuilder fileContents = new StringBuilder();
 			boolean foundJavaLine = false;
@@ -101,39 +127,39 @@ public class SavedProperties extends java.util.Properties
 			in.close();
 
 			byte[] buffer = fileContents.toString().getBytes(propertiesCharset);
-			java.beans.XMLDecoder xml = new java.beans.XMLDecoder(new java.io.BufferedInputStream(new java.io.ByteArrayInputStream(buffer)));
+			XMLDecoder xml = new XMLDecoder(new BufferedInputStream(new ByteArrayInputStream(buffer)));
 			SavedProperties ret = (SavedProperties)xml.readObject();
 			ret.setFileName(filePath);
 			xml.close();
 			return ret;
 		}
-		catch(java.io.FileNotFoundException e)
+		catch(FileNotFoundException e)
 		{
-			LOG.log(java.util.logging.Level.WARNING, "Could not find properties file", e);
+			LOG.log(Level.WARNING, "Could not find properties file", e);
 		}
-		catch(java.io.IOException e)
+		catch(IOException e)
 		{
-			LOG.log(java.util.logging.Level.WARNING, "Error reading/writing properties file", e);
+			LOG.log(Level.WARNING, "Error reading/writing properties file", e);
 		}
 
 		return new SavedProperties();
 	}
 
-	private static final java.util.logging.Logger LOG = java.util.logging.Logger.getLogger(SavedProperties.class.getName());
+	private static final Logger LOG = Logger.getLogger(SavedProperties.class.getName());
 
-	private static final java.beans.PersistenceDelegate MAP_PERSISTENCE_DELEGATE = new java.beans.DefaultPersistenceDelegate()
+	private static final PersistenceDelegate MAP_PERSISTENCE_DELEGATE = new DefaultPersistenceDelegate()
 	{
 		@Override
-		protected void initialize(Class<?> type, Object oldInstance, Object newInstance, java.beans.Encoder out)
+		protected void initialize(Class<?> type, Object oldInstance, Object newInstance, Encoder out)
 		{
-			@SuppressWarnings("unchecked") java.util.Map<Object, Object> map = (java.util.Map<Object, Object>)oldInstance;
+			@SuppressWarnings("unchecked") Map<Object, Object> map = (Map<Object, Object>)oldInstance;
 
-			for(java.util.Map.Entry<Object, Object> entry: map.entrySet())
-				out.writeStatement(new java.beans.Statement(oldInstance, "put", new Object[] {entry.getKey(), entry.getValue()}));
+			for(Map.Entry<Object, Object> entry: map.entrySet())
+				out.writeStatement(new Statement(oldInstance, "put", new Object[] {entry.getKey(), entry.getValue()}));
 		}
 
 		@Override
-		protected java.beans.Expression instantiate(Object oldInstance, java.beans.Encoder out)
+		protected Expression instantiate(Object oldInstance, Encoder out)
 		{
 			return super.instantiate(oldInstance, out);
 		}
@@ -158,14 +184,14 @@ public class SavedProperties extends java.util.Properties
 
 		try
 		{
-			java.beans.XMLEncoder xml = new java.beans.XMLEncoder(new java.io.BufferedOutputStream(new java.io.FileOutputStream(this.fileName)));
+			XMLEncoder xml = new XMLEncoder(new BufferedOutputStream(new FileOutputStream(this.fileName)));
 			xml.setPersistenceDelegate(SavedProperties.class, MAP_PERSISTENCE_DELEGATE);
 			xml.writeObject(this);
 			xml.close();
 		}
-		catch(java.io.FileNotFoundException e)
+		catch(FileNotFoundException e)
 		{
-			LOG.log(java.util.logging.Level.WARNING, "Could not create properties file", e);
+			LOG.log(Level.WARNING, "Could not create properties file", e);
 		}
 	}
 

@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.DoubleStrike;
 import org.rnd.jmagic.engine.*;
 
 @Name("Hearthfire Hobgoblin")
@@ -17,6 +18,6 @@ public final class HearthfireHobgoblin extends Card
 		this.setPower(2);
 		this.setToughness(2);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.DoubleStrike(state));
+		this.addAbility(new DoubleStrike(state));
 	}
 }

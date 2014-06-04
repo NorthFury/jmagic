@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Infect;
 import org.rnd.jmagic.engine.*;
 
 @Name("Carrion Call")
@@ -20,7 +22,7 @@ public final class CarrionCall extends Card
 		CreateTokensFactory factory = new CreateTokensFactory(2, 1, 1, "Put two 1/1 green Insect creature tokens with infect onto the battlefield.");
 		factory.setColors(Color.GREEN);
 		factory.setSubTypes(SubType.INSECT);
-		factory.addAbility(org.rnd.jmagic.abilities.keywords.Infect.class);
+		factory.addAbility(Infect.class);
 		this.addEffect(factory.getEventFactory());
 	}
 }

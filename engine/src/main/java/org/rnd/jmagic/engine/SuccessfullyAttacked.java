@@ -1,29 +1,35 @@
 package org.rnd.jmagic.engine;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
 /**
  * Tracks what {@link Player}/Planeswalkers a {@link GameObject} has
  * successfully attacked this turn. The value is a map from the
  * {@link GameObject}'s ID to a {@link java.util.Set} of IDs of {@link Player}s
  * or Planeswalkers successfully attacked this turn.
  */
-public class SuccessfullyAttacked extends Tracker<java.util.Map<Integer, java.util.Set<Integer>>>
+public class SuccessfullyAttacked extends Tracker<Map<Integer, Set<Integer>>>
 {
-	private java.util.Map<Integer, java.util.Set<Integer>> values = new java.util.HashMap<Integer, java.util.Set<Integer>>();
-	private java.util.Map<Integer, java.util.Set<Integer>> unmodifiable = java.util.Collections.unmodifiableMap(this.values);
+	private Map<Integer, Set<Integer>> values = new HashMap<Integer, Set<Integer>>();
+	private Map<Integer, Set<Integer>> unmodifiable = Collections.unmodifiableMap(this.values);
 
 	@Override
 	public SuccessfullyAttacked clone()
 	{
 		SuccessfullyAttacked ret = (SuccessfullyAttacked)super.clone();
-		ret.values = new java.util.HashMap<Integer, java.util.Set<Integer>>();
-		for(java.util.Map.Entry<Integer, java.util.Set<Integer>> e: this.values.entrySet())
-			ret.values.put(e.getKey(), new java.util.HashSet<Integer>(e.getValue()));
-		ret.unmodifiable = java.util.Collections.unmodifiableMap(ret.values);
+		ret.values = new HashMap<Integer, Set<Integer>>();
+		for(Map.Entry<Integer, Set<Integer>> e: this.values.entrySet())
+			ret.values.put(e.getKey(), new HashSet<Integer>(e.getValue()));
+		ret.unmodifiable = Collections.unmodifiableMap(ret.values);
 		return ret;
 	}
 
 	@Override
-	protected java.util.Map<Integer, java.util.Set<Integer>> getValueInternal()
+	protected Map<Integer, Set<Integer>> getValueInternal()
 	{
 		return this.unmodifiable;
 	}
@@ -43,15 +49,15 @@ public class SuccessfullyAttacked extends Tracker<java.util.Map<Integer, java.ut
 	@Override
 	protected void update(GameState state, Event event)
 	{
-		java.util.Set<Identified> defenders = event.parametersNow.get(EventType.Parameter.DEFENDER).evaluate(state, null).getAll(Identified.class);
+		Set<Identified> defenders = event.parametersNow.get(EventType.Parameter.DEFENDER).evaluate(state, null).getAll(Identified.class);
 		for(GameObject attacker: event.parametersNow.get(EventType.Parameter.OBJECT).evaluate(state, null).getAll(GameObject.class))
 		{
-			java.util.Set<Integer> attacked;
+			Set<Integer> attacked;
 			if(this.values.containsKey(attacker.ID))
 				attacked = this.values.get(attacker.ID);
 			else
 			{
-				attacked = new java.util.HashSet<Integer>();
+				attacked = new HashSet<Integer>();
 				this.values.put(attacker.ID, attacked);
 			}
 

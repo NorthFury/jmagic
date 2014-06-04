@@ -5,6 +5,9 @@ import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
 
+import java.util.Collections;
+import java.util.List;
+
 public final class Miracle extends Keyword
 {
 	public static final String COST_TYPE = "Miracle";
@@ -30,15 +33,15 @@ public final class Miracle extends Keyword
 	}
 
 	@Override
-	public java.util.List<StaticAbility> createStaticAbilities()
+	public List<StaticAbility> createStaticAbilities()
 	{
-		return java.util.Collections.<StaticAbility>singletonList(new MiracleReveal(this.state));
+		return Collections.<StaticAbility>singletonList(new MiracleReveal(this.state));
 	}
 
 	@Override
-	public java.util.List<NonStaticAbility> createNonStaticAbilities()
+	public List<NonStaticAbility> createNonStaticAbilities()
 	{
-		return java.util.Collections.<NonStaticAbility>singletonList(new MiracleCast(this.state, this.cost));
+		return Collections.<NonStaticAbility>singletonList(new MiracleCast(this.state, this.cost));
 	}
 
 	public static final class DrawFirst implements ZoneChangePattern

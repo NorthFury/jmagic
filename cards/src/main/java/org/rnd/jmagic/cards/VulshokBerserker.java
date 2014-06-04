@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Haste;
 import org.rnd.jmagic.engine.*;
 
 @Name("Vulshok Berserker")
@@ -19,6 +20,6 @@ public final class VulshokBerserker extends Card
 
 		// Haste (This creature can attack and (T) as soon as it comes under
 		// your control.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Haste(state));
+		this.addAbility(new Haste(state));
 	}
 }

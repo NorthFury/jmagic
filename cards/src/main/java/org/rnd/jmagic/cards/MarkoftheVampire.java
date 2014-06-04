@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Enchant;
+import org.rnd.jmagic.abilities.keywords.Lifelink;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -20,7 +23,7 @@ public final class MarkoftheVampire extends Card
 
 			SetGenerator enchanted = EnchantedBy.instance(This.instance());
 			this.addEffectPart(modifyPowerAndToughness(enchanted, +2, +2));
-			this.addEffectPart(addAbilityToObject(enchanted, new SimpleAbilityFactory(org.rnd.jmagic.abilities.keywords.Lifelink.class)));
+			this.addEffectPart(addAbilityToObject(enchanted, new SimpleAbilityFactory(Lifelink.class)));
 		}
 	}
 
@@ -29,7 +32,7 @@ public final class MarkoftheVampire extends Card
 		super(state);
 
 		// Enchant creature
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Enchant.Creature(state));
+		this.addAbility(new Enchant.Creature(state));
 
 		// Enchanted creature gets +2/+2 and has lifelink. (Damage dealt by the
 		// creature also causes its controller to gain that much life.)

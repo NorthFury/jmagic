@@ -4,6 +4,10 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
 @Name("Flesh Allergy")
 @Types({Type.SORCERY})
 @ManaCost("2BB")
@@ -33,23 +37,23 @@ public final class FleshAllergy extends Card
 			return IdentifiedWithID.instance(state.getTracker(CreaturesKilled.class).getValue(state)).evaluate(state, thisObject);
 		}
 
-		public static final class CreaturesKilled extends Tracker<java.util.Set<Integer>>
+		public static final class CreaturesKilled extends Tracker<Set<Integer>>
 		{
 
-			private java.util.HashSet<Integer> IDs = new java.util.HashSet<Integer>();
-			private java.util.Set<Integer> unmodifiable = java.util.Collections.unmodifiableSet(this.IDs);
+			private HashSet<Integer> IDs = new HashSet<Integer>();
+			private Set<Integer> unmodifiable = Collections.unmodifiableSet(this.IDs);
 
 			@Override
 			public CreaturesKilled clone()
 			{
 				CreaturesKilled ret = (CreaturesKilled)super.clone();
-				ret.IDs = new java.util.HashSet<Integer>(this.IDs);
-				ret.unmodifiable = java.util.Collections.unmodifiableSet(ret.IDs);
+				ret.IDs = new HashSet<Integer>(this.IDs);
+				ret.unmodifiable = Collections.unmodifiableSet(ret.IDs);
 				return ret;
 			}
 
 			@Override
-			protected java.util.Set<Integer> getValueInternal()
+			protected Set<Integer> getValueInternal()
 			{
 				return this.unmodifiable;
 			}

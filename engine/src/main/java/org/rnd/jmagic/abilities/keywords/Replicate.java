@@ -5,6 +5,9 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.Collections;
+import java.util.List;
+
 /**
  * 702.53. Replicate
  * 
@@ -44,15 +47,15 @@ public final class Replicate extends Keyword
 	}
 
 	@Override
-	public java.util.List<NonStaticAbility> createNonStaticAbilities()
+	public List<NonStaticAbility> createNonStaticAbilities()
 	{
-		return java.util.Collections.<NonStaticAbility>singletonList(new ReplicateTrigger(this.state, this.costCollection));
+		return Collections.<NonStaticAbility>singletonList(new ReplicateTrigger(this.state, this.costCollection));
 	}
 
 	@Override
-	public java.util.List<StaticAbility> createStaticAbilities()
+	public List<StaticAbility> createStaticAbilities()
 	{
-		return java.util.Collections.<StaticAbility>singletonList(new ReplicateStatic(this.state, this.costCollection));
+		return Collections.<StaticAbility>singletonList(new ReplicateStatic(this.state, this.costCollection));
 	}
 
 	public static final class ReplicateStatic extends StaticAbility

@@ -2,6 +2,8 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.EntersTheBattlefieldTapped;
+import org.rnd.jmagic.abilities.TapForU;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -58,10 +60,10 @@ public final class MagositheWaterveil extends Card
 		super(state);
 
 		// Magosi, the Waterveil enters the battlefield tapped.
-		this.addAbility(new org.rnd.jmagic.abilities.EntersTheBattlefieldTapped(state, this.getName()));
+		this.addAbility(new EntersTheBattlefieldTapped(state, this.getName()));
 
 		// (T): Add (U) to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapForU(state));
+		this.addAbility(new TapForU(state));
 
 		// (U), (T): Put an eon counter on Magosi, the Waterveil. Skip your next
 		// turn.

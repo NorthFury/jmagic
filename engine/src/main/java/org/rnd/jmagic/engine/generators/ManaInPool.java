@@ -2,6 +2,8 @@ package org.rnd.jmagic.engine.generators;
 
 import org.rnd.jmagic.engine.*;
 
+import java.util.Set;
+
 /**
  * Evaluates to all the mana in the given players' mana pools, and all the mana
  * in the given mana pools.
@@ -33,7 +35,7 @@ public class ManaInPool extends SetGenerator
 	}
 
 	@Override
-	public java.util.Set<ManaSymbol.ManaType> extractColors(Game game, GameObject thisObject, java.util.Set<SetGenerator> ignoreThese) throws NoSuchMethodException
+	public Set<ManaSymbol.ManaType> extractColors(Game game, GameObject thisObject, Set<SetGenerator> ignoreThese) throws NoSuchMethodException
 	{
 		return Identity.instance(this.evaluate(game, thisObject)).extractColors(game, thisObject, ignoreThese);
 	}

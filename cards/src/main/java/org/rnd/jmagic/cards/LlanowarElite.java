@@ -2,6 +2,8 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Kicker;
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -45,12 +47,12 @@ public final class LlanowarElite extends Card
 
 		this.setPower(1);
 		this.setToughness(1);
-		org.rnd.jmagic.abilities.keywords.Kicker ability = new org.rnd.jmagic.abilities.keywords.Kicker(state, "8");
+		Kicker ability = new Kicker(state, "8");
 		this.addAbility(ability);
 
 		CostCollection kickerCost = ability.costCollections[0];
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Trample(state));
+		this.addAbility(new Trample(state));
 
 		this.addAbility(new ElvishSteroids(state, kickerCost));
 	}

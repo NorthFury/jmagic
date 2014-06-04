@@ -1,6 +1,7 @@
 package org.rnd.jmagic.cards;
 
 import org.rnd.jmagic.abilities.*;
+import org.rnd.jmagic.abilities.keywords.Haste;
 import org.rnd.jmagic.engine.*;
 
 @Name("Crypt Ripper")
@@ -18,7 +19,7 @@ public final class CryptRipper extends Card
 		this.setPower(2);
 		this.setToughness(2);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Haste(state));
+		this.addAbility(new Haste(state));
 
 		this.addAbility(new ShadePump(state, "Crypt Ripper"));
 	}

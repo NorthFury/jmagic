@@ -6,6 +6,9 @@ import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.gameTypes.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Name("Pools of Becoming")
 @Types({Type.PLANE})
 @SubTypes({SubType.BOLASS_MEDITATION_REALM})
@@ -29,14 +32,14 @@ public final class PoolsofBecoming extends Card
 			}
 
 			@Override
-			public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+			public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 			{
 				MagicSet cause = parameters.get(EventType.Parameter.CAUSE);
 				Player player = parameters.get(EventType.Parameter.PLAYER).getOne(Player.class);
 				Zone targetsHand = player.getHand(game.actualState);
 				MagicSet targetsLibrary = new MagicSet(player.getLibrary(game.actualState));
 
-				java.util.Map<EventType.Parameter, MagicSet> moveParams = new java.util.HashMap<EventType.Parameter, MagicSet>();
+				Map<EventType.Parameter, MagicSet> moveParams = new HashMap<EventType.Parameter, MagicSet>();
 				moveParams.put(EventType.Parameter.CAUSE, cause);
 				moveParams.put(EventType.Parameter.TO, targetsLibrary);
 				moveParams.put(EventType.Parameter.INDEX, NEGATIVE_ONE);
@@ -44,7 +47,7 @@ public final class PoolsofBecoming extends Card
 				Event libraryEvent = createEvent(game, "Put the cards from your hand on the bottom of your library in any order.", EventType.MOVE_OBJECTS, moveParams);
 				boolean ret = libraryEvent.perform(event, true);
 
-				java.util.Map<EventType.Parameter, MagicSet> drawParams = new java.util.HashMap<EventType.Parameter, MagicSet>();
+				Map<EventType.Parameter, MagicSet> drawParams = new HashMap<EventType.Parameter, MagicSet>();
 				drawParams.put(EventType.Parameter.CAUSE, cause);
 				drawParams.put(EventType.Parameter.PLAYER, new MagicSet(player));
 				drawParams.put(EventType.Parameter.NUMBER, new MagicSet(libraryEvent.getResult().size()));
@@ -88,12 +91,12 @@ public final class PoolsofBecoming extends Card
 			}
 
 			@Override
-			public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+			public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 			{
 				MagicSet objects = parameters.get(Parameter.OBJECT);
 				MagicSet cause = parameters.get(Parameter.CAUSE);
 
-				java.util.Map<Parameter, MagicSet> revealParameters = new java.util.HashMap<Parameter, MagicSet>();
+				Map<Parameter, MagicSet> revealParameters = new HashMap<Parameter, MagicSet>();
 				revealParameters.put(Parameter.CAUSE, cause);
 				revealParameters.put(Parameter.OBJECT, objects);
 				Event revealEvent = createEvent(game, "Reveal the top three cards of your planar deck.", EventType.REVEAL, revealParameters);
@@ -115,7 +118,7 @@ public final class PoolsofBecoming extends Card
 
 				MagicSet commandZone = new MagicSet(game.actualState.commandZone());
 
-				java.util.Map<Parameter, MagicSet> shuffleParameters = new java.util.HashMap<Parameter, MagicSet>();
+				Map<Parameter, MagicSet> shuffleParameters = new HashMap<Parameter, MagicSet>();
 				shuffleParameters.put(Parameter.CAUSE, cause);
 				shuffleParameters.put(Parameter.TO, commandZone);
 				shuffleParameters.put(Parameter.INDEX, NEGATIVE_ONE);

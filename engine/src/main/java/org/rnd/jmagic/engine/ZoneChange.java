@@ -1,5 +1,11 @@
 package org.rnd.jmagic.engine;
 
+import org.rnd.jmagic.sanitized.SanitizedZoneChange;
+
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.LinkedList;
+
 /**
  * A movement of a single GameObject from one Zone to another. When adding a
  * field to this class, you will almost certainly need to add a line of code to
@@ -23,9 +29,9 @@ public class ZoneChange implements Sanitizable
 		}
 
 		@Override
-		public java.io.Serializable sanitize(GameState state, Player whoFor)
+		public Serializable sanitize(GameState state, Player whoFor)
 		{
-			return new org.rnd.jmagic.sanitized.SanitizedZoneChange.Replacement(this.effect, this.zoneChange, state, whoFor);
+			return new SanitizedZoneChange.Replacement(this.effect, this.zoneChange, state, whoFor);
 		}
 	}
 
@@ -51,7 +57,7 @@ public class ZoneChange implements Sanitizable
 	 * Events to be created and performed before replacement effects are checked
 	 * (ex: tapping the land for Rampant Growth)
 	 */
-	public java.util.Collection<EventFactory> events = new java.util.LinkedList<EventFactory>();
+	public Collection<EventFactory> events = new LinkedList<EventFactory>();
 
 	/**
 	 * If the new object should have the face down status, a class defining
@@ -117,7 +123,7 @@ public class ZoneChange implements Sanitizable
 	/**
 	 * The replacement effects that replaced this zone change, if any.
 	 */
-	public java.util.Collection<ZoneChangeReplacementEffect> replacedBy = new java.util.LinkedList<ZoneChangeReplacementEffect>();
+	public Collection<ZoneChangeReplacementEffect> replacedBy = new LinkedList<ZoneChangeReplacementEffect>();
 
 	/**
 	 * The ID of the Zone the old GameObject will be removed from.
@@ -132,8 +138,8 @@ public class ZoneChange implements Sanitizable
 	}
 
 	@Override
-	public org.rnd.jmagic.sanitized.SanitizedZoneChange sanitize(GameState state, Player whoFor)
+	public SanitizedZoneChange sanitize(GameState state, Player whoFor)
 	{
-		return new org.rnd.jmagic.sanitized.SanitizedZoneChange(this);
+		return new SanitizedZoneChange(this);
 	}
 }

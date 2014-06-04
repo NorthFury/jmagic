@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.TapFor1;
+import org.rnd.jmagic.abilities.TapForMana;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -10,7 +13,7 @@ import org.rnd.jmagic.engine.generators.*;
 @ColorIdentity({Color.BLUE, Color.WHITE})
 public final class NimbusMaze extends Card
 {
-	public static final class TapForW extends org.rnd.jmagic.abilities.TapForMana
+	public static final class TapForW extends TapForMana
 	{
 		public TapForW(GameState state)
 		{
@@ -24,7 +27,7 @@ public final class NimbusMaze extends Card
 		}
 	}
 
-	public static final class TapForU extends org.rnd.jmagic.abilities.TapForMana
+	public static final class TapForU extends TapForMana
 	{
 		public TapForU(GameState state)
 		{
@@ -42,7 +45,7 @@ public final class NimbusMaze extends Card
 	{
 		super(state);
 
-		this.addAbility(new org.rnd.jmagic.abilities.TapFor1(state));
+		this.addAbility(new TapFor1(state));
 		this.addAbility(new TapForW(state));
 		this.addAbility(new TapForU(state));
 	}

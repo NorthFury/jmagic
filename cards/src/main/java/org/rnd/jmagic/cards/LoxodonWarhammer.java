@@ -2,6 +2,9 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Equip;
+import org.rnd.jmagic.abilities.keywords.Lifelink;
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -23,7 +26,7 @@ public final class LoxodonWarhammer extends Card
 
 			this.addEffectPart(modifyPowerAndToughness(equippedCreature, 3, 0));
 
-			this.addEffectPart(addAbilityToObject(equippedCreature, org.rnd.jmagic.abilities.keywords.Lifelink.class, org.rnd.jmagic.abilities.keywords.Trample.class));
+			this.addEffectPart(addAbilityToObject(equippedCreature, Lifelink.class, Trample.class));
 		}
 	}
 
@@ -32,6 +35,6 @@ public final class LoxodonWarhammer extends Card
 		super(state);
 
 		this.addAbility(new EquipBonuses(state));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Equip(state, "(3)"));
+		this.addAbility(new Equip(state, "(3)"));
 	}
 }

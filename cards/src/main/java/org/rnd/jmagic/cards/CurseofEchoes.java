@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Enchant;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -47,7 +49,7 @@ public final class CurseofEchoes extends Card
 		super(state);
 
 		// Enchant player
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Enchant.Player(state));
+		this.addAbility(new Enchant.Player(state));
 
 		// Whenever enchanted player casts an instant or sorcery spell, each
 		// other player may copy that spell and may choose new targets for the

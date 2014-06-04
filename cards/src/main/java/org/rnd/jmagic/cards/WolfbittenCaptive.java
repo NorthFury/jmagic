@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.Werewolves;
 import org.rnd.jmagic.engine.*;
 
 @Name("Wolfbitten Captive")
@@ -37,6 +39,6 @@ public final class WolfbittenCaptive extends Card
 
 		// At the beginning of each upkeep, if no spells were cast last turn,
 		// transform Wolfbitten Captive.
-		this.addAbility(new org.rnd.jmagic.abilities.Werewolves.BecomeFuzzy(state, this.getName()));
+		this.addAbility(new Werewolves.BecomeFuzzy(state, this.getName()));
 	}
 }

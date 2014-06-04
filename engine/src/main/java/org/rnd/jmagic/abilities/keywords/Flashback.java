@@ -6,6 +6,11 @@ import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
 
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+
 public final class Flashback extends Keyword
 {
 	private static String flashbackName(CostCollection cost)
@@ -38,9 +43,9 @@ public final class Flashback extends Keyword
 	}
 
 	@Override
-	protected java.util.List<StaticAbility> createStaticAbilities()
+	protected List<StaticAbility> createStaticAbilities()
 	{
-		java.util.List<StaticAbility> ret = new java.util.LinkedList<StaticAbility>();
+		List<StaticAbility> ret = new LinkedList<StaticAbility>();
 
 		ret.add(new FlashbackCastAbility(this.state, this));
 		ret.add(new FlashbackExileReplacement(this.state));
@@ -84,18 +89,18 @@ public final class Flashback extends Keyword
 			}
 
 			@Override
-			public java.util.Set<PlayerAction> getActions(GameState state, GameObject source, Player actor)
+			public Set<PlayerAction> getActions(GameState state, GameObject source, Player actor)
 			{
 				if(!source.getOwner(state).equals(state.getPlayerWithPriority()))
-					return java.util.Collections.<PlayerAction>emptySet();
+					return Collections.<PlayerAction>emptySet();
 
 				// TODO : This isn't good enough. We need to take into
 				// account modifications to timing permissions (like
 				// Quicken). A unified way of doing this would be good.
 				if(source.getTypes().contains(Type.SORCERY) && !(PlayerCanPlaySorcerySpeed.get(state).contains(source.getController(state))))
-					return java.util.Collections.<PlayerAction>emptySet();
+					return Collections.<PlayerAction>emptySet();
 
-				return java.util.Collections.<PlayerAction>singleton(new FlashbackAction(state.game, state.<Flashback>get(this.parentID), source, actor));
+				return Collections.<PlayerAction>singleton(new FlashbackAction(state.game, state.<Flashback>get(this.parentID), source, actor));
 			}
 		}
 

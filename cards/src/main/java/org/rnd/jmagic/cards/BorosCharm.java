@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.DoubleStrike;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -31,7 +33,7 @@ public final class BorosCharm extends Card
 		// target creature gains double strike until end of turn.
 		{
 			SetGenerator target = targetedBy(this.addTarget(3, CreaturePermanents.instance(), "target creature"));
-			this.addEffect(3, addAbilityUntilEndOfTurn(target, org.rnd.jmagic.abilities.keywords.DoubleStrike.class, "target creature gains double strike until end of turn."));
+			this.addEffect(3, addAbilityUntilEndOfTurn(target, DoubleStrike.class, "target creature gains double strike until end of turn."));
 		}
 	}
 }

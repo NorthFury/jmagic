@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Defender;
+import org.rnd.jmagic.abilities.keywords.FirstStrike;
 import org.rnd.jmagic.engine.*;
 
 @Name("Haunted Guardian")
@@ -18,7 +20,7 @@ public final class HauntedGuardian extends Card
 		this.setToughness(1);
 
 		// Defender, first strike
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Defender(state));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.FirstStrike(state));
+		this.addAbility(new Defender(state));
+		this.addAbility(new FirstStrike(state));
 	}
 }

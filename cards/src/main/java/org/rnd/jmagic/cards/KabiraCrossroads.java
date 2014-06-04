@@ -2,7 +2,10 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.EntersTheBattlefieldTapped;
+import org.rnd.jmagic.abilities.TapForW;
 import org.rnd.jmagic.engine.*;
+import org.rnd.jmagic.engine.generators.You;
 
 @Name("Kabira Crossroads")
 @Types({Type.LAND})
@@ -16,7 +19,7 @@ public final class KabiraCrossroads extends Card
 		{
 			super(state, "When Kabira Crossroads enters the battlefield, you gain 2 life.");
 			this.addPattern(whenThisEntersTheBattlefield());
-			this.addEffect(gainLife(org.rnd.jmagic.engine.generators.You.instance(), 2, "You gain 2 life"));
+			this.addEffect(gainLife(You.instance(), 2, "You gain 2 life"));
 		}
 	}
 
@@ -24,10 +27,10 @@ public final class KabiraCrossroads extends Card
 	{
 		super(state);
 
-		this.addAbility(new org.rnd.jmagic.abilities.EntersTheBattlefieldTapped(state, "Kabira Crossroads"));
+		this.addAbility(new EntersTheBattlefieldTapped(state, "Kabira Crossroads"));
 
 		this.addAbility(new KabiraLife(state));
 
-		this.addAbility(new org.rnd.jmagic.abilities.TapForW(state));
+		this.addAbility(new TapForW(state));
 	}
 }

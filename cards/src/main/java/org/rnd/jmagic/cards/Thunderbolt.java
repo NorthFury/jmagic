@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -22,7 +24,7 @@ public final class Thunderbolt extends Card
 			this.addEffect(1, spellDealDamage(3, target, "Thunderbolt deals 3 damage to target player"));
 		}
 		{
-			SetGenerator legal = Intersect.instance(CreaturePermanents.instance(), HasKeywordAbility.instance(org.rnd.jmagic.abilities.keywords.Flying.class));
+			SetGenerator legal = Intersect.instance(CreaturePermanents.instance(), HasKeywordAbility.instance(Flying.class));
 			SetGenerator target = targetedBy(this.addTarget(2, legal, "target creature with flying"));
 			this.addEffect(2, spellDealDamage(4, target, "Thunderbolt deals 4 damage to target creature with flying."));
 		}

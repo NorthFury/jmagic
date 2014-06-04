@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.YouControlEnchantedCreature;
+import org.rnd.jmagic.abilities.keywords.Enchant;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -11,7 +13,7 @@ import org.rnd.jmagic.engine.generators.*;
 @ColorIdentity({Color.BLUE})
 public final class ThreadsofDisloyalty extends Card
 {
-	public static final class EnchantSmallCreature extends org.rnd.jmagic.abilities.keywords.Enchant
+	public static final class EnchantSmallCreature extends Enchant
 	{
 		private static SetGenerator smallCreatures()
 		{
@@ -33,6 +35,6 @@ public final class ThreadsofDisloyalty extends Card
 		this.addAbility(new EnchantSmallCreature(state));
 
 		// You control enchanted creature.
-		this.addAbility(new org.rnd.jmagic.abilities.YouControlEnchantedCreature(state));
+		this.addAbility(new YouControlEnchantedCreature(state));
 	}
 }

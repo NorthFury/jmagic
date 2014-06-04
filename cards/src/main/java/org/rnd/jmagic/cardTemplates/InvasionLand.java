@@ -2,6 +2,7 @@ package org.rnd.jmagic.cardTemplates;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.EntersTheBattlefieldTapped;
 import org.rnd.jmagic.engine.*;
 
 public abstract class InvasionLand extends Card
@@ -64,7 +65,7 @@ public abstract class InvasionLand extends Card
 	{
 		super(state);
 
-		this.addAbility(new org.rnd.jmagic.abilities.EntersTheBattlefieldTapped(state, this.getName()));
+		this.addAbility(new EntersTheBattlefieldTapped(state, this.getName()));
 		this.addAbility(new TapForColored(state, primaryColor.getLetter()));
 		this.addAbility(new SacForColors(state, this.getName(), primaryColor.getAllies()));
 	}

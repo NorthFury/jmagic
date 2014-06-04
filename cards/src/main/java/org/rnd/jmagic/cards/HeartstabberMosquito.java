@@ -2,6 +2,8 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Kicker;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -42,7 +44,7 @@ public final class HeartstabberMosquito extends Card
 
 		this.setPower(2);
 		this.setToughness(2);
-		org.rnd.jmagic.abilities.keywords.Kicker ability = new org.rnd.jmagic.abilities.keywords.Kicker(state, "(2)(B)");
+		Kicker ability = new Kicker(state, "(2)(B)");
 		this.addAbility(ability);
 
 		// Kicker (2)(B) (You may pay an additional (2)(B) as you cast this
@@ -50,7 +52,7 @@ public final class HeartstabberMosquito extends Card
 		CostCollection kickerCost = ability.costCollections[0];
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// When Heartstabber Mosquito enters the battlefield, if it was kicked,
 		// destroy target creature.

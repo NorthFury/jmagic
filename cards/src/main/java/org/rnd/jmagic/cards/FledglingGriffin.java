@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -18,7 +20,7 @@ public final class FledglingGriffin extends Card
 		{
 			super(state, "Landfall \u2014 Whenever a land enters the battlefield under your control, Fledgling Griffin gains flying until end of turn.");
 			this.addPattern(landfall());
-			this.addEffect(addAbilityUntilEndOfTurn(AbilitySource.instance(This.instance()), org.rnd.jmagic.abilities.keywords.Flying.class, "Fledgling Griffin gains flying until end of turn."));
+			this.addEffect(addAbilityUntilEndOfTurn(AbilitySource.instance(This.instance()), Flying.class, "Fledgling Griffin gains flying until end of turn."));
 		}
 	}
 

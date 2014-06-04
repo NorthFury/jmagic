@@ -2,9 +2,13 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.LorwynIncarnationTrigger;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Name("Guile")
 @Types({Type.CREATURE})
@@ -44,11 +48,11 @@ public final class Guile extends Card
 			}
 
 			@Override
-			public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+			public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 			{
 				GameObject spell = parameters.get(Parameter.OBJECT).getOne(GameObject.class);
 
-				java.util.Map<Parameter, MagicSet> exileParameters = new java.util.HashMap<Parameter, MagicSet>();
+				Map<Parameter, MagicSet> exileParameters = new HashMap<Parameter, MagicSet>();
 				exileParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 				exileParameters.put(Parameter.TO, ExileZone.instance().evaluate(game, null));
 				exileParameters.put(Parameter.OBJECT, new MagicSet(spell));
@@ -59,7 +63,7 @@ public final class Guile extends Card
 					spell = game.actualState.get(exileEvent.getResult().getOne(ZoneChange.class).newObjectID);
 					Player player = parameters.get(Parameter.CAUSE).getOne(GameObject.class).getController(game.actualState);
 
-					java.util.Map<Parameter, MagicSet> recastParameters = new java.util.HashMap<Parameter, MagicSet>();
+					Map<Parameter, MagicSet> recastParameters = new HashMap<Parameter, MagicSet>();
 					recastParameters.put(EventType.Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 					recastParameters.put(EventType.Parameter.PLAYER, new MagicSet(player));
 					recastParameters.put(EventType.Parameter.OBJECT, new MagicSet(spell));
@@ -110,6 +114,6 @@ public final class Guile extends Card
 
 		// When Guile is put into a graveyard from anywhere, shuffle it into its
 		// owner's library.
-		this.addAbility(new org.rnd.jmagic.abilities.LorwynIncarnationTrigger(state, "Guile"));
+		this.addAbility(new LorwynIncarnationTrigger(state, "Guile"));
 	}
 }

@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.Regenerate;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -31,6 +32,6 @@ public final class Rhox extends Card
 		this.setToughness(5);
 
 		this.addAbility(new FauxUnblockable(state));
-		this.addAbility(new org.rnd.jmagic.abilities.Regenerate.Final(state, "(2)(G)", this.getName()));
+		this.addAbility(new Regenerate.Final(state, "(2)(G)", this.getName()));
 	}
 }

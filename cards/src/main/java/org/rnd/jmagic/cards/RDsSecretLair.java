@@ -2,6 +2,8 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.PlayExtraLands;
+import org.rnd.jmagic.abilities.keywords.Haste;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -90,7 +92,7 @@ public final class RDsSecretLair extends Card
 		{
 			super(state, "(0): Target creature gains haste until end of turn.");
 			Target target = this.addTarget(CreaturePermanents.instance(), "target creature");
-			this.addEffect(addAbilityUntilEndOfTurn(targetedBy(target), org.rnd.jmagic.abilities.keywords.Haste.class, "Target creature gains haste until end of turn."));
+			this.addEffect(addAbilityUntilEndOfTurn(targetedBy(target), Haste.class, "Target creature gains haste until end of turn."));
 		}
 	}
 
@@ -189,7 +191,7 @@ public final class RDsSecretLair extends Card
 
 		this.addAbility(new ShitIsCheap(state));
 		this.addAbility(new MakeTonsOfMana(state));
-		this.addAbility(new org.rnd.jmagic.abilities.PlayExtraLands.Final(state, 7, "You may play seven additional lands on each of your turns."));
+		this.addAbility(new PlayExtraLands.Final(state, 7, "You may play seven additional lands on each of your turns."));
 		this.addAbility(new KillSomething(state));
 		this.addAbility(new MoveSomething(state));
 		this.addAbility(new MakeHaste(state));

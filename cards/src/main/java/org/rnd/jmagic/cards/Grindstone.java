@@ -38,7 +38,7 @@ public final class Grindstone extends Card
 				MagicSet result = mill.getResult();
 				if(result.size() > 1)
 				{
-					java.util.Set<Color> colors = Color.allColors();
+					Set<Color> colors = Color.allColors();
 					for(ZoneChange zc: result.getAll(ZoneChange.class))
 						colors.retainAll(game.actualState.<GameObject>get(zc.newObjectID).getColors());
 					repeat = !colors.isEmpty();

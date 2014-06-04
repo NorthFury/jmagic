@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Equip;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -32,6 +34,6 @@ public final class Worldslayer extends Card
 
 		// Equip (5) ((5): Attach to target creature you control. Equip only as
 		// a sorcery.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Equip(state, "(5)"));
+		this.addAbility(new Equip(state, "(5)"));
 	}
 }

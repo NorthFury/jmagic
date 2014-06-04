@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -21,7 +24,7 @@ public final class BantBattlemage extends Card
 			this.costsTap = true;
 
 			SetGenerator target = targetedBy(this.addTarget(CreaturePermanents.instance(), "target creature"));
-			this.addEffect(addAbilityUntilEndOfTurn(target, org.rnd.jmagic.abilities.keywords.Trample.class, "Target creature gains trample until end of turn."));
+			this.addEffect(addAbilityUntilEndOfTurn(target, Trample.class, "Target creature gains trample until end of turn."));
 		}
 	}
 
@@ -34,7 +37,7 @@ public final class BantBattlemage extends Card
 			this.costsTap = true;
 
 			SetGenerator target = targetedBy(this.addTarget(CreaturePermanents.instance(), "target creature"));
-			this.addEffect(addAbilityUntilEndOfTurn(target, org.rnd.jmagic.abilities.keywords.Flying.class, "Target creature gains flying until end of turn."));
+			this.addEffect(addAbilityUntilEndOfTurn(target, Flying.class, "Target creature gains flying until end of turn."));
 		}
 	}
 

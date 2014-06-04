@@ -5,6 +5,9 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.patterns.*;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public final class Bushido extends Keyword
 {
 	// 702.42. Bushido
@@ -28,9 +31,9 @@ public final class Bushido extends Keyword
 	}
 
 	@Override
-	protected java.util.List<NonStaticAbility> createNonStaticAbilities()
+	protected List<NonStaticAbility> createNonStaticAbilities()
 	{
-		java.util.LinkedList<NonStaticAbility> ret = new java.util.LinkedList<NonStaticAbility>();
+		LinkedList<NonStaticAbility> ret = new LinkedList<NonStaticAbility>();
 		ret.add(new BushidoAbility(this.state, this.N));
 		return ret;
 	}

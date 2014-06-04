@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.TapForMana;
+import org.rnd.jmagic.abilities.keywords.Hexproof;
 import org.rnd.jmagic.engine.*;
 
 @Name("Simic Keyrune")
@@ -22,7 +25,7 @@ public final class SimicKeyrune extends Card
 			animate.addColor(Color.BLUE);
 			animate.addSubType(SubType.CRAB);
 			animate.addType(Type.ARTIFACT);
-			animate.addAbility(org.rnd.jmagic.abilities.keywords.Hexproof.class);
+			animate.addAbility(Hexproof.class);
 			this.addEffect(createFloatingEffect("Simic Keyrune becomes a 2/3 green and blue Crab artifact creature with hexproof until end of turn.", animate.getParts()));
 		}
 	}
@@ -32,7 +35,7 @@ public final class SimicKeyrune extends Card
 		super(state);
 
 		// (T): Add (G) or (U) to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapForMana.Final(state, "(GU)"));
+		this.addAbility(new TapForMana.Final(state, "(GU)"));
 
 		// (G)(U): Simic Keyrune becomes a 2/3 green and blue Crab artifact
 		// creature with hexproof until end of turn. (It can't be the target of

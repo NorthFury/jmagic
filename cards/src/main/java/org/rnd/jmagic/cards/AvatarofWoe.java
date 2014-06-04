@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Fear;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -59,7 +61,7 @@ public final class AvatarofWoe extends Card
 
 		// Fear (This creature can't be blocked except by artifact creatures
 		// and/or black creatures.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Fear(state));
+		this.addAbility(new Fear(state));
 
 		// (T): Destroy target creature. It can't be regenerated.
 		this.addAbility(new AvatarofWoeAbility2(state));

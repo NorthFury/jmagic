@@ -1,5 +1,19 @@
 package org.rnd.jmagic.comms;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.lang.Exception;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.util.LinkedList;
+import java.util.List;
+
 public class GameFinder
 {
 	public static class Game
@@ -30,7 +44,7 @@ public class GameFinder
 		}
 	}
 
-	public static class GameFinderException extends java.lang.Exception
+	public static class GameFinderException extends Exception
 	{
 		private static final long serialVersionUID = 1L;
 
@@ -40,28 +54,28 @@ public class GameFinder
 		}
 	}
 
-	private java.net.URL cancelURL;
+	private URL cancelURL;
 
-	private java.net.URL createURL;
+	private URL createURL;
 
-	private java.net.URL heartbeatURL;
+	private URL heartbeatURL;
 
-	private java.net.URL listURL;
+	private URL listURL;
 
 	private String token = null;
 
-	private java.net.URL updateURL;
+	private URL updateURL;
 
-	private java.net.URL versionURL;
+	private URL versionURL;
 
-	public GameFinder(String location) throws java.net.URISyntaxException, IllegalArgumentException, java.net.MalformedURLException, java.io.IOException, GameFinderException
+	public GameFinder(String location) throws URISyntaxException, IllegalArgumentException, MalformedURLException, IOException, GameFinderException
 	{
 		if(null == location)
 			throw new GameFinderException("Game finder URL is null");
 		if(location.isEmpty())
 			throw new GameFinderException("Game finder URL is empty");
 
-		java.net.URI head = new java.net.URI(location);
+		URI head = new URI(location);
 
 		this.cancelURL = head.resolve("cancel.php").toURL();
 		this.createURL = head.resolve("create.php").toURL();
@@ -73,15 +87,15 @@ public class GameFinder
 		version();
 	}
 
-	public void cancel() throws java.io.IOException
+	public void cancel() throws IOException
 	{
 		if(null == this.token)
 			return;
 
-		java.net.HttpURLConnection connection = getPostConnection(this.cancelURL);
+		HttpURLConnection connection = getPostConnection(this.cancelURL);
 
-		java.io.OutputStreamWriter out = new java.io.OutputStreamWriter(connection.getOutputStream(), "UTF-8");
-		out.write("token=" + java.net.URLEncoder.encode(this.token, "UTF-8"));
+		OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream(), "UTF-8");
+		out.write("token=" + URLEncoder.encode(this.token, "UTF-8"));
 		out.close();
 
 		// Need to get the input stream even if we don't use it so the request
@@ -89,19 +103,19 @@ public class GameFinder
 		connection.getInputStream().close();
 	}
 
-	public void create(String hostPlayerName, int port, String description, int maxPlayers, String format) throws java.io.IOException, GameFinderException
+	public void create(String hostPlayerName, int port, String description, int maxPlayers, String format) throws IOException, GameFinderException
 	{
-		java.net.HttpURLConnection connection = getPostConnection(this.createURL);
+		HttpURLConnection connection = getPostConnection(this.createURL);
 
-		java.io.OutputStreamWriter out = new java.io.OutputStreamWriter(connection.getOutputStream(), "UTF-8");
-		out.write("hostPlayerName=" + java.net.URLEncoder.encode(hostPlayerName, "UTF-8"));
-		out.write("&port=" + java.net.URLEncoder.encode(Integer.toString(port), "UTF-8"));
-		out.write("&description=" + java.net.URLEncoder.encode(description, "UTF-8"));
-		out.write("&maxPlayers=" + java.net.URLEncoder.encode(Integer.toString(maxPlayers), "UTF-8"));
-		out.write("&format=" + java.net.URLEncoder.encode(format, "UTF-8"));
+		OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream(), "UTF-8");
+		out.write("hostPlayerName=" + URLEncoder.encode(hostPlayerName, "UTF-8"));
+		out.write("&port=" + URLEncoder.encode(Integer.toString(port), "UTF-8"));
+		out.write("&description=" + URLEncoder.encode(description, "UTF-8"));
+		out.write("&maxPlayers=" + URLEncoder.encode(Integer.toString(maxPlayers), "UTF-8"));
+		out.write("&format=" + URLEncoder.encode(format, "UTF-8"));
 		out.close();
 
-		java.io.BufferedReader input = new java.io.BufferedReader(new java.io.InputStreamReader(connection.getInputStream(), "UTF-8"));
+		BufferedReader input = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"));
 		String response = "";
 		String line = input.readLine();
 		while(null != line)
@@ -118,23 +132,23 @@ public class GameFinder
 		this.token = response;
 	}
 
-	private static java.net.HttpURLConnection getPostConnection(java.net.URL url) throws java.io.IOException
+	private static HttpURLConnection getPostConnection(URL url) throws IOException
 	{
-		java.net.HttpURLConnection ret = (java.net.HttpURLConnection)(url.openConnection());
+		HttpURLConnection ret = (HttpURLConnection)(url.openConnection());
 		ret.setRequestMethod("POST");
 		ret.setDoOutput(true);
 		return ret;
 	}
 
-	public void heartbeat() throws java.io.IOException
+	public void heartbeat() throws IOException
 	{
 		if(null == this.token)
 			return;
 
-		java.net.HttpURLConnection connection = getPostConnection(this.heartbeatURL);
+		HttpURLConnection connection = getPostConnection(this.heartbeatURL);
 
-		java.io.OutputStreamWriter out = new java.io.OutputStreamWriter(connection.getOutputStream(), "UTF-8");
-		out.write("token=" + java.net.URLEncoder.encode(this.token, "UTF-8"));
+		OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream(), "UTF-8");
+		out.write("token=" + URLEncoder.encode(this.token, "UTF-8"));
 		out.close();
 
 		// Need to get the input stream even if we don't use it so the request
@@ -142,12 +156,12 @@ public class GameFinder
 		connection.getInputStream().close();
 	}
 
-	public java.util.List<Game> list() throws java.io.IOException, GameFinderException
+	public List<Game> list() throws IOException, GameFinderException
 	{
-		java.net.HttpURLConnection connection = (java.net.HttpURLConnection)(this.listURL.openConnection());
+		HttpURLConnection connection = (HttpURLConnection)(this.listURL.openConnection());
 
-		java.util.List<Game> ret = new java.util.LinkedList<Game>();
-		java.io.BufferedReader input = new java.io.BufferedReader(new java.io.InputStreamReader(connection.getInputStream(), "UTF-8"));
+		List<Game> ret = new LinkedList<Game>();
+		BufferedReader input = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"));
 		String line = input.readLine();
 		while(null != line)
 		{
@@ -165,15 +179,15 @@ public class GameFinder
 		return ret;
 	}
 
-	public void update() throws java.io.IOException
+	public void update() throws IOException
 	{
 		if(null == this.token)
 			return;
 
-		java.net.HttpURLConnection connection = getPostConnection(this.updateURL);
+		HttpURLConnection connection = getPostConnection(this.updateURL);
 
-		java.io.OutputStreamWriter out = new java.io.OutputStreamWriter(connection.getOutputStream(), "UTF-8");
-		out.write("token=" + java.net.URLEncoder.encode(this.token, "UTF-8"));
+		OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream(), "UTF-8");
+		out.write("token=" + URLEncoder.encode(this.token, "UTF-8"));
 		out.close();
 
 		// Need to get the input stream even if we don't use it so the request
@@ -181,11 +195,11 @@ public class GameFinder
 		connection.getInputStream().close();
 	}
 
-	private void version() throws java.io.IOException, GameFinderException
+	private void version() throws IOException, GameFinderException
 	{
-		java.net.HttpURLConnection connection = (java.net.HttpURLConnection)(this.versionURL.openConnection());
+		HttpURLConnection connection = (HttpURLConnection)(this.versionURL.openConnection());
 
-		java.io.BufferedReader input = new java.io.BufferedReader(new java.io.InputStreamReader(connection.getInputStream(), "UTF-8"));
+		BufferedReader input = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"));
 		String response = "";
 		String line = input.readLine();
 		while(null != line)

@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Vigilance;
 import org.rnd.jmagic.engine.*;
 
 @Name("Lionheart Maverick")
@@ -29,7 +31,7 @@ public final class LionheartMaverick extends Card
 		this.setToughness(1);
 
 		// Vigilance
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Vigilance(state));
+		this.addAbility(new Vigilance(state));
 
 		// (4)(W): Lionheart Maverick gets +1/+2 until end of turn.
 		this.addAbility(new Pump(state));

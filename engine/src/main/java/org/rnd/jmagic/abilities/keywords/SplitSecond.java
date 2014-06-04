@@ -6,6 +6,9 @@ import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
 
+import java.util.LinkedList;
+import java.util.List;
+
 @Name("Split second")
 public final class SplitSecond extends Keyword
 {
@@ -15,9 +18,9 @@ public final class SplitSecond extends Keyword
 	}
 
 	@Override
-	protected java.util.List<StaticAbility> createStaticAbilities()
+	protected List<StaticAbility> createStaticAbilities()
 	{
-		java.util.List<StaticAbility> ret = new java.util.LinkedList<StaticAbility>();
+		List<StaticAbility> ret = new LinkedList<StaticAbility>();
 		ret.add(new SplitSecondAbility(this.state));
 		return ret;
 	}

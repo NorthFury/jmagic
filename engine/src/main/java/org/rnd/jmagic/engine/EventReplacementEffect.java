@@ -2,6 +2,13 @@ package org.rnd.jmagic.engine;
 
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * Represents a replacement effect that replaces something other than damage.
  * For any replacement effect that modifies the event rather than creates a new
@@ -12,7 +19,7 @@ import org.rnd.jmagic.engine.generators.*;
 public class EventReplacementEffect extends ReplacementEffect implements Iterable<EventFactory>
 {
 	private EventPattern toReplace;
-	private final java.util.List<EventFactory> replaceWith;
+	private final List<EventFactory> replaceWith;
 
 	private int isReplacing;
 
@@ -25,7 +32,7 @@ public class EventReplacementEffect extends ReplacementEffect implements Iterabl
 	private EventReplacementEffect(Game game, String name)
 	{
 		super(game, name);
-		this.replaceWith = new java.util.LinkedList<EventFactory>();
+		this.replaceWith = new LinkedList<EventFactory>();
 	}
 
 	/**
@@ -82,19 +89,19 @@ public class EventReplacementEffect extends ReplacementEffect implements Iterabl
 	 * @return The sequence of events that results from applying the replacement
 	 * effect.
 	 */
-	public java.util.List<Event> apply(Event toReplace)
+	public List<Event> apply(Event toReplace)
 	{
 		this.isReplacing = toReplace.ID;
 
 		if(!this.apply(this.game.actualState))
 		{
-			java.util.List<Event> ret = new java.util.LinkedList<Event>();
+			List<Event> ret = new LinkedList<Event>();
 			toReplace.replacedBy.add(this);
 			ret.add(toReplace);
 			return ret;
 		}
 
-		java.util.List<Event> newEvents = new java.util.LinkedList<Event>();
+		List<Event> newEvents = new LinkedList<Event>();
 		for(EventFactory replaceWith: this.replaceWith)
 		{
 			// The new event has the same source as this replacement effect's
@@ -136,9 +143,9 @@ public class EventReplacementEffect extends ReplacementEffect implements Iterabl
 	 * 609.7a.
 	 * @see org.rnd.jmagic.engine.generators.AllSourcesOfDamage
 	 */
-	public java.util.List<EventFactory> getEffects()
+	public List<EventFactory> getEffects()
 	{
-		return java.util.Collections.unmodifiableList(this.replaceWith);
+		return Collections.unmodifiableList(this.replaceWith);
 	}
 
 	/** @return The event this effect is currently replacing. */
@@ -161,15 +168,15 @@ public class EventReplacementEffect extends ReplacementEffect implements Iterabl
 	 * something.
 	 */
 	@Override
-	public java.util.Iterator<EventFactory> iterator()
+	public Iterator<EventFactory> iterator()
 	{
 		return this.replaceWith.iterator();
 	}
 
 	@Override
-	public java.util.Collection<GameObject> refersTo(GameState state)
+	public Collection<GameObject> refersTo(GameState state)
 	{
-		java.util.Collection<GameObject> ret = new java.util.HashSet<GameObject>();
+		Collection<GameObject> ret = new HashSet<GameObject>();
 		Identified source = this.getSourceObject(state);
 		for(EventFactory effect: this.replaceWith)
 			ret.addAll(effect.refersTo(state, source));

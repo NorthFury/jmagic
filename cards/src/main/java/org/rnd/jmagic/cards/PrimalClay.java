@@ -2,8 +2,15 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Defender;
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+
+import java.util.Collection;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.Map;
 
 @Name("Primal Clay")
 @Types({Type.ARTIFACT, Type.CREATURE})
@@ -21,9 +28,9 @@ public final class PrimalClay extends Card
 		private static String flyingText = "2/2 artifact creature with flying";
 		private static String defenderText = "1/6 Wall artifact creature with defender";
 
-		private static java.util.Map<String, Object> makeMap(Object vanilla, Object flying, Object defender)
+		private static Map<String, Object> makeMap(Object vanilla, Object flying, Object defender)
 		{
-			java.util.Map<String, Object> ret = new java.util.HashMap<String, Object>();
+			Map<String, Object> ret = new HashMap<String, Object>();
 			ret.put(vanillaText, vanilla);
 			ret.put(flyingText, flying);
 			ret.put(defenderText, defender);
@@ -46,13 +53,13 @@ public final class PrimalClay extends Card
 			replacement.addEffect(choice);
 
 			SetGenerator chosen = EffectResult.instance(choice);
-			java.util.Collection<?> artifactCreature = java.util.EnumSet.of(Type.ARTIFACT, Type.CREATURE);
+			Collection<?> artifactCreature = EnumSet.of(Type.ARTIFACT, Type.CREATURE);
 			MagicSet wall = new MagicSet();
 			wall.addAll(artifactCreature);
 			wall.add(SubType.WALL);
 
-			AbilityFactory flyingFactory = new SimpleAbilityFactory(org.rnd.jmagic.abilities.keywords.Flying.class);
-			AbilityFactory defenderFactory = new SimpleAbilityFactory(org.rnd.jmagic.abilities.keywords.Defender.class);
+			AbilityFactory flyingFactory = new SimpleAbilityFactory(Flying.class);
+			AbilityFactory defenderFactory = new SimpleAbilityFactory(Defender.class);
 
 			ContinuousEffect.Part part = new ContinuousEffect.Part(ContinuousEffectType.SET_COPIABLE_CHARACTERISTICS);
 			part.parameters.put(ContinuousEffectType.Parameter.OBJECT, This.instance());

@@ -4,6 +4,10 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.Map;
+
 @Name("Turnabout")
 @Types({Type.INSTANT})
 @ManaCost("2UU")
@@ -28,12 +32,12 @@ public final class Turnabout extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			event.setResult(Empty.set);
 
 			Player chooser = parameters.get(Parameter.PLAYER).getOne(Player.class);
-			Type choice = chooser.choose(1, java.util.EnumSet.of(Type.ARTIFACT, Type.CREATURE, Type.LAND), PlayerInterface.ChoiceType.ENUM, TURNABOUT_CHOICE).get(0);
+			Type choice = chooser.choose(1, EnumSet.of(Type.ARTIFACT, Type.CREATURE, Type.LAND), PlayerInterface.ChoiceType.ENUM, TURNABOUT_CHOICE).get(0);
 
 			SetGenerator objects = Intersect.instance(ControlledBy.instance(Identity.instance(parameters.get(Parameter.TARGET))), HasType.instance(choice));
 
@@ -45,7 +49,7 @@ public final class Turnabout extends Card
 			untapEvent.parameters.put(Parameter.CAUSE, Identity.instance(parameters.get(Parameter.CAUSE)));
 			untapEvent.parameters.put(Parameter.OBJECT, Intersect.instance(objects, Tapped.instance()));
 
-			java.util.Map<Parameter, MagicSet> mayParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> mayParameters = new HashMap<Parameter, MagicSet>();
 			mayParameters.put(Parameter.PLAYER, new MagicSet(chooser));
 			mayParameters.put(Parameter.EVENT, new MagicSet(tapEvent, untapEvent));
 			return createEvent(game, "Tap all untapped permanents of the chosen type target player controls, or untap all tapped permanents of that type that player controls.", EventType.CHOOSE_AND_PERFORM, mayParameters).perform(event, false);

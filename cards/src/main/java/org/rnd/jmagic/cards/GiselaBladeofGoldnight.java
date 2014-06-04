@@ -1,8 +1,18 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.FirstStrike;
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 @Name("Gisela, Blade of Goldnight")
 @SuperTypes({SuperType.LEGENDARY})
@@ -47,14 +57,14 @@ public final class GiselaBladeofGoldnight extends Card
 			}
 
 			@Override
-			public java.util.List<EventFactory> replace(DamageAssignment.Batch damageAssignments)
+			public List<EventFactory> replace(DamageAssignment.Batch damageAssignments)
 			{
-				java.util.Collection<DamageAssignment> duplicates = new java.util.LinkedList<DamageAssignment>();
+				Collection<DamageAssignment> duplicates = new LinkedList<DamageAssignment>();
 				for(DamageAssignment assignment: damageAssignments)
 					duplicates.add(new DamageAssignment(assignment));
 				damageAssignments.addAll(duplicates);
 
-				return new java.util.LinkedList<EventFactory>();
+				return new LinkedList<EventFactory>();
 			}
 		}
 
@@ -99,9 +109,9 @@ public final class GiselaBladeofGoldnight extends Card
 			}
 
 			@Override
-			public java.util.List<EventFactory> prevent(DamageAssignment.Batch damageAssignments)
+			public List<EventFactory> prevent(DamageAssignment.Batch damageAssignments)
 			{
-				java.util.Map<Integer, DamageAssignment.Batch> sortedAssignments = new java.util.HashMap<Integer, DamageAssignment.Batch>();
+				Map<Integer, DamageAssignment.Batch> sortedAssignments = new HashMap<Integer, DamageAssignment.Batch>();
 				for(DamageAssignment damage: damageAssignments)
 				{
 					if(!sortedAssignments.containsKey(damage.sourceID))
@@ -109,16 +119,16 @@ public final class GiselaBladeofGoldnight extends Card
 					sortedAssignments.get(damage.sourceID).add(damage);
 				}
 
-				for(java.util.Map.Entry<Integer, DamageAssignment.Batch> entry: sortedAssignments.entrySet())
+				for(Map.Entry<Integer, DamageAssignment.Batch> entry: sortedAssignments.entrySet())
 				{
 					int size = entry.getValue().size();
 					int remove = size / 2 + size % 2;
-					java.util.Iterator<DamageAssignment> iter = entry.getValue().iterator();
+					Iterator<DamageAssignment> iter = entry.getValue().iterator();
 					for(int i = 0; i < remove; i++)
 						damageAssignments.remove(iter.next());
 				}
 
-				return new java.util.LinkedList<EventFactory>();
+				return new LinkedList<EventFactory>();
 			}
 		}
 
@@ -138,8 +148,8 @@ public final class GiselaBladeofGoldnight extends Card
 		this.setToughness(5);
 
 		// Flying, first strike
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.FirstStrike(state));
+		this.addAbility(new Flying(state));
+		this.addAbility(new FirstStrike(state));
 
 		// If a source would deal damage to an opponent or a permanent an
 		// opponent controls, that source deals double that damage to that

@@ -1,5 +1,8 @@
 package org.rnd.jmagic.engine;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * This class is used by any ability that prevents triggered abilities from
  * triggering. Currently, it only supports matching those triggered abilities by
@@ -7,11 +10,11 @@ package org.rnd.jmagic.engine;
  */
 public class EventTriggeredAbilityStopper
 {
-	private java.util.Set<ZoneChangePattern> zoneChangePatterns;
+	private Set<ZoneChangePattern> zoneChangePatterns;
 
 	public EventTriggeredAbilityStopper()
 	{
-		this.zoneChangePatterns = new java.util.HashSet<ZoneChangePattern>();
+		this.zoneChangePatterns = new HashSet<ZoneChangePattern>();
 	}
 
 	public EventTriggeredAbilityStopper(ZoneChangePattern pattern)

@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Level;
+import org.rnd.jmagic.abilities.keywords.LevelUp;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -37,12 +39,12 @@ public final class ZulaportEnforcer extends Card
 
 		// Level up (4) ((4): Put a level counter on this. Level up only as a
 		// sorcery.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.LevelUp(state, "(4)"));
+		this.addAbility(new LevelUp(state, "(4)"));
 
 		// LEVEL 1-2, 3/3
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Level(state, 1, 2, 3, 3));
+		this.addAbility(new Level(state, 1, 2, 3, 3));
 
 		// LEVEL 3+, 5/5
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Level(state, 3, 5, 5, "Can't be blocked except by black creatures", ZulaportEnforcerAbility5.class));
+		this.addAbility(new Level(state, 3, 5, 5, "Can't be blocked except by black creatures", ZulaportEnforcerAbility5.class));
 	}
 }

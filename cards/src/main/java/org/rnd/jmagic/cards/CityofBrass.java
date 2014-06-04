@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.TapForAnyColor;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -33,6 +35,6 @@ public final class CityofBrass extends Card
 		this.addAbility(new CityofBrassAbility0(state));
 
 		// (T): Add one mana of any color to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapForAnyColor(state));
+		this.addAbility(new TapForAnyColor(state));
 	}
 }

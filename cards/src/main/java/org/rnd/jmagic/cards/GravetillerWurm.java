@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -46,7 +48,7 @@ public final class GravetillerWurm extends Card
 		this.setToughness(4);
 
 		// Trample
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Trample(state));
+		this.addAbility(new Trample(state));
 
 		// Morbid \u2014 Gravetiller Wurm enters the battlefield with four +1/+1
 		// counters on it if a creature died this turn.

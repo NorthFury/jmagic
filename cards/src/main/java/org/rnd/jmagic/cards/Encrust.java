@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Enchant;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -35,7 +36,7 @@ public final class Encrust extends Card
 		super(state);
 
 		// Enchant artifact or creature
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Enchant.Final(state, "artifact or creature", Union.instance(ArtifactPermanents.instance(), CreaturePermanents.instance())));
+		this.addAbility(new Enchant.Final(state, "artifact or creature", Union.instance(ArtifactPermanents.instance(), CreaturePermanents.instance())));
 
 		// Enchanted permanent doesn't untap during its controller's untap step
 		// and its activated abilities can't be activated.

@@ -2,6 +2,9 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Kicker;
+import org.rnd.jmagic.abilities.keywords.Reach;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -24,7 +27,7 @@ public final class OranRiefRecluse extends Card
 
 			this.addPattern(whenThisEntersTheBattlefield());
 			this.interveningIf = ThisPermanentWasKicked.instance(kickerCost);
-			Target target = this.addTarget(Intersect.instance(CreaturePermanents.instance(), HasKeywordAbility.instance(org.rnd.jmagic.abilities.keywords.Flying.class)), "target creature with flying");
+			Target target = this.addTarget(Intersect.instance(CreaturePermanents.instance(), HasKeywordAbility.instance(Flying.class)), "target creature with flying");
 			this.addEffect(destroy(targetedBy(target), "Destroy target creature with flying."));
 		}
 
@@ -41,7 +44,7 @@ public final class OranRiefRecluse extends Card
 
 		this.setPower(1);
 		this.setToughness(3);
-		org.rnd.jmagic.abilities.keywords.Kicker ability = new org.rnd.jmagic.abilities.keywords.Kicker(state, "(2)(G)");
+		Kicker ability = new Kicker(state, "(2)(G)");
 		this.addAbility(ability);
 
 		// Kicker (2)(G) (You may pay an additional (2)(G) as you cast this
@@ -49,7 +52,7 @@ public final class OranRiefRecluse extends Card
 		CostCollection kickerCost = ability.costCollections[0];
 
 		// Reach (This creature can block creatures with flying.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Reach(state));
+		this.addAbility(new Reach(state));
 
 		// When Oran-Rief Recluse enters the battlefield, if it was kicked,
 		// destroy target creature with flying.

@@ -2,6 +2,12 @@ package org.rnd.jmagic.engine.eventTypes;
 
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+import org.rnd.util.NumberRange;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 public final class PutIntoHandChoice extends EventType
 {	public static final EventType INSTANCE = new PutIntoHandChoice();
@@ -18,9 +24,9 @@ public final class PutIntoHandChoice extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean attempt(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
-		org.rnd.util.NumberRange requiredRange = getRange(parameters.get(Parameter.NUMBER));
+		NumberRange requiredRange = getRange(parameters.get(Parameter.NUMBER));
 		int required = requiredRange.getLower();
 
 		if(required == 0)
@@ -40,7 +46,7 @@ public final class PutIntoHandChoice extends EventType
 			{
 				GameObject thisCard = cards.getOne(GameObject.class);
 				cards.remove(thisCard);
-				java.util.Map<Parameter, MagicSet> newParameters = new java.util.HashMap<Parameter, MagicSet>();
+				Map<Parameter, MagicSet> newParameters = new HashMap<Parameter, MagicSet>();
 				parameters.put(Parameter.CAUSE, cause);
 				parameters.put(Parameter.CARD, new MagicSet(thisCard));
 
@@ -71,16 +77,16 @@ public final class PutIntoHandChoice extends EventType
 	}
 
 	@Override
-	public void makeChoices(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public void makeChoices(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
-		org.rnd.util.NumberRange number = getRange(parameters.get(Parameter.NUMBER));
-		java.util.Set<GameObject> choiceParameter = parameters.get(Parameter.CHOICE).getAll(GameObject.class);
+		NumberRange number = getRange(parameters.get(Parameter.NUMBER));
+		Set<GameObject> choiceParameter = parameters.get(Parameter.CHOICE).getAll(GameObject.class);
 
 		// get the player out of the parameter
 		for(Player player: parameters.get(Parameter.PLAYER).getAll(Player.class))
 		{
 			// offer the choices to the player
-			java.util.Collection<GameObject> choices = player.sanitizeAndChoose(game.actualState, number.getLower(), number.getUpper(), choiceParameter, PlayerInterface.ChoiceType.OBJECTS, PlayerInterface.ChooseReason.BOUNCE);
+			Collection<GameObject> choices = player.sanitizeAndChoose(game.actualState, number.getLower(), number.getUpper(), choiceParameter, PlayerInterface.ChoiceType.OBJECTS, PlayerInterface.ChooseReason.BOUNCE);
 			if(!number.contains(choices.size()))
 				event.allChoicesMade = false;
 			event.putChoices(player, choices);
@@ -88,7 +94,7 @@ public final class PutIntoHandChoice extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		boolean allBounced = event.allChoicesMade;
 		MagicSet cause = parameters.get(Parameter.CAUSE);
@@ -100,7 +106,7 @@ public final class PutIntoHandChoice extends EventType
 			MagicSet bounceThese = event.getChoices(player);
 
 			// perform the bounce event
-			java.util.Map<Parameter, MagicSet> bounceParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> bounceParameters = new HashMap<Parameter, MagicSet>();
 			bounceParameters.put(Parameter.CAUSE, cause);
 			bounceParameters.put(Parameter.PERMANENT, bounceThese);
 			Event bounceEvent = createEvent(game, player + " returns " + bounceThese + " to owners hand.", PUT_INTO_HAND, bounceParameters);

@@ -2,6 +2,8 @@ package org.rnd.jmagic.engine.eventTypes;
 
 import org.rnd.jmagic.engine.*;
 
+import java.util.Map;
+
 public final class SearchMarker extends EventType
 {
 	public static final EventType INSTANCE = new SearchMarker();
@@ -18,7 +20,7 @@ public final class SearchMarker extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		event.setResult(parameters.get(Parameter.CARD));
 		return true;

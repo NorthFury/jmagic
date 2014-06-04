@@ -6,6 +6,8 @@ import org.rnd.jmagic.cards.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.sanitized.*;
 
+import java.util.List;
+
 public class ModalSpellsTest extends JUnitTest
 {
 	@Test
@@ -73,7 +75,7 @@ public class ModalSpellsTest extends JUnitTest
 		for(int i = 0; i < 3; ++i)
 			castAndResolveSpell(RagingGoblin.class, "R");
 
-		java.util.List<GameObject> battlefield = this.game.actualState.battlefield().objects;
+		List<GameObject> battlefield = this.game.actualState.battlefield().objects;
 		assertEquals(6, battlefield.size());
 		assertEquals("Ornithopter", battlefield.get(5).getName());
 		assertEquals("Ornithopter", battlefield.get(4).getName());

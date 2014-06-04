@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.YouMayHaveThisEnterTheBattlefieldAsACopy;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -21,6 +22,6 @@ public final class JwariShapeshifter extends Card
 		// You may have Jwari Shapeshifter enter the battlefield as a copy of
 		// any Ally creature on the battlefield.
 		SetGenerator allies = Intersect.instance(HasSubType.instance(SubType.ALLY), CreaturePermanents.instance());
-		this.addAbility(new org.rnd.jmagic.abilities.YouMayHaveThisEnterTheBattlefieldAsACopy(allies).generateName(this.getName(), "any Ally creature on the battlefield").getStaticAbility(state));
+		this.addAbility(new YouMayHaveThisEnterTheBattlefieldAsACopy(allies).generateName(this.getName(), "any Ally creature on the battlefield").getStaticAbility(state));
 	}
 }

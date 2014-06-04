@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Suspend;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -17,7 +18,7 @@ public final class AncestralVision extends Card
 
 		this.setColorIndicator(Color.BLUE);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Suspend(state, 4, "(U)"));
+		this.addAbility(new Suspend(state, 4, "(U)"));
 
 		Target target = this.addTarget(Players.instance(), "target player");
 		this.addEffect(drawCards(targetedBy(target), 3, "Target player draws three cards."));

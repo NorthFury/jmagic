@@ -2,6 +2,9 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.EntersTheBattlefieldTapped;
+import org.rnd.jmagic.abilities.Regenerate;
+import org.rnd.jmagic.abilities.TapForB;
 import org.rnd.jmagic.engine.*;
 
 @Name("Spawning Pool")
@@ -12,7 +15,7 @@ public final class SpawningPool extends Card
 {
 	public static final class AnimatePool extends ActivatedAbility
 	{
-		public static final class RegenerateB extends org.rnd.jmagic.abilities.Regenerate
+		public static final class RegenerateB extends Regenerate
 		{
 			public RegenerateB(GameState state)
 			{
@@ -38,8 +41,8 @@ public final class SpawningPool extends Card
 	{
 		super(state);
 
-		this.addAbility(new org.rnd.jmagic.abilities.EntersTheBattlefieldTapped(state, this.getName()));
-		this.addAbility(new org.rnd.jmagic.abilities.TapForB(state));
+		this.addAbility(new EntersTheBattlefieldTapped(state, this.getName()));
+		this.addAbility(new TapForB(state));
 		this.addAbility(new AnimatePool(state));
 	}
 }

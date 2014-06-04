@@ -2,8 +2,14 @@ package org.rnd.jmagic.testing;
 
 import org.junit.*;
 import static org.junit.Assert.*;
+
+import org.rnd.jmagic.abilities.keywords.Equip;
 import org.rnd.jmagic.cards.*;
 import org.rnd.jmagic.engine.*;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class DamageTriggeredAbilitiesTest extends JUnitTest
 {
@@ -70,7 +76,7 @@ public class DamageTriggeredAbilitiesTest extends JUnitTest
 		goToStep(Step.StepType.COMBAT_DAMAGE);
 
 		// The trigger for the opponent to lose the game should be on the stack
-		java.util.List<GameObject> stack = this.game.actualState.stack().objects;
+		List<GameObject> stack = this.game.actualState.stack().objects;
 		assertEquals(1, stack.size());
 		assertEquals(EventType.LOSE_GAME, stack.get(0).getModes().get(0).effects.get(0).type);
 
@@ -90,7 +96,7 @@ public class DamageTriggeredAbilitiesTest extends JUnitTest
 		respondWith(Answer.YES);
 
 		// Only the Elvish Piper should be left on the battlefield
-		java.util.List<GameObject> battlefield = this.game.actualState.battlefield().objects;
+		List<GameObject> battlefield = this.game.actualState.battlefield().objects;
 		assertEquals(1, battlefield.size());
 		assertEquals("Elvish Piper", battlefield.get(0).getName());
 
@@ -120,7 +126,7 @@ public class DamageTriggeredAbilitiesTest extends JUnitTest
 
 		castAndResolveSpell(UmezawasJitte.class, "2");
 		castAndResolveSpell(BallLightning.class, "RRR");
-		respondWith(getAbilityAction(org.rnd.jmagic.abilities.keywords.Equip.EquipAbility.class));
+		respondWith(getAbilityAction(Equip.EquipAbility.class));
 		// auto-target lightning
 		addMana("2");
 		donePlayingManaAbilities();
@@ -138,7 +144,7 @@ public class DamageTriggeredAbilitiesTest extends JUnitTest
 		// auto-block ball lightning
 
 		goToStep(Step.StepType.COMBAT_DAMAGE);
-		java.util.Map<Integer, Integer> divisions = new java.util.HashMap<Integer, Integer>();
+		Map<Integer, Integer> divisions = new HashMap<Integer, Integer>();
 		divisions.put(this.game.actualState.battlefield().objects.get(0).ID, 3);
 		divisions.put(player(1).ID, 3);
 		divide(divisions);

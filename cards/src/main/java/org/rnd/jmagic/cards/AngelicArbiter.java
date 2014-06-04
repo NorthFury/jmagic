@@ -1,8 +1,13 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
+
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 @Name("Angelic Arbiter")
 @Types({Type.CREATURE})
@@ -14,7 +19,7 @@ public final class AngelicArbiter extends Card
 {
 	public static final class DontAttack extends StaticAbility
 	{
-		public static final class CastTracker extends Tracker<java.util.Set<Integer>>
+		public static final class CastTracker extends Tracker<Set<Integer>>
 		{
 			public static final class Generator extends SetGenerator
 			{
@@ -41,20 +46,20 @@ public final class AngelicArbiter extends Card
 				}
 			}
 
-			private java.util.Set<Integer> values = new java.util.HashSet<Integer>();
-			private java.util.Set<Integer> unmodifiable = java.util.Collections.unmodifiableSet(this.values);
+			private Set<Integer> values = new HashSet<Integer>();
+			private Set<Integer> unmodifiable = Collections.unmodifiableSet(this.values);
 
 			@Override
 			protected CastTracker clone()
 			{
 				CastTracker ret = (CastTracker)super.clone();
-				ret.values = new java.util.HashSet<Integer>(this.values);
-				ret.unmodifiable = java.util.Collections.unmodifiableSet(ret.values);
+				ret.values = new HashSet<Integer>(this.values);
+				ret.unmodifiable = Collections.unmodifiableSet(ret.values);
 				return ret;
 			}
 
 			@Override
-			protected java.util.Set<Integer> getValueInternal()
+			protected Set<Integer> getValueInternal()
 			{
 				return this.unmodifiable;
 			}
@@ -100,7 +105,7 @@ public final class AngelicArbiter extends Card
 
 	public static final class DontCast extends StaticAbility
 	{
-		public static final class AttackTracker extends Tracker<java.util.Set<Integer>>
+		public static final class AttackTracker extends Tracker<Set<Integer>>
 		{
 			public static final class Generator extends SetGenerator
 			{
@@ -127,20 +132,20 @@ public final class AngelicArbiter extends Card
 				}
 			}
 
-			private java.util.Set<Integer> values = new java.util.HashSet<Integer>();
-			private java.util.Set<Integer> unmodifiable = java.util.Collections.unmodifiableSet(this.values);
+			private Set<Integer> values = new HashSet<Integer>();
+			private Set<Integer> unmodifiable = Collections.unmodifiableSet(this.values);
 
 			@Override
 			protected AttackTracker clone()
 			{
 				AttackTracker ret = (AttackTracker)super.clone();
-				ret.values = new java.util.HashSet<Integer>(this.values);
-				ret.unmodifiable = java.util.Collections.unmodifiableSet(ret.values);
+				ret.values = new HashSet<Integer>(this.values);
+				ret.unmodifiable = Collections.unmodifiableSet(ret.values);
 				return ret;
 			}
 
 			@Override
-			protected java.util.Set<Integer> getValueInternal()
+			protected Set<Integer> getValueInternal()
 			{
 				return this.unmodifiable;
 			}
@@ -189,7 +194,7 @@ public final class AngelicArbiter extends Card
 		this.setToughness(6);
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// Each opponent who cast a spell this turn can't attack with creatures.
 		this.addAbility(new DontAttack(state));

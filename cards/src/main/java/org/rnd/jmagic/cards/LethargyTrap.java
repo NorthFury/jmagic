@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.Trap;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -22,7 +23,7 @@ public final class LethargyTrap extends Card
 		SetGenerator threeOrMore = Between.instance(3, null);
 		SetGenerator attackingCreatures = Count.instance(Attacking.instance());
 		SetGenerator condition = Intersect.instance(threeOrMore, attackingCreatures);
-		this.addAbility(new org.rnd.jmagic.abilities.Trap(state, this.getName(), condition, "If three or more creatures are attacking", "(U)"));
+		this.addAbility(new Trap(state, this.getName(), condition, "If three or more creatures are attacking", "(U)"));
 
 		// Attacking creatures get -3/-0 until end of turn.
 		this.addEffect(ptChangeUntilEndOfTurn(Attacking.instance(), (-3), (-0), "Attacking creatures get -3/-0 until end of turn."));

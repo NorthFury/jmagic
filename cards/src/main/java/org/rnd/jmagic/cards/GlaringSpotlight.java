@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Hexproof;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -20,7 +22,7 @@ public final class GlaringSpotlight extends Card
 			ContinuousEffect.Part part = new ContinuousEffect.Part(ContinuousEffectType.EXEMPT_FROM_ABILITY);
 			part.parameters.put(ContinuousEffectType.Parameter.OBJECT, Intersect.instance(HasType.instance(Type.CREATURE), ControlledBy.instance(OpponentsOf.instance(You.instance()))));
 			part.parameters.put(ContinuousEffectType.Parameter.EXEMPT, ControlledBy.instance(You.instance(), Stack.instance()));
-			part.parameters.put(ContinuousEffectType.Parameter.ABILITY, Identity.instance(org.rnd.jmagic.abilities.keywords.Hexproof.class));
+			part.parameters.put(ContinuousEffectType.Parameter.ABILITY, Identity.instance(Hexproof.class));
 			this.addEffectPart(part);
 		}
 	}
@@ -33,7 +35,7 @@ public final class GlaringSpotlight extends Card
 			this.setManaCost(new ManaPool("(3)"));
 			this.addCost(sacrificeThis("Glaring Spotlight"));
 
-			this.addEffect(createFloatingEffect("Creatures you control gain hexproof until end of turn and are unblockable this turn.", addAbilityToObject(CREATURES_YOU_CONTROL, org.rnd.jmagic.abilities.keywords.Hexproof.class), unblockable(CREATURES_YOU_CONTROL)));
+			this.addEffect(createFloatingEffect("Creatures you control gain hexproof until end of turn and are unblockable this turn.", addAbilityToObject(CREATURES_YOU_CONTROL, Hexproof.class), unblockable(CREATURES_YOU_CONTROL)));
 		}
 	}
 

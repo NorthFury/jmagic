@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Level;
+import org.rnd.jmagic.abilities.keywords.LevelUp;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -32,16 +35,16 @@ public final class LordofShatterskullPass extends Card
 		this.setToughness(3);
 
 		// Level up (1)(R)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.LevelUp(state, "(1)(R)"));
+		this.addAbility(new LevelUp(state, "(1)(R)"));
 
 		// LEVEL 1-5
 		// 6/6
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Level(state, 1, 5, 6, 6));
+		this.addAbility(new Level(state, 1, 5, 6, 6));
 
 		// LEVEL 6+
 		// 6/6
 		// Whenever Lord of Shatterskull Pass attacks, it deals 6 damage to each
 		// creature defending player controls.
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Level(state, 6, 6, 6, "\"Whenever Lord of Shatterskull Pass attacks, it deals 6 damage to each creature defending player controls.\"", BoneCracker.class));
+		this.addAbility(new Level(state, 6, 6, 6, "\"Whenever Lord of Shatterskull Pass attacks, it deals 6 damage to each creature defending player controls.\"", BoneCracker.class));
 	}
 }

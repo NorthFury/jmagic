@@ -3,6 +3,12 @@ package org.rnd.jmagic.engine.eventTypes;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+
 public final class Fight extends EventType
 {	public static final EventType INSTANCE = new Fight();
 
@@ -18,9 +24,9 @@ public final class Fight extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
-		java.util.Set<GameObject> fighters = new java.util.HashSet<GameObject>();
+		Set<GameObject> fighters = new HashSet<GameObject>();
 
 		fighters.addAll(parameters.get(Parameter.OBJECT).getAll(GameObject.class));
 
@@ -37,7 +43,7 @@ public final class Fight extends EventType
 			return false;
 		}
 
-		java.util.Iterator<GameObject> iterator = fighters.iterator();
+		Iterator<GameObject> iterator = fighters.iterator();
 
 		GameObject one = iterator.next();
 		MagicSet oneSet = new MagicSet(one);
@@ -45,13 +51,13 @@ public final class Fight extends EventType
 		GameObject two = iterator.next();
 		MagicSet twoSet = new MagicSet(two);
 
-		java.util.Map<Parameter, MagicSet> oneParameters = new java.util.HashMap<Parameter, MagicSet>();
+		Map<Parameter, MagicSet> oneParameters = new HashMap<Parameter, MagicSet>();
 		oneParameters.put(Parameter.SOURCE, oneSet);
 		oneParameters.put(Parameter.NUMBER, new MagicSet(one.getPower()));
 		oneParameters.put(Parameter.TAKER, twoSet);
 		Event oneDamage = createEvent(game, one + " deals damage equal to its power to " + two, EventType.DEAL_DAMAGE_EVENLY, oneParameters);
 
-		java.util.Map<Parameter, MagicSet> twoParameters = new java.util.HashMap<Parameter, MagicSet>();
+		Map<Parameter, MagicSet> twoParameters = new HashMap<Parameter, MagicSet>();
 		twoParameters.put(Parameter.SOURCE, twoSet);
 		twoParameters.put(Parameter.NUMBER, new MagicSet(two.getPower()));
 		twoParameters.put(Parameter.TAKER, oneSet);

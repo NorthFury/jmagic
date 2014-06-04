@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.CantBeCountered;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -16,7 +18,7 @@ public final class SlaughterGames extends Card
 		super(state);
 
 		// Slaughter Games can't be countered by spells or abilities.
-		this.addAbility(new org.rnd.jmagic.abilities.CantBeCountered(state, "Slaughter Games", true));
+		this.addAbility(new CantBeCountered(state, "Slaughter Games", true));
 
 		// Name a nonland card. Search target opponent's graveyard, hand, and
 		// library for any number of cards with that name and exile them. Then

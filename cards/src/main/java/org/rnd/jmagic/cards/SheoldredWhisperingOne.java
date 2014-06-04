@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Landwalk;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -54,7 +56,7 @@ public final class SheoldredWhisperingOne extends Card
 		this.setToughness(6);
 
 		// Swampwalk
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Landwalk.Swampwalk(state));
+		this.addAbility(new Landwalk.Swampwalk(state));
 
 		// At the beginning of your upkeep, return target creature card from
 		// your graveyard to the battlefield.

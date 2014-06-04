@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Rebound;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -24,6 +26,6 @@ public final class NomadsAssembly extends Card
 		// Rebound (If you cast this spell from your hand, exile it as it
 		// resolves. At the beginning of your next upkeep, you may cast this
 		// card from exile without paying its mana cost.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Rebound(state));
+		this.addAbility(new Rebound(state));
 	}
 }

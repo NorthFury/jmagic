@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.AllSliverCreaturesHave;
+import org.rnd.jmagic.abilities.keywords.Absorb;
 import org.rnd.jmagic.engine.*;
 
 @Name("Lymph Sliver")
@@ -11,7 +13,7 @@ import org.rnd.jmagic.engine.*;
 public final class LymphSliver extends Card
 {
 	@Name("Absorb 1")
-	public static final class Absorb1 extends org.rnd.jmagic.abilities.keywords.Absorb
+	public static final class Absorb1 extends Absorb
 	{
 		public Absorb1(GameState state)
 		{
@@ -26,6 +28,6 @@ public final class LymphSliver extends Card
 		this.setPower(3);
 		this.setToughness(3);
 
-		this.addAbility(new org.rnd.jmagic.abilities.AllSliverCreaturesHave(state, Absorb1.class, "All Sliver creatures have absorb 1."));
+		this.addAbility(new AllSliverCreaturesHave(state, Absorb1.class, "All Sliver creatures have absorb 1."));
 	}
 }

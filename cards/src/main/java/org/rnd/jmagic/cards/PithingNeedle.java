@@ -5,6 +5,9 @@ import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
 
+import java.util.List;
+import java.util.Map;
+
 @Name("Pithing Needle")
 @Types({Type.ARTIFACT})
 @ManaCost("1")
@@ -30,10 +33,10 @@ public final class PithingNeedle extends Card
 			}
 
 			@Override
-			public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+			public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 			{
 				Player player = parameters.get(Parameter.PLAYER).getOne(Player.class);
-				java.util.List<String> named = player.choose(1, parameters.get(Parameter.CHOICE).getAll(String.class), PlayerInterface.ChoiceType.STRING, PlayerInterface.ChooseReason.NAME_A_CARD);
+				List<String> named = player.choose(1, parameters.get(Parameter.CHOICE).getAll(String.class), PlayerInterface.ChoiceType.STRING, PlayerInterface.ChooseReason.NAME_A_CARD);
 				Linkable link = parameters.get(Parameter.SOURCE).getOne(Linkable.class).getPhysical();
 				for(Object object: named)
 					link.getLinkManager().addLinkInformation(object);

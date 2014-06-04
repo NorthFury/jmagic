@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Lifelink;
 import org.rnd.jmagic.engine.*;
 
 @Name("Rhox War Monk")
@@ -18,6 +19,6 @@ public final class RhoxWarMonk extends Card
 		this.setToughness(4);
 
 		// Lifelink
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Lifelink(state));
+		this.addAbility(new Lifelink(state));
 	}
 }

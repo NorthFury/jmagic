@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.DoubleStrike;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -41,7 +42,7 @@ public final class WarrenInstigator extends Card
 		this.setToughness(1);
 
 		// Double strike
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.DoubleStrike(state));
+		this.addAbility(new DoubleStrike(state));
 
 		// Whenever Warren Instigator deals damage to an opponent, you may put a
 		// Goblin creature card from your hand onto the battlefield.

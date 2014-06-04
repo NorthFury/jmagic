@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Cycling;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -33,7 +35,7 @@ public final class GempalmIncinerator extends Card
 		this.setToughness(1);
 
 		// Cycling (1)(R) ((1)(R), Discard this card: Draw a card.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Cycling(state, "(1)(R)"));
+		this.addAbility(new Cycling(state, "(1)(R)"));
 
 		// When you cycle Gempalm Incinerator, you may have it deal X damage to
 		// target creature, where X is the number of Goblins on the battlefield.

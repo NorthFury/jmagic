@@ -2,6 +2,9 @@ package org.rnd.jmagic.engine.generators;
 
 import org.rnd.jmagic.engine.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Evaluates to everything attached to any of the given objects. This is the
  * generator you want for "all enchantments attached to ~" or the like.
@@ -23,7 +26,7 @@ public class AttachedTo extends SetGenerator
 	@Override
 	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		java.util.Set<Integer> attachments = new java.util.HashSet<Integer>();
+		Set<Integer> attachments = new HashSet<Integer>();
 		for(AttachableTo a: this.what.evaluate(state, thisObject).getAll(AttachableTo.class))
 			for(Integer i: a.getAttachments())
 				attachments.add(i);

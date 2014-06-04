@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Flashback;
 import org.rnd.jmagic.engine.*;
 
 @Name("Firebolt")
@@ -18,6 +19,6 @@ public final class Firebolt extends Card
 		Target target = this.addTarget(CREATURES_AND_PLAYERS, "target creature or player");
 
 		this.addEffect(spellDealDamage(2, targetedBy(target), "Firebolt deals 2 damage to target creature or player."));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flashback(state, "(4)(R)"));
+		this.addAbility(new Flashback(state, "(4)(R)"));
 	}
 }

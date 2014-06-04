@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 
 @Name("Duskdale Wurm")
@@ -20,6 +21,6 @@ public final class DuskdaleWurm extends Card
 		// Trample (If this creature would assign enough damage to its blockers
 		// to destroy them, you may have it assign the rest of its damage to
 		// defending player or planeswalker.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Trample(state));
+		this.addAbility(new Trample(state));
 	}
 }

@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.ZendikarAllyCounter;
 import org.rnd.jmagic.engine.*;
 
 @Name("Oran-Rief Survivalist")
@@ -17,6 +18,6 @@ public final class OranRiefSurvivalist extends Card
 		this.setPower(1);
 		this.setToughness(1);
 
-		this.addAbility(new org.rnd.jmagic.abilities.ZendikarAllyCounter(state, this.getName()));
+		this.addAbility(new ZendikarAllyCounter(state, this.getName()));
 	}
 }

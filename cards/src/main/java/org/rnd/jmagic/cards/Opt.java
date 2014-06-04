@@ -5,6 +5,9 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Name("Opt")
 @Types({Type.INSTANT})
 @ManaCost("U")
@@ -28,14 +31,14 @@ public final class Opt extends Card
 		 * @eparam RESULT: empty
 		 */
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			MagicSet cause = parameters.get(Parameter.CAUSE);
 			MagicSet topCard = parameters.get(Parameter.OBJECT);
 			MagicSet you = parameters.get(Parameter.PLAYER);
 			MagicSet library = parameters.get(Parameter.ZONE);
 
-			java.util.Map<Parameter, MagicSet> lookParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> lookParameters = new HashMap<Parameter, MagicSet>();
 			lookParameters.put(Parameter.CAUSE, cause);
 			lookParameters.put(Parameter.OBJECT, topCard);
 			lookParameters.put(Parameter.PLAYER, you);
@@ -48,7 +51,7 @@ public final class Opt extends Card
 			moveParameters.put(Parameter.OBJECT, Identity.instance(topCard));
 			MagicSet move = new MagicSet(new EventFactory(MOVE_OBJECTS, moveParameters, "Put that card on the bottom of your library."));
 
-			java.util.Map<Parameter, MagicSet> mayParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> mayParameters = new HashMap<Parameter, MagicSet>();
 			mayParameters.put(Parameter.PLAYER, you);
 			mayParameters.put(Parameter.EVENT, move);
 			createEvent(game, "You may put that card on the bottom of your library.", PLAYER_MAY, mayParameters).perform(event, false);

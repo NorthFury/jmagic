@@ -1,5 +1,8 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.StaticPTChange;
+import org.rnd.jmagic.abilities.keywords.Deathtouch;
+import org.rnd.jmagic.abilities.keywords.Equip;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -19,10 +22,10 @@ public final class GorgonFlail extends Card
 		// damage by this creature are destroyed. You can divide its combat
 		// damage among any of the creatures blocking or blocked by it.)
 		SetGenerator equippedCreature = EquippedBy.instance(This.instance());
-		this.addAbility(new org.rnd.jmagic.abilities.StaticPTChange(state, equippedCreature, "Equipped creature", +1, +1, org.rnd.jmagic.abilities.keywords.Deathtouch.class, false));
+		this.addAbility(new StaticPTChange(state, equippedCreature, "Equipped creature", +1, +1, Deathtouch.class, false));
 
 		// Equip {2} ({2}: Attach to target creature you control. Equip only as
 		// a sorcery.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Equip(state, "(2)"));
+		this.addAbility(new Equip(state, "(2)"));
 	}
 }

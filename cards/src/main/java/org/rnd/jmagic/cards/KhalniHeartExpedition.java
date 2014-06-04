@@ -2,8 +2,10 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.LandfallForQuestCounter;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+import org.rnd.util.NumberRange;
 
 @Name("Khalni Heart Expedition")
 @Types({Type.ENCHANTMENT})
@@ -26,7 +28,7 @@ public final class KhalniHeartExpedition extends Card
 			parameters.put(EventType.Parameter.CAUSE, This.instance());
 			parameters.put(EventType.Parameter.CONTROLLER, You.instance());
 			parameters.put(EventType.Parameter.PLAYER, You.instance());
-			parameters.put(EventType.Parameter.NUMBER, Identity.instance(new org.rnd.util.NumberRange(0, 2)));
+			parameters.put(EventType.Parameter.NUMBER, Identity.instance(new NumberRange(0, 2)));
 			parameters.put(EventType.Parameter.TO, Battlefield.instance());
 			parameters.put(EventType.Parameter.TAPPED, Empty.instance());
 			parameters.put(EventType.Parameter.TYPE, Identity.instance(Intersect.instance(HasSuperType.instance(SuperType.BASIC), HasType.instance(Type.LAND))));
@@ -38,7 +40,7 @@ public final class KhalniHeartExpedition extends Card
 	{
 		super(state);
 
-		this.addAbility(new org.rnd.jmagic.abilities.LandfallForQuestCounter(state, this.getName()));
+		this.addAbility(new LandfallForQuestCounter(state, this.getName()));
 		this.addAbility(new SoIHeardYouLikeLandfall(state));
 	}
 }

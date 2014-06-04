@@ -2,14 +2,74 @@ package org.rnd.jmagic.gui.dialogs;
 
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.gameTypes.*;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
+import org.springframework.context.annotation.ScannedGenericBeanDefinition;
+import org.springframework.core.type.filter.AnnotationTypeFilter;
+import org.springframework.core.type.filter.AssignableTypeFilter;
 
-public class GameTypeDialog extends javax.swing.JDialog
+import javax.swing.AbstractAction;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.JTextPane;
+import javax.swing.JToggleButton;
+import javax.swing.JTree;
+import javax.swing.KeyStroke;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.WindowConstants;
+import javax.swing.border.TitledBorder;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreeSelectionModel;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.beans.IndexedPropertyDescriptor;
+import java.beans.IntrospectionException;
+import java.beans.Introspector;
+import java.beans.PropertyDescriptor;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Array;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+public class GameTypeDialog extends JDialog
 {
 	private static class BeanConfiguration<T>
 	{
 		public final Class<? extends T> beanClass;
 		public final String name;
-		public final java.util.Map<String, PropertyConfiguration> properties;
+		public final Map<String, PropertyConfiguration> properties;
 
 		/**
 		 * Create a new configuration for a Java bean with an optional
@@ -21,15 +81,15 @@ public class GameTypeDialog extends javax.swing.JDialog
 		{
 			this.beanClass = beanClass;
 			this.name = beanClass.getAnnotation(Name.class).value();
-			this.properties = new java.util.HashMap<String, PropertyConfiguration>();
+			this.properties = new HashMap<String, PropertyConfiguration>();
 
 			try
 			{
 				// Don't check for properties provided by Object
-				for(final java.beans.PropertyDescriptor propertyDescriptor: java.beans.Introspector.getBeanInfo(this.beanClass, Object.class).getPropertyDescriptors())
+				for(final PropertyDescriptor propertyDescriptor: Introspector.getBeanInfo(this.beanClass, Object.class).getPropertyDescriptors())
 				{
 					// Don't bother with properties that can't be changed
-					java.lang.reflect.Method writeMethod = propertyDescriptor.getWriteMethod();
+					Method writeMethod = propertyDescriptor.getWriteMethod();
 					if(null == writeMethod)
 						continue;
 
@@ -38,9 +98,9 @@ public class GameTypeDialog extends javax.swing.JDialog
 					this.properties.put(propertyName, propertyConfiguration);
 				}
 			}
-			catch(java.beans.IntrospectionException e)
+			catch(IntrospectionException e)
 			{
-				LOG.log(java.util.logging.Level.SEVERE, "Error introspecting bean " + this.beanClass, e);
+				LOG.log(Level.SEVERE, "Error introspecting bean " + this.beanClass, e);
 			}
 		}
 
@@ -61,10 +121,10 @@ public class GameTypeDialog extends javax.swing.JDialog
 				T ret = this.beanClass.newInstance();
 
 				// Don't check for properties provided by Object
-				for(java.beans.PropertyDescriptor propertyDescriptor: java.beans.Introspector.getBeanInfo(this.beanClass, Object.class).getPropertyDescriptors())
+				for(PropertyDescriptor propertyDescriptor: Introspector.getBeanInfo(this.beanClass, Object.class).getPropertyDescriptors())
 				{
 					// Don't bother with properties that can't be changed
-					java.lang.reflect.Method writeMethod = propertyDescriptor.getWriteMethod();
+					Method writeMethod = propertyDescriptor.getWriteMethod();
 					if(null == writeMethod)
 						continue;
 
@@ -85,19 +145,19 @@ public class GameTypeDialog extends javax.swing.JDialog
 			}
 			catch(IllegalAccessException e)
 			{
-				LOG.log(java.util.logging.Level.SEVERE, "Bean " + this.beanClass + " default constructor is not public", e);
+				LOG.log(Level.SEVERE, "Bean " + this.beanClass + " default constructor is not public", e);
 			}
 			catch(InstantiationException e)
 			{
-				LOG.log(java.util.logging.Level.SEVERE, "Bean " + this.beanClass + " isn't constructable", e);
+				LOG.log(Level.SEVERE, "Bean " + this.beanClass + " isn't constructable", e);
 			}
-			catch(java.beans.IntrospectionException e)
+			catch(IntrospectionException e)
 			{
-				LOG.log(java.util.logging.Level.SEVERE, "Error introspecting bea  " + this.beanClass, e);
+				LOG.log(Level.SEVERE, "Error introspecting bea  " + this.beanClass, e);
 			}
-			catch(java.lang.reflect.InvocationTargetException e)
+			catch(InvocationTargetException e)
 			{
-				LOG.log(java.util.logging.Level.SEVERE, "Bean " + this.beanClass + " property " + propertyName + " write method threw exception", e.getCause());
+				LOG.log(Level.SEVERE, "Bean " + this.beanClass + " property " + propertyName + " write method threw exception", e.getCause());
 			}
 
 			return null;
@@ -116,7 +176,7 @@ public class GameTypeDialog extends javax.swing.JDialog
 			try
 			{
 				// Don't check for properties provided by Object
-				for(java.beans.PropertyDescriptor propertyDescriptor: java.beans.Introspector.getBeanInfo(this.beanClass, Object.class).getPropertyDescriptors())
+				for(PropertyDescriptor propertyDescriptor: Introspector.getBeanInfo(this.beanClass, Object.class).getPropertyDescriptors())
 				{
 					if(null == propertyDescriptor.getWriteMethod())
 						continue;
@@ -128,22 +188,22 @@ public class GameTypeDialog extends javax.swing.JDialog
 						continue;
 					}
 
-					java.lang.reflect.Method readMethod = propertyDescriptor.getReadMethod();
+					Method readMethod = propertyDescriptor.getReadMethod();
 					if(null != readMethod)
 						this.properties.get(propertyName).setValue(readMethod.invoke(beanValue));
 				}
 			}
-			catch(java.beans.IntrospectionException ex)
+			catch(IntrospectionException ex)
 			{
-				LOG.log(java.util.logging.Level.SEVERE, "Error introspecting bean " + this.beanClass, ex);
+				LOG.log(Level.SEVERE, "Error introspecting bean " + this.beanClass, ex);
 			}
-			catch(java.lang.reflect.InvocationTargetException ex)
+			catch(InvocationTargetException ex)
 			{
-				LOG.log(java.util.logging.Level.SEVERE, "Bean " + this.beanClass + " property " + propertyName + " read method threw exception", ex.getCause());
+				LOG.log(Level.SEVERE, "Bean " + this.beanClass + " property " + propertyName + " read method threw exception", ex.getCause());
 			}
 			catch(IllegalAccessException ex)
 			{
-				LOG.log(java.util.logging.Level.SEVERE, "Bean " + this.beanClass + " property " + propertyName + " read method is not public", ex);
+				LOG.log(Level.SEVERE, "Bean " + this.beanClass + " property " + propertyName + " read method is not public", ex);
 			}
 		}
 
@@ -156,15 +216,15 @@ public class GameTypeDialog extends javax.swing.JDialog
 
 	private static class BooleanPropertyConfiguration extends PropertyConfiguration
 	{
-		private javax.swing.JCheckBox checkBox;
+		private JCheckBox checkBox;
 
 		public BooleanPropertyConfiguration(String propertyName, Class<?> propertyType)
 		{
 			super(propertyName, propertyType);
 
-			this.checkBox = new javax.swing.JCheckBox(this.propertyName + " (" + this.propertyType + ")");
-			java.awt.GridBagConstraints textConstraints = new java.awt.GridBagConstraints();
-			textConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+			this.checkBox = new JCheckBox(this.propertyName + " (" + this.propertyType + ")");
+			GridBagConstraints textConstraints = new GridBagConstraints();
+			textConstraints.fill = GridBagConstraints.HORIZONTAL;
 			textConstraints.gridx = 0;
 			textConstraints.gridy = 0;
 			textConstraints.weightx = 1;
@@ -194,28 +254,28 @@ public class GameTypeDialog extends javax.swing.JDialog
 	{
 		private static String COMBO_BOX_NO_VALUE = "Choose an implementation";
 
-		private javax.swing.JComboBox implementationCombo;
-		private java.util.Map<Class<?>, BeanConfiguration<Object>> implementationConfigurations;
+		private JComboBox implementationCombo;
+		private Map<Class<?>, BeanConfiguration<Object>> implementationConfigurations;
 
 		public ComplexPropertyConfiguration(String propertyName, Class<?> propertyType)
 		{
 			super(propertyName, propertyType);
-			this.implementationConfigurations = new java.util.HashMap<Class<?>, BeanConfiguration<Object>>();
+			this.implementationConfigurations = new HashMap<Class<?>, BeanConfiguration<Object>>();
 
-			this.panel.setBorder(new javax.swing.border.TitledBorder(""));
+			this.panel.setBorder(new TitledBorder(""));
 
-			this.implementationCombo = new javax.swing.JComboBox();
-			java.awt.GridBagConstraints comboConstraints = new java.awt.GridBagConstraints();
-			comboConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+			this.implementationCombo = new JComboBox();
+			GridBagConstraints comboConstraints = new GridBagConstraints();
+			comboConstraints.fill = GridBagConstraints.HORIZONTAL;
 			comboConstraints.gridx = 0;
 			comboConstraints.gridy = 0;
 			comboConstraints.weightx = 1;
 			this.panel.add(this.implementationCombo, comboConstraints);
 
-			final java.awt.CardLayout implementationLayout = new java.awt.CardLayout();
-			final javax.swing.JPanel implementationCards = new javax.swing.JPanel(implementationLayout);
-			java.awt.GridBagConstraints cardsConstraints = new java.awt.GridBagConstraints();
-			cardsConstraints.fill = java.awt.GridBagConstraints.BOTH;
+			final CardLayout implementationLayout = new CardLayout();
+			final JPanel implementationCards = new JPanel(implementationLayout);
+			GridBagConstraints cardsConstraints = new GridBagConstraints();
+			cardsConstraints.fill = GridBagConstraints.BOTH;
 			cardsConstraints.gridx = 0;
 			cardsConstraints.gridy = 1;
 			cardsConstraints.weightx = 1;
@@ -223,7 +283,7 @@ public class GameTypeDialog extends javax.swing.JDialog
 			this.panel.add(implementationCards, cardsConstraints);
 
 			this.implementationCombo.addItem(COMBO_BOX_NO_VALUE);
-			implementationCards.add(new javax.swing.JPanel(), "");
+			implementationCards.add(new JPanel(), "");
 
 			// TODO: This obviously won't work for anything that isn't in
 			// this package, so make this more general
@@ -233,14 +293,14 @@ public class GameTypeDialog extends javax.swing.JDialog
 				this.implementationConfigurations.put(c, implementationConfiguration);
 				this.implementationCombo.addItem(implementationConfiguration);
 
-				javax.swing.JPanel implementationPanel = new javax.swing.JPanel(new java.awt.GridBagLayout());
+				JPanel implementationPanel = new JPanel(new GridBagLayout());
 				int y = 0;
 
 				for(PropertyConfiguration propertyConfiguration: implementationConfiguration.properties.values())
 				{
-					javax.swing.JPanel propertyPanel = propertyConfiguration.getPanel();
-					java.awt.GridBagConstraints propertyConstraints = new java.awt.GridBagConstraints();
-					propertyConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+					JPanel propertyPanel = propertyConfiguration.getPanel();
+					GridBagConstraints propertyConstraints = new GridBagConstraints();
+					propertyConstraints.fill = GridBagConstraints.HORIZONTAL;
 					propertyConstraints.gridx = 0;
 					propertyConstraints.gridy = y++;
 					propertyConstraints.weightx = 1;
@@ -250,10 +310,10 @@ public class GameTypeDialog extends javax.swing.JDialog
 				implementationCards.add(implementationPanel, implementationConfiguration.name);
 			}
 
-			this.implementationCombo.addActionListener(new java.awt.event.ActionListener()
+			this.implementationCombo.addActionListener(new ActionListener()
 			{
 				@Override
-				public void actionPerformed(java.awt.event.ActionEvent e)
+				public void actionPerformed(ActionEvent e)
 				{
 					for(BeanConfiguration<Object> c: ComplexPropertyConfiguration.this.implementationConfigurations.values())
 						c.clear();
@@ -294,7 +354,7 @@ public class GameTypeDialog extends javax.swing.JDialog
 				return;
 			}
 
-			for(java.util.Map.Entry<Class<?>, BeanConfiguration<Object>> e: this.implementationConfigurations.entrySet())
+			for(Map.Entry<Class<?>, BeanConfiguration<Object>> e: this.implementationConfigurations.entrySet())
 			{
 				if(e.getKey().equals(valueClass))
 				{
@@ -310,7 +370,7 @@ public class GameTypeDialog extends javax.swing.JDialog
 
 	private static class EnumerationPropertyConfiguration extends PropertyConfiguration
 	{
-		private javax.swing.JComboBox comboBox;
+		private JComboBox comboBox;
 
 		public EnumerationPropertyConfiguration(String propertyName, Class<?> propertyType)
 		{
@@ -319,16 +379,16 @@ public class GameTypeDialog extends javax.swing.JDialog
 
 			try
 			{
-				this.comboBox = new javax.swing.JComboBox((Object[])(enumType.getMethod("values").invoke(null)));
-				java.awt.GridBagConstraints textConstraints = new java.awt.GridBagConstraints();
-				textConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+				this.comboBox = new JComboBox((Object[])(enumType.getMethod("values").invoke(null)));
+				GridBagConstraints textConstraints = new GridBagConstraints();
+				textConstraints.anchor = GridBagConstraints.LINE_START;
 				textConstraints.gridx = 0;
 				textConstraints.gridy = 0;
 				this.panel.add(this.comboBox, textConstraints);
 
-				javax.swing.JLabel label = new javax.swing.JLabel(this.propertyName + " (" + this.propertyType + ")");
-				java.awt.GridBagConstraints labelConstraints = new java.awt.GridBagConstraints();
-				labelConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+				JLabel label = new JLabel(this.propertyName + " (" + this.propertyType + ")");
+				GridBagConstraints labelConstraints = new GridBagConstraints();
+				labelConstraints.fill = GridBagConstraints.HORIZONTAL;
 				labelConstraints.gridx = 1;
 				labelConstraints.gridy = 0;
 				labelConstraints.weightx = 1;
@@ -336,23 +396,23 @@ public class GameTypeDialog extends javax.swing.JDialog
 			}
 			catch(NoSuchMethodException e)
 			{
-				LOG.log(java.util.logging.Level.SEVERE, enumType + " is supposed to be an enumeration type but doesn't have a values() method", e);
+				LOG.log(Level.SEVERE, enumType + " is supposed to be an enumeration type but doesn't have a values() method", e);
 			}
 			catch(IllegalArgumentException e)
 			{
-				LOG.log(java.util.logging.Level.SEVERE, " null is not a legal argument to " + enumType + " values() method", e);
+				LOG.log(Level.SEVERE, " null is not a legal argument to " + enumType + " values() method", e);
 			}
 			catch(SecurityException e)
 			{
-				LOG.log(java.util.logging.Level.SEVERE, enumType + " values() method is not allowed to be called", e);
+				LOG.log(Level.SEVERE, enumType + " values() method is not allowed to be called", e);
 			}
 			catch(IllegalAccessException e)
 			{
-				LOG.log(java.util.logging.Level.SEVERE, enumType + " values() method is not public", e);
+				LOG.log(Level.SEVERE, enumType + " values() method is not public", e);
 			}
-			catch(java.lang.reflect.InvocationTargetException e)
+			catch(InvocationTargetException e)
 			{
-				LOG.log(java.util.logging.Level.SEVERE, enumType + " values() threw an exception", e.getCause());
+				LOG.log(Level.SEVERE, enumType + " values() threw an exception", e.getCause());
 			}
 		}
 
@@ -377,12 +437,12 @@ public class GameTypeDialog extends javax.swing.JDialog
 
 	private static class IndexedPropertyConfiguration extends PropertyConfiguration
 	{
-		private final java.util.LinkedHashMap<javax.swing.JPanel, PropertyConfiguration> individuals;
+		private final LinkedHashMap<JPanel, PropertyConfiguration> individuals;
 
 		public IndexedPropertyConfiguration(String propertyName, Class<?> indexedPropertyType)
 		{
 			super(propertyName, indexedPropertyType);
-			this.individuals = new java.util.LinkedHashMap<javax.swing.JPanel, PropertyConfiguration>();
+			this.individuals = new LinkedHashMap<JPanel, PropertyConfiguration>();
 
 			rebuildPanel();
 		}
@@ -404,7 +464,7 @@ public class GameTypeDialog extends javax.swing.JDialog
 		@Override
 		public Object[] getValue()
 		{
-			Object[] ret = (Object[])java.lang.reflect.Array.newInstance(this.propertyType, this.individuals.size());
+			Object[] ret = (Object[]) Array.newInstance(this.propertyType, this.individuals.size());
 			int i = 0;
 			for(PropertyConfiguration p: this.individuals.values())
 			{
@@ -423,46 +483,46 @@ public class GameTypeDialog extends javax.swing.JDialog
 			this.panel.removeAll();
 			int y = 0;
 
-			javax.swing.JButton addButton = new javax.swing.JButton("Add to " + this.propertyName);
-			java.awt.GridBagConstraints addConstraints = new java.awt.GridBagConstraints();
-			addConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+			JButton addButton = new JButton("Add to " + this.propertyName);
+			GridBagConstraints addConstraints = new GridBagConstraints();
+			addConstraints.anchor = GridBagConstraints.LINE_START;
 			addConstraints.gridx = 0;
 			addConstraints.gridy = y++;
 			addConstraints.weightx = 1;
 			this.panel.add(addButton, addConstraints);
 
-			addButton.addActionListener(new java.awt.event.ActionListener()
+			addButton.addActionListener(new ActionListener()
 			{
 				@Override
-				public void actionPerformed(java.awt.event.ActionEvent e)
+				public void actionPerformed(ActionEvent e)
 				{
 					IndexedPropertyConfiguration.this.createNewIndividualConfiguration();
 					IndexedPropertyConfiguration.this.rebuildPanel();
 				}
 			});
 
-			for(final javax.swing.JPanel panel: this.individuals.keySet())
+			for(final JPanel panel: this.individuals.keySet())
 			{
-				java.awt.GridBagConstraints panelConstraints = new java.awt.GridBagConstraints();
-				panelConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+				GridBagConstraints panelConstraints = new GridBagConstraints();
+				panelConstraints.fill = GridBagConstraints.HORIZONTAL;
 				panelConstraints.gridx = 0;
 				panelConstraints.gridy = y;
 				panelConstraints.weightx = 1;
 				this.panel.add(panel, panelConstraints);
 
-				javax.swing.JButton removeButton = new javax.swing.JButton("Remove");
-				java.awt.GridBagConstraints removeConstraints = new java.awt.GridBagConstraints();
-				removeConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_END;
+				JButton removeButton = new JButton("Remove");
+				GridBagConstraints removeConstraints = new GridBagConstraints();
+				removeConstraints.anchor = GridBagConstraints.FIRST_LINE_END;
 				removeConstraints.gridx = 1;
 				removeConstraints.gridy = y;
 				this.panel.add(removeButton, removeConstraints);
 
 				y++;
 
-				removeButton.addActionListener(new java.awt.event.ActionListener()
+				removeButton.addActionListener(new ActionListener()
 				{
 					@Override
-					public void actionPerformed(java.awt.event.ActionEvent e)
+					public void actionPerformed(ActionEvent e)
 					{
 						IndexedPropertyConfiguration.this.individuals.remove(panel);
 						IndexedPropertyConfiguration.this.rebuildPanel();
@@ -490,22 +550,22 @@ public class GameTypeDialog extends javax.swing.JDialog
 
 	private static class IndexedStringPropertyConfiguration extends PropertyConfiguration
 	{
-		private final javax.swing.JTextArea textArea;
+		private final JTextArea textArea;
 
 		public IndexedStringPropertyConfiguration(String propertyName)
 		{
 			super(propertyName, String.class);
 
-			this.textArea = new javax.swing.JTextArea(5, 30);
-			java.awt.GridBagConstraints textConstraints = new java.awt.GridBagConstraints();
-			textConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+			this.textArea = new JTextArea(5, 30);
+			GridBagConstraints textConstraints = new GridBagConstraints();
+			textConstraints.anchor = GridBagConstraints.LINE_START;
 			textConstraints.gridx = 0;
 			textConstraints.gridy = 0;
 			this.panel.add(this.textArea, textConstraints);
 
-			javax.swing.JLabel label = new javax.swing.JLabel(this.propertyName + " (" + this.propertyType + ") delimited by line-breaks");
-			java.awt.GridBagConstraints labelConstraints = new java.awt.GridBagConstraints();
-			labelConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+			JLabel label = new JLabel(this.propertyName + " (" + this.propertyType + ") delimited by line-breaks");
+			GridBagConstraints labelConstraints = new GridBagConstraints();
+			labelConstraints.fill = GridBagConstraints.HORIZONTAL;
 			labelConstraints.gridx = 1;
 			labelConstraints.gridy = 0;
 			labelConstraints.weightx = 1;
@@ -544,22 +604,22 @@ public class GameTypeDialog extends javax.swing.JDialog
 
 	private static class IntegerPropertyConfiguration extends PropertyConfiguration
 	{
-		private javax.swing.JTextField textBox;
+		private JTextField textBox;
 
 		public IntegerPropertyConfiguration(String propertyName, Class<?> propertyType)
 		{
 			super(propertyName, propertyType);
 
-			this.textBox = new javax.swing.JTextField(8);
-			java.awt.GridBagConstraints textConstraints = new java.awt.GridBagConstraints();
-			textConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+			this.textBox = new JTextField(8);
+			GridBagConstraints textConstraints = new GridBagConstraints();
+			textConstraints.anchor = GridBagConstraints.LINE_START;
 			textConstraints.gridx = 0;
 			textConstraints.gridy = 0;
 			this.panel.add(this.textBox, textConstraints);
 
-			javax.swing.JLabel label = new javax.swing.JLabel(this.propertyName + " (" + this.propertyType + ")");
-			java.awt.GridBagConstraints labelConstraints = new java.awt.GridBagConstraints();
-			labelConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+			JLabel label = new JLabel(this.propertyName + " (" + this.propertyType + ")");
+			GridBagConstraints labelConstraints = new GridBagConstraints();
+			labelConstraints.fill = GridBagConstraints.HORIZONTAL;
 			labelConstraints.gridx = 1;
 			labelConstraints.gridy = 0;
 			labelConstraints.weightx = 1;
@@ -581,7 +641,7 @@ public class GameTypeDialog extends javax.swing.JDialog
 			}
 			catch(NumberFormatException e)
 			{
-				LOG.log(java.util.logging.Level.WARNING, this.propertyName + " must have a valid number value", e);
+				LOG.log(Level.WARNING, this.propertyName + " must have a valid number value", e);
 				return null;
 			}
 		}
@@ -595,11 +655,11 @@ public class GameTypeDialog extends javax.swing.JDialog
 
 	private abstract static class PropertyConfiguration
 	{
-		public static PropertyConfiguration create(java.beans.PropertyDescriptor descriptor)
+		public static PropertyConfiguration create(PropertyDescriptor descriptor)
 		{
-			if(descriptor instanceof java.beans.IndexedPropertyDescriptor)
+			if(descriptor instanceof IndexedPropertyDescriptor)
 			{
-				Class<?> type = ((java.beans.IndexedPropertyDescriptor)descriptor).getIndexedPropertyType();
+				Class<?> type = ((IndexedPropertyDescriptor)descriptor).getIndexedPropertyType();
 				if(String.class.equals(type))
 					return new IndexedStringPropertyConfiguration(descriptor.getName());
 				return new IndexedPropertyConfiguration(descriptor.getName(), type);
@@ -620,13 +680,13 @@ public class GameTypeDialog extends javax.swing.JDialog
 			return new ComplexPropertyConfiguration(propertyName, propertyType);
 		}
 
-		protected final javax.swing.JPanel panel;
+		protected final JPanel panel;
 		protected final String propertyName;
 		protected final Class<?> propertyType;
 
 		public PropertyConfiguration(String propertyName, Class<?> propertyType)
 		{
-			this.panel = new javax.swing.JPanel(new java.awt.GridBagLayout());
+			this.panel = new JPanel(new GridBagLayout());
 			this.propertyName = propertyName;
 			this.propertyType = propertyType;
 		}
@@ -639,7 +699,7 @@ public class GameTypeDialog extends javax.swing.JDialog
 		/**
 		 * Get the panel with controls to change the state of this property.
 		 */
-		public final javax.swing.JPanel getPanel()
+		public final JPanel getPanel()
 		{
 			return this.panel;
 		}
@@ -664,21 +724,21 @@ public class GameTypeDialog extends javax.swing.JDialog
 	{
 		// TODO: Can't this be set by the platform look-and-feel?
 		private static final int SCROLL_INCREMENT = 5;
-		public final javax.swing.JToggleButton checkBox;
-		public final javax.swing.tree.DefaultMutableTreeNode node;
-		public final javax.swing.JScrollPane scrollPane;
+		public final JToggleButton checkBox;
+		public final DefaultMutableTreeNode node;
+		public final JScrollPane scrollPane;
 
 		public RuleConfiguration(Class<? extends GameType.GameTypeRule> ruleClass)
 		{
 			super(ruleClass);
-			this.node = new javax.swing.tree.DefaultMutableTreeNode(this.name);
+			this.node = new DefaultMutableTreeNode(this.name);
 
-			javax.swing.JPanel panel = new javax.swing.JPanel(new java.awt.GridBagLayout());
+			JPanel panel = new JPanel(new GridBagLayout());
 			int y = 0;
 
-			this.checkBox = new javax.swing.JCheckBox("Enable");
-			java.awt.GridBagConstraints enableConstraints = new java.awt.GridBagConstraints();
-			enableConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+			this.checkBox = new JCheckBox("Enable");
+			GridBagConstraints enableConstraints = new GridBagConstraints();
+			enableConstraints.fill = GridBagConstraints.HORIZONTAL;
 			enableConstraints.gridx = 0;
 			enableConstraints.gridy = y++;
 			enableConstraints.weightx = 1;
@@ -686,9 +746,9 @@ public class GameTypeDialog extends javax.swing.JDialog
 
 			for(PropertyConfiguration propertyConfiguration: this.properties.values())
 			{
-				javax.swing.JPanel propertyPanel = propertyConfiguration.getPanel();
-				java.awt.GridBagConstraints propertyConstraints = new java.awt.GridBagConstraints();
-				propertyConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+				JPanel propertyPanel = propertyConfiguration.getPanel();
+				GridBagConstraints propertyConstraints = new GridBagConstraints();
+				propertyConstraints.fill = GridBagConstraints.HORIZONTAL;
 				propertyConstraints.gridx = 0;
 				propertyConstraints.gridy = y++;
 				propertyConstraints.weightx = 1;
@@ -698,18 +758,18 @@ public class GameTypeDialog extends javax.swing.JDialog
 
 			// Create a description panel
 			String description = this.beanClass.getAnnotation(Description.class).value();
-			javax.swing.JTextPane descriptionPanel = new javax.swing.JTextPane();
+			JTextPane descriptionPanel = new JTextPane();
 			descriptionPanel.setEditable(false);
 			descriptionPanel.setText(description);
-			java.awt.GridBagConstraints descriptionConstraints = new java.awt.GridBagConstraints();
-			descriptionConstraints.fill = java.awt.GridBagConstraints.BOTH;
+			GridBagConstraints descriptionConstraints = new GridBagConstraints();
+			descriptionConstraints.fill = GridBagConstraints.BOTH;
 			descriptionConstraints.gridx = 0;
 			descriptionConstraints.gridy = y++;
 			descriptionConstraints.weightx = 1;
 			descriptionConstraints.weighty = 1;
 			panel.add(descriptionPanel, descriptionConstraints);
 
-			this.scrollPane = new javax.swing.JScrollPane(panel, javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+			this.scrollPane = new JScrollPane(panel, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 			this.scrollPane.getVerticalScrollBar().setUnitIncrement(SCROLL_INCREMENT);
 		}
 
@@ -730,22 +790,22 @@ public class GameTypeDialog extends javax.swing.JDialog
 
 	private static class StringPropertyConfiguration extends PropertyConfiguration
 	{
-		private javax.swing.JTextField textBox;
+		private JTextField textBox;
 
 		public StringPropertyConfiguration(String propertyName, Class<?> propertyType)
 		{
 			super(propertyName, propertyType);
 
-			this.textBox = new javax.swing.JTextField(8);
-			java.awt.GridBagConstraints textConstraints = new java.awt.GridBagConstraints();
-			textConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+			this.textBox = new JTextField(8);
+			GridBagConstraints textConstraints = new GridBagConstraints();
+			textConstraints.anchor = GridBagConstraints.LINE_START;
 			textConstraints.gridx = 0;
 			textConstraints.gridy = 0;
 			this.panel.add(this.textBox, textConstraints);
 
-			javax.swing.JLabel label = new javax.swing.JLabel(this.propertyName + " (" + this.propertyType + ")");
-			java.awt.GridBagConstraints labelConstraints = new java.awt.GridBagConstraints();
-			labelConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+			JLabel label = new JLabel(this.propertyName + " (" + this.propertyType + ")");
+			GridBagConstraints labelConstraints = new GridBagConstraints();
+			labelConstraints.fill = GridBagConstraints.HORIZONTAL;
 			labelConstraints.gridx = 1;
 			labelConstraints.gridy = 0;
 			labelConstraints.weightx = 1;
@@ -771,18 +831,18 @@ public class GameTypeDialog extends javax.swing.JDialog
 		}
 	}
 
-	private static final java.util.logging.Logger LOG = java.util.logging.Logger.getLogger("org.rnd.jmagic.gui.dialogs.GameTypeDialog");
+	private static final Logger LOG = Logger.getLogger("org.rnd.jmagic.gui.dialogs.GameTypeDialog");
 
 	private static final long serialVersionUID = 1L;
 
-	private static <T> java.util.SortedSet<Class<? extends T>> findImplementations(Class<T> rootType, String pkg)
+	private static <T> SortedSet<Class<? extends T>> findImplementations(Class<T> rootType, String pkg)
 	{
 		return findImplementations(rootType, pkg, null);
 	}
 
-	private static <T> java.util.SortedSet<Class<? extends T>> findImplementations(Class<T> rootType, String pkg, Class<? extends java.lang.annotation.Annotation> ignoreAnnotation)
+	private static <T> SortedSet<Class<? extends T>> findImplementations(Class<T> rootType, String pkg, Class<? extends Annotation> ignoreAnnotation)
 	{
-		java.util.SortedSet<Class<? extends T>> ret = new java.util.TreeSet<Class<? extends T>>(new java.util.Comparator<Class<? extends T>>()
+		SortedSet<Class<? extends T>> ret = new TreeSet<Class<? extends T>>(new Comparator<Class<? extends T>>()
 		{
 			@Override
 			public int compare(Class<? extends T> o1, Class<? extends T> o2)
@@ -791,15 +851,15 @@ public class GameTypeDialog extends javax.swing.JDialog
 			}
 		});
 
-		org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider scanner = new org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider(false);
-		scanner.addIncludeFilter(new org.springframework.core.type.filter.AssignableTypeFilter(rootType));
+		ClassPathScanningCandidateComponentProvider scanner = new ClassPathScanningCandidateComponentProvider(false);
+		scanner.addIncludeFilter(new AssignableTypeFilter(rootType));
 		if(ignoreAnnotation != null)
-			scanner.addExcludeFilter(new org.springframework.core.type.filter.AnnotationTypeFilter(ignoreAnnotation));
+			scanner.addExcludeFilter(new AnnotationTypeFilter(ignoreAnnotation));
 
-		for(org.springframework.beans.factory.config.BeanDefinition bean: scanner.findCandidateComponents(pkg))
+		for(BeanDefinition bean: scanner.findCandidateComponents(pkg))
 		{
-			if((bean instanceof org.springframework.context.annotation.ScannedGenericBeanDefinition) //
-					&& ((org.springframework.context.annotation.ScannedGenericBeanDefinition)bean).getMetadata().isConcrete())
+			if((bean instanceof ScannedGenericBeanDefinition) //
+					&& ((ScannedGenericBeanDefinition)bean).getMetadata().isConcrete())
 			{
 				try
 				{
@@ -808,7 +868,7 @@ public class GameTypeDialog extends javax.swing.JDialog
 				}
 				catch(ClassNotFoundException e)
 				{
-					LOG.log(java.util.logging.Level.SEVERE, "Error loading class from scanned game-type rules", e);
+					LOG.log(Level.SEVERE, "Error loading class from scanned game-type rules", e);
 				}
 			}
 		}
@@ -820,51 +880,51 @@ public class GameTypeDialog extends javax.swing.JDialog
 
 	private String gameTypeName;
 
-	private java.util.Map<Class<? extends GameType.GameTypeRule>, RuleConfiguration> ruleConfiguration;
+	private Map<Class<? extends GameType.GameTypeRule>, RuleConfiguration> ruleConfiguration;
 
-	private javax.swing.JComboBox presetSelector;
+	private JComboBox presetSelector;
 
-	public GameTypeDialog(javax.swing.JFrame parent, java.util.Set<GameType> presets)
+	public GameTypeDialog(JFrame parent, Set<GameType> presets)
 	{
 		super(parent, "jMagic Game Type", true);
 		this.gameType = null;
 		this.gameTypeName = "Custom";
-		this.ruleConfiguration = new java.util.HashMap<Class<? extends GameType.GameTypeRule>, RuleConfiguration>();
-		this.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-		this.addWindowListener(new java.awt.event.WindowAdapter()
+		this.ruleConfiguration = new HashMap<Class<? extends GameType.GameTypeRule>, RuleConfiguration>();
+		this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+		this.addWindowListener(new WindowAdapter()
 		{
 			@Override
-			public void windowClosing(java.awt.event.WindowEvent e)
+			public void windowClosing(WindowEvent e)
 			{
 				GameTypeDialog.this.gameType = null;
 				GameTypeDialog.this.setVisible(false);
 			}
 		});
 
-		this.presetSelector = new javax.swing.JComboBox();
+		this.presetSelector = new JComboBox();
 		this.presetSelector.addItem("");
 		for(GameType preset: presets)
 			this.presetSelector.addItem(preset);
-		this.presetSelector.addItemListener(new java.awt.event.ItemListener()
+		this.presetSelector.addItemListener(new ItemListener()
 		{
 			@Override
-			public void itemStateChanged(java.awt.event.ItemEvent e)
+			public void itemStateChanged(ItemEvent e)
 			{
 				for(RuleConfiguration rule: GameTypeDialog.this.ruleConfiguration.values())
 					rule.clear();
 
-				if((java.awt.event.ItemEvent.SELECTED == e.getStateChange()) && !e.getItem().equals(""))
+				if((ItemEvent.SELECTED == e.getStateChange()) && !e.getItem().equals(""))
 					GameTypeDialog.this.setGameType(e.getItem());
 			}
 		});
 
-		javax.swing.JButton saveAsNewBaseButton = new javax.swing.JButton("Save as new base");
-		saveAsNewBaseButton.addActionListener(new java.awt.event.ActionListener()
+		JButton saveAsNewBaseButton = new JButton("Save as new base");
+		saveAsNewBaseButton.addActionListener(new ActionListener()
 		{
 			@Override
-			public void actionPerformed(java.awt.event.ActionEvent e)
+			public void actionPerformed(ActionEvent e)
 			{
-				String customName = javax.swing.JOptionPane.showInputDialog("What name do you want this game type to have (an empty name will cancel)?");
+				String customName = JOptionPane.showInputDialog("What name do you want this game type to have (an empty name will cancel)?");
 				if(customName == null || (0 == customName.length()))
 					return;
 
@@ -875,19 +935,19 @@ public class GameTypeDialog extends javax.swing.JDialog
 			}
 		});
 
-		javax.swing.JPanel topPanel = new javax.swing.JPanel();
-		topPanel.add(new javax.swing.JLabel("Base on:"), java.awt.BorderLayout.LINE_START);
+		JPanel topPanel = new JPanel();
+		topPanel.add(new JLabel("Base on:"), BorderLayout.LINE_START);
 		topPanel.add(this.presetSelector);
 		topPanel.add(saveAsNewBaseButton);
-		this.add(topPanel, java.awt.BorderLayout.PAGE_START);
+		this.add(topPanel, BorderLayout.PAGE_START);
 
-		final java.awt.CardLayout centerLayout = new java.awt.CardLayout();
-		final javax.swing.JPanel centerPanel = new javax.swing.JPanel(centerLayout);
+		final CardLayout centerLayout = new CardLayout();
+		final JPanel centerPanel = new JPanel(centerLayout);
 
 		String rootName = "Options";
-		javax.swing.tree.DefaultMutableTreeNode root = new javax.swing.tree.DefaultMutableTreeNode(rootName);
+		DefaultMutableTreeNode root = new DefaultMutableTreeNode(rootName);
 
-		javax.swing.JTextPane rootDescriptionPanel = new javax.swing.JTextPane();
+		JTextPane rootDescriptionPanel = new JTextPane();
 		rootDescriptionPanel.setEditable(false);
 		rootDescriptionPanel.setText("These are the possible options to build a game-type for jMagic.");
 		centerPanel.add(rootDescriptionPanel, rootName);
@@ -895,25 +955,25 @@ public class GameTypeDialog extends javax.swing.JDialog
 		for(Class<? extends GameType.GameTypeRule> rule: findImplementations(GameType.GameTypeRule.class, "org.rnd.jmagic.engine.gameTypes", GameType.Ignore.class))
 			createRuleConfiguration(rule, root, centerPanel);
 
-		this.add(centerPanel, java.awt.BorderLayout.CENTER);
+		this.add(centerPanel, BorderLayout.CENTER);
 
-		final javax.swing.JTree ruleTree = new javax.swing.JTree(root);
-		ruleTree.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener()
+		final JTree ruleTree = new JTree(root);
+		ruleTree.addTreeSelectionListener(new TreeSelectionListener()
 		{
 			@Override
-			public void valueChanged(javax.swing.event.TreeSelectionEvent e)
+			public void valueChanged(TreeSelectionEvent e)
 			{
 				centerLayout.show(centerPanel, ruleTree.getLastSelectedPathComponent().toString());
 			}
 		});
-		ruleTree.getSelectionModel().setSelectionMode(javax.swing.tree.TreeSelectionModel.SINGLE_TREE_SELECTION);
-		this.add(new javax.swing.JScrollPane(ruleTree), java.awt.BorderLayout.LINE_START);
+		ruleTree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+		this.add(new JScrollPane(ruleTree), BorderLayout.LINE_START);
 
-		javax.swing.JButton closeButton = new javax.swing.JButton("OK");
-		closeButton.addActionListener(new java.awt.event.ActionListener()
+		JButton closeButton = new JButton("OK");
+		closeButton.addActionListener(new ActionListener()
 		{
 			@Override
-			public void actionPerformed(java.awt.event.ActionEvent e)
+			public void actionPerformed(ActionEvent e)
 			{
 				GameType ret = GameTypeDialog.this.createGameType();
 				if(null != ret)
@@ -924,31 +984,31 @@ public class GameTypeDialog extends javax.swing.JDialog
 			}
 		});
 
-		javax.swing.AbstractAction cancelAction = new javax.swing.AbstractAction("Cancel")
+		AbstractAction cancelAction = new AbstractAction("Cancel")
 		{
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public void actionPerformed(java.awt.event.ActionEvent e)
+			public void actionPerformed(ActionEvent e)
 			{
 				GameTypeDialog.this.dispose();
 			}
 		};
-		javax.swing.JButton cancelButton = new javax.swing.JButton(cancelAction);
+		JButton cancelButton = new JButton(cancelAction);
 
-		javax.swing.KeyStroke cancelKeyStroke = javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_W, java.awt.Toolkit.getDefaultToolkit().getMenuShortcutKeyMask());
-		cancelButton.getInputMap(javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW).put(cancelKeyStroke, "Cancel");
+		KeyStroke cancelKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_W, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask());
+		cancelButton.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(cancelKeyStroke, "Cancel");
 		cancelButton.getActionMap().put("Cancel", cancelAction);
 
-		javax.swing.JPanel bottomPanel = new javax.swing.JPanel();
+		JPanel bottomPanel = new JPanel();
 		bottomPanel.add(closeButton);
 		bottomPanel.add(cancelButton);
-		this.add(bottomPanel, java.awt.BorderLayout.PAGE_END);
+		this.add(bottomPanel, BorderLayout.PAGE_END);
 
 		this.pack();
 	}
 
-	private void createRuleConfiguration(Class<? extends GameType.GameTypeRule> ruleClass, javax.swing.tree.DefaultMutableTreeNode root, javax.swing.JPanel panelContainer)
+	private void createRuleConfiguration(Class<? extends GameType.GameTypeRule> ruleClass, DefaultMutableTreeNode root, JPanel panelContainer)
 	{
 		// Don't create configuration for this rule if we've already created it
 		if(this.ruleConfiguration.containsKey(ruleClass))
@@ -976,7 +1036,7 @@ public class GameTypeDialog extends javax.swing.JDialog
 	private GameType createGameType()
 	{
 		GameType ret = new GameType(GameTypeDialog.this.gameTypeName);
-		java.util.Set<Class<?>> rulesAlreadyCreated = new java.util.HashSet<Class<?>>();
+		Set<Class<?>> rulesAlreadyCreated = new HashSet<Class<?>>();
 		for(Class<? extends GameType.GameTypeRule> ruleClass: GameTypeDialog.this.ruleConfiguration.keySet())
 			if(!createRule(ret, ruleClass, rulesAlreadyCreated))
 				return null;
@@ -984,7 +1044,7 @@ public class GameTypeDialog extends javax.swing.JDialog
 		return ret;
 	}
 
-	private boolean createRule(GameType gameType, Class<? extends GameType.GameTypeRule> ruleClass, java.util.Set<Class<?>> rulesAlreadyCreated)
+	private boolean createRule(GameType gameType, Class<? extends GameType.GameTypeRule> ruleClass, Set<Class<?>> rulesAlreadyCreated)
 	{
 		// Don't create rules that are already created
 		if(rulesAlreadyCreated.contains(ruleClass))

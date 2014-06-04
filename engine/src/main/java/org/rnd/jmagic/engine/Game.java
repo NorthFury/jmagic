@@ -2,10 +2,34 @@ package org.rnd.jmagic.engine;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.CardLoader;
 import org.rnd.jmagic.CardLoader.*;
+import org.rnd.jmagic.Convenience;
+import org.rnd.jmagic.abilities.TapForMana;
+import org.rnd.jmagic.abilities.keywords.Enchant;
+import org.rnd.jmagic.abilities.keywords.Morph;
 import org.rnd.jmagic.engine.PlayerInterface.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
+import org.rnd.util.Constructor;
+import org.rnd.util.NumberNames;
+
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.NoSuchElementException;
+import java.util.Set;
+import java.util.SortedMap;
+import java.util.Stack;
+import java.util.TreeMap;
 
 /** THE GAME!!! */
 public class Game
@@ -239,7 +263,7 @@ public class Game
 		private static final long serialVersionUID = 1;
 	}
 
-	public static abstract class IntrinsicManaAbility extends org.rnd.jmagic.abilities.TapForMana
+	public static abstract class IntrinsicManaAbility extends TapForMana
 	{
 		public static final class Forest extends IntrinsicManaAbility
 		{
@@ -281,7 +305,7 @@ public class Game
 			}
 		}
 
-		protected static final java.util.Map<SubType, Class<? extends IntrinsicManaAbility>> classesByType = new java.util.HashMap<SubType, Class<? extends IntrinsicManaAbility>>();
+		protected static final Map<SubType, Class<? extends IntrinsicManaAbility>> classesByType = new HashMap<SubType, Class<? extends IntrinsicManaAbility>>();
 
 		static
 		{
@@ -372,24 +396,24 @@ public class Game
 		}
 
 		@Override
-		public java.util.List<EventFactory> redirect(java.util.Map<DamageAssignment, DamageAssignment> damageAssignments)
+		public List<EventFactory> redirect(Map<DamageAssignment, DamageAssignment> damageAssignments)
 		{
 			if(damageAssignments.size() == 0)
-				return new java.util.LinkedList<EventFactory>();
+				return new LinkedList<EventFactory>();
 
 			DamageAssignment singleAssignment = damageAssignments.keySet().iterator().next();
 			GameObject source = this.game.actualState.get(singleAssignment.sourceID);
 			Identified taker = this.game.actualState.get(singleAssignment.takerID);
 			Player controllerOfSource = source.getController(source.state);
 			SetGenerator takersPermanents = ControlledBy.instance(Identity.instance(taker));
-			java.util.Set<GameObject> takersPlaneswalkers = Intersect.instance(takersPermanents, HasType.instance(Type.PLANESWALKER)).evaluate(this.game, null).getAll(GameObject.class);
+			Set<GameObject> takersPlaneswalkers = Intersect.instance(takersPermanents, HasType.instance(Type.PLANESWALKER)).evaluate(this.game, null).getAll(GameObject.class);
 
-			GameObject newTaker = controllerOfSource.sanitizeAndChoose(this.game.actualState, 1, takersPlaneswalkers, org.rnd.jmagic.engine.PlayerInterface.ChoiceType.OBJECTS, PlayerInterface.ChooseReason.PLANESWALKER_REDIRECT).get(0);
+			GameObject newTaker = controllerOfSource.sanitizeAndChoose(this.game.actualState, 1, takersPlaneswalkers, PlayerInterface.ChoiceType.OBJECTS, PlayerInterface.ChooseReason.PLANESWALKER_REDIRECT).get(0);
 
 			for(DamageAssignment assignment: damageAssignments.keySet())
 				damageAssignments.put(assignment, new DamageAssignment(source, newTaker));
 
-			return new java.util.LinkedList<EventFactory>();
+			return new LinkedList<EventFactory>();
 		}
 	}
 
@@ -410,21 +434,21 @@ public class Game
 			return null;
 		}
 
-		private void addLosingPlayer(java.util.Map<Player, java.util.Set<LoseReason>> playersLosing, Player player, LoseReason reason)
+		private void addLosingPlayer(Map<Player, Set<LoseReason>> playersLosing, Player player, LoseReason reason)
 		{
 			if(!playersLosing.containsKey(player))
-				playersLosing.put(player, new java.util.HashSet<LoseReason>());
+				playersLosing.put(player, new HashSet<LoseReason>());
 			playersLosing.get(player).add(reason);
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> emptyParameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> emptyParameters)
 		{
 			MagicSet stateBasedActions = new MagicSet();
 			MagicSet moveToGraveyard = new MagicSet();
 			MagicSet detach = new MagicSet();
 			MagicSet destroy = new MagicSet();
-			java.util.Map<Player, java.util.Set<LoseReason>> playersLosing = new java.util.HashMap<Player, java.util.Set<LoseReason>>();
+			Map<Player, Set<LoseReason>> playersLosing = new HashMap<Player, Set<LoseReason>>();
 
 			// 704.5a If a player has 0 or less life, he or she loses the game.
 			// 704.5b If a player attempted to draw a card from an empty library
@@ -503,7 +527,7 @@ public class Game
 								if(k.isEnchant())
 								{
 									SetGenerator enchantRestriction = null;
-									enchantRestriction = ((org.rnd.jmagic.abilities.keywords.Enchant)k).filter;
+									enchantRestriction = ((Enchant)k).filter;
 
 									if(game.actualState.containsIdentified(object.getAttachedTo()))
 									{
@@ -558,8 +582,8 @@ public class Game
 				}
 			}
 
-			java.util.Map<String, GameObject> legends = new java.util.HashMap<String, GameObject>();
-			java.util.Map<SubType, GameObject> planeswalkers = new java.util.HashMap<SubType, GameObject>();
+			Map<String, GameObject> legends = new HashMap<String, GameObject>();
+			Map<SubType, GameObject> planeswalkers = new HashMap<SubType, GameObject>();
 			GameObject newestWorld = null;
 			int newestWorldTime = -1;
 
@@ -668,7 +692,7 @@ public class Game
 				}
 			}
 
-			for(java.util.Map.Entry<Player, java.util.Set<LoseReason>> entry: playersLosing.entrySet())
+			for(Map.Entry<Player, Set<LoseReason>> entry: playersLosing.entrySet())
 			{
 				for(LoseReason reason: entry.getValue())
 				{
@@ -766,7 +790,7 @@ public class Game
 	public GameState actualState;
 
 	/** The states that have been backed up during this game. */
-	public java.util.Stack<GameState> backupStates;
+	public Stack<GameState> backupStates;
 
 	/**
 	 * A map from {@link ContinuousEffect#ID} and target {@link GameObject#ID}
@@ -774,13 +798,13 @@ public class Game
 	 * {@link ContinuousEffectType#COPY_OBJECT} part of that
 	 * {@link ContinuousEffect} applied.
 	 */
-	public java.util.Map<CopyEffectSnapshotKey, CopiableValues> copyEffectSnapshots;
+	public Map<CopyEffectSnapshotKey, CopiableValues> copyEffectSnapshots;
 
 	/** The action currently being performed. */
 	public PlayerAction currentAction;
 
 	/** The decks each player submits for deck-check, and start the game with. */
-	private java.util.Map<Player, java.util.Map<String, java.util.List<Class<? extends Card>>>> decks;
+	private Map<Player, Map<String, List<Class<? extends Card>>>> decks;
 
 	public final GameType gameType;
 
@@ -792,7 +816,7 @@ public class Game
 	 * ability, the object granting the ability, and the object the ability is
 	 * being granted to; values are IDs of the abilities.
 	 */
-	public java.util.Map<GrantedAbilityKey, Integer> grantedAbilities;
+	public Map<GrantedAbilityKey, Integer> grantedAbilities;
 
 	private int nextAvailableID;
 
@@ -807,8 +831,8 @@ public class Game
 	// will become ghosts before then. snapshotCache holds the actual snapshots,
 	// which will be generated immediately after layer 1; snapshotSoon keeps a
 	// list of the IDs to do this to.
-	private java.util.Map<Integer, CopiableValues> snapshotCache;
-	private java.util.Collection<Integer> snapshotSoon;
+	private Map<Integer, CopiableValues> snapshotCache;
+	private Collection<Integer> snapshotSoon;
 
 	public boolean started;
 
@@ -827,19 +851,19 @@ public class Game
 		this.nextAvailableID = 1;
 		this.actualState = null;
 		this.physicalState = new GameState(this);
-		this.backupStates = new java.util.Stack<GameState>();
+		this.backupStates = new Stack<GameState>();
 		this.currentAction = null;
 
-		this.decks = new java.util.HashMap<Player, java.util.Map<String, java.util.List<Class<? extends Card>>>>();
+		this.decks = new HashMap<Player, Map<String, List<Class<? extends Card>>>>();
 
-		this.grantedAbilities = new java.util.HashMap<GrantedAbilityKey, Integer>();
+		this.grantedAbilities = new HashMap<GrantedAbilityKey, Integer>();
 
 		this.restarted = false;
 		this.started = false;
 
-		this.snapshotCache = new java.util.HashMap<Integer, CopiableValues>();
-		this.snapshotSoon = new java.util.LinkedList<Integer>();
-		this.copyEffectSnapshots = new java.util.HashMap<CopyEffectSnapshotKey, CopiableValues>();
+		this.snapshotCache = new HashMap<Integer, CopiableValues>();
+		this.snapshotSoon = new LinkedList<Integer>();
+		this.copyEffectSnapshots = new HashMap<CopyEffectSnapshotKey, CopiableValues>();
 		this.wishboard = Empty.instance();
 	}
 
@@ -853,7 +877,7 @@ public class Game
 	{
 		Deck deck = comm.getDeck();
 
-		java.util.Map<String, java.util.List<Class<? extends Card>>> cards = null;
+		Map<String, List<Class<? extends Card>>> cards = null;
 		try
 		{
 			cards = deck.getCards();
@@ -865,11 +889,11 @@ public class Game
 		}
 
 		// Reject any deck that has any alternate cards in it
-		java.util.Set<String> illegalCards = new java.util.HashSet<String>();
-		for(java.util.List<Class<? extends Card>> kind: cards.values())
+		Set<String> illegalCards = new HashSet<String>();
+		for(List<Class<? extends Card>> kind: cards.values())
 			for(Class<? extends Card> card: kind)
 				if(AlternateCard.class.isAssignableFrom(card))
-					illegalCards.add(org.rnd.jmagic.Convenience.getName(card));
+					illegalCards.add(Convenience.getName(card));
 
 		if(!illegalCards.isEmpty())
 		{
@@ -941,7 +965,7 @@ public class Game
 			skipDrawEvent.parameters.put(EventType.Parameter.CAUSE, CurrentGame.instance());
 			skipDrawEvent.parameters.put(EventType.Parameter.EFFECT, Identity.instance(part));
 			skipDrawEvent.parameters.put(EventType.Parameter.EXPIRES, Identity.instance(Empty.instance()));
-			skipDrawEvent.parameters.put(EventType.Parameter.USES, org.rnd.jmagic.Convenience.numberGenerator(1));
+			skipDrawEvent.parameters.put(EventType.Parameter.USES, Convenience.numberGenerator(1));
 			skipDrawEvent.perform(null, true);
 		}
 
@@ -970,9 +994,9 @@ public class Game
 		}
 	}
 
-	public java.util.Set<PlayLandAction> createPlayLandActions(Player who, GameObject land)
+	public Set<PlayLandAction> createPlayLandActions(Player who, GameObject land)
 	{
-		java.util.Set<PlayLandAction> ret = new java.util.HashSet<PlayLandAction>();
+		Set<PlayLandAction> ret = new HashSet<PlayLandAction>();
 
 		if(!who.outOfGame && (null != this.actualState.currentTurn()) && (who.totalLandActions == null || LandsPlayedThisTurn.get(who) < who.totalLandActions))
 		{
@@ -1031,7 +1055,7 @@ public class Game
 			// permanent's morph cost would be if it were face up, pay that
 			// cost, then turn the permanent face up. ...
 			// Start by turning all face down permanents face up.
-			java.util.Map<Integer, Characteristics> faceDownValues = new java.util.HashMap<Integer, Characteristics>();
+			Map<Integer, Characteristics> faceDownValues = new HashMap<Integer, Characteristics>();
 			for(GameObject o: this.physicalState.battlefield().objects)
 				if(o.faceDownValues != null && o.controllerID == this.actualState.playerWithPriorityID)
 				{
@@ -1042,7 +1066,7 @@ public class Game
 			{
 				// If anything was turned face up, hold onto the actions already
 				// generated, and refresh the state.
-				java.util.Set<PlayerAction> actionsToRestore = new java.util.HashSet<PlayerAction>(this.actualState.playerActions);
+				Set<PlayerAction> actionsToRestore = new HashSet<PlayerAction>(this.actualState.playerActions);
 				this.refreshActualState();
 				// Now check all those objects' morph costs.
 				for(int objectID: faceDownValues.keySet())
@@ -1052,8 +1076,8 @@ public class Game
 					{
 						if(k.isMorph())
 						{
-							org.rnd.jmagic.abilities.keywords.Morph ability = (org.rnd.jmagic.abilities.keywords.Morph)k;
-							PlayerAction morphAction = new org.rnd.jmagic.abilities.keywords.Morph.TurnFaceUpAction(object, ability.morphCost);
+							Morph ability = (Morph)k;
+							PlayerAction morphAction = new Morph.TurnFaceUpAction(object, ability.morphCost);
 							actionsToRestore.add(morphAction);
 						}
 						// 702.34d ... (If the permanent wouldn't have a morph
@@ -1062,7 +1086,7 @@ public class Game
 					}
 				}
 				// Now turn those objects back face down and restore the state.
-				for(java.util.Map.Entry<Integer, Characteristics> faceDownRestore: faceDownValues.entrySet())
+				for(Map.Entry<Integer, Characteristics> faceDownRestore: faceDownValues.entrySet())
 					this.physicalState.getByIDObject(faceDownRestore.getKey()).faceDownValues = faceDownRestore.getValue();
 				this.refreshActualState();
 				this.actualState.playerActions.addAll(actionsToRestore);
@@ -1090,7 +1114,7 @@ public class Game
 
 		if(existingAbility == null)
 		{
-			IntrinsicManaAbility ability = (IntrinsicManaAbility)org.rnd.util.Constructor.construct(key.abilityClass, new Class<?>[] {GameState.class}, new Object[] {this.physicalState});
+			IntrinsicManaAbility ability = (IntrinsicManaAbility) Constructor.construct(key.abilityClass, new Class<?>[] {GameState.class}, new Object[] {this.physicalState});
 			// ability.sourceID = abilityHolder.ID;
 			this.grantedAbilities.put(key, ability.ID);
 			existingAbility = ability.ID;
@@ -1111,7 +1135,7 @@ public class Game
 
 		if(existingAbility == null)
 		{
-			LoyaltyCountersAbility ability = org.rnd.util.Constructor.construct(LoyaltyCountersAbility.class, new Class<?>[] {GameState.class}, new Object[] {this.physicalState});
+			LoyaltyCountersAbility ability = Constructor.construct(LoyaltyCountersAbility.class, new Class<?>[] {GameState.class}, new Object[] {this.physicalState});
 			this.grantedAbilities.put(key, ability.ID);
 			existingAbility = ability.ID;
 			ability.sourceID = planeswalkerID;
@@ -1149,11 +1173,11 @@ public class Game
 
 			// This loops until a player takes a legal non-pass action or every
 			// player has passed
-			java.util.Iterator<Player> i = this.physicalState.getPlayerCycle(firstPlayer).iterator();
+			Iterator<Player> i = this.physicalState.getPlayerCycle(firstPlayer).iterator();
 			Player hasPriority = i.next();
 			while(true)
 			{
-				java.util.List<PlayerAction> actions = null;
+				List<PlayerAction> actions = null;
 
 				// if a player is no longer in the game, skip them
 				if(!(hasPriority.outOfGame))
@@ -1226,20 +1250,20 @@ public class Game
 	 * @param zone The zone to put the cards into
 	 * @param owner The player to set as the owner of the cards
 	 */
-	private void instantiateCards(java.util.List<Class<? extends Card>> cards, Zone zone, Player owner)
+	private void instantiateCards(List<Class<? extends Card>> cards, Zone zone, Player owner)
 	{
 		for(Class<? extends Card> i: cards)
 		{
-			GameObject newCard = org.rnd.util.Constructor.construct(i, new Class<?>[] {GameState.class}, new Object[] {this.physicalState});
+			GameObject newCard = Constructor.construct(i, new Class<?>[] {GameState.class}, new Object[] {this.physicalState});
 
 			try
 			{
 				// This line will throw a no such element exception if the
 				// card has no expansions; useful for remembering to put
 				// them in
-				newCard.setExpansionSymbol(org.rnd.jmagic.CardLoader.getPrintings(i).entrySet().iterator().next().getKey());
+				newCard.setExpansionSymbol(CardLoader.getPrintings(i).entrySet().iterator().next().getKey());
 			}
-			catch(java.util.NoSuchElementException ex)
+			catch(NoSuchElementException ex)
 			{
 				throw new IllegalStateException("No printings specified for card: " + i.getSimpleName());
 			}
@@ -1259,7 +1283,7 @@ public class Game
 		GameState previous = this.actualState;
 		this.actualState = this.physicalState.clone(false);
 
-		java.util.Comparator<ContinuousEffect> compareOnTimestamp = new CompareOnTimestamp();
+		Comparator<ContinuousEffect> compareOnTimestamp = new CompareOnTimestamp();
 
 		// Find delayed triggered abilities that have expired.
 		for(DelayedTrigger trigger: this.actualState.delayedTriggers)
@@ -1275,7 +1299,7 @@ public class Game
 			if(o.isFlipped() && bottomHalf != null)
 			{
 				ManaPool newManaCost = new ManaPool(o.getManaCost());
-				java.util.Set<Color> newColors = java.util.EnumSet.copyOf(o.getColors());
+				Set<Color> newColors = EnumSet.copyOf(o.getColors());
 				Expansion newExpansionSymbol = o.getExpansionSymbol();
 
 				GameObject newO = this.actualState.copyForEditing(o);
@@ -1295,7 +1319,7 @@ public class Game
 		}
 
 		{
-			java.util.List<GameObject> faceDown = new java.util.LinkedList<GameObject>();
+			List<GameObject> faceDown = new LinkedList<GameObject>();
 			for(GameObject o: this.actualState.getAllObjects())
 				if(null != o.faceDownValues)
 					faceDown.add(this.actualState.copyForEditing(o));
@@ -1316,9 +1340,9 @@ public class Game
 		// generating the effect is removed during this process.
 		// Rule 613.5 paraphrased: the following collections aren't cleared
 		// between layers
-		java.util.SortedMap<ContinuousEffect, Identified> cdas = new java.util.TreeMap<ContinuousEffect, Identified>(compareOnTimestamp);
-		java.util.SortedMap<ContinuousEffect, Identified> effects = new java.util.TreeMap<ContinuousEffect, Identified>(compareOnTimestamp);
-		for(ContinuousEffectType.Layer layer: java.util.EnumSet.allOf(ContinuousEffectType.Layer.class))
+		SortedMap<ContinuousEffect, Identified> cdas = new TreeMap<ContinuousEffect, Identified>(compareOnTimestamp);
+		SortedMap<ContinuousEffect, Identified> effects = new TreeMap<ContinuousEffect, Identified>(compareOnTimestamp);
+		for(ContinuousEffectType.Layer layer: EnumSet.allOf(ContinuousEffectType.Layer.class))
 		{
 			// Add all effects from static abilities (NOTE: this loop _must_ be
 			// repeated for every layer in case the previous layer(s) added any
@@ -1363,7 +1387,7 @@ public class Game
 			// The POWER_AND_TOUGHNESS layer is handled by sub-layer
 			if(ContinuousEffectType.Layer.POWER_AND_TOUGHNESS == layer)
 			{
-				for(ContinuousEffectType.SubLayer subLayer: java.util.EnumSet.allOf(ContinuousEffectType.SubLayer.class))
+				for(ContinuousEffectType.SubLayer subLayer: EnumSet.allOf(ContinuousEffectType.SubLayer.class))
 				{
 					// COUNTERS are handled specially since you don't search for
 					// actual continuous effects to apply
@@ -1398,10 +1422,10 @@ public class Game
 				}
 				else
 				{
-					for(java.util.Map.Entry<ContinuousEffect, Identified> e: cdas.entrySet())
+					for(Map.Entry<ContinuousEffect, Identified> e: cdas.entrySet())
 						this.actualState.copyForEditing(e.getKey()).apply(layer, e.getValue());
 
-					for(java.util.Map.Entry<ContinuousEffect, Identified> e: effects.entrySet())
+					for(Map.Entry<ContinuousEffect, Identified> e: effects.entrySet())
 						this.actualState.copyForEditing(e.getKey()).apply(layer, e.getValue());
 				}
 			}
@@ -1414,8 +1438,8 @@ public class Game
 				// Identified, collect the ones to check. Similarly to intrinsic
 				// mana abilities for basic land types, add the loyalty counters
 				// ability to planeswalkers.
-				java.util.Collection<GameObject> landsToCheck = new java.util.LinkedList<GameObject>();
-				java.util.Collection<GameObject> planeswalkers = new java.util.LinkedList<GameObject>();
+				Collection<GameObject> landsToCheck = new LinkedList<GameObject>();
+				Collection<GameObject> planeswalkers = new LinkedList<GameObject>();
 
 				for(GameObject o: this.actualState.getAllObjects())
 				{
@@ -1431,7 +1455,7 @@ public class Game
 				for(GameObject planeswalker: planeswalkers)
 					this.actualState.copyForEditing(planeswalker).addAbility(this.getLoyaltyCountersAbility(planeswalker.ID));
 
-				java.util.Iterator<Integer> i = this.snapshotSoon.iterator();
+				Iterator<Integer> i = this.snapshotSoon.iterator();
 				while(i.hasNext())
 				{
 					int ID = i.next();
@@ -1467,7 +1491,7 @@ public class Game
 		// controller of the turn.
 		if(!this.actualState.controlledPlayers.isEmpty())
 		{
-			for(java.util.Map.Entry<Integer, Integer> control: this.actualState.controlledPlayers.entrySet())
+			for(Map.Entry<Integer, Integer> control: this.actualState.controlledPlayers.entrySet())
 			{
 				Player victim = this.actualState.get(control.getKey());
 				int controllerID = control.getValue();
@@ -1489,7 +1513,7 @@ public class Game
 
 		if(previous != null)
 		{
-			java.util.List<EventFactory> controlChanges = new java.util.LinkedList<EventFactory>();
+			List<EventFactory> controlChanges = new LinkedList<EventFactory>();
 			for(GameObject newObject: this.actualState.getAllObjects())
 			{
 				GameObject oldObject = previous.getByIDObject(newObject.ID);
@@ -1654,7 +1678,7 @@ public class Game
 
 		// Remove any players which have left the game from the
 		// game-state
-		java.util.Iterator<Player> i = this.physicalState.players.iterator();
+		Iterator<Player> i = this.physicalState.players.iterator();
 		while(i.hasNext())
 		{
 			Player p = i.next();
@@ -1663,7 +1687,7 @@ public class Game
 		}
 
 		// Try cleaning up events that don't need to be kept around
-		java.util.List<Event> toRemove = new java.util.LinkedList<Event>();
+		List<Event> toRemove = new LinkedList<Event>();
 		for(Event e: this.physicalState.getAll(Event.class))
 			if(!e.preserve)
 				toRemove.add(e);
@@ -1707,15 +1731,15 @@ public class Game
 	{
 		boolean triggerStacked = false;
 
-		java.util.List<Player> players = this.physicalState.getPlayerCycle(this.actualState.currentTurn().getOwner(this.actualState));
+		List<Player> players = this.physicalState.getPlayerCycle(this.actualState.currentTurn().getOwner(this.actualState));
 		for(Player player: players)
 		{
 			if(player.outOfGame)
 				continue;
 
-			java.util.Collection<TriggeredAbility> thisPlayersTriggers = this.physicalState.waitingTriggers.get(player.ID);
+			Collection<TriggeredAbility> thisPlayersTriggers = this.physicalState.waitingTriggers.get(player.ID);
 			// if the triggered ability can't stack, don't try to stack it
-			java.util.Iterator<TriggeredAbility> i = thisPlayersTriggers.iterator();
+			Iterator<TriggeredAbility> i = thisPlayersTriggers.iterator();
 			while(i.hasNext())
 			{
 				TriggeredAbility trigger = i.next();
@@ -1732,7 +1756,7 @@ public class Game
 
 			// The controller of the ability is set at the time it is added to
 			// the waitlist.
-			java.util.List<TriggeredAbility> orderedTriggers = player.sanitizeAndChoose(this.physicalState, numTriggers, new java.util.HashSet<TriggeredAbility>(thisPlayersTriggers), PlayerInterface.ChoiceType.TRIGGERS, PlayerInterface.ChooseReason.STACK_TRIGGERS);
+			List<TriggeredAbility> orderedTriggers = player.sanitizeAndChoose(this.physicalState, numTriggers, new HashSet<TriggeredAbility>(thisPlayersTriggers), PlayerInterface.ChoiceType.TRIGGERS, PlayerInterface.ChooseReason.STACK_TRIGGERS);
 			for(TriggeredAbility t: orderedTriggers)
 			{
 				this.refreshActualState();
@@ -1763,8 +1787,8 @@ public class Game
 			// such an algorithm, so instead we'll use the "generally agreeable"
 			// algorithm of randomization.
 			if(!this.noRandom)
-				java.util.Collections.shuffle(this.physicalState.players);
-			java.util.Set<Player> playerChoices = new java.util.LinkedHashSet<Player>();
+				Collections.shuffle(this.physicalState.players);
+			Set<Player> playerChoices = new LinkedHashSet<Player>();
 			for(Player player: this.physicalState.players)
 				playerChoices.add(player);
 
@@ -1775,7 +1799,7 @@ public class Game
 			// game decides who will take the first turn. If the previous game
 			// was a draw, the person who determined who would take the first
 			// turn in the previous game decides.
-			java.util.List<Player> choice = this.physicalState.players.get(0).sanitizeAndChoose(this.physicalState, 1, playerChoices, PlayerInterface.ChoiceType.PLAYER, PlayerInterface.ChooseReason.FIRST_PLAYER);
+			List<Player> choice = this.physicalState.players.get(0).sanitizeAndChoose(this.physicalState, 1, playerChoices, PlayerInterface.ChoiceType.PLAYER, PlayerInterface.ChooseReason.FIRST_PLAYER);
 			firstPlayer = choice.get(0);
 		}
 
@@ -1797,7 +1821,7 @@ public class Game
 				// construction time, except that it's possible for a
 				// variant's modifyGameState function to specify that the
 				// decks should not be shuffled.
-				java.util.Collections.shuffle(player.getLibrary(this.physicalState).objects);
+				Collections.shuffle(player.getLibrary(this.physicalState).objects);
 
 		// 103.2. After the decks have been shuffled, the players determine
 		// which one of them will choose who takes the first turn. In the first
@@ -1822,7 +1846,7 @@ public class Game
 			player.lifeTotal = 20;
 
 			int number = player.getMaxHandSize();
-			Event drawEvent = new Event(this.physicalState, player + " draws " + org.rnd.util.NumberNames.get(number) + " card(s).", EventType.DRAW_CARDS);
+			Event drawEvent = new Event(this.physicalState, player + " draws " + NumberNames.get(number) + " card(s).", EventType.DRAW_CARDS);
 			drawEvent.parameters.put(EventType.Parameter.CAUSE, CurrentGame.instance());
 			drawEvent.parameters.put(EventType.Parameter.NUMBER, numberGenerator(number));
 			drawEvent.parameters.put(EventType.Parameter.PLAYER, player.thisPlayer());
@@ -1851,7 +1875,7 @@ public class Game
 		// other player in turn order may do the same.
 		for(Player player: this.physicalState.getPlayerCycle(firstPlayer))
 		{
-			java.util.Collection<GameObject> beginTheGameObjects = new java.util.HashSet<GameObject>();
+			Collection<GameObject> beginTheGameObjects = new HashSet<GameObject>();
 			for(GameObject object: player.getHand(this.physicalState).objects)
 				if(object.getActual().beginTheGameEffect != null)
 					beginTheGameObjects.add(object);
@@ -1859,11 +1883,11 @@ public class Game
 			if(beginTheGameObjects.isEmpty())
 				continue;
 
-			java.util.List<GameObject> objectChoice = player.sanitizeAndChoose(player.game.actualState, 0, null, beginTheGameObjects, PlayerInterface.ChoiceType.OBJECTS, PlayerInterface.ChooseReason.BEGIN_THE_GAME_EFFECTS);
+			List<GameObject> objectChoice = player.sanitizeAndChoose(player.game.actualState, 0, null, beginTheGameObjects, PlayerInterface.ChoiceType.OBJECTS, PlayerInterface.ChooseReason.BEGIN_THE_GAME_EFFECTS);
 			if(objectChoice.isEmpty())
 				continue;
 
-			java.util.Collection<GameObject> objectsWithConsequences = new java.util.LinkedList<GameObject>();
+			Collection<GameObject> objectsWithConsequences = new LinkedList<GameObject>();
 			for(GameObject object: objectChoice)
 			{
 				object = object.getActual();

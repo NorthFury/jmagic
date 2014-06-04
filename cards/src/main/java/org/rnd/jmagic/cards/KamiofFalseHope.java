@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.PreventCombatDamage;
 import org.rnd.jmagic.engine.*;
 
 @Name("Kami of False Hope")
@@ -17,7 +19,7 @@ public final class KamiofFalseHope extends Card
 		{
 			super(state, "Sacrifice Kami of False Hope: Prevent all combat damage that would be dealt this turn.");
 			this.addCost(sacrificeThis("Kami of False Hope"));
-			this.addEffect(createFloatingReplacement(new org.rnd.jmagic.abilities.PreventCombatDamage(this.game), "Prevent all combat damage that would be dealt this turn."));
+			this.addEffect(createFloatingReplacement(new PreventCombatDamage(this.game), "Prevent all combat damage that would be dealt this turn."));
 		}
 	}
 

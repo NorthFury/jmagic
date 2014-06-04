@@ -2,6 +2,8 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.CantBlock;
+import org.rnd.jmagic.abilities.keywords.Enchant;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -19,7 +21,7 @@ public final class CripplingBlight extends Card
 		{
 			super(state, "Enchanted creature gets -1/-1 and can't block.");
 			this.addEffectPart(modifyPowerAndToughness(EnchantedBy.instance(This.instance()), (-1), (-1)));
-			this.addEffectPart(addAbilityToObject(EnchantedBy.instance(This.instance()), new org.rnd.jmagic.abilities.CantBlock.Factory("Enchanted creature")));
+			this.addEffectPart(addAbilityToObject(EnchantedBy.instance(This.instance()), new CantBlock.Factory("Enchanted creature")));
 		}
 	}
 
@@ -28,7 +30,7 @@ public final class CripplingBlight extends Card
 		super(state);
 
 		// Enchant creature
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Enchant.Creature(state));
+		this.addAbility(new Enchant.Creature(state));
 
 		// Enchanted creature gets -1/-1 and can't block.
 		this.addAbility(new CripplingBlightAbility1(state));

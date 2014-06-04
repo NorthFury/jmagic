@@ -5,6 +5,8 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.List;
+
 public abstract class Champion extends Keyword
 {
 	public Champion(GameState state, String name)
@@ -13,7 +15,7 @@ public abstract class Champion extends Keyword
 	}
 
 	@Override
-	abstract protected java.util.List<NonStaticAbility> createNonStaticAbilities();
+	abstract protected List<NonStaticAbility> createNonStaticAbilities();
 
 	public abstract static class ChampionExileAbility extends EventTriggeredAbility
 	{

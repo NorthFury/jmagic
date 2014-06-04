@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Haste;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -31,7 +32,7 @@ public final class ChaosCharm extends Card
 		// Mode 3 - Target creature gains Haste until end of turn
 		{
 			Target target = this.addTarget(3, CreaturePermanents.instance(), "target creature");
-			this.addEffect(3, addAbilityUntilEndOfTurn(targetedBy(target), org.rnd.jmagic.abilities.keywords.Haste.class, "target creature gains haste until end of turn."));
+			this.addEffect(3, addAbilityUntilEndOfTurn(targetedBy(target), Haste.class, "target creature gains haste until end of turn."));
 		}
 	}
 }

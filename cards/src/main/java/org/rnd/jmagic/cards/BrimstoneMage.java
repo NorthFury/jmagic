@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Level;
+import org.rnd.jmagic.abilities.keywords.LevelUp;
 import org.rnd.jmagic.engine.*;
 
 @Name("Brimstone Mage")
@@ -48,16 +51,16 @@ public final class BrimstoneMage extends Card
 
 		// Level up (3)(R) ((3)(R): Put a level counter on this. Level up only
 		// as a sorcery.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.LevelUp(state, "(3)(R)"));
+		this.addAbility(new LevelUp(state, "(3)(R)"));
 
 		// LEVEL 1-2
 		// 2/3
 		// (T): Brimstone Mage deals 1 damage to target creature or player.
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Level(state, 1, 2, 2, 3, "\"(T): Brimstone Mage deals 1 damage to target creature or player.\"", Ping1.class));
+		this.addAbility(new Level(state, 1, 2, 2, 3, "\"(T): Brimstone Mage deals 1 damage to target creature or player.\"", Ping1.class));
 
 		// LEVEL 3+
 		// 2/4
 		// (T): Brimstone Mage deals 3 damage to target creature or player.
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Level(state, 3, 2, 4, "\"(T): Brimstone Mage deals 3 damage to target creature or player.\"", Ping3.class));
+		this.addAbility(new Level(state, 3, 2, 4, "\"(T): Brimstone Mage deals 3 damage to target creature or player.\"", Ping3.class));
 	}
 }

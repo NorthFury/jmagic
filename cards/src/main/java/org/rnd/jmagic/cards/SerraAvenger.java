@@ -1,8 +1,14 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Vigilance;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 @Name("Serra Avenger")
 @Types({Type.CREATURE})
@@ -12,23 +18,23 @@ import org.rnd.jmagic.engine.patterns.*;
 @ColorIdentity({Color.WHITE})
 public final class SerraAvenger extends Card
 {
-	public static final class TurnTracker extends Tracker<java.util.Map<Integer, Integer>>
+	public static final class TurnTracker extends Tracker<Map<Integer, Integer>>
 	{
-		private java.util.HashMap<Integer, Integer> counts = new java.util.HashMap<Integer, Integer>();
-		private java.util.Map<Integer, Integer> unmodifiable = java.util.Collections.unmodifiableMap(this.counts);
+		private HashMap<Integer, Integer> counts = new HashMap<Integer, Integer>();
+		private Map<Integer, Integer> unmodifiable = Collections.unmodifiableMap(this.counts);
 
 		@SuppressWarnings("unchecked")
 		@Override
 		public TurnTracker clone()
 		{
 			TurnTracker ret = (TurnTracker)super.clone();
-			ret.counts = (java.util.HashMap<Integer, Integer>)this.counts.clone();
-			ret.unmodifiable = java.util.Collections.unmodifiableMap(ret.counts);
+			ret.counts = (HashMap<Integer, Integer>)this.counts.clone();
+			ret.unmodifiable = Collections.unmodifiableMap(ret.counts);
 			return ret;
 		}
 
 		@Override
-		protected java.util.Map<Integer, Integer> getValueInternal()
+		protected Map<Integer, Integer> getValueInternal()
 		{
 			return this.unmodifiable;
 		}
@@ -77,7 +83,7 @@ public final class SerraAvenger extends Card
 		public MagicSet evaluate(GameState state, Identified thisObject)
 		{
 			MagicSet ret = new MagicSet();
-			java.util.Map<Integer, Integer> tracker = state.getTracker(TurnTracker.class).getValue(state);
+			Map<Integer, Integer> tracker = state.getTracker(TurnTracker.class).getValue(state);
 
 			for(Player player: state.players)
 				if(!tracker.containsKey(player.ID) || tracker.get(player.ID) <= 3)
@@ -118,9 +124,9 @@ public final class SerraAvenger extends Card
 		this.addAbility(new SerraAvengerAbility0(state));
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// Vigilance (Attacking doesn't cause this creature to tap.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Vigilance(state));
+		this.addAbility(new Vigilance(state));
 	}
 }

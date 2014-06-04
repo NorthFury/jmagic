@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Extort;
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 
 @Name("Kingpin's Pet")
@@ -18,10 +20,10 @@ public final class KingpinsPet extends Card
 		this.setToughness(2);
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// Extort (Whenever you cast a spell, you may pay (w/b). If you do, each
 		// opponent loses 1 life and you gain that much life.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Extort(state));
+		this.addAbility(new Extort(state));
 	}
 }

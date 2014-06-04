@@ -1,8 +1,17 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Transmute;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+import org.rnd.util.NumberRange;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @Name("Dimir Machinations")
 @Types({Type.SORCERY})
@@ -27,7 +36,7 @@ public final class DimirMachinations extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			event.setResult(Empty.set);
 
@@ -37,15 +46,15 @@ public final class DimirMachinations extends Card
 
 			MagicSet cards = parameters.get(Parameter.CARD);
 
-			java.util.Map<Parameter, MagicSet> lookParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> lookParameters = new HashMap<Parameter, MagicSet>();
 			lookParameters.put(Parameter.CAUSE, cause);
 			lookParameters.put(EventType.Parameter.OBJECT, cards);
 			lookParameters.put(EventType.Parameter.PLAYER, new MagicSet(player));
 			createEvent(game, "Look at the top three cards of " + target + "'s library", LOOK, lookParameters).perform(event, true);
 
-			java.util.Map<Parameter, MagicSet> exileParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> exileParameters = new HashMap<Parameter, MagicSet>();
 			exileParameters.put(EventType.Parameter.CAUSE, cause);
-			exileParameters.put(EventType.Parameter.NUMBER, new MagicSet(new org.rnd.util.NumberRange(0, cards.size())));
+			exileParameters.put(EventType.Parameter.NUMBER, new MagicSet(new NumberRange(0, cards.size())));
 			exileParameters.put(EventType.Parameter.OBJECT, cards);
 			exileParameters.put(EventType.Parameter.PLAYER, new MagicSet(player));
 			Event exile = createEvent(game, "Exile any number of those cards", EXILE_CHOICE, exileParameters);
@@ -56,7 +65,7 @@ public final class DimirMachinations extends Card
 			{
 				// If the player looking owns the library being looked at, we
 				// can do this the easy way ...
-				java.util.Map<Parameter, MagicSet> moveParameters = new java.util.HashMap<Parameter, MagicSet>();
+				Map<Parameter, MagicSet> moveParameters = new HashMap<Parameter, MagicSet>();
 				moveParameters.put(EventType.Parameter.CAUSE, cause);
 				moveParameters.put(EventType.Parameter.INDEX, ONE);
 				moveParameters.put(EventType.Parameter.OBJECT, cards);
@@ -68,18 +77,18 @@ public final class DimirMachinations extends Card
 				// ... otherwise we'll have to manually ask the player to order
 				// the cards.
 				player = player.getActual();
-				java.util.Set<GameObject> choices = new java.util.HashSet<GameObject>();
+				Set<GameObject> choices = new HashSet<GameObject>();
 				for(GameObject choice: cards.getAll(GameObject.class))
 				{
 					GameObject actual = choice.getActual();
 					if(!actual.isGhost())
 						choices.add(actual);
 				}
-				java.util.List<GameObject> ordered = player.sanitizeAndChoose(game.actualState, choices.size(), choices, PlayerInterface.ChoiceType.MOVEMENT_LIBRARY, PlayerInterface.ChooseReason.ORDER_LIBRARY_TARGET);
+				List<GameObject> ordered = player.sanitizeAndChoose(game.actualState, choices.size(), choices, PlayerInterface.ChoiceType.MOVEMENT_LIBRARY, PlayerInterface.ChooseReason.ORDER_LIBRARY_TARGET);
 
 				for(GameObject o: ordered)
 				{
-					java.util.Map<Parameter, MagicSet> moveParameters = new java.util.HashMap<Parameter, MagicSet>();
+					Map<Parameter, MagicSet> moveParameters = new HashMap<Parameter, MagicSet>();
 					moveParameters.put(EventType.Parameter.CAUSE, cause);
 					moveParameters.put(EventType.Parameter.INDEX, ONE);
 					moveParameters.put(EventType.Parameter.OBJECT, new MagicSet(o));
@@ -110,6 +119,6 @@ public final class DimirMachinations extends Card
 		this.addEffect(effect);
 
 		// Transmute (1)(B)(B)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Transmute(state, "(1)(B)(B)"));
+		this.addAbility(new Transmute(state, "(1)(B)(B)"));
 	}
 }

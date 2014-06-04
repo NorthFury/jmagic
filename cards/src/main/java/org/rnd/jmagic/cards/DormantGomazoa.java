@@ -1,6 +1,10 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.DoesntUntapDuringYourUntapStep;
+import org.rnd.jmagic.abilities.EntersTheBattlefieldTapped;
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -36,13 +40,13 @@ public final class DormantGomazoa extends Card
 		this.setToughness(5);
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// Dormant Gomazoa enters the battlefield tapped.
-		this.addAbility(new org.rnd.jmagic.abilities.EntersTheBattlefieldTapped(state, "Dormant Gomazoa"));
+		this.addAbility(new EntersTheBattlefieldTapped(state, "Dormant Gomazoa"));
 
 		// Dormant Gomazoa doesn't untap during your untap step.
-		this.addAbility(new org.rnd.jmagic.abilities.DoesntUntapDuringYourUntapStep(state, "Dormant Gomazoa"));
+		this.addAbility(new DoesntUntapDuringYourUntapStep(state, "Dormant Gomazoa"));
 
 		// Whenever you become the target of a spell, you may untap Dormant
 		// Gomazoa.

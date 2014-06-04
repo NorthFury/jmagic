@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.StaticPTChange;
+import org.rnd.jmagic.abilities.keywords.Haste;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -20,11 +22,11 @@ public final class GoblinChieftain extends Card
 
 		// Haste (This creature can attack and (T) as soon as it comes under
 		// your control.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Haste(state));
+		this.addAbility(new Haste(state));
 
 		// Other Goblin creatures you control get +1/+1 and have haste.
 		SetGenerator otherGoblinCreatures = RelativeComplement.instance(Intersect.instance(CreaturePermanents.instance(), HasSubType.instance(SubType.GOBLIN)), This.instance());
 		SetGenerator yourGoblins = Intersect.instance(otherGoblinCreatures, ControlledBy.instance(You.instance()));
-		this.addAbility(new org.rnd.jmagic.abilities.StaticPTChange(state, yourGoblins, "Other Goblin creatures you control", +1, +1, org.rnd.jmagic.abilities.keywords.Haste.class, true));
+		this.addAbility(new StaticPTChange(state, yourGoblins, "Other Goblin creatures you control", +1, +1, Haste.class, true));
 	}
 }

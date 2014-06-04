@@ -3,6 +3,11 @@ package org.rnd.jmagic.engine.eventTypes;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map;
+
 public final class RemoveAllCounters extends EventType
 {	public static final EventType INSTANCE = new RemoveAllCounters();
 
@@ -18,19 +23,19 @@ public final class RemoveAllCounters extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		MagicSet result = new MagicSet();
 		MagicSet types = parameters.get(Parameter.COUNTER);
 
 		for(GameObject object: parameters.get(Parameter.OBJECT).getAll(GameObject.class))
 		{
-			java.util.Collection<Event> removeEvents = new java.util.LinkedList<Event>();
+			Collection<Event> removeEvents = new LinkedList<Event>();
 			for(Counter counter: object.counters)
 			{
 				if(types == null || types.contains(counter.getType()))
 				{
-					java.util.Map<Parameter, MagicSet> counterParameters = new java.util.HashMap<Parameter, MagicSet>();
+					Map<Parameter, MagicSet> counterParameters = new HashMap<Parameter, MagicSet>();
 					counterParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 					counterParameters.put(Parameter.COUNTER, new MagicSet(counter.getType()));
 					counterParameters.put(Parameter.OBJECT, new MagicSet(object));

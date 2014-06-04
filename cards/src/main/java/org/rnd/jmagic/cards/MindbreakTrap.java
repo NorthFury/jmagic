@@ -2,8 +2,13 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.Trap;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 @Name("Mindbreak Trap")
 @Types({Type.INSTANT})
@@ -17,17 +22,17 @@ public final class MindbreakTrap extends Card
 	 * Keys are playerIDs, values are number of spells cast by that player this
 	 * turn.
 	 */
-	public static final class SpellCount extends Tracker<java.util.Map<Integer, Integer>>
+	public static final class SpellCount extends Tracker<Map<Integer, Integer>>
 	{
-		private java.util.Map<Integer, Integer> counts = new java.util.HashMap<Integer, Integer>();
-		private java.util.Map<Integer, Integer> unmodifiable = java.util.Collections.unmodifiableMap(this.counts);
+		private Map<Integer, Integer> counts = new HashMap<Integer, Integer>();
+		private Map<Integer, Integer> unmodifiable = Collections.unmodifiableMap(this.counts);
 
 		@Override
 		public SpellCount clone()
 		{
 			SpellCount ret = (SpellCount)super.clone();
-			ret.counts = new java.util.HashMap<Integer, Integer>(this.counts);
-			ret.unmodifiable = java.util.Collections.unmodifiableMap(ret.counts);
+			ret.counts = new HashMap<Integer, Integer>(this.counts);
+			ret.unmodifiable = Collections.unmodifiableMap(ret.counts);
 			return ret;
 		}
 
@@ -41,7 +46,7 @@ public final class MindbreakTrap extends Card
 		}
 
 		@Override
-		protected java.util.Map<Integer, Integer> getValueInternal()
+		protected Map<Integer, Integer> getValueInternal()
 		{
 			return this.unmodifiable;
 		}
@@ -87,7 +92,7 @@ public final class MindbreakTrap extends Card
 		@Override
 		public MagicSet evaluate(GameState state, Identified thisObject)
 		{
-			java.util.Map<Integer, Integer> flagValue = state.getTracker(SpellCount.class).getValue(state);
+			Map<Integer, Integer> flagValue = state.getTracker(SpellCount.class).getValue(state);
 			MagicSet players = this.who.evaluate(state, thisObject);
 
 			int count = 0;
@@ -113,7 +118,7 @@ public final class MindbreakTrap extends Card
 		SetGenerator maxOppSpellCount = MaximumPlayerSpellCount.instance(OpponentsOf.instance(You.instance()));
 		SetGenerator threeOrMore = Between.instance(3, null);
 		SetGenerator trapCondition = Intersect.instance(maxOppSpellCount, threeOrMore);
-		this.addAbility(new org.rnd.jmagic.abilities.Trap(state, this.getName(), trapCondition, "If an opponent cast three or more spells this turn", "(0)"));
+		this.addAbility(new Trap(state, this.getName(), trapCondition, "If an opponent cast three or more spells this turn", "(0)"));
 
 		// Exile any number of target spells.
 		Target target = this.addTarget(Spells.instance(), "target spell");

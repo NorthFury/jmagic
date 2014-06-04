@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Cycling;
+import org.rnd.jmagic.abilities.keywords.Unearth;
 import org.rnd.jmagic.engine.*;
 
 @Name("Viscera Dragger")
@@ -17,7 +19,7 @@ public final class VisceraDragger extends Card
 		this.setPower(3);
 		this.setToughness(3);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Cycling(state, "(2)"));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Unearth(state, "(1)(B)"));
+		this.addAbility(new Cycling(state, "(2)"));
+		this.addAbility(new Unearth(state, "(1)(B)"));
 	}
 }

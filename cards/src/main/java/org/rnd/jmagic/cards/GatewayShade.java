@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.ShadePump;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -37,7 +39,7 @@ public final class GatewayShade extends Card
 		this.setToughness(1);
 
 		// (B): Gateway Shade gets +1/+1 until end of turn.
-		this.addAbility(new org.rnd.jmagic.abilities.ShadePump(state, this.getName()));
+		this.addAbility(new ShadePump(state, this.getName()));
 
 		// Tap an untapped Gate you control: Gateway Shade gets +2/+2 until end
 		// of turn.

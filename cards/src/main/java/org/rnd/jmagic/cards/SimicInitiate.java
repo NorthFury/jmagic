@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Graft;
 import org.rnd.jmagic.engine.*;
 
 @Name("Simic Initiate")
@@ -17,6 +18,6 @@ public final class SimicInitiate extends Card
 		this.setPower(0);
 		this.setToughness(0);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Graft(state, 1));
+		this.addAbility(new Graft(state, 1));
 	}
 }

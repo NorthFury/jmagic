@@ -2,6 +2,10 @@ package org.rnd.jmagic.engine.generators;
 
 import org.rnd.jmagic.engine.*;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Evaluates to the amount of life lost by each of the given players this turn.
  */
@@ -29,7 +33,7 @@ public class LifeLostThisTurn extends SetGenerator
 				return Empty.set;
 
 			MagicSet ret = new MagicSet();
-			java.util.Map<Integer, Integer> value = state.getTracker(LifeTracker.class).getValue(state);
+			Map<Integer, Integer> value = state.getTracker(LifeTracker.class).getValue(state);
 			for(Integer id: value.keySet())
 			{
 				Identified identified = state.get(id);
@@ -41,23 +45,23 @@ public class LifeLostThisTurn extends SetGenerator
 		}
 	}
 
-	public static class LifeTracker extends Tracker<java.util.Map<Integer, Integer>>
+	public static class LifeTracker extends Tracker<Map<Integer, Integer>>
 	{
-		private java.util.HashMap<Integer, Integer> lifeLost = new java.util.HashMap<Integer, Integer>();
-		private java.util.Map<Integer, Integer> unmodifiable = java.util.Collections.unmodifiableMap(this.lifeLost);
+		private HashMap<Integer, Integer> lifeLost = new HashMap<Integer, Integer>();
+		private Map<Integer, Integer> unmodifiable = Collections.unmodifiableMap(this.lifeLost);
 
 		@SuppressWarnings("unchecked")
 		@Override
 		public LifeTracker clone()
 		{
 			LifeTracker ret = (LifeTracker)super.clone();
-			ret.lifeLost = (java.util.HashMap<Integer, Integer>)this.lifeLost.clone();
-			ret.unmodifiable = java.util.Collections.unmodifiableMap(ret.lifeLost);
+			ret.lifeLost = (HashMap<Integer, Integer>)this.lifeLost.clone();
+			ret.unmodifiable = Collections.unmodifiableMap(ret.lifeLost);
 			return ret;
 		}
 
 		@Override
-		protected java.util.Map<Integer, Integer> getValueInternal()
+		protected Map<Integer, Integer> getValueInternal()
 		{
 			return this.unmodifiable;
 		}
@@ -110,7 +114,7 @@ public class LifeLostThisTurn extends SetGenerator
 
 		MagicSet ret = new MagicSet();
 		MagicSet what = this.players.evaluate(state, thisObject);
-		java.util.Map<Integer, Integer> value = state.getTracker(LifeTracker.class).getValue(state);
+		Map<Integer, Integer> value = state.getTracker(LifeTracker.class).getValue(state);
 
 		for(Player p: what.getAll(Player.class))
 		{

@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Cycling;
+import org.rnd.jmagic.abilityTemplates.SojournerTrigger;
 import org.rnd.jmagic.engine.*;
 
 import static org.rnd.jmagic.Convenience.*;
@@ -12,7 +14,7 @@ import static org.rnd.jmagic.Convenience.*;
 @ColorIdentity({Color.GREEN, Color.BLACK, Color.RED})
 public final class JundSojourners extends Card
 {
-	public static final class JundSojournerTrigger extends org.rnd.jmagic.abilityTemplates.SojournerTrigger
+	public static final class JundSojournerTrigger extends SojournerTrigger
 	{
 		public JundSojournerTrigger(GameState state)
 		{
@@ -33,6 +35,6 @@ public final class JundSojourners extends Card
 
 		this.addAbility(new JundSojournerTrigger(state));
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Cycling(state, "(2)(R)"));
+		this.addAbility(new Cycling(state, "(2)(R)"));
 	}
 }

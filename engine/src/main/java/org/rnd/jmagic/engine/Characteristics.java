@@ -1,5 +1,19 @@
 package org.rnd.jmagic.engine;
 
+import org.rnd.jmagic.sanitized.SanitizedCharacteristics;
+import org.rnd.util.Constructor;
+import org.rnd.util.NumberRange;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 public class Characteristics implements Sanitizable, Cloneable
 {
 	public enum Characteristic
@@ -21,7 +35,7 @@ public class Characteristics implements Sanitizable, Cloneable
 	 */
 	public static Characteristics createFromClass(Game game, Class<? extends Card> original, GameObject target, boolean include, Characteristic... types)
 	{
-		GameObject dummy = org.rnd.util.Constructor.construct(original, new Class[] {GameState.class}, new Object[] {game.physicalState});
+		GameObject dummy = Constructor.construct(original, new Class[] {GameState.class}, new Object[] {game.physicalState});
 
 		// we remove only the object and not any of its abilities
 		// this is because those abilities are referenced by the characteristics
@@ -60,17 +74,17 @@ public class Characteristics implements Sanitizable, Cloneable
 	public int minimumX;
 	protected Expansion symbol;
 	public ManaPool manaCost;
-	public java.util.List<Integer> abilityIDsInOrder;
-	protected java.util.List<Integer> nonStaticAbilities;
-	protected java.util.List<Integer> staticAbilities;
-	public java.util.List<Integer> keywordAbilities;
-	public java.util.List<EventFactory> costs;
-	public java.util.List<Mode> modes;
-	public java.util.Set<Color> colors;
-	public java.util.Set<Color> colorIndicator;
-	public java.util.Set<SuperType> superTypes;
-	public java.util.Set<Type> types;
-	public java.util.Set<SubType> subTypes;
+	public List<Integer> abilityIDsInOrder;
+	protected List<Integer> nonStaticAbilities;
+	protected List<Integer> staticAbilities;
+	public List<Integer> keywordAbilities;
+	public List<EventFactory> costs;
+	public List<Mode> modes;
+	public Set<Color> colors;
+	public Set<Color> colorIndicator;
+	public Set<SuperType> superTypes;
+	public Set<Type> types;
+	public Set<SubType> subTypes;
 
 	/**
 	 * For each {@link Target} in any selected {@link Mode}, what {@link Target}
@@ -81,12 +95,12 @@ public class Characteristics implements Sanitizable, Cloneable
 	 * collection indicates a {@link Target} determined to be illegal by
 	 * {@link #followInstructions()}.
 	 */
-	public java.util.Map<Target, java.util.List<Target>> chosenTargets;
+	public Map<Target, List<Target>> chosenTargets;
 
 	// stack stuff
 	protected CostCollection alternateCost;
-	protected java.util.Collection<CostCollection> optionalAdditionalCostsChosen;
-	public java.util.List<Mode> selectedModes;
+	protected Collection<CostCollection> optionalAdditionalCostsChosen;
+	public List<Mode> selectedModes;
 	public MagicSet numModes;
 	protected int valueOfX;
 	protected int sourceID;
@@ -100,24 +114,24 @@ public class Characteristics implements Sanitizable, Cloneable
 		this.minimumX = 0;
 		this.symbol = null;
 		this.manaCost = null;
-		this.abilityIDsInOrder = new java.util.LinkedList<Integer>();
-		this.nonStaticAbilities = new java.util.LinkedList<Integer>();
-		this.staticAbilities = new java.util.LinkedList<Integer>();
-		this.keywordAbilities = new java.util.LinkedList<Integer>();
-		this.costs = new java.util.LinkedList<EventFactory>();
-		this.modes = new java.util.LinkedList<Mode>();
-		this.colors = java.util.EnumSet.noneOf(Color.class);
-		this.colorIndicator = java.util.EnumSet.noneOf(Color.class);
-		this.superTypes = java.util.EnumSet.noneOf(SuperType.class);
-		this.types = java.util.EnumSet.noneOf(Type.class);
-		this.subTypes = java.util.EnumSet.noneOf(SubType.class);
-		this.chosenTargets = new java.util.HashMap<Target, java.util.List<Target>>();
+		this.abilityIDsInOrder = new LinkedList<Integer>();
+		this.nonStaticAbilities = new LinkedList<Integer>();
+		this.staticAbilities = new LinkedList<Integer>();
+		this.keywordAbilities = new LinkedList<Integer>();
+		this.costs = new LinkedList<EventFactory>();
+		this.modes = new LinkedList<Mode>();
+		this.colors = EnumSet.noneOf(Color.class);
+		this.colorIndicator = EnumSet.noneOf(Color.class);
+		this.superTypes = EnumSet.noneOf(SuperType.class);
+		this.types = EnumSet.noneOf(Type.class);
+		this.subTypes = EnumSet.noneOf(SubType.class);
+		this.chosenTargets = new HashMap<Target, List<Target>>();
 
 		// stack stuff
 		this.alternateCost = null;
-		this.optionalAdditionalCostsChosen = new java.util.LinkedList<CostCollection>();
-		this.selectedModes = new java.util.LinkedList<Mode>();
-		this.numModes = new MagicSet(new org.rnd.util.NumberRange(1, 1));
+		this.optionalAdditionalCostsChosen = new LinkedList<CostCollection>();
+		this.selectedModes = new LinkedList<Mode>();
+		this.numModes = new MagicSet(new NumberRange(1, 1));
 		this.valueOfX = -1;
 		this.sourceID = 0;
 	}
@@ -138,9 +152,9 @@ public class Characteristics implements Sanitizable, Cloneable
 		else
 			ret.manaCost = new ManaPool(this.manaCost);
 
-		ret.costs = new java.util.LinkedList<EventFactory>(this.costs);
+		ret.costs = new LinkedList<EventFactory>(this.costs);
 		ret.alternateCost = this.alternateCost;
-		ret.optionalAdditionalCostsChosen = new java.util.LinkedList<CostCollection>(this.optionalAdditionalCostsChosen);
+		ret.optionalAdditionalCostsChosen = new LinkedList<CostCollection>(this.optionalAdditionalCostsChosen);
 
 		// Copying modes should also copy the selected targets, as well as
 		// divisions of damage
@@ -152,12 +166,12 @@ public class Characteristics implements Sanitizable, Cloneable
 				ret.selectedModes.add(newMode);
 		}
 
-		ret.colors = java.util.EnumSet.copyOf(this.colors);
-		ret.colorIndicator = java.util.EnumSet.copyOf(this.colorIndicator);
+		ret.colors = EnumSet.copyOf(this.colors);
+		ret.colorIndicator = EnumSet.copyOf(this.colorIndicator);
 
-		ret.superTypes = java.util.EnumSet.copyOf(this.superTypes);
-		ret.types = java.util.EnumSet.copyOf(this.types);
-		ret.subTypes = java.util.EnumSet.copyOf(this.subTypes);
+		ret.superTypes = EnumSet.copyOf(this.superTypes);
+		ret.types = EnumSet.copyOf(this.types);
+		ret.subTypes = EnumSet.copyOf(this.subTypes);
 
 		ret.valueOfX = this.valueOfX;
 
@@ -167,10 +181,10 @@ public class Characteristics implements Sanitizable, Cloneable
 		// this isn't permanent, don't panic
 		// the loops that follow look through this list and replace the IDs with
 		// the right ones
-		ret.abilityIDsInOrder = new java.util.ArrayList<Integer>(this.abilityIDsInOrder);
+		ret.abilityIDsInOrder = new ArrayList<Integer>(this.abilityIDsInOrder);
 
 		// Map from ability ID on original to created ability on target
-		java.util.Map<Integer, Identified> abilitiesCopied = new java.util.HashMap<Integer, Identified>();
+		Map<Integer, Identified> abilitiesCopied = new HashMap<Integer, Identified>();
 		for(int abilityID: this.nonStaticAbilities)
 		{
 			NonStaticAbility ability = (NonStaticAbility)target.state.<NonStaticAbility>get(abilityID).create(target.game);
@@ -190,7 +204,7 @@ public class Characteristics implements Sanitizable, Cloneable
 		{
 			Keyword originalAbility = target.state.<Keyword>get(abilityID);
 
-			java.util.Set<Integer> abilitiesGranted = new java.util.HashSet<Integer>();
+			Set<Integer> abilitiesGranted = new HashSet<Integer>();
 			for(Identified abilityGranted: originalAbility.getAbilitiesGranted().getAll(Identified.class))
 				abilitiesGranted.add(abilitiesCopied.get(abilityGranted.ID).ID);
 
@@ -246,8 +260,8 @@ public class Characteristics implements Sanitizable, Cloneable
 		for(Identified ability: allAbilities.getAll(Identified.class))
 			ability.copy();
 
-		for(java.util.Map.Entry<Target, java.util.List<Target>> entry: this.chosenTargets.entrySet())
-			ret.chosenTargets.put(entry.getKey(), new java.util.LinkedList<Target>(entry.getValue()));
+		for(Map.Entry<Target, List<Target>> entry: this.chosenTargets.entrySet())
+			ret.chosenTargets.put(entry.getKey(), new LinkedList<Target>(entry.getValue()));
 
 		return ret;
 	}
@@ -269,26 +283,26 @@ public class Characteristics implements Sanitizable, Cloneable
 			ret.manaCost = null;
 		else
 			ret.manaCost = new ManaPool(this.manaCost);
-		ret.abilityIDsInOrder = new java.util.LinkedList<Integer>(this.abilityIDsInOrder);
-		ret.nonStaticAbilities = new java.util.LinkedList<Integer>(this.nonStaticAbilities);
-		ret.staticAbilities = new java.util.LinkedList<Integer>(this.staticAbilities);
-		ret.keywordAbilities = new java.util.LinkedList<Integer>(this.keywordAbilities);
-		ret.costs = new java.util.LinkedList<EventFactory>(this.costs);
-		ret.modes = new java.util.LinkedList<Mode>(this.modes);
-		ret.colors = java.util.EnumSet.copyOf(this.colors);
-		ret.colorIndicator = java.util.EnumSet.copyOf(this.colorIndicator);
-		ret.superTypes = java.util.EnumSet.copyOf(this.superTypes);
-		ret.types = java.util.EnumSet.copyOf(this.types);
-		ret.subTypes = java.util.EnumSet.copyOf(this.subTypes);
+		ret.abilityIDsInOrder = new LinkedList<Integer>(this.abilityIDsInOrder);
+		ret.nonStaticAbilities = new LinkedList<Integer>(this.nonStaticAbilities);
+		ret.staticAbilities = new LinkedList<Integer>(this.staticAbilities);
+		ret.keywordAbilities = new LinkedList<Integer>(this.keywordAbilities);
+		ret.costs = new LinkedList<EventFactory>(this.costs);
+		ret.modes = new LinkedList<Mode>(this.modes);
+		ret.colors = EnumSet.copyOf(this.colors);
+		ret.colorIndicator = EnumSet.copyOf(this.colorIndicator);
+		ret.superTypes = EnumSet.copyOf(this.superTypes);
+		ret.types = EnumSet.copyOf(this.types);
+		ret.subTypes = EnumSet.copyOf(this.subTypes);
 		ret.alternateCost = this.alternateCost;
-		ret.optionalAdditionalCostsChosen = new java.util.LinkedList<CostCollection>(this.optionalAdditionalCostsChosen);
-		ret.selectedModes = new java.util.LinkedList<Mode>(this.selectedModes);
+		ret.optionalAdditionalCostsChosen = new LinkedList<CostCollection>(this.optionalAdditionalCostsChosen);
+		ret.selectedModes = new LinkedList<Mode>(this.selectedModes);
 		ret.numModes = new MagicSet(this.numModes);
 
-		ret.chosenTargets = new java.util.HashMap<Target, java.util.List<Target>>(this.chosenTargets);
-		for(java.util.Map.Entry<Target, java.util.List<Target>> entry: this.chosenTargets.entrySet())
+		ret.chosenTargets = new HashMap<Target, List<Target>>(this.chosenTargets);
+		for(Map.Entry<Target, List<Target>> entry: this.chosenTargets.entrySet())
 		{
-			java.util.List<Target> targets = new java.util.LinkedList<Target>();
+			List<Target> targets = new LinkedList<Target>();
 			for(Target t: entry.getValue())
 			{
 				if(null == t)
@@ -308,9 +322,9 @@ public class Characteristics implements Sanitizable, Cloneable
 	}
 
 	@Override
-	public org.rnd.jmagic.sanitized.SanitizedCharacteristics sanitize(GameState state, Player whoFor)
+	public SanitizedCharacteristics sanitize(GameState state, Player whoFor)
 	{
-		return new org.rnd.jmagic.sanitized.SanitizedCharacteristics(this, state);
+		return new SanitizedCharacteristics(this, state);
 	}
 
 	@Override

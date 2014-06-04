@@ -3,6 +3,7 @@ package org.rnd.jmagic.cards;
 import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+import org.rnd.jmagic.engine.patterns.SimpleZoneChangePattern;
 
 @Name("Goldnight Commander")
 @Types({Type.CREATURE})
@@ -19,7 +20,7 @@ public final class GoldnightCommander extends Card
 			super(state, "Whenever another creature enters the battlefield under your control, creatures you control get +1/+1 until end of turn.");
 
 			SetGenerator otherCreatures = RelativeComplement.instance(CreaturePermanents.instance(), ABILITY_SOURCE_OF_THIS);
-			this.addPattern(new org.rnd.jmagic.engine.patterns.SimpleZoneChangePattern(null, Battlefield.instance(), otherCreatures, You.instance(), false));
+			this.addPattern(new SimpleZoneChangePattern(null, Battlefield.instance(), otherCreatures, You.instance(), false));
 
 			this.addEffect(createFloatingEffect("Creatures you control get +1/+1 until end of turn.", modifyPowerAndToughness(CREATURES_YOU_CONTROL, +1, +1)));
 		}

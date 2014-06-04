@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -33,7 +35,7 @@ public final class MelokutheCloudedMirror extends Card
 			CreateTokensFactory token = new CreateTokensFactory(1, 1, 1, "Put a 1/1 blue Illusion creature token with flying onto the battlefield.");
 			token.setColors(Color.BLUE);
 			token.setSubTypes(SubType.ILLUSION);
-			token.addAbility(org.rnd.jmagic.abilities.keywords.Flying.class);
+			token.addAbility(Flying.class);
 			this.addEffect(token.getEventFactory());
 		}
 	}
@@ -46,7 +48,7 @@ public final class MelokutheCloudedMirror extends Card
 		this.setToughness(4);
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// (1), Return a land you control to its owner's hand: Put a 1/1 blue
 		// Illusion creature token with flying onto the battlefield.

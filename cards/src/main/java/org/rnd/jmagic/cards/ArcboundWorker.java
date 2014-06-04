@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Modular;
 import org.rnd.jmagic.engine.*;
 
 @Name("Arcbound Worker")
@@ -18,6 +19,6 @@ public final class ArcboundWorker extends Card
 		this.setToughness(0);
 
 		// Modular 1
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Modular(state, 1));
+		this.addAbility(new Modular(state, 1));
 	}
 }

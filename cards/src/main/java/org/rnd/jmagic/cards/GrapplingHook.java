@@ -2,6 +2,8 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.DoubleStrike;
+import org.rnd.jmagic.abilities.keywords.Equip;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -19,7 +21,7 @@ public final class GrapplingHook extends Card
 		public GiveDoubleStrike(GameState state)
 		{
 			super(state, "Equipped creature has double strike.");
-			this.addEffectPart(addAbilityToObject(EquippedBy.instance(This.instance()), org.rnd.jmagic.abilities.keywords.DoubleStrike.class));
+			this.addEffectPart(addAbilityToObject(EquippedBy.instance(This.instance()), DoubleStrike.class));
 		}
 	}
 
@@ -57,6 +59,6 @@ public final class GrapplingHook extends Card
 		this.addAbility(new Grapple(state));
 
 		// Equip (4)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Equip(state, "(4)"));
+		this.addAbility(new Equip(state, "(4)"));
 	}
 }

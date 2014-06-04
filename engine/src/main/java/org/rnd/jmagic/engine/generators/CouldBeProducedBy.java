@@ -2,6 +2,9 @@ package org.rnd.jmagic.engine.generators;
 
 import org.rnd.jmagic.engine.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Evaluates to the mana types that could be produced by activated abilities of
  * each given GameObject.
@@ -23,10 +26,10 @@ public class CouldBeProducedBy extends SetGenerator
 	@Override
 	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		return evaluate(state, thisObject, new java.util.HashSet<SetGenerator>());
+		return evaluate(state, thisObject, new HashSet<SetGenerator>());
 	}
 
-	public MagicSet evaluate(GameState state, Identified thisObject, java.util.Set<SetGenerator> ignoreThese)
+	public MagicSet evaluate(GameState state, Identified thisObject, Set<SetGenerator> ignoreThese)
 	{
 		MagicSet results = this.producers.evaluate(state, thisObject);
 
@@ -39,9 +42,9 @@ public class CouldBeProducedBy extends SetGenerator
 		return ret;
 	}
 
-	public static java.util.Set<ManaSymbol.ManaType> objectCouldProduce(Game game, GameObject object, java.util.Set<SetGenerator> ignoreThese)
+	public static Set<ManaSymbol.ManaType> objectCouldProduce(Game game, GameObject object, Set<SetGenerator> ignoreThese)
 	{
-		java.util.Set<ManaSymbol.ManaType> colors = new java.util.HashSet<ManaSymbol.ManaType>();
+		Set<ManaSymbol.ManaType> colors = new HashSet<ManaSymbol.ManaType>();
 
 		for(NonStaticAbility ability: object.getNonStaticAbilities())
 		{
@@ -70,13 +73,13 @@ public class CouldBeProducedBy extends SetGenerator
 	}
 
 	@Override
-	public java.util.Set<ManaSymbol.ManaType> extractColors(Game game, GameObject thisObject, java.util.Set<SetGenerator> ignoreThese) throws NoSuchMethodException
+	public Set<ManaSymbol.ManaType> extractColors(Game game, GameObject thisObject, Set<SetGenerator> ignoreThese) throws NoSuchMethodException
 	{
 		// This entire ignoreThese set of parameters is solely for this point,
 		// so that ripping apart CouldBeProducedBy won't result in infinite
 		// recursion
 		if(ignoreThese.contains(this))
-			return new java.util.HashSet<ManaSymbol.ManaType>();
+			return new HashSet<ManaSymbol.ManaType>();
 		ignoreThese.add(this);
 		return this.evaluate(game.actualState, thisObject, ignoreThese).getAll(ManaSymbol.ManaType.class);
 	}

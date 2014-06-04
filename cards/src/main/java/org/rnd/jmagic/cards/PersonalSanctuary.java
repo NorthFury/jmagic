@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.PreventAllTo;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -20,7 +22,7 @@ public final class PersonalSanctuary extends Card
 			SetGenerator duringYourTurn = Intersect.instance(CurrentTurn.instance(), TurnOf.instance(You.instance()));
 			this.canApply = Both.instance(this.canApply, duringYourTurn);
 
-			ReplacementEffect effect = new org.rnd.jmagic.abilities.PreventAllTo(this.game, You.instance(), "you");
+			ReplacementEffect effect = new PreventAllTo(this.game, You.instance(), "you");
 			this.addEffectPart(replacementEffectPart(effect));
 		}
 	}

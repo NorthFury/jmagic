@@ -5,6 +5,14 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
+import org.rnd.util.NumberRange;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * 702.59. Suspend
@@ -75,18 +83,18 @@ public final class Suspend extends Keyword
 	}
 
 	@Override
-	protected java.util.List<NonStaticAbility> createNonStaticAbilities()
+	protected List<NonStaticAbility> createNonStaticAbilities()
 	{
-		java.util.LinkedList<NonStaticAbility> ret = new java.util.LinkedList<NonStaticAbility>();
+		LinkedList<NonStaticAbility> ret = new LinkedList<NonStaticAbility>();
 		ret.add(new SuspendRemoveCounter(this.state));
 		ret.add(new SuspendCastSpell(this.state));
 		return ret;
 	}
 
 	@Override
-	protected java.util.List<StaticAbility> createStaticAbilities()
+	protected List<StaticAbility> createStaticAbilities()
 	{
-		java.util.LinkedList<StaticAbility> ret = new java.util.LinkedList<StaticAbility>();
+		LinkedList<StaticAbility> ret = new LinkedList<StaticAbility>();
 		ret.add(new SuspendStaticAction(this.state, this));
 		return ret;
 	}
@@ -123,7 +131,7 @@ public final class Suspend extends Keyword
 
 			ContinuousEffect.Part part = new ContinuousEffect.Part(ContinuousEffectType.ADD_ABILITY_TO_OBJECT);
 			part.parameters.put(ContinuousEffectType.Parameter.OBJECT, thatSpell);
-			part.parameters.put(ContinuousEffectType.Parameter.ABILITY, Identity.instance(new org.rnd.jmagic.engine.SimpleAbilityFactory(Haste.class)));
+			part.parameters.put(ContinuousEffectType.Parameter.ABILITY, Identity.instance(new SimpleAbilityFactory(Haste.class)));
 
 			SetGenerator allObjectsYouControl = ControlledBy.instance(You.instance(), Union.instance(Stack.instance(), Battlefield.instance()));
 			SetGenerator theSpellOrThePermanentItBecomes = Union.instance(thatSpell, Intersect.instance(Permanents.instance(), FutureSelf.instance(thatSpell)));
@@ -199,9 +207,9 @@ public final class Suspend extends Keyword
 			}
 
 			@Override
-			public java.util.Set<PlayerAction> getActions(GameState state, GameObject source, Player actor)
+			public Set<PlayerAction> getActions(GameState state, GameObject source, Player actor)
 			{
-				java.util.Set<PlayerAction> ret = new java.util.HashSet<PlayerAction>();
+				Set<PlayerAction> ret = new HashSet<PlayerAction>();
 
 				// Can only suspend from hand
 				if(!source.getZone().isHand())
@@ -255,7 +263,7 @@ public final class Suspend extends Keyword
 			Player who = this.actor();
 			if(cost.usesX())
 			{
-				numCounters = who.chooseNumber(new org.rnd.util.NumberRange(1, null), "Choose a value for X.");
+				numCounters = who.chooseNumber(new NumberRange(1, null), "Choose a value for X.");
 				cost = cost.expandX(numCounters, ManaSymbol.ManaType.COLORLESS);
 			}
 
@@ -292,14 +300,14 @@ public final class Suspend extends Keyword
 			}
 
 			@Override
-			public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+			public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 			{
 				event.setResult(Empty.set);
 
 				MagicSet objectSet = parameters.get(Parameter.OBJECT);
 				int number = Sum.get(parameters.get(Parameter.NUMBER));
 
-				java.util.Map<Parameter, MagicSet> exileParameters = new java.util.HashMap<Parameter, MagicSet>();
+				Map<Parameter, MagicSet> exileParameters = new HashMap<Parameter, MagicSet>();
 				exileParameters.put(Parameter.CAUSE, new MagicSet(game));
 				exileParameters.put(Parameter.TO, new MagicSet(game.actualState.exileZone()));
 				exileParameters.put(Parameter.OBJECT, objectSet);

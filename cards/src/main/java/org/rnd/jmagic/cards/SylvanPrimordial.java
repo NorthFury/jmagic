@@ -1,8 +1,13 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Reach;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+
+import java.util.LinkedList;
+import java.util.List;
 
 @Name("Sylvan Primordial")
 @Types({Type.CREATURE})
@@ -21,12 +26,12 @@ public final class SylvanPrimordial extends Card
 		}
 
 		@Override
-		public boolean checkSpecialRestrictions(GameState state, java.util.List<Target> choices)
+		public boolean checkSpecialRestrictions(GameState state, List<Target> choices)
 		{
 			if(choices.isEmpty())
 				return true;
 
-			java.util.List<Integer> controllers = new java.util.LinkedList<Integer>();
+			List<Integer> controllers = new LinkedList<Integer>();
 			for(Target choice: choices)
 			{
 				int controller = state.<GameObject>get(choice.targetID).controllerID;
@@ -76,7 +81,7 @@ public final class SylvanPrimordial extends Card
 		this.setToughness(8);
 
 		// Reach
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Reach(state));
+		this.addAbility(new Reach(state));
 
 		// When Sylvan Primordial enters the battlefield, for each opponent,
 		// destroy target noncreature permanent that player controls. For each

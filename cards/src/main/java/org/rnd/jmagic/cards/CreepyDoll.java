@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Indestructible;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -37,7 +39,7 @@ public final class CreepyDoll extends Card
 		this.setToughness(1);
 
 		// Creepy Doll is indestructible.
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Indestructible(state));
+		this.addAbility(new Indestructible(state));
 
 		// Whenever Creepy Doll deals combat damage to a creature, flip a coin.
 		// If you win the flip, destroy that creature.

@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flash;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -44,7 +46,7 @@ public final class JinGitaxiasCoreAugur extends Card
 		this.setToughness(4);
 
 		// Flash
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flash(state));
+		this.addAbility(new Flash(state));
 
 		// At the beginning of your end step, draw seven cards.
 		this.addAbility(new JinGitaxiasCoreAugurAbility1(state));

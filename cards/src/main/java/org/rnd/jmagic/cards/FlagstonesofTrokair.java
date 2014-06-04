@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.TapForW;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -36,7 +37,7 @@ public final class FlagstonesofTrokair extends Card
 		super(state);
 
 		// (T): Add (W) to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapForW(state));
+		this.addAbility(new TapForW(state));
 
 		// When Flagstones of Trokair is put into a graveyard from the
 		// battlefield, you may search your library for a Plains card and put it

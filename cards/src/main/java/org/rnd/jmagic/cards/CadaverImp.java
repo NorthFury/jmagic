@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.Gravedigging;
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 
 @Name("Cadaver Imp")
@@ -19,10 +21,10 @@ public final class CadaverImp extends Card
 		this.setToughness(1);
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// When Cadaver Imp enters the battlefield, you may return target
 		// creature card from your graveyard to your hand.
-		this.addAbility(new org.rnd.jmagic.abilities.Gravedigging(state, "Cadaver Imp"));
+		this.addAbility(new Gravedigging(state, "Cadaver Imp"));
 	}
 }

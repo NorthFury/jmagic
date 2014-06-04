@@ -4,6 +4,10 @@ import org.junit.*;
 import static org.junit.Assert.*;
 import org.rnd.jmagic.cards.*;
 import org.rnd.jmagic.engine.*;
+import org.rnd.jmagic.sanitized.SanitizedCastSpellOrActivateAbilityAction;
+import org.rnd.jmagic.sanitized.SanitizedPlayerAction;
+
+import java.io.Serializable;
 
 public class FaceDownTest extends JUnitTest
 {
@@ -82,9 +86,9 @@ public class FaceDownTest extends JUnitTest
 		// action:
 		for(Object choice: this.choices)
 		{
-			if(!(choice instanceof org.rnd.jmagic.sanitized.SanitizedCastSpellOrActivateAbilityAction))
+			if(!(choice instanceof SanitizedCastSpellOrActivateAbilityAction))
 			{
-				respondWith((java.io.Serializable)choice);
+				respondWith((Serializable)choice);
 				break;
 			}
 		}
@@ -114,7 +118,7 @@ public class FaceDownTest extends JUnitTest
 		assertFalse(this.choices.isEmpty());
 
 		// now the only available action should be to turn the craghorn over:
-		respondWith((java.io.Serializable)this.choices.iterator().next());
+		respondWith((Serializable)this.choices.iterator().next());
 		addMana("1RR");
 		donePlayingManaAbilities();
 
@@ -143,9 +147,9 @@ public class FaceDownTest extends JUnitTest
 		// Casting Krosan as a morph is the only un-derived
 		// SanitizedPlayerAction, so go through the choices to find it.
 		for(Object choice: this.choices)
-			if(choice.getClass() == org.rnd.jmagic.sanitized.SanitizedPlayerAction.class)
+			if(choice.getClass() == SanitizedPlayerAction.class)
 			{
-				respondWith((java.io.Serializable)choice);
+				respondWith((Serializable)choice);
 				break;
 			}
 		addMana("3");
@@ -174,9 +178,9 @@ public class FaceDownTest extends JUnitTest
 		// Turning the "Craghorn" face up is the only un-derived
 		// SanitizedPlayerAction, so go through the choices to find it.
 		for(Object choice: this.choices)
-			if(choice.getClass() == org.rnd.jmagic.sanitized.SanitizedPlayerAction.class)
+			if(choice.getClass() == SanitizedPlayerAction.class)
 			{
-				respondWith((java.io.Serializable)choice);
+				respondWith((Serializable)choice);
 				break;
 			}
 		addMana("1RR");

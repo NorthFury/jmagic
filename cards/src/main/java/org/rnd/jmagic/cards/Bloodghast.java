@@ -2,6 +2,8 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.CantBlock;
+import org.rnd.jmagic.abilities.keywords.Haste;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -19,7 +21,7 @@ public final class Bloodghast extends Card
 		{
 			super(state, "Bloodghast has haste as long as an opponent has 10 or less life.");
 
-			this.addEffectPart(addAbilityToObject(This.instance(), org.rnd.jmagic.abilities.keywords.Haste.class));
+			this.addEffectPart(addAbilityToObject(This.instance(), Haste.class));
 
 			SetGenerator lifeTotals = LifeTotalOf.instance(OpponentsOf.instance(You.instance()));
 			SetGenerator opponentHasTenOrLess = Intersect.instance(lifeTotals, Between.instance(null, 10));
@@ -53,7 +55,7 @@ public final class Bloodghast extends Card
 		this.setToughness(1);
 
 		// Bloodghast can't block.
-		this.addAbility(new org.rnd.jmagic.abilities.CantBlock(state, this.getName()));
+		this.addAbility(new CantBlock(state, this.getName()));
 
 		// Bloodghast has haste as long as an opponent has 10 or less life.
 		this.addAbility(new HasteSometimes(state));

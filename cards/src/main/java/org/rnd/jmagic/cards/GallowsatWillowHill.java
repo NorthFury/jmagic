@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -34,7 +36,7 @@ public final class GallowsatWillowHill extends Card
 			factory.setController(ControllerOf.instance(target));
 			factory.setColors(Color.WHITE);
 			factory.setSubTypes(SubType.SPIRIT);
-			factory.addAbility(org.rnd.jmagic.abilities.keywords.Flying.class);
+			factory.addAbility(Flying.class);
 			this.addEffect(factory.getEventFactory());
 		}
 	}

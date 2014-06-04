@@ -2,30 +2,36 @@ package org.rnd.jmagic.engine.generators;
 
 import org.rnd.jmagic.engine.*;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
 /**
  * Resolves to the set of all objects that were put into a graveyard from the
  * battlefield this turn.
  */
 public class PutIntoGraveyardsFromBattlefieldThisTurn extends SetGenerator
 {
-	public static class DeathTracker extends Tracker<java.util.Map<Integer, java.util.Set<Integer>>>
+	public static class DeathTracker extends Tracker<Map<Integer, Set<Integer>>>
 	{
-		private java.util.HashMap<Integer, java.util.Set<Integer>> IDs = new java.util.HashMap<Integer, java.util.Set<Integer>>();
-		private java.util.Map<Integer, java.util.Set<Integer>> unmodifiable = java.util.Collections.unmodifiableMap(this.IDs);
+		private HashMap<Integer, Set<Integer>> IDs = new HashMap<Integer, Set<Integer>>();
+		private Map<Integer, Set<Integer>> unmodifiable = Collections.unmodifiableMap(this.IDs);
 
 		@Override
 		public DeathTracker clone()
 		{
 			DeathTracker ret = (DeathTracker)super.clone();
-			ret.IDs = new java.util.HashMap<Integer, java.util.Set<Integer>>();
-			for(java.util.Map.Entry<Integer, java.util.Set<Integer>> entry: this.IDs.entrySet())
-				ret.IDs.put(entry.getKey(), new java.util.HashSet<Integer>(entry.getValue()));
-			ret.unmodifiable = java.util.Collections.unmodifiableMap(ret.IDs);
+			ret.IDs = new HashMap<Integer, Set<Integer>>();
+			for(Map.Entry<Integer, Set<Integer>> entry: this.IDs.entrySet())
+				ret.IDs.put(entry.getKey(), new HashSet<Integer>(entry.getValue()));
+			ret.unmodifiable = Collections.unmodifiableMap(ret.IDs);
 			return ret;
 		}
 
 		@Override
-		protected java.util.Map<Integer, java.util.Set<Integer>> getValueInternal()
+		protected Map<Integer, Set<Integer>> getValueInternal()
 		{
 			return this.unmodifiable;
 		}
@@ -72,7 +78,7 @@ public class PutIntoGraveyardsFromBattlefieldThisTurn extends SetGenerator
 				int player = to.getOwner(state).ID;
 
 				if(!this.IDs.containsKey(player))
-					this.IDs.put(player, new java.util.HashSet<Integer>());
+					this.IDs.put(player, new HashSet<Integer>());
 				this.IDs.get(player).add(change.newObjectID);
 			}
 		}
@@ -98,7 +104,7 @@ public class PutIntoGraveyardsFromBattlefieldThisTurn extends SetGenerator
 			return Empty.set;
 
 		MagicSet ret = new MagicSet();
-		for(java.util.Set<Integer> ids: state.getTracker(DeathTracker.class).getValue(state).values())
+		for(Set<Integer> ids: state.getTracker(DeathTracker.class).getValue(state).values())
 			for(int ID: ids)
 				ret.add(state.get(ID));
 		return ret;

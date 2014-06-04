@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.Ping;
 import org.rnd.jmagic.engine.*;
 
 @Name("Prodigal Pyromancer")
@@ -17,6 +18,6 @@ public final class ProdigalPyromancer extends Card
 		this.setPower(1);
 		this.setToughness(1);
 
-		this.addAbility(new org.rnd.jmagic.abilities.Ping(state, this.getName()));
+		this.addAbility(new Ping(state, this.getName()));
 	}
 }

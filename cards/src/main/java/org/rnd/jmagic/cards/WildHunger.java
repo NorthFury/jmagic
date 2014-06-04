@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flashback;
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -17,10 +20,10 @@ public final class WildHunger extends Card
 
 		// Target creature gets +3/+1 and gains trample until end of turn.
 		SetGenerator target = targetedBy(this.addTarget(CreaturePermanents.instance(), "target creature"));
-		this.addEffect(ptChangeAndAbilityUntilEndOfTurn(target, +3, +1, "Target creature gets +3/+1 and gains trample until end of turn.", org.rnd.jmagic.abilities.keywords.Trample.class));
+		this.addEffect(ptChangeAndAbilityUntilEndOfTurn(target, +3, +1, "Target creature gets +3/+1 and gains trample until end of turn.", Trample.class));
 
 		// Flashback (3)(R) (You may cast this card from your graveyard for its
 		// flashback cost. Then exile it.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flashback(state, "(3)(R)"));
+		this.addAbility(new Flashback(state, "(3)(R)"));
 	}
 }

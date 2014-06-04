@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.DoubleStrike;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -18,6 +20,6 @@ public final class CleaverRiot extends Card
 		// Creatures you control gain double strike until end of turn. (They
 		// deal both first-strike and regular combat damage.)
 		SetGenerator creaturesYouControl = Intersect.instance(CreaturePermanents.instance(), ControlledBy.instance(You.instance()));
-		this.addEffect(addAbilityUntilEndOfTurn(creaturesYouControl, org.rnd.jmagic.abilities.keywords.DoubleStrike.class, "Creatures you control gain double strike until end of turn."));
+		this.addEffect(addAbilityUntilEndOfTurn(creaturesYouControl, DoubleStrike.class, "Creatures you control gain double strike until end of turn."));
 	}
 }

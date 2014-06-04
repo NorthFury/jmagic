@@ -1,7 +1,18 @@
 package org.rnd.jmagic.engine.eventTypes;
 
+import org.rnd.jmagic.abilities.keywords.Enchant;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+import org.rnd.jmagic.sanitized.SanitizedEvent;
+import org.rnd.util.Constructor;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public final class MoveBatch extends EventType
 {	public static final EventType INSTANCE = new MoveBatch();
@@ -18,7 +29,7 @@ public final class MoveBatch extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean attempt(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		for(ZoneChange change: parameters.get(Parameter.TARGET).getAll(ZoneChange.class))
 		{
@@ -40,29 +51,29 @@ public final class MoveBatch extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
-		java.util.Set<ZoneChange> successfulZoneChanges = new java.util.HashSet<ZoneChange>();
+		Set<ZoneChange> successfulZoneChanges = new HashSet<ZoneChange>();
 
-		java.util.Map<Player, java.util.List<ZoneChange>> controlledChanges = new java.util.HashMap<Player, java.util.List<ZoneChange>>();
+		Map<Player, List<ZoneChange>> controlledChanges = new HashMap<Player, List<ZoneChange>>();
 		for(ZoneChange movement: parameters.get(Parameter.TARGET).getAll(ZoneChange.class))
 		{
 			Player controller = null;
 			if(-1 != movement.controllerID)
 				controller = game.actualState.get(movement.controllerID);
-			java.util.List<ZoneChange> changes;
+			List<ZoneChange> changes;
 			if(controlledChanges.containsKey(controller))
 				changes = controlledChanges.get(controller);
 			else
 			{
-				changes = new java.util.LinkedList<ZoneChange>();
+				changes = new LinkedList<ZoneChange>();
 				controlledChanges.put(controller, changes);
 			}
 			changes.add(movement);
 		}
 
-		java.util.Set<GameObject> newObjects = new java.util.HashSet<GameObject>();
-		java.util.Collection<Player> players = new java.util.HashSet<Player>(controlledChanges.keySet());
+		Set<GameObject> newObjects = new HashSet<GameObject>();
+		Collection<Player> players = new HashSet<Player>(controlledChanges.keySet());
 		if(game.hasStarted())
 		{
 			players.remove(null);
@@ -123,7 +134,7 @@ public final class MoveBatch extends EventType
 					attachments.add(game.actualState.getByIDObject(attachmentID));
 				if(!attachments.isEmpty())
 				{
-					java.util.Map<Parameter, MagicSet> detachParameters = new java.util.HashMap<Parameter, MagicSet>();
+					Map<Parameter, MagicSet> detachParameters = new HashMap<Parameter, MagicSet>();
 					detachParameters.put(EventType.Parameter.OBJECT, attachments);
 					createEvent(game, "Unattach " + attachments + ".", EventType.UNATTACH, detachParameters).perform(event, false);
 				}
@@ -153,12 +164,12 @@ public final class MoveBatch extends EventType
 
 					if(!attachEffect)
 					{
-						org.rnd.jmagic.abilities.keywords.Enchant enchantKeyword = null;
+						Enchant enchantKeyword = null;
 						for(Keyword k: moveIn.getKeywordAbilities())
 						{
 							if(k.isEnchant())
 							{
-								enchantKeyword = (org.rnd.jmagic.abilities.keywords.Enchant)k;
+								enchantKeyword = (Enchant)k;
 								break;
 							}
 						}
@@ -176,7 +187,7 @@ public final class MoveBatch extends EventType
 								couldAttach = false;
 							else
 							{
-								java.util.Map<Parameter, MagicSet> attachParameters = new java.util.HashMap<Parameter, MagicSet>();
+								Map<Parameter, MagicSet> attachParameters = new HashMap<Parameter, MagicSet>();
 								attachParameters.put(Parameter.OBJECT, new MagicSet(moveIn));
 								attachParameters.put(Parameter.PLAYER, new MagicSet(moveIn.getController(moveIn.state)));
 								attachParameters.put(Parameter.CHOICE, choices);
@@ -215,14 +226,14 @@ public final class MoveBatch extends EventType
 
 				Characteristics faceDownValues = null;
 				if(movement.faceDownCharacteristics != null)
-					faceDownValues = org.rnd.util.Constructor.construct(movement.faceDownCharacteristics, new Class<?>[] {}, new Object[] {});
+					faceDownValues = Constructor.construct(movement.faceDownCharacteristics, new Class<?>[] {}, new Object[] {});
 				moveIn.faceDownValues = faceDownValues;
 				if(toBattlefield || toStack)
 				{
 					Player controller = game.actualState.get(movement.controllerID);
 					moveIn.setController(controller);
 
-					java.util.Map<EventType.Parameter, MagicSet> controlParameters = new java.util.HashMap<EventType.Parameter, MagicSet>();
+					Map<EventType.Parameter, MagicSet> controlParameters = new HashMap<EventType.Parameter, MagicSet>();
 					controlParameters.put(Parameter.OBJECT, new MagicSet(moveIn));
 					controlParameters.put(Parameter.TARGET, new MagicSet(controller));
 					controlParameters.put(Parameter.ATTACKER, Empty.set);
@@ -235,7 +246,7 @@ public final class MoveBatch extends EventType
 				{
 					Player oldController = game.actualState.get(moveOut.controllerID);
 
-					java.util.Map<EventType.Parameter, MagicSet> controlParameters = new java.util.HashMap<EventType.Parameter, MagicSet>();
+					Map<EventType.Parameter, MagicSet> controlParameters = new HashMap<EventType.Parameter, MagicSet>();
 					controlParameters.put(Parameter.OBJECT, new MagicSet(moveOut));
 					controlParameters.put(Parameter.PLAYER, new MagicSet(oldController));
 					createEvent(game, "No one controls " + moveOut + ".", CHANGE_CONTROL, controlParameters).perform(event, false);
@@ -251,7 +262,7 @@ public final class MoveBatch extends EventType
 					// triggered abilities that change the characteristics
 					// of a permanent spell on the stack continue to apply
 					// to the permanent that spell becomes.
-					java.util.Collection<ContinuousEffect.Part> partsToModify = new java.util.LinkedList<ContinuousEffect.Part>();
+					Collection<ContinuousEffect.Part> partsToModify = new LinkedList<ContinuousEffect.Part>();
 					for(FloatingContinuousEffect effect: game.physicalState.floatingEffects)
 						for(ContinuousEffect.Part part: effect.parts)
 						{
@@ -273,7 +284,7 @@ public final class MoveBatch extends EventType
 					// 707.4. ... The permanent the spell becomes will be a
 					// face-down permanent.
 					if(moveOut.faceDownValues != null)
-						moveIn.faceDownValues = org.rnd.util.Constructor.construct(moveOut.faceDownValues.getClass(), new Class<?>[] {}, new Object[] {});
+						moveIn.faceDownValues = Constructor.construct(moveOut.faceDownValues.getClass(), new Class<?>[] {}, new Object[] {});
 				}
 
 				// Now that the object is actually there, refresh the state
@@ -355,7 +366,7 @@ public final class MoveBatch extends EventType
 		for(Player player: game.actualState.players)
 		{
 			player.alert(game.actualState);
-			org.rnd.jmagic.sanitized.SanitizedEvent sanitized = new org.rnd.jmagic.sanitized.SanitizedEvent.Move(event, successfulZoneChanges, player);
+			SanitizedEvent sanitized = new SanitizedEvent.Move(event, successfulZoneChanges, player);
 			player.alert(sanitized);
 		}
 

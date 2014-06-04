@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.FirstStrike;
 import org.rnd.jmagic.engine.*;
 
 @Name("Highland Berserker")
@@ -19,7 +21,7 @@ public final class HighlandBerserker extends Card
 
 			this.addPattern(allyTrigger());
 
-			EventFactory gainFirstStrike = addAbilityUntilEndOfTurn(ALLY_CREATURES_YOU_CONTROL, org.rnd.jmagic.abilities.keywords.FirstStrike.class, "Ally creatures you control gain first strike until end of turn");
+			EventFactory gainFirstStrike = addAbilityUntilEndOfTurn(ALLY_CREATURES_YOU_CONTROL, FirstStrike.class, "Ally creatures you control gain first strike until end of turn");
 			this.addEffect(youMay(gainFirstStrike, "You may have Ally creatures you control gain first strike until end of turn."));
 		}
 	}

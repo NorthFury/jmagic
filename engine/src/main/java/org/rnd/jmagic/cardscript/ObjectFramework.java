@@ -3,25 +3,36 @@ package org.rnd.jmagic.cardscript;
 import org.rnd.jmagic.*;
 import org.rnd.jmagic.engine.*;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.EnumSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
+
 public class ObjectFramework
 {
 	/* Generic Properties */
 	public String name = null;
 	public String manaCost = null;
-	public java.util.List<ModeFramework> modes = new java.util.LinkedList<ModeFramework>();
+	public List<ModeFramework> modes = new LinkedList<ModeFramework>();
 	public String objectType;
 	public boolean isCard;
 
 	/* Used to represent existing classes (keywords) */
 	public Class<? extends Identified> clazz = null;
-	public java.util.List<Object> parameters = new java.util.LinkedList<Object>();
+	public List<Object> parameters = new LinkedList<Object>();
 
 	/* Card Properties */
-	public java.util.Set<SuperType> superTypes = java.util.EnumSet.noneOf(SuperType.class);
-	public java.util.Set<Type> types = java.util.EnumSet.noneOf(Type.class);
-	public java.util.Set<SubType> subTypes = java.util.EnumSet.noneOf(SubType.class);
-	public java.util.Map<Expansion, Rarity> printings = new java.util.TreeMap<Expansion, Rarity>();
-	public java.util.List<ObjectFramework> abilities = new java.util.LinkedList<ObjectFramework>();
+	public Set<SuperType> superTypes = EnumSet.noneOf(SuperType.class);
+	public Set<Type> types = EnumSet.noneOf(Type.class);
+	public Set<SubType> subTypes = EnumSet.noneOf(SubType.class);
+	public Map<Expansion, Rarity> printings = new TreeMap<Expansion, Rarity>();
+	public List<ObjectFramework> abilities = new LinkedList<ObjectFramework>();
 	public Integer power = null;
 	public Integer toughness = null;
 
@@ -29,7 +40,7 @@ public class ObjectFramework
 	public boolean costsTap = false;
 
 	/* Triggered Ability Properties */
-	public java.util.List<EventFramework> eventPatterns = new java.util.LinkedList<EventFramework>();
+	public List<EventFramework> eventPatterns = new LinkedList<EventFramework>();
 
 	public ObjectFramework(String type)
 	{
@@ -37,7 +48,7 @@ public class ObjectFramework
 		this.isCard = type.equals("Card");
 	}
 
-	public void printToStream(java.io.BufferedWriter out, int indentLevel) throws java.io.IOException
+	public void printToStream(BufferedWriter out, int indentLevel) throws IOException
 	{
 		String className = CardLoader.formatName(this.name);
 
@@ -104,7 +115,7 @@ public class ObjectFramework
 			{
 				out.write(indent + "@Printings({ ");
 				boolean first = true;
-				for(java.util.Map.Entry<Expansion, Rarity> entry: this.printings.entrySet())
+				for(Map.Entry<Expansion, Rarity> entry: this.printings.entrySet())
 				{
 					if(!first)
 						out.write(", ");
@@ -135,7 +146,7 @@ public class ObjectFramework
 			for(EventFramework event: this.eventPatterns)
 			{
 				out.write(newline + indent + "\t\tSimpleEventPattern pattern" + i + " = new SimpleEventPattern(EventType." + event.type.toString() + ");");
-				for(java.util.Map.Entry<EventType.Parameter, String> entry: event.parameters.entrySet())
+				for(Map.Entry<EventType.Parameter, String> entry: event.parameters.entrySet())
 					if(entry.getValue() != null)
 						out.write(indent + "\t\tpattern" + i + ".put(EventType.Parameter." + entry.getKey().name() + ", " + entry.getValue() + ");");
 
@@ -194,7 +205,7 @@ public class ObjectFramework
 					String name = "factory" + i;
 					EventFramework event = (EventFramework)text;
 					out.write(indent + "\t\tEventFactory " + name + " = new EventFactory(EventType." + event.type.toString() + ", \"TODO: figure out how to do event names\");");
-					for(java.util.Map.Entry<EventType.Parameter, String> entry: event.parameters.entrySet())
+					for(Map.Entry<EventType.Parameter, String> entry: event.parameters.entrySet())
 						out.write(indent + "\t\t" + name + ".parameters.put(EventType.Parameter." + entry.getKey().name() + ", " + entry.getValue() + ");");
 					out.write(indent + "\t\tthis.addEffect(" + (modeNum + 1) + ", " + name + ");");
 				}
@@ -213,14 +224,14 @@ public class ObjectFramework
 	public void writeCard()
 	{
 		String className = CardLoader.formatName(this.name);
-		java.io.File card = new java.io.File("src\\org\\rnd\\jmagic\\cards\\generated\\" + className + ".java");
+		File card = new File("src\\org\\rnd\\jmagic\\cards\\generated\\" + className + ".java");
 		if(card.exists())
 			return;
 
-		java.io.BufferedWriter out = null;
+		BufferedWriter out = null;
 		try
 		{
-			out = new java.io.BufferedWriter(new java.io.FileWriter(card));
+			out = new BufferedWriter(new FileWriter(card));
 			out.write("package org.rnd.jmagic.cards.generated;\r\n\r\n");
 			out.write("import static org.rnd.jmagic.Convenience.*;\r\n");
 			out.write("import org.rnd.jmagic.engine.*;\r\n");
@@ -231,7 +242,7 @@ public class ObjectFramework
 			out.flush();
 			out.close();
 		}
-		catch(java.io.IOException e)
+		catch(IOException e)
 		{
 			if(out != null)
 			{
@@ -240,7 +251,7 @@ public class ObjectFramework
 					out.flush();
 					out.close();
 				}
-				catch(java.io.IOException wehateyoutoojava)
+				catch(IOException wehateyoutoojava)
 				{
 					// Just go back to the other catch block
 				}

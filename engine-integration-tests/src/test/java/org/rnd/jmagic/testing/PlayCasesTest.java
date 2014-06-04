@@ -6,6 +6,9 @@ import org.rnd.jmagic.cards.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.abilities.keywords.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class PlayCasesTest extends JUnitTest
 {
 	@Test
@@ -125,7 +128,7 @@ public class PlayCasesTest extends JUnitTest
 
 		goToStep(Step.StepType.COMBAT_DAMAGE);
 
-		java.util.Map<Integer, Integer> divisions = new java.util.HashMap<Integer, Integer>();
+		Map<Integer, Integer> divisions = new HashMap<Integer, Integer>();
 		// The Pelakka Wurm
 		divisions.put(this.game.actualState.battlefield().objects.get(0).ID, 7);
 		// Defending Player

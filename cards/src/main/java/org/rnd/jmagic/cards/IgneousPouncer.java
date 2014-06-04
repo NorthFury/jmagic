@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Haste;
+import org.rnd.jmagic.abilities.keywords.TypeCycling;
 import org.rnd.jmagic.engine.*;
 
 @Name("Igneous Pouncer")
@@ -17,9 +19,9 @@ public final class IgneousPouncer extends Card
 		this.setPower(5);
 		this.setToughness(1);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Haste(state));
+		this.addAbility(new Haste(state));
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.TypeCycling.SwampCycling(state, "(2)"));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.TypeCycling.MountainCycling(state, "(2)"));
+		this.addAbility(new TypeCycling.SwampCycling(state, "(2)"));
+		this.addAbility(new TypeCycling.MountainCycling(state, "(2)"));
 	}
 }

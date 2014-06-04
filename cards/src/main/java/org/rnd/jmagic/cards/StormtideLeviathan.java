@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Landwalk;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -30,7 +32,7 @@ public final class StormtideLeviathan extends Card
 		{
 			super(state, "Creatures without flying or islandwalk can't attack.");
 
-			SetGenerator evasiveCreatures = Union.instance(HasKeywordAbility.instance(org.rnd.jmagic.abilities.keywords.Flying.class), HasKeywordAbility.instance(org.rnd.jmagic.abilities.keywords.Landwalk.Islandwalk.class));
+			SetGenerator evasiveCreatures = Union.instance(HasKeywordAbility.instance(Flying.class), HasKeywordAbility.instance(Landwalk.Islandwalk.class));
 			SetGenerator nonEvasiveCreatures = RelativeComplement.instance(CreaturePermanents.instance(), evasiveCreatures);
 			SetGenerator restriction = Intersect.instance(nonEvasiveCreatures, Attacking.instance());
 
@@ -49,7 +51,7 @@ public final class StormtideLeviathan extends Card
 
 		// Islandwalk (This creature is unblockable as long as defending player
 		// controls an Island.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Landwalk.Islandwalk(state));
+		this.addAbility(new Landwalk.Islandwalk(state));
 
 		// All lands are Islands in addition to their other types.
 		this.addAbility(new StormtideLeviathanAbility1(state));

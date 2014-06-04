@@ -1,5 +1,8 @@
 package org.rnd.jmagic.engine;
 
+import java.util.Collection;
+import java.util.Iterator;
+
 public class TextChange
 {
 	public Enum<?> from;
@@ -12,9 +15,9 @@ public class TextChange
 	}
 
 	@SuppressWarnings("unchecked")
-	public void applyTo(java.util.Collection<?> ret)
+	public void applyTo(Collection<?> ret)
 	{
-		java.util.Iterator<?> i = ret.iterator();
+		Iterator<?> i = ret.iterator();
 		boolean removed = false;
 		while(i.hasNext())
 		{
@@ -27,6 +30,6 @@ public class TextChange
 			}
 		}
 		if(removed)
-			((java.util.Collection<Enum<?>>)ret).add(this.to);
+			((Collection<Enum<?>>)ret).add(this.to);
 	}
 }

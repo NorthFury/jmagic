@@ -2,6 +2,8 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Equip;
+import org.rnd.jmagic.abilities.keywords.FirstStrike;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -19,7 +21,7 @@ public final class SharpenedPitchfork extends Card
 		{
 			super(state, "Equipped creature has first strike.");
 
-			this.addEffectPart(addAbilityToObject(EquippedBy.instance(This.instance()), org.rnd.jmagic.abilities.keywords.FirstStrike.class));
+			this.addEffectPart(addAbilityToObject(EquippedBy.instance(This.instance()), FirstStrike.class));
 		}
 	}
 
@@ -47,6 +49,6 @@ public final class SharpenedPitchfork extends Card
 		this.addAbility(new SharpenedPitchforkAbility1(state));
 
 		// Equip (1)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Equip(state, "(1)"));
+		this.addAbility(new Equip(state, "(1)"));
 	}
 }

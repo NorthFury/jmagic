@@ -4,6 +4,11 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
 @Name("Terastodon")
 @Types({Type.CREATURE})
 @SubTypes({SubType.ELEPHANT})
@@ -25,7 +30,7 @@ public final class Terastodon extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			event.setResult(Empty.set);
 
@@ -34,7 +39,7 @@ public final class Terastodon extends Card
 			destroy.perform(event, true);
 
 			MagicSet cause = parameters.get(Parameter.CAUSE);
-			for(java.util.Map.Entry<Event.IndexedZone, java.util.Set<GameObject>> objectMoved: destroy.getObjectsMoved(game.actualState).entrySet())
+			for(Map.Entry<Event.IndexedZone, Set<GameObject>> objectMoved: destroy.getObjectsMoved(game.actualState).entrySet())
 			{
 				Zone zone = game.actualState.get(objectMoved.getKey().zoneID);
 				if(zone.isGraveyard())
@@ -45,12 +50,12 @@ public final class Terastodon extends Card
 						{
 							Player controller = pastSelf.getController(game.actualState);
 
-							java.util.Map<Parameter, MagicSet> tokenParameters = new java.util.HashMap<Parameter, MagicSet>();
+							Map<Parameter, MagicSet> tokenParameters = new HashMap<Parameter, MagicSet>();
 							tokenParameters.put(Parameter.CAUSE, cause);
 							tokenParameters.put(Parameter.COLOR, new MagicSet(Color.GREEN));
 							tokenParameters.put(Parameter.CONTROLLER, new MagicSet(controller));
 							tokenParameters.put(Parameter.POWER, new MagicSet(3));
-							tokenParameters.put(Parameter.SUBTYPE, new MagicSet((Object)java.util.Collections.singletonList(SubType.ELEPHANT)));
+							tokenParameters.put(Parameter.SUBTYPE, new MagicSet((Object) Collections.singletonList(SubType.ELEPHANT)));
 							tokenParameters.put(Parameter.TOUGHNESS, new MagicSet(3));
 							tokenParameters.put(Parameter.TYPE, new MagicSet(Type.CREATURE));
 							Event makeToken = createEvent(game, controller + " puts a 3/3 green Elephant creature token onto the battlefield", EventType.CREATE_TOKEN_ON_BATTLEFIELD, tokenParameters);

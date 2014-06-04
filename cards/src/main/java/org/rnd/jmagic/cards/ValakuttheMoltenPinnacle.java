@@ -2,6 +2,8 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.EntersTheBattlefieldTapped;
+import org.rnd.jmagic.abilities.TapForR;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -38,7 +40,7 @@ public final class ValakuttheMoltenPinnacle extends Card
 		super(state);
 
 		// Valakut, the Molten Pinnacle enters the battlefield tapped.
-		this.addAbility(new org.rnd.jmagic.abilities.EntersTheBattlefieldTapped(state, this.getName()));
+		this.addAbility(new EntersTheBattlefieldTapped(state, this.getName()));
 
 		// Whenever a Mountain enters the battlefield under your control, if you
 		// control at least five other Mountains, you may have Valakut, the
@@ -46,6 +48,6 @@ public final class ValakuttheMoltenPinnacle extends Card
 		this.addAbility(new MountainsHurt(state));
 
 		// {T}: Add {R} to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapForR(state));
+		this.addAbility(new TapForR(state));
 	}
 }

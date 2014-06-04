@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 
 @Name("Skinshifter")
@@ -20,13 +23,13 @@ public final class Skinshifter extends Card
 
 			Animator rhino = new Animator(ABILITY_SOURCE_OF_THIS, 4, 4);
 			rhino.addSubType(SubType.RHINO);
-			rhino.addAbility(org.rnd.jmagic.abilities.keywords.Trample.class);
+			rhino.addAbility(Trample.class);
 			rhino.removeOldTypes();
 			this.addEffect(1, createFloatingEffect("Until end of turn, Skinshifter becomes a 4/4 Rhino and gains trample", rhino.getParts()));
 
 			Animator bird = new Animator(ABILITY_SOURCE_OF_THIS, 2, 2);
 			bird.addSubType(SubType.BIRD);
-			bird.addAbility(org.rnd.jmagic.abilities.keywords.Flying.class);
+			bird.addAbility(Flying.class);
 			bird.removeOldTypes();
 			this.addEffect(2, createFloatingEffect("until end of turn, Skinshifter becomes a 2/2 Bird and gains flying", bird.getParts()));
 

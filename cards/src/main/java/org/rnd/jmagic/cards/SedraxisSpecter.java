@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Unearth;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -32,13 +35,13 @@ public final class SedraxisSpecter extends Card
 		this.setToughness(2);
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// Whenever Sedraxis Specter deals combat damage to a player, that
 		// player discards a card.
 		this.addAbility(new CombatDamageDiscard(state));
 
 		// Unearth (1)(B)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Unearth(state, "(1)(B)"));
+		this.addAbility(new Unearth(state, "(1)(B)"));
 	}
 }

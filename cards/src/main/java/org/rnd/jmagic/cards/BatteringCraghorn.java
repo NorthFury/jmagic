@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.FirstStrike;
+import org.rnd.jmagic.abilities.keywords.Morph;
 import org.rnd.jmagic.engine.*;
 
 @Name("Battering Craghorn")
@@ -18,9 +20,9 @@ public final class BatteringCraghorn extends Card
 		this.setToughness(1);
 
 		// First strike
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.FirstStrike(state));
+		this.addAbility(new FirstStrike(state));
 
 		// Morph (1)(R)(R)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Morph(state, "(1)(R)(R)"));
+		this.addAbility(new Morph(state, "(1)(R)(R)"));
 	}
 }

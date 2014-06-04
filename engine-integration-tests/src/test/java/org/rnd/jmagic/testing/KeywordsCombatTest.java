@@ -3,9 +3,18 @@ package org.rnd.jmagic.testing;
 import static org.junit.Assert.*;
 
 import org.junit.*;
+import org.rnd.jmagic.abilities.Regenerate;
+import org.rnd.jmagic.abilities.keywords.Equip;
+import org.rnd.jmagic.abilities.keywords.Exalted;
+import org.rnd.jmagic.abilities.keywords.Frenzy;
+import org.rnd.jmagic.abilities.keywords.Ninjutsu;
+import org.rnd.jmagic.abilities.keywords.Poisonous;
 import org.rnd.jmagic.cards.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.sanitized.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class KeywordsCombatTest extends JUnitTest
 {
@@ -207,7 +216,7 @@ public class KeywordsCombatTest extends JUnitTest
 		pass();
 
 		// Declare Blockers
-		respondWith(pullChoice(org.rnd.jmagic.engine.Token.class));
+		respondWith(pullChoice(Token.class));
 		assertEquals(1, this.game.actualState.stack().objects.size());
 		assertTrue(this.game.actualState.battlefield().objects.get(0).getName().equals("Ronin Houndmaster"));
 		assertEquals(2, this.game.actualState.battlefield().objects.get(0).getPower());
@@ -334,7 +343,7 @@ public class KeywordsCombatTest extends JUnitTest
 		respondWith(pullChoice(GrizzlyBears.class), pullChoice(TrollAscetic.class));
 
 		pass();
-		respondWith(getAbilityAction(org.rnd.jmagic.abilities.Regenerate.class));
+		respondWith(getAbilityAction(Regenerate.class));
 		addMana("1G");
 		donePlayingManaAbilities();
 		pass();
@@ -342,7 +351,7 @@ public class KeywordsCombatTest extends JUnitTest
 
 		goToStep(Step.StepType.COMBAT_DAMAGE);
 
-		java.util.Map<Integer, Integer> divisions = new java.util.HashMap<Integer, Integer>();
+		Map<Integer, Integer> divisions = new HashMap<Integer, Integer>();
 		divisions.put(grizzlyBears.ID, 1);
 		divisions.put(trollAscetic.ID, 1);
 		divide(divisions);
@@ -384,7 +393,7 @@ public class KeywordsCombatTest extends JUnitTest
 		pass();
 		pass();
 
-		respondWith(getAbilityAction(org.rnd.jmagic.abilities.keywords.Equip.EquipAbility.class));
+		respondWith(getAbilityAction(Equip.EquipAbility.class));
 		// Auto-target Thornweald Archer
 		addMana("3");
 		donePlayingManaAbilities();
@@ -416,7 +425,7 @@ public class KeywordsCombatTest extends JUnitTest
 
 		goToStep(Step.StepType.COMBAT_DAMAGE);
 		{
-			java.util.Map<Integer, Integer> divisions = new java.util.HashMap<Integer, Integer>();
+			Map<Integer, Integer> divisions = new HashMap<Integer, Integer>();
 			divisions.put(grizzlyBears.ID, 1);
 			divisions.put(player(1).ID, 4);
 			divide(divisions);
@@ -701,21 +710,21 @@ public class KeywordsCombatTest extends JUnitTest
 		pass();
 
 		// Pass First-Strike Combat Damage
-		assertTrue(this.game.actualState.currentStep().type == org.rnd.jmagic.engine.Step.StepType.COMBAT_DAMAGE);
+		assertTrue(this.game.actualState.currentStep().type == Step.StepType.COMBAT_DAMAGE);
 		assertEquals(18, player(1).lifeTotal);
 		assertEquals(0, this.game.actualState.stack().objects.size());
 		pass();
 		pass();
 
 		// Pass Normal Combat Damage
-		assertTrue(this.game.actualState.currentStep().type == org.rnd.jmagic.engine.Step.StepType.COMBAT_DAMAGE);
+		assertTrue(this.game.actualState.currentStep().type == Step.StepType.COMBAT_DAMAGE);
 		assertEquals(16, player(1).lifeTotal);
 		assertEquals(0, this.game.actualState.stack().objects.size());
 		pass();
 		pass();
 
 		// End of Combat
-		assertTrue(this.game.actualState.currentStep().type == org.rnd.jmagic.engine.Step.StepType.END_OF_COMBAT);
+		assertTrue(this.game.actualState.currentStep().type == Step.StepType.END_OF_COMBAT);
 		assertEquals(16, player(1).lifeTotal);
 		assertEquals(0, this.game.actualState.stack().objects.size());
 		pass();
@@ -892,7 +901,7 @@ public class KeywordsCombatTest extends JUnitTest
 		respondWith(pullChoice(AkrasanSquire.class));
 
 		// Stack the 3 exalted triggers
-		respondWith(pullChoice(org.rnd.jmagic.abilities.keywords.Exalted.ExaltedTrigger.class), pullChoice(org.rnd.jmagic.abilities.keywords.Exalted.ExaltedTrigger.class), pullChoice(org.rnd.jmagic.abilities.keywords.Exalted.ExaltedTrigger.class));
+		respondWith(pullChoice(Exalted.ExaltedTrigger.class), pullChoice(Exalted.ExaltedTrigger.class), pullChoice(Exalted.ExaltedTrigger.class));
 		assertEquals(3, this.game.actualState.stack().objects.size());
 		assertEquals(akrasanSquireA, this.game.actualState.battlefield().objects.get(3));
 		assertEquals(1, this.game.actualState.battlefield().objects.get(3).getPower());
@@ -2147,7 +2156,7 @@ public class KeywordsCombatTest extends JUnitTest
 		// No blockers
 
 		// Stack both frenzy triggers
-		respondWith(pullChoice(org.rnd.jmagic.abilities.keywords.Frenzy.FrenzyAbility.class), pullChoice(org.rnd.jmagic.abilities.keywords.Frenzy.FrenzyAbility.class));
+		respondWith(pullChoice(Frenzy.FrenzyAbility.class), pullChoice(Frenzy.FrenzyAbility.class));
 
 		assertEquals(frenzySliverAttacker, this.game.actualState.battlefield().objects.get(1));
 		assertEquals(1, this.game.actualState.battlefield().objects.get(1).getPower());
@@ -2293,7 +2302,7 @@ public class KeywordsCombatTest extends JUnitTest
 		pass();
 
 		// declare blockers
-		respondWith(pullChoice(org.rnd.jmagic.engine.Token.class));
+		respondWith(pullChoice(Token.class));
 		assertEquals(1, this.choices.size());
 		assertTrue(this.choices.toArray(new SanitizedPlayerAction[0])[0].name.contains("Add (R) to your mana pool"));
 		pass();
@@ -2514,7 +2523,7 @@ public class KeywordsCombatTest extends JUnitTest
 		pass();
 
 		// declare blockers
-		respondWith(pullChoice(org.rnd.jmagic.engine.Token.class));
+		respondWith(pullChoice(Token.class));
 		assertEquals(1, this.choices.size());
 		assertTrue(this.choices.toArray(new SanitizedPlayerAction[0])[0].name.equals("Cast Chaos Charm"));
 		pass();
@@ -2601,7 +2610,7 @@ public class KeywordsCombatTest extends JUnitTest
 		assertEquals(1, getHand(0).objects.get(0).getVisibleTo().size());
 		assertEquals(0, this.game.actualState.stack().objects.size());
 
-		respondWith(getAbilityAction(org.rnd.jmagic.abilities.keywords.Ninjutsu.NinjutsuAbility.class));
+		respondWith(getAbilityAction(Ninjutsu.NinjutsuAbility.class));
 		respondWith(getAbilityAction(BlackLotus.BlackLotusMana.class));
 		respondWith(Color.BLUE);
 		donePlayingManaAbilities();
@@ -2671,7 +2680,7 @@ public class KeywordsCombatTest extends JUnitTest
 		respondWith(pullChoice(AjaniVengeant.class));
 
 		goToStep(Step.StepType.DECLARE_BLOCKERS);
-		respondWith(getAbilityAction(org.rnd.jmagic.abilities.keywords.Ninjutsu.NinjutsuAbility.class));
+		respondWith(getAbilityAction(Ninjutsu.NinjutsuAbility.class));
 		addMana("1U");
 		donePlayingManaAbilities();
 
@@ -2810,7 +2819,7 @@ public class KeywordsCombatTest extends JUnitTest
 		pass();
 
 		// Declare Blockers
-		respondWith(pullChoice(org.rnd.jmagic.engine.Token.class));
+		respondWith(pullChoice(Token.class));
 		respondWith(pullChoice(VirulentSliver.class));
 		pass();
 		pass();
@@ -2819,7 +2828,7 @@ public class KeywordsCombatTest extends JUnitTest
 
 		// There should be six poison triggers on the stack (3 slivers x 2
 		// unblocked)
-		respondWith(pullChoice(org.rnd.jmagic.abilities.keywords.Poisonous.PoisonousAbility.class), pullChoice(org.rnd.jmagic.abilities.keywords.Poisonous.PoisonousAbility.class), pullChoice(org.rnd.jmagic.abilities.keywords.Poisonous.PoisonousAbility.class), pullChoice(org.rnd.jmagic.abilities.keywords.Poisonous.PoisonousAbility.class), pullChoice(org.rnd.jmagic.abilities.keywords.Poisonous.PoisonousAbility.class), pullChoice(org.rnd.jmagic.abilities.keywords.Poisonous.PoisonousAbility.class));
+		respondWith(pullChoice(Poisonous.PoisonousAbility.class), pullChoice(Poisonous.PoisonousAbility.class), pullChoice(Poisonous.PoisonousAbility.class), pullChoice(Poisonous.PoisonousAbility.class), pullChoice(Poisonous.PoisonousAbility.class), pullChoice(Poisonous.PoisonousAbility.class));
 		assertEquals(6, this.game.actualState.stack().objects.size());
 		assertEquals(0, player(0).countPoisonCounters());
 
@@ -2930,7 +2939,7 @@ public class KeywordsCombatTest extends JUnitTest
 
 		// Assign and resolve combat damage
 		goToStep(Step.StepType.COMBAT_DAMAGE);
-		java.util.Map<Integer, Integer> divisions = new java.util.HashMap<Integer, Integer>();
+		Map<Integer, Integer> divisions = new HashMap<Integer, Integer>();
 		for(SanitizedTarget t: this.choices.getAll(SanitizedTarget.class))
 			divisions.put(t.targetID, 1);
 		divisions.put(player(1).ID, 3);
@@ -3052,7 +3061,7 @@ public class KeywordsCombatTest extends JUnitTest
 		goToStep(Step.StepType.COMBAT_DAMAGE);
 
 		// Assign and resolve combat damage
-		java.util.Map<Integer, Integer> divisions = new java.util.HashMap<Integer, Integer>();
+		Map<Integer, Integer> divisions = new HashMap<Integer, Integer>();
 		for(SanitizedTarget t: this.choices.getAll(SanitizedTarget.class))
 			divisions.put(t.targetID, 1);
 		divisions.put(player(1).ID, 7);
@@ -3520,7 +3529,7 @@ public class KeywordsCombatTest extends JUnitTest
 		pass();
 
 		// Combat Damage
-		java.util.Map<Integer, Integer> divisions = new java.util.HashMap<Integer, Integer>();
+		Map<Integer, Integer> divisions = new HashMap<Integer, Integer>();
 		divisions.put(MoggFan.ID, 1);
 		divisions.put(player(0).ID, 2);
 		divide(divisions);
@@ -3629,7 +3638,7 @@ public class KeywordsCombatTest extends JUnitTest
 
 		// This division will fail since the blocker didn't die before assigning
 		// damage to the player
-		java.util.Map<Integer, Integer> divisions = new java.util.HashMap<Integer, Integer>();
+		Map<Integer, Integer> divisions = new HashMap<Integer, Integer>();
 		divisions.put(Walker.ID, 2);
 		divisions.put(player(0).ID, 1);
 		divide(divisions);

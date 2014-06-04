@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -24,7 +26,7 @@ public final class GeistSnatch extends Card
 		CreateTokensFactory makeSpirit = new CreateTokensFactory(1, 1, 1, "Put a 1/1 blue Spirit creature token with flying onto the battlefield");
 		makeSpirit.setColors(Color.BLUE);
 		makeSpirit.setSubTypes(SubType.SPIRIT);
-		makeSpirit.addAbility(org.rnd.jmagic.abilities.keywords.Flying.class);
+		makeSpirit.addAbility(Flying.class);
 		this.addEffect(makeSpirit.getEventFactory());
 	}
 }

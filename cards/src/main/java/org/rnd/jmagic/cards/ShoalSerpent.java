@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Defender;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -23,7 +24,7 @@ public final class ShoalSerpent extends Card
 
 			ContinuousEffect.Part part = new ContinuousEffect.Part(ContinuousEffectType.REMOVE_ABILITY_FROM_OBJECT);
 			part.parameters.put(ContinuousEffectType.Parameter.OBJECT, ABILITY_SOURCE_OF_THIS);
-			part.parameters.put(ContinuousEffectType.Parameter.ABILITY, Identity.instance(org.rnd.jmagic.abilities.keywords.Defender.class));
+			part.parameters.put(ContinuousEffectType.Parameter.ABILITY, Identity.instance(Defender.class));
 
 			this.addEffect(createFloatingEffect("Shoal Serpent loses defender until end of turn", part));
 		}
@@ -36,7 +37,7 @@ public final class ShoalSerpent extends Card
 		this.setPower(5);
 		this.setToughness(5);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Defender(state));
+		this.addAbility(new Defender(state));
 
 		this.addAbility(new LandfallAttacker(state));
 	}

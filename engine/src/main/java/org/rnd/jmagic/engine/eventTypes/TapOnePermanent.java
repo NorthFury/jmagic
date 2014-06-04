@@ -3,6 +3,8 @@ package org.rnd.jmagic.engine.eventTypes;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.Map;
+
 public final class TapOnePermanent extends EventType
 {	public static final EventType INSTANCE = new TapOnePermanent();
 
@@ -18,7 +20,7 @@ public final class TapOnePermanent extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean attempt(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		// 701.16a. ... Only untapped permanents can be tapped.
 		if(parameters.get(Parameter.OBJECT).getOne(GameObject.class).isTapped())
@@ -28,7 +30,7 @@ public final class TapOnePermanent extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		boolean status = true;
 

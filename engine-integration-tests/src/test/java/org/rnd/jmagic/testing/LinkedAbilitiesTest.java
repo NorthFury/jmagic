@@ -4,6 +4,10 @@ import org.junit.*;
 import static org.junit.Assert.*;
 import org.rnd.jmagic.cards.*;
 import org.rnd.jmagic.engine.*;
+import org.rnd.jmagic.sanitized.SanitizedPlayLandAction;
+import org.rnd.jmagic.sanitized.SanitizedPlayerAction;
+
+import java.util.Set;
 
 public class LinkedAbilitiesTest extends JUnitTest
 {
@@ -36,11 +40,11 @@ public class LinkedAbilitiesTest extends JUnitTest
 		{
 			assertEquals(0, player(0).pool.converted());
 			assertEquals(5, this.choices.size());
-			java.util.Set<org.rnd.jmagic.sanitized.SanitizedPlayerAction> actions = this.choices.getAll(org.rnd.jmagic.sanitized.SanitizedPlayerAction.class);
+			Set<SanitizedPlayerAction> actions = this.choices.getAll(SanitizedPlayerAction.class);
 			assertEquals(5, actions.size());
 			boolean failedOnce = false;
-			for(org.rnd.jmagic.sanitized.SanitizedPlayerAction action: actions)
-				if(org.rnd.jmagic.sanitized.SanitizedPlayLandAction.class != action.getClass())
+			for(SanitizedPlayerAction action: actions)
+				if(SanitizedPlayLandAction.class != action.getClass())
 					if(failedOnce)
 						fail("Too many actions found");
 					else
@@ -54,11 +58,11 @@ public class LinkedAbilitiesTest extends JUnitTest
 		{
 			assertEquals(0, player(0).pool.converted());
 			assertEquals(5, this.choices.size());
-			java.util.Set<org.rnd.jmagic.sanitized.SanitizedPlayerAction> actions = this.choices.getAll(org.rnd.jmagic.sanitized.SanitizedPlayerAction.class);
+			Set<SanitizedPlayerAction> actions = this.choices.getAll(SanitizedPlayerAction.class);
 			assertEquals(5, actions.size());
 			boolean failedOnce = false;
-			for(org.rnd.jmagic.sanitized.SanitizedPlayerAction action: actions)
-				if(org.rnd.jmagic.sanitized.SanitizedPlayLandAction.class != action.getClass())
+			for(SanitizedPlayerAction action: actions)
+				if(SanitizedPlayLandAction.class != action.getClass())
 					if(failedOnce)
 						fail("Too many actions found");
 					else
@@ -175,7 +179,7 @@ public class LinkedAbilitiesTest extends JUnitTest
 
 		// This makes sure the choice is on the permanent in play, even though
 		// it was set for the spell on the stack
-		assertTrue(this.game.actualState.battlefield().objects.get(0).getStaticAbilities().get(1).getLinkManager().getLinkInformation(this.game.actualState).iterator().next().equals(org.rnd.jmagic.engine.Color.RED));
+		assertTrue(this.game.actualState.battlefield().objects.get(0).getStaticAbilities().get(1).getLinkManager().getLinkInformation(this.game.actualState).iterator().next().equals(Color.RED));
 
 		respondWith(getSpellAction(GrizzlyBears.class));
 		addMana("1G");

@@ -3,6 +3,9 @@ package org.rnd.jmagic.engine.eventTypes;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public final class PutIntoZoneAsACopyOf extends EventType
 {	public static final EventType INSTANCE = new PutIntoZoneAsACopyOf();
 
@@ -18,7 +21,7 @@ public final class PutIntoZoneAsACopyOf extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean attempt(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		for(GameObject object: parameters.get(Parameter.OBJECT).getAll(GameObject.class))
 			if(object.isGhost())
@@ -27,13 +30,13 @@ public final class PutIntoZoneAsACopyOf extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		MagicSet cause = parameters.get(Parameter.CAUSE);
 		GameObject object = parameters.get(Parameter.OBJECT).getOne(GameObject.class);
 		MagicSet to = parameters.get(Parameter.TO);
 
-		java.util.Map<Parameter, MagicSet> moveParameters = new java.util.HashMap<Parameter, MagicSet>();
+		Map<Parameter, MagicSet> moveParameters = new HashMap<Parameter, MagicSet>();
 		moveParameters.put(Parameter.CAUSE, cause);
 		moveParameters.put(Parameter.TO, to);
 		if(parameters.containsKey(Parameter.CONTROLLER))

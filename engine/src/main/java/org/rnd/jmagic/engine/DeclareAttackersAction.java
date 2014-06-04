@@ -3,6 +3,13 @@ package org.rnd.jmagic.engine;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.abilities.keywords.*;
 
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+
 /**
  * Represents the player action of declaring attackers. Performing this action
  * causes the active player to declare attackers.
@@ -18,7 +25,7 @@ public class DeclareAttackersAction extends PlayerAction
 	 * been performed yet. Note that this collection is populated even after an
 	 * unsuccessful declaration of attackers.
 	 */
-	public java.util.Collection<Integer> attackerIDs;
+	public Collection<Integer> attackerIDs;
 
 	/**
 	 * This number is calculated on creation and should remain constant since
@@ -37,9 +44,9 @@ public class DeclareAttackersAction extends PlayerAction
 	 * requirements satisfiable and for the active player to choose from when
 	 * choosing attackers.
 	 */
-	private java.util.List<Integer> possibleAttackerIDs;
+	private List<Integer> possibleAttackerIDs;
 
-	private java.util.Collection<AttackingRequirement> requirementsToCheck;
+	private Collection<AttackingRequirement> requirementsToCheck;
 
 	/**
 	 * Constructs a declare attackers action. One instance of this class is safe
@@ -64,13 +71,13 @@ public class DeclareAttackersAction extends PlayerAction
 		SetGenerator untappedCreatures = Intersect.instance(CreaturePermanents.instance(), Untapped.instance());
 		SetGenerator activePlayersUntappedCreatures = Intersect.instance(untappedCreatures, activePlayerControls);
 		SetGenerator validAttackers = RelativeComplement.instance(activePlayersUntappedCreatures, HasSummoningSickness.instance());
-		this.possibleAttackerIDs = new java.util.LinkedList<Integer>();
+		this.possibleAttackerIDs = new LinkedList<Integer>();
 		for(GameObject o: validAttackers.evaluate(this.game, null).getAll(GameObject.class))
 			this.possibleAttackerIDs.add(o.ID);
 
 		// Check every requirement
-		this.requirementsToCheck = new java.util.LinkedList<AttackingRequirement>(this.game.actualState.attackingRequirements);
-		java.util.Iterator<AttackingRequirement> i = this.requirementsToCheck.iterator();
+		this.requirementsToCheck = new LinkedList<AttackingRequirement>(this.game.actualState.attackingRequirements);
+		Iterator<AttackingRequirement> i = this.requirementsToCheck.iterator();
 		while(i.hasNext())
 			if(!i.next().attackingPlayerIs(this.activePlayer, game.actualState))
 				i.remove();
@@ -134,13 +141,13 @@ public class DeclareAttackersAction extends PlayerAction
 	public boolean perform()
 	{
 		// Start with an empty attackingID list
-		this.attackerIDs = new java.util.LinkedList<Integer>();
+		this.attackerIDs = new LinkedList<Integer>();
 
 		// 508.1a The active player chooses which creatures that he or she
 		// controls, if any, will attack. The chosen creatures must be untapped,
 		// and each one must either have haste or have been controlled by the
 		// active player continuously since the turn began.
-		java.util.List<GameObject> possibleAttackers = new java.util.LinkedList<GameObject>();
+		List<GameObject> possibleAttackers = new LinkedList<GameObject>();
 		for(Integer i: this.possibleAttackerIDs)
 			possibleAttackers.add(this.game.actualState.<GameObject>get(i));
 
@@ -149,7 +156,7 @@ public class DeclareAttackersAction extends PlayerAction
 			chooser = this.activePlayer.getActual();
 		else
 			chooser = this.game.actualState.get(this.game.actualState.declareAttackersPlayerOverride);
-		java.util.List<GameObject> attackers = chooser.sanitizeAndChoose(this.game.actualState, 0, possibleAttackers.size(), possibleAttackers, PlayerInterface.ChoiceType.ATTACK, PlayerInterface.ChooseReason.DECLARE_ATTACKERS);
+		List<GameObject> attackers = chooser.sanitizeAndChoose(this.game.actualState, 0, possibleAttackers.size(), possibleAttackers, PlayerInterface.ChoiceType.ATTACK, PlayerInterface.ChooseReason.DECLARE_ATTACKERS);
 
 		// 508.1b If the defending player controls any planeswalkers, or the
 		// game allows the active player to attack multiple other players, the
@@ -158,10 +165,10 @@ public class DeclareAttackersAction extends PlayerAction
 		SetGenerator opponents = OpponentsOf.instance(this.activePlayerGenerator);
 		SetGenerator controlledByOpponents = ControlledBy.instance(opponents);
 		SetGenerator planeswalkers = HasType.instance(Type.PLANESWALKER);
-		java.util.Set<Identified> attackables = Union.instance(Intersect.instance(planeswalkers, controlledByOpponents), opponents).evaluate(this.game, null).getAll(Identified.class);
+		Set<Identified> attackables = Union.instance(Intersect.instance(planeswalkers, controlledByOpponents), opponents).evaluate(this.game, null).getAll(Identified.class);
 		for(GameObject attacker: attackers)
 		{
-			PlayerInterface.ChooseParameters<java.io.Serializable> chooseParameters = new PlayerInterface.ChooseParameters<java.io.Serializable>(1, 1, PlayerInterface.ChoiceType.ATTACK_WHAT, PlayerInterface.ChooseReason.DECLARE_ATTACK_DEFENDER);
+			PlayerInterface.ChooseParameters<Serializable> chooseParameters = new PlayerInterface.ChooseParameters<Serializable>(1, 1, PlayerInterface.ChoiceType.ATTACK_WHAT, PlayerInterface.ChooseReason.DECLARE_ATTACK_DEFENDER);
 			chooseParameters.thisID = attacker.ID;
 			int defendingID = chooser.sanitizeAndChoose(this.game.actualState, attackables, chooseParameters).get(0).ID;
 
@@ -228,7 +235,7 @@ public class DeclareAttackersAction extends PlayerAction
 		// 508.1g If any of the chosen creatures require paying costs to attack,
 		// the active player determines the total cost to attack.
 		boolean costsRequireMana = false;
-		java.util.Collection<Event> totalCostToAttack = new java.util.LinkedList<Event>();
+		Collection<Event> totalCostToAttack = new LinkedList<Event>();
 
 		for(AttackingCost cost: this.game.actualState.attackingCosts)
 		{
@@ -241,7 +248,7 @@ public class DeclareAttackersAction extends PlayerAction
 				totalCostToAttack.add(eventCost);
 			else
 			{
-				java.util.Set<ManaSymbol> manaCost = thisCost.getAll(ManaSymbol.class);
+				Set<ManaSymbol> manaCost = thisCost.getAll(ManaSymbol.class);
 				if(!manaCost.isEmpty())
 				{
 					Event manaEvent = new Event(this.game.physicalState, "Pay " + manaCost, EventType.PAY_MANA);
@@ -263,7 +270,7 @@ public class DeclareAttackersAction extends PlayerAction
 		// she pays all costs in any order.
 		if(!totalCostToAttack.isEmpty())
 		{
-			java.util.List<Event> orderedCosts = this.activePlayer.getPhysical().sanitizeAndChoose(this.game.actualState, totalCostToAttack.size(), totalCostToAttack, PlayerInterface.ChoiceType.COSTS, PlayerInterface.ChooseReason.ORDER_ATTACK_COSTS);
+			List<Event> orderedCosts = this.activePlayer.getPhysical().sanitizeAndChoose(this.game.actualState, totalCostToAttack.size(), totalCostToAttack, PlayerInterface.ChoiceType.COSTS, PlayerInterface.ChooseReason.ORDER_ATTACK_COSTS);
 			for(Event cost: orderedCosts)
 			{
 				cost.isEffect = false;

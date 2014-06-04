@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.AlternateCost;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -20,7 +22,7 @@ public final class Unmask extends Card
 		SetGenerator blackInHand = Intersect.instance(HasColor.instance(Color.BLACK), InZone.instance(HandOf.instance(You.instance())));
 		EventFactory exile = exile(You.instance(), blackInHand, 1, "Exile a black card from your hand");
 		CostCollection cost = new CostCollection(CostCollection.TYPE_ALTERNATE, exile);
-		this.addAbility(new org.rnd.jmagic.abilities.AlternateCost(state, "You may exile a black card from your hand rather than pay Unmask's mana cost.", cost));
+		this.addAbility(new AlternateCost(state, "You may exile a black card from your hand rather than pay Unmask's mana cost.", cost));
 
 		// Target player reveals his or her hand.
 		SetGenerator target = targetedBy(this.addTarget(Players.instance(), "target player"));

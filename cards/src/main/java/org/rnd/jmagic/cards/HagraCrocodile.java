@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.CantBlock;
+import org.rnd.jmagic.abilities.LandfallForPump;
 import org.rnd.jmagic.engine.*;
 
 @Name("Hagra Crocodile")
@@ -18,10 +20,10 @@ public final class HagraCrocodile extends Card
 		this.setToughness(1);
 
 		// Hagra Crocodile can't block.
-		this.addAbility(new org.rnd.jmagic.abilities.CantBlock(state, this.getName()));
+		this.addAbility(new CantBlock(state, this.getName()));
 
 		// Landfall \u2014 Whenever a land enters the battlefield under your
 		// control, Hagra Crocodile gets +2/+2 until end of turn.
-		this.addAbility(new org.rnd.jmagic.abilities.LandfallForPump(state, this.getName(), +2, +2));
+		this.addAbility(new LandfallForPump(state, this.getName(), +2, +2));
 	}
 }

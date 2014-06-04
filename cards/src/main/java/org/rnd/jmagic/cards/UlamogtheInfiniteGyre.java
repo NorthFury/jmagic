@@ -1,6 +1,10 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.EldraziReshuffle;
+import org.rnd.jmagic.abilities.keywords.Annihilator;
+import org.rnd.jmagic.abilities.keywords.Indestructible;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -39,13 +43,13 @@ public final class UlamogtheInfiniteGyre extends Card
 		this.addAbility(new WhenYouCastDestroyTargetPermanent(state));
 
 		// Annihilator 4
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Annihilator.Final(state, 4));
+		this.addAbility(new Annihilator.Final(state, 4));
 
 		// Ulamog is indestructible.
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Indestructible(state));
+		this.addAbility(new Indestructible(state));
 
 		// When Ulamog is put into a graveyard from anywhere, its owner shuffles
 		// his or her graveyard into his or her library.
-		this.addAbility(new org.rnd.jmagic.abilities.EldraziReshuffle(state, "Ulamog"));
+		this.addAbility(new EldraziReshuffle(state, "Ulamog"));
 	}
 }

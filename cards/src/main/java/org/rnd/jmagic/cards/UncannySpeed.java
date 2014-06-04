@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Haste;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -17,6 +19,6 @@ public final class UncannySpeed extends Card
 
 		// Target creature gets +3/+0 and gains haste until end of turn.
 		SetGenerator target = targetedBy(this.addTarget(CreaturePermanents.instance(), "target creature"));
-		this.addEffect(ptChangeAndAbilityUntilEndOfTurn(target, +3, +0, "Target creature gets +3/+0 and gains haste until end of turn.", org.rnd.jmagic.abilities.keywords.Haste.class));
+		this.addEffect(ptChangeAndAbilityUntilEndOfTurn(target, +3, +0, "Target creature gets +3/+0 and gains haste until end of turn.", Haste.class));
 	}
 }

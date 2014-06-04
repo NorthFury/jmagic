@@ -5,6 +5,10 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @Name("Worldly Counsel")
 @Types({Type.INSTANT})
 @ManaCost("1U")
@@ -29,13 +33,13 @@ public final class WorldlyCounsel extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			MagicSet thisCard = parameters.get(Parameter.CAUSE);
 			MagicSet topX = parameters.get(Parameter.CARD);
 			MagicSet you = parameters.get(Parameter.PLAYER);
 
-			java.util.Map<Parameter, MagicSet> lookParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> lookParameters = new HashMap<Parameter, MagicSet>();
 			lookParameters.put(Parameter.CAUSE, thisCard);
 			lookParameters.put(Parameter.OBJECT, topX);
 			lookParameters.put(Parameter.PLAYER, you);
@@ -44,8 +48,8 @@ public final class WorldlyCounsel extends Card
 			Player player = you.getOne(Player.class).getActual();
 			MagicSet library = new MagicSet(player.getLibrary(game.actualState));
 
-			java.util.List<?> handChoice = player.sanitizeAndChoose(game.actualState, 1, topX, PlayerInterface.ChoiceType.OBJECTS, REASON);
-			java.util.Map<Parameter, MagicSet> handParameters = new java.util.HashMap<Parameter, MagicSet>();
+			List<?> handChoice = player.sanitizeAndChoose(game.actualState, 1, topX, PlayerInterface.ChoiceType.OBJECTS, REASON);
+			Map<Parameter, MagicSet> handParameters = new HashMap<Parameter, MagicSet>();
 			handParameters.put(Parameter.CAUSE, thisCard);
 			handParameters.put(Parameter.OBJECT, new MagicSet(handChoice.get(0)));
 			handParameters.put(Parameter.TO, new MagicSet(player.getHand(game.actualState)));
@@ -59,7 +63,7 @@ public final class WorldlyCounsel extends Card
 			Event putOnBottom = null;
 			if(!others.isEmpty())
 			{
-				java.util.Map<Parameter, MagicSet> bottomParameters = new java.util.HashMap<Parameter, MagicSet>();
+				Map<Parameter, MagicSet> bottomParameters = new HashMap<Parameter, MagicSet>();
 				bottomParameters.put(Parameter.CAUSE, thisCard);
 				bottomParameters.put(Parameter.OBJECT, others);
 				bottomParameters.put(Parameter.TO, library);

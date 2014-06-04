@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Enchant;
+import org.rnd.jmagic.abilities.keywords.TotemArmor;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -37,7 +40,7 @@ public final class SnakeUmbra extends Card
 		super(state);
 
 		// Enchant creature
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Enchant.Creature(state));
+		this.addAbility(new Enchant.Creature(state));
 
 		// Enchanted creature gets +1/+1 and has
 		// "Whenever this creature deals damage to an opponent, you may draw a card."
@@ -45,6 +48,6 @@ public final class SnakeUmbra extends Card
 
 		// Totem armor (If enchanted creature would be destroyed, instead remove
 		// all damage from it and destroy this Aura.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.TotemArmor(state));
+		this.addAbility(new TotemArmor(state));
 	}
 }

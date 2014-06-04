@@ -1,8 +1,13 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.DoubleStrike;
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Lifelink;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+import org.rnd.jmagic.engine.patterns.SimpleEventPattern;
 
 @Name("Drogskol Reaver")
 @Types({Type.CREATURE})
@@ -18,7 +23,7 @@ public final class DrogskolReaver extends Card
 		{
 			super(state, "Whenever you gain life, draw a card.");
 
-			org.rnd.jmagic.engine.patterns.SimpleEventPattern pattern = new org.rnd.jmagic.engine.patterns.SimpleEventPattern(EventType.GAIN_LIFE_ONE_PLAYER);
+			SimpleEventPattern pattern = new SimpleEventPattern(EventType.GAIN_LIFE_ONE_PLAYER);
 			pattern.put(EventType.Parameter.PLAYER, You.instance());
 			this.addPattern(pattern);
 
@@ -34,9 +39,9 @@ public final class DrogskolReaver extends Card
 		this.setToughness(5);
 
 		// Flying, double strike, lifelink
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.DoubleStrike(state));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Lifelink(state));
+		this.addAbility(new Flying(state));
+		this.addAbility(new DoubleStrike(state));
+		this.addAbility(new Lifelink(state));
 
 		// Whenever you gain life, draw a card.
 		this.addAbility(new DrogskolReaverAbility1(state));

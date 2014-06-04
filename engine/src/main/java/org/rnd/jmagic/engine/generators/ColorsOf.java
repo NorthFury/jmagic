@@ -2,6 +2,9 @@ package org.rnd.jmagic.engine.generators;
 
 import org.rnd.jmagic.engine.*;
 
+import java.util.EnumSet;
+import java.util.Set;
+
 /**
  * Evaluates to the colors of each given GameObject and ManaSymbol
  */
@@ -33,9 +36,9 @@ public class ColorsOf extends SetGenerator
 	}
 
 	@Override
-	public java.util.Set<ManaSymbol.ManaType> extractColors(Game game, GameObject thisObject, java.util.Set<SetGenerator> ignoreThese) throws NoSuchMethodException
+	public Set<ManaSymbol.ManaType> extractColors(Game game, GameObject thisObject, Set<SetGenerator> ignoreThese) throws NoSuchMethodException
 	{
-		java.util.Set<ManaSymbol.ManaType> ret = java.util.EnumSet.noneOf(ManaSymbol.ManaType.class);
+		Set<ManaSymbol.ManaType> ret = EnumSet.noneOf(ManaSymbol.ManaType.class);
 
 		for(Color color: this.evaluate(game, thisObject).getAll(Color.class))
 			ret.add(color.getManaType());

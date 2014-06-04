@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Enchant;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -17,7 +19,7 @@ public final class InfiniteReflection extends Card
 	{
 		public static final class EntersTheBattlfieldAttachedToACreature implements ZoneChangePattern
 		{
-			private static ZoneChangePattern PATTERN = new org.rnd.jmagic.engine.patterns.SimpleZoneChangePattern(null, Battlefield.instance(), ABILITY_SOURCE_OF_THIS, false);
+			private static ZoneChangePattern PATTERN = new SimpleZoneChangePattern(null, Battlefield.instance(), ABILITY_SOURCE_OF_THIS, false);
 
 			@Override
 			public boolean looksBackInTime()
@@ -88,7 +90,7 @@ public final class InfiniteReflection extends Card
 		super(state);
 
 		// Enchant creature
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Enchant.Creature(state));
+		this.addAbility(new Enchant.Creature(state));
 
 		// When Infinite Reflection enters the battlefield attached to a
 		// creature, each other nontoken creature you control becomes a copy of

@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Unearth;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -36,6 +37,6 @@ public final class Fatestitcher extends Card
 		this.addAbility(new FatestitcherAbility0(state));
 
 		// Unearth (U)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Unearth(state, "(U)"));
+		this.addAbility(new Unearth(state, "(U)"));
 	}
 }

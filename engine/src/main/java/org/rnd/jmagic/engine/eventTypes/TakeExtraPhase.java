@@ -3,6 +3,10 @@ package org.rnd.jmagic.engine.eventTypes;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Map;
+
 public final class TakeExtraPhase extends EventType
 {	public static final EventType INSTANCE = new TakeExtraPhase();
 
@@ -18,7 +22,7 @@ public final class TakeExtraPhase extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		Phase addAfter = parameters.get(Parameter.TARGET).getOne(Phase.class);
 		if(addAfter == null)
@@ -37,9 +41,9 @@ public final class TakeExtraPhase extends EventType
 			return false;
 		}
 
-		@SuppressWarnings("unchecked") java.util.List<Phase.PhaseType> types = parameters.get(Parameter.PHASE).getOne(java.util.List.class);
+		@SuppressWarnings("unchecked") List<Phase.PhaseType> types = parameters.get(Parameter.PHASE).getOne(List.class);
 		MagicSet result = new MagicSet();
-		java.util.ListIterator<Phase.PhaseType> i = types.listIterator(types.size());
+		ListIterator<Phase.PhaseType> i = types.listIterator(types.size());
 		while(i.hasPrevious())
 		{
 			Phase.PhaseType type = i.previous();

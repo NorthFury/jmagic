@@ -3,6 +3,9 @@ package org.rnd.jmagic.testing;
 import static org.junit.Assert.*;
 
 import java.lang.reflect.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
 
 import org.junit.*;
 import org.rnd.jmagic.abilities.keywords.*;
@@ -30,9 +33,9 @@ public class CopyTest extends JUnitTest
 
 		// REMOVE LEGENDARY FROM IONA. REFLECTION IS KING.
 		{
-			Method method = GameObject.class.getDeclaredMethod("removeSuperTypes", java.util.Collection.class);
+			Method method = GameObject.class.getDeclaredMethod("removeSuperTypes", Collection.class);
 			method.setAccessible(true);
-			method.invoke(this.game.physicalState.battlefield().objects.get(0), java.util.Collections.singleton(SuperType.LEGENDARY));
+			method.invoke(this.game.physicalState.battlefield().objects.get(0), Collections.singleton(SuperType.LEGENDARY));
 		}
 
 		castAndResolveSpell(Clone.class);
@@ -255,9 +258,9 @@ public class CopyTest extends JUnitTest
 		assertTrue(this.game.physicalState.battlefield().objects.get(0).getName().equals("Clone"));
 		assertTrue(this.game.actualState.battlefield().objects.get(0).getName().equals("Virulent Sliver"));
 
-		java.util.Iterator<Keyword> iter = this.game.actualState.battlefield().objects.get(0).getKeywordAbilities().iterator();
-		assertTrue(iter.next() instanceof org.rnd.jmagic.abilities.keywords.Poisonous);
-		assertTrue(iter.next() instanceof org.rnd.jmagic.abilities.keywords.Poisonous);
+		Iterator<Keyword> iter = this.game.actualState.battlefield().objects.get(0).getKeywordAbilities().iterator();
+		assertTrue(iter.next() instanceof Poisonous);
+		assertTrue(iter.next() instanceof Poisonous);
 		assertFalse(iter.hasNext());
 	}
 

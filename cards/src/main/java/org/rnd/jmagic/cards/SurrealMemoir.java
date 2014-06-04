@@ -1,7 +1,14 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Rebound;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 @Name("Surreal Memoir")
 @Types({Type.SORCERY})
@@ -19,20 +26,20 @@ public final class SurrealMemoir extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			Player you = parameters.get(Parameter.PLAYER).getOne(Player.class);
 			Zone graveyard = you.getGraveyard(game.actualState);
 
-			java.util.List<GameObject> instants = new java.util.LinkedList<GameObject>();
+			List<GameObject> instants = new LinkedList<GameObject>();
 			for(GameObject card: graveyard)
-				if(card.getTypes().contains(org.rnd.jmagic.engine.Type.INSTANT))
+				if(card.getTypes().contains(Type.INSTANT))
 					instants.add(card);
 			if(!instants.isEmpty())
 			{
-				java.util.Collections.shuffle(instants);
+				Collections.shuffle(instants);
 
-				java.util.Map<Parameter, MagicSet> moveParameters = new java.util.HashMap<Parameter, MagicSet>();
+				Map<Parameter, MagicSet> moveParameters = new HashMap<Parameter, MagicSet>();
 				moveParameters.put(Parameter.CAUSE, new MagicSet(event.getSource()));
 				moveParameters.put(Parameter.TO, new MagicSet(you.getHand(game.actualState)));
 				moveParameters.put(Parameter.OBJECT, new MagicSet(instants.iterator().next()));
@@ -54,6 +61,6 @@ public final class SurrealMemoir extends Card
 		this.addEffect(effect);
 
 		// Rebound
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Rebound(state));
+		this.addAbility(new Rebound(state));
 	}
 }

@@ -3,6 +3,8 @@ package org.rnd.jmagic.engine.eventTypes;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.Map;
+
 public final class EndStep extends EventType
 {	public static final EventType INSTANCE = new EndStep();
 
@@ -18,7 +20,7 @@ public final class EndStep extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		game.physicalState.setPreviousStep(parameters.get(Parameter.STEP).getOne(Step.class));
 		createEvent(game, "Empty all mana pools.", EventType.EMPTY_ALL_MANA_POOLS, null).perform(event, false);

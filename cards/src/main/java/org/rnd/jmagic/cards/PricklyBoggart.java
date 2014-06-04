@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Fear;
 import org.rnd.jmagic.engine.*;
 
 @Name("Prickly Boggart")
@@ -17,6 +18,6 @@ public final class PricklyBoggart extends Card
 		this.setPower(1);
 		this.setToughness(1);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Fear(state));
+		this.addAbility(new Fear(state));
 	}
 }

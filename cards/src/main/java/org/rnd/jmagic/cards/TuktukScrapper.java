@@ -4,6 +4,9 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Name("Tuktuk Scrapper")
 @Types({Type.CREATURE})
 @SubTypes({SubType.GOBLIN, SubType.ARTIFICER, SubType.ALLY})
@@ -28,11 +31,11 @@ public final class TuktukScrapper extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			MagicSet target = parameters.get(Parameter.TARGET);
 
-			java.util.Map<Parameter, MagicSet> destroyParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> destroyParameters = new HashMap<Parameter, MagicSet>();
 			destroyParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 			destroyParameters.put(Parameter.PERMANENT, target);
 			Event destroy = createEvent(game, "Destroy target artifact", EventType.DESTROY_PERMANENTS, destroyParameters);
@@ -41,7 +44,7 @@ public final class TuktukScrapper extends Card
 			GameObject deadArtifact = game.actualState.get(target.getOne(GameObject.class).getActual().futureSelf);
 			if(deadArtifact.getZone().isGraveyard())
 			{
-				java.util.Map<Parameter, MagicSet> damageParameters = new java.util.HashMap<Parameter, MagicSet>();
+				Map<Parameter, MagicSet> damageParameters = new HashMap<Parameter, MagicSet>();
 				damageParameters.put(Parameter.CAUSE, parameters.get(Parameter.SOURCE));
 				damageParameters.put(Parameter.NUMBER, parameters.get(Parameter.NUMBER));
 				damageParameters.put(Parameter.TAKER, parameters.get(Parameter.CONTROLLER));

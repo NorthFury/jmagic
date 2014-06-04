@@ -6,7 +6,13 @@ import org.junit.*;
 import org.rnd.jmagic.abilities.keywords.*;
 import org.rnd.jmagic.cards.*;
 import org.rnd.jmagic.engine.*;
+import org.rnd.jmagic.engine.generators.Identity;
 import org.rnd.jmagic.sanitized.*;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 public class CombatRequirementsTest extends JUnitTest
 {
@@ -87,7 +93,7 @@ public class CombatRequirementsTest extends JUnitTest
 		pass();
 
 		// We can't get here unless the game accepted the set of attackers
-		assertTrue(this.game.actualState.currentStep().type == org.rnd.jmagic.engine.Step.StepType.DECLARE_BLOCKERS);
+		assertTrue(this.game.actualState.currentStep().type == Step.StepType.DECLARE_BLOCKERS);
 	}
 
 	@Test
@@ -169,7 +175,7 @@ public class CombatRequirementsTest extends JUnitTest
 		pass();
 
 		// We can't get here unless the game accepted the set of attackers
-		assertTrue(this.game.actualState.currentStep().type == org.rnd.jmagic.engine.Step.StepType.DECLARE_BLOCKERS);
+		assertTrue(this.game.actualState.currentStep().type == Step.StepType.DECLARE_BLOCKERS);
 
 		goToPhase(Phase.PhaseType.POSTCOMBAT_MAIN);
 
@@ -178,7 +184,7 @@ public class CombatRequirementsTest extends JUnitTest
 		// See if Relentless Assault works
 		assertTrue(this.game.actualState.battlefield().objects.get(0).isTapped());
 		assertEquals(1, this.game.actualState.currentTurn().phases.size());
-		assertTrue(this.game.actualState.currentTurn().phases.get(0).type == org.rnd.jmagic.engine.Phase.PhaseType.ENDING);
+		assertTrue(this.game.actualState.currentTurn().phases.get(0).type == Phase.PhaseType.ENDING);
 
 		respondWith(getSpellAction(RelentlessAssault.class));
 		addMana("2RR");
@@ -188,9 +194,9 @@ public class CombatRequirementsTest extends JUnitTest
 
 		assertTrue(!(this.game.actualState.battlefield().objects.get(0).isTapped()));
 		assertEquals(3, this.game.actualState.currentTurn().phases.size());
-		assertTrue(this.game.actualState.currentTurn().phases.get(0).type == org.rnd.jmagic.engine.Phase.PhaseType.COMBAT);
-		assertTrue(this.game.actualState.currentTurn().phases.get(1).type == org.rnd.jmagic.engine.Phase.PhaseType.POSTCOMBAT_MAIN);
-		assertTrue(this.game.actualState.currentTurn().phases.get(2).type == org.rnd.jmagic.engine.Phase.PhaseType.ENDING);
+		assertTrue(this.game.actualState.currentTurn().phases.get(0).type == Phase.PhaseType.COMBAT);
+		assertTrue(this.game.actualState.currentTurn().phases.get(1).type == Phase.PhaseType.POSTCOMBAT_MAIN);
+		assertTrue(this.game.actualState.currentTurn().phases.get(2).type == Phase.PhaseType.ENDING);
 
 		respondWith(getSpellAction(Twiddle.class));
 		respondWith(getTarget(JuggernautA));
@@ -210,7 +216,7 @@ public class CombatRequirementsTest extends JUnitTest
 		pass();
 
 		// We can't get here unless the game accepted the set of attackers
-		assertTrue(this.game.actualState.currentStep().type == org.rnd.jmagic.engine.Step.StepType.DECLARE_BLOCKERS);
+		assertTrue(this.game.actualState.currentStep().type == Step.StepType.DECLARE_BLOCKERS);
 	}
 
 	@Ignore
@@ -266,7 +272,7 @@ public class CombatRequirementsTest extends JUnitTest
 
 		assertEquals(NUM_ATTACKERS, this.game.actualState.battlefield().objects.size());
 
-		java.util.Set<Identified> attackers = new java.util.HashSet<Identified>(this.game.actualState.battlefield().objects);
+		Set<Identified> attackers = new HashSet<Identified>(this.game.actualState.battlefield().objects);
 
 		for(int i = 0; i < NUM_LURES && i < NUM_ATTACKERS; ++i)
 		{
@@ -358,7 +364,7 @@ public class CombatRequirementsTest extends JUnitTest
 		pass();
 
 		// We can't get here unless the game accepted the set of blockers
-		assertTrue(this.game.actualState.currentStep().type == org.rnd.jmagic.engine.Step.StepType.COMBAT_DAMAGE);
+		assertTrue(this.game.actualState.currentStep().type == Step.StepType.COMBAT_DAMAGE);
 	}
 
 	@Test
@@ -451,7 +457,7 @@ public class CombatRequirementsTest extends JUnitTest
 		pass();
 
 		// We can't get here unless the game accepted the set of blockers
-		assertTrue(this.game.actualState.currentStep().type == org.rnd.jmagic.engine.Step.StepType.COMBAT_DAMAGE);
+		assertTrue(this.game.actualState.currentStep().type == Step.StepType.COMBAT_DAMAGE);
 	}
 
 	@Test
@@ -521,7 +527,7 @@ public class CombatRequirementsTest extends JUnitTest
 		assertTrue(this.choices.getOne(SanitizedIdentified.class).name.equals("Saproling"));
 
 		// Declare one saproling as blocker
-		respondWith(pullChoice(org.rnd.jmagic.engine.Token.class));
+		respondWith(pullChoice(Token.class));
 
 		// Depending on the draw, the player either has no actions, or can play
 		// a chaos charm
@@ -544,14 +550,14 @@ public class CombatRequirementsTest extends JUnitTest
 		donePlayingManaAbilities();
 
 		goToStep(Step.StepType.DECLARE_BLOCKERS);
-		respondWith(pullChoice(org.rnd.jmagic.engine.Token.class), pullChoice(org.rnd.jmagic.engine.Token.class), pullChoice(org.rnd.jmagic.engine.Token.class));
+		respondWith(pullChoice(Token.class), pullChoice(Token.class), pullChoice(Token.class));
 		respondArbitrarily();
 
 		pass();
 		pass();
 
 		// Assign and resolve combat damage
-		java.util.Map<Integer, Integer> divisions = new java.util.HashMap<Integer, Integer>();
+		Map<Integer, Integer> divisions = new HashMap<Integer, Integer>();
 		for(SanitizedTarget t: this.choices.getAll(SanitizedTarget.class))
 			divisions.put(t.targetID, 1);
 		divide(divisions);
@@ -648,7 +654,7 @@ public class CombatRequirementsTest extends JUnitTest
 		pass();
 
 		// We can't get here unless the game accepted the set of blockers
-		assertTrue(this.game.actualState.currentStep().type == org.rnd.jmagic.engine.Step.StepType.COMBAT_DAMAGE);
+		assertTrue(this.game.actualState.currentStep().type == Step.StepType.COMBAT_DAMAGE);
 
 	}
 
@@ -671,7 +677,7 @@ public class CombatRequirementsTest extends JUnitTest
 		donePlayingManaAbilities();
 
 		// Edit the Sprout to create 100 tokens, not just one
-		this.game.physicalState.stack().objects.get(0).getModes().get(0).effects.get(0).parameters.put(EventType.Parameter.NUMBER, org.rnd.jmagic.engine.generators.Identity.instance(100));
+		this.game.physicalState.stack().objects.get(0).getModes().get(0).effects.get(0).parameters.put(EventType.Parameter.NUMBER, Identity.instance(100));
 
 		// Pass the turn so the other player can attack
 		goToStep(Step.StepType.END);
@@ -735,6 +741,6 @@ public class CombatRequirementsTest extends JUnitTest
 		pass();
 
 		// We can't get here unless the game accepted the set of blockers
-		assertTrue(this.game.actualState.currentStep().type == org.rnd.jmagic.engine.Step.StepType.COMBAT_DAMAGE);
+		assertTrue(this.game.actualState.currentStep().type == Step.StepType.COMBAT_DAMAGE);
 	}
 }

@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -24,7 +26,7 @@ public final class ThopterFoundry extends Card
 			CreateTokensFactory token = new CreateTokensFactory(1, 1, 1, "Put a 1/1 blue Thopter artifact creature token with flying onto the battlefield.");
 			token.setColors(Color.BLUE);
 			token.setSubTypes(SubType.THOPTER);
-			token.addAbility(org.rnd.jmagic.abilities.keywords.Flying.class);
+			token.addAbility(Flying.class);
 			this.addEffect(token.getEventFactory());
 
 			this.addEffect(gainLife(You.instance(), 1, "You gain 1 life."));

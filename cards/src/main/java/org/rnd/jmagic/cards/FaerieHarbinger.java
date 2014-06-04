@@ -1,5 +1,8 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.HarbingerAbility;
+import org.rnd.jmagic.abilities.keywords.Flash;
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 
 @Name("Faerie Harbinger")
@@ -18,14 +21,14 @@ public final class FaerieHarbinger extends Card
 		this.setToughness(2);
 
 		// Flash
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flash(state));
+		this.addAbility(new Flash(state));
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// When Faerie Harbinger enters the battlefield, you may search your
 		// library for a Faerie card, reveal it, then shuffle your library and
 		// put that card on top of it.
-		this.addAbility(new org.rnd.jmagic.abilities.HarbingerAbility(state, this.getName(), SubType.FAERIE));
+		this.addAbility(new HarbingerAbility(state, this.getName(), SubType.FAERIE));
 	}
 }

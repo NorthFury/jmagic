@@ -1,7 +1,13 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Enchant;
 import org.rnd.jmagic.engine.*;
+
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 
 @Name("Curse of Bloodletting")
 @Types({Type.ENCHANTMENT})
@@ -34,14 +40,14 @@ public final class CurseofBloodletting extends Card
 		}
 
 		@Override
-		public java.util.List<EventFactory> replace(DamageAssignment.Batch damageAssignments)
+		public List<EventFactory> replace(DamageAssignment.Batch damageAssignments)
 		{
-			java.util.Collection<DamageAssignment> duplicates = new java.util.LinkedList<DamageAssignment>();
+			Collection<DamageAssignment> duplicates = new LinkedList<DamageAssignment>();
 			for(DamageAssignment assignment: damageAssignments)
 				duplicates.add(new DamageAssignment(assignment));
 			damageAssignments.addAll(duplicates);
 
-			return new java.util.LinkedList<EventFactory>();
+			return new LinkedList<EventFactory>();
 		}
 	}
 
@@ -59,7 +65,7 @@ public final class CurseofBloodletting extends Card
 		super(state);
 
 		// Enchant player
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Enchant.Player(state));
+		this.addAbility(new Enchant.Player(state));
 
 		// If a source would deal damage to enchanted player, it deals double
 		// that damage to that player instead.

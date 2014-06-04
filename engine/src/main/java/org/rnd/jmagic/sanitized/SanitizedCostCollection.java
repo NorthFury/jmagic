@@ -1,9 +1,18 @@
 package org.rnd.jmagic.sanitized;
 
-public class SanitizedCostCollection implements java.io.Serializable
+import org.rnd.jmagic.engine.CostCollection;
+import org.rnd.jmagic.engine.EventFactory;
+import org.rnd.jmagic.engine.ManaPool;
+
+import java.io.Serializable;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
+public class SanitizedCostCollection implements Serializable
 {
 
-	public static class SanitizedEventFactory implements java.io.Serializable
+	public static class SanitizedEventFactory implements Serializable
 	{
 		private static final long serialVersionUID = 1L;
 
@@ -11,7 +20,7 @@ public class SanitizedCostCollection implements java.io.Serializable
 		// public final org.rnd.jmagic.engine.EventType type;
 		public final String type;
 
-		public SanitizedEventFactory(org.rnd.jmagic.engine.EventFactory ef)
+		public SanitizedEventFactory(EventFactory ef)
 		{
 			this.name = ef.name;
 			this.type = ef.type.toString();
@@ -59,34 +68,34 @@ public class SanitizedCostCollection implements java.io.Serializable
 
 	public final String type;
 	public final boolean allowMultiples;
-	public final java.util.Set<SanitizedEventFactory> events;
-	public final org.rnd.jmagic.engine.ManaPool manaCost;
+	public final Set<SanitizedEventFactory> events;
+	public final ManaPool manaCost;
 
 	private final String toString;
 
-	public SanitizedCostCollection(org.rnd.jmagic.engine.CostCollection c)
+	public SanitizedCostCollection(CostCollection c)
 	{
-		java.util.Set<SanitizedEventFactory> events = new java.util.HashSet<SanitizedEventFactory>();
+		Set<SanitizedEventFactory> events = new HashSet<SanitizedEventFactory>();
 
-		for(org.rnd.jmagic.engine.EventFactory ef: c.events)
+		for(EventFactory ef: c.events)
 			events.add(new SanitizedEventFactory(ef));
 
 		this.type = c.type.toString();
 
 		this.allowMultiples = c.allowMultiples;
 
-		this.events = java.util.Collections.unmodifiableSet(events);
+		this.events = Collections.unmodifiableSet(events);
 
-		this.manaCost = new org.rnd.jmagic.engine.ManaPool(c.manaCost);
+		this.manaCost = new ManaPool(c.manaCost);
 
 		this.toString = this.type + ": " + c.toString();
 	}
 
-	public SanitizedCostCollection(String type, org.rnd.jmagic.engine.ManaPool mana)
+	public SanitizedCostCollection(String type, ManaPool mana)
 	{
 		this.type = type;
 		this.allowMultiples = false;
-		this.events = java.util.Collections.emptySet();
+		this.events = Collections.emptySet();
 		this.manaCost = mana;
 		this.toString = mana.toString();
 	}

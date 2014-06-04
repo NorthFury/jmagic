@@ -3,6 +3,10 @@ package org.rnd.jmagic.engine.eventTypes;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
 public final class ShuffleIntoLibrary extends EventType
 {	public static final EventType INSTANCE = new ShuffleIntoLibrary();
 
@@ -18,7 +22,7 @@ public final class ShuffleIntoLibrary extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean attempt(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		for(GameObject object: parameters.get(Parameter.OBJECT).getAll(GameObject.class))
 			if(object.isGhost())
@@ -27,13 +31,13 @@ public final class ShuffleIntoLibrary extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		MagicSet cause = parameters.get(Parameter.CAUSE);
-		java.util.Set<Player> player = parameters.get(Parameter.OBJECT).getAll(Player.class);
+		Set<Player> player = parameters.get(Parameter.OBJECT).getAll(Player.class);
 
-		java.util.Map<Parameter, MagicSet> moveParameters = new java.util.HashMap<Parameter, MagicSet>();
-		java.util.Set<GameObject> cards = parameters.get(Parameter.OBJECT).getAll(GameObject.class);
+		Map<Parameter, MagicSet> moveParameters = new HashMap<Parameter, MagicSet>();
+		Set<GameObject> cards = parameters.get(Parameter.OBJECT).getAll(GameObject.class);
 		moveParameters.put(Parameter.CAUSE, cause);
 		moveParameters.put(Parameter.INDEX, new MagicSet(-1));
 		// if this is a stacked game, the cards will stay on the bottom and
@@ -58,7 +62,7 @@ public final class ShuffleIntoLibrary extends EventType
 
 			// keys are cards, values are the libraries those cards should
 			// go to
-			java.util.Map<Integer, Integer> expectedDestinations = new java.util.HashMap<Integer, Integer>();
+			Map<Integer, Integer> expectedDestinations = new HashMap<Integer, Integer>();
 			for(GameObject card: cards)
 				expectedDestinations.put(card.ID, card.getOwner(game.actualState).getLibrary(game.actualState).ID);
 
@@ -69,7 +73,7 @@ public final class ShuffleIntoLibrary extends EventType
 			return false;
 		}
 
-		java.util.Map<Parameter, MagicSet> shuffleParameters = new java.util.HashMap<Parameter, MagicSet>();
+		Map<Parameter, MagicSet> shuffleParameters = new HashMap<Parameter, MagicSet>();
 		shuffleParameters.put(Parameter.CAUSE, cause);
 		shuffleParameters.put(Parameter.PLAYER, new MagicSet(player));
 		Event shuffle = createEvent(game, player + " shuffles their library.", SHUFFLE_LIBRARY, shuffleParameters);

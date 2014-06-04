@@ -2,29 +2,33 @@ package org.rnd.jmagic.engine.generators;
 
 import org.rnd.jmagic.engine.*;
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Resolves to the set of all objects that were put onto the battlefield this
  * turn.
  */
 public class PutOntoTheBattlefieldThisTurn extends SetGenerator
 {
-	public static class BirthTracker extends Tracker<java.util.Set<Integer>>
+	public static class BirthTracker extends Tracker<Set<Integer>>
 	{
-		private java.util.HashSet<Integer> IDs = new java.util.HashSet<Integer>();
-		private java.util.Set<Integer> unmodifiable = java.util.Collections.unmodifiableSet(this.IDs);
+		private HashSet<Integer> IDs = new HashSet<Integer>();
+		private Set<Integer> unmodifiable = Collections.unmodifiableSet(this.IDs);
 
 		@SuppressWarnings("unchecked")
 		@Override
 		public BirthTracker clone()
 		{
 			BirthTracker ret = (BirthTracker)super.clone();
-			ret.IDs = (java.util.HashSet<Integer>)this.IDs.clone();
-			ret.unmodifiable = java.util.Collections.unmodifiableSet(ret.IDs);
+			ret.IDs = (HashSet<Integer>)this.IDs.clone();
+			ret.unmodifiable = Collections.unmodifiableSet(ret.IDs);
 			return ret;
 		}
 
 		@Override
-		protected java.util.Set<Integer> getValueInternal()
+		protected Set<Integer> getValueInternal()
 		{
 			return this.unmodifiable;
 		}

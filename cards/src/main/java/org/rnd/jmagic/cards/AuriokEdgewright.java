@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.DoubleStrike;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -18,7 +20,7 @@ public final class AuriokEdgewright extends Card
 		{
 			super(state, "Auriok Edgewright has double strike as long as you control three or more artifacts.");
 
-			this.addEffectPart(addAbilityToObject(This.instance(), org.rnd.jmagic.abilities.keywords.DoubleStrike.class));
+			this.addEffectPart(addAbilityToObject(This.instance(), DoubleStrike.class));
 
 			this.canApply = Both.instance(this.canApply, Metalcraft.instance());
 		}

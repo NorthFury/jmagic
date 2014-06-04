@@ -2,6 +2,9 @@ package org.rnd.jmagic.engine.eventTypes;
 
 import org.rnd.jmagic.engine.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public final class DiscardOneCard extends EventType
 {	public static final EventType INSTANCE = new DiscardOneCard();
 
@@ -17,7 +20,7 @@ public final class DiscardOneCard extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean attempt(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		GameObject card = parameters.get(Parameter.CARD).getOne(Card.class);
 
@@ -30,7 +33,7 @@ public final class DiscardOneCard extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		MagicSet card = parameters.get(Parameter.CARD);
 		Player player = card.getOne(Card.class).getOwner(game.actualState);
@@ -46,7 +49,7 @@ public final class DiscardOneCard extends EventType
 		else
 			to = player.getGraveyard(game.actualState);
 
-		java.util.Map<Parameter, MagicSet> moveParameters = new java.util.HashMap<Parameter, MagicSet>();
+		Map<Parameter, MagicSet> moveParameters = new HashMap<Parameter, MagicSet>();
 		moveParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 		moveParameters.put(Parameter.TO, new MagicSet(to));
 		moveParameters.put(Parameter.OBJECT, card);

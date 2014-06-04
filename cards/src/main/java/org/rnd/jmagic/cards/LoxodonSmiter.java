@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.CantBeCountered;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -44,7 +45,7 @@ public final class LoxodonSmiter extends Card
 		this.setToughness(4);
 
 		// Loxodon Smiter can't be countered.
-		this.addAbility(new org.rnd.jmagic.abilities.CantBeCountered(state, "Loxodon Smiter"));
+		this.addAbility(new CantBeCountered(state, "Loxodon Smiter"));
 
 		// If a spell or ability an opponent controls causes you to discard
 		// Loxodon Smiter, put it onto the battlefield instead of putting it

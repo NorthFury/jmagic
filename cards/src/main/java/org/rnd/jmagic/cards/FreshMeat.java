@@ -4,6 +4,9 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.Map;
+import java.util.Set;
+
 @Name("Fresh Meat")
 @Types({Type.INSTANT})
 @ManaCost("3G")
@@ -29,7 +32,7 @@ public final class FreshMeat extends Card
 		public MagicSet evaluate(GameState state, Identified thisObject)
 		{
 			int player = You.instance().evaluate(state, thisObject).getOne(Player.class).ID;
-			java.util.Map<Integer, java.util.Set<Integer>> values = state.getTracker(PutIntoGraveyardsFromBattlefieldThisTurn.DeathTracker.class).getValue(state);
+			Map<Integer, Set<Integer>> values = state.getTracker(PutIntoGraveyardsFromBattlefieldThisTurn.DeathTracker.class).getValue(state);
 			if(!values.containsKey(player))
 				return Empty.set;
 			MagicSet ret = new MagicSet();

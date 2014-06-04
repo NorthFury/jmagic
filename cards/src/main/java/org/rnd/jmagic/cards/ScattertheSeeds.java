@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Convoke;
 import org.rnd.jmagic.engine.*;
 
 @Name("Scatter the Seeds")
@@ -15,7 +17,7 @@ public final class ScattertheSeeds extends Card
 		super(state);
 
 		// Convoke
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Convoke(state));
+		this.addAbility(new Convoke(state));
 
 		// Put three 1/1 green Saproling creature tokens onto the battlefield.
 		CreateTokensFactory tokens = new CreateTokensFactory(3, 1, 1, "Put three 1/1 green Saproling creature tokens onto the battlefield.");

@@ -2,6 +2,8 @@ package org.rnd.jmagic.testing;
 
 import org.junit.*;
 import static org.junit.Assert.*;
+
+import org.rnd.jmagic.cardTemplates.FetchLand;
 import org.rnd.jmagic.cards.*;
 import org.rnd.jmagic.engine.*;
 
@@ -21,7 +23,7 @@ public class PayLifeTest extends JUnitTest
 		goToPhase(Phase.PhaseType.PRECOMBAT_MAIN);
 
 		respondWith(getLandAction(WoodedFoothills.class));
-		respondWith(getAbilityAction(org.rnd.jmagic.cardTemplates.FetchLand.Fetch.class));
+		respondWith(getAbilityAction(FetchLand.Fetch.class));
 		assertEquals(19, player(0).lifeTotal);
 		pass();
 		pass();

@@ -5,6 +5,9 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public final class SearchLibraryAndPutOnTop extends EventType
 {	public static final EventType INSTANCE = new SearchLibraryAndPutOnTop();
 
@@ -20,12 +23,12 @@ public final class SearchLibraryAndPutOnTop extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		MagicSet cause = parameters.get(Parameter.CAUSE);
 		MagicSet player = parameters.get(Parameter.PLAYER);
 
-		java.util.Map<Parameter, MagicSet> searchParameters = new java.util.HashMap<Parameter, MagicSet>();
+		Map<Parameter, MagicSet> searchParameters = new HashMap<Parameter, MagicSet>();
 		searchParameters.put(Parameter.CAUSE, cause);
 		searchParameters.put(Parameter.PLAYER, player);
 		searchParameters.put(Parameter.NUMBER, ONE);
@@ -36,7 +39,7 @@ public final class SearchLibraryAndPutOnTop extends EventType
 		search.perform(event, false);
 		MagicSet searchedFor = search.getResult();
 
-		java.util.Map<Parameter, MagicSet> shuffleParameters = new java.util.HashMap<Parameter, MagicSet>();
+		Map<Parameter, MagicSet> shuffleParameters = new HashMap<Parameter, MagicSet>();
 		shuffleParameters.put(Parameter.CAUSE, cause);
 		shuffleParameters.put(Parameter.PLAYER, player);
 		createEvent(game, "Shuffle your library.", SHUFFLE_LIBRARY, shuffleParameters).perform(event, true);
@@ -47,7 +50,7 @@ public final class SearchLibraryAndPutOnTop extends EventType
 		{
 			MagicSet putOnTop = new MagicSet(game.actualState.<GameObject>get(found.getPhysical().futureSelf));
 
-			java.util.Map<Parameter, MagicSet> moveParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> moveParameters = new HashMap<Parameter, MagicSet>();
 			moveParameters.put(Parameter.CAUSE, cause);
 			moveParameters.put(Parameter.INDEX, ONE);
 			moveParameters.put(Parameter.OBJECT, putOnTop);

@@ -1,5 +1,8 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.StaticPTChange;
+import org.rnd.jmagic.abilities.keywords.Flash;
+import org.rnd.jmagic.abilities.keywords.SplitSecond;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -19,14 +22,14 @@ public final class SulfurElemental extends Card
 		this.setToughness(2);
 
 		// Flash (You may cast this spell any time you could cast an instant.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flash(state));
+		this.addAbility(new Flash(state));
 
 		// Split second (As long as this spell is on the stack, players can't
 		// cast spells or activate abilities that aren't mana abilities.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.SplitSecond(state));
+		this.addAbility(new SplitSecond(state));
 
 		// White creatures get +1/-1.
 		SetGenerator whiteCreatures = Intersect.instance(CreaturePermanents.instance(), HasColor.instance(Color.WHITE));
-		this.addAbility(new org.rnd.jmagic.abilities.StaticPTChange(state, whiteCreatures, "White creatures", +1, -1, true));
+		this.addAbility(new StaticPTChange(state, whiteCreatures, "White creatures", +1, -1, true));
 	}
 }

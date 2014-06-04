@@ -1,5 +1,13 @@
 package org.rnd.jmagic.sanitized;
 
+import org.rnd.jmagic.engine.Event;
+import org.rnd.jmagic.engine.GameObject;
+import org.rnd.jmagic.engine.Player;
+import org.rnd.jmagic.engine.ZoneChange;
+
+import java.util.Collection;
+import java.util.LinkedList;
+
 public class SanitizedEvent extends SanitizedIdentified
 {
 	private static final long serialVersionUID = 2L;
@@ -7,11 +15,11 @@ public class SanitizedEvent extends SanitizedIdentified
 	public final int sourceID;
 	public final String type;
 
-	public SanitizedEvent(org.rnd.jmagic.engine.Event e)
+	public SanitizedEvent(Event e)
 	{
 		super(e);
 
-		org.rnd.jmagic.engine.GameObject source = e.getSource();
+		GameObject source = e.getSource();
 		if(source == null)
 			this.sourceID = -1;
 		else
@@ -20,11 +28,11 @@ public class SanitizedEvent extends SanitizedIdentified
 		this.type = e.type.toString();
 	}
 
-	public SanitizedEvent(org.rnd.jmagic.engine.Event e, String nameOverride)
+	public SanitizedEvent(Event e, String nameOverride)
 	{
 		super(e, nameOverride);
 
-		org.rnd.jmagic.engine.GameObject source = e.getSource();
+		GameObject source = e.getSource();
 		if(source == null)
 			this.sourceID = -1;
 		else
@@ -45,14 +53,14 @@ public class SanitizedEvent extends SanitizedIdentified
 	{
 		private static final long serialVersionUID = 1L;
 
-		public java.util.Collection<SanitizedGameObject> revealed;
+		public Collection<SanitizedGameObject> revealed;
 
-		public Reveal(org.rnd.jmagic.engine.Event e, java.util.Collection<org.rnd.jmagic.engine.GameObject> toReveal, org.rnd.jmagic.engine.Player whoFor)
+		public Reveal(Event e, Collection<GameObject> toReveal, Player whoFor)
 		{
 			super(e);
 
-			this.revealed = new java.util.LinkedList<SanitizedGameObject>();
-			for(org.rnd.jmagic.engine.GameObject o: toReveal)
+			this.revealed = new LinkedList<SanitizedGameObject>();
+			for(GameObject o: toReveal)
 				this.revealed.add(new SanitizedGameObject(o, whoFor));
 		}
 
@@ -67,14 +75,14 @@ public class SanitizedEvent extends SanitizedIdentified
 	{
 		private static final long serialVersionUID = 1L;
 
-		public java.util.Collection<SanitizedZoneChange> zoneChanges;
+		public Collection<SanitizedZoneChange> zoneChanges;
 
-		public Move(org.rnd.jmagic.engine.Event e, java.util.Collection<org.rnd.jmagic.engine.ZoneChange> zoneChanges, org.rnd.jmagic.engine.Player whoFor)
+		public Move(Event e, Collection<ZoneChange> zoneChanges, Player whoFor)
 		{
 			super(e);
 
-			this.zoneChanges = new java.util.LinkedList<SanitizedZoneChange>();
-			for(org.rnd.jmagic.engine.ZoneChange zc: zoneChanges)
+			this.zoneChanges = new LinkedList<SanitizedZoneChange>();
+			for(ZoneChange zc: zoneChanges)
 				this.zoneChanges.add(zc.sanitize(e.state, whoFor));
 		}
 
@@ -114,17 +122,17 @@ public class SanitizedEvent extends SanitizedIdentified
 	{
 		private static final long serialVersionUID = 1L;
 
-		public java.util.Collection<SanitizedGameObject> lookedAt;
+		public Collection<SanitizedGameObject> lookedAt;
 		public SanitizedPlayer player;
 
-		public Look(org.rnd.jmagic.engine.Event e, org.rnd.jmagic.engine.Player p, java.util.Collection<org.rnd.jmagic.engine.GameObject> toLookAt)
+		public Look(Event e, Player p, Collection<GameObject> toLookAt)
 		{
 			super(e);
 
 			this.player = new SanitizedPlayer(p);
 
-			this.lookedAt = new java.util.LinkedList<SanitizedGameObject>();
-			for(org.rnd.jmagic.engine.GameObject o: toLookAt)
+			this.lookedAt = new LinkedList<SanitizedGameObject>();
+			for(GameObject o: toLookAt)
 				this.lookedAt.add(new SanitizedGameObject(o, p));
 		}
 

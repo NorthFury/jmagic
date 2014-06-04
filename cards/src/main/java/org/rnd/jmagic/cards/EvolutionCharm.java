@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -45,7 +46,7 @@ public final class EvolutionCharm extends Card
 		// Target creature gains flying until end of turn.
 		{
 			Target target = this.addTarget(3, CreaturePermanents.instance(), "target creature");
-			this.addEffect(3, addAbilityUntilEndOfTurn(targetedBy(target), org.rnd.jmagic.abilities.keywords.Flying.class, "target creature gains flying until end of turn."));
+			this.addEffect(3, addAbilityUntilEndOfTurn(targetedBy(target), Flying.class, "target creature gains flying until end of turn."));
 		}
 	}
 }

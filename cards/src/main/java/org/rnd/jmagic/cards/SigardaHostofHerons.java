@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Hexproof;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -38,8 +40,8 @@ public final class SigardaHostofHerons extends Card
 		this.setToughness(5);
 
 		// Flying, hexproof
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Hexproof(state));
+		this.addAbility(new Flying(state));
+		this.addAbility(new Hexproof(state));
 
 		// Spells and abilities your opponents control can't cause you to
 		// sacrifice permanents.

@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -41,7 +43,7 @@ public final class CloudgoatRanger extends Card
 			factory.parameters.put(EventType.Parameter.NUMBER, numberGenerator(3));
 			this.addCost(factory);
 
-			this.addEffect(ptChangeAndAbilityUntilEndOfTurn(ABILITY_SOURCE_OF_THIS, +2, 0, "Cloudgoat Ranger gets +2/+0 and gains flying until end of turn.", org.rnd.jmagic.abilities.keywords.Flying.class));
+			this.addEffect(ptChangeAndAbilityUntilEndOfTurn(ABILITY_SOURCE_OF_THIS, +2, 0, "Cloudgoat Ranger gets +2/+0 and gains flying until end of turn.", Flying.class));
 		}
 	}
 

@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Deathtouch;
+import org.rnd.jmagic.abilities.keywords.Reach;
 import org.rnd.jmagic.engine.*;
 
 @Name("Death-Hood Cobra")
@@ -17,7 +20,7 @@ public final class DeathHoodCobra extends Card
 		{
 			super(state, "(1)(G): Death-Hood Cobra gains reach until end of turn.");
 			this.setManaCost(new ManaPool("(1)(G)"));
-			this.addEffect(addAbilityUntilEndOfTurn(ABILITY_SOURCE_OF_THIS, org.rnd.jmagic.abilities.keywords.Reach.class, "Death-Hood Cobra gains reach until end of turn."));
+			this.addEffect(addAbilityUntilEndOfTurn(ABILITY_SOURCE_OF_THIS, Reach.class, "Death-Hood Cobra gains reach until end of turn."));
 		}
 	}
 
@@ -27,7 +30,7 @@ public final class DeathHoodCobra extends Card
 		{
 			super(state, "(1)(G): Death-Hood Cobra gains deathtouch until end of turn.");
 			this.setManaCost(new ManaPool("(1)(G)"));
-			this.addEffect(addAbilityUntilEndOfTurn(ABILITY_SOURCE_OF_THIS, org.rnd.jmagic.abilities.keywords.Deathtouch.class, "Death-Hood Cobra gains deathtouch until end of turn."));
+			this.addEffect(addAbilityUntilEndOfTurn(ABILITY_SOURCE_OF_THIS, Deathtouch.class, "Death-Hood Cobra gains deathtouch until end of turn."));
 		}
 	}
 

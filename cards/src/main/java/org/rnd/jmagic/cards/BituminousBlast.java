@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Cascade;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -16,7 +17,7 @@ public final class BituminousBlast extends Card
 	{
 		super(state);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Cascade(state));
+		this.addAbility(new Cascade(state));
 
 		Target target = this.addTarget(CreaturePermanents.instance(), "target creature");
 		this.addEffect(spellDealDamage(4, targetedBy(target), "Bituminous Blast deals 4 damage to target creature."));

@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -18,7 +20,7 @@ public final class SapphireDrake extends Card
 		{
 			super(state, "Each creature you control with a +1/+1 counter on it has flying.");
 			SetGenerator creatures = Intersect.instance(CREATURES_YOU_CONTROL, HasCounterOfType.instance(Counter.CounterType.PLUS_ONE_PLUS_ONE));
-			this.addEffectPart(addAbilityToObject(creatures, org.rnd.jmagic.abilities.keywords.Flying.class));
+			this.addEffectPart(addAbilityToObject(creatures, Flying.class));
 		}
 	}
 
@@ -30,7 +32,7 @@ public final class SapphireDrake extends Card
 		this.setToughness(4);
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// Each creature you control with a +1/+1 counter on it has flying.
 		this.addAbility(new SapphireDrakeAbility1(state));

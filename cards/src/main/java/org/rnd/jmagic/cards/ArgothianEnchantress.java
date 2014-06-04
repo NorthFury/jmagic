@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Shroud;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -36,7 +38,7 @@ public final class ArgothianEnchantress extends Card
 		this.setToughness(1);
 
 		// Shroud (This permanent can't be the target of spells or abilities.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Shroud(state));
+		this.addAbility(new Shroud(state));
 
 		// Whenever you cast an enchantment spell, draw a card.
 		this.addAbility(new ArgothianEnchantressAbility1(state));

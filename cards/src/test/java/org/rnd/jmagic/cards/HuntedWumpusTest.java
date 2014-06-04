@@ -7,6 +7,9 @@ import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.sanitized.*;
 import org.rnd.jmagic.testing.*;
 
+import java.util.Iterator;
+import java.util.List;
+
 public class HuntedWumpusTest extends JUnitTest
 {
 	@Test
@@ -44,7 +47,7 @@ public class HuntedWumpusTest extends JUnitTest
 
 		// Make sure player 1 has 4 choices, and they're all from their hand
 		this.respondWith(Answer.YES);
-		java.util.Iterator<SanitizedGameObject> iter = this.choices.getAll(SanitizedGameObject.class).iterator();
+		Iterator<SanitizedGameObject> iter = this.choices.getAll(SanitizedGameObject.class).iterator();
 		assertEquals(4, this.choices.size());
 		for(int i = 0; i < 4; i++)
 			assertEquals(playerOneHandID, iter.next().zoneID);
@@ -87,7 +90,7 @@ public class HuntedWumpusTest extends JUnitTest
 		// Player 0 chooses Grizzly Bears
 		this.respondWith(this.pullChoice(GrizzlyBears.class));
 
-		java.util.List<GameObject> stuff = this.game.actualState.battlefield().objects;
+		List<GameObject> stuff = this.game.actualState.battlefield().objects;
 
 		assertEquals(5, stuff.size());
 

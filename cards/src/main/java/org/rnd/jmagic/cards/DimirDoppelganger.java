@@ -24,7 +24,7 @@ public final class DimirDoppelganger extends Card
 			this.addEffect(exile(targetedBy(target), "Exile target creature card from a graveyard."));
 
 			ContinuousEffect.Part copyPart = new ContinuousEffect.Part(ContinuousEffectType.COPY_OBJECT);
-			copyPart.parameters.put(ContinuousEffectType.Parameter.ABILITY, Identity.instance(new org.rnd.jmagic.engine.SimpleAbilityFactory(DimirDoppelgangerAbility0.class)));
+			copyPart.parameters.put(ContinuousEffectType.Parameter.ABILITY, Identity.instance(new SimpleAbilityFactory(DimirDoppelgangerAbility0.class)));
 			copyPart.parameters.put(ContinuousEffectType.Parameter.ORIGINAL, targetedBy(target));
 			copyPart.parameters.put(ContinuousEffectType.Parameter.OBJECT, ABILITY_SOURCE_OF_THIS);
 

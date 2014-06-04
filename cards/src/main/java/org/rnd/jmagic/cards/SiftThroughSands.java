@@ -5,6 +5,14 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.lang.Integer;
+import java.lang.String;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map;
+
 @Name("Sift Through Sands")
 @Types({Type.INSTANT})
 @SubTypes({SubType.ARCANE})
@@ -15,23 +23,23 @@ public final class SiftThroughSands extends Card
 {
 	public static final class YouvePeeredAndReachedThisTurn extends SetGenerator
 	{
-		public static final class Tracker extends org.rnd.jmagic.engine.Tracker<java.util.Map<Integer, java.util.Collection<String>>>
+		public static final class Tracker extends org.rnd.jmagic.engine.Tracker<Map<Integer, Collection<String>>>
 		{
-			java.util.HashMap<Integer, java.util.Collection<String>> value = new java.util.HashMap<Integer, java.util.Collection<String>>();
-			java.util.Map<Integer, java.util.Collection<String>> unmodifiable = java.util.Collections.unmodifiableMap(this.value);
+			HashMap<Integer, Collection<String>> value = new HashMap<Integer, Collection<String>>();
+			Map<Integer, Collection<String>> unmodifiable = Collections.unmodifiableMap(this.value);
 
 			@SuppressWarnings("unchecked")
 			@Override
-			protected org.rnd.jmagic.engine.Tracker<java.util.Map<java.lang.Integer, java.util.Collection<java.lang.String>>> clone()
+			protected org.rnd.jmagic.engine.Tracker<Map<Integer, Collection<String>>> clone()
 			{
 				Tracker ret = (Tracker)super.clone();
-				ret.value = (java.util.HashMap<Integer, java.util.Collection<String>>)this.value.clone();
-				ret.unmodifiable = java.util.Collections.unmodifiableMap(ret.value);
+				ret.value = (HashMap<Integer, Collection<String>>)this.value.clone();
+				ret.unmodifiable = Collections.unmodifiableMap(ret.value);
 				return ret;
 			}
 
 			@Override
-			protected java.util.Map<Integer, java.util.Collection<String>> getValueInternal()
+			protected Map<Integer, Collection<String>> getValueInternal()
 			{
 				return this.unmodifiable;
 			}
@@ -53,7 +61,7 @@ public final class SiftThroughSands extends Card
 			{
 				Player player = event.parameters.get(EventType.Parameter.PLAYER).evaluate(state, null).getOne(Player.class);
 				if(!this.value.containsKey(player.ID))
-					this.value.put(player.ID, new java.util.LinkedList<String>());
+					this.value.put(player.ID, new LinkedList<String>());
 
 				GameObject cast = event.parameters.get(EventType.Parameter.OBJECT).evaluate(state, null).getOne(GameObject.class);
 				this.value.get(player.ID).add(cast.getName());
@@ -78,7 +86,7 @@ public final class SiftThroughSands extends Card
 		public MagicSet evaluate(GameState state, Identified thisObject)
 		{
 			Player you = ((GameObject)thisObject).getController(state);
-			java.util.Collection<String> namesCast = state.getTracker(Tracker.class).getValue(state).get(you.ID);
+			Collection<String> namesCast = state.getTracker(Tracker.class).getValue(state).get(you.ID);
 
 			boolean peer = false;
 			boolean reach = false;

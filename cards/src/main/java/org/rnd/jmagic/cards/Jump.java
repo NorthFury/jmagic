@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -20,6 +21,6 @@ public final class Jump extends Card
 		Target target = this.addTarget(CreaturePermanents.instance(), "target creature");
 
 		// gains flying until end of turn.
-		this.addEffect(addAbilityUntilEndOfTurn(targetedBy(target), org.rnd.jmagic.abilities.keywords.Flying.class, "Target creature gains flying until end of turn."));
+		this.addEffect(addAbilityUntilEndOfTurn(targetedBy(target), Flying.class, "Target creature gains flying until end of turn."));
 	}
 }

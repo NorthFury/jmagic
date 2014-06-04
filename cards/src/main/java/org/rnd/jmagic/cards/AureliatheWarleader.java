@@ -2,8 +2,17 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Haste;
+import org.rnd.jmagic.abilities.keywords.Vigilance;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 @Name("Aurelia, the Warleader")
 @SuperTypes({SuperType.LEGENDARY})
@@ -14,24 +23,24 @@ import org.rnd.jmagic.engine.generators.*;
 @ColorIdentity({Color.WHITE, Color.RED})
 public final class AureliatheWarleader extends Card
 {
-	public static final class AttackTracker extends Tracker<java.util.Map<Integer, Integer>>
+	public static final class AttackTracker extends Tracker<Map<Integer, Integer>>
 	{
 		// keys are object IDs, values are number of times that object has
 		// attacked
-		private java.util.HashMap<Integer, Integer> value = new java.util.HashMap<Integer, Integer>();
-		private java.util.Map<Integer, Integer> unmodifiable = java.util.Collections.unmodifiableMap(this.value);
+		private HashMap<Integer, Integer> value = new HashMap<Integer, Integer>();
+		private Map<Integer, Integer> unmodifiable = Collections.unmodifiableMap(this.value);
 
 		@Override
 		protected AttackTracker clone()
 		{
 			AttackTracker ret = (AttackTracker)super.clone();
-			ret.value = new java.util.HashMap<Integer, Integer>(this.value);
-			ret.unmodifiable = java.util.Collections.unmodifiableMap(ret.value);
+			ret.value = new HashMap<Integer, Integer>(this.value);
+			ret.unmodifiable = Collections.unmodifiableMap(ret.value);
 			return ret;
 		}
 
 		@Override
-		protected java.util.Map<Integer, Integer> getValueInternal()
+		protected Map<Integer, Integer> getValueInternal()
 		{
 			return this.unmodifiable;
 		}
@@ -79,7 +88,7 @@ public final class AureliatheWarleader extends Card
 		@Override
 		public MagicSet evaluate(GameState state, Identified thisObject)
 		{
-			java.util.Map<Integer, Integer> trackerValue = state.getTracker(AttackTracker.class).getValue(state);
+			Map<Integer, Integer> trackerValue = state.getTracker(AttackTracker.class).getValue(state);
 			GameObject attacker = this.who.evaluate(state, thisObject).getOne(GameObject.class);
 			return new MagicSet(trackerValue.get(attacker.ID));
 		}
@@ -98,7 +107,7 @@ public final class AureliatheWarleader extends Card
 
 			this.addEffect(untap(CREATURES_YOU_CONTROL, "Untap all creatures you control."));
 
-			java.util.List<Phase.PhaseType> combatPhase = new java.util.LinkedList<Phase.PhaseType>();
+			List<Phase.PhaseType> combatPhase = new LinkedList<Phase.PhaseType>();
 			combatPhase.add(Phase.PhaseType.COMBAT);
 
 			EventFactory moreCombat = new EventFactory(EventType.TAKE_EXTRA_PHASE, "After this phase, there is an additional combat phase.");
@@ -117,9 +126,9 @@ public final class AureliatheWarleader extends Card
 		this.setToughness(4);
 
 		// Flying, vigilance, haste
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Vigilance(state));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Haste(state));
+		this.addAbility(new Flying(state));
+		this.addAbility(new Vigilance(state));
+		this.addAbility(new Haste(state));
 
 		// Whenever Aurelia, the Warleader attacks for the first time each turn,
 		// untap all creatures you control. After this phase, there is an

@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Haste;
 import org.rnd.jmagic.engine.*;
 
 @Name("Sunhome Guildmage")
@@ -31,7 +33,7 @@ public final class SunhomeGuildmage extends Card
 			CreateTokensFactory token = new CreateTokensFactory(1, 1, 1, "Put a 1/1 red and white Soldier creature token with haste onto the battlefield.");
 			token.setColors(Color.RED, Color.WHITE);
 			token.setSubTypes(SubType.SOLDIER);
-			token.addAbility(org.rnd.jmagic.abilities.keywords.Haste.class);
+			token.addAbility(Haste.class);
 			this.addEffect(token.getEventFactory());
 		}
 	}

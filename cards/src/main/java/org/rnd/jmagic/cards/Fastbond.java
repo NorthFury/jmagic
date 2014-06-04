@@ -2,9 +2,14 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.PlayExtraLands;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 @Name("Fastbond")
 @Types({Type.ENCHANTMENT})
@@ -13,25 +18,25 @@ import org.rnd.jmagic.engine.patterns.*;
 @ColorIdentity({Color.GREEN})
 public final class Fastbond extends Card
 {
-	public static class FastbondTracker extends Tracker<java.util.Map<Integer, Integer>>
+	public static class FastbondTracker extends Tracker<Map<Integer, Integer>>
 	{
 		// keys are player IDs, values are the first land that player played
 		// this turn
-		private java.util.HashMap<Integer, Integer> value = new java.util.HashMap<Integer, Integer>();
-		private java.util.Map<Integer, Integer> unmodifiable = java.util.Collections.unmodifiableMap(this.value);
+		private HashMap<Integer, Integer> value = new HashMap<Integer, Integer>();
+		private Map<Integer, Integer> unmodifiable = Collections.unmodifiableMap(this.value);
 
 		@SuppressWarnings("unchecked")
 		@Override
 		public FastbondTracker clone()
 		{
 			FastbondTracker ret = (FastbondTracker)super.clone();
-			ret.value = (java.util.HashMap<Integer, Integer>)this.value.clone();
-			ret.unmodifiable = java.util.Collections.unmodifiableMap(ret.value);
+			ret.value = (HashMap<Integer, Integer>)this.value.clone();
+			ret.unmodifiable = Collections.unmodifiableMap(ret.value);
 			return ret;
 		}
 
 		@Override
-		protected java.util.Map<Integer, Integer> getValueInternal()
+		protected Map<Integer, Integer> getValueInternal()
 		{
 			return this.unmodifiable;
 		}
@@ -79,7 +84,7 @@ public final class Fastbond extends Card
 		{
 			MagicSet ret = new MagicSet();
 			FastbondTracker tracker = state.getTracker(FastbondTracker.class);
-			java.util.Map<Integer, Integer> trackerValue = tracker.getValue(state);
+			Map<Integer, Integer> trackerValue = tracker.getValue(state);
 			for(Player p: this.who.evaluate(state, thisObject).getAll(Player.class))
 				if(trackerValue.containsKey(p.ID))
 					ret.add(state.get(trackerValue.get(p.ID)));
@@ -111,7 +116,7 @@ public final class Fastbond extends Card
 		super(state);
 
 		// You may play any number of additional lands on each of your turns.
-		this.addAbility(new org.rnd.jmagic.abilities.PlayExtraLands.Final(this.state, null, "You may play any number of additional lands on each of your turns."));
+		this.addAbility(new PlayExtraLands.Final(this.state, null, "You may play any number of additional lands on each of your turns."));
 
 		// Whenever you play a land, if it wasn't the first land you played this
 		// turn, Fastbond deals 1 damage to you.

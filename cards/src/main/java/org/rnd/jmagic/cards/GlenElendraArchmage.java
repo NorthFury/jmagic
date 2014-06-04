@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Persist;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -33,13 +36,13 @@ public final class GlenElendraArchmage extends Card
 		this.setToughness(2);
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// (U), Sacrifice Glen Elendra Archmage: Counter target noncreature
 		// spell.
 		this.addAbility(new GlenElendraArchmageAbility1(state));
 
 		// Persist
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Persist(state));
+		this.addAbility(new Persist(state));
 	}
 }

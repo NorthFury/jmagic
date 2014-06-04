@@ -2,6 +2,8 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Enchant;
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -24,7 +26,7 @@ public final class TreetopBracers extends Card
 			this.addEffectPart(modifyPowerAndToughness(enchantedCreature, 1, 1));
 
 			ContinuousEffect.Part part2 = new ContinuousEffect.Part(ContinuousEffectType.BLOCKING_RESTRICTION);
-			part2.parameters.put(ContinuousEffectType.Parameter.RESTRICTION, Identity.instance(RelativeComplement.instance(Blocking.instance(enchantedCreature), HasKeywordAbility.instance(org.rnd.jmagic.abilities.keywords.Flying.class))));
+			part2.parameters.put(ContinuousEffectType.Parameter.RESTRICTION, Identity.instance(RelativeComplement.instance(Blocking.instance(enchantedCreature), HasKeywordAbility.instance(Flying.class))));
 			this.addEffectPart(part2);
 		}
 	}
@@ -33,7 +35,7 @@ public final class TreetopBracers extends Card
 	{
 		super(state);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Enchant.Creature(state));
+		this.addAbility(new Enchant.Creature(state));
 		this.addAbility(new Tarzan(state));
 	}
 }

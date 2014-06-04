@@ -2,6 +2,9 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.EntersTheBattlefieldTapped;
+import org.rnd.jmagic.abilities.TapForR;
+import org.rnd.jmagic.abilities.keywords.FirstStrike;
 import org.rnd.jmagic.engine.*;
 
 @Name("Ghitu Encampment")
@@ -21,7 +24,7 @@ public final class GhituEncampment extends Card
 			Animator animator = new Animator(ABILITY_SOURCE_OF_THIS, 2, 1);
 			animator.addColor(Color.RED);
 			animator.addSubType(SubType.WARRIOR);
-			animator.addAbility(org.rnd.jmagic.abilities.keywords.FirstStrike.class);
+			animator.addAbility(FirstStrike.class);
 			this.addEffect(createFloatingEffect("Ghitu Encampment becomes a 2/1 red Warrior creature with first strike until end of turn. It's still a land.", animator.getParts()));
 		}
 	}
@@ -30,8 +33,8 @@ public final class GhituEncampment extends Card
 	{
 		super(state);
 
-		this.addAbility(new org.rnd.jmagic.abilities.EntersTheBattlefieldTapped(state, this.getName()));
-		this.addAbility(new org.rnd.jmagic.abilities.TapForR(state));
+		this.addAbility(new EntersTheBattlefieldTapped(state, this.getName()));
+		this.addAbility(new TapForR(state));
 		this.addAbility(new AnimateEncampment(state));
 	}
 }

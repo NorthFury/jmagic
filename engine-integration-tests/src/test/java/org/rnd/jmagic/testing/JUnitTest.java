@@ -3,9 +3,21 @@ package org.rnd.jmagic.testing;
 import static org.junit.Assert.*;
 
 import org.junit.*;
+import org.junit.rules.TestWatcher;
+import org.junit.runner.Description;
+import org.rnd.jmagic.CardLoader;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.interfaceAdapters.*;
 import org.rnd.jmagic.sanitized.*;
+import org.rnd.util.NumberRange;
+
+import java.io.PrintStream;
+import java.io.Serializable;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * The JUnit test base class.
@@ -22,16 +34,16 @@ import org.rnd.jmagic.sanitized.*;
  */
 public abstract class JUnitTest
 {
-	@java.lang.annotation.Retention(java.lang.annotation.RetentionPolicy.RUNTIME)
+	@Retention(RetentionPolicy.RUNTIME)
 	protected static @interface ReportFailure
 	{
 		// empty
 	}
 
-	public class JMagicTestWatcher extends org.junit.rules.TestWatcher
+	public class JMagicTestWatcher extends TestWatcher
 	{
 		@Override
-		protected void failed(Throwable e, org.junit.runner.Description d)
+		protected void failed(Throwable e, Description d)
 		{
 			try
 			{
@@ -49,7 +61,7 @@ public abstract class JUnitTest
 		}
 
 		@Override
-		protected void finished(org.junit.runner.Description description)
+		protected void finished(Description description)
 		{
 			cleanup();
 		}
@@ -59,7 +71,7 @@ public abstract class JUnitTest
 			printState(System.out, JUnitTest.this.game.actualState, 0);
 		}
 
-		public void printState(java.io.PrintStream out, GameState state, int indent)
+		public void printState(PrintStream out, GameState state, int indent)
 		{
 			for(Zone zone: state.getAll(Zone.class))
 			{
@@ -93,7 +105,7 @@ public abstract class JUnitTest
 			JUnitTest.this.choosingPlayerID = -1;
 			JUnitTest.this.numTestInterfaces = 0;
 			JUnitTest.this.playerIDs = null;
-			JUnitTest.this.playerInterfaces = new java.util.LinkedList<PlayerInterface>();
+			JUnitTest.this.playerInterfaces = new LinkedList<PlayerInterface>();
 			JUnitTest.this.responseObject = null;
 			JUnitTest.this.winner = null;
 		}
@@ -152,9 +164,9 @@ public abstract class JUnitTest
 
 		@SuppressWarnings("unchecked")
 		@Override
-		public <T extends java.io.Serializable> java.util.List<Integer> choose(ChooseParameters<T> parameterObject)
+		public <T extends Serializable> List<Integer> choose(ChooseParameters<T> parameterObject)
 		{
-			java.util.List<Integer> ret = new java.util.LinkedList<Integer>();
+			List<Integer> ret = new LinkedList<Integer>();
 
 			// we never care about order of simultaneous objects' timestamps
 			if(parameterObject.type == PlayerInterface.ChoiceType.TIMESTAMPS)
@@ -182,9 +194,9 @@ public abstract class JUnitTest
 						ret.add(i);
 				return ret;
 			}
-			else if(response instanceof java.util.List)
+			else if(response instanceof List)
 			{
-				for(T t: (java.util.List<T>)response)
+				for(T t: (List<T>)response)
 					for(int i = 0; i < parameterObject.choices.size(); ++i)
 						if(parameterObject.choices.get(i).equals(t))
 							ret.add(i);
@@ -199,7 +211,7 @@ public abstract class JUnitTest
 		}
 
 		@Override
-		public int chooseNumber(org.rnd.util.NumberRange range, String description)
+		public int chooseNumber(NumberRange range, String description)
 		{
 			// If the range contains only one number, return it
 			Integer size = range.size();
@@ -211,7 +223,7 @@ public abstract class JUnitTest
 		}
 
 		@Override
-		public void divide(int quantity, int minimum, int whatFrom, String beingDivided, java.util.List<SanitizedTarget> targets)
+		public void divide(int quantity, int minimum, int whatFrom, String beingDivided, List<SanitizedTarget> targets)
 		{
 			if(targets.size() == 1)
 			{
@@ -267,7 +279,7 @@ public abstract class JUnitTest
 
 	private int[] playerIDs;
 
-	private java.util.List<PlayerInterface> playerInterfaces;
+	private List<PlayerInterface> playerInterfaces;
 
 	private volatile Object responseObject;
 
@@ -395,7 +407,7 @@ public abstract class JUnitTest
 	 * @param divisions Keys are IDs of objects to divide damage among; values
 	 * are amounts of damage.
 	 */
-	protected final void divide(java.util.Map<Integer, Integer> divisions)
+	protected final void divide(Map<Integer, Integer> divisions)
 	{
 		if(null != this.choiceType)
 			fail("Can't divide damage when a choice has to be made");
@@ -403,7 +415,7 @@ public abstract class JUnitTest
 		for(SanitizedTarget t: this.choices.getAll(SanitizedTarget.class))
 		{
 			if(!divisions.containsKey(t.targetID))
-				org.junit.Assert.fail("Unexpected target found: " + t);
+				Assert.fail("Unexpected target found: " + t);
 
 			t.division = divisions.remove(t.targetID);
 		}
@@ -425,7 +437,7 @@ public abstract class JUnitTest
 		for(SanitizedTarget target: targets)
 			respondWith(target);
 
-		if(this.choiceType == org.rnd.jmagic.engine.PlayerInterface.ChoiceType.ALTERNATE_COST)
+		if(this.choiceType == PlayerInterface.ChoiceType.ALTERNATE_COST)
 			respondWith();
 
 		if(mana != null && mana.length() > 0 && !mana.equals("0"))
@@ -487,9 +499,9 @@ public abstract class JUnitTest
 	}
 
 	/** Gets a choice whose toString contains the given string. */
-	protected final java.io.Serializable getChoiceByToString(String what)
+	protected final Serializable getChoiceByToString(String what)
 	{
-		for(java.io.Serializable choice: this.choices.getAll(java.io.Serializable.class))
+		for(Serializable choice: this.choices.getAll(Serializable.class))
 			if(choice.toString().contains(what))
 				return choice;
 		fail("Failed to find choice by name '" + what + "'.");
@@ -565,9 +577,9 @@ public abstract class JUnitTest
 		return this.game.physicalState.<Player>get(this.playerIDs[playerNum]).getLibrary(this.game.physicalState);
 	}
 
-	protected final java.util.LinkedList<ManaSymbol> getMana(Color... colors)
+	protected final LinkedList<ManaSymbol> getMana(Color... colors)
 	{
-		java.util.LinkedList<ManaSymbol> ret = new java.util.LinkedList<ManaSymbol>();
+		LinkedList<ManaSymbol> ret = new LinkedList<ManaSymbol>();
 		colorLoop: for(Color color: colors)
 		{
 			for(ManaSymbol choice: this.choices.getAll(ManaSymbol.class))
@@ -581,9 +593,9 @@ public abstract class JUnitTest
 		return ret;
 	}
 
-	protected final java.util.LinkedList<ManaSymbol> getMana(ManaSymbol.ManaType... types)
+	protected final LinkedList<ManaSymbol> getMana(ManaSymbol.ManaType... types)
 	{
-		java.util.LinkedList<ManaSymbol> ret = new java.util.LinkedList<ManaSymbol>();
+		LinkedList<ManaSymbol> ret = new LinkedList<ManaSymbol>();
 		typeLoop: for(ManaSymbol.ManaType type: types)
 		{
 			if(type != ManaSymbol.ManaType.COLORLESS)
@@ -756,7 +768,7 @@ public abstract class JUnitTest
 	{
 		if(!PlayerInterface.ChoiceType.EVENT.equals(this.choiceType))
 			fail("Must be choosing whether to mulligan in order to mulligan");
-		respondWith((java.io.Serializable)this.choices.iterator().next());
+		respondWith((Serializable)this.choices.iterator().next());
 	}
 
 	protected final void pass()
@@ -790,9 +802,9 @@ public abstract class JUnitTest
 		return null;
 	}
 
-	protected final java.io.Serializable pullChoice(java.io.Serializable toPull)
+	protected final Serializable pullChoice(Serializable toPull)
 	{
-		for(java.io.Serializable o: this.choices.getAll(java.io.Serializable.class))
+		for(Serializable o: this.choices.getAll(Serializable.class))
 		{
 			if(o.equals(toPull))
 			{
@@ -811,10 +823,10 @@ public abstract class JUnitTest
 	 */
 	protected final void respondArbitrarily()
 	{
-		this.respondWith(this.choices.toArray(new java.io.Serializable[0]));
+		this.respondWith(this.choices.toArray(new Serializable[0]));
 	}
 
-	protected final void respondWith(java.io.Serializable... object)
+	protected final void respondWith(Serializable... object)
 	{
 		if(null == this.game)
 			fail("Can't respond without a game started");
@@ -828,7 +840,7 @@ public abstract class JUnitTest
 			response = object[0];
 		else
 		{
-			java.util.List<Object> responseList = new java.util.LinkedList<Object>();
+			List<Object> responseList = new LinkedList<Object>();
 			for(Object o: object)
 				responseList.add(o);
 			response = responseList;
@@ -907,7 +919,7 @@ public abstract class JUnitTest
 		};
 
 		// Tell CardLoader to load all our cards :)
-		org.rnd.jmagic.CardLoader.addPackages("org.rnd.jmagic.cards");
+		CardLoader.addPackages("org.rnd.jmagic.cards");
 
 		this.game = new Game(type);
 

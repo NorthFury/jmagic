@@ -2,7 +2,12 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Equip;
 import org.rnd.jmagic.engine.*;
+
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 
 @Name("Inquisitor's Flail")
 @Types({Type.ARTIFACT})
@@ -41,14 +46,14 @@ public final class InquisitorsFlail extends Card
 			}
 
 			@Override
-			public java.util.List<EventFactory> replace(DamageAssignment.Batch damageAssignments)
+			public List<EventFactory> replace(DamageAssignment.Batch damageAssignments)
 			{
-				java.util.Collection<DamageAssignment> duplicates = new java.util.LinkedList<DamageAssignment>();
+				Collection<DamageAssignment> duplicates = new LinkedList<DamageAssignment>();
 				for(DamageAssignment assignment: damageAssignments)
 					duplicates.add(new DamageAssignment(assignment));
 				damageAssignments.addAll(duplicates);
 
-				return new java.util.LinkedList<EventFactory>();
+				return new LinkedList<EventFactory>();
 			}
 		}
 
@@ -92,14 +97,14 @@ public final class InquisitorsFlail extends Card
 			}
 
 			@Override
-			public java.util.List<EventFactory> replace(DamageAssignment.Batch damageAssignments)
+			public List<EventFactory> replace(DamageAssignment.Batch damageAssignments)
 			{
-				java.util.Collection<DamageAssignment> duplicates = new java.util.LinkedList<DamageAssignment>();
+				Collection<DamageAssignment> duplicates = new LinkedList<DamageAssignment>();
 				for(DamageAssignment assignment: damageAssignments)
 					duplicates.add(new DamageAssignment(assignment));
 				damageAssignments.addAll(duplicates);
 
-				return new java.util.LinkedList<EventFactory>();
+				return new LinkedList<EventFactory>();
 			}
 		}
 
@@ -124,6 +129,6 @@ public final class InquisitorsFlail extends Card
 		this.addAbility(new InquisitorsFlailAbility1(state));
 
 		// Equip (2)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Equip(state, "(2)"));
+		this.addAbility(new Equip(state, "(2)"));
 	}
 }

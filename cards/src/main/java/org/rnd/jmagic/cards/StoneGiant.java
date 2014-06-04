@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -23,7 +24,7 @@ public final class StoneGiant extends Card
 
 			Target target = this.addTarget(Intersect.instance(ControlledBy.instance(You.instance()), HasToughness.instance(Between.instance(Empty.instance(), Subtract.instance(PowerOf.instance(ABILITY_SOURCE_OF_THIS), numberGenerator(1))))), "target creature creature you control with toughness less than Stone Giant's power");
 
-			this.addEffect(addAbilityUntilEndOfTurn(targetedBy(target), org.rnd.jmagic.abilities.keywords.Flying.class, "Target creature you control with toughness less than Stone Giant's power gains flying until end of turn."));
+			this.addEffect(addAbilityUntilEndOfTurn(targetedBy(target), Flying.class, "Target creature you control with toughness less than Stone Giant's power gains flying until end of turn."));
 
 			SetGenerator thatCreature = delayedTriggerContext(targetedBy(target));
 			EventFactory destroy = destroy(thatCreature, "Destroy that creature");

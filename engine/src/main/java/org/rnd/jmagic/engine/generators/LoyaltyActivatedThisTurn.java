@@ -2,29 +2,33 @@ package org.rnd.jmagic.engine.generators;
 
 import org.rnd.jmagic.engine.*;
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * If anything in the given set had one of its loyalty abilities activated this
  * turn, evaluates to non-empty.
  */
 public class LoyaltyActivatedThisTurn extends SetGenerator
 {
-	public static class Counter extends Tracker<java.util.Set<Integer>>
+	public static class Counter extends Tracker<Set<Integer>>
 	{
-		private java.util.HashSet<Integer> values = new java.util.HashSet<Integer>();
-		private java.util.Set<Integer> unmodifiable = java.util.Collections.unmodifiableSet(this.values);
+		private HashSet<Integer> values = new HashSet<Integer>();
+		private Set<Integer> unmodifiable = Collections.unmodifiableSet(this.values);
 
 		@SuppressWarnings("unchecked")
 		@Override
 		public Counter clone()
 		{
 			Counter ret = (Counter)super.clone();
-			ret.values = (java.util.HashSet<Integer>)this.values.clone();
-			ret.unmodifiable = java.util.Collections.unmodifiableSet(ret.values);
+			ret.values = (HashSet<Integer>)this.values.clone();
+			ret.unmodifiable = Collections.unmodifiableSet(ret.values);
 			return ret;
 		}
 
 		@Override
-		protected java.util.Set<Integer> getValueInternal()
+		protected Set<Integer> getValueInternal()
 		{
 			return this.unmodifiable;
 		}
@@ -39,7 +43,7 @@ public class LoyaltyActivatedThisTurn extends SetGenerator
 					for(EventFactory cost: ability.getCosts())
 						if(cost.type == EventType.REMOVE_COUNTERS || cost.type == EventType.PUT_COUNTERS)
 						{
-							java.util.Set<org.rnd.jmagic.engine.Counter.CounterType> counterTypes = cost.parameters.get(EventType.Parameter.COUNTER).evaluate(state, ability).getAll(org.rnd.jmagic.engine.Counter.CounterType.class);
+							Set<org.rnd.jmagic.engine.Counter.CounterType> counterTypes = cost.parameters.get(EventType.Parameter.COUNTER).evaluate(state, ability).getAll(org.rnd.jmagic.engine.Counter.CounterType.class);
 							if(counterTypes.size() == 1 && counterTypes.contains(org.rnd.jmagic.engine.Counter.CounterType.LOYALTY))
 								return true;
 						}

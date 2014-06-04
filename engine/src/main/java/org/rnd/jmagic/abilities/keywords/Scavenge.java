@@ -4,6 +4,9 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public final class Scavenge extends Keyword
 {
 	public static final String COST_TYPE = "Scavenge";
@@ -29,9 +32,9 @@ public final class Scavenge extends Keyword
 	}
 
 	@Override
-	protected final java.util.List<NonStaticAbility> createNonStaticAbilities()
+	protected final List<NonStaticAbility> createNonStaticAbilities()
 	{
-		java.util.LinkedList<NonStaticAbility> ret = new java.util.LinkedList<NonStaticAbility>();
+		LinkedList<NonStaticAbility> ret = new LinkedList<NonStaticAbility>();
 		ret.add(new ExileForCounters(this.state, this.cost));
 		return ret;
 	}

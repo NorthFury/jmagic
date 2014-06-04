@@ -1,5 +1,11 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.FirstStrike;
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Haste;
+import org.rnd.jmagic.abilities.keywords.Protection;
+import org.rnd.jmagic.abilities.keywords.Trample;
+import org.rnd.jmagic.abilities.keywords.Vigilance;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -21,11 +27,11 @@ public final class AkromaAngelofWrath extends Card
 
 		// Flying, first strike, vigilance, trample, haste, protection from
 		// black and from red
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.FirstStrike(state));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Vigilance(state));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Trample(state));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Haste(state));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Protection.From(state, HasColor.instance(Color.BLACK, Color.RED), "black and from red"));
+		this.addAbility(new Flying(state));
+		this.addAbility(new FirstStrike(state));
+		this.addAbility(new Vigilance(state));
+		this.addAbility(new Trample(state));
+		this.addAbility(new Haste(state));
+		this.addAbility(new Protection.From(state, HasColor.instance(Color.BLACK, Color.RED), "black and from red"));
 	}
 }

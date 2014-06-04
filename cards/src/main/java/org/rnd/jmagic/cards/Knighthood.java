@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.FirstStrike;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -20,7 +21,7 @@ public final class Knighthood extends Card
 
 			SetGenerator creaturesYouControl = Intersect.instance(ControlledBy.instance(You.instance()), HasType.instance(Type.CREATURE));
 
-			this.addEffectPart(addAbilityToObject(creaturesYouControl, org.rnd.jmagic.abilities.keywords.FirstStrike.class));
+			this.addEffectPart(addAbilityToObject(creaturesYouControl, FirstStrike.class));
 		}
 	}
 

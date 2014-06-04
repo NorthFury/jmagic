@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.YouMayHaveThisEnterTheBattlefieldAsACopy;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -18,6 +19,6 @@ public final class Clone extends Card
 		this.setPower(0);
 		this.setToughness(0);
 
-		this.addAbility(new org.rnd.jmagic.abilities.YouMayHaveThisEnterTheBattlefieldAsACopy(CreaturePermanents.instance()).generateName(this.getName(), "any creature on the battlefield").getStaticAbility(state));
+		this.addAbility(new YouMayHaveThisEnterTheBattlefieldAsACopy(CreaturePermanents.instance()).generateName(this.getName(), "any creature on the battlefield").getStaticAbility(state));
 	}
 }

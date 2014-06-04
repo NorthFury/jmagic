@@ -1,31 +1,39 @@
 package org.rnd.jmagic.engine.gameTypes;
 
 import org.rnd.jmagic.engine.*;
+import org.rnd.jmagic.engine.generators.CurrentGame;
+import org.rnd.jmagic.engine.generators.Empty;
+import org.rnd.jmagic.engine.generators.Identity;
+import org.rnd.jmagic.engine.patterns.SimpleEventPattern;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 @Name("House Mulligan Rules")
 @Description("All-land and no-land hands can be mulliganed freely.  Each player also gets a free mulligan on a 1 land hand, and on a 1 non-land hand.")
 public class HouseMulliganRules extends GameType.SimpleGameTypeRule
 {
-	public final class HouseMulliganTracker extends Tracker<java.util.Map<Integer, Integer>>
+	public final class HouseMulliganTracker extends Tracker<Map<Integer, Integer>>
 	{
 		public static final int ONE_LAND_MULLIGAN_USED = 1;
 		public static final int ONE_NONLAND_MULLIGAN_USED = 2;
 
-		private java.util.HashMap<Integer, Integer> value = new java.util.HashMap<Integer, Integer>();
-		private java.util.Map<Integer, Integer> unmodifiable = java.util.Collections.unmodifiableMap(this.value);
+		private HashMap<Integer, Integer> value = new HashMap<Integer, Integer>();
+		private Map<Integer, Integer> unmodifiable = Collections.unmodifiableMap(this.value);
 
 		@Override
 		@SuppressWarnings("unchecked")
 		public HouseMulliganTracker clone()
 		{
 			HouseMulliganTracker ret = (HouseMulliganTracker)super.clone();
-			ret.value = (java.util.HashMap<Integer, Integer>)this.value.clone();
-			ret.unmodifiable = java.util.Collections.unmodifiableMap(ret.value);
+			ret.value = (HashMap<Integer, Integer>)this.value.clone();
+			ret.unmodifiable = Collections.unmodifiableMap(ret.value);
 			return ret;
 		}
 
 		@Override
-		protected java.util.Map<Integer, Integer> getValueInternal()
+		protected Map<Integer, Integer> getValueInternal()
 		{
 			return this.unmodifiable;
 		}
@@ -69,7 +77,7 @@ public class HouseMulliganRules extends GameType.SimpleGameTypeRule
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			Player player = parameters.get(Parameter.PLAYER).getOne(Player.class);
 			Zone hand = player.getHand(game.actualState);
@@ -97,7 +105,7 @@ public class HouseMulliganRules extends GameType.SimpleGameTypeRule
 			shuffleObjects.add(player);
 
 			Zone library = player.getLibrary(game.actualState);
-			java.util.Map<Parameter, MagicSet> shuffleParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> shuffleParameters = new HashMap<Parameter, MagicSet>();
 			shuffleParameters.put(Parameter.OBJECT, shuffleObjects);
 			shuffleParameters.put(Parameter.CAUSE, new MagicSet(game));
 			shuffleParameters.put(Parameter.ZONE, new MagicSet(library));
@@ -122,7 +130,7 @@ public class HouseMulliganRules extends GameType.SimpleGameTypeRule
 			else if(numLands != 0 && numLands != cardsInHand.size())
 				--numberToDraw;
 
-			java.util.Map<Parameter, MagicSet> drawParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> drawParameters = new HashMap<Parameter, MagicSet>();
 			drawParameters.put(Parameter.PLAYER, new MagicSet(player));
 			drawParameters.put(Parameter.CAUSE, new MagicSet(game));
 			drawParameters.put(Parameter.NUMBER, new MagicSet(numberToDraw));
@@ -130,7 +138,7 @@ public class HouseMulliganRules extends GameType.SimpleGameTypeRule
 			createEvent(game, "Shuffle " + cardsInHand + " into " + library + ".", SHUFFLE_INTO_LIBRARY, shuffleParameters).perform(event, true);
 			createEvent(game, player + " draws " + numberToDraw + " cards.", DRAW_CARDS, drawParameters).perform(event, true);
 
-			event.setResult(org.rnd.jmagic.engine.generators.Identity.instance(result));
+			event.setResult(Identity.instance(result));
 			return true;
 		}
 	};
@@ -138,16 +146,16 @@ public class HouseMulliganRules extends GameType.SimpleGameTypeRule
 	@Override
 	public void modifyGameState(GameState physicalState)
 	{
-		EventReplacementEffect replacement = new EventReplacementEffect(physicalState.game, "Use house mulligan rules instead of normal ones.", new org.rnd.jmagic.engine.patterns.SimpleEventPattern(EventType.MULLIGAN));
+		EventReplacementEffect replacement = new EventReplacementEffect(physicalState.game, "Use house mulligan rules instead of normal ones.", new SimpleEventPattern(EventType.MULLIGAN));
 		replacement.addEffect(new EventFactory(HOUSE_MULLIGAN, "Use house mulligan rules instead."));
 
 		ContinuousEffect.Part part = new ContinuousEffect.Part(ContinuousEffectType.REPLACEMENT_EFFECT);
-		part.parameters.put(ContinuousEffectType.Parameter.OBJECT, org.rnd.jmagic.engine.generators.Identity.instance(replacement));
+		part.parameters.put(ContinuousEffectType.Parameter.OBJECT, Identity.instance(replacement));
 
 		EventFactory factory = new EventFactory(EventType.CREATE_FLOATING_CONTINUOUS_EFFECT, "Use house mulligan rules instead of normal ones.");
-		factory.parameters.put(EventType.Parameter.CAUSE, org.rnd.jmagic.engine.generators.CurrentGame.instance());
-		factory.parameters.put(EventType.Parameter.EFFECT, org.rnd.jmagic.engine.generators.Identity.instance(part));
-		factory.parameters.put(EventType.Parameter.EXPIRES, org.rnd.jmagic.engine.generators.Identity.instance(org.rnd.jmagic.engine.generators.Empty.instance()));
+		factory.parameters.put(EventType.Parameter.CAUSE, CurrentGame.instance());
+		factory.parameters.put(EventType.Parameter.EFFECT, Identity.instance(part));
+		factory.parameters.put(EventType.Parameter.EXPIRES, Identity.instance(Empty.instance()));
 		factory.createEvent(physicalState.game, null).perform(null, true);
 	}
 }

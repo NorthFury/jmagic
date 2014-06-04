@@ -2,6 +2,13 @@ package org.rnd.jmagic.engine.eventTypes;
 
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+import org.rnd.util.NumberRange;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public final class Search extends EventType
 {	public static final EventType INSTANCE = new Search();
@@ -20,7 +27,7 @@ public final class Search extends EventType
 		return Parameter.PLAYER;
 	}
 
-	private boolean zoneIsHidden(java.util.Set<Zone> publicZones, java.util.Set<Zone> hiddenZones, Zone zone, Player player)
+	private boolean zoneIsHidden(Set<Zone> publicZones, Set<Zone> hiddenZones, Zone zone, Player player)
 	{
 		if(publicZones.contains(zone))
 			return false;
@@ -37,17 +44,17 @@ public final class Search extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean attempt(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		MagicSet cards = parameters.get(Parameter.CARD);
 		if(cards.isEmpty())
 			return true;
 
 		MagicSet player = parameters.get(Parameter.PLAYER);
-		java.util.Set<Zone> zones = cards.getAll(Zone.class);
+		Set<Zone> zones = cards.getAll(Zone.class);
 		for(Zone zone: zones)
 		{
-			java.util.Map<Parameter, MagicSet> testParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> testParameters = new HashMap<Parameter, MagicSet>();
 			testParameters.put(Parameter.PLAYER, player);
 			testParameters.put(Parameter.CARD, new MagicSet(zone));
 			Event test = createEvent(game, "Search " + zone + "?", SEARCH_MARKER, testParameters);
@@ -59,7 +66,7 @@ public final class Search extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		MagicSet cause = parameters.get(Parameter.CAUSE);
 		Player player = parameters.get(Parameter.PLAYER).getOne(Player.class);
@@ -72,10 +79,10 @@ public final class Search extends EventType
 			return true;
 		}
 
-		java.util.Set<Zone> zones = cards.getAll(Zone.class);
+		Set<Zone> zones = cards.getAll(Zone.class);
 		for(Zone zone: zones)
 		{
-			java.util.Map<Parameter, MagicSet> testParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> testParameters = new HashMap<Parameter, MagicSet>();
 			testParameters.put(Parameter.PLAYER, new MagicSet(player));
 			testParameters.put(Parameter.CARD, new MagicSet(zone));
 			Event test = createEvent(game, "Search " + zone + "?", SEARCH_MARKER, testParameters);
@@ -85,9 +92,9 @@ public final class Search extends EventType
 		}
 		zones = cards.getAll(Zone.class);
 
-		java.util.Set<Zone> publicZones = new java.util.HashSet<Zone>();
-		java.util.Set<Zone> hiddenZones = new java.util.HashSet<Zone>();
-		java.util.Set<GameObject> publicObjects = new java.util.HashSet<GameObject>();
+		Set<Zone> publicZones = new HashSet<Zone>();
+		Set<Zone> hiddenZones = new HashSet<Zone>();
+		Set<GameObject> publicObjects = new HashSet<GameObject>();
 		for(Zone zone: zones)
 		{
 			cards.addAll(zone.objects);
@@ -107,7 +114,7 @@ public final class Search extends EventType
 
 		boolean multipleZones = (zones.size() > 1);
 
-		java.util.Map<Parameter, MagicSet> lookParameters = new java.util.HashMap<Parameter, MagicSet>();
+		Map<Parameter, MagicSet> lookParameters = new HashMap<Parameter, MagicSet>();
 		lookParameters.put(Parameter.CAUSE, cause);
 		lookParameters.put(Parameter.OBJECT, cards);
 		lookParameters.put(Parameter.PLAYER, new MagicSet(player));
@@ -122,7 +129,7 @@ public final class Search extends EventType
 			publicObjects.retainAll(cards);
 		}
 
-		org.rnd.util.NumberRange num = getRange(parameters.get(Parameter.NUMBER));
+		NumberRange num = getRange(parameters.get(Parameter.NUMBER));
 		// if we have multiple zones, all of them are hidden (this event
 		// will have been called from SEARCH_FOR_ALL_AND_PUT_INTO which only
 		// passes hidden zones)
@@ -131,16 +138,16 @@ public final class Search extends EventType
 		{
 			// If every zone is hidden then the minimum is zero.
 			if(publicZones.isEmpty())
-				num = new org.rnd.util.NumberRange(0, num.getUpper());
+				num = new NumberRange(0, num.getUpper());
 			else
 			{
 				min = num.getLower();
 				if(min != null && min.intValue() > publicObjects.size())
-					num = new org.rnd.util.NumberRange(publicObjects.size(), num.getUpper());
+					num = new NumberRange(publicObjects.size(), num.getUpper());
 			}
 		}
 
-		java.util.List<GameObject> choices = null;
+		List<GameObject> choices = null;
 		PlayerInterface.ChooseReason reason = new PlayerInterface.ChooseReason(PlayerInterface.ChooseReason.GAME, event.getName(), false);
 
 		int lower = num.getLower(0);
@@ -169,7 +176,7 @@ public final class Search extends EventType
 		result.addAll(choices);
 		if(searchRestricted)
 		{
-			java.util.Map<EventType.Parameter, MagicSet> revealParameters = new java.util.HashMap<EventType.Parameter, MagicSet>();
+			Map<EventType.Parameter, MagicSet> revealParameters = new HashMap<EventType.Parameter, MagicSet>();
 			revealParameters.put(Parameter.CAUSE, new MagicSet(cause));
 			revealParameters.put(Parameter.OBJECT, new MagicSet(choices));
 			createEvent(game, "Reveal " + choices, EventType.REVEAL, revealParameters).perform(event, false);

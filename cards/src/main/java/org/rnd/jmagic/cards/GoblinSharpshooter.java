@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.DoesntUntapDuringYourUntapStep;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -45,7 +47,7 @@ public final class GoblinSharpshooter extends Card
 		this.setToughness(1);
 
 		// Goblin Sharpshooter doesn't untap during your untap step.
-		this.addAbility(new org.rnd.jmagic.abilities.DoesntUntapDuringYourUntapStep(state, this.getName()));
+		this.addAbility(new DoesntUntapDuringYourUntapStep(state, this.getName()));
 
 		// Whenever a creature dies, untap Goblin Sharpshooter.
 		this.addAbility(new GoblinSharpshooterAbility1(state));

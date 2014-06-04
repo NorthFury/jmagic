@@ -3,6 +3,9 @@ package org.rnd.jmagic.engine.eventTypes;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public final class CounterSpellOrAbility extends EventType
 {	public static final EventType INSTANCE = new CounterSpellOrAbility();
 
@@ -18,7 +21,7 @@ public final class CounterSpellOrAbility extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		MagicSet result = new MagicSet();
 		boolean allCountered = true;
@@ -26,7 +29,7 @@ public final class CounterSpellOrAbility extends EventType
 		Zone zone = (parameters.containsKey(Parameter.TO) ? parameters.get(Parameter.TO).getOne(Zone.class) : null);
 		for(GameObject object: parameters.get(Parameter.OBJECT).getAll(GameObject.class))
 		{
-			java.util.Map<Parameter, MagicSet> counterParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> counterParameters = new HashMap<Parameter, MagicSet>();
 			counterParameters.put(Parameter.CAUSE, counterer);
 			counterParameters.put(Parameter.OBJECT, new MagicSet(object));
 			if(zone != null)

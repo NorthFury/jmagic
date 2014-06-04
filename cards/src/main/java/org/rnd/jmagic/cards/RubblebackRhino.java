@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Hexproof;
 import org.rnd.jmagic.engine.*;
 
 @Name("Rubbleback Rhino")
@@ -19,6 +20,6 @@ public final class RubblebackRhino extends Card
 
 		// Hexproof (This creature can't be the target of spells or abilities
 		// your opponents control.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Hexproof(state));
+		this.addAbility(new Hexproof(state));
 	}
 }

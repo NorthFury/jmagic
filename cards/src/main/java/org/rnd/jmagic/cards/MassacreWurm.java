@@ -3,6 +3,7 @@ package org.rnd.jmagic.cards;
 import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+import org.rnd.jmagic.engine.patterns.SimpleZoneChangePattern;
 
 @Name("Massacre Wurm")
 @Types({Type.CREATURE})
@@ -27,7 +28,7 @@ public final class MassacreWurm extends Card
 		public MassacreWurmAbility1(GameState state)
 		{
 			super(state, "Whenever a creature an opponent controls dies, that player loses 2 life.");
-			this.addPattern(new org.rnd.jmagic.engine.patterns.SimpleZoneChangePattern(Battlefield.instance(), GraveyardOf.instance(Players.instance()), Intersect.instance(CreaturePermanents.instance(), ControlledBy.instance(OpponentsOf.instance(You.instance()))), true));
+			this.addPattern(new SimpleZoneChangePattern(Battlefield.instance(), GraveyardOf.instance(Players.instance()), Intersect.instance(CreaturePermanents.instance(), ControlledBy.instance(OpponentsOf.instance(You.instance()))), true));
 
 			SetGenerator thatPlayer = ControllerOf.instance(OldObjectOf.instance(TriggerZoneChange.instance(This.instance())));
 

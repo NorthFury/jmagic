@@ -2,6 +2,8 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.StaticPTChange;
+import org.rnd.jmagic.abilities.keywords.FirstStrike;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -23,7 +25,7 @@ public final class FieldMarshal extends Card
 
 			this.addEffectPart(modifyPowerAndToughness(otherSoldierCreatures, 1, 1));
 
-			this.addEffectPart(addAbilityToObject(otherSoldierCreatures, org.rnd.jmagic.abilities.keywords.FirstStrike.class));
+			this.addEffectPart(addAbilityToObject(otherSoldierCreatures, FirstStrike.class));
 		}
 	}
 
@@ -36,6 +38,6 @@ public final class FieldMarshal extends Card
 
 		SetGenerator soldiers = Intersect.instance(HasSubType.instance(SubType.SOLDIER), CreaturePermanents.instance());
 		SetGenerator others = RelativeComplement.instance(soldiers, This.instance());
-		this.addAbility(new org.rnd.jmagic.abilities.StaticPTChange(state, others, "Other Soldier creatures", +1, +1, org.rnd.jmagic.abilities.keywords.FirstStrike.class, true));
+		this.addAbility(new StaticPTChange(state, others, "Other Soldier creatures", +1, +1, FirstStrike.class, true));
 	}
 }

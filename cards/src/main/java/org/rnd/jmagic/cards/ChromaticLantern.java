@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.TapForAnyColor;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -17,7 +19,7 @@ public final class ChromaticLantern extends Card
 		{
 			super(state, "Lands you control have \"(T): Add one mana of any color to your mana pool.\"");
 
-			this.addEffectPart(addAbilityToObject(Intersect.instance(LandPermanents.instance(), ControlledBy.instance(You.instance())), org.rnd.jmagic.abilities.TapForAnyColor.class));
+			this.addEffectPart(addAbilityToObject(Intersect.instance(LandPermanents.instance(), ControlledBy.instance(You.instance())), TapForAnyColor.class));
 		}
 	}
 
@@ -30,6 +32,6 @@ public final class ChromaticLantern extends Card
 		this.addAbility(new ChromaticLanternAbility0(state));
 
 		// (T): Add one mana of any color to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapForAnyColor(state));
+		this.addAbility(new TapForAnyColor(state));
 	}
 }

@@ -4,6 +4,10 @@ import static org.rnd.jmagic.Convenience.*;
 
 import org.rnd.jmagic.engine.*;
 
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
 @Name("Kjeldoran Royal Guard")
 @Types({Type.CREATURE})
 @SubTypes({SubType.SOLDIER, SubType.HUMAN})
@@ -40,7 +44,7 @@ public final class KjeldoranRoyalGuard extends Card
 			}
 
 			@Override
-			public java.util.List<EventFactory> redirect(java.util.Map<DamageAssignment, DamageAssignment> damageAssignments)
+			public List<EventFactory> redirect(Map<DamageAssignment, DamageAssignment> damageAssignments)
 			{
 				NonStaticAbility ability = (NonStaticAbility)this.getSourceObject(this.game.actualState);
 				GameObject thisCard = (GameObject)(ability.getSource(this.game.actualState));
@@ -48,7 +52,7 @@ public final class KjeldoranRoyalGuard extends Card
 				for(DamageAssignment assignment: damageAssignments.keySet())
 					damageAssignments.put(assignment, new DamageAssignment(this.game.actualState.<GameObject>get(assignment.sourceID), thisCard));
 
-				return new java.util.LinkedList<EventFactory>();
+				return new LinkedList<EventFactory>();
 			}
 		}
 

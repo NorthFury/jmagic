@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Modular;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -33,6 +35,6 @@ public final class ArcboundRavager extends Card
 		this.addAbility(new ArcboundRavagerAbility0(state));
 
 		// Modular 1
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Modular(state, 1));
+		this.addAbility(new Modular(state, 1));
 	}
 }

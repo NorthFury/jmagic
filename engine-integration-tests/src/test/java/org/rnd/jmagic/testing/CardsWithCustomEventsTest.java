@@ -4,9 +4,16 @@ import org.junit.*;
 
 import static org.junit.Assert.*;
 
+import org.rnd.jmagic.abilities.keywords.Flash;
+import org.rnd.jmagic.abilities.keywords.Haste;
 import org.rnd.jmagic.cards.*;
 import org.rnd.jmagic.engine.*;
+import org.rnd.jmagic.engine.generators.Identity;
 import org.rnd.jmagic.sanitized.*;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class CardsWithCustomEventsTest extends JUnitTest
 {
@@ -48,14 +55,14 @@ public class CardsWithCustomEventsTest extends JUnitTest
 		pass();
 
 		assertEquals(2, this.choices.size());
-		assertTrue(this.choices.contains(org.rnd.jmagic.engine.Answer.YES));
-		assertTrue(this.choices.contains(org.rnd.jmagic.engine.Answer.NO));
+		assertTrue(this.choices.contains(Answer.YES));
+		assertTrue(this.choices.contains(Answer.NO));
 
 		respondWith(Answer.YES);
 
 		assertEquals(2, this.choices.size());
-		assertTrue(this.choices.contains(org.rnd.jmagic.engine.Answer.LAND));
-		assertTrue(this.choices.contains(org.rnd.jmagic.engine.Answer.NONLAND));
+		assertTrue(this.choices.contains(Answer.LAND));
+		assertTrue(this.choices.contains(Answer.NONLAND));
 
 		// Picks up a plains
 		respondWith(Answer.LAND);
@@ -101,7 +108,7 @@ public class CardsWithCustomEventsTest extends JUnitTest
 		assertTrue(this.game.actualState.battlefield().objects.get(0).getName().equals("Plains"));
 		assertTrue(this.game.actualState.battlefield().objects.get(1).getName().equals("Abundance"));
 
-		java.util.List<GameObject> objects = getHand(0).objects;
+		List<GameObject> objects = getHand(0).objects;
 		assertEquals(7, objects.size());
 		assertTrue(objects.get(0).getName().equals("Inspiration"));
 		assertTrue(objects.get(1).getName().equals("Abundance"));
@@ -178,7 +185,7 @@ public class CardsWithCustomEventsTest extends JUnitTest
 
 		goToPhase(Phase.PhaseType.PRECOMBAT_MAIN);
 		castAndResolveSpell(Gomazoa.class, "2U");
-		this.game.physicalState.battlefield().objects.get(0).addAbility(new org.rnd.jmagic.abilities.keywords.Haste(this.game.physicalState));
+		this.game.physicalState.battlefield().objects.get(0).addAbility(new Haste(this.game.physicalState));
 		goToPhase(Phase.PhaseType.ENDING);
 
 		goToPhase(Phase.PhaseType.PRECOMBAT_MAIN);
@@ -377,9 +384,9 @@ public class CardsWithCustomEventsTest extends JUnitTest
 		// sharpie master's trigger to make 20 wolf tokens
 		GameObject stackedTrigger = this.game.physicalState.stack().objects.get(0);
 		assertEquals(MasteroftheWildHunt.MakeWolf.class, stackedTrigger.getClass());
-		stackedTrigger.getModes().get(0).effects.get(0).parameters.put(EventType.Parameter.NUMBER, org.rnd.jmagic.engine.generators.Identity.instance(20));
+		stackedTrigger.getModes().get(0).effects.get(0).parameters.put(EventType.Parameter.NUMBER, Identity.instance(20));
 		// and just give the fucker haste directly
-		this.game.physicalState.battlefield().objects.get(1).addAbility(new org.rnd.jmagic.abilities.keywords.Haste(this.game.physicalState));
+		this.game.physicalState.battlefield().objects.get(1).addAbility(new Haste(this.game.physicalState));
 		pass();
 		pass();
 
@@ -396,7 +403,7 @@ public class CardsWithCustomEventsTest extends JUnitTest
 		assertEquals("Darksteel Colossus", this.game.actualState.battlefield().objects.get(20).getName());
 		assertEquals(2 * 20, this.game.actualState.battlefield().objects.get(20).getDamage());
 
-		java.util.Map<Integer, Integer> damage = new java.util.HashMap<Integer, Integer>();
+		Map<Integer, Integer> damage = new HashMap<Integer, Integer>();
 		damage.put(this.game.actualState.battlefield().objects.get(0).ID, 2);
 		damage.put(this.game.actualState.battlefield().objects.get(1).ID, 2);
 		damage.put(this.game.actualState.battlefield().objects.get(2).ID, 2);
@@ -637,7 +644,7 @@ public class CardsWithCustomEventsTest extends JUnitTest
 			if(Xathrid == null)
 				fail("Unable to find Xathrid Demon in hand.");
 
-			Xathrid.addAbility(new org.rnd.jmagic.abilities.keywords.Flash(Xathrid.state));
+			Xathrid.addAbility(new Flash(Xathrid.state));
 		}
 
 		// Resolve Sprout

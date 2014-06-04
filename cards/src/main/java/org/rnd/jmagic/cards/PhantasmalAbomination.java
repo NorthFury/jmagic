@@ -1,7 +1,10 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Defender;
 import org.rnd.jmagic.engine.*;
+import org.rnd.jmagic.engine.patterns.BecomesTheTargetPattern;
 
 @Name("Phantasmal Abomination")
 @Types({Type.CREATURE})
@@ -17,7 +20,7 @@ public final class PhantasmalAbomination extends Card
 		{
 			super(state, "When Phantasmal Abomination becomes the target of a spell or ability, sacrifice it.");
 
-			EventPattern pattern = new org.rnd.jmagic.engine.patterns.BecomesTheTargetPattern(ABILITY_SOURCE_OF_THIS);
+			EventPattern pattern = new BecomesTheTargetPattern(ABILITY_SOURCE_OF_THIS);
 			this.addPattern(pattern);
 			this.addEffect(sacrificeThis("Phantasmal Abomination"));
 		}
@@ -31,7 +34,7 @@ public final class PhantasmalAbomination extends Card
 		this.setToughness(5);
 
 		// Defender
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Defender(state));
+		this.addAbility(new Defender(state));
 
 		// When Phantasmal Abomination becomes the target of a spell or ability,
 		// sacrifice it.

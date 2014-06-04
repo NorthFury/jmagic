@@ -2,6 +2,13 @@ package org.rnd.jmagic.engine.eventTypes;
 
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+import org.rnd.util.NumberRange;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 public final class ExileChoice extends EventType
 {	public static final EventType INSTANCE = new ExileChoice();
@@ -18,14 +25,14 @@ public final class ExileChoice extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean attempt(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		int required = getRange(parameters.get(Parameter.NUMBER)).getLower(0);
 
-		java.util.Set<GameObject> chosen = new java.util.HashSet<GameObject>();
+		Set<GameObject> chosen = new HashSet<GameObject>();
 		for(GameObject object: parameters.get(Parameter.OBJECT).getAll(GameObject.class))
 		{
-			java.util.Map<Parameter, MagicSet> newParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> newParameters = new HashMap<Parameter, MagicSet>();
 			newParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 			newParameters.put(Parameter.TO, new MagicSet(game.actualState.exileZone()));
 			newParameters.put(Parameter.OBJECT, new MagicSet(object));
@@ -41,14 +48,14 @@ public final class ExileChoice extends EventType
 	}
 
 	@Override
-	public void makeChoices(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public void makeChoices(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		Player player = parameters.get(Parameter.PLAYER).getOne(Player.class);
-		org.rnd.util.NumberRange number = getRange(parameters.get(Parameter.NUMBER));
+		NumberRange number = getRange(parameters.get(Parameter.NUMBER));
 
 		// offer the choices to the player
-		java.util.Set<GameObject> choices = parameters.get(Parameter.OBJECT).getAll(GameObject.class);
-		java.util.Collection<GameObject> chosen = player.sanitizeAndChoose(game.actualState, number.getLower(0), number.getUpper(choices.size()), choices, PlayerInterface.ChoiceType.OBJECTS, PlayerInterface.ChooseReason.EXILE);
+		Set<GameObject> choices = parameters.get(Parameter.OBJECT).getAll(GameObject.class);
+		Collection<GameObject> chosen = player.sanitizeAndChoose(game.actualState, number.getLower(0), number.getUpper(choices.size()), choices, PlayerInterface.ChoiceType.OBJECTS, PlayerInterface.ChooseReason.EXILE);
 		if(number.contains(chosen.size()))
 			event.allChoicesMade = true;
 
@@ -56,11 +63,11 @@ public final class ExileChoice extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		MagicSet chosen = event.getChoices(parameters.get(Parameter.PLAYER).getOne(Player.class));
 
-		java.util.Map<Parameter, MagicSet> moveParameters = new java.util.HashMap<Parameter, MagicSet>();
+		Map<Parameter, MagicSet> moveParameters = new HashMap<Parameter, MagicSet>();
 		moveParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 		moveParameters.put(Parameter.TO, new MagicSet(game.actualState.exileZone()));
 		moveParameters.put(Parameter.OBJECT, chosen);

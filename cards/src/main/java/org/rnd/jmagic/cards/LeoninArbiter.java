@@ -4,6 +4,10 @@ import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
 @Name("Leonin Arbiter")
 @Types({Type.CREATURE})
 @SubTypes({SubType.CLERIC, SubType.CAT})
@@ -12,22 +16,22 @@ import org.rnd.jmagic.engine.patterns.*;
 @ColorIdentity({Color.WHITE})
 public final class LeoninArbiter extends Card
 {
-	public static final class ActionNotTaken extends Tracker<java.util.Set<Integer>>
+	public static final class ActionNotTaken extends Tracker<Set<Integer>>
 	{
-		private java.util.Set<Integer> values = new java.util.HashSet<Integer>();
-		private java.util.Set<Integer> unmodifiable = java.util.Collections.unmodifiableSet(this.values);
+		private Set<Integer> values = new HashSet<Integer>();
+		private Set<Integer> unmodifiable = Collections.unmodifiableSet(this.values);
 
 		@Override
 		protected ActionNotTaken clone()
 		{
 			ActionNotTaken ret = (ActionNotTaken)super.clone();
-			ret.values = new java.util.HashSet<Integer>(this.values);
-			ret.unmodifiable = java.util.Collections.unmodifiableSet(ret.values);
+			ret.values = new HashSet<Integer>(this.values);
+			ret.unmodifiable = Collections.unmodifiableSet(ret.values);
 			return ret;
 		}
 
 		@Override
-		protected java.util.Set<Integer> getValueInternal()
+		protected Set<Integer> getValueInternal()
 		{
 			return this.unmodifiable;
 		}
@@ -75,7 +79,7 @@ public final class LeoninArbiter extends Card
 		@Override
 		public MagicSet evaluate(GameState state, Identified thisObject)
 		{
-			java.util.Set<Integer> playerIDs = this.tracker.getValue(state);
+			Set<Integer> playerIDs = this.tracker.getValue(state);
 			MagicSet ret = new MagicSet();
 			for(int ID: playerIDs)
 				ret.add(state.get(ID));
@@ -131,9 +135,9 @@ public final class LeoninArbiter extends Card
 		public final class IgnoreActionFactory extends SpecialActionFactory
 		{
 			@Override
-			public java.util.Set<PlayerAction> getActions(GameState state, GameObject source, Player actor)
+			public Set<PlayerAction> getActions(GameState state, GameObject source, Player actor)
 			{
-				return java.util.Collections.<PlayerAction>singleton(new IgnoreAction(state.game, actor, source.ID, LeoninArbiterAbility0.this.tracker));
+				return Collections.<PlayerAction>singleton(new IgnoreAction(state.game, actor, source.ID, LeoninArbiterAbility0.this.tracker));
 			}
 		}
 

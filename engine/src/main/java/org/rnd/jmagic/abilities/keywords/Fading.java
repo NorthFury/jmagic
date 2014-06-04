@@ -2,7 +2,11 @@ package org.rnd.jmagic.abilities.keywords;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.EntersTheBattlefieldWithCounters;
 import org.rnd.jmagic.engine.*;
+
+import java.util.Collections;
+import java.util.List;
 
 public final class Fading extends Keyword
 {
@@ -26,11 +30,11 @@ public final class Fading extends Keyword
 	}
 
 	@Override
-	protected java.util.List<StaticAbility> createStaticAbilities()
+	protected List<StaticAbility> createStaticAbilities()
 	{
 		if(this.N == 0)
 			return super.createStaticAbilities();
-		return java.util.Collections.<StaticAbility>singletonList(new org.rnd.jmagic.abilities.EntersTheBattlefieldWithCounters(this.state, "This permanent", this.N, Counter.CounterType.FADE));
+		return Collections.<StaticAbility>singletonList(new EntersTheBattlefieldWithCounters(this.state, "This permanent", this.N, Counter.CounterType.FADE));
 	}
 
 	public static final class RemoveCounter extends EventTriggeredAbility
@@ -49,8 +53,8 @@ public final class Fading extends Keyword
 	}
 
 	@Override
-	protected java.util.List<NonStaticAbility> createNonStaticAbilities()
+	protected List<NonStaticAbility> createNonStaticAbilities()
 	{
-		return java.util.Collections.<NonStaticAbility>singletonList(new RemoveCounter(this.state));
+		return Collections.<NonStaticAbility>singletonList(new RemoveCounter(this.state));
 	}
 }

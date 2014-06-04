@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Evolve;
 import org.rnd.jmagic.engine.*;
 
 @Name("Adaptive Snapjaw")
@@ -20,6 +21,6 @@ public final class AdaptiveSnapjaw extends Card
 		// Evolve (Whenever a creature enters the battlefield under your
 		// control, if that creature has greater power or toughness than this
 		// creature, put a +1/+1 counter on this creature.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Evolve(state));
+		this.addAbility(new Evolve(state));
 	}
 }

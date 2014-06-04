@@ -1,5 +1,7 @@
 package org.rnd.jmagic.engine;
 
+import java.util.Set;
+
 /**
  * Represents instructions for the delayed creation of a Set. Evaluating a
  * SetGenerator produces a Set that will be different each evaluation, based on
@@ -56,7 +58,7 @@ public abstract class SetGenerator
 	 * generators. this is important for preventing infinite loops between
 	 * reflecting pools.
 	 */
-	public java.util.Set<ManaSymbol.ManaType> extractColors(Game game, GameObject thisObject, java.util.Set<SetGenerator> ignoreThese) throws NoSuchMethodException
+	public Set<ManaSymbol.ManaType> extractColors(Game game, GameObject thisObject, Set<SetGenerator> ignoreThese) throws NoSuchMethodException
 	{
 		throw new NoSuchMethodException("Incomplete extractColors method.  Failed to handle " + this.getClass().toString());
 	}

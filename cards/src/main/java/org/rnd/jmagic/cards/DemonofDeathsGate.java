@@ -2,6 +2,9 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.AlternateCost;
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -31,10 +34,10 @@ public final class DemonofDeathsGate extends Card
 		sacFactory.parameters.put(EventType.Parameter.PLAYER, You.instance());
 
 		CostCollection altCost = new CostCollection(CostCollection.TYPE_ALTERNATE, lifeFactory, sacFactory);
-		this.addAbility(new org.rnd.jmagic.abilities.AlternateCost(state, "You may pay 6 life and sacrifice three black creatures rather than pay Demon of Death's Gate's mana cost.", altCost));
+		this.addAbility(new AlternateCost(state, "You may pay 6 life and sacrifice three black creatures rather than pay Demon of Death's Gate's mana cost.", altCost));
 
 		// Flying, trample
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Trample(state));
+		this.addAbility(new Flying(state));
+		this.addAbility(new Trample(state));
 	}
 }

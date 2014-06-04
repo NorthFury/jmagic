@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.EntersTheBattlefieldWithCounters;
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -31,10 +34,10 @@ public final class CarnifexDemon extends Card
 		this.setToughness(6);
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// Carnifex Demon enters the battlefield with two -1/-1 counters on it.
-		this.addAbility(new org.rnd.jmagic.abilities.EntersTheBattlefieldWithCounters(state, "Carnifex Demon", 2, Counter.CounterType.MINUS_ONE_MINUS_ONE));
+		this.addAbility(new EntersTheBattlefieldWithCounters(state, "Carnifex Demon", 2, Counter.CounterType.MINUS_ONE_MINUS_ONE));
 
 		// (B), Remove a -1/-1 counter from Carnifex Demon: Put a -1/-1 counter
 		// on each other creature.

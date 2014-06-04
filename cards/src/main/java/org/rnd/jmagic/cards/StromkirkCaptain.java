@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.FirstStrike;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -20,7 +22,7 @@ public final class StromkirkCaptain extends Card
 
 			SetGenerator otherVampires = RelativeComplement.instance(Intersect.instance(HasSubType.instance(SubType.VAMPIRE), CREATURES_YOU_CONTROL), This.instance());
 			this.addEffectPart(modifyPowerAndToughness(otherVampires, +1, +1));
-			this.addEffectPart(addAbilityToObject(otherVampires, org.rnd.jmagic.abilities.keywords.FirstStrike.class));
+			this.addEffectPart(addAbilityToObject(otherVampires, FirstStrike.class));
 		}
 	}
 
@@ -32,7 +34,7 @@ public final class StromkirkCaptain extends Card
 		this.setToughness(2);
 
 		// First strike
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.FirstStrike(state));
+		this.addAbility(new FirstStrike(state));
 
 		// Other Vampire creatures you control get +1/+1 and have first strike.
 		this.addAbility(new StromkirkCaptainAbility1(state));

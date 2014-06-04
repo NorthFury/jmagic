@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Bloodthirst;
 import org.rnd.jmagic.engine.*;
 
 @Name("Gorehorn Minotaurs")
@@ -19,6 +20,6 @@ public final class GorehornMinotaurs extends Card
 
 		// Bloodthirst 2 (If an opponent was dealt damage this turn, this
 		// creature enters the battlefield with two +1/+1 counters on it.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Bloodthirst.Final(state, 2));
+		this.addAbility(new Bloodthirst.Final(state, 2));
 	}
 }

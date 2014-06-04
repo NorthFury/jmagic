@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Vigilance;
 import org.rnd.jmagic.engine.*;
 
 @Name("Towering Thunderfist")
@@ -17,7 +19,7 @@ public final class ToweringThunderfist extends Card
 		{
 			super(state, "(W): Towering Thunderfist gains vigilance until end of turn.");
 			this.setManaCost(new ManaPool("(W)"));
-			this.addEffect(addAbilityUntilEndOfTurn(ABILITY_SOURCE_OF_THIS, org.rnd.jmagic.abilities.keywords.Vigilance.class, "Towering Thunderfist gains vigilance until end of turn."));
+			this.addEffect(addAbilityUntilEndOfTurn(ABILITY_SOURCE_OF_THIS, Vigilance.class, "Towering Thunderfist gains vigilance until end of turn."));
 		}
 	}
 

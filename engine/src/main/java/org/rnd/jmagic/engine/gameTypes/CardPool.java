@@ -3,13 +3,20 @@ package org.rnd.jmagic.engine.gameTypes;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.GameType.*;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.EnumSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
 /** Represents a card pool (for example, Standard). */
 public abstract class CardPool implements GameTypeRule
 {
-	private java.util.Collection<Expansion> allowedSets;
+	private Collection<Expansion> allowedSets;
 
-	private java.util.Collection<String> bannedList;
-	private java.util.Collection<String> restrictedList;
+	private Collection<String> bannedList;
+	private Collection<String> restrictedList;
 
 	public CardPool()
 	{
@@ -19,12 +26,12 @@ public abstract class CardPool implements GameTypeRule
 	public CardPool(boolean eternal)
 	{
 		if(eternal)
-			this.allowedSets = java.util.EnumSet.complementOf(java.util.EnumSet.of(Expansion.TEST));
+			this.allowedSets = EnumSet.complementOf(EnumSet.of(Expansion.TEST));
 		else
-			this.allowedSets = java.util.EnumSet.noneOf(Expansion.class);
+			this.allowedSets = EnumSet.noneOf(Expansion.class);
 
-		this.bannedList = new java.util.LinkedList<String>();
-		this.restrictedList = new java.util.LinkedList<String>();
+		this.bannedList = new LinkedList<String>();
+		this.restrictedList = new LinkedList<String>();
 	}
 
 	public void allowSet(Expansion e)
@@ -57,14 +64,14 @@ public abstract class CardPool implements GameTypeRule
 	}
 
 	@Override
-	public boolean checkDeck(java.util.Map<String, java.util.List<Class<? extends Card>>> deck)
+	public boolean checkDeck(Map<String, List<Class<? extends Card>>> deck)
 	{
 		if(this.restrictedList.isEmpty())
 			return true;
 
 		// keys are card classes, values are numbers of that card
-		java.util.Collection<Class<? extends Card>> restrictedCardsPresent = new java.util.LinkedList<Class<? extends Card>>();
-		for(java.util.List<Class<? extends Card>> deckPart: deck.values())
+		Collection<Class<? extends Card>> restrictedCardsPresent = new LinkedList<Class<? extends Card>>();
+		for(List<Class<? extends Card>> deckPart: deck.values())
 			for(Class<? extends Card> card: deckPart)
 				if(this.restrictedList.contains(card))
 				{
@@ -77,9 +84,9 @@ public abstract class CardPool implements GameTypeRule
 	}
 
 	@Override
-	public java.util.Collection<java.util.Map<String, java.util.List<Class<? extends Card>>>> exemptDecklists()
+	public Collection<Map<String, List<Class<? extends Card>>>> exemptDecklists()
 	{
-		return java.util.Collections.emptySet();
+		return Collections.emptySet();
 	}
 
 	@Override

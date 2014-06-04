@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Haste;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -104,7 +106,7 @@ public final class WarrenWeirding extends Card
 		tokens.setSubTypes(SubType.GOBLIN, SubType.ROGUE);
 		EventFactory tokenFactory = tokens.getEventFactory();
 
-		EventFactory hasteFactory = addAbilityUntilEndOfTurn(EffectResult.instance(tokenFactory), org.rnd.jmagic.abilities.keywords.Haste.class, "Those tokens gain haste until end of turn.");
+		EventFactory hasteFactory = addAbilityUntilEndOfTurn(EffectResult.instance(tokenFactory), Haste.class, "Those tokens gain haste until end of turn.");
 
 		EventFactory factory = new EventFactory(EventType.IF_CONDITION_THEN_ELSE, "If a Goblin is sacrificed this way, that player puts two 1/1 black Goblin Rogue creature tokens onto the battlefield, and those tokens gain haste until end of turn.");
 		factory.parameters.put(EventType.Parameter.IF, WasGoblin.instance(sacrificed));

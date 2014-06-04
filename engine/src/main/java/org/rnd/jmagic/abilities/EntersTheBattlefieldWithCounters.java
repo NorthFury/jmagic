@@ -4,6 +4,7 @@ import static org.rnd.jmagic.Convenience.*;
 
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+import org.rnd.util.NumberNames;
 
 public final class EntersTheBattlefieldWithCounters extends StaticAbility
 {
@@ -21,7 +22,7 @@ public final class EntersTheBattlefieldWithCounters extends StaticAbility
 		// counterString includes the type of counter and the words "on it" to
 		// facilitate things like "enters the battlefield with a number of
 		// charge counters on it equal to the number of Mountains you control".
-		this.counterString = org.rnd.util.NumberNames.get(N) + " " + type + (N > 1 ? "s" : "") + " on it.";
+		this.counterString = NumberNames.get(N) + " " + type + (N > 1 ? "s" : "") + " on it.";
 		this.type = type;
 
 		generateEffect();
@@ -53,7 +54,7 @@ public final class EntersTheBattlefieldWithCounters extends StaticAbility
 		String one = "a";
 		if(type.toString().startsWith("a") || type.toString().startsWith("e") || type.toString().startsWith("i") || type.toString().startsWith("o") || type.toString().startsWith("u"))
 			one = "an";
-		return org.rnd.util.NumberNames.get(N, one) + " " + type + (N > 1 ? "s" : "");
+		return NumberNames.get(N, one) + " " + type + (N > 1 ? "s" : "");
 	}
 
 	private void generateEffect()

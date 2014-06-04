@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Kicker;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -45,7 +46,7 @@ public final class DeathforgeShaman extends Card
 
 		// Multikicker (R) (You may pay an additional (R) any number of times as
 		// you cast this spell.)
-		org.rnd.jmagic.abilities.keywords.Kicker kicker = new org.rnd.jmagic.abilities.keywords.Kicker(state, true, "(R)");
+		Kicker kicker = new Kicker(state, true, "(R)");
 		this.addAbility(kicker);
 
 		// When Deathforge Shaman enters the battlefield, it deals damage to

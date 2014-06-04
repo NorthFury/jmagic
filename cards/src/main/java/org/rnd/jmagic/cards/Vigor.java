@@ -2,8 +2,15 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.LorwynIncarnationTrigger;
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 @Name("Vigor")
 @Types({Type.CREATURE})
@@ -55,14 +62,14 @@ public final class Vigor extends Card
 		}
 
 		@Override
-		public java.util.List<EventFactory> prevent(DamageAssignment.Batch damageAssignments)
+		public List<EventFactory> prevent(DamageAssignment.Batch damageAssignments)
 		{
 			if(damageAssignments.isEmpty())
-				return new java.util.LinkedList<EventFactory>();
+				return new LinkedList<EventFactory>();
 
 			// This maps from GameObject IDs to the number of counters to put on
 			// that GameObject
-			java.util.Map<Integer, Integer> countersToPlace = new java.util.HashMap<Integer, Integer>();
+			Map<Integer, Integer> countersToPlace = new HashMap<Integer, Integer>();
 
 			for(DamageAssignment damage: damageAssignments)
 			{
@@ -72,9 +79,9 @@ public final class Vigor extends Card
 					countersToPlace.put(damage.takerID, countersToPlace.get(damage.takerID) + 1);
 			}
 
-			java.util.List<EventFactory> ret = new java.util.LinkedList<EventFactory>();
+			List<EventFactory> ret = new LinkedList<EventFactory>();
 			SetGenerator sourceOfDamage = IdentifiedWithID.instance(damageAssignments.iterator().next().sourceID);
-			for(java.util.Map.Entry<Integer, Integer> counterToPlace: countersToPlace.entrySet())
+			for(Map.Entry<Integer, Integer> counterToPlace: countersToPlace.entrySet())
 			{
 				EventFactory counterEvent = new EventFactory(EventType.PUT_COUNTERS, "Put a +1/+1 counter on that creature for each 1 damage prevented this way");
 				counterEvent.parameters.put(EventType.Parameter.CAUSE, sourceOfDamage);
@@ -106,8 +113,8 @@ public final class Vigor extends Card
 		this.setPower(6);
 		this.setToughness(6);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Trample(state));
+		this.addAbility(new Trample(state));
 		this.addAbility(new Vigorous(state));
-		this.addAbility(new org.rnd.jmagic.abilities.LorwynIncarnationTrigger(state, this.getName()));
+		this.addAbility(new LorwynIncarnationTrigger(state, this.getName()));
 	}
 }

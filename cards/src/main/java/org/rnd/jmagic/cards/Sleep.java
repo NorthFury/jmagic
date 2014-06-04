@@ -5,6 +5,9 @@ import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Name("Sleep")
 @Types({Type.SORCERY})
 @ManaCost("2UU")
@@ -31,14 +34,14 @@ public final class Sleep extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			MagicSet cause = parameters.get(Parameter.CAUSE);
 			Player player = parameters.get(Parameter.PLAYER).getOne(Player.class);
 			MagicSet thoseCreatures = Intersect.instance(ControlledBy.instance(Identity.instance(player)), CreaturePermanents.instance()).evaluate(game, null);
 
 			// Tap all creatures target player controls.
-			java.util.Map<Parameter, MagicSet> tapParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> tapParameters = new HashMap<Parameter, MagicSet>();
 			tapParameters.put(Parameter.CAUSE, cause);
 			tapParameters.put(Parameter.OBJECT, thoseCreatures);
 			createEvent(game, "Tap all creatures that player controls.", TAP_PERMANENTS, tapParameters).perform(event, true);
@@ -52,7 +55,7 @@ public final class Sleep extends Card
 			SetGenerator thatPlayersUntap = UntapStepOf.instance(Identity.instance(player));
 			SetGenerator untapStepOver = Intersect.instance(PreviousStep.instance(), thatPlayersUntap);
 
-			java.util.Map<Parameter, MagicSet> noUntapParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> noUntapParameters = new HashMap<Parameter, MagicSet>();
 			noUntapParameters.put(EventType.Parameter.CAUSE, cause);
 			noUntapParameters.put(EventType.Parameter.EFFECT, new MagicSet(part));
 			noUntapParameters.put(EventType.Parameter.EXPIRES, new MagicSet(untapStepOver));

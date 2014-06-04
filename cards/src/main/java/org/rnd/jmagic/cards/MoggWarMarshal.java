@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Echo;
 import org.rnd.jmagic.engine.*;
 
 @Name("Mogg War Marshal")
@@ -36,7 +38,7 @@ public final class MoggWarMarshal extends Card
 		// Echo (1)(R) (At the beginning of your upkeep, if this came under your
 		// control since the beginning of your last upkeep, sacrifice it unless
 		// you pay its echo cost.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Echo(state, "(1)(R)"));
+		this.addAbility(new Echo(state, "(1)(R)"));
 
 		// When Mogg War Marshal enters the battlefield or dies, put a 1/1 red
 		// Goblin creature token onto the battlefield.

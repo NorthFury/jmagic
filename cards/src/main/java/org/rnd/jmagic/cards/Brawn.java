@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -21,7 +23,7 @@ public final class Brawn extends Card
 			SetGenerator youControlForest = Intersect.instance(ControlledBy.instance(You.instance()), HasSubType.instance(SubType.FOREST));
 			this.canApply = Both.instance(THIS_IS_IN_A_GRAVEYARD, youControlForest);
 
-			this.addEffectPart(addAbilityToObject(CREATURES_YOU_CONTROL, org.rnd.jmagic.abilities.keywords.Trample.class));
+			this.addEffectPart(addAbilityToObject(CREATURES_YOU_CONTROL, Trample.class));
 		}
 	}
 
@@ -33,7 +35,7 @@ public final class Brawn extends Card
 		this.setToughness(3);
 
 		// Trample
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Trample(state));
+		this.addAbility(new Trample(state));
 
 		// As long as Brawn is in your graveyard and you control a Forest,
 		// creatures you control have trample.

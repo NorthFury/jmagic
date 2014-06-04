@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.Regenerate;
 import org.rnd.jmagic.engine.*;
 
 @Name("Selesnya Sentry")
@@ -19,6 +20,6 @@ public final class SelesnyaSentry extends Card
 		this.setToughness(2);
 
 		// (5)(G): Regenerate Selesnya Sentry.
-		this.addAbility(new org.rnd.jmagic.abilities.Regenerate.Final(state, "(5)(G)", "Selesnya Sentry"));
+		this.addAbility(new Regenerate.Final(state, "(5)(G)", "Selesnya Sentry"));
 	}
 }

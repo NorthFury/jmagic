@@ -3,6 +3,10 @@ package org.rnd.jmagic.engine.eventTypes;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
 public final class PlayCard extends EventType
 {	public static final EventType INSTANCE = new PlayCard();
 
@@ -18,7 +22,7 @@ public final class PlayCard extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean attempt(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		Player player = parameters.get(Parameter.PLAYER).getOne(Player.class);
 		GameObject object = parameters.get(Parameter.OBJECT).getOne(GameObject.class);
@@ -27,7 +31,7 @@ public final class PlayCard extends EventType
 		{
 			for(PlayLandAction action: game.createPlayLandActions(player, object))
 			{
-				java.util.Map<Parameter, MagicSet> landParameters = new java.util.HashMap<Parameter, MagicSet>();
+				Map<Parameter, MagicSet> landParameters = new HashMap<Parameter, MagicSet>();
 				landParameters.put(Parameter.ACTION, new MagicSet(action));
 				landParameters.put(Parameter.PLAYER, new MagicSet(player));
 				landParameters.put(Parameter.LAND, new MagicSet(object));
@@ -38,7 +42,7 @@ public final class PlayCard extends EventType
 			return false;
 		}
 
-		java.util.Map<Parameter, MagicSet> castParameters = new java.util.HashMap<Parameter, MagicSet>();
+		Map<Parameter, MagicSet> castParameters = new HashMap<Parameter, MagicSet>();
 		castParameters.put(Parameter.PLAYER, new MagicSet(player));
 		castParameters.put(Parameter.OBJECT, new MagicSet(object));
 		if(parameters.containsKey(Parameter.ALTERNATE_COST))
@@ -48,7 +52,7 @@ public final class PlayCard extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		Identified cause = parameters.get(Parameter.CAUSE).getOne(Identified.class);
 		int sourceID = (cause == null ? 0 : cause.ID);
@@ -59,7 +63,7 @@ public final class PlayCard extends EventType
 		{
 			// If a PlayLandAction wasn't specified, have the player choose
 			// one.
-			java.util.Set<PlayLandAction> actions = game.createPlayLandActions(player, object);
+			Set<PlayLandAction> actions = game.createPlayLandActions(player, object);
 			PlayLandAction action = player.sanitizeAndChoose(game.actualState, 1, actions, PlayerInterface.ChoiceType.ACTION, PlayerInterface.ChooseReason.ACTION).get(0);
 			boolean ret = action.saveStateAndPerform();
 

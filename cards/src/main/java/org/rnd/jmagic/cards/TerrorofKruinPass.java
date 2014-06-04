@@ -1,8 +1,13 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.Werewolves;
+import org.rnd.jmagic.abilities.keywords.DoubleStrike;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+
+import java.util.Map;
 
 @Name("Terror of Kruin Pass")
 @Types({Type.CREATURE})
@@ -24,7 +29,7 @@ public final class TerrorofKruinPass extends AlternateCard
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
+		public void apply(GameState state, ContinuousEffect effect, Map<Parameter, MagicSet> parameters)
 		{
 			for(GameObject object: parameters.get(Parameter.OBJECT).getAll(GameObject.class))
 			{
@@ -64,7 +69,7 @@ public final class TerrorofKruinPass extends AlternateCard
 		this.setColorIndicator(Color.RED);
 
 		// Double strike
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.DoubleStrike(state));
+		this.addAbility(new DoubleStrike(state));
 
 		// Each Werewolf you control can't be blocked except by two or more
 		// creatures.
@@ -72,6 +77,6 @@ public final class TerrorofKruinPass extends AlternateCard
 
 		// At the beginning of each upkeep, if a player cast two or more spells
 		// last turn, transform Terror of Kruin Pass.
-		this.addAbility(new org.rnd.jmagic.abilities.Werewolves.BecomeHuman(state, this.getName()));
+		this.addAbility(new Werewolves.BecomeHuman(state, this.getName()));
 	}
 }

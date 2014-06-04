@@ -1,8 +1,15 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Name("Leap of Faith")
 @Types({Type.INSTANT})
@@ -29,7 +36,7 @@ public final class LeapofFaith extends Card
 
 			Identified ability = this.getSourceObject(context.game.actualState);
 
-			java.util.Set<Integer> ids = new java.util.HashSet<Integer>();
+			Set<Integer> ids = new HashSet<Integer>();
 			for(Identified identified: this.target.evaluate(context.state, ability).getAll(Identified.class))
 				ids.add(identified.ID);
 
@@ -41,10 +48,10 @@ public final class LeapofFaith extends Card
 		}
 
 		@Override
-		public java.util.List<org.rnd.jmagic.engine.EventFactory> prevent(org.rnd.jmagic.engine.DamageAssignment.Batch damageAssignments)
+		public List<EventFactory> prevent(DamageAssignment.Batch damageAssignments)
 		{
 			damageAssignments.clear();
-			return java.util.Collections.emptyList();
+			return Collections.emptyList();
 		}
 	}
 
@@ -59,7 +66,7 @@ public final class LeapofFaith extends Card
 		ContinuousEffect.Part preventPart = new ContinuousEffect.Part(ContinuousEffectType.REPLACEMENT_EFFECT);
 		preventPart.parameters.put(ContinuousEffectType.Parameter.OBJECT, Identity.instance(new Prevent(state.game, "Prevent all damage that would be dealt to that creature this turn.", target)));
 
-		this.addEffect(createFloatingEffect("Target creature gains flying until end of turn. Prevent all damage that would be dealt to that creature this turn.", addAbilityToObject(target, org.rnd.jmagic.abilities.keywords.Flying.class), preventPart));
+		this.addEffect(createFloatingEffect("Target creature gains flying until end of turn. Prevent all damage that would be dealt to that creature this turn.", addAbilityToObject(target, Flying.class), preventPart));
 
 	}
 }

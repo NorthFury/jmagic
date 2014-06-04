@@ -1,5 +1,9 @@
 package org.rnd.jmagic.engine;
 
+import org.rnd.jmagic.sanitized.SanitizedNonStaticAbility;
+
+import java.util.Collection;
+
 /** Represents an ability that can resolve. */
 public abstract class NonStaticAbility extends GameObject implements Linkable
 {
@@ -33,7 +37,7 @@ public abstract class NonStaticAbility extends GameObject implements Linkable
 		this.sourceID = -1;
 	}
 
-	public void addedMana(java.util.Collection<ManaSymbol> symbols)
+	public void addedMana(Collection<ManaSymbol> symbols)
 	{
 		if(this.manaAdded == null)
 			this.manaAdded = new ManaPool(symbols);
@@ -52,7 +56,7 @@ public abstract class NonStaticAbility extends GameObject implements Linkable
 	}
 
 	@Override
-	public NonStaticAbility clone(org.rnd.jmagic.engine.GameState state)
+	public NonStaticAbility clone(GameState state)
 	{
 		NonStaticAbility ret = (NonStaticAbility)super.clone(state);
 		ret.linkManager = this.linkManager.clone();
@@ -145,9 +149,9 @@ public abstract class NonStaticAbility extends GameObject implements Linkable
 	}
 
 	@Override
-	public org.rnd.jmagic.sanitized.SanitizedNonStaticAbility sanitize(GameState state, Player whoFor)
+	public SanitizedNonStaticAbility sanitize(GameState state, Player whoFor)
 	{
-		return new org.rnd.jmagic.sanitized.SanitizedNonStaticAbility(state.<NonStaticAbility>get(this.ID), whoFor);
+		return new SanitizedNonStaticAbility(state.<NonStaticAbility>get(this.ID), whoFor);
 	}
 
 	@Override

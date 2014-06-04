@@ -3,6 +3,10 @@ package org.rnd.jmagic.engine;
 import org.rnd.jmagic.engine.eventTypes.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
+import org.rnd.util.NumberRange;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Before adding a new EventType to this file, please see the note near the top
@@ -16,7 +20,7 @@ public abstract class EventType
 		ABILITY, ACTION, ALTERNATE_COST, ATTACKER, CARD, CAUSE, CHOICE, COLOR, CONTROLLER, COST, COUNTER, DAMAGE, DEFENDER, EFFECT, ELSE, EVENT, EXPIRES, FACE_DOWN, FROM, HIDDEN, IF, INDEX, LAND, MANA, MULTIPLY, NAME, NUMBER, OBJECT, ORDERED, PERMANENT, PHASE, PLAYER, POWER, PREVENT, RANDOM, REASON, RESOLVING, SOURCE, STEP, SUBTYPE, SUPERTYPE, TAKER, TAPPED, TARGET, THEN, TO, TOUGHNESS, TURN, TYPE, USES, ZONE, ZONE_CHANGE
 	}
 
-	public static class ParameterMap extends java.util.HashMap<Parameter, SetGenerator>
+	public static class ParameterMap extends HashMap<Parameter, SetGenerator>
 	{
 		private static final long serialVersionUID = 1L;
 	}
@@ -986,7 +990,7 @@ public abstract class EventType
 	 * type and {@link EffectResult}.
 	 * 
 	 * @eparam PLAYER: who is choosing
-	 * @eparam CHOICE: {@link org.rnd.util.NumberRange} (use a {@link Between})
+	 * @eparam CHOICE: {@link NumberRange} (use a {@link Between})
 	 * @eparam TYPE: a {@link String} describing the choice
 	 * @eparam RESULT: what was chosen
 	 */
@@ -1223,7 +1227,7 @@ public abstract class EventType
 	 * battlefield
 	 * @eparam OBJECT: the choices of things to put onto the battlefield
 	 * @eparam NUMBER: the number of choices to make (can be an integer or a
-	 * {@link org.rnd.util.NumberRange} [optional; default is 1]
+	 * {@link NumberRange} [optional; default is 1]
 	 * @eparam PLAYER: the player choosing the objects [optional; default is
 	 * CONTROLLER]
 	 * @eparam RESULT: result of the {@link #PUT_ONTO_BATTLEFIELD} event
@@ -1408,7 +1412,7 @@ public abstract class EventType
 	 * @eparam EFFECT: a set generator saying when the reveal expires [optional;
 	 * if set, this will create a reveal fce with that duration]
 	 * @eparam NUMBER: the number of cards to choose (single number or a
-	 * {@link org.rnd.util.NumberRange}) [optional; default is one]
+	 * {@link NumberRange}) [optional; default is one]
 	 * @eparam PLAYER: the player who chooses what to reveal
 	 * @eparam RESULT: the revealed object
 	 */
@@ -1793,12 +1797,12 @@ public abstract class EventType
 	 * @param parameters The parameter map to pass to the event constructor.
 	 * @return The new event.
 	 */
-	protected static final Event createEvent(Game game, String name, EventType type, java.util.Map<Parameter, MagicSet> parameters)
+	protected static final Event createEvent(Game game, String name, EventType type, Map<Parameter, MagicSet> parameters)
 	{
 		Event newEvent = new Event(game.physicalState, name, type);
 
 		if(parameters != null)
-			for(java.util.Map.Entry<Parameter, MagicSet> parameter: parameters.entrySet())
+			for(Map.Entry<Parameter, MagicSet> parameter: parameters.entrySet())
 				newEvent.parameters.put(parameter.getKey(), Identity.instance(parameter.getValue()));
 
 		return newEvent;
@@ -1814,23 +1818,23 @@ public abstract class EventType
 	 * each the sum of the integers in <code>parameter</code>. (1, 1) if
 	 * <code>parameter</code> is null.
 	 */
-	public static org.rnd.util.NumberRange getRange(MagicSet parameter)
+	public static NumberRange getRange(MagicSet parameter)
 	{
 		if(parameter == null)
-			return new org.rnd.util.NumberRange(1, 1);
+			return new NumberRange(1, 1);
 
-		org.rnd.util.NumberRange num = parameter.getOne(org.rnd.util.NumberRange.class);
+		NumberRange num = parameter.getOne(NumberRange.class);
 		if(num == null)
 		{
 			int sum = Sum.get(parameter);
 			if(sum < 0)
 				sum = 0;
-			num = new org.rnd.util.NumberRange(sum, sum);
+			num = new NumberRange(sum, sum);
 		}
 		return num;
 	}
 
-	private static java.util.Map<String, Class<? extends EventType>> typeNames;
+	private static Map<String, Class<? extends EventType>> typeNames;
 
 	private final String toString;
 
@@ -1841,7 +1845,7 @@ public abstract class EventType
 	public EventType(String name)
 	{
 		if(null == typeNames)
-			typeNames = new java.util.HashMap<String, Class<? extends EventType>>();
+			typeNames = new HashMap<String, Class<? extends EventType>>();
 		if(typeNames.containsKey(name) && !typeNames.get(name).equals(this.getClass()))
 			throw new UnsupportedOperationException("EventType names must be unique");
 		typeNames.put(name, this.getClass());
@@ -1877,7 +1881,7 @@ public abstract class EventType
 	 * @param parameters The parameters of the event to attempt.
 	 * @return Whether the event is able to be performed.
 	 */
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean attempt(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		return true;
 	}
@@ -1934,7 +1938,7 @@ public abstract class EventType
 	 * @param event What even the choice is made for.
 	 * @param parameters Parameters for the event.
 	 */
-	public void makeChoices(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public void makeChoices(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		// By default no choices need to be made.
 	}
@@ -1952,7 +1956,7 @@ public abstract class EventType
 	 * @param parameters The parameters to the event
 	 * @return Whether the event can be used to pay a cost
 	 */
-	public abstract boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters);
+	public abstract boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters);
 
 	@Override
 	public String toString()

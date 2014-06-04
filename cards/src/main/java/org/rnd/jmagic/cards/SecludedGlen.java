@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.RevealOrThisEntersTapped;
+import org.rnd.jmagic.abilities.TapForMana;
 import org.rnd.jmagic.engine.*;
 
 @Name("Secluded Glen")
@@ -15,9 +17,9 @@ public final class SecludedGlen extends Card
 		// As Secluded Glen enters the battlefield, you may reveal a Faerie card
 		// from your hand. If you don't, Secluded Glen enters the battlefield
 		// tapped.
-		this.addAbility(new org.rnd.jmagic.abilities.RevealOrThisEntersTapped(state, this.getName(), SubType.FAERIE));
+		this.addAbility(new RevealOrThisEntersTapped(state, this.getName(), SubType.FAERIE));
 
 		// (T): Add (U) or (B) to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapForMana.Final(state, "(UB)"));
+		this.addAbility(new TapForMana.Final(state, "(UB)"));
 	}
 }

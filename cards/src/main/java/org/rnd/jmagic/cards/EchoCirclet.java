@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Equip;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -31,6 +32,6 @@ public final class EchoCirclet extends Card
 		this.addAbility(new EchoCircletAbility0(state));
 
 		// Equip (1)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Equip(state, "(1)"));
+		this.addAbility(new Equip(state, "(1)"));
 	}
 }

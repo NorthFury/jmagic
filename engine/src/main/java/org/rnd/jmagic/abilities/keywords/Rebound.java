@@ -6,6 +6,9 @@ import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
 
+import java.util.Collections;
+import java.util.List;
+
 /**
  * 702.85. Rebound
  * 
@@ -73,8 +76,8 @@ public final class Rebound extends Keyword
 	}
 
 	@Override
-	protected java.util.List<org.rnd.jmagic.engine.StaticAbility> createStaticAbilities()
+	protected List<StaticAbility> createStaticAbilities()
 	{
-		return java.util.Collections.<StaticAbility>singletonList(new ReboundAbility(this.state));
+		return Collections.<StaticAbility>singletonList(new ReboundAbility(this.state));
 	}
 }

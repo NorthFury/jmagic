@@ -1,5 +1,9 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.ColossusShuffle;
+import org.rnd.jmagic.abilities.keywords.Indestructible;
+import org.rnd.jmagic.abilities.keywords.Infect;
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 
 @Name("Blightsteel Colossus")
@@ -18,15 +22,15 @@ public final class BlightsteelColossus extends Card
 		this.setToughness(11);
 
 		// Trample, infect
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Trample(state));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Infect(state));
+		this.addAbility(new Trample(state));
+		this.addAbility(new Infect(state));
 
 		// Blightsteel Colossus is indestructible.
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Indestructible(state));
+		this.addAbility(new Indestructible(state));
 
 		// If Blightsteel Colossus would be put into a graveyard from anywhere,
 		// reveal Blightsteel Colossus and shuffle it into its owner's library
 		// instead.
-		this.addAbility(new org.rnd.jmagic.abilities.ColossusShuffle(state, this.getName()));
+		this.addAbility(new ColossusShuffle(state, this.getName()));
 	}
 }

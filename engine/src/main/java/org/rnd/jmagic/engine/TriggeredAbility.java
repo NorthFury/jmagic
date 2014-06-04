@@ -2,6 +2,9 @@ package org.rnd.jmagic.engine;
 
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * Represents a triggered ability.
  * 
@@ -151,7 +154,7 @@ public abstract class TriggeredAbility extends NonStaticAbility
 		if(minimum == null || this.getModes().size() > minimum)
 		{
 			this.setSelectedModes(this.selectModes());
-			physicalAbility.setSelectedModes(new java.util.LinkedList<Mode>(this.getSelectedModes()));
+			physicalAbility.setSelectedModes(new LinkedList<Mode>(this.getSelectedModes()));
 		}
 		// ...or choose all of them
 		else
@@ -167,7 +170,7 @@ public abstract class TriggeredAbility extends NonStaticAbility
 				continue;
 			for(Target possible: mode.targets)
 			{
-				java.util.List<Target> chosenTargets = new java.util.LinkedList<Target>(this.getChosenTargets().get(possible));
+				List<Target> chosenTargets = new LinkedList<Target>(this.getChosenTargets().get(possible));
 				physicalAbility.getChosenTargets().put(possible, chosenTargets);
 				for(Target chosen: chosenTargets)
 					if(null == chosen)
@@ -185,7 +188,7 @@ public abstract class TriggeredAbility extends NonStaticAbility
 			int divisionAmount = division.getOne(Integer.class);
 			if(divisionAmount != 0)
 			{
-				java.util.LinkedList<Target> targets = new java.util.LinkedList<Target>();
+				LinkedList<Target> targets = new LinkedList<Target>();
 				for(Target target: physicalAbility.getMode(i).targets)
 					targets.addAll(physicalAbility.getChosenTargets().get(target));
 				controller.divide(divisionAmount, 1, this.ID, division.getOne(String.class), targets);

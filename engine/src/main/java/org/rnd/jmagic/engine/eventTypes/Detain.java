@@ -4,6 +4,9 @@ import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public final class Detain extends EventType
 {	public static final EventType INSTANCE = new Detain();
 
@@ -19,7 +22,7 @@ public final class Detain extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		GameObject cause = parameters.get(EventType.Parameter.CAUSE).getOne(GameObject.class);
 		SetGenerator expires = Not.instance(Intersect.instance(Identity.instance(cause), DetainGenerator.instance()));
@@ -43,7 +46,7 @@ public final class Detain extends EventType
 			ContinuousEffect.Part prohibition = new ContinuousEffect.Part(ContinuousEffectType.PROHIBIT);
 			prohibition.parameters.put(ContinuousEffectType.Parameter.PROHIBITION, Identity.instance(prohibitPattern));
 
-			java.util.Map<Parameter, MagicSet> lookParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> lookParameters = new HashMap<Parameter, MagicSet>();
 			lookParameters.put(Parameter.CAUSE, new MagicSet(cause));
 			lookParameters.put(Parameter.EFFECT, new MagicSet(attack, block, prohibition));
 			lookParameters.put(Parameter.EXPIRES, new MagicSet(expires));

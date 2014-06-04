@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.cardTemplates.ShardsHerald;
 import org.rnd.jmagic.engine.*;
 
 @Name("Sphinx's Herald")
@@ -8,7 +9,7 @@ import org.rnd.jmagic.engine.*;
 @ManaCost("U")
 @Printings({@Printings.Printed(ex = Expansion.SHARDS_OF_ALARA, r = Rarity.UNCOMMON)})
 @ColorIdentity({Color.BLUE})
-public final class SphinxsHerald extends org.rnd.jmagic.cardTemplates.ShardsHerald
+public final class SphinxsHerald extends ShardsHerald
 {
 	public SphinxsHerald(GameState state)
 	{

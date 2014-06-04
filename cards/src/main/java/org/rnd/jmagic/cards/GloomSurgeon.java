@@ -4,6 +4,9 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.Collections;
+import java.util.List;
+
 @Name("Gloom Surgeon")
 @Types({Type.CREATURE})
 @SubTypes({SubType.SPIRIT})
@@ -38,14 +41,14 @@ public final class GloomSurgeon extends Card
 			}
 
 			@Override
-			public java.util.List<EventFactory> prevent(DamageAssignment.Batch damageAssignments)
+			public List<EventFactory> prevent(DamageAssignment.Batch damageAssignments)
 			{
 				int amount = damageAssignments.size();
 				damageAssignments.clear();
 
 				EventFactory mill = millCards(You.instance(), amount, "Exile that many cards from the top of your library.");
 
-				return java.util.Collections.singletonList(mill);
+				return Collections.singletonList(mill);
 			}
 		}
 

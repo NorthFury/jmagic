@@ -5,6 +5,9 @@ import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public abstract class Frenzy extends Keyword
 {
 	protected final int N;
@@ -16,9 +19,9 @@ public abstract class Frenzy extends Keyword
 	}
 
 	@Override
-	protected java.util.List<NonStaticAbility> createNonStaticAbilities()
+	protected List<NonStaticAbility> createNonStaticAbilities()
 	{
-		java.util.LinkedList<NonStaticAbility> ret = new java.util.LinkedList<NonStaticAbility>();
+		LinkedList<NonStaticAbility> ret = new LinkedList<NonStaticAbility>();
 		ret.add(new FrenzyAbility(this.state, this.N));
 		return ret;
 	}

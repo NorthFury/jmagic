@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Morph;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -33,13 +36,13 @@ public final class SilentSpecter extends Card
 		this.setToughness(4);
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// Whenever Silent Specter deals combat damage to a player, that player
 		// discards two cards.
 		this.addAbility(new MeleeDiscardTwo(state));
 
 		// Morph (3)(B)(B)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Morph(state, "(3)(B)(B)"));
+		this.addAbility(new Morph(state, "(3)(B)(B)"));
 	}
 }

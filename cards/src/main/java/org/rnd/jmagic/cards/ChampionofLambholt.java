@@ -3,6 +3,7 @@ package org.rnd.jmagic.cards;
 import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+import org.rnd.jmagic.engine.patterns.SimpleZoneChangePattern;
 
 @Name("Champion of Lambholt")
 @Types({Type.CREATURE})
@@ -31,7 +32,7 @@ public final class ChampionofLambholt extends Card
 		public ChampionofLambholtAbility1(GameState state)
 		{
 			super(state, "Whenever another creature enters the battlefield under your control, put a +1/+1 counter on Champion of Lambholt.");
-			this.addPattern(new org.rnd.jmagic.engine.patterns.SimpleZoneChangePattern(null, Battlefield.instance(), RelativeComplement.instance(CreaturePermanents.instance(), ABILITY_SOURCE_OF_THIS), You.instance(), false));
+			this.addPattern(new SimpleZoneChangePattern(null, Battlefield.instance(), RelativeComplement.instance(CreaturePermanents.instance(), ABILITY_SOURCE_OF_THIS), You.instance(), false));
 			this.addEffect(putCounters(1, Counter.CounterType.PLUS_ONE_PLUS_ONE, ABILITY_SOURCE_OF_THIS, "Put a +1/+1 counter on Champion of Lambholt."));
 		}
 	}

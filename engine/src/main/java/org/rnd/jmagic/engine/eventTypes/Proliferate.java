@@ -3,6 +3,13 @@ package org.rnd.jmagic.engine.eventTypes;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 public final class Proliferate extends EventType
 {	public static final EventType INSTANCE = new Proliferate();
 
@@ -18,7 +25,7 @@ public final class Proliferate extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		// 701.23. Proliferate
 		//
@@ -37,13 +44,13 @@ public final class Proliferate extends EventType
 
 		Player player = parameters.get(Parameter.PLAYER).getOne(Player.class);
 
-		java.util.List<Identified> chosen = player.sanitizeAndChoose(game.actualState, 0, null, hasCounters.getAll(Identified.class), PlayerInterface.ChoiceType.OBJECTS, PlayerInterface.ChooseReason.PROLIFERATE);
+		List<Identified> chosen = player.sanitizeAndChoose(game.actualState, 0, null, hasCounters.getAll(Identified.class), PlayerInterface.ChoiceType.OBJECTS, PlayerInterface.ChooseReason.PROLIFERATE);
 
 		if(!chosen.isEmpty())
 		{
 			for(Identified i: chosen)
 			{
-				java.util.Set<Counter.CounterType> counters = new java.util.HashSet<Counter.CounterType>();
+				Set<Counter.CounterType> counters = new HashSet<Counter.CounterType>();
 				if(i instanceof GameObject)
 					for(Counter c: ((GameObject)i).counters)
 						counters.add(c.getType());
@@ -56,9 +63,9 @@ public final class Proliferate extends EventType
 					newCounter = counters.iterator().next();
 				else
 				{
-					PlayerInterface.ChooseParameters<Counter.CounterType> chooseParameters = new PlayerInterface.ChooseParameters<Counter.CounterType>(1, 1, new java.util.LinkedList<Counter.CounterType>(counters), PlayerInterface.ChoiceType.ENUM, PlayerInterface.ChooseReason.PROLIFERATE_CHOOSECOUNTER);
+					PlayerInterface.ChooseParameters<Counter.CounterType> chooseParameters = new PlayerInterface.ChooseParameters<Counter.CounterType>(1, 1, new LinkedList<Counter.CounterType>(counters), PlayerInterface.ChoiceType.ENUM, PlayerInterface.ChooseReason.PROLIFERATE_CHOOSECOUNTER);
 					chooseParameters.whatForID = i.ID;
-					java.util.List<Counter.CounterType> chosenType = player.choose(chooseParameters);
+					List<Counter.CounterType> chosenType = player.choose(chooseParameters);
 					if(!chosenType.isEmpty())
 						newCounter = chosenType.iterator().next();
 				}
@@ -67,7 +74,7 @@ public final class Proliferate extends EventType
 					ret = false;
 				else
 				{
-					java.util.HashMap<Parameter, MagicSet> putCounterParameters = new java.util.HashMap<Parameter, MagicSet>();
+					HashMap<Parameter, MagicSet> putCounterParameters = new HashMap<Parameter, MagicSet>();
 					putCounterParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 					putCounterParameters.put(Parameter.COUNTER, new MagicSet(newCounter));
 					putCounterParameters.put(Parameter.OBJECT, new MagicSet(i));

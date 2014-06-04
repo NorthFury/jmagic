@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.EntersTheBattlefieldWithCounters;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -33,7 +35,7 @@ public final class EtchedMonstrosity extends Card
 
 		// Etched Monstrosity enters the battlefield with five -1/-1 counters on
 		// it.
-		this.addAbility(new org.rnd.jmagic.abilities.EntersTheBattlefieldWithCounters(state, this.getName(), 5, Counter.CounterType.MINUS_ONE_MINUS_ONE));
+		this.addAbility(new EntersTheBattlefieldWithCounters(state, this.getName(), 5, Counter.CounterType.MINUS_ONE_MINUS_ONE));
 
 		// (W)(U)(B)(R)(G), Remove five -1/-1 counters from Etched Monstrosity:
 		// Target player draws three cards.

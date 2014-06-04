@@ -1,9 +1,14 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
+
+import java.util.LinkedList;
+import java.util.List;
 
 @Name("Diluvian Primordial")
 @Types({Type.CREATURE})
@@ -22,12 +27,12 @@ public final class DiluvianPrimordial extends Card
 		}
 
 		@Override
-		public boolean checkSpecialRestrictions(GameState state, java.util.List<Target> choices)
+		public boolean checkSpecialRestrictions(GameState state, List<Target> choices)
 		{
 			if(choices.isEmpty())
 				return true;
 
-			java.util.List<Integer> owners = new java.util.LinkedList<Integer>();
+			List<Integer> owners = new LinkedList<Integer>();
 			for(Target choice: choices)
 			{
 				int owner = state.<GameObject>get(choice.targetID).ownerID;
@@ -75,7 +80,7 @@ public final class DiluvianPrimordial extends Card
 		this.setToughness(5);
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// When Diluvian Primordial enters the battlefield, for each opponent,
 		// you may cast up to one target instant or sorcery card from that

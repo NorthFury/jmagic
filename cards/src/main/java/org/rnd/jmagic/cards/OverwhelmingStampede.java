@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -19,6 +21,6 @@ public final class OverwhelmingStampede extends Card
 
 		// Until end of turn, creatures you control gain trample and get +X/+X,
 		// where X is the greatest power among creatures you control.
-		this.addEffect(createFloatingEffect("Until end of turn, creatures you control gain trample and get +X/+X, where X is the greatest power among creatures you control.", modifyPowerAndToughness(CREATURES_YOU_CONTROL, X, X), addAbilityToObject(CREATURES_YOU_CONTROL, org.rnd.jmagic.abilities.keywords.Trample.class)));
+		this.addEffect(createFloatingEffect("Until end of turn, creatures you control gain trample and get +X/+X, where X is the greatest power among creatures you control.", modifyPowerAndToughness(CREATURES_YOU_CONTROL, X, X), addAbilityToObject(CREATURES_YOU_CONTROL, Trample.class)));
 	}
 }

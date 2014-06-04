@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.CostsYouLessToCast;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -27,7 +29,7 @@ public final class HeartlessSummoning extends Card
 
 		// Creature spells you cast cost (2) less to cast.
 		// Treefolk spells and Shaman spells you cast cost (1) less to cast.
-		this.addAbility(new org.rnd.jmagic.abilities.CostsYouLessToCast(state, HasType.instance(Type.CREATURE), "(2)", "Creature spells you cast cost (2) less to cast."));
+		this.addAbility(new CostsYouLessToCast(state, HasType.instance(Type.CREATURE), "(2)", "Creature spells you cast cost (2) less to cast."));
 
 		// Creatures you control get -1/-1.
 		this.addAbility(new HeartlessSummoningAbility1(state));

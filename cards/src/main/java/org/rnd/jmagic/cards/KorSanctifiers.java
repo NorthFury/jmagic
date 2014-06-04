@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Kicker;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -41,7 +42,7 @@ public final class KorSanctifiers extends Card
 
 		this.setPower(2);
 		this.setToughness(3);
-		org.rnd.jmagic.abilities.keywords.Kicker ability = new org.rnd.jmagic.abilities.keywords.Kicker(state, "(W)");
+		Kicker ability = new Kicker(state, "(W)");
 		this.addAbility(ability);
 
 		// Kicker (W) (You may pay an additional (W) as you cast this spell.)

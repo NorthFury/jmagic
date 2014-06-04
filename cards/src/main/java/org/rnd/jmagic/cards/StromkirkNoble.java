@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.MeleeGetPlusOnePlusOneCounters;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -33,6 +34,6 @@ public final class StromkirkNoble extends Card
 		this.setToughness(1);
 
 		this.addAbility(new Humanwalk(state));
-		this.addAbility(new org.rnd.jmagic.abilities.MeleeGetPlusOnePlusOneCounters(state, this.getName(), 1));
+		this.addAbility(new MeleeGetPlusOnePlusOneCounters(state, this.getName(), 1));
 	}
 }

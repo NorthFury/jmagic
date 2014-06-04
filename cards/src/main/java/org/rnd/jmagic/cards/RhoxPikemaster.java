@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.FirstStrike;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -24,7 +25,7 @@ public final class RhoxPikemaster extends Card
 			SetGenerator otherSoldierCreatures = RelativeComplement.instance(soldierCreatures, This.instance());
 			SetGenerator otherSoldierCreaturesYouControl = Intersect.instance(otherSoldierCreatures, ControlledBy.instance(You.instance()));
 
-			this.addEffectPart(addAbilityToObject(otherSoldierCreaturesYouControl, org.rnd.jmagic.abilities.keywords.FirstStrike.class));
+			this.addEffectPart(addAbilityToObject(otherSoldierCreaturesYouControl, FirstStrike.class));
 		}
 	}
 
@@ -35,7 +36,7 @@ public final class RhoxPikemaster extends Card
 		this.setPower(3);
 		this.setToughness(3);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.FirstStrike(state));
+		this.addAbility(new FirstStrike(state));
 		this.addAbility(new Train(state));
 	}
 }

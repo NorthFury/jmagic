@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Cycling;
+import org.rnd.jmagic.abilityTemplates.SojournerTrigger;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -13,7 +15,7 @@ import static org.rnd.jmagic.Convenience.*;
 @ColorIdentity({Color.WHITE, Color.GREEN, Color.RED})
 public final class NayaSojourners extends Card
 {
-	public static final class NayaSojournerTrigger extends org.rnd.jmagic.abilityTemplates.SojournerTrigger
+	public static final class NayaSojournerTrigger extends SojournerTrigger
 	{
 		public NayaSojournerTrigger(GameState state)
 		{
@@ -34,6 +36,6 @@ public final class NayaSojourners extends Card
 
 		this.addAbility(new NayaSojournerTrigger(state));
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Cycling(state, "(2)(G)"));
+		this.addAbility(new Cycling(state, "(2)(G)"));
 	}
 }

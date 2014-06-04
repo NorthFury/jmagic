@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Equip;
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -19,7 +22,7 @@ public final class RingofKalonia extends Card
 			super(state, "Equipped creature has trample.");
 
 			SetGenerator equipped = EquippedBy.instance(This.instance());
-			this.addEffectPart(addAbilityToObject(equipped, new SimpleAbilityFactory(org.rnd.jmagic.abilities.keywords.Trample.class)));
+			this.addEffectPart(addAbilityToObject(equipped, new SimpleAbilityFactory(Trample.class)));
 		}
 	}
 
@@ -50,6 +53,6 @@ public final class RingofKalonia extends Card
 
 		// Equip (1) ((1): Attach to target creature you control. Equip only as
 		// a sorcery.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Equip(state, "(1)"));
+		this.addAbility(new Equip(state, "(1)"));
 	}
 }

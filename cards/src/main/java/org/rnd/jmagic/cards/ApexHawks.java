@@ -1,5 +1,8 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.EntersTheBattlefieldWithAPlusOnePlusOneCounterForEachTimeItWasKicked;
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Kicker;
 import org.rnd.jmagic.engine.*;
 
 @Name("Apex Hawks")
@@ -19,14 +22,14 @@ public final class ApexHawks extends Card
 
 		// Multikicker (1)(W) (You may pay an additional (1)(W) any number of
 		// times as you cast this spell.)
-		org.rnd.jmagic.abilities.keywords.Kicker kicker = new org.rnd.jmagic.abilities.keywords.Kicker(state, true, "(1)(W)");
+		Kicker kicker = new Kicker(state, true, "(1)(W)");
 		this.addAbility(kicker);
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// Apex Hawks enters the battlefield with a +1/+1 counter on it for each
 		// time it was kicked.
-		this.addAbility(new org.rnd.jmagic.abilities.EntersTheBattlefieldWithAPlusOnePlusOneCounterForEachTimeItWasKicked(state, "Apex Hawks", kicker.costCollections[0]));
+		this.addAbility(new EntersTheBattlefieldWithAPlusOnePlusOneCounterForEachTimeItWasKicked(state, "Apex Hawks", kicker.costCollections[0]));
 	}
 }

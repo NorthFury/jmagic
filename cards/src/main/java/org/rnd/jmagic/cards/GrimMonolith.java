@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.DoesntUntapDuringYourUntapStep;
+import org.rnd.jmagic.abilities.TapForMana;
 import org.rnd.jmagic.engine.*;
 
 @Name("Grim Monolith")
@@ -25,10 +28,10 @@ public final class GrimMonolith extends Card
 		super(state);
 
 		// Grim Monolith doesn't untap during your untap step.
-		this.addAbility(new org.rnd.jmagic.abilities.DoesntUntapDuringYourUntapStep(state, "Grim Monolith"));
+		this.addAbility(new DoesntUntapDuringYourUntapStep(state, "Grim Monolith"));
 
 		// (T): Add (3) to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapForMana.Final(state, "(3)"));
+		this.addAbility(new TapForMana.Final(state, "(3)"));
 
 		// (4): Untap Grim Monolith.
 		this.addAbility(new GrimMonolithAbility2(state));

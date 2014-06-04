@@ -3,6 +3,7 @@ package org.rnd.jmagic.cards;
 import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+import org.rnd.util.NumberRange;
 
 @Name("Nissa Revane")
 @Types({Type.PLANESWALKER})
@@ -52,7 +53,7 @@ public final class NissaRevane extends Card
 			parameters.put(EventType.Parameter.CAUSE, This.instance());
 			parameters.put(EventType.Parameter.CONTROLLER, You.instance());
 			parameters.put(EventType.Parameter.PLAYER, You.instance());
-			parameters.put(EventType.Parameter.NUMBER, Identity.instance(new org.rnd.util.NumberRange(0, null)));
+			parameters.put(EventType.Parameter.NUMBER, Identity.instance(new NumberRange(0, null)));
 			parameters.put(EventType.Parameter.TO, Battlefield.instance());
 			parameters.put(EventType.Parameter.TYPE, Identity.instance(Intersect.instance(HasSubType.instance(SubType.ELF), HasType.instance(Type.CREATURE))));
 			this.addEffect(new EventFactory(EventType.SEARCH_LIBRARY_AND_PUT_INTO, parameters, "Search your library for any number of Elf creature cards and put them onto the battlefield. Then shuffle your library."));

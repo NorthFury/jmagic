@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Haste;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -33,8 +36,8 @@ public final class HellkiteIgniter extends Card
 		this.setToughness(5);
 
 		// Flying, haste
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Haste(state));
+		this.addAbility(new Flying(state));
+		this.addAbility(new Haste(state));
 
 		// (1)(R): Hellkite Igniter gets +X/+0 until end of turn, where X is the
 		// number of artifacts you control.

@@ -5,6 +5,10 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @Name("Telling Time")
 @Types({Type.INSTANT})
 @ManaCost("1U")
@@ -31,13 +35,13 @@ public final class TellingTime extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			MagicSet thisCard = parameters.get(Parameter.CAUSE);
 			MagicSet topThree = parameters.get(Parameter.CARD);
 			MagicSet you = parameters.get(Parameter.PLAYER);
 
-			java.util.Map<Parameter, MagicSet> lookParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> lookParameters = new HashMap<Parameter, MagicSet>();
 			lookParameters.put(Parameter.CAUSE, thisCard);
 			lookParameters.put(Parameter.OBJECT, topThree);
 			lookParameters.put(Parameter.PLAYER, you);
@@ -46,8 +50,8 @@ public final class TellingTime extends Card
 			Player player = you.getOne(Player.class);
 			MagicSet library = new MagicSet(player.getLibrary(game.actualState));
 
-			java.util.List<?> handChoice = player.sanitizeAndChoose(game.actualState, 1, topThree, PlayerInterface.ChoiceType.OBJECTS, FIRST_REASON);
-			java.util.Map<Parameter, MagicSet> handParameters = new java.util.HashMap<Parameter, MagicSet>();
+			List<?> handChoice = player.sanitizeAndChoose(game.actualState, 1, topThree, PlayerInterface.ChoiceType.OBJECTS, FIRST_REASON);
+			Map<Parameter, MagicSet> handParameters = new HashMap<Parameter, MagicSet>();
 			handParameters.put(Parameter.CAUSE, thisCard);
 			handParameters.put(Parameter.OBJECT, new MagicSet(handChoice.get(0)));
 			handParameters.put(Parameter.TO, new MagicSet(player.getHand(game.actualState)));
@@ -62,8 +66,8 @@ public final class TellingTime extends Card
 			Event putOnBottom = null;
 			if(!otherTwo.isEmpty())
 			{
-				java.util.List<?> topChoice = player.sanitizeAndChoose(game.actualState, 1, otherTwo, PlayerInterface.ChoiceType.OBJECTS, SECOND_REASON);
-				java.util.Map<Parameter, MagicSet> topParameters = new java.util.HashMap<Parameter, MagicSet>();
+				List<?> topChoice = player.sanitizeAndChoose(game.actualState, 1, otherTwo, PlayerInterface.ChoiceType.OBJECTS, SECOND_REASON);
+				Map<Parameter, MagicSet> topParameters = new HashMap<Parameter, MagicSet>();
 				topParameters.put(Parameter.CAUSE, thisCard);
 				topParameters.put(Parameter.OBJECT, new MagicSet(topChoice.get(0)));
 				topParameters.put(Parameter.TO, library);
@@ -75,7 +79,7 @@ public final class TellingTime extends Card
 					if(!topChoice.contains(object))
 						lastCard.add(object);
 
-				java.util.Map<Parameter, MagicSet> bottomParameters = new java.util.HashMap<Parameter, MagicSet>();
+				Map<Parameter, MagicSet> bottomParameters = new HashMap<Parameter, MagicSet>();
 				bottomParameters.put(Parameter.CAUSE, thisCard);
 				bottomParameters.put(Parameter.OBJECT, lastCard);
 				bottomParameters.put(Parameter.TO, library);

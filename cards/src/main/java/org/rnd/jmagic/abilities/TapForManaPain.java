@@ -5,7 +5,7 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
-public final class TapForManaPain extends org.rnd.jmagic.abilities.TapForMana
+public final class TapForManaPain extends TapForMana
 {
 	private String permanentName;
 	private String painMana;

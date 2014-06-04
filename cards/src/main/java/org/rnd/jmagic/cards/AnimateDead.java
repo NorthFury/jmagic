@@ -2,6 +2,8 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.AnimateDeadCreature;
+import org.rnd.jmagic.abilities.keywords.Enchant;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -13,7 +15,7 @@ import org.rnd.jmagic.engine.generators.*;
 @ColorIdentity({Color.BLACK})
 public final class AnimateDead extends Card
 {
-	public static final class EnchantDeadCreature extends org.rnd.jmagic.abilities.keywords.Enchant
+	public static final class EnchantDeadCreature extends Enchant
 	{
 		public EnchantDeadCreature(GameState state)
 		{
@@ -51,7 +53,7 @@ public final class AnimateDead extends Card
 		// enchanted creature card to the battlefield under your control and
 		// attach Animate Dead to it. When Animate Dead leaves the battlefield,
 		// that creature's controller sacrifices it.
-		this.addAbility(new org.rnd.jmagic.abilities.AnimateDeadCreature(state, this.getName(), EnchantDeadCreature.class, EnchantAnimatedCreature.class, false));
+		this.addAbility(new AnimateDeadCreature(state, this.getName(), EnchantDeadCreature.class, EnchantAnimatedCreature.class, false));
 
 		// Enchanted creature gets -1/-0.
 		this.addAbility(new AnimateDeadAbility2(state));

@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Defender;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -20,7 +22,7 @@ public final class PerimeterCaptain extends Card
 			super(state, "Whenever a creature you control with defender blocks, you may gain 2 life.");
 
 			SimpleEventPattern blockWithDefender = new SimpleEventPattern(EventType.DECLARE_ONE_BLOCKER);
-			blockWithDefender.put(EventType.Parameter.OBJECT, HasKeywordAbility.instance(org.rnd.jmagic.abilities.keywords.Defender.class));
+			blockWithDefender.put(EventType.Parameter.OBJECT, HasKeywordAbility.instance(Defender.class));
 			this.addPattern(blockWithDefender);
 
 			EventFactory gainLife = gainLife(You.instance(), 2, "Gain 2 life");
@@ -36,7 +38,7 @@ public final class PerimeterCaptain extends Card
 		this.setToughness(4);
 
 		// Defender
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Defender(state));
+		this.addAbility(new Defender(state));
 
 		// Whenever a creature you control with defender blocks, you may gain 2
 		// life.

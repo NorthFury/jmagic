@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -16,7 +17,7 @@ public final class Deluge extends Card
 	{
 		super(state);
 
-		SetGenerator affectedCreatures = RelativeComplement.instance(CreaturePermanents.instance(), HasKeywordAbility.instance(org.rnd.jmagic.abilities.keywords.Flying.class));
+		SetGenerator affectedCreatures = RelativeComplement.instance(CreaturePermanents.instance(), HasKeywordAbility.instance(Flying.class));
 		this.addEffect(tap(affectedCreatures, "Tap all creatures without flying."));
 	}
 }

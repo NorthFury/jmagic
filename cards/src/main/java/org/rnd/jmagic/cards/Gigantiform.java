@@ -64,7 +64,7 @@ public final class Gigantiform extends Card
 	{
 		super(state);
 
-		org.rnd.jmagic.abilities.keywords.Kicker ability = new org.rnd.jmagic.abilities.keywords.Kicker(state, "4");
+		Kicker ability = new Kicker(state, "4");
 		this.addAbility(ability);
 
 		CostCollection kickerCost = ability.costCollections[0];

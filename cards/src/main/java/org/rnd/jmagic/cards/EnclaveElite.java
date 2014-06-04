@@ -1,5 +1,8 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.EntersTheBattlefieldWithAPlusOnePlusOneCounterForEachTimeItWasKicked;
+import org.rnd.jmagic.abilities.keywords.Kicker;
+import org.rnd.jmagic.abilities.keywords.Landwalk;
 import org.rnd.jmagic.engine.*;
 
 @Name("Enclave Elite")
@@ -19,14 +22,14 @@ public final class EnclaveElite extends Card
 
 		// Multikicker (1)(U) (You may pay an additional (1)(U) any number of
 		// times as you cast this spell.)
-		org.rnd.jmagic.abilities.keywords.Kicker kicker = new org.rnd.jmagic.abilities.keywords.Kicker(state, true, "(1)(U)");
+		Kicker kicker = new Kicker(state, true, "(1)(U)");
 		this.addAbility(kicker);
 
 		// Islandwalk
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Landwalk.Islandwalk(state));
+		this.addAbility(new Landwalk.Islandwalk(state));
 
 		// Enclave Elite enters the battlefield with a +1/+1 counter on it for
 		// each time it was kicked.
-		this.addAbility(new org.rnd.jmagic.abilities.EntersTheBattlefieldWithAPlusOnePlusOneCounterForEachTimeItWasKicked(state, "Enclave Elite", kicker.costCollections[0]));
+		this.addAbility(new EntersTheBattlefieldWithAPlusOnePlusOneCounterForEachTimeItWasKicked(state, "Enclave Elite", kicker.costCollections[0]));
 	}
 }

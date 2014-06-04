@@ -2,6 +2,8 @@ package org.rnd.jmagic.cardTemplates;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.EntersTheBattlefieldTapped;
+import org.rnd.jmagic.abilities.TapForMana;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -32,10 +34,10 @@ abstract public class ZendikarLifeLand extends Card
 	{
 		super(state);
 
-		this.addAbility(new org.rnd.jmagic.abilities.EntersTheBattlefieldTapped(state, this.getName()));
+		this.addAbility(new EntersTheBattlefieldTapped(state, this.getName()));
 
 		this.addAbility(new LandLife(state, this.getName()));
 
-		this.addAbility(new org.rnd.jmagic.abilities.TapForMana.Final(state, mana));
+		this.addAbility(new TapForMana.Final(state, mana));
 	}
 }

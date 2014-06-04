@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.Bloodrush;
 import org.rnd.jmagic.engine.*;
 
 @Name("Scab-Clan Charger")
@@ -19,6 +20,6 @@ public final class ScabClanCharger extends Card
 
 		// Bloodrush \u2014 (1)(G), Discard Scab-Clan Charger: Target attacking
 		// creature gets +2/+4 until end of turn.
-		this.addAbility(new org.rnd.jmagic.abilities.Bloodrush(state, "(1)(G)", "Scab-Clan Charger", +2, +4, "Target attacking creature gets +2/+4 until end of turn."));
+		this.addAbility(new Bloodrush(state, "(1)(G)", "Scab-Clan Charger", +2, +4, "Target attacking creature gets +2/+4 until end of turn."));
 	}
 }

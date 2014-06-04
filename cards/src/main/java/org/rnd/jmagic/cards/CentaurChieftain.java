@@ -2,6 +2,8 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Haste;
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -21,7 +23,7 @@ public final class CentaurChieftain extends Card
 			{
 				super(state, "When Centaur Chieftain enters the battlefield, creatures you control get +1/+1 and gain trample until end of turn.");
 				this.addPattern(whenThisEntersTheBattlefield());
-				this.addEffect(ptChangeAndAbilityUntilEndOfTurn(CREATURES_YOU_CONTROL, +1, +1, "Creatures you control get +1/+1 and gain trample until end of turn.", org.rnd.jmagic.abilities.keywords.Trample.class));
+				this.addEffect(ptChangeAndAbilityUntilEndOfTurn(CREATURES_YOU_CONTROL, +1, +1, "Creatures you control get +1/+1 and gain trample until end of turn.", Trample.class));
 			}
 		}
 
@@ -42,7 +44,7 @@ public final class CentaurChieftain extends Card
 		this.setPower(3);
 		this.setToughness(3);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Haste(state));
+		this.addAbility(new Haste(state));
 
 		this.addAbility(new GrantCentaurRally(state));
 	}

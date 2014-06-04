@@ -3,6 +3,9 @@ package org.rnd.jmagic.engine.gameTypes;
 import org.rnd.jmagic.CardLoader.*;
 import org.rnd.jmagic.engine.*;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * 100.2a. In constructed play (a way of playing in which each player creates
  * his or her own deck ahead of time), each deck must contain at least sixty
@@ -32,7 +35,7 @@ public class DeckSizeMinimum extends GameType.SimpleGameTypeRule
 	 * @throws CardLoaderException
 	 */
 	@Override
-	public boolean checkDeck(java.util.Map<String, java.util.List<Class<? extends Card>>> deck)
+	public boolean checkDeck(Map<String, List<Class<? extends Card>>> deck)
 	{
 		return (this.minimum <= deck.get(Deck.MAIN_DECK).size());
 	}

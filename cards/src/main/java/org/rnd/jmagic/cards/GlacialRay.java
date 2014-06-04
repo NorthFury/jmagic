@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Splice;
 import org.rnd.jmagic.engine.*;
 
 @Name("Glacial Ray")
@@ -16,6 +18,6 @@ public final class GlacialRay extends Card
 		super(state);
 		Target target = this.addTarget(CREATURES_AND_PLAYERS, "target creature or player");
 		this.addEffect(spellDealDamage(2, targetedBy(target), "Glacial Ray deals 2 damage to target creature or player."));
-		this.addAbility(org.rnd.jmagic.abilities.keywords.Splice.ontoArcane(state, "(1)(R)"));
+		this.addAbility(Splice.ontoArcane(state, "(1)(R)"));
 	}
 }

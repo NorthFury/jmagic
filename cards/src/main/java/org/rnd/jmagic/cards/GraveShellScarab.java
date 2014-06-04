@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Dredge;
 import org.rnd.jmagic.engine.*;
 
 @Name("Grave-Shell Scarab")
@@ -34,6 +35,6 @@ public final class GraveShellScarab extends Card
 		this.setToughness(4);
 
 		this.addAbility(new SacDraw(state));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Dredge(state, 1));
+		this.addAbility(new Dredge(state, 1));
 	}
 }

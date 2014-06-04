@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.Regenerate;
 import org.rnd.jmagic.engine.*;
 
 @Name("Tangle Hulk")
@@ -18,6 +19,6 @@ public final class TangleHulk extends Card
 		this.setToughness(3);
 
 		// (2)(G): Regenerate Tangle Hulk.
-		this.addAbility(new org.rnd.jmagic.abilities.Regenerate.Final(state, "(2)(G)", this.getName()));
+		this.addAbility(new Regenerate.Final(state, "(2)(G)", this.getName()));
 	}
 }

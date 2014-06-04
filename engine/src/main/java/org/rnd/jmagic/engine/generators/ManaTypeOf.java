@@ -2,6 +2,8 @@ package org.rnd.jmagic.engine.generators;
 
 import org.rnd.jmagic.engine.*;
 
+import java.util.Set;
+
 public class ManaTypeOf extends SetGenerator
 {
 	public static ManaTypeOf instance(SetGenerator what)
@@ -26,7 +28,7 @@ public class ManaTypeOf extends SetGenerator
 	}
 
 	@Override
-	public java.util.Set<ManaSymbol.ManaType> extractColors(Game game, GameObject thisObject, java.util.Set<SetGenerator> ignoreThese) throws NoSuchMethodException
+	public Set<ManaSymbol.ManaType> extractColors(Game game, GameObject thisObject, Set<SetGenerator> ignoreThese) throws NoSuchMethodException
 	{
 		return this.evaluate(game, thisObject).getAll(ManaSymbol.ManaType.class);
 	}

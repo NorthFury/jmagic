@@ -1,5 +1,8 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Enchant;
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Reach;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -18,7 +21,7 @@ public final class CanopyCover extends Card
 		{
 			super(state, "Enchanted creature can't be blocked except by creatures with flying or reach.");
 
-			SetGenerator hasFlyingOrReach = Union.instance(HasKeywordAbility.instance(org.rnd.jmagic.abilities.keywords.Flying.class), HasKeywordAbility.instance(org.rnd.jmagic.abilities.keywords.Reach.class));
+			SetGenerator hasFlyingOrReach = Union.instance(HasKeywordAbility.instance(Flying.class), HasKeywordAbility.instance(Reach.class));
 			SetGenerator notBlockingWithFlyingOrReach = RelativeComplement.instance(Blocking.instance(EnchantedBy.instance(This.instance())), hasFlyingOrReach);
 
 			ContinuousEffect.Part part = new ContinuousEffect.Part(ContinuousEffectType.BLOCKING_RESTRICTION);
@@ -46,7 +49,7 @@ public final class CanopyCover extends Card
 		super(state);
 
 		// Enchant creature
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Enchant.Creature(state));
+		this.addAbility(new Enchant.Creature(state));
 
 		// Enchanted creature can't be blocked except by creatures with flying
 		// or reach.

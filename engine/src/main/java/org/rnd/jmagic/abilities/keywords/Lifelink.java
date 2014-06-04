@@ -2,6 +2,9 @@ package org.rnd.jmagic.abilities.keywords;
 
 import org.rnd.jmagic.engine.*;
 
+import java.util.LinkedList;
+import java.util.List;
+
 @Name("Lifelink")
 public final class Lifelink extends Keyword
 {
@@ -11,9 +14,9 @@ public final class Lifelink extends Keyword
 	}
 
 	@Override
-	protected java.util.List<StaticAbility> createStaticAbilities()
+	protected List<StaticAbility> createStaticAbilities()
 	{
-		java.util.List<StaticAbility> ret = new java.util.LinkedList<StaticAbility>();
+		List<StaticAbility> ret = new LinkedList<StaticAbility>();
 		ret.add(new LifelinkStatic(this.state));
 		return ret;
 	}

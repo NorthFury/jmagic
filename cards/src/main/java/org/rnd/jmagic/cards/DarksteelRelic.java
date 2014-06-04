@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Indestructible;
 import org.rnd.jmagic.engine.*;
 
 @Name("Darksteel Relic")
@@ -15,6 +16,6 @@ public final class DarksteelRelic extends Card
 
 		// Darksteel Relic is indestructible. (Effects that say "destroy" don't
 		// destroy it.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Indestructible(state));
+		this.addAbility(new Indestructible(state));
 	}
 }

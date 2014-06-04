@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.StaticPTChange;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -21,6 +23,6 @@ public final class VeteranArmorsmith extends Card
 
 		SetGenerator soldiers = Intersect.instance(HasSubType.instance(SubType.SOLDIER), CREATURES_YOU_CONTROL);
 		SetGenerator others = RelativeComplement.instance(soldiers, This.instance());
-		this.addAbility(new org.rnd.jmagic.abilities.StaticPTChange(state, others, "Other Soldier creatures you control", +0, +1, true));
+		this.addAbility(new StaticPTChange(state, others, "Other Soldier creatures you control", +0, +1, true));
 	}
 }

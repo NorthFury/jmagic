@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.TapForW;
 import org.rnd.jmagic.engine.*;
 
 @Name("Ancient Den")
@@ -12,6 +13,6 @@ public final class AncientDen extends Card
 	{
 		super(state);
 
-		this.addAbility(new org.rnd.jmagic.abilities.TapForW(state));
+		this.addAbility(new TapForW(state));
 	}
 }

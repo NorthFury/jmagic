@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -53,7 +55,7 @@ public final class SengirNosferatu extends Card
 			CreateTokensFactory tokens = new CreateTokensFactory(1, 1, 2, "Put a 1/2 black Bat creature token with flying onto the battlefield. It has \"(1)(B), Sacrifice this creature: Return an exiled card named Sengir Nosferatu to the battlefield under its owner's control.\"");
 			tokens.setColors(Color.BLACK);
 			tokens.setSubTypes(SubType.BAT);
-			tokens.addAbility(org.rnd.jmagic.abilities.keywords.Flying.class);
+			tokens.addAbility(Flying.class);
 			tokens.addAbility(ChangeBack.class);
 			this.addEffect(tokens.getEventFactory());
 		}
@@ -67,7 +69,7 @@ public final class SengirNosferatu extends Card
 		this.setToughness(4);
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// (1)(B), Exile Sengir Nosferatu: Put a 1/2 black Bat creature token
 		// with flying onto the battlefield. It has

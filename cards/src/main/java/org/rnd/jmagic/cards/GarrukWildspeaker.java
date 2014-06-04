@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -43,7 +45,7 @@ public final class GarrukWildspeaker extends Card
 			super(state, -4, "Creatures you control get +3/+3 and gain trample until end of turn.");
 
 			String effectName = "Creatures you control get +3/+3 and gain trample until end of turn.";
-			this.addEffect(ptChangeAndAbilityUntilEndOfTurn(CREATURES_YOU_CONTROL, +3, +3, effectName, org.rnd.jmagic.abilities.keywords.Trample.class));
+			this.addEffect(ptChangeAndAbilityUntilEndOfTurn(CREATURES_YOU_CONTROL, +3, +3, effectName, Trample.class));
 		}
 	}
 

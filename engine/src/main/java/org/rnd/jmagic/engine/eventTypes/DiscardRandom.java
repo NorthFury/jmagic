@@ -3,6 +3,12 @@ package org.rnd.jmagic.engine.eventTypes;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
 public final class DiscardRandom extends EventType
 {	public static final EventType INSTANCE = new DiscardRandom();
 
@@ -18,7 +24,7 @@ public final class DiscardRandom extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean attempt(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		int numDiscard = Sum.get(parameters.get(Parameter.NUMBER));
 
@@ -41,7 +47,7 @@ public final class DiscardRandom extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		// get the number of cards out of the parameter
 		int numberOfCards = Sum.get(parameters.get(Parameter.NUMBER));
@@ -51,10 +57,10 @@ public final class DiscardRandom extends EventType
 		boolean allDiscarded = true;
 		MagicSet result = new MagicSet();
 
-		java.util.List<GameObject> cardsInHand = null;
+		List<GameObject> cardsInHand = null;
 		if(parameters.containsKey(Parameter.CARD))
 		{
-			cardsInHand = new java.util.LinkedList<GameObject>();
+			cardsInHand = new LinkedList<GameObject>();
 			for(GameObject card: parameters.get(Parameter.CARD).getAll(GameObject.class))
 				cardsInHand.add(card);
 		}
@@ -67,13 +73,13 @@ public final class DiscardRandom extends EventType
 			// build the list of cards to choose from
 			if(!parameters.containsKey(Parameter.CARD))
 			{
-				cardsInHand = new java.util.LinkedList<GameObject>();
+				cardsInHand = new LinkedList<GameObject>();
 				for(GameObject card: player.getHand(game.actualState))
 					cardsInHand.add(card);
 			}
 
 			// choose n cards randomly
-			java.util.Collections.shuffle(cardsInHand);
+			Collections.shuffle(cardsInHand);
 			MagicSet discardThese = new MagicSet();
 			while(discardThese.size() < numberOfCards && 0 < cardsInHand.size())
 				discardThese.add(cardsInHand.remove(0));
@@ -81,7 +87,7 @@ public final class DiscardRandom extends EventType
 				allDiscarded = false;
 
 			// perform the discard event
-			java.util.Map<Parameter, MagicSet> discardParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> discardParameters = new HashMap<Parameter, MagicSet>();
 			discardParameters.put(Parameter.CAUSE, cause);
 			discardParameters.put(Parameter.CARD, discardThese);
 			Event discard = createEvent(game, player + " discards " + discardThese + ".", DISCARD_CARDS, discardParameters);

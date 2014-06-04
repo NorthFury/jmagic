@@ -1,8 +1,14 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.StaticPTChange;
+import org.rnd.jmagic.abilities.keywords.Equip;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Name("Scythe of the Wretched")
 @Types({Type.ARTIFACT})
@@ -27,7 +33,7 @@ public final class ScytheoftheWretched extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			event.setResult(Empty.set);
 
@@ -37,7 +43,7 @@ public final class ScytheoftheWretched extends Card
 			ZoneChange triggerEvent = parameters.get(Parameter.EVENT).getOne(ZoneChange.class);
 			MagicSet thatCard = new MagicSet(game.actualState.get(triggerEvent.newObjectID));
 
-			java.util.Map<Parameter, MagicSet> moveParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> moveParameters = new HashMap<Parameter, MagicSet>();
 			moveParameters.put(Parameter.CAUSE, ability);
 			moveParameters.put(Parameter.CONTROLLER, controller);
 			moveParameters.put(Parameter.OBJECT, thatCard);
@@ -47,7 +53,7 @@ public final class ScytheoftheWretched extends Card
 
 			MagicSet scythe = parameters.get(Parameter.SOURCE);
 
-			java.util.Map<Parameter, MagicSet> attachParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> attachParameters = new HashMap<Parameter, MagicSet>();
 			attachParameters.put(Parameter.OBJECT, scythe);
 			attachParameters.put(Parameter.TARGET, thatCreature);
 			Event attach = createEvent(game, "Attach Scythe of the Wretched to that creature.", ATTACH, attachParameters);
@@ -84,7 +90,7 @@ public final class ScytheoftheWretched extends Card
 
 		// Equipped creature gets +2/+2.
 		SetGenerator equippedCreature = EquippedBy.instance(This.instance());
-		this.addAbility(new org.rnd.jmagic.abilities.StaticPTChange(state, equippedCreature, "Equipped creature", +2, +2, false));
+		this.addAbility(new StaticPTChange(state, equippedCreature, "Equipped creature", +2, +2, false));
 
 		// Whenever a creature dealt damage by equipped creature this turn is
 		// put into a graveyard, return that card to the battlefield under your
@@ -92,6 +98,6 @@ public final class ScytheoftheWretched extends Card
 		this.addAbility(new ReturnCreatures(state));
 
 		// Equip (4)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Equip(state, "(4)"));
+		this.addAbility(new Equip(state, "(4)"));
 	}
 }

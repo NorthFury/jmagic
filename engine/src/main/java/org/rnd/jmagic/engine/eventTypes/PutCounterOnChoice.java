@@ -2,6 +2,11 @@ package org.rnd.jmagic.engine.eventTypes;
 
 import org.rnd.jmagic.engine.*;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
 public final class PutCounterOnChoice extends EventType
 {	public static final EventType INSTANCE = new PutCounterOnChoice();
 
@@ -17,15 +22,15 @@ public final class PutCounterOnChoice extends EventType
 	}
 
 	@Override
-	public void makeChoices(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public void makeChoices(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		int numberOfCards = 1;
 
-		java.util.Set<GameObject> objects = parameters.get(Parameter.CHOICE).getAll(GameObject.class);
+		Set<GameObject> objects = parameters.get(Parameter.CHOICE).getAll(GameObject.class);
 
 		for(Player player: parameters.get(Parameter.PLAYER).getAll(Player.class))
 		{
-			java.util.Collection<GameObject> choices = player.sanitizeAndChoose(game.actualState, numberOfCards, objects, PlayerInterface.ChoiceType.OBJECTS, PlayerInterface.ChooseReason.PUT_COUNTER);
+			Collection<GameObject> choices = player.sanitizeAndChoose(game.actualState, numberOfCards, objects, PlayerInterface.ChoiceType.OBJECTS, PlayerInterface.ChooseReason.PUT_COUNTER);
 			if(choices.size() != numberOfCards)
 				event.allChoicesMade = false;
 			event.putChoices(player, choices);
@@ -33,7 +38,7 @@ public final class PutCounterOnChoice extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		boolean allReceivedCounters = event.allChoicesMade;
 		MagicSet cause = parameters.get(Parameter.CAUSE);
@@ -45,7 +50,7 @@ public final class PutCounterOnChoice extends EventType
 		{
 			MagicSet putOnThese = event.getChoices(player);
 
-			java.util.Map<Parameter, MagicSet> putCountersParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> putCountersParameters = new HashMap<Parameter, MagicSet>();
 			putCountersParameters.put(Parameter.CAUSE, cause);
 			putCountersParameters.put(Parameter.COUNTER, counter);
 			putCountersParameters.put(Parameter.NUMBER, one);

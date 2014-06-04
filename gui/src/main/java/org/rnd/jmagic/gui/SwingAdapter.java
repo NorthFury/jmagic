@@ -1,13 +1,23 @@
 package org.rnd.jmagic.gui;
 
+import org.rnd.jmagic.comms.ChatManager;
 import org.rnd.jmagic.engine.*;
+import org.rnd.jmagic.gui.dialogs.ConfigurationFrame;
 import org.rnd.jmagic.interfaceAdapters.*;
 import org.rnd.jmagic.sanitized.*;
 import org.rnd.util.*;
 
+import javax.swing.SwingUtilities;
+import java.io.Serializable;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Properties;
+import java.util.SortedSet;
+import java.util.TreeSet;
+
 public class SwingAdapter implements ConfigurableInterface
 {
-	private final java.util.SortedSet<org.rnd.jmagic.gui.dialogs.ConfigurationFrame.OptionPanel> options;
+	private final SortedSet<ConfigurationFrame.OptionPanel> options;
 
 	private Play gui;
 	private Deck deck;
@@ -15,10 +25,10 @@ public class SwingAdapter implements ConfigurableInterface
 
 	public SwingAdapter(Deck deck, String name)
 	{
-		this.options = new java.util.TreeSet<org.rnd.jmagic.gui.dialogs.ConfigurationFrame.OptionPanel>(new java.util.Comparator<org.rnd.jmagic.gui.dialogs.ConfigurationFrame.OptionPanel>()
+		this.options = new TreeSet<ConfigurationFrame.OptionPanel>(new Comparator<ConfigurationFrame.OptionPanel>()
 		{
 			@Override
-			public int compare(org.rnd.jmagic.gui.dialogs.ConfigurationFrame.OptionPanel o1, org.rnd.jmagic.gui.dialogs.ConfigurationFrame.OptionPanel o2)
+			public int compare(ConfigurationFrame.OptionPanel o1, ConfigurationFrame.OptionPanel o2)
 			{
 				return o1.getName().compareTo(o2.getName());
 			}
@@ -33,7 +43,7 @@ public class SwingAdapter implements ConfigurableInterface
 	@Override
 	public void alertChoice(final int playerID, final ChooseParameters<?> choice)
 	{
-		javax.swing.SwingUtilities.invokeLater(new Runnable()
+		SwingUtilities.invokeLater(new Runnable()
 		{
 			@Override
 			public void run()
@@ -46,7 +56,7 @@ public class SwingAdapter implements ConfigurableInterface
 	@Override
 	public void alertError(final ErrorParameters parameters)
 	{
-		javax.swing.SwingUtilities.invokeLater(new Runnable()
+		SwingUtilities.invokeLater(new Runnable()
 		{
 			@Override
 			public void run()
@@ -59,7 +69,7 @@ public class SwingAdapter implements ConfigurableInterface
 	@Override
 	public void alertEvent(final SanitizedEvent event)
 	{
-		javax.swing.SwingUtilities.invokeLater(new Runnable()
+		SwingUtilities.invokeLater(new Runnable()
 		{
 			@Override
 			public void run()
@@ -72,7 +82,7 @@ public class SwingAdapter implements ConfigurableInterface
 	@Override
 	public void alertState(final SanitizedGameState sanitizedGameState)
 	{
-		javax.swing.SwingUtilities.invokeLater(new Runnable()
+		SwingUtilities.invokeLater(new Runnable()
 		{
 			@Override
 			public void run()
@@ -85,7 +95,7 @@ public class SwingAdapter implements ConfigurableInterface
 	@Override
 	public void alertStateReversion(final PlayerInterface.ReversionParameters parameters)
 	{
-		javax.swing.SwingUtilities.invokeLater(new Runnable()
+		SwingUtilities.invokeLater(new Runnable()
 		{
 			@Override
 			public void run()
@@ -98,7 +108,7 @@ public class SwingAdapter implements ConfigurableInterface
 	@Override
 	public void alertWaiting(final SanitizedPlayer who)
 	{
-		javax.swing.SwingUtilities.invokeLater(new Runnable()
+		SwingUtilities.invokeLater(new Runnable()
 		{
 			@Override
 			public void run()
@@ -109,12 +119,12 @@ public class SwingAdapter implements ConfigurableInterface
 	}
 
 	@Override
-	public <T extends java.io.Serializable> java.util.List<Integer> choose(final ChooseParameters<T> parameterObject)
+	public <T extends Serializable> List<Integer> choose(final ChooseParameters<T> parameterObject)
 	{
 		synchronized(this.gui)
 		{
 			this.gui.choiceReady = false;
-			javax.swing.SwingUtilities.invokeLater(new Runnable()
+			SwingUtilities.invokeLater(new Runnable()
 			{
 				@Override
 				public void run()
@@ -144,7 +154,7 @@ public class SwingAdapter implements ConfigurableInterface
 		synchronized(this.gui)
 		{
 			this.gui.choiceReady = false;
-			javax.swing.SwingUtilities.invokeLater(new Runnable()
+			SwingUtilities.invokeLater(new Runnable()
 			{
 				@Override
 				public void run()
@@ -169,12 +179,12 @@ public class SwingAdapter implements ConfigurableInterface
 	}
 
 	@Override
-	public void divide(final int quantity, final int minimum, final int whatFrom, final String beingDivided, final java.util.List<SanitizedTarget> targets)
+	public void divide(final int quantity, final int minimum, final int whatFrom, final String beingDivided, final List<SanitizedTarget> targets)
 	{
 		synchronized(this.gui)
 		{
 			this.gui.choiceReady = false;
-			javax.swing.SwingUtilities.invokeLater(new Runnable()
+			SwingUtilities.invokeLater(new Runnable()
 			{
 				@Override
 				public void run()
@@ -197,7 +207,7 @@ public class SwingAdapter implements ConfigurableInterface
 		}
 	}
 
-	public org.rnd.jmagic.comms.ChatManager.Callback getChatCallback()
+	public ChatManager.Callback getChatCallback()
 	{
 		return this.gui.getChatCallback();
 	}
@@ -215,18 +225,18 @@ public class SwingAdapter implements ConfigurableInterface
 	}
 
 	@Override
-	public org.rnd.jmagic.gui.dialogs.ConfigurationFrame.OptionPanel getOptionPanel()
+	public ConfigurationFrame.OptionPanel getOptionPanel()
 	{
 		return null;
 	}
 
 	@Override
-	public java.util.SortedSet<org.rnd.jmagic.gui.dialogs.ConfigurationFrame.OptionPanel> getOptions()
+	public SortedSet<ConfigurationFrame.OptionPanel> getOptions()
 	{
 		return this.options;
 	}
 
-	public void setMessagePoster(org.rnd.jmagic.comms.ChatManager.MessagePoster messagePoster)
+	public void setMessagePoster(ChatManager.MessagePoster messagePoster)
 	{
 		this.gui.setMessagePoster(messagePoster);
 	}
@@ -234,7 +244,7 @@ public class SwingAdapter implements ConfigurableInterface
 	@Override
 	public void setPlayerID(final int playerID)
 	{
-		javax.swing.SwingUtilities.invokeLater(new Runnable()
+		SwingUtilities.invokeLater(new Runnable()
 		{
 			@Override
 			public void run()
@@ -245,9 +255,9 @@ public class SwingAdapter implements ConfigurableInterface
 	}
 
 	@Override
-	public void setProperties(final java.util.Properties properties)
+	public void setProperties(final Properties properties)
 	{
-		javax.swing.SwingUtilities.invokeLater(new Runnable()
+		SwingUtilities.invokeLater(new Runnable()
 		{
 			@Override
 			public void run()

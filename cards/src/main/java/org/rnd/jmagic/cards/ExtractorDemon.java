@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Unearth;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -37,7 +40,7 @@ public final class ExtractorDemon extends Card
 		this.setToughness(5);
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// Whenever another creature leaves the battlefield, you may have target
 		// player put the top two cards of his or her library into his or her
@@ -45,6 +48,6 @@ public final class ExtractorDemon extends Card
 		this.addAbility(new Extract(state));
 
 		// Unearth (2)(B)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Unearth(state, "(2)(B)"));
+		this.addAbility(new Unearth(state, "(2)(B)"));
 	}
 }

@@ -1,8 +1,13 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.Trap;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+
+import java.util.Map;
+import java.util.Set;
 
 @Name("Cobra Trap")
 @Types({Type.INSTANT})
@@ -30,12 +35,12 @@ public final class CobraTrap extends Card
 		public MagicSet evaluate(GameState state, Identified thisObject)
 		{
 			Player you = this.you.evaluate(state, thisObject).getOne(Player.class);
-			java.util.Set<Player> opponents = OpponentsOf.instance(this.you).evaluate(state, thisObject).getAll(Player.class);
+			Set<Player> opponents = OpponentsOf.instance(this.you).evaluate(state, thisObject).getAll(Player.class);
 			MagicSet ret = new MagicSet();
 
-			java.util.Map<Integer, Integer> ids = state.getTracker(DestroyedThisTurn.DestroyedTracker.class).getValue(state);
+			Map<Integer, Integer> ids = state.getTracker(DestroyedThisTurn.DestroyedTracker.class).getValue(state);
 
-			for(java.util.Map.Entry<Integer, Integer> entry: ids.entrySet())
+			for(Map.Entry<Integer, Integer> entry: ids.entrySet())
 			{
 				// Ignore anything the game is the cause of
 				if(entry.getValue() == 0)
@@ -57,7 +62,7 @@ public final class CobraTrap extends Card
 		// If a noncreature permanent under your control was destroyed this turn
 		// by a spell or ability an opponent controlled, you may pay (G) rather
 		// than pay Cobra Trap's mana cost.
-		this.addAbility(new org.rnd.jmagic.abilities.Trap(state, "Cobra Trap", CobraTrapGenerator.instance(You.instance()), "If a noncreature permanent under your control was destroyed this turn by a spell or ability an opponent controlled", "(G)"));
+		this.addAbility(new Trap(state, "Cobra Trap", CobraTrapGenerator.instance(You.instance()), "If a noncreature permanent under your control was destroyed this turn by a spell or ability an opponent controlled", "(G)"));
 		state.ensureTracker(new DestroyedThisTurn.DestroyedTracker());
 
 		// Put four 1/1 green Snake creature tokens onto the battlefield.

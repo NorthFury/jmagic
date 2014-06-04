@@ -2,6 +2,8 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.DoesntUntapDuringYourUntapStep;
+import org.rnd.jmagic.abilities.EntersTheBattlefieldTapped;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -83,10 +85,10 @@ public final class TimeVault extends Card
 		super(state);
 
 		// Time Vault enters the battlefield tapped.
-		this.addAbility(new org.rnd.jmagic.abilities.EntersTheBattlefieldTapped(state, "Time Vault"));
+		this.addAbility(new EntersTheBattlefieldTapped(state, "Time Vault"));
 
 		// Time Vault doesn't untap during your untap step.
-		this.addAbility(new org.rnd.jmagic.abilities.DoesntUntapDuringYourUntapStep(state, "Time Vault"));
+		this.addAbility(new DoesntUntapDuringYourUntapStep(state, "Time Vault"));
 
 		// If you would begin your turn while Time Vault is tapped, you may skip
 		// that turn instead. If you do, untap Time Vault.

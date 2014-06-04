@@ -2,6 +2,9 @@ package org.rnd.jmagic.engine.generators;
 
 import org.rnd.jmagic.engine.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Evaluates to each blocking object of the specified attacker(s), or just each
  * blocking object. It is safe to assume that this will only return creatures.
@@ -39,12 +42,12 @@ public class Blocking extends SetGenerator
 		if(this.what == null)
 			return allBlockers;
 
-		java.util.Set<Integer> attackerIDs = new java.util.HashSet<Integer>();
+		Set<Integer> attackerIDs = new HashSet<Integer>();
 		MagicSet evaluateWhat = this.what.evaluate(state, thisObject);
 		for(GameObject o: evaluateWhat.getAll(GameObject.class))
 			attackerIDs.add(o.ID);
 
-		java.util.Set<GameObject> blockingTheseAttackers = allBlockers.getAll(GameObject.class);
+		Set<GameObject> blockingTheseAttackers = allBlockers.getAll(GameObject.class);
 		MagicSet ret = new MagicSet();
 
 		// For each blocker, if it is blocking a specified attacker, add it to

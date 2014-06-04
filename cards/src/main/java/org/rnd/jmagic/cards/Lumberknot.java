@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Hexproof;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -33,7 +34,7 @@ public final class Lumberknot extends Card
 
 		// Hexproof (This creature can't be the target of spells or abilities
 		// your opponents control.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Hexproof(state));
+		this.addAbility(new Hexproof(state));
 
 		// Whenever a creature dies, put a +1/+1 counter on Lumberknot.
 		this.addAbility(new LumberknotAbility1(state));

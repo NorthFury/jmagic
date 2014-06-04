@@ -1,8 +1,16 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Haste;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 @Name("Vengevine")
 @Types({Type.CREATURE})
@@ -16,23 +24,23 @@ public final class Vengevine extends Card
 	 * Keys are player IDs, values are IDs of the creature spells that player
 	 * has cast this turn, in order
 	 */
-	public static final class CreatureSpells extends Tracker<java.util.Map<Integer, java.util.List<Integer>>>
+	public static final class CreatureSpells extends Tracker<Map<Integer, List<Integer>>>
 	{
-		private java.util.HashMap<Integer, java.util.List<Integer>> value = new java.util.HashMap<Integer, java.util.List<Integer>>();
-		private java.util.Map<Integer, java.util.List<Integer>> unmodifiable = java.util.Collections.unmodifiableMap(this.value);
+		private HashMap<Integer, List<Integer>> value = new HashMap<Integer, List<Integer>>();
+		private Map<Integer, List<Integer>> unmodifiable = Collections.unmodifiableMap(this.value);
 
 		@Override
 		@SuppressWarnings("unchecked")
 		public CreatureSpells clone()
 		{
 			CreatureSpells ret = (CreatureSpells)super.clone();
-			ret.value = (java.util.HashMap<Integer, java.util.List<Integer>>)this.value.clone();
-			ret.unmodifiable = java.util.Collections.unmodifiableMap(ret.value);
+			ret.value = (HashMap<Integer, List<Integer>>)this.value.clone();
+			ret.unmodifiable = Collections.unmodifiableMap(ret.value);
 			return ret;
 		}
 
 		@Override
-		protected java.util.Map<Integer, java.util.List<Integer>> getValueInternal()
+		protected Map<Integer, List<Integer>> getValueInternal()
 		{
 			return this.unmodifiable;
 		}
@@ -60,7 +68,7 @@ public final class Vengevine extends Card
 			Player who = event.parameters.get(EventType.Parameter.PLAYER).evaluate(state, null).getOne(Player.class);
 
 			if(!this.value.containsKey(who.ID))
-				this.value.put(who.ID, new java.util.LinkedList<Integer>());
+				this.value.put(who.ID, new LinkedList<Integer>());
 			this.value.get(who.ID).add(played.ID);
 		}
 	}
@@ -82,14 +90,14 @@ public final class Vengevine extends Card
 		@Override
 		public MagicSet evaluate(GameState state, Identified thisObject)
 		{
-			java.util.Map<Integer, java.util.List<Integer>> flagValue = state.getTracker(CreatureSpells.class).getValue(state);
+			Map<Integer, List<Integer>> flagValue = state.getTracker(CreatureSpells.class).getValue(state);
 			MagicSet who = this.who.evaluate(state, thisObject);
 
 			MagicSet ret = new MagicSet();
 			for(Player player: who.getAll(Player.class))
 				if(flagValue.containsKey(player.ID))
 				{
-					java.util.List<Integer> thatPlayersSpells = flagValue.get(player.ID);
+					List<Integer> thatPlayersSpells = flagValue.get(player.ID);
 					if(thatPlayersSpells.size() >= 2)
 						ret.add(state.get(thatPlayersSpells.get(1)));
 				}
@@ -128,7 +136,7 @@ public final class Vengevine extends Card
 		this.setToughness(3);
 
 		// Haste
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Haste(state));
+		this.addAbility(new Haste(state));
 
 		// Whenever you cast a spell, if it's the second creature spell you cast
 		// this turn, you may return Vengevine from your graveyard to the

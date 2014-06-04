@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.LandfallForPump;
 import org.rnd.jmagic.engine.*;
 
 @Name("Hedron Rover")
@@ -19,6 +20,6 @@ public final class HedronRover extends Card
 
 		// Landfall \u2014 Whenever a land enters the battlefield under your
 		// control, Hedron Rover gets +2/+2 until end of turn.
-		this.addAbility(new org.rnd.jmagic.abilities.LandfallForPump(state, this.getName(), +2, +2));
+		this.addAbility(new LandfallForPump(state, this.getName(), +2, +2));
 	}
 }

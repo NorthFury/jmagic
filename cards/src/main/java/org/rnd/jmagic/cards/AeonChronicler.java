@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Suspend;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -43,7 +45,7 @@ public final class AeonChronicler extends Card
 		this.addAbility(new SetPTtoCardsInHand(state));
 
 		// Suspend X\u2014(X)(3)(U). X can't be 0.
-		this.addAbility(org.rnd.jmagic.abilities.keywords.Suspend.X(state, "(X)(3)(U)"));
+		this.addAbility(Suspend.X(state, "(X)(3)(U)"));
 
 		// Whenever a time counter is removed from Aeon Chronicler while it's
 		// exiled, draw a card.

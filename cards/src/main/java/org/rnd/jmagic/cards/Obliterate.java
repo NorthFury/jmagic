@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.CantBeCountered;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -16,7 +17,7 @@ public final class Obliterate extends Card
 	{
 		super(state);
 
-		this.addAbility(new org.rnd.jmagic.abilities.CantBeCountered(state, "Obliterate"));
+		this.addAbility(new CantBeCountered(state, "Obliterate"));
 
 		this.addEffects(bury(this, Union.instance(Union.instance(ArtifactPermanents.instance(), CreaturePermanents.instance()), LandPermanents.instance()), "Destroy all artifacts, creatures, and lands. They can't be regenerated."));
 	}

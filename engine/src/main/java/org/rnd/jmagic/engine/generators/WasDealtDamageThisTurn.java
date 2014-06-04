@@ -2,6 +2,10 @@ package org.rnd.jmagic.engine.generators;
 
 import org.rnd.jmagic.engine.*;
 
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
 public class WasDealtDamageThisTurn extends SetGenerator
 {
 	private static WasDealtDamageThisTurn _instance = null;
@@ -23,10 +27,10 @@ public class WasDealtDamageThisTurn extends SetGenerator
 	@Override
 	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		Tracker<java.util.Map<Integer, java.util.Set<Integer>>> flag = state.getTracker(DealtDamageByThisTurn.DealtDamageByTracker.class);
+		Tracker<Map<Integer, Set<Integer>>> flag = state.getTracker(DealtDamageByThisTurn.DealtDamageByTracker.class);
 
-		java.util.Set<Integer> ids = new java.util.HashSet<Integer>();
-		for(java.util.Set<Integer> damagers: flag.getValue(state).values())
+		Set<Integer> ids = new HashSet<Integer>();
+		for(Set<Integer> damagers: flag.getValue(state).values())
 			ids.addAll(damagers);
 
 		MagicSet ret = new MagicSet();

@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.EntersTheBattlefieldWithCounters;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -41,7 +43,7 @@ public final class TrigonofRage extends Card
 
 		// Trigon of Rage enters the battlefield with three charge counters on
 		// it.
-		this.addAbility(new org.rnd.jmagic.abilities.EntersTheBattlefieldWithCounters(state, "Trigon of Rage", 3, Counter.CounterType.CHARGE));
+		this.addAbility(new EntersTheBattlefieldWithCounters(state, "Trigon of Rage", 3, Counter.CounterType.CHARGE));
 
 		// (R)(R), (T): Put a charge counter on Trigon of Rage.
 		this.addAbility(new TrigonofRageAbility1(state));

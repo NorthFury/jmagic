@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Intimidate;
 import org.rnd.jmagic.engine.*;
 
 @Name("Spectral Rider")
@@ -19,6 +20,6 @@ public final class SpectralRider extends Card
 
 		// Intimidate (This creature can't be blocked except by artifact
 		// creatures and/or creatures that share a color with it.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Intimidate(state));
+		this.addAbility(new Intimidate(state));
 	}
 }

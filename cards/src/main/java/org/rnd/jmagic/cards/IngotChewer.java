@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Evoke;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -35,6 +36,6 @@ public final class IngotChewer extends Card
 		this.addAbility(new ETBDestroyArtifact(state));
 
 		// Evoke (R)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Evoke(state, "(R)"));
+		this.addAbility(new Evoke(state, "(R)"));
 	}
 }

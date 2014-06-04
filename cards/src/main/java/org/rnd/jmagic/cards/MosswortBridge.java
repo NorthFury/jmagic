@@ -1,8 +1,14 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.TapForMana;
+import org.rnd.jmagic.abilities.keywords.Hideaway;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+
+import java.util.Collections;
+import java.util.List;
 
 @Name("Mosswort Bridge")
 @Types({Type.LAND})
@@ -10,9 +16,9 @@ import org.rnd.jmagic.engine.generators.*;
 @ColorIdentity({Color.GREEN})
 public final class MosswortBridge extends Card
 {
-	public static final class MosswortHideaway extends org.rnd.jmagic.abilities.keywords.Hideaway
+	public static final class MosswortHideaway extends Hideaway
 	{
-		public static final class MosswortExile extends org.rnd.jmagic.abilities.keywords.Hideaway.Exile
+		public static final class MosswortExile extends Hideaway.Exile
 		{
 			public MosswortExile(GameState state)
 			{
@@ -26,9 +32,9 @@ public final class MosswortBridge extends Card
 		}
 
 		@Override
-		protected java.util.List<NonStaticAbility> createNonStaticAbilities()
+		protected List<NonStaticAbility> createNonStaticAbilities()
 		{
-			return java.util.Collections.<NonStaticAbility>singletonList(new MosswortExile(this.state));
+			return Collections.<NonStaticAbility>singletonList(new MosswortExile(this.state));
 		}
 	}
 
@@ -67,7 +73,7 @@ public final class MosswortBridge extends Card
 		this.addAbility(new MosswortHideaway(state));
 
 		// (T): Add (G) to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapForMana.Final(state, "(G)"));
+		this.addAbility(new TapForMana.Final(state, "(G)"));
 
 		// (G), (T): You may play the exiled card without paying its mana cost
 		// if creatures you control have total power 10 or greater.

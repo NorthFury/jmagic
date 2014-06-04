@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.Convenience;
+import org.rnd.jmagic.abilities.keywords.Transmute;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -26,6 +27,6 @@ public final class MuddletheMixture extends Card
 		// library for a card with the same converted mana cost as this card,
 		// reveal it, and put it into your hand. Then shuffle your library.
 		// Transmute only as a sorcery.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Transmute(state, "(1)(U)(U)"));
+		this.addAbility(new Transmute(state, "(1)(U)(U)"));
 	}
 }

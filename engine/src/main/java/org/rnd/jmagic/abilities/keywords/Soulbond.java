@@ -6,6 +6,9 @@ import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class Soulbond extends Keyword
 {
 	public static final class AnotherCreatureEntersTheBattlefield extends EventTriggeredAbility
@@ -72,9 +75,9 @@ public class Soulbond extends Keyword
 	}
 
 	@Override
-	protected java.util.List<NonStaticAbility> createNonStaticAbilities()
+	protected List<NonStaticAbility> createNonStaticAbilities()
 	{
-		java.util.List<NonStaticAbility> ret = new java.util.LinkedList<NonStaticAbility>();
+		List<NonStaticAbility> ret = new LinkedList<NonStaticAbility>();
 		ret.add(new ThisEntersTheBattlefield(this.state));
 		ret.add(new AnotherCreatureEntersTheBattlefield(this.state));
 		return ret;

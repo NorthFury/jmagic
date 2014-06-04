@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 
 @Name("Will-o'-the-Wisp")
@@ -30,7 +32,7 @@ public final class WillotheWisp extends Card
 
 		// Flying (This creature can't be blocked except by creatures with
 		// flying or reach.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// (B): Regenerate Will-o'-the-Wisp. (The next time this creature would
 		// be destroyed this turn, it isn't. Instead tap it, remove all damage

@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.DoesntUntapDuringYourUntapStep;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -37,7 +39,7 @@ public final class NettleSentinel extends Card
 		this.setToughness(2);
 
 		// Nettle Sentinel doesn't untap during your untap step.
-		this.addAbility(new org.rnd.jmagic.abilities.DoesntUntapDuringYourUntapStep(state, this.getName()));
+		this.addAbility(new DoesntUntapDuringYourUntapStep(state, this.getName()));
 
 		// Whenever you cast a green spell, you may untap Nettle Sentinel.
 		this.addAbility(new NettleSentinelAbility1(state));

@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Cycling;
 import org.rnd.jmagic.engine.*;
 
 @Name("Yoked Plowbeast")
@@ -18,6 +19,6 @@ public final class YokedPlowbeast extends Card
 		this.setToughness(5);
 
 		// Cycling (2) ((2), Discard this card: Draw a card.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Cycling(state, "(2)"));
+		this.addAbility(new Cycling(state, "(2)"));
 	}
 }

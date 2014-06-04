@@ -1,6 +1,11 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Deathtouch;
+import org.rnd.jmagic.abilities.keywords.Hexproof;
+import org.rnd.jmagic.abilities.keywords.Reach;
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -19,7 +24,7 @@ public final class MwonvuliBeastTracker extends Card
 			super(state, "When Mwonvuli Beast Tracker enters the battlefield, search your library for a creature card with deathtouch, hexproof, reach, or trample and reveal it. Shuffle your library and put that card on top of it.");
 			this.addPattern(whenThisEntersTheBattlefield());
 
-			SetGenerator hasKeywords = HasKeywordAbility.instance(org.rnd.jmagic.abilities.keywords.Deathtouch.class, org.rnd.jmagic.abilities.keywords.Hexproof.class, org.rnd.jmagic.abilities.keywords.Reach.class, org.rnd.jmagic.abilities.keywords.Trample.class);
+			SetGenerator hasKeywords = HasKeywordAbility.instance(Deathtouch.class, Hexproof.class, Reach.class, Trample.class);
 
 			EventFactory search = new EventFactory(EventType.SEARCH_LIBRARY_AND_PUT_INTO, "Search your library for a creature card with deathtouch, hexproof, reach, or trample and reveal it. Shuffle your library and put that card on top of it.");
 			search.parameters.put(EventType.Parameter.CAUSE, This.instance());

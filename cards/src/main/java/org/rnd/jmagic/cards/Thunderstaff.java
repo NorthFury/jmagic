@@ -5,6 +5,12 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+
 @Name("Thunderstaff")
 @Types({Type.ARTIFACT})
 @ManaCost("3")
@@ -41,10 +47,10 @@ public final class Thunderstaff extends Card
 			}
 
 			@Override
-			public java.util.List<EventFactory> prevent(DamageAssignment.Batch damageAssignments)
+			public List<EventFactory> prevent(DamageAssignment.Batch damageAssignments)
 			{
-				java.util.Set<Integer> preventedFrom = new java.util.HashSet<Integer>();
-				java.util.Iterator<DamageAssignment> damageIter = damageAssignments.iterator();
+				Set<Integer> preventedFrom = new HashSet<Integer>();
+				Iterator<DamageAssignment> damageIter = damageAssignments.iterator();
 				while(damageIter.hasNext())
 				{
 					DamageAssignment damage = damageIter.next();
@@ -54,7 +60,7 @@ public final class Thunderstaff extends Card
 						preventedFrom.add(damage.sourceID);
 					}
 				}
-				return new java.util.LinkedList<EventFactory>();
+				return new LinkedList<EventFactory>();
 			}
 		}
 

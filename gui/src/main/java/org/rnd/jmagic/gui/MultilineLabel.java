@@ -1,6 +1,18 @@
 package org.rnd.jmagic.gui;
 
-public class MultilineLabel extends javax.swing.JComponent
+import javax.swing.JComponent;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Insets;
+import java.awt.font.LineBreakMeasurer;
+import java.awt.font.TextAttribute;
+import java.awt.font.TextLayout;
+import java.text.AttributedCharacterIterator;
+import java.text.AttributedString;
+
+public class MultilineLabel extends JComponent
 {
 	private static final long serialVersionUID = 1L;
 
@@ -53,52 +65,52 @@ public class MultilineLabel extends javax.swing.JComponent
 	}
 
 	@Override
-	public java.awt.Dimension getPreferredSize()
+	public Dimension getPreferredSize()
 	{
-		return paintOrGetSize((java.awt.Graphics2D)this.getGraphics(), getMaxWidth(), false);
+		return paintOrGetSize((Graphics2D)this.getGraphics(), getMaxWidth(), false);
 	}
 
 	@Override
-	public java.awt.Dimension getMinimumSize()
+	public Dimension getMinimumSize()
 	{
 		return getPreferredSize();
 	}
 
 	@Override
-	protected void paintComponent(java.awt.Graphics g)
+	protected void paintComponent(Graphics g)
 	{
 		super.paintComponent(g);
-		paintOrGetSize((java.awt.Graphics2D)g, getWidth(), true);
+		paintOrGetSize((Graphics2D)g, getWidth(), true);
 	}
 
-	private java.awt.Dimension paintOrGetSize(java.awt.Graphics2D g, int width, boolean paint)
+	private Dimension paintOrGetSize(Graphics2D g, int width, boolean paint)
 	{
 		// WHY THE HELL WON'T THE BACKGROUND JUST EFFING DRAW CORRECTLY?
 		// TODO : Anyone who can figure out how to get it to just draw right,
 		// please change this. -RulesGuru
 		if(paint)
 		{
-			java.awt.Color old = g.getColor();
+			Color old = g.getColor();
 			g.setColor(this.getBackground());
 			g.fillRect(0, 0, width, this.getHeight());
 			g.setColor(old);
 		}
 
-		java.awt.Insets insets = getInsets();
+		Insets insets = getInsets();
 		width -= insets.left + insets.right + 4;
 		float w = insets.left + insets.right;
 		float y = insets.top;
 		float height = -1;
 		if(width > 0 && this.text != null && this.text.length() > 0)
 		{
-			java.text.AttributedString as = new java.text.AttributedString(getText());
-			as.addAttribute(java.awt.font.TextAttribute.FONT, getFont());
-			java.text.AttributedCharacterIterator aci = as.getIterator();
-			java.awt.font.LineBreakMeasurer lbm = new java.awt.font.LineBreakMeasurer(aci, g.getFontRenderContext());
+			AttributedString as = new AttributedString(getText());
+			as.addAttribute(TextAttribute.FONT, getFont());
+			AttributedCharacterIterator aci = as.getIterator();
+			LineBreakMeasurer lbm = new LineBreakMeasurer(aci, g.getFontRenderContext());
 			float max = 0;
 			while(lbm.getPosition() < aci.getEndIndex())
 			{
-				java.awt.font.TextLayout textLayout = lbm.nextLayout(width);
+				TextLayout textLayout = lbm.nextLayout(width);
 				if(paint)
 					textLayout.draw(g, 2 + insets.left, y + textLayout.getAscent());
 				y += textLayout.getDescent() + textLayout.getLeading() + textLayout.getAscent();
@@ -110,6 +122,6 @@ public class MultilineLabel extends javax.swing.JComponent
 			}
 			w += max;
 		}
-		return new java.awt.Dimension((int)Math.ceil(w), (int)Math.ceil(height) + insets.bottom);
+		return new Dimension((int)Math.ceil(w), (int)Math.ceil(height) + insets.bottom);
 	}
 }

@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Lifelink;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -18,7 +21,7 @@ public final class VictorysHerald extends Card
 		{
 			super(state, "Whenever Victory's Herald attacks, attacking creatures gain flying and lifelink until end of turn.");
 			this.addPattern(whenThisAttacks());
-			this.addEffect(createFloatingEffect("Attacking creatures gain flying and lifelink until end of turn.", addAbilityToObject(Attacking.instance(), org.rnd.jmagic.abilities.keywords.Flying.class, org.rnd.jmagic.abilities.keywords.Lifelink.class)));
+			this.addEffect(createFloatingEffect("Attacking creatures gain flying and lifelink until end of turn.", addAbilityToObject(Attacking.instance(), Flying.class, Lifelink.class)));
 		}
 	}
 
@@ -30,7 +33,7 @@ public final class VictorysHerald extends Card
 		this.setToughness(4);
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// Whenever Victory's Herald attacks, attacking creatures gain flying
 		// and lifelink until end of turn.

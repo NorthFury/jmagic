@@ -5,6 +5,11 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
 @Name("Realms Uncharted")
 @Types({Type.INSTANT})
 @ManaCost("2G")
@@ -33,7 +38,7 @@ public final class RealmsUncharted extends Card
 
 		private boolean legal(MagicSet searchedFor)
 		{
-			java.util.Set<String> names = new java.util.HashSet<String>();
+			Set<String> names = new HashSet<String>();
 			for(GameObject o: searchedFor.getAll(GameObject.class))
 			{
 				if(names.contains(o.getName()))
@@ -44,14 +49,14 @@ public final class RealmsUncharted extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			Player you = parameters.get(Parameter.PLAYER).getOne(Player.class);
 
 			MagicSet searchedFor;
 			do
 			{
-				java.util.Map<Parameter, MagicSet> searchParameters = new java.util.HashMap<Parameter, MagicSet>();
+				Map<Parameter, MagicSet> searchParameters = new HashMap<Parameter, MagicSet>();
 				searchParameters.put(EventType.Parameter.CAUSE, new MagicSet(event.getSource()));
 				searchParameters.put(EventType.Parameter.PLAYER, new MagicSet(you));
 				searchParameters.put(EventType.Parameter.NUMBER, new MagicSet(4));

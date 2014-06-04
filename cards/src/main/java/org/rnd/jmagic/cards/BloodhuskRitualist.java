@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Kicker;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -44,7 +45,7 @@ public final class BloodhuskRitualist extends Card
 
 		// Multikicker (B) (You may pay an additional (B) any number of times as
 		// you cast this spell.)
-		org.rnd.jmagic.abilities.keywords.Kicker kicker = new org.rnd.jmagic.abilities.keywords.Kicker(state, true, "(B)");
+		Kicker kicker = new Kicker(state, true, "(B)");
 		this.addAbility(kicker);
 
 		// When Bloodhusk Ritualist enters the battlefield, target opponent

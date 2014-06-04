@@ -2,14 +2,18 @@ package org.rnd.jmagic.engine.generators;
 
 import org.rnd.jmagic.engine.*;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Evaluates to each GameObject which has the any of the given Types
  */
 public class HasType extends SetGenerator
 {
-	private static final java.util.Map<Type, HasType> _instances = new java.util.HashMap<Type, HasType>();
+	private static final Map<Type, HasType> _instances = new HashMap<Type, HasType>();
 
-	public static MagicSet get(GameState state, java.util.Collection<Type> types)
+	public static MagicSet get(GameState state, Collection<Type> types)
 	{
 		MagicSet ret = new MagicSet();
 		for(GameObject item: state.getAllObjects())
@@ -34,7 +38,7 @@ public class HasType extends SetGenerator
 		return new HasType(Identity.instance((Object[])what));
 	}
 
-	public static SetGenerator instance(java.util.Collection<Type> what)
+	public static SetGenerator instance(Collection<Type> what)
 	{
 		return new HasType(Identity.instance(what));
 	}

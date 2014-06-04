@@ -2,6 +2,11 @@ package org.rnd.jmagic.engine.eventTypes;
 
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+import org.rnd.jmagic.sanitized.SanitizedEvent;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 public final class Look extends EventType
 {	public static final EventType INSTANCE = new Look();
@@ -18,18 +23,18 @@ public final class Look extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		MagicSet objects = parameters.get(Parameter.OBJECT);
-		java.util.Set<GameObject> gameObjects = objects.getAll(GameObject.class);
+		Set<GameObject> gameObjects = objects.getAll(GameObject.class);
 		for(Zone z: objects.getAll(Zone.class))
 			gameObjects.addAll(z.objects);
-		java.util.Set<Player> players = parameters.get(Parameter.PLAYER).getAll(Player.class);
+		Set<Player> players = parameters.get(Parameter.PLAYER).getAll(Player.class);
 		MagicSet ret = new MagicSet();
 
 		for(Player player: players)
 		{
-			org.rnd.jmagic.sanitized.SanitizedEvent sanitized = new org.rnd.jmagic.sanitized.SanitizedEvent.Look(event, player, gameObjects);
+			SanitizedEvent sanitized = new SanitizedEvent.Look(event, player, gameObjects);
 			player.alert(sanitized);
 		}
 
@@ -59,7 +64,7 @@ public final class Look extends EventType
 		part.parameters.put(ContinuousEffectType.Parameter.OBJECT, Identity.instance(objects));
 		part.parameters.put(ContinuousEffectType.Parameter.PLAYER, Identity.instance(players));
 
-		java.util.Map<Parameter, MagicSet> lookParameters = new java.util.HashMap<Parameter, MagicSet>();
+		Map<Parameter, MagicSet> lookParameters = new HashMap<Parameter, MagicSet>();
 		lookParameters.put(Parameter.CAUSE, new MagicSet(cause));
 		lookParameters.put(Parameter.EFFECT, new MagicSet(part));
 		lookParameters.put(Parameter.EXPIRES, new MagicSet(expiration));

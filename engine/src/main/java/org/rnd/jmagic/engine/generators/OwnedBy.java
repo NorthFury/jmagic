@@ -2,6 +2,9 @@ package org.rnd.jmagic.engine.generators;
 
 import org.rnd.jmagic.engine.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Evaluates to the objects owned by the given players in any zone
  */
@@ -23,7 +26,7 @@ public class OwnedBy extends SetGenerator
 	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
 		MagicSet ret = new MagicSet();
-		java.util.Set<Integer> owners = new java.util.HashSet<Integer>();
+		Set<Integer> owners = new HashSet<Integer>();
 		for(Player player: this.owner.evaluate(state, thisObject).getAll(Player.class))
 			owners.add(player.ID);
 

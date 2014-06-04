@@ -2,6 +2,13 @@ package org.rnd.jmagic.engine.eventTypes;
 
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+import org.rnd.util.NumberRange;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 public final class MoveChoice extends EventType
 {	public static final EventType INSTANCE = new MoveChoice();
@@ -18,15 +25,15 @@ public final class MoveChoice extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean attempt(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		boolean hidden = parameters.containsKey(Parameter.HIDDEN);
 		int required = getRange(parameters.get(Parameter.NUMBER)).getLower(0);
 
-		java.util.Set<GameObject> chosen = new java.util.HashSet<GameObject>();
+		Set<GameObject> chosen = new HashSet<GameObject>();
 		for(GameObject object: parameters.get(Parameter.OBJECT).getAll(GameObject.class))
 		{
-			java.util.Map<Parameter, MagicSet> newParameters = new java.util.HashMap<Parameter, MagicSet>(parameters);
+			Map<Parameter, MagicSet> newParameters = new HashMap<Parameter, MagicSet>(parameters);
 			newParameters.put(Parameter.OBJECT, new MagicSet(object));
 			if(hidden)
 				newParameters.put(Parameter.HIDDEN, NonEmpty.set);
@@ -42,17 +49,17 @@ public final class MoveChoice extends EventType
 	}
 
 	@Override
-	public void makeChoices(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public void makeChoices(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		Player player = parameters.get(Parameter.PLAYER).getOne(Player.class);
-		org.rnd.util.NumberRange number = getRange(parameters.get(Parameter.NUMBER));
+		NumberRange number = getRange(parameters.get(Parameter.NUMBER));
 
 		// offer the choices to the player
-		java.util.Set<GameObject> choices = parameters.get(Parameter.OBJECT).getAll(GameObject.class);
+		Set<GameObject> choices = parameters.get(Parameter.OBJECT).getAll(GameObject.class);
 		PlayerInterface.ChooseReason reason = parameters.get(Parameter.CHOICE).getOne(PlayerInterface.ChooseReason.class);
 		if(parameters.containsKey(Parameter.HIDDEN) && reason.isPublic)
 			reason = new PlayerInterface.ChooseReason(reason.source, reason.query, false);
-		java.util.Collection<GameObject> chosen = player.sanitizeAndChoose(game.actualState, number.getLower(0), number.getUpper(choices.size()), choices, PlayerInterface.ChoiceType.OBJECTS, reason);
+		Collection<GameObject> chosen = player.sanitizeAndChoose(game.actualState, number.getLower(0), number.getUpper(choices.size()), choices, PlayerInterface.ChoiceType.OBJECTS, reason);
 		if(!number.contains(chosen.size()))
 			event.allChoicesMade = false;
 
@@ -60,14 +67,14 @@ public final class MoveChoice extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		MagicSet chosen = event.getChoices(parameters.get(Parameter.PLAYER).getOne(Player.class));
 		boolean status = true;
 
 		if(!chosen.isEmpty())
 		{
-			java.util.Map<Parameter, MagicSet> moveParameters = new java.util.HashMap<Parameter, MagicSet>(parameters);
+			Map<Parameter, MagicSet> moveParameters = new HashMap<Parameter, MagicSet>(parameters);
 			moveParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 			moveParameters.put(Parameter.TO, parameters.get(Parameter.TO));
 			moveParameters.put(Parameter.OBJECT, chosen);

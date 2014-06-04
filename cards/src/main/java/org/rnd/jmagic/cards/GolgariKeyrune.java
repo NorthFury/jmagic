@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.TapForMana;
+import org.rnd.jmagic.abilities.keywords.Deathtouch;
 import org.rnd.jmagic.engine.*;
 
 @Name("Golgari Keyrune")
@@ -22,7 +25,7 @@ public final class GolgariKeyrune extends Card
 			animate.addColor(Color.GREEN);
 			animate.addSubType(SubType.INSECT);
 			animate.addType(Type.ARTIFACT);
-			animate.addAbility(org.rnd.jmagic.abilities.keywords.Deathtouch.class);
+			animate.addAbility(Deathtouch.class);
 			this.addEffect(createFloatingEffect("Golgari Keyrune becomes a 2/2 black and green Insect artifact creature with deathtouch until end of turn.", animate.getParts()));
 		}
 	}
@@ -32,7 +35,7 @@ public final class GolgariKeyrune extends Card
 		super(state);
 
 		// (T): Add (B) or (G) to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapForMana.Final(state, "(BG)"));
+		this.addAbility(new TapForMana.Final(state, "(BG)"));
 
 		// (B)(G): Golgari Keyrune becomes a 2/2 black and green Insect artifact
 		// creature with deathtouch until end of turn.

@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Deathtouch;
 import org.rnd.jmagic.engine.*;
 
 @Name("Daggerback Basilisk")
@@ -18,6 +19,6 @@ public final class DaggerbackBasilisk extends Card
 		this.setToughness(2);
 
 		// Deathtouch
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Deathtouch(state));
+		this.addAbility(new Deathtouch(state));
 	}
 }

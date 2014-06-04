@@ -2,6 +2,8 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.EntersTheBattlefieldTapped;
+import org.rnd.jmagic.abilities.TapForB;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -27,13 +29,13 @@ public final class PiranhaMarsh extends Card
 		super(state);
 
 		// Piranha Marsh enters the battlefield tapped.
-		this.addAbility(new org.rnd.jmagic.abilities.EntersTheBattlefieldTapped(state, this.getName()));
+		this.addAbility(new EntersTheBattlefieldTapped(state, this.getName()));
 
 		// When Piranha Marsh enters the battlefield, target player loses 1
 		// life.
 		this.addAbility(new ETBLoseLife(state));
 
 		// (T): Add (B) to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapForB(state));
+		this.addAbility(new TapForB(state));
 	}
 }

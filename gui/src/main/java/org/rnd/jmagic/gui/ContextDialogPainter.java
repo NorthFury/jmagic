@@ -1,13 +1,25 @@
 package org.rnd.jmagic.gui;
 
+import javax.swing.ButtonModel;
+import javax.swing.JMenuItem;
+import javax.swing.UIManager;
+import javax.swing.plaf.basic.BasicMenuItemUI;
+import java.awt.Color;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.awt.font.TextLayout;
+import java.text.AttributedString;
+
 /**
  * This is the ui painter used for the action menu that pops up when choosing
  * from several player actions for the same object.
  */
-public class ContextDialogPainter extends javax.swing.plaf.basic.BasicMenuItemUI
+public class ContextDialogPainter extends BasicMenuItemUI
 {
 	private String lastKnownText;
-	private java.awt.font.TextLayout lastLayout;
+	private TextLayout lastLayout;
 
 	public ContextDialogPainter()
 	{
@@ -15,12 +27,12 @@ public class ContextDialogPainter extends javax.swing.plaf.basic.BasicMenuItemUI
 		this.lastLayout = null;
 	}
 
-	public void drawString(java.awt.Graphics g, String text, int x, int y)
+	public void drawString(Graphics g, String text, int x, int y)
 	{
 		if(text == null || text.length() <= 0)
 			return;
 
-		java.awt.Graphics2D g2d = (java.awt.Graphics2D)g;
+		Graphics2D g2d = (Graphics2D)g;
 
 		if(text.equals(this.lastKnownText))
 		{
@@ -28,8 +40,8 @@ public class ContextDialogPainter extends javax.swing.plaf.basic.BasicMenuItemUI
 		}
 		else
 		{
-			java.text.AttributedString attrText = CardGraphics.getAttributedString(text, g2d.getFontMetrics(), true);
-			java.awt.font.TextLayout textLayout = new java.awt.font.TextLayout(attrText.getIterator(), g2d.getFontRenderContext());
+			AttributedString attrText = CardGraphics.getAttributedString(text, g2d.getFontMetrics(), true);
+			TextLayout textLayout = new TextLayout(attrText.getIterator(), g2d.getFontRenderContext());
 			textLayout.draw(g2d, x, y);
 			this.lastKnownText = text;
 			this.lastLayout = textLayout;
@@ -37,15 +49,15 @@ public class ContextDialogPainter extends javax.swing.plaf.basic.BasicMenuItemUI
 	}
 
 	@Override
-	protected void paintText(java.awt.Graphics g, javax.swing.JMenuItem menuItem, java.awt.Rectangle textRect, String text)
+	protected void paintText(Graphics g, JMenuItem menuItem, Rectangle textRect, String text)
 	{
-		javax.swing.ButtonModel model = menuItem.getModel();
-		java.awt.FontMetrics fm = g.getFontMetrics(menuItem.getFont());
+		ButtonModel model = menuItem.getModel();
+		FontMetrics fm = g.getFontMetrics(menuItem.getFont());
 
 		if(!model.isEnabled())
 		{
 			// *** paint the text disabled
-			java.awt.Color disabled = javax.swing.UIManager.getColor("MenuItem.disabledForeground");
+			Color disabled = UIManager.getColor("MenuItem.disabledForeground");
 			if(disabled != null)
 			{
 				g.setColor(disabled);

@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.ShadePump;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -42,6 +44,6 @@ public final class LilianasShade extends Card
 		this.addAbility(new LilianasShadeAbility0(state));
 
 		// (B): Liliana's Shade gets +1/+1 until end of turn.
-		this.addAbility(new org.rnd.jmagic.abilities.ShadePump(state, this.getName()));
+		this.addAbility(new ShadePump(state, this.getName()));
 	}
 }

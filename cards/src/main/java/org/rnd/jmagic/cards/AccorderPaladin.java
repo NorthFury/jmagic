@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.BattleCry;
 import org.rnd.jmagic.engine.*;
 
 @Name("Accorder Paladin")
@@ -19,6 +20,6 @@ public final class AccorderPaladin extends Card
 
 		// Battle cry (Whenever this creature attacks, each other attacking
 		// creature gets +1/+0 until end of turn.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.BattleCry(state));
+		this.addAbility(new BattleCry(state));
 	}
 }

@@ -4,6 +4,10 @@ import static org.rnd.jmagic.Convenience.*;
 
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+import org.rnd.util.NumberRange;
+
+import java.util.LinkedList;
+import java.util.List;
 
 public final class Soulshift extends Keyword
 {
@@ -22,9 +26,9 @@ public final class Soulshift extends Keyword
 	}
 
 	@Override
-	protected java.util.List<NonStaticAbility> createNonStaticAbilities()
+	protected List<NonStaticAbility> createNonStaticAbilities()
 	{
-		java.util.List<NonStaticAbility> ret = new java.util.LinkedList<NonStaticAbility>();
+		List<NonStaticAbility> ret = new LinkedList<NonStaticAbility>();
 
 		ret.add(new SoulshiftTrigger(this.state, this));
 
@@ -49,7 +53,7 @@ public final class Soulshift extends Keyword
 			SetGenerator controller = ControllerOf.instance(thisCard);
 			SetGenerator controllersGraveyard = GraveyardOf.instance(controller);
 			SetGenerator spirits = HasSubType.instance(SubType.SPIRIT);
-			SetGenerator cmcLessThanN = HasConvertedManaCost.instance(Identity.instance(new org.rnd.util.NumberRange(0, N)));
+			SetGenerator cmcLessThanN = HasConvertedManaCost.instance(Identity.instance(new NumberRange(0, N)));
 
 			this.addPattern(whenThisIsPutIntoAGraveyardFromTheBattlefield());
 

@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 
 @Name("Baloth Woodcrasher")
@@ -18,7 +19,7 @@ public final class BalothWoodcrasher extends Card
 		{
 			super(state, "Whenever a land enters the battlefield under your control, Baloth Woodcrasher gets +4/+4 and gains trample until end of turn.");
 			this.addPattern(landfall());
-			this.addEffect(ptChangeAndAbilityUntilEndOfTurn(ABILITY_SOURCE_OF_THIS, +4, +4, "Baloth Woodcrasher gets +4/+4 and gains trample until end of turn.", org.rnd.jmagic.abilities.keywords.Trample.class));
+			this.addEffect(ptChangeAndAbilityUntilEndOfTurn(ABILITY_SOURCE_OF_THIS, +4, +4, "Baloth Woodcrasher gets +4/+4 and gains trample until end of turn.", Trample.class));
 		}
 	}
 

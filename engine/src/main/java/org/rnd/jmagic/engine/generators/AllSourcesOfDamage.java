@@ -2,6 +2,9 @@ package org.rnd.jmagic.engine.generators;
 
 import org.rnd.jmagic.engine.*;
 
+import java.util.Collection;
+import java.util.HashSet;
+
 /**
  * 609.7a If an effect requires a player to choose a source of damage, he or she
  * may choose a permanent; a spell on the stack (including a permanent spell);
@@ -29,9 +32,9 @@ public class AllSourcesOfDamage extends SetGenerator
 		// No code necessary
 	}
 
-	private static java.util.Collection<GameObject> referencedBy(GameState state, GameObject object)
+	private static Collection<GameObject> referencedBy(GameState state, GameObject object)
 	{
-		java.util.Collection<GameObject> ret = new java.util.HashSet<GameObject>();
+		Collection<GameObject> ret = new HashSet<GameObject>();
 
 		for(Mode m: object.getModes())
 			for(EventFactory effect: m.effects)
@@ -71,7 +74,7 @@ public class AllSourcesOfDamage extends SetGenerator
 
 		// or by a delayed triggered ability that's waiting to trigger (even if
 		// that object is no longer in the zone it used to be in);
-		for(java.util.Collection<TriggeredAbility> abilities: state.waitingTriggers.values())
+		for(Collection<TriggeredAbility> abilities: state.waitingTriggers.values())
 			for(TriggeredAbility ability: abilities)
 				ret.addAll(referencedBy(state, ability));
 

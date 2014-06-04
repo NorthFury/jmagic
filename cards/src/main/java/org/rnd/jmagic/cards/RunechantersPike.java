@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Equip;
+import org.rnd.jmagic.abilities.keywords.FirstStrike;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -21,7 +24,7 @@ public final class RunechantersPike extends Card
 			SetGenerator number = Count.instance(Intersect.instance(HasType.instance(Type.INSTANT, Type.SORCERY), InZone.instance(GraveyardOf.instance(You.instance()))));
 			SetGenerator equipped = EquippedBy.instance(This.instance());
 
-			this.addEffectPart(addAbilityToObject(equipped, org.rnd.jmagic.abilities.keywords.FirstStrike.class));
+			this.addEffectPart(addAbilityToObject(equipped, FirstStrike.class));
 			this.addEffectPart(modifyPowerAndToughness(equipped, number, numberGenerator(0)));
 		}
 	}
@@ -35,6 +38,6 @@ public final class RunechantersPike extends Card
 		this.addAbility(new RunechantersPikeAbility0(state));
 
 		// Equip (2)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Equip(state, "(2)"));
+		this.addAbility(new Equip(state, "(2)"));
 	}
 }

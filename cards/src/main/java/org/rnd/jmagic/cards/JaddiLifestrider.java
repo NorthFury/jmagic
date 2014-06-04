@@ -3,6 +3,10 @@ package org.rnd.jmagic.cards;
 import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+import org.rnd.util.NumberRange;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Name("Jaddi Lifestrider")
 @Types({Type.CREATURE})
@@ -26,20 +30,20 @@ public final class JaddiLifestrider extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			event.setResult(Empty.set);
 
-			java.util.Map<Parameter, MagicSet> tapParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> tapParameters = new HashMap<Parameter, MagicSet>();
 			tapParameters.putAll(parameters);
-			tapParameters.put(Parameter.NUMBER, new MagicSet(new org.rnd.util.NumberRange(0, null)));
+			tapParameters.put(Parameter.NUMBER, new MagicSet(new NumberRange(0, null)));
 			Event tap = createEvent(game, "You may tap any number of untapped creatures you control.", EventType.TAP_CHOICE, tapParameters);
 			tap.perform(event, true);
 			MagicSet tappedThisWay = tap.getResult();
 
 			MagicSet cause = parameters.get(Parameter.CAUSE);
 			MagicSet you = parameters.get(Parameter.PLAYER);
-			java.util.Map<Parameter, MagicSet> lifeParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> lifeParameters = new HashMap<Parameter, MagicSet>();
 			lifeParameters.put(Parameter.CAUSE, cause);
 			lifeParameters.put(Parameter.PLAYER, you);
 			lifeParameters.put(Parameter.NUMBER, new MagicSet(2 * tappedThisWay.size()));

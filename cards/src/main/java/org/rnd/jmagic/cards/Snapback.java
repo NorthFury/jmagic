@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.AlternateCost;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -25,7 +26,7 @@ public final class Snapback extends Card
 		exileFactory.parameters.put(EventType.Parameter.PLAYER, You.instance());
 
 		CostCollection altCost = new CostCollection(CostCollection.TYPE_ALTERNATE, exileFactory);
-		this.addAbility(new org.rnd.jmagic.abilities.AlternateCost(state, "You may exile a blue card from your hand rather than pay Snapback's mana cost.", altCost));
+		this.addAbility(new AlternateCost(state, "You may exile a blue card from your hand rather than pay Snapback's mana cost.", altCost));
 
 		// Return target creature to its owner's hand.
 		SetGenerator target = targetedBy(this.addTarget(CreaturePermanents.instance(), "target creature"));

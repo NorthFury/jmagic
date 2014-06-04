@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Protection;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -20,6 +21,6 @@ public final class MidnightDuelist extends Card
 
 		// Protection from Vampires
 		SetGenerator vampires = HasSubType.instance(SubType.VAMPIRE);
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Protection.From(state, vampires, "vampires"));
+		this.addAbility(new Protection.From(state, vampires, "vampires"));
 	}
 }

@@ -1,5 +1,7 @@
 package org.rnd.jmagic.engine;
 
+import org.rnd.util.Constructor;
+
 /** Represents a token. */
 public final class Token extends GameObject
 {
@@ -28,11 +30,11 @@ public final class Token extends GameObject
 		if(null != abilityClasses)
 		{
 			for(Class<? extends Keyword> a: abilityClasses.getAllClasses(Keyword.class))
-				this.addAbility(org.rnd.util.Constructor.construct(a, constructorTypes, constructorArguments));
+				this.addAbility(Constructor.construct(a, constructorTypes, constructorArguments));
 			for(Class<? extends NonStaticAbility> a: abilityClasses.getAllClasses(NonStaticAbility.class))
-				this.addAbility(org.rnd.util.Constructor.construct(a, constructorTypes, constructorArguments));
+				this.addAbility(Constructor.construct(a, constructorTypes, constructorArguments));
 			for(Class<? extends StaticAbility> a: abilityClasses.getAllClasses(StaticAbility.class))
-				this.addAbility(org.rnd.util.Constructor.construct(a, constructorTypes, constructorArguments));
+				this.addAbility(Constructor.construct(a, constructorTypes, constructorArguments));
 		}
 
 		this.setName(name);

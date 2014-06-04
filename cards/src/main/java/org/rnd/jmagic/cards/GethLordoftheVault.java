@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Intimidate;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -40,7 +42,7 @@ public final class GethLordoftheVault extends Card
 		this.setToughness(5);
 
 		// Intimidate
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Intimidate(state));
+		this.addAbility(new Intimidate(state));
 
 		// (X)(B): Put target artifact or creature card with converted mana cost
 		// X from an opponent's graveyard onto the battlefield under your

@@ -3,6 +3,10 @@ package org.rnd.jmagic.cards;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
 @Name("Hellfire")
 @Types({Type.SORCERY})
 @ManaCost("2BBB")
@@ -23,19 +27,19 @@ public final class Hellfire extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			SetGenerator nonBlackCreatures = RelativeComplement.instance(HasType.instance(Type.CREATURE), HasColor.instance(Color.BLACK));
 			SetGenerator nonBlackCreaturePermanents = Intersect.instance(nonBlackCreatures, InZone.instance(Battlefield.instance()));
 
-			java.util.Map<Parameter, MagicSet> destroyParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> destroyParameters = new HashMap<Parameter, MagicSet>();
 			destroyParameters.put(EventType.Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 			destroyParameters.put(EventType.Parameter.PERMANENT, nonBlackCreaturePermanents.evaluate(game, null));
 			Event destroyEvent = createEvent(game, "Destroy all nonblack creatures.", EventType.DESTROY_PERMANENTS, destroyParameters);
 			boolean destroy = destroyEvent.perform(event, true);
 
 			int damage = 3;
-			for(java.util.Map.Entry<Event.IndexedZone, java.util.Set<GameObject>> objectMoved: destroyEvent.getObjectsMoved(game.actualState).entrySet())
+			for(Map.Entry<Event.IndexedZone, Set<GameObject>> objectMoved: destroyEvent.getObjectsMoved(game.actualState).entrySet())
 			{
 				Zone zone = game.actualState.get(objectMoved.getKey().zoneID);
 				if(zone.isGraveyard())
@@ -47,7 +51,7 @@ public final class Hellfire extends Card
 					}
 			}
 
-			java.util.Map<Parameter, MagicSet> damageParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> damageParameters = new HashMap<Parameter, MagicSet>();
 			damageParameters.put(EventType.Parameter.SOURCE, parameters.get(Parameter.CAUSE));
 			damageParameters.put(EventType.Parameter.NUMBER, new MagicSet(damage));
 			damageParameters.put(EventType.Parameter.TAKER, new MagicSet(event.getSource().getController(event.state)));

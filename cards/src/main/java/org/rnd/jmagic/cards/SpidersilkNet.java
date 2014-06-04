@@ -1,5 +1,8 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.StaticPTChange;
+import org.rnd.jmagic.abilities.keywords.Equip;
+import org.rnd.jmagic.abilities.keywords.Reach;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -15,8 +18,8 @@ public final class SpidersilkNet extends Card
 	{
 		super(state);
 
-		this.addAbility(new org.rnd.jmagic.abilities.StaticPTChange(state, EquippedBy.instance(This.instance()), "Equipped creature", 0, 2, org.rnd.jmagic.abilities.keywords.Reach.class, false));
+		this.addAbility(new StaticPTChange(state, EquippedBy.instance(This.instance()), "Equipped creature", 0, 2, Reach.class, false));
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Equip(state, "(2)"));
+		this.addAbility(new Equip(state, "(2)"));
 	}
 }

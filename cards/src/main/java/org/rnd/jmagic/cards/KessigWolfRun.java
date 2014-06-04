@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.TapFor1;
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -19,7 +22,7 @@ public final class KessigWolfRun extends Card
 			this.costsTap = true;
 
 			SetGenerator target = targetedBy(this.addTarget(CreaturePermanents.instance(), "target creature"));
-			this.addEffect(createFloatingEffect("Target creature gets +X/+0 and gains trample until end of turn.", modifyPowerAndToughness(target, ValueOfX.instance(This.instance()), numberGenerator(0)), addAbilityToObject(target, org.rnd.jmagic.abilities.keywords.Trample.class)));
+			this.addEffect(createFloatingEffect("Target creature gets +X/+0 and gains trample until end of turn.", modifyPowerAndToughness(target, ValueOfX.instance(This.instance()), numberGenerator(0)), addAbilityToObject(target, Trample.class)));
 		}
 	}
 
@@ -28,7 +31,7 @@ public final class KessigWolfRun extends Card
 		super(state);
 
 		// (T): Add (1) to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapFor1(state));
+		this.addAbility(new TapFor1(state));
 
 		// (X)(R)(G), (T): Target creature gets +X/+0 and gains trample until
 		// end of turn.

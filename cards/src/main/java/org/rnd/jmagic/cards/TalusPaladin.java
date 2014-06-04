@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Lifelink;
 import org.rnd.jmagic.engine.*;
 
 @Name("Talus Paladin")
@@ -18,7 +20,7 @@ public final class TalusPaladin extends Card
 			super(state, "Whenever Talus Paladin or another Ally enters the battlefield under your control, you may have Allies you control gain lifelink until end of turn, and you may put a +1/+1 counter on Talus Paladin.");
 			this.addPattern(allyTrigger());
 
-			EventFactory lifelink = addAbilityUntilEndOfTurn(ALLIES_YOU_CONTROL, org.rnd.jmagic.abilities.keywords.Lifelink.class, "Allies you control gain lifelink until end of turn");
+			EventFactory lifelink = addAbilityUntilEndOfTurn(ALLIES_YOU_CONTROL, Lifelink.class, "Allies you control gain lifelink until end of turn");
 			this.addEffect(youMay(lifelink, "You may have Allies you control gain lifelink until end of turn,"));
 
 			EventFactory counter = putCountersOnThis(1, Counter.CounterType.PLUS_ONE_PLUS_ONE, "Talus Paladin");

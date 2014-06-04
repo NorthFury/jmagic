@@ -4,6 +4,7 @@ import static org.rnd.jmagic.Convenience.*;
 
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+import org.rnd.util.NumberRange;
 
 @Name("Plague Boiler")
 @Types({Type.ARTIFACT})
@@ -52,7 +53,7 @@ public final class PlagueBoiler extends Card
 
 			SetGenerator plagueCountersOnThis = CountersOn.instance(thisCard, Counter.CounterType.PLAGUE);
 			SetGenerator numPlagueCountersOnThis = Count.instance(plagueCountersOnThis);
-			SetGenerator threeOrMore = Identity.instance(new org.rnd.util.NumberRange(3, null));
+			SetGenerator threeOrMore = Identity.instance(new NumberRange(3, null));
 			SetGenerator triggerCondition = Intersect.instance(threeOrMore, numPlagueCountersOnThis);
 			this.addCondition(triggerCondition);
 

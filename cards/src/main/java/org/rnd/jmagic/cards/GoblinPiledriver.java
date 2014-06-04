@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Protection;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -30,7 +32,7 @@ public final class GoblinPiledriver extends Card
 		this.setToughness(2);
 
 		// Protection from blue
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Protection.FromBlue(state));
+		this.addAbility(new Protection.FromBlue(state));
 
 		// Whenever Goblin Piledriver attacks, it gets +2/+0 until end of turn
 		// for each other attacking Goblin.

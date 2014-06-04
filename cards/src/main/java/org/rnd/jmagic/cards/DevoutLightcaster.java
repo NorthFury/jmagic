@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Protection;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -32,7 +33,7 @@ public final class DevoutLightcaster extends Card
 		this.setToughness(2);
 
 		// Protection from black
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Protection.FromBlack(state));
+		this.addAbility(new Protection.FromBlack(state));
 
 		// When Devout Lightcaster enters the battlefield, exile target black
 		// permanent.

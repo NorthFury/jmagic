@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.AttacksEachTurnIfAble;
 import org.rnd.jmagic.engine.*;
 
 @Name("Berserkers of Blood Ridge")
@@ -18,6 +19,6 @@ public final class BerserkersofBloodRidge extends Card
 		this.setToughness(4);
 
 		// Berserkers of Blood Ridge attacks each turn if able.
-		this.addAbility(new org.rnd.jmagic.abilities.AttacksEachTurnIfAble(state, this.getName()));
+		this.addAbility(new AttacksEachTurnIfAble(state, this.getName()));
 	}
 }

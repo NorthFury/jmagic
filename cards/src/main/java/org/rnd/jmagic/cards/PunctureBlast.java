@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Wither;
 import org.rnd.jmagic.engine.*;
 
 @Name("Puncture Blast")
@@ -18,6 +19,6 @@ public final class PunctureBlast extends Card
 		Target target = this.addTarget(CREATURES_AND_PLAYERS, "target creature or player");
 
 		this.addEffect(spellDealDamage(3, targetedBy(target), "Puncture Blast deals 3 damage to target creature or player."));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Wither(state));
+		this.addAbility(new Wither(state));
 	}
 }

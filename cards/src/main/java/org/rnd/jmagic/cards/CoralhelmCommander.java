@@ -2,6 +2,9 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Level;
+import org.rnd.jmagic.abilities.keywords.LevelUp;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -38,10 +41,10 @@ public final class CoralhelmCommander extends Card
 		this.setPower(2);
 		this.setToughness(2);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.LevelUp(state, "(1)"));
+		this.addAbility(new LevelUp(state, "(1)"));
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Level(state, 2, 3, 3, 3, "Flying", org.rnd.jmagic.abilities.keywords.Flying.class));
+		this.addAbility(new Level(state, 2, 3, 3, 3, "Flying", Flying.class));
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Level(state, 4, 4, 4, "Flying; Other Merfolk creatures you control get +1/+1.", org.rnd.jmagic.abilities.keywords.Flying.class, MerfolkLord.class));
+		this.addAbility(new Level(state, 4, 4, 4, "Flying; Other Merfolk creatures you control get +1/+1.", Flying.class, MerfolkLord.class));
 	}
 }

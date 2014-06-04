@@ -2,8 +2,13 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.Trap;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 @Name("Archive Trap")
 @Types({Type.INSTANT})
@@ -15,23 +20,23 @@ public final class ArchiveTrap extends Card
 {
 	public static final class SearchedTheirLibraryThisTurn extends SetGenerator
 	{
-		private static class SearchTracker extends Tracker<java.util.Set<Integer>>
+		private static class SearchTracker extends Tracker<Set<Integer>>
 		{
-			private java.util.HashSet<Integer> who = new java.util.HashSet<Integer>();
-			private java.util.Set<Integer> unmodifiable = java.util.Collections.unmodifiableSet(this.who);
+			private HashSet<Integer> who = new HashSet<Integer>();
+			private Set<Integer> unmodifiable = Collections.unmodifiableSet(this.who);
 
 			@SuppressWarnings("unchecked")
 			@Override
 			public SearchTracker clone()
 			{
 				SearchTracker ret = (SearchTracker)super.clone();
-				ret.who = (java.util.HashSet<Integer>)this.who.clone();
-				ret.unmodifiable = java.util.Collections.unmodifiableSet(ret.who);
+				ret.who = (HashSet<Integer>)this.who.clone();
+				ret.unmodifiable = Collections.unmodifiableSet(ret.who);
 				return ret;
 			}
 
 			@Override
-			protected java.util.Set<Integer> getValueInternal()
+			protected Set<Integer> getValueInternal()
 			{
 				return this.unmodifiable;
 			}
@@ -87,7 +92,7 @@ public final class ArchiveTrap extends Card
 		public MagicSet evaluate(GameState state, Identified thisObject)
 		{
 			MagicSet ret = new MagicSet();
-			java.util.Set<Integer> playerIDs = state.getTracker(SearchTracker.class).getValue(state);
+			Set<Integer> playerIDs = state.getTracker(SearchTracker.class).getValue(state);
 			for(int playerID: playerIDs)
 				ret.add(state.get(playerID));
 			return ret;
@@ -102,7 +107,7 @@ public final class ArchiveTrap extends Card
 		// rather than pay Archive Trap's mana cost.
 		state.ensureTracker(new SearchedTheirLibraryThisTurn.SearchTracker());
 		SetGenerator trapCondition = Intersect.instance(SearchedTheirLibraryThisTurn.instance(), OpponentsOf.instance(You.instance()));
-		this.addAbility(new org.rnd.jmagic.abilities.Trap(state, this.getName(), trapCondition, "If an opponent searched his or her library this turn", "(0)"));
+		this.addAbility(new Trap(state, this.getName(), trapCondition, "If an opponent searched his or her library this turn", "(0)"));
 
 		// Target opponent puts the top thirteen cards of his or her library
 		// into his or her graveyard.

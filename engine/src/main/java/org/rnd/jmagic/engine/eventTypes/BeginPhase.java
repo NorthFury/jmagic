@@ -3,6 +3,8 @@ package org.rnd.jmagic.engine.eventTypes;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.Map;
+
 public final class BeginPhase extends EventType
 {	public static final EventType INSTANCE = new BeginPhase();
 
@@ -18,7 +20,7 @@ public final class BeginPhase extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		Phase phase = parameters.get(Parameter.PHASE).getOne(Phase.class);
 		game.physicalState.setCurrentPhase(phase);

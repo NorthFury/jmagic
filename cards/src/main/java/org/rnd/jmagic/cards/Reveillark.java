@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Evoke;
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -39,7 +42,7 @@ public final class Reveillark extends Card
 		this.setToughness(3);
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// When Reveillark leaves the battlefield, return up to two target
 		// creature cards with power 2 or less from your graveyard to the
@@ -48,6 +51,6 @@ public final class Reveillark extends Card
 
 		// Evoke (5)(W) (You may cast this spell for its evoke cost. If you do,
 		// it's sacrificed when it enters the battlefield.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Evoke(state, "(5)(W)"));
+		this.addAbility(new Evoke(state, "(5)(W)"));
 	}
 }

@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Rampage;
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 
 @Name("Craw Giant")
@@ -17,7 +19,7 @@ public final class CrawGiant extends Card
 		this.setPower(6);
 		this.setToughness(4);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Trample(state));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Rampage(state, 2));
+		this.addAbility(new Trample(state));
+		this.addAbility(new Rampage(state, 2));
 	}
 }

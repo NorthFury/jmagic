@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Suspend;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -54,7 +56,7 @@ public final class BenalishCommander extends Card
 		// counters on it. At the beginning of your upkeep, remove a time
 		// counter. When the last is removed, cast it without paying its mana
 		// cost. It has haste.)
-		this.addAbility(org.rnd.jmagic.abilities.keywords.Suspend.X(state, "(X)(W)(W)"));
+		this.addAbility(Suspend.X(state, "(X)(W)(W)"));
 
 		// Whenever a time counter is removed from Benalish Commander while it's
 		// exiled, put a 1/1 white Soldier creature token onto the battlefield.

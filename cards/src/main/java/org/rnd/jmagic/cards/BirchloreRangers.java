@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Morph;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -45,6 +47,6 @@ public final class BirchloreRangers extends Card
 
 		// Morph (G) (You may cast this face down as a 2/2 creature for (3).
 		// Turn it face up any time for its morph cost.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Morph(state, "(G)"));
+		this.addAbility(new Morph(state, "(G)"));
 	}
 }

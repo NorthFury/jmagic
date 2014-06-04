@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.TapForManaPain;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -32,7 +34,7 @@ public final class CephalidColiseum extends Card
 
 		// (T): Add (U) to your mana pool. Cephalid Coliseum deals 1 damage to
 		// you.
-		this.addAbility(new org.rnd.jmagic.abilities.TapForManaPain(state, this.getName(), "U"));
+		this.addAbility(new TapForManaPain(state, this.getName(), "U"));
 
 		// Threshold \u2014 (U), (T), Sacrifice Cephalid Coliseum: Target player
 		// draws three cards, then discards three cards. Activate this ability

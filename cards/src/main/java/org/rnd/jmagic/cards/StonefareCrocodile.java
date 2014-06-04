@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Lifelink;
 import org.rnd.jmagic.engine.*;
 
 @Name("Stonefare Crocodile")
@@ -17,7 +19,7 @@ public final class StonefareCrocodile extends Card
 		{
 			super(state, "(2)(B): Stonefare Crocodile gains lifelink until end of turn.");
 			this.setManaCost(new ManaPool("(2)(B)"));
-			this.addEffect(addAbilityUntilEndOfTurn(ABILITY_SOURCE_OF_THIS, org.rnd.jmagic.abilities.keywords.Lifelink.class, "Stonefare Crocodile gains lifelink until end of turn."));
+			this.addEffect(addAbilityUntilEndOfTurn(ABILITY_SOURCE_OF_THIS, Lifelink.class, "Stonefare Crocodile gains lifelink until end of turn."));
 		}
 	}
 

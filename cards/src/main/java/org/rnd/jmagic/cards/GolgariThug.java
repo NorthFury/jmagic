@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Dredge;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -40,6 +42,6 @@ public final class GolgariThug extends Card
 		// cards from the top of your library into your graveyard. If you do,
 		// return this card from your graveyard to your hand. Otherwise, draw a
 		// card.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Dredge(state, 4));
+		this.addAbility(new Dredge(state, 4));
 	}
 }

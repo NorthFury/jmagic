@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.AlternateCost;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -25,7 +27,7 @@ public final class Daze extends Card
 
 		CostCollection altCost = new CostCollection(CostCollection.TYPE_ALTERNATE, bounceFactory);
 
-		this.addAbility(new org.rnd.jmagic.abilities.AlternateCost(state, "You may return an Island you control to its owner's hand rather than pay Daze's mana cost.", altCost));
+		this.addAbility(new AlternateCost(state, "You may return an Island you control to its owner's hand rather than pay Daze's mana cost.", altCost));
 
 		// Counter target spell unless its controller pays (1).
 		Target target = this.addTarget(Spells.instance(), "target spell");

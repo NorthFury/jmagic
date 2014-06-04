@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.TapForAnyColor;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -20,7 +21,7 @@ public final class JoinerAdept extends Card
 			super(state, "Lands you control have \"(T): Add one mana of any color to your mana pool.\"");
 
 			Intersect landsYouControl = Intersect.instance(LandPermanents.instance(), ControlledBy.instance(You.instance()));
-			this.addEffectPart(addAbilityToObject(landsYouControl, org.rnd.jmagic.abilities.TapForAnyColor.class));
+			this.addEffectPart(addAbilityToObject(landsYouControl, TapForAnyColor.class));
 		}
 	}
 

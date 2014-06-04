@@ -1,5 +1,9 @@
 package org.rnd.jmagic.engine;
 
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+
 /** Represents a turn in a game. */
 public class Turn implements Ownable, Iterable<Phase>
 {
@@ -12,13 +16,13 @@ public class Turn implements Ownable, Iterable<Phase>
 	private String name;
 
 	/** The phases in this turn. */
-	public java.util.List<Phase> phases;
+	public List<Phase> phases;
 
 	/**
 	 * The phases in this turn that have already been passed through. Does not
 	 * include the current phase.
 	 */
-	public java.util.List<Phase> phasesRan;
+	public List<Phase> phasesRan;
 
 	/** Whose turn it is. */
 	public int ownerID;
@@ -31,8 +35,8 @@ public class Turn implements Ownable, Iterable<Phase>
 		this.endEffects = false;
 		this.extra = false;
 		this.name = owner + "'s turn";
-		this.phases = new java.util.LinkedList<Phase>();
-		this.phasesRan = new java.util.LinkedList<Phase>();
+		this.phases = new LinkedList<Phase>();
+		this.phasesRan = new LinkedList<Phase>();
 
 		// order dependency
 		this.setOwner(owner);
@@ -63,7 +67,7 @@ public class Turn implements Ownable, Iterable<Phase>
 
 	/** @return An iterator over the phases in this turn. */
 	@Override
-	public java.util.Iterator<Phase> iterator()
+	public Iterator<Phase> iterator()
 	{
 		return this.phases.iterator();
 	}

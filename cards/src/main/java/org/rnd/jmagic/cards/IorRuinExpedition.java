@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.LandfallForQuestCounter;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -30,7 +31,7 @@ public final class IorRuinExpedition extends Card
 
 		// Landfall \u2014 Whenever a land enters the battlefield under your
 		// control, you may put a quest counter on Ior Ruin Expedition.
-		this.addAbility(new org.rnd.jmagic.abilities.LandfallForQuestCounter(state, this.getName()));
+		this.addAbility(new LandfallForQuestCounter(state, this.getName()));
 
 		// Remove three quest counters from Ior Ruin Expedition and sacrifice
 		// it: Draw two cards.

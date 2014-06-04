@@ -4,6 +4,12 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
 public final class Cascade extends Keyword
 {
 	public Cascade(GameState state)
@@ -12,9 +18,9 @@ public final class Cascade extends Keyword
 	}
 
 	@Override
-	protected java.util.List<NonStaticAbility> createNonStaticAbilities()
+	protected List<NonStaticAbility> createNonStaticAbilities()
 	{
-		return java.util.Collections.<NonStaticAbility>singletonList(new CascadeAbility(this.state));
+		return Collections.<NonStaticAbility>singletonList(new CascadeAbility(this.state));
 	}
 
 	/**
@@ -34,7 +40,7 @@ public final class Cascade extends Keyword
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			MagicSet cascade = parameters.get(Parameter.CAUSE);
 			int cmc = Sum.get(parameters.get(Parameter.NUMBER));
@@ -42,12 +48,12 @@ public final class Cascade extends Keyword
 			event.setResult(Empty.set);
 
 			GameObject hitCard = null;
-			java.util.List<GameObject> cardsExiledThisWay = new java.util.LinkedList<GameObject>();
+			List<GameObject> cardsExiledThisWay = new LinkedList<GameObject>();
 			Player player = you.getOne(Player.class);
 			Zone library = player.getLibrary(game.actualState);
 			while(!library.objects.isEmpty())
 			{
-				java.util.Map<Parameter, MagicSet> exileParameters = new java.util.HashMap<Parameter, MagicSet>();
+				Map<Parameter, MagicSet> exileParameters = new HashMap<Parameter, MagicSet>();
 				exileParameters.put(Parameter.CAUSE, cascade);
 				exileParameters.put(Parameter.TO, new MagicSet(game.actualState.exileZone()));
 				exileParameters.put(Parameter.OBJECT, new MagicSet(library.objects.get(0)));
@@ -68,7 +74,7 @@ public final class Cascade extends Keyword
 
 			if(hitCard != null)
 			{
-				java.util.Map<Parameter, MagicSet> mayParameters = new java.util.HashMap<Parameter, MagicSet>();
+				Map<Parameter, MagicSet> mayParameters = new HashMap<Parameter, MagicSet>();
 				mayParameters.put(Parameter.CAUSE, cascade);
 				mayParameters.put(Parameter.PLAYER, you);
 				mayParameters.put(Parameter.OBJECT, new MagicSet(hitCard));
@@ -77,7 +83,7 @@ public final class Cascade extends Keyword
 				mayCast.perform(event, true);
 			}
 
-			java.util.Map<Parameter, MagicSet> bottomParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> bottomParameters = new HashMap<Parameter, MagicSet>();
 			bottomParameters.put(Parameter.CAUSE, cascade);
 			bottomParameters.put(Parameter.INDEX, new MagicSet(-1));
 			bottomParameters.put(Parameter.OBJECT, new MagicSet(cardsExiledThisWay));

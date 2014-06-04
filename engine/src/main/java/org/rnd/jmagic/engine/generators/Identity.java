@@ -2,14 +2,19 @@ package org.rnd.jmagic.engine.generators;
 
 import org.rnd.jmagic.engine.*;
 
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Set;
+
 public class Identity extends SetGenerator
 {
-	private java.util.Set<Object> nonIdentifieds;
-	private java.util.Collection<Integer> ids;
+	private Set<Object> nonIdentifieds;
+	private Collection<Integer> ids;
 
 	private boolean applyTextChanges = true;
 
-	public static Identity instance(java.util.Collection<?> what)
+	public static Identity instance(Collection<?> what)
 	{
 		return new Identity(new MagicSet(what));
 	}
@@ -21,8 +26,8 @@ public class Identity extends SetGenerator
 
 	private Identity(MagicSet what)
 	{
-		this.nonIdentifieds = new java.util.HashSet<Object>();
-		this.ids = new java.util.LinkedList<Integer>();
+		this.nonIdentifieds = new HashSet<Object>();
+		this.ids = new LinkedList<Integer>();
 
 		for(Identified i: what.getAll(Identified.class))
 		{
@@ -74,9 +79,9 @@ public class Identity extends SetGenerator
 	}
 
 	@Override
-	public java.util.Set<ManaSymbol.ManaType> extractColors(Game game, GameObject thisObject, java.util.Set<SetGenerator> ignoreThese) throws NoSuchMethodException
+	public Set<ManaSymbol.ManaType> extractColors(Game game, GameObject thisObject, Set<SetGenerator> ignoreThese) throws NoSuchMethodException
 	{
-		java.util.Set<ManaSymbol.ManaType> types = new java.util.HashSet<ManaSymbol.ManaType>();
+		Set<ManaSymbol.ManaType> types = new HashSet<ManaSymbol.ManaType>();
 
 		for(Object o: this.nonIdentifieds)
 			if(o instanceof Colorful)

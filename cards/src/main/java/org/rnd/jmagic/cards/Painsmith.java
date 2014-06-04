@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Deathtouch;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -26,7 +28,7 @@ public final class Painsmith extends Card
 
 			SetGenerator target = targetedBy(this.addTarget(CreaturePermanents.instance(), "target creature"));
 
-			this.addEffect(youMay(ptChangeAndAbilityUntilEndOfTurn(target, +2, +0, "Target creature gets +2/+0 and deathtouch until end of turn.", org.rnd.jmagic.abilities.keywords.Deathtouch.class), "You may have target creature get +2/+0 and gain deathtouch until end of turn."));
+			this.addEffect(youMay(ptChangeAndAbilityUntilEndOfTurn(target, +2, +0, "Target creature gets +2/+0 and deathtouch until end of turn.", Deathtouch.class), "You may have target creature get +2/+0 and gain deathtouch until end of turn."));
 		}
 	}
 

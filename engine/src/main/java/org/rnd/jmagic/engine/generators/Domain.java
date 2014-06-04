@@ -2,6 +2,9 @@ package org.rnd.jmagic.engine.generators;
 
 import org.rnd.jmagic.engine.*;
 
+import java.util.EnumSet;
+import java.util.Set;
+
 /**
  * Counts the basic land types among lands that a given player controls. Note
  * that the returned Set will contain a single integer (or else an empty set if
@@ -33,7 +36,7 @@ public class Domain extends SetGenerator
 		// types to see if they are basic, we keep track of the basic land types
 		// the player DOESN'T have and then subtract the result from the total
 		// number of basic land types.
-		java.util.Set<SubType> types = java.util.EnumSet.copyOf(SubType.getBasicLandTypes());
+		Set<SubType> types = EnumSet.copyOf(SubType.getBasicLandTypes());
 
 		for(GameObject object: state.battlefield().objects)
 			if(object.getTypes().contains(Type.LAND) && player.ID == object.controllerID)

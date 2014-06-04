@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Vanishing;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -37,7 +38,7 @@ public final class KeldonMarauders extends Card
 		// Vanishing 2 (This permanent enters the battlefield with two time
 		// counters on it. At the beginning of your upkeep, remove a time
 		// counter from it. When the last is removed, sacrifice it.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Vanishing(state, 2));
+		this.addAbility(new Vanishing(state, 2));
 
 		this.addAbility(new Ping(state));
 	}

@@ -4,6 +4,7 @@ import static org.rnd.jmagic.Convenience.*;
 
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+import org.rnd.jmagic.engine.patterns.SimpleZoneChangePattern;
 
 @Name("Mirrorworks")
 @Types({Type.ARTIFACT})
@@ -17,7 +18,7 @@ public final class Mirrorworks extends Card
 		public MirrorworksAbility0(GameState state)
 		{
 			super(state, "Whenever another nontoken artifact enters the battlefield under your control, you may pay (2). If you do, put a token that's a copy of that artifact onto the battlefield.");
-			this.addPattern(new org.rnd.jmagic.engine.patterns.SimpleZoneChangePattern(null, Battlefield.instance(), RelativeComplement.instance(HasType.instance(Type.ARTIFACT), Union.instance(Tokens.instance(), ABILITY_SOURCE_OF_THIS)), You.instance(), false));
+			this.addPattern(new SimpleZoneChangePattern(null, Battlefield.instance(), RelativeComplement.instance(HasType.instance(Type.ARTIFACT), Union.instance(Tokens.instance(), ABILITY_SOURCE_OF_THIS)), You.instance(), false));
 
 			EventFactory copy = new EventFactory(EventType.CREATE_TOKEN_COPY, "Put a token that's a copy of that artifact onto the battlefield.");
 			copy.parameters.put(EventType.Parameter.CAUSE, This.instance());

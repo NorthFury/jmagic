@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.TapForU;
 import org.rnd.jmagic.engine.*;
 
 @Name("Seat of the Synod")
@@ -12,6 +13,6 @@ public final class SeatoftheSynod extends Card
 	{
 		super(state);
 
-		this.addAbility(new org.rnd.jmagic.abilities.TapForU(state));
+		this.addAbility(new TapForU(state));
 	}
 }

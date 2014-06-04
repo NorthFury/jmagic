@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.ScarsSpellbomb;
 import org.rnd.jmagic.engine.*;
 
 @Name("Origin Spellbomb")
@@ -36,6 +38,6 @@ public final class OriginSpellbomb extends Card
 
 		// When Origin Spellbomb is put into a graveyard from the battlefield,
 		// you may pay (W). If you do, draw a card.
-		this.addAbility(new org.rnd.jmagic.abilities.ScarsSpellbomb(state, this.getName(), "(W)"));
+		this.addAbility(new ScarsSpellbomb(state, this.getName(), "(W)"));
 	}
 }

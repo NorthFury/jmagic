@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.Bloodrush;
 import org.rnd.jmagic.engine.*;
 
 @Name("Scorchwalker")
@@ -19,6 +20,6 @@ public final class Scorchwalker extends Card
 
 		// Bloodrush \u2014 (1)(R)(R), Discard Scorchwalker: Target attacking
 		// creature gets +5/+1 until end of turn.
-		this.addAbility(new org.rnd.jmagic.abilities.Bloodrush(state, "(1)(R)(R)", "Scorchwalker", +5, +1, "Target attacking creature gets +5/+1 until end of turn."));
+		this.addAbility(new Bloodrush(state, "(1)(R)(R)", "Scorchwalker", +5, +1, "Target attacking creature gets +5/+1 until end of turn."));
 	}
 }

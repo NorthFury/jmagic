@@ -2,6 +2,8 @@ package org.rnd.jmagic.cardTemplates;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.EntersTheBattlefieldTapped;
+import org.rnd.jmagic.abilities.TapForMana;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -35,7 +37,7 @@ public abstract class RavnicaBounceLand extends Card
 		}
 	}
 
-	public static final class TapForColored extends org.rnd.jmagic.abilities.TapForMana
+	public static final class TapForColored extends TapForMana
 	{
 		protected char mana1;
 		protected char mana2;
@@ -58,7 +60,7 @@ public abstract class RavnicaBounceLand extends Card
 	{
 		super(state);
 
-		this.addAbility(new org.rnd.jmagic.abilities.EntersTheBattlefieldTapped(state, this.getName()));
+		this.addAbility(new EntersTheBattlefieldTapped(state, this.getName()));
 		this.addAbility(new Bounce(state, this.getName()));
 		this.addAbility(new TapForColored(state, mana1, mana2));
 	}

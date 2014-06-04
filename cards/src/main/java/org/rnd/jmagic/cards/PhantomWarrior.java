@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.Unblockable;
 import org.rnd.jmagic.engine.*;
 
 @Name("Phantom Warrior")
@@ -17,6 +18,6 @@ public final class PhantomWarrior extends Card
 		this.setPower(2);
 		this.setToughness(2);
 
-		this.addAbility(new org.rnd.jmagic.abilities.Unblockable(state, "Phantom Warrior"));
+		this.addAbility(new Unblockable(state, "Phantom Warrior"));
 	}
 }

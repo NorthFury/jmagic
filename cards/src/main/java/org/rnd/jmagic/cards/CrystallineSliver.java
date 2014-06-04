@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.AllSliversHave;
+import org.rnd.jmagic.abilities.keywords.Shroud;
 import org.rnd.jmagic.engine.*;
 
 @Name("Crystalline Sliver")
@@ -18,6 +20,6 @@ public final class CrystallineSliver extends Card
 		this.setToughness(2);
 
 		// All Slivers have shroud.
-		this.addAbility(new org.rnd.jmagic.abilities.AllSliversHave(state, org.rnd.jmagic.abilities.keywords.Shroud.class, "All Slivers have shroud."));
+		this.addAbility(new AllSliversHave(state, Shroud.class, "All Slivers have shroud."));
 	}
 }

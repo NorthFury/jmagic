@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.YouMayHaveThisEnterTheBattlefieldAsACopy;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -13,6 +14,6 @@ public final class Vesuva extends Card
 	{
 		super(state);
 
-		this.addAbility(new org.rnd.jmagic.abilities.YouMayHaveThisEnterTheBattlefieldAsACopy(LandPermanents.instance()).tapped().generateName(this.getName(), "any land on the battlefield").getStaticAbility(state));
+		this.addAbility(new YouMayHaveThisEnterTheBattlefieldAsACopy(LandPermanents.instance()).tapped().generateName(this.getName(), "any land on the battlefield").getStaticAbility(state));
 	}
 }

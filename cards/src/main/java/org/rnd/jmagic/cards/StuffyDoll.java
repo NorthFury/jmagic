@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Indestructible;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -76,7 +78,7 @@ public final class StuffyDoll extends Card
 		this.addAbility(new StuffyDollAbility0(state));
 
 		// Stuffy Doll is indestructible.
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Indestructible(state));
+		this.addAbility(new Indestructible(state));
 
 		// Whenever Stuffy Doll is dealt damage, it deals that much damage to
 		// the chosen player.

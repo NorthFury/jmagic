@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Level;
+import org.rnd.jmagic.abilities.keywords.LevelUp;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -49,16 +52,16 @@ public final class GuulDrazAssassin extends Card
 
 		// Level up (1)(B) ((1)(B): Put a level counter on this. Level up only
 		// as a sorcery.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.LevelUp(state, "(1)(B)"));
+		this.addAbility(new LevelUp(state, "(1)(B)"));
 
 		// LEVEL 2-3
 		// 2/2
 		// (B), (T): Target creature gets -2/-2 until end of turn.
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Level(state, 2, 3, 2, 2, "\"(B), (T): Target creature gets -2/-2 until end of turn.\"", GuulDrazAssassinAbility3.class));
+		this.addAbility(new Level(state, 2, 3, 2, 2, "\"(B), (T): Target creature gets -2/-2 until end of turn.\"", GuulDrazAssassinAbility3.class));
 
 		// LEVEL 4+
 		// 4/4
 		// (B), (T): Target creature gets -4/-4 until end of turn.
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Level(state, 4, 4, 4, "\"(B), (T): Target creature gets -4/-4 until end of turn.\"", GuulDrazAssassinAbility6.class));
+		this.addAbility(new Level(state, 4, 4, 4, "\"(B), (T): Target creature gets -4/-4 until end of turn.\"", GuulDrazAssassinAbility6.class));
 	}
 }

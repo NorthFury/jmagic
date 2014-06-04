@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.CostsYouLessToCast;
+import org.rnd.jmagic.abilities.keywords.Haste;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -18,7 +21,7 @@ public final class GoblinWarchief extends Card
 		{
 			super(state, "Goblin creatures you control have haste.");
 
-			this.addEffectPart(addAbilityToObject(Intersect.instance(HasSubType.instance(SubType.GOBLIN), CREATURES_YOU_CONTROL), org.rnd.jmagic.abilities.keywords.Haste.class));
+			this.addEffectPart(addAbilityToObject(Intersect.instance(HasSubType.instance(SubType.GOBLIN), CREATURES_YOU_CONTROL), Haste.class));
 		}
 	}
 
@@ -30,7 +33,7 @@ public final class GoblinWarchief extends Card
 		this.setToughness(2);
 
 		// Goblin spells you cast cost (1) less to cast.
-		this.addAbility(new org.rnd.jmagic.abilities.CostsYouLessToCast(state, HasSubType.instance(SubType.GOBLIN), "(1)", "Goblin spells you cast cost (1) less to cast."));
+		this.addAbility(new CostsYouLessToCast(state, HasSubType.instance(SubType.GOBLIN), "(1)", "Goblin spells you cast cost (1) less to cast."));
 
 		// Goblin creatures you control have haste.
 		this.addAbility(new GoblinWarchiefAbility1(state));

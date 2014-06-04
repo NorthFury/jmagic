@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Enchant;
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -17,7 +20,7 @@ public final class FistsofIronwood extends Card
 		public FistsofIronwoodAbility2(GameState state)
 		{
 			super(state, "Enchanted creature has trample.");
-			this.addEffectPart(addAbilityToObject(EnchantedBy.instance(This.instance()), org.rnd.jmagic.abilities.keywords.Trample.class));
+			this.addEffectPart(addAbilityToObject(EnchantedBy.instance(This.instance()), Trample.class));
 		}
 	}
 
@@ -39,7 +42,7 @@ public final class FistsofIronwood extends Card
 		super(state);
 
 		// Enchant creature
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Enchant.Creature(state));
+		this.addAbility(new Enchant.Creature(state));
 
 		// When Fists of Ironwood enters the battlefield, put two 1/1 green
 		// Saproling creature tokens onto the battlefield.

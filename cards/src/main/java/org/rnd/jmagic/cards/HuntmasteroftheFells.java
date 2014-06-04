@@ -1,8 +1,11 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.Werewolves;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+import org.rnd.jmagic.engine.patterns.SimpleEventPattern;
 
 @Name("Huntmaster of the Fells")
 @Types({Type.CREATURE})
@@ -21,7 +24,7 @@ public final class HuntmasteroftheFells extends Card
 
 			this.addPattern(whenThisEntersTheBattlefield());
 
-			org.rnd.jmagic.engine.patterns.SimpleEventPattern pattern = new org.rnd.jmagic.engine.patterns.SimpleEventPattern(EventType.TRANSFORM_ONE_PERMANENT);
+			SimpleEventPattern pattern = new SimpleEventPattern(EventType.TRANSFORM_ONE_PERMANENT);
 			pattern.put(EventType.Parameter.OBJECT, ABILITY_SOURCE_OF_THIS);
 			this.addPattern(pattern);
 
@@ -48,6 +51,6 @@ public final class HuntmasteroftheFells extends Card
 
 		// At the beginning of each upkeep, if no spells were cast last turn,
 		// transform Huntmaster of the Fells.
-		this.addAbility(new org.rnd.jmagic.abilities.Werewolves.BecomeFuzzy(state, this.getName()));
+		this.addAbility(new Werewolves.BecomeFuzzy(state, this.getName()));
 	}
 }

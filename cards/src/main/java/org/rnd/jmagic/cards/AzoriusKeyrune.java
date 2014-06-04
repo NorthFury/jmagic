@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.TapForMana;
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 
 @Name("Azorius Keyrune")
@@ -22,7 +25,7 @@ public final class AzoriusKeyrune extends Card
 			animator.addColor(Color.BLUE);
 			animator.addSubType(SubType.BIRD);
 			animator.addType(Type.ARTIFACT);
-			animator.addAbility(org.rnd.jmagic.abilities.keywords.Flying.class);
+			animator.addAbility(Flying.class);
 			this.addEffect(createFloatingEffect("Azorius Keyrune becomes a 2/2 white and blue Bird artifact creature with flying until end of turn.", animator.getParts()));
 		}
 	}
@@ -32,7 +35,7 @@ public final class AzoriusKeyrune extends Card
 		super(state);
 
 		// (T): Add (W) or (U) to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapForMana.Final(state, "(WU)"));
+		this.addAbility(new TapForMana.Final(state, "(WU)"));
 
 		// (W)(U): Azorius Keyrune becomes a 2/2 white and blue Bird artifact
 		// creature with flying until end of turn.

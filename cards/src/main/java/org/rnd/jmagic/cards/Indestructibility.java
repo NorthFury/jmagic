@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Enchant;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -28,7 +29,7 @@ public final class Indestructibility extends Card
 		super(state);
 
 		// Enchant permanent
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Enchant.Permanent(state));
+		this.addAbility(new Enchant.Permanent(state));
 
 		// Enchanted permanent is indestructible. (Effects that say "destroy"
 		// don't destroy that permanent. An indestructible creature can't be

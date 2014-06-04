@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.EntersTheBattlefieldWithCounters;
+import org.rnd.jmagic.abilities.keywords.Infect;
 import org.rnd.jmagic.engine.*;
 
 @Name("Trigon of Infestation")
@@ -33,7 +36,7 @@ public final class TrigonofInfestation extends Card
 			CreateTokensFactory token = new CreateTokensFactory(1, 1, 1, "Put a 1/1 green Insect creature token with infect onto the battlefield.");
 			token.setColors(Color.GREEN);
 			token.setSubTypes(SubType.INSECT);
-			token.addAbility(org.rnd.jmagic.abilities.keywords.Infect.class);
+			token.addAbility(Infect.class);
 			this.addEffect(token.getEventFactory());
 		}
 	}
@@ -44,7 +47,7 @@ public final class TrigonofInfestation extends Card
 
 		// Trigon of Infestation enters the battlefield with three charge
 		// counters on it.
-		this.addAbility(new org.rnd.jmagic.abilities.EntersTheBattlefieldWithCounters(state, "Trigon of Infestation", 3, Counter.CounterType.CHARGE));
+		this.addAbility(new EntersTheBattlefieldWithCounters(state, "Trigon of Infestation", 3, Counter.CounterType.CHARGE));
 
 		// (G)(G), (T): Put a charge counter on Trigon of Infestation.
 		this.addAbility(new TrigonofInfestationAbility1(state));

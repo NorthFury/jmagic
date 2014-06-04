@@ -1,5 +1,6 @@
 package org.rnd.jmagic.engine.generators;
 
+import org.rnd.jmagic.abilities.keywords.Overload;
 import org.rnd.jmagic.engine.*;
 
 /**
@@ -42,7 +43,7 @@ public class ChosenTargetsFor extends SetGenerator
 				else
 				{
 					MagicSet legalChoices;
-					if(org.rnd.jmagic.abilities.keywords.Overload.WasOverloaded.get(o))
+					if(Overload.WasOverloaded.get(o))
 						legalChoices = t.legalChoices.evaluate(state.game, o);
 					else
 						// This code is hit when Searing Blaze is checking

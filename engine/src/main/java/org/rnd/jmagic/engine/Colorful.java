@@ -1,9 +1,11 @@
 package org.rnd.jmagic.engine;
 
+import java.util.Set;
+
 /** TODO : Please for the love of God rename this. */
 public interface Colorful
 {
-	public java.util.Set<Color> getColors();
+	public Set<Color> getColors();
 
-	public java.util.Set<ManaSymbol.ManaType> getManaTypes();
+	public Set<ManaSymbol.ManaType> getManaTypes();
 }

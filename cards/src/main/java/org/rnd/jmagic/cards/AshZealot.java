@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.FirstStrike;
+import org.rnd.jmagic.abilities.keywords.Haste;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -63,8 +66,8 @@ public final class AshZealot extends Card
 		this.setToughness(2);
 
 		// First strike, haste
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.FirstStrike(state));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Haste(state));
+		this.addAbility(new FirstStrike(state));
+		this.addAbility(new Haste(state));
 
 		// Whenever a player casts a spell from a graveyard, Ash Zealot deals 3
 		// damage to that player.

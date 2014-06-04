@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.LeylineAbility;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -34,7 +36,7 @@ public final class LeylineoftheVoid extends Card
 
 		// If Leyline of the Void is in your opening hand, you may begin the
 		// game with it on the battlefield.
-		this.addAbility(new org.rnd.jmagic.abilities.LeylineAbility(state, this.getName()));
+		this.addAbility(new LeylineAbility(state, this.getName()));
 
 		// If a card would be put into an opponent's graveyard from anywhere,
 		// exile it instead.

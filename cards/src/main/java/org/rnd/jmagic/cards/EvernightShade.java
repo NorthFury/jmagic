@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.ShadePump;
+import org.rnd.jmagic.abilities.keywords.Undying;
 import org.rnd.jmagic.engine.*;
 
 @Name("Evernight Shade")
@@ -18,11 +20,11 @@ public final class EvernightShade extends Card
 		this.setToughness(1);
 
 		// (B): Evernight Shade gets +1/+1 until end of turn.
-		this.addAbility(new org.rnd.jmagic.abilities.ShadePump(state, this.getName()));
+		this.addAbility(new ShadePump(state, this.getName()));
 
 		// Undying (When this creature dies, if it had no +1/+1 counters on it,
 		// return it to the battlefield under its owner's control with a +1/+1
 		// counter on it.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Undying(state));
+		this.addAbility(new Undying(state));
 	}
 }

@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Fear;
 import org.rnd.jmagic.engine.*;
 
 @Name("Severed Legion")
@@ -17,6 +18,6 @@ public final class SeveredLegion extends Card
 		this.setPower(2);
 		this.setToughness(2);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Fear(state));
+		this.addAbility(new Fear(state));
 	}
 }

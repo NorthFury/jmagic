@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Haste;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -19,7 +22,7 @@ public final class ThundermawHellkite extends Card
 			super(state, "When Thundermaw Hellkite enters the battlefield, it deals 1 damage to each creature with flying your opponents control. Tap those creatures.");
 			this.addPattern(whenThisEntersTheBattlefield());
 
-			SetGenerator thoseCreatures = Intersect.instance(CreaturePermanents.instance(), ControlledBy.instance(OpponentsOf.instance(You.instance())), HasKeywordAbility.instance(org.rnd.jmagic.abilities.keywords.Flying.class));
+			SetGenerator thoseCreatures = Intersect.instance(CreaturePermanents.instance(), ControlledBy.instance(OpponentsOf.instance(You.instance())), HasKeywordAbility.instance(Flying.class));
 			this.addEffect(permanentDealDamage(1, thoseCreatures, "It deals 1 damage to each creature with flying your opponents control."));
 			this.addEffect(tap(thoseCreatures, "Tap those creatures."));
 		}
@@ -33,11 +36,11 @@ public final class ThundermawHellkite extends Card
 		this.setToughness(5);
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// Haste (This creature can attack and (T) as soon as it comes under
 		// your control.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Haste(state));
+		this.addAbility(new Haste(state));
 
 		// When Thundermaw Hellkite enters the battlefield, it deals 1 damage to
 		// each creature with flying your opponents control. Tap those

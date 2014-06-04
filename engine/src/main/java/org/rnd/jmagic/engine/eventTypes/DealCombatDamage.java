@@ -3,6 +3,8 @@ package org.rnd.jmagic.engine.eventTypes;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.Map;
+
 public final class DealCombatDamage extends EventType
 {	public static final EventType INSTANCE = new DealCombatDamage();
 
@@ -18,7 +20,7 @@ public final class DealCombatDamage extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		event.addDamage(parameters.get(Parameter.TARGET).getAll(DamageAssignment.class));
 

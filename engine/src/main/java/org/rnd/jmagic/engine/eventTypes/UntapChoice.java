@@ -1,6 +1,13 @@
 package org.rnd.jmagic.engine.eventTypes;
 
 import org.rnd.jmagic.engine.*;
+import org.rnd.util.NumberRange;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public final class UntapChoice extends EventType
 {	public static final EventType INSTANCE = new UntapChoice();
@@ -17,11 +24,11 @@ public final class UntapChoice extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean attempt(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		MagicSet choices = parameters.get(Parameter.CHOICE);
 
-		org.rnd.util.NumberRange range = getRange(parameters.get(Parameter.NUMBER));
+		NumberRange range = getRange(parameters.get(Parameter.NUMBER));
 		int required = range.getLower(0);
 
 		int untappable = 0;
@@ -37,33 +44,33 @@ public final class UntapChoice extends EventType
 	}
 
 	@Override
-	public void makeChoices(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public void makeChoices(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		Player player = parameters.get(Parameter.PLAYER).getOne(Player.class);
 
-		java.util.Set<GameObject> untappable = parameters.get(Parameter.CHOICE).getAll(GameObject.class);
-		java.util.Set<GameObject> toRemove = new java.util.HashSet<GameObject>();
+		Set<GameObject> untappable = parameters.get(Parameter.CHOICE).getAll(GameObject.class);
+		Set<GameObject> toRemove = new HashSet<GameObject>();
 		for(GameObject o: untappable)
 			if(!o.isTapped())
 				toRemove.add(o);
 		untappable.removeAll(toRemove);
 
-		org.rnd.util.NumberRange range = getRange(parameters.get(Parameter.NUMBER));
+		NumberRange range = getRange(parameters.get(Parameter.NUMBER));
 
 		if(range.getLower(0) > untappable.size())
 			event.allChoicesMade = false;
-		java.util.List<GameObject> chosen = player.sanitizeAndChoose(game.actualState, range.getLower(0), range.getUpper(untappable.size()), untappable, PlayerInterface.ChoiceType.OBJECTS, PlayerInterface.ChooseReason.UNTAP);
+		List<GameObject> chosen = player.sanitizeAndChoose(game.actualState, range.getLower(0), range.getUpper(untappable.size()), untappable, PlayerInterface.ChoiceType.OBJECTS, PlayerInterface.ChooseReason.UNTAP);
 
 		event.putChoices(player, chosen);
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		boolean ret = event.allChoicesMade;
 		MagicSet objects = event.getChoices(parameters.get(Parameter.PLAYER).getOne(Player.class));
 
-		java.util.Map<Parameter, MagicSet> untapParameters = new java.util.HashMap<Parameter, MagicSet>();
+		Map<Parameter, MagicSet> untapParameters = new HashMap<Parameter, MagicSet>();
 		untapParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 		untapParameters.put(Parameter.OBJECT, objects);
 		Event untap = createEvent(game, "Untap " + objects, EventType.UNTAP_PERMANENTS, untapParameters);

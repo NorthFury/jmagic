@@ -1,6 +1,10 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.Ping;
+import org.rnd.jmagic.abilities.keywords.Enchant;
+import org.rnd.jmagic.abilities.keywords.Haste;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -17,7 +21,7 @@ public final class LightningProwess extends Card
 		public LightningProwessAbility1(GameState state)
 		{
 			super(state, "Enchanted creature has haste and \"(T): This creature deals 1 damage to target creature or player.\"");
-			this.addEffectPart(addAbilityToObject(EnchantedBy.instance(This.instance()), org.rnd.jmagic.abilities.keywords.Haste.class, org.rnd.jmagic.abilities.Ping.class));
+			this.addEffectPart(addAbilityToObject(EnchantedBy.instance(This.instance()), Haste.class, Ping.class));
 		}
 	}
 
@@ -26,7 +30,7 @@ public final class LightningProwess extends Card
 		super(state);
 
 		// Enchant creature
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Enchant.Creature(state));
+		this.addAbility(new Enchant.Creature(state));
 
 		// Enchanted creature has haste and
 		// "(T): This creature deals 1 damage to target creature or player."

@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -25,7 +26,7 @@ public final class MightWeaver extends Card
 
 			Target target = this.addTarget(targets, "target red or white creature");
 
-			this.addEffect(addAbilityUntilEndOfTurn(targetedBy(target), org.rnd.jmagic.abilities.keywords.Trample.class, "Target red or white creature gains trample until end of turn"));
+			this.addEffect(addAbilityUntilEndOfTurn(targetedBy(target), Trample.class, "Target red or white creature gains trample until end of turn"));
 		}
 	}
 

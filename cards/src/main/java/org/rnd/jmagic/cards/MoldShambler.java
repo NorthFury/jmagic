@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Kicker;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -45,7 +46,7 @@ public final class MoldShambler extends Card
 
 		this.setPower(3);
 		this.setToughness(3);
-		org.rnd.jmagic.abilities.keywords.Kicker ability = new org.rnd.jmagic.abilities.keywords.Kicker(state, "1G");
+		Kicker ability = new Kicker(state, "1G");
 		this.addAbility(ability);
 
 		CostCollection kickerCost = ability.costCollections[0];

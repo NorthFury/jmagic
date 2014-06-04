@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Defender;
+import org.rnd.jmagic.abilities.keywords.TypeCycling;
 import org.rnd.jmagic.engine.*;
 
 @Name("Sanctum Plowbeast")
@@ -17,9 +19,9 @@ public final class SanctumPlowbeast extends Card
 		this.setPower(3);
 		this.setToughness(6);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Defender(state));
+		this.addAbility(new Defender(state));
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.TypeCycling.PlainsCycling(state, "(2)"));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.TypeCycling.IslandCycling(state, "(2)"));
+		this.addAbility(new TypeCycling.PlainsCycling(state, "(2)"));
+		this.addAbility(new TypeCycling.IslandCycling(state, "(2)"));
 	}
 }

@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Defender;
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -18,7 +21,7 @@ public final class OneEyedScarecrow extends Card
 		{
 			super(state, "Creatures with flying your opponents control get -1/-0.");
 
-			this.addEffectPart(modifyPowerAndToughness(Intersect.instance(CreaturePermanents.instance(), HasKeywordAbility.instance(org.rnd.jmagic.abilities.keywords.Flying.class), ControlledBy.instance(OpponentsOf.instance(You.instance()))), -1, -0));
+			this.addEffectPart(modifyPowerAndToughness(Intersect.instance(CreaturePermanents.instance(), HasKeywordAbility.instance(Flying.class), ControlledBy.instance(OpponentsOf.instance(You.instance()))), -1, -0));
 		}
 	}
 
@@ -30,7 +33,7 @@ public final class OneEyedScarecrow extends Card
 		this.setToughness(3);
 
 		// Defender
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Defender(state));
+		this.addAbility(new Defender(state));
 
 		// Creatures with flying your opponents control get -1/-0.
 		this.addAbility(new OneEyedScarecrowAbility1(state));

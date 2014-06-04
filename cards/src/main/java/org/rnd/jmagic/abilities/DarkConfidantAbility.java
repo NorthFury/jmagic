@@ -4,6 +4,9 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public final class DarkConfidantAbility extends EventTriggeredAbility
 {
 	/**
@@ -22,7 +25,7 @@ public final class DarkConfidantAbility extends EventTriggeredAbility
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			MagicSet object = parameters.get(Parameter.OBJECT);
 			event.setResult(Empty.set);
@@ -34,18 +37,18 @@ public final class DarkConfidantAbility extends EventTriggeredAbility
 			MagicSet to = parameters.get(Parameter.TO);
 			int life = object.getOne(GameObject.class).getConvertedManaCost();
 
-			java.util.Map<Parameter, MagicSet> revealParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> revealParameters = new HashMap<Parameter, MagicSet>();
 			revealParameters.put(Parameter.CAUSE, cause);
 			revealParameters.put(Parameter.OBJECT, object);
 			createEvent(game, "Reveal the top card of your library", REVEAL, revealParameters).perform(event, true);
 
-			java.util.Map<Parameter, MagicSet> moveParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> moveParameters = new HashMap<Parameter, MagicSet>();
 			moveParameters.put(Parameter.CAUSE, cause);
 			moveParameters.put(Parameter.OBJECT, object);
 			moveParameters.put(Parameter.TO, to);
 			createEvent(game, "Put that card into your hand", MOVE_OBJECTS, moveParameters).perform(event, true);
 
-			java.util.Map<Parameter, MagicSet> lifeParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> lifeParameters = new HashMap<Parameter, MagicSet>();
 			lifeParameters.put(Parameter.CAUSE, cause);
 			lifeParameters.put(Parameter.PLAYER, player);
 			lifeParameters.put(Parameter.NUMBER, new MagicSet(life));

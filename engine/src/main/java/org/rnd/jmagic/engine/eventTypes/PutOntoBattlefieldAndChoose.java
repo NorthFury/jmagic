@@ -2,6 +2,10 @@ package org.rnd.jmagic.engine.eventTypes;
 
 import org.rnd.jmagic.engine.*;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public final class PutOntoBattlefieldAndChoose extends EventType
 {	public static final EventType INSTANCE = new PutOntoBattlefieldAndChoose();
 
@@ -17,14 +21,14 @@ public final class PutOntoBattlefieldAndChoose extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		Player player = parameters.get(Parameter.CONTROLLER).getOne(Player.class);
 		int number = parameters.get(Parameter.NUMBER).getOne(Integer.class);
 		MagicSet choices = parameters.get(Parameter.CHOICE);
 		PlayerInterface.ChoiceType type = parameters.get(Parameter.TYPE).getOne(PlayerInterface.ChoiceType.class);
 		PlayerInterface.ChooseReason description = parameters.get(Parameter.TYPE).getOne(PlayerInterface.ChooseReason.class);
-		java.util.List<Object> result = player.sanitizeAndChoose(game.actualState, number, choices, type, description);
+		List<Object> result = player.sanitizeAndChoose(game.actualState, number, choices, type, description);
 
 		for(Linkable link: parameters.get(Parameter.SOURCE).getAll(Linkable.class))
 		{
@@ -36,7 +40,7 @@ public final class PutOntoBattlefieldAndChoose extends EventType
 			}
 		}
 
-		java.util.Map<Parameter, MagicSet> moveParameters = new java.util.HashMap<Parameter, MagicSet>();
+		Map<Parameter, MagicSet> moveParameters = new HashMap<Parameter, MagicSet>();
 		moveParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 		moveParameters.put(Parameter.CONTROLLER, parameters.get(Parameter.CONTROLLER));
 		moveParameters.put(Parameter.OBJECT, parameters.get(Parameter.OBJECT));

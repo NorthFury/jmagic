@@ -2,28 +2,33 @@ package org.rnd.jmagic.engine.generators;
 
 import org.rnd.jmagic.engine.*;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
 public class TokenSource extends SetGenerator
 {
 	/**
 	 * This Tracker will note a Tokens source at its creation, and update its
 	 * information whenever the token moves.
 	 */
-	public static class Tracker extends org.rnd.jmagic.engine.Tracker<java.util.Map<Integer, Integer>>
+	public static class Tracker extends org.rnd.jmagic.engine.Tracker<Map<Integer, Integer>>
 	{
-		private java.util.Map<Integer, Integer> values = new java.util.HashMap<Integer, Integer>();
-		private java.util.Map<Integer, Integer> unmodifiable = java.util.Collections.unmodifiableMap(this.values);
+		private Map<Integer, Integer> values = new HashMap<Integer, Integer>();
+		private Map<Integer, Integer> unmodifiable = Collections.unmodifiableMap(this.values);
 
 		@Override
 		protected Tracker clone()
 		{
 			Tracker ret = (Tracker)super.clone();
-			ret.values = new java.util.HashMap<Integer, Integer>(this.values);
-			ret.unmodifiable = java.util.Collections.unmodifiableMap(ret.values);
+			ret.values = new HashMap<Integer, Integer>(this.values);
+			ret.unmodifiable = Collections.unmodifiableMap(ret.values);
 			return ret;
 		}
 
 		@Override
-		protected java.util.Map<Integer, Integer> getValueInternal()
+		protected Map<Integer, Integer> getValueInternal()
 		{
 			return this.unmodifiable;
 		}
@@ -51,7 +56,7 @@ public class TokenSource extends SetGenerator
 			}
 			else
 			{
-				java.util.Set<Token> results = event.getResult(state).getAll(Token.class);
+				Set<Token> results = event.getResult(state).getAll(Token.class);
 				for(GameObject o: results)
 					if(o.pastSelf != -1 && this.values.containsKey(o.pastSelf))
 						this.values.put(o.ID, this.values.get(o.pastSelf));
@@ -75,7 +80,7 @@ public class TokenSource extends SetGenerator
 	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
 		MagicSet ret = new MagicSet();
-		java.util.Map<Integer, Integer> values = state.getTracker(Tracker.class).getValue(state);
+		Map<Integer, Integer> values = state.getTracker(Tracker.class).getValue(state);
 		for(Token t: this.what.evaluate(state, thisObject).getAll(Token.class))
 			if(values.containsKey(t.ID))
 				ret.add(state.get(values.get(t.ID)));

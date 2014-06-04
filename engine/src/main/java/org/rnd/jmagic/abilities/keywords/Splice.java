@@ -1,6 +1,10 @@
 package org.rnd.jmagic.abilities.keywords;
 
 import org.rnd.jmagic.engine.*;
+import org.rnd.util.NumberNames;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
  * 702.44. Splice
@@ -67,7 +71,7 @@ public final class Splice extends Keyword
 
 		public SpliceAbility(GameState state, SubType ontoWhat)
 		{
-			super(state, "As you cast " + org.rnd.util.NumberNames.getAOrAn(1, ontoWhat.toString()) + " " + ontoWhat + " spell, you may reveal this card from your hand and pay its splice cost. If you do, add this card's effects to that spell.");
+			super(state, "As you cast " + NumberNames.getAOrAn(1, ontoWhat.toString()) + " " + ontoWhat + " spell, you may reveal this card from your hand and pay its splice cost. If you do, add this card's effects to that spell.");
 			this.ontoWhat = ontoWhat;
 		}
 
@@ -79,8 +83,8 @@ public final class Splice extends Keyword
 	}
 
 	@Override
-	protected java.util.List<StaticAbility> createStaticAbilities()
+	protected List<StaticAbility> createStaticAbilities()
 	{
-		return java.util.Collections.<StaticAbility>singletonList(new SpliceAbility(this.state, this.ontoWhat));
+		return Collections.<StaticAbility>singletonList(new SpliceAbility(this.state, this.ontoWhat));
 	}
 }

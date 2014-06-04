@@ -3,6 +3,12 @@ package org.rnd.jmagic.engine.eventTypes;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 public final class CopySpellForEachTarget extends EventType
 {	public static final EventType INSTANCE = new CopySpellForEachTarget();
 
@@ -18,7 +24,7 @@ public final class CopySpellForEachTarget extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		boolean ret = true;
 
@@ -28,7 +34,7 @@ public final class CopySpellForEachTarget extends EventType
 
 		Target toChange = null;
 
-		for(java.util.Map.Entry<Target, java.util.List<Target>> entry: object.getChosenTargets().entrySet())
+		for(Map.Entry<Target, List<Target>> entry: object.getChosenTargets().entrySet())
 		{
 			// This eventtype doesn't work on objects with multiple
 			// targets
@@ -49,7 +55,7 @@ public final class CopySpellForEachTarget extends EventType
 		if(parameters.containsKey(Parameter.TARGET))
 			targets = Intersect.get(targets, parameters.get(Parameter.TARGET));
 
-		java.util.Map<Parameter, MagicSet> copyParameters = new java.util.HashMap<Parameter, MagicSet>();
+		Map<Parameter, MagicSet> copyParameters = new HashMap<Parameter, MagicSet>();
 		copyParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 		copyParameters.put(Parameter.PLAYER, new MagicSet(object.getController(game.actualState)));
 		copyParameters.put(Parameter.OBJECT, new MagicSet(object));
@@ -58,20 +64,20 @@ public final class CopySpellForEachTarget extends EventType
 		Event copyEvent = createEvent(game, "Copy the spell for each other possible target.", EventType.COPY_SPELL_OR_ABILITY, copyParameters);
 		copyEvent.perform(event, false);
 
-		java.util.Iterator<Identified> targetsIter = targets.getAll(Identified.class).iterator();
+		Iterator<Identified> targetsIter = targets.getAll(Identified.class).iterator();
 
-		java.util.Set<GameObject> copies = copyEvent.getResult().getAll(GameObject.class);
+		Set<GameObject> copies = copyEvent.getResult().getAll(GameObject.class);
 		for(GameObject copy: copies)
 		{
 			Identified nextTarget = targetsIter.next();
-			for(java.util.List<Target> chosenTargets: copy.getChosenTargets().values())
+			for(List<Target> chosenTargets: copy.getChosenTargets().values())
 				chosenTargets.get(0).targetID = nextTarget.ID;
 		}
 
 		if(targets.size() > 1)
 		{
 			Zone stack = game.physicalState.stack();
-			java.util.List<GameObject> orderedObjects = object.getController(game.actualState).sanitizeAndChoose(game.actualState, copies.size(), copies, PlayerInterface.ChoiceType.MOVEMENT_STACK, PlayerInterface.ChooseReason.ORDER_STACK);
+			List<GameObject> orderedObjects = object.getController(game.actualState).sanitizeAndChoose(game.actualState, copies.size(), copies, PlayerInterface.ChoiceType.MOVEMENT_STACK, PlayerInterface.ChooseReason.ORDER_STACK);
 			for(GameObject copy: orderedObjects)
 				if(stack.objects.remove(copy))
 					stack.addToTop(copy);

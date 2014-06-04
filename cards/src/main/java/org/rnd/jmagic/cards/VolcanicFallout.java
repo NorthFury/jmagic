@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.CantBeCountered;
 import org.rnd.jmagic.engine.*;
 
 @Name("Volcanic Fallout")
@@ -16,7 +17,7 @@ public final class VolcanicFallout extends Card
 		super(state);
 
 		// Volcanic Fallout can't be countered.
-		this.addAbility(new org.rnd.jmagic.abilities.CantBeCountered(state, this.getName()));
+		this.addAbility(new CantBeCountered(state, this.getName()));
 
 		// Volcanic Fallout deals 2 damage to each creature and each player.
 		this.addEffect(spellDealDamage(2, CREATURES_AND_PLAYERS, "Volcanic Fallout deals 2 damage to each creature and each player."));

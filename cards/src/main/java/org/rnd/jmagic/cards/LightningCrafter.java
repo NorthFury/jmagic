@@ -2,8 +2,12 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Champion;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+
+import java.util.LinkedList;
+import java.util.List;
 
 @Name("Lightning Crafter")
 @Types({Type.CREATURE})
@@ -13,7 +17,7 @@ import org.rnd.jmagic.engine.generators.*;
 @ColorIdentity({Color.RED})
 public final class LightningCrafter extends Card
 {
-	public static final class ChampionAGoblinOrShaman extends org.rnd.jmagic.abilities.keywords.Champion
+	public static final class ChampionAGoblinOrShaman extends Champion
 	{
 		public ChampionAGoblinOrShaman(GameState state)
 		{
@@ -21,9 +25,9 @@ public final class LightningCrafter extends Card
 		}
 
 		@Override
-		protected java.util.List<NonStaticAbility> createNonStaticAbilities()
+		protected List<NonStaticAbility> createNonStaticAbilities()
 		{
-			java.util.List<NonStaticAbility> ret = new java.util.LinkedList<NonStaticAbility>();
+			List<NonStaticAbility> ret = new LinkedList<NonStaticAbility>();
 
 			ret.add(new ExileAGoblinOrShaman(this.state));
 			ret.add(new ReturnAGoblinOrShaman(this.state));

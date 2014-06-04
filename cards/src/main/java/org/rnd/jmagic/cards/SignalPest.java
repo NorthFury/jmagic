@@ -36,7 +36,7 @@ public final class SignalPest extends Card
 
 		// Battle cry (Whenever this creature attacks, each other attacking
 		// creature gets +1/+0 until end of turn.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.BattleCry(state));
+		this.addAbility(new BattleCry(state));
 
 		// Signal Pest can't be blocked except by creatures with flying or
 		// reach.

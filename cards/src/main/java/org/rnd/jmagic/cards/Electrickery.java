@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Overload;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -20,6 +22,6 @@ public final class Electrickery extends Card
 		this.addEffect(spellDealDamage(1, target, "Electrickery deals 1 damage to target creature you don't control."));
 
 		// Overload (1)(R)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Overload(state, "(1)(R)"));
+		this.addAbility(new Overload(state, "(1)(R)"));
 	}
 }

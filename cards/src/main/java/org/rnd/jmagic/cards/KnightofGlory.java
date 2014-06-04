@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Exalted;
+import org.rnd.jmagic.abilities.keywords.Protection;
 import org.rnd.jmagic.engine.*;
 
 @Name("Knight of Glory")
@@ -19,10 +21,10 @@ public final class KnightofGlory extends Card
 
 		// Protection from black (This creature can't be blocked, targeted,
 		// dealt damage, or enchanted by anything black.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Protection.FromBlack(state));
+		this.addAbility(new Protection.FromBlack(state));
 
 		// Exalted (Whenever a creature you control attacks alone, that creature
 		// gets +1/+1 until end of turn.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Exalted(state));
+		this.addAbility(new Exalted(state));
 	}
 }

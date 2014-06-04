@@ -4,6 +4,9 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Name("Bloom Tender")
 @Types({Type.CREATURE})
 @SubTypes({SubType.ELF, SubType.DRUID})
@@ -36,13 +39,13 @@ public final class BloomTender extends Card
 			}
 
 			@Override
-			public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+			public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 			{
 				MagicSet color = new MagicSet();
 				for(Color c: parameters.get(Parameter.MANA).getAll(Color.class))
 					color.add(new ManaSymbol(c));
 
-				java.util.Map<EventType.Parameter, MagicSet> manaParameters = new java.util.HashMap<EventType.Parameter, MagicSet>();
+				Map<EventType.Parameter, MagicSet> manaParameters = new HashMap<EventType.Parameter, MagicSet>();
 				manaParameters.put(EventType.Parameter.SOURCE, parameters.get(EventType.Parameter.SOURCE));
 				manaParameters.put(EventType.Parameter.MANA, color);
 				manaParameters.put(EventType.Parameter.PLAYER, parameters.get(EventType.Parameter.PLAYER));

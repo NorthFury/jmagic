@@ -2,6 +2,8 @@ package org.rnd.jmagic.engine.generators;
 
 import org.rnd.jmagic.engine.*;
 
+import java.lang.Iterable;
+
 /**
  * Evaluates to each given players step of the given StepType, or the steps of
  * the given turns with the given StepType.
@@ -65,7 +67,7 @@ public class StepOf extends SetGenerator
 		handlePhases(turn.phasesRan, returnValue);
 	}
 
-	private void handlePhases(java.lang.Iterable<Phase> phases, MagicSet returnValue)
+	private void handlePhases(Iterable<Phase> phases, MagicSet returnValue)
 	{
 		for(Phase phase: phases)
 			if(phase.type == this.phaseType)
@@ -75,7 +77,7 @@ public class StepOf extends SetGenerator
 			}
 	}
 
-	private void handleSteps(java.lang.Iterable<Step> steps, MagicSet returnValue)
+	private void handleSteps(Iterable<Step> steps, MagicSet returnValue)
 	{
 		for(Step step: steps)
 			if(step.type == this.stepType)

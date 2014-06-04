@@ -2,6 +2,9 @@ package org.rnd.jmagic.abilities;
 
 import org.rnd.jmagic.engine.*;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public final class PreventCombatDamageDealtToOrBy extends DamageReplacementEffect
 {
 	private SetGenerator who;
@@ -26,9 +29,9 @@ public final class PreventCombatDamageDealtToOrBy extends DamageReplacementEffec
 	}
 
 	@Override
-	public java.util.List<EventFactory> prevent(DamageAssignment.Batch damageAssignments)
+	public List<EventFactory> prevent(DamageAssignment.Batch damageAssignments)
 	{
 		damageAssignments.clear();
-		return new java.util.LinkedList<EventFactory>();
+		return new LinkedList<EventFactory>();
 	}
 }

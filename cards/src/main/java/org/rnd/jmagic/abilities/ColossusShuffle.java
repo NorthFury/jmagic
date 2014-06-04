@@ -4,6 +4,7 @@ import static org.rnd.jmagic.Convenience.*;
 
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+import org.rnd.jmagic.engine.patterns.SimpleZoneChangePattern;
 
 public final class ColossusShuffle extends StaticAbility
 {
@@ -16,7 +17,7 @@ public final class ColossusShuffle extends StaticAbility
 		this.cardName = cardName;
 
 		ZoneChangeReplacementEffect replacement = new ZoneChangeReplacementEffect(this.game, "If " + cardName + " would be put into a graveyard from anywhere, reveal " + cardName + " and shuffle it into its owner's library instead", true);
-		replacement.addPattern(new org.rnd.jmagic.engine.patterns.SimpleZoneChangePattern(null, GraveyardOf.instance(Players.instance()), This.instance(), true));
+		replacement.addPattern(new SimpleZoneChangePattern(null, GraveyardOf.instance(Players.instance()), This.instance(), true));
 
 		SetGenerator replacedMove = replacement.replacedByThis();
 

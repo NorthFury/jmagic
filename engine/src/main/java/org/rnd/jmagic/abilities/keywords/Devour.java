@@ -4,6 +4,13 @@ import static org.rnd.jmagic.Convenience.*;
 
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+import org.rnd.util.NumberNames;
+import org.rnd.util.NumberRange;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 702.79. Devour
@@ -34,9 +41,9 @@ public final class Devour extends Keyword
 	}
 
 	@Override
-	public java.util.List<StaticAbility> createStaticAbilities()
+	public List<StaticAbility> createStaticAbilities()
 	{
-		return java.util.Collections.<StaticAbility>singletonList(new DevourAbility(this.state, this.N));
+		return Collections.<StaticAbility>singletonList(new DevourAbility(this.state, this.N));
 	}
 
 	public static final class DevourAbility extends StaticAbility
@@ -48,7 +55,7 @@ public final class Devour extends Keyword
 			if(N == 2)
 				ret += "twice ";
 			else if(N != 1)
-				ret += org.rnd.util.NumberNames.get(N) + " times ";
+				ret += NumberNames.get(N) + " times ";
 
 			ret += "that many +1/+1 counters on it.";
 			return ret;
@@ -97,7 +104,7 @@ public final class Devour extends Keyword
 			}
 
 			@Override
-			public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+			public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 			{
 				event.setResult(Empty.set);
 
@@ -105,9 +112,9 @@ public final class Devour extends Keyword
 				MagicSet player = parameters.get(Parameter.PLAYER);
 				MagicSet choices = parameters.get(Parameter.CHOICE);
 
-				java.util.Map<Parameter, MagicSet> sacrificeParameters = new java.util.HashMap<Parameter, MagicSet>();
+				Map<Parameter, MagicSet> sacrificeParameters = new HashMap<Parameter, MagicSet>();
 				sacrificeParameters.put(Parameter.CAUSE, thisCreature);
-				sacrificeParameters.put(Parameter.NUMBER, new MagicSet(new org.rnd.util.NumberRange(0, null)));
+				sacrificeParameters.put(Parameter.NUMBER, new MagicSet(new NumberRange(0, null)));
 				sacrificeParameters.put(Parameter.CHOICE, choices);
 				sacrificeParameters.put(Parameter.PLAYER, player);
 				Event sacrifice = createEvent(game, "You may sacrifice any number of creatures", EventType.SACRIFICE_CHOICE, sacrificeParameters);
@@ -116,7 +123,7 @@ public final class Devour extends Keyword
 
 				int N = parameters.get(Parameter.NUMBER).getOne(Integer.class);
 
-				java.util.Map<Parameter, MagicSet> counterParameters = new java.util.HashMap<Parameter, MagicSet>();
+				Map<Parameter, MagicSet> counterParameters = new HashMap<Parameter, MagicSet>();
 				counterParameters.put(Parameter.CAUSE, thisCreature);
 				counterParameters.put(Parameter.COUNTER, new MagicSet(Counter.CounterType.PLUS_ONE_PLUS_ONE));
 				counterParameters.put(Parameter.NUMBER, new MagicSet(N * sacrificed.size()));

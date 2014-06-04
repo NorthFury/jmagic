@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.AllSliverCreaturesHave;
+import org.rnd.jmagic.abilities.keywords.FirstStrike;
 import org.rnd.jmagic.engine.*;
 
 @Name("Talon Sliver")
@@ -18,6 +20,6 @@ public final class TalonSliver extends Card
 		this.setToughness(1);
 
 		// All Sliver creatures have first strike.
-		this.addAbility(new org.rnd.jmagic.abilities.AllSliverCreaturesHave(state, org.rnd.jmagic.abilities.keywords.FirstStrike.class, "All Sliver creatures have first strike."));
+		this.addAbility(new AllSliverCreaturesHave(state, FirstStrike.class, "All Sliver creatures have first strike."));
 	}
 }

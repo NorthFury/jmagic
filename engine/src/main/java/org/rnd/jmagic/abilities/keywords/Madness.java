@@ -4,6 +4,12 @@ import static org.rnd.jmagic.Convenience.*;
 
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+import org.rnd.jmagic.engine.patterns.DiscardPattern;
+
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * 702.32. Madness
@@ -44,15 +50,15 @@ public final class Madness extends Keyword
 	}
 
 	@Override
-	public java.util.List<StaticAbility> createStaticAbilities()
+	public List<StaticAbility> createStaticAbilities()
 	{
-		return java.util.Collections.<StaticAbility>singletonList(new MadnessStatic(this.state));
+		return Collections.<StaticAbility>singletonList(new MadnessStatic(this.state));
 	}
 
 	@Override
-	public java.util.List<NonStaticAbility> createNonStaticAbilities()
+	public List<NonStaticAbility> createNonStaticAbilities()
 	{
-		return java.util.Collections.<NonStaticAbility>singletonList(new MadnessTrigger(this.state, this.costs));
+		return Collections.<NonStaticAbility>singletonList(new MadnessTrigger(this.state, this.costs));
 	}
 
 	public static final class MadnessStatic extends StaticAbility
@@ -70,7 +76,7 @@ public final class Madness extends Keyword
 			super(state, "If a player would discard this card, that player discards it, but may exile it instead of putting it into his or her graveyard.");
 
 			ZoneChangeReplacementEffect replacement = new MadnessZoneChangeReplacementEffect(state.game, "If a player would discard this card, that player discards it, but may exile it instead of putting it into his or her graveyard.");
-			replacement.addPattern(new org.rnd.jmagic.engine.patterns.DiscardPattern(This.instance()));
+			replacement.addPattern(new DiscardPattern(This.instance()));
 			replacement.optional = ControllerOf.instance(This.instance());
 			replacement.changeDestination(ExileZone.instance());
 
@@ -127,7 +133,7 @@ public final class Madness extends Keyword
 			this.madnessCosts = costs;
 			String costString = costs.toString();
 
-			java.util.Set<Object> newCosts = new java.util.HashSet<Object>();
+			Set<Object> newCosts = new HashSet<Object>();
 			newCosts.addAll(costs.events);
 			newCosts.addAll(costs.manaCost);
 

@@ -2,7 +2,12 @@ package org.rnd.jmagic.sanitized;
 
 import org.rnd.jmagic.engine.*;
 
-public class SanitizedDamageAssignment implements java.io.Serializable
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedList;
+
+public class SanitizedDamageAssignment implements Serializable
 {
 	private static final long serialVersionUID = 1L;
 
@@ -15,15 +20,15 @@ public class SanitizedDamageAssignment implements java.io.Serializable
 		this.taker = da.takerID;
 	}
 
-	public static class SanitizedBatch implements java.util.Collection<SanitizedDamageAssignment>, java.io.Serializable
+	public static class SanitizedBatch implements Collection<SanitizedDamageAssignment>, Serializable
 	{
 		private static final long serialVersionUID = 1L;
 
-		public final java.util.Collection<SanitizedDamageAssignment> store;
+		public final Collection<SanitizedDamageAssignment> store;
 
 		public SanitizedBatch(DamageAssignment.Batch b)
 		{
-			this.store = new java.util.LinkedList<SanitizedDamageAssignment>();
+			this.store = new LinkedList<SanitizedDamageAssignment>();
 			for(DamageAssignment da: b)
 				this.add(new SanitizedDamageAssignment(da));
 		}
@@ -35,7 +40,7 @@ public class SanitizedDamageAssignment implements java.io.Serializable
 		}
 
 		@Override
-		public boolean addAll(java.util.Collection<? extends SanitizedDamageAssignment> c)
+		public boolean addAll(Collection<? extends SanitizedDamageAssignment> c)
 		{
 			return this.store.addAll(c);
 		}
@@ -53,7 +58,7 @@ public class SanitizedDamageAssignment implements java.io.Serializable
 		}
 
 		@Override
-		public boolean containsAll(java.util.Collection<?> c)
+		public boolean containsAll(Collection<?> c)
 		{
 			return this.store.containsAll(c);
 		}
@@ -65,7 +70,7 @@ public class SanitizedDamageAssignment implements java.io.Serializable
 		}
 
 		@Override
-		public java.util.Iterator<SanitizedDamageAssignment> iterator()
+		public Iterator<SanitizedDamageAssignment> iterator()
 		{
 			return this.store.iterator();
 		}
@@ -77,13 +82,13 @@ public class SanitizedDamageAssignment implements java.io.Serializable
 		}
 
 		@Override
-		public boolean removeAll(java.util.Collection<?> c)
+		public boolean removeAll(Collection<?> c)
 		{
 			return this.store.removeAll(c);
 		}
 
 		@Override
-		public boolean retainAll(java.util.Collection<?> c)
+		public boolean retainAll(Collection<?> c)
 		{
 			return this.store.retainAll(c);
 		}

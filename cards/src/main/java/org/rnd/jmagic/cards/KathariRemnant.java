@@ -1,5 +1,8 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.Regenerate;
+import org.rnd.jmagic.abilities.keywords.Cascade;
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 
 @Name("Kathari Remnant")
@@ -17,10 +20,10 @@ public final class KathariRemnant extends Card
 		this.setPower(0);
 		this.setToughness(1);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
-		this.addAbility(new org.rnd.jmagic.abilities.Regenerate.Final(state, "(B)", "Kathari Remnant"));
+		this.addAbility(new Regenerate.Final(state, "(B)", "Kathari Remnant"));
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Cascade(state));
+		this.addAbility(new Cascade(state));
 	}
 }

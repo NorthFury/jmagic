@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.TapFor1;
+import org.rnd.jmagic.abilities.keywords.Haste;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -37,7 +40,7 @@ public final class HellionCrucible extends Card
 			CreateTokensFactory factory = new CreateTokensFactory(1, 4, 4, "Put a 4/4 red Hellion creature token with haste onto the battlefield.");
 			factory.setColors(Color.RED);
 			factory.setSubTypes(SubType.HELLION);
-			factory.addAbility(org.rnd.jmagic.abilities.keywords.Haste.class);
+			factory.addAbility(Haste.class);
 			this.addEffect(factory.getEventFactory());
 		}
 	}
@@ -47,7 +50,7 @@ public final class HellionCrucible extends Card
 		super(state);
 
 		// (T): Add (1) to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapFor1(state));
+		this.addAbility(new TapFor1(state));
 
 		// (1)(R), (T): Put a pressure counter on Hellion Crucible.
 		this.addAbility(new HellionCrucibleAbility1(state));

@@ -2,6 +2,9 @@ package org.rnd.jmagic.engine.generators;
 
 import org.rnd.jmagic.engine.*;
 
+import java.util.Collection;
+import java.util.LinkedList;
+
 /**
  * Evaluates to each GameObject which has at least one of the given colors
  * 
@@ -25,7 +28,7 @@ public class HasColor extends SetGenerator
 		return new HasColor(what);
 	}
 
-	public static HasColor instance(java.util.Collection<Color> colors)
+	public static HasColor instance(Collection<Color> colors)
 	{
 		return new HasColor(colors);
 	}
@@ -37,7 +40,7 @@ public class HasColor extends SetGenerator
 		this.colorGenerator = colors;
 	}
 
-	private HasColor(java.util.Collection<Color> color)
+	private HasColor(Collection<Color> color)
 	{
 		MagicSet colors = new MagicSet();
 		colors.addAll(color);
@@ -49,7 +52,7 @@ public class HasColor extends SetGenerator
 	{
 		// TODO : change this to use state.getAllObjects() instead.
 		MagicSet ret = new MagicSet();
-		java.util.Collection<Color> colors = new java.util.LinkedList<Color>();
+		Collection<Color> colors = new LinkedList<Color>();
 		colors.addAll(this.colorGenerator.evaluate(state, thisObject).getAll(Color.class));
 		for(GameObject item: state.getAll(GameObject.class))
 			for(Color c: colors)

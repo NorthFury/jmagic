@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 
 @Name("Mausoleum Guard")
@@ -22,7 +23,7 @@ public final class MausoleumGuard extends Card
 			CreateTokensFactory factory = new CreateTokensFactory(2, 1, 1, "Put two 1/1 white Spirit creature tokens with flying onto the battlefield.");
 			factory.setColors(Color.WHITE);
 			factory.setSubTypes(SubType.SPIRIT);
-			factory.addAbility(org.rnd.jmagic.abilities.keywords.Flying.class);
+			factory.addAbility(Flying.class);
 			this.addEffect(factory.getEventFactory());
 		}
 	}

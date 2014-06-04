@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.ShoalAbility;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -18,7 +20,7 @@ public final class DisruptingShoal extends Card
 
 		// You may exile a blue card with converted mana cost X from your hand
 		// rather than pay Disrupting Shoal's mana cost.
-		this.addAbility(new org.rnd.jmagic.abilities.ShoalAbility(state, Color.BLUE, this.getName()));
+		this.addAbility(new ShoalAbility(state, Color.BLUE, this.getName()));
 
 		// Counter target spell if its converted mana cost is X.
 		SetGenerator target = targetedBy(this.addTarget(Spells.instance(), "target spell"));

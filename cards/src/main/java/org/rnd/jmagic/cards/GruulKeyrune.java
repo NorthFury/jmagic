@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.TapForMana;
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 
 @Name("Gruul Keyrune")
@@ -22,7 +25,7 @@ public final class GruulKeyrune extends Card
 			animate.addColor(Color.GREEN);
 			animate.addSubType(SubType.BEAST);
 			animate.addType(Type.ARTIFACT);
-			animate.addAbility(org.rnd.jmagic.abilities.keywords.Trample.class);
+			animate.addAbility(Trample.class);
 			this.addEffect(createFloatingEffect("Gruul Keyrune becomes a 3/2 red and green Beast artifact creature with trample until end of turn.", animate.getParts()));
 		}
 	}
@@ -32,7 +35,7 @@ public final class GruulKeyrune extends Card
 		super(state);
 
 		// (T): Add (R) or (G) to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapForMana.Final(state, "(RG)"));
+		this.addAbility(new TapForMana.Final(state, "(RG)"));
 
 		// (R)(G): Gruul Keyrune becomes a 3/2 red and green Beast artifact
 		// creature with trample until end of turn.

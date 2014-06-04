@@ -1,9 +1,18 @@
 package org.rnd.jmagic.engine;
 
+import org.rnd.jmagic.sanitized.SanitizedIdentified;
+import org.rnd.util.Constructor;
+
+import java.io.Serializable;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 /** Represents a keyword ability. */
 abstract public class Keyword extends Identified implements Sanitizable
 {
-	private java.util.Set<Integer> abilitiesGranted;
+	private Set<Integer> abilitiesGranted;
 
 	/**
 	 * If this ability was granted by a continuous effect, the timestamp of that
@@ -39,7 +48,7 @@ abstract public class Keyword extends Identified implements Sanitizable
 
 	public final boolean apply(GameObject source)
 	{
-		this.abilitiesGranted = new java.util.HashSet<Integer>();
+		this.abilitiesGranted = new HashSet<Integer>();
 		boolean failed = false;
 
 		if(null != source)
@@ -75,7 +84,7 @@ abstract public class Keyword extends Identified implements Sanitizable
 
 	public boolean apply(Player source)
 	{
-		this.abilitiesGranted = new java.util.HashSet<Integer>();
+		this.abilitiesGranted = new HashSet<Integer>();
 		boolean failed = false;
 
 		if(null != source)
@@ -108,14 +117,14 @@ abstract public class Keyword extends Identified implements Sanitizable
 	{
 		Keyword ret = (Keyword)super.clone(state);
 		if(null != this.abilitiesGranted)
-			ret.abilitiesGranted = new java.util.HashSet<Integer>(this.abilitiesGranted);
+			ret.abilitiesGranted = new HashSet<Integer>(this.abilitiesGranted);
 		// this.ghost copied by super.clone()
 		return ret;
 	}
 
 	public Keyword create(Game game)
 	{
-		return org.rnd.util.Constructor.construct(this.getClass(), new Class[] {GameState.class}, new Object[] {game.physicalState});
+		return Constructor.construct(this.getClass(), new Class[] {GameState.class}, new Object[] {game.physicalState});
 	}
 
 	/**
@@ -125,9 +134,9 @@ abstract public class Keyword extends Identified implements Sanitizable
 	 * @return By default, an empty list. Individual keywords will override this
 	 * method to return the non-static abilities represented by that keyword.
 	 */
-	protected java.util.List<NonStaticAbility> createNonStaticAbilities()
+	protected List<NonStaticAbility> createNonStaticAbilities()
 	{
-		return java.util.Collections.emptyList();
+		return Collections.emptyList();
 	}
 
 	/**
@@ -140,9 +149,9 @@ abstract public class Keyword extends Identified implements Sanitizable
 	 * @return By default, an empty list. Individual keywords will override this
 	 * method to return the spell abilities represented by that keyword.
 	 */
-	protected java.util.List<EventFactory> createSpellAbilities()
+	protected List<EventFactory> createSpellAbilities()
 	{
-		return java.util.Collections.emptyList();
+		return Collections.emptyList();
 	}
 
 	/**
@@ -152,9 +161,9 @@ abstract public class Keyword extends Identified implements Sanitizable
 	 * @return By default, an empty list. Individual keywords will override this
 	 * method to return the static abilities represented by that keyword.
 	 */
-	protected java.util.List<StaticAbility> createStaticAbilities()
+	protected List<StaticAbility> createStaticAbilities()
 	{
-		return java.util.Collections.emptyList();
+		return Collections.emptyList();
 	}
 
 	public MagicSet getAbilitiesGranted()
@@ -249,7 +258,7 @@ abstract public class Keyword extends Identified implements Sanitizable
 
 		if(null != source)
 		{
-			java.util.Set<Object> toRemove = new java.util.HashSet<Object>();
+			Set<Object> toRemove = new HashSet<Object>();
 
 			for(Integer abilityID: this.abilitiesGranted)
 			{
@@ -275,7 +284,7 @@ abstract public class Keyword extends Identified implements Sanitizable
 
 		if(null != source)
 		{
-			java.util.Set<Integer> toRemove = new java.util.HashSet<Integer>();
+			Set<Integer> toRemove = new HashSet<Integer>();
 
 			for(Integer abilityID: this.abilitiesGranted)
 			{
@@ -313,15 +322,15 @@ abstract public class Keyword extends Identified implements Sanitizable
 	}
 
 	@Override
-	public java.io.Serializable sanitize(org.rnd.jmagic.engine.GameState state, org.rnd.jmagic.engine.Player whoFor)
+	public Serializable sanitize(GameState state, Player whoFor)
 	{
-		return new org.rnd.jmagic.sanitized.SanitizedIdentified(this);
+		return new SanitizedIdentified(this);
 	}
 
-	public void setAbilitiesGranted(java.util.Set<Integer> newAbilitiesGranted)
+	public void setAbilitiesGranted(Set<Integer> newAbilitiesGranted)
 	{
 		if(this.abilitiesGranted != null)
 			throw new RuntimeException("Cannot set abilitiesGranted of a keyword that already granted abilities");
-		this.abilitiesGranted = new java.util.HashSet<Integer>(newAbilitiesGranted);
+		this.abilitiesGranted = new HashSet<Integer>(newAbilitiesGranted);
 	}
 }

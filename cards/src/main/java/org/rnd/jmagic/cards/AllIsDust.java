@@ -3,6 +3,9 @@ package org.rnd.jmagic.cards;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Name("All Is Dust")
 @Types({Type.TRIBAL, Type.SORCERY})
 @SubTypes({SubType.ELDRAZI})
@@ -25,7 +28,7 @@ public final class AllIsDust extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			MagicSet cause = parameters.get(Parameter.CAUSE);
 			for(MagicSet objects: parameters.get(Parameter.OBJECT).getAll(MagicSet.class))
@@ -35,7 +38,7 @@ public final class AllIsDust extends Card
 
 				Player controller = objects.getOne(GameObject.class).getController(game.actualState);
 
-				java.util.Map<Parameter, MagicSet> sacrificeParameters = new java.util.HashMap<Parameter, MagicSet>();
+				Map<Parameter, MagicSet> sacrificeParameters = new HashMap<Parameter, MagicSet>();
 				sacrificeParameters.put(Parameter.CAUSE, cause);
 				sacrificeParameters.put(Parameter.PLAYER, new MagicSet(controller));
 				sacrificeParameters.put(Parameter.PERMANENT, objects);

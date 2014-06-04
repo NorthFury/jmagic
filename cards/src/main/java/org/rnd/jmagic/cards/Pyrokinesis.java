@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.AlternateCost;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -25,7 +26,7 @@ public final class Pyrokinesis extends Card
 		exileFactory.parameters.put(EventType.Parameter.PLAYER, You.instance());
 
 		CostCollection altCost = new CostCollection(CostCollection.TYPE_ALTERNATE, exileFactory);
-		this.addAbility(new org.rnd.jmagic.abilities.AlternateCost(state, "You may exile a red card from your hand rather than pay Pyrokinesis's mana cost.", altCost));
+		this.addAbility(new AlternateCost(state, "You may exile a red card from your hand rather than pay Pyrokinesis's mana cost.", altCost));
 
 		// Pyrokinesis deals 4 damage divided as you choose among any number of
 		// target creatures.

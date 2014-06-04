@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Lifelink;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -18,7 +20,7 @@ public final class AzoriusCharm extends Card
 		// Choose one \u2014
 
 		// Creatures you control gain lifelink until end of turn;
-		this.addEffect(1, addAbilityUntilEndOfTurn(CREATURES_YOU_CONTROL, org.rnd.jmagic.abilities.keywords.Lifelink.class, "Creatures you control gain lifelink until end of turn"));
+		this.addEffect(1, addAbilityUntilEndOfTurn(CREATURES_YOU_CONTROL, Lifelink.class, "Creatures you control gain lifelink until end of turn"));
 
 		// or draw a card;
 		this.addEffect(2, drawCards(You.instance(), 1, "draw a card"));

@@ -1,5 +1,6 @@
 package org.rnd.jmagic.engine.generators;
 
+import org.rnd.jmagic.abilities.keywords.Enchant;
 import org.rnd.jmagic.engine.*;
 
 public class CouldEnchant extends SetGenerator
@@ -29,7 +30,7 @@ public class CouldEnchant extends SetGenerator
 			for(Keyword ability: aura.getKeywordAbilities())
 				if(ability.isEnchant())
 				{
-					org.rnd.jmagic.abilities.keywords.Enchant e = (org.rnd.jmagic.abilities.keywords.Enchant)ability;
+					Enchant e = (Enchant)ability;
 					MagicSet intermediate = new MagicSet(what);
 					intermediate.retainAll(e.filter.evaluate(state, aura));
 					for(GameObject o: intermediate.getAll(GameObject.class))

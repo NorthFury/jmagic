@@ -1,5 +1,10 @@
 package org.rnd.jmagic.engine;
 
+import org.rnd.util.CamelCase;
+
+import java.util.EnumSet;
+import java.util.Set;
+
 /**
  * Represent possible responses the player may give when queried
  */
@@ -12,9 +17,9 @@ public enum Answer
 	 * 
 	 * @return A set containing ARTIFACT and the colors.
 	 */
-	public static final java.util.Set<Answer> artifactOrAColorChoices()
+	public static final Set<Answer> artifactOrAColorChoices()
 	{
-		return java.util.EnumSet.of(ARTIFACT, WHITE, BLUE, BLACK, RED, GREEN);
+		return EnumSet.of(ARTIFACT, WHITE, BLUE, BLACK, RED, GREEN);
 	}
 
 	/**
@@ -22,9 +27,9 @@ public enum Answer
 	 * 
 	 * @return A set containing WIN and LOSE
 	 */
-	public static final java.util.Set<Answer> calledCoinFlipChoices()
+	public static final Set<Answer> calledCoinFlipChoices()
 	{
-		return java.util.EnumSet.of(WIN, LOSE);
+		return EnumSet.of(WIN, LOSE);
 	}
 
 	/**
@@ -32,14 +37,14 @@ public enum Answer
 	 * 
 	 * @return A set containing YES and NO
 	 */
-	public static final java.util.Set<Answer> mayChoices()
+	public static final Set<Answer> mayChoices()
 	{
-		return java.util.EnumSet.of(YES, NO);
+		return EnumSet.of(YES, NO);
 	}
 
 	@Override
 	public final String toString()
 	{
-		return org.rnd.util.CamelCase.enumValueToDisplay(this.name());
+		return CamelCase.enumValueToDisplay(this.name());
 	}
 }

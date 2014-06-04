@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Soulbond;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -25,7 +26,7 @@ public final class FloweringLumberknot extends Card
 			block.parameters.put(ContinuousEffectType.Parameter.RESTRICTION, Identity.instance(Intersect.instance(This.instance(), Blocking.instance())));
 			this.addEffectPart(block);
 
-			SetGenerator pairedWithSoulbond = Intersect.instance(PairedWith.instance(This.instance()), HasKeywordAbility.instance(org.rnd.jmagic.abilities.keywords.Soulbond.class));
+			SetGenerator pairedWithSoulbond = Intersect.instance(PairedWith.instance(This.instance()), HasKeywordAbility.instance(Soulbond.class));
 			this.canApply = Both.instance(this.canApply, Not.instance(pairedWithSoulbond));
 		}
 	}

@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Haste;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -18,7 +20,7 @@ public final class NightRevelers extends Card
 		{
 			super(state, "Night Revelers has haste as long as an opponent controls a Human.");
 
-			this.addEffectPart(addAbilityToObject(This.instance(), org.rnd.jmagic.abilities.keywords.Haste.class));
+			this.addEffectPart(addAbilityToObject(This.instance(), Haste.class));
 
 			this.canApply = Both.instance(this.canApply, Intersect.instance(ControlledBy.instance(OpponentsOf.instance(You.instance())), HasSubType.instance(SubType.HUMAN)));
 		}

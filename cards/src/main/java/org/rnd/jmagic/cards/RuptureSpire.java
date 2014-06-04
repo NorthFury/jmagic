@@ -2,6 +2,8 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.EntersTheBattlefieldTapped;
+import org.rnd.jmagic.abilities.TapForAnyColor;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -35,13 +37,13 @@ public final class RuptureSpire extends Card
 		super(state);
 
 		// Rupture Spire enters the battlefield tapped.
-		this.addAbility(new org.rnd.jmagic.abilities.EntersTheBattlefieldTapped(state, this.getName()));
+		this.addAbility(new EntersTheBattlefieldTapped(state, this.getName()));
 
 		// When Rupture Spire enters the battlefield, sacrifice it unless you
 		// pay (1).
 		this.addAbility(new Rupturing(state));
 
 		// (T): Add one mana of any color to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapForAnyColor(state));
+		this.addAbility(new TapForAnyColor(state));
 	}
 }

@@ -1,8 +1,13 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Equip;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+
+import java.util.Map;
+import java.util.Set;
 
 @Name("Bludgeon Brawl")
 @Types({Type.ENCHANTMENT})
@@ -77,22 +82,22 @@ public final class BludgeonBrawl extends Card
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
+		public void apply(GameState state, ContinuousEffect effect, Map<Parameter, MagicSet> parameters)
 		{
-			java.util.Set<GameObject> objects = parameters.get(Parameter.OBJECT).getAll(GameObject.class);
+			Set<GameObject> objects = parameters.get(Parameter.OBJECT).getAll(GameObject.class);
 
 			for(GameObject object: objects)
 			{
 				int cmc = object.getConvertedManaCost();
 
 				{
-					Game.GrantedAbilityKey key = new GrantedAbilityWithNumberKey(effect.getSourceObject(), org.rnd.jmagic.abilities.keywords.Equip.class, object.ID, cmc);
+					Game.GrantedAbilityKey key = new GrantedAbilityWithNumberKey(effect.getSourceObject(), Equip.class, object.ID, cmc);
 					Keyword physicalAbility = null;
 					if(state.game.grantedAbilities.containsKey(key))
 						physicalAbility = state.game.physicalState.get(state.game.grantedAbilities.get(key));
 					else
 					{
-						physicalAbility = new org.rnd.jmagic.abilities.keywords.Equip(state.game.physicalState, "(" + cmc + ")");
+						physicalAbility = new Equip(state.game.physicalState, "(" + cmc + ")");
 						state.game.grantedAbilities.put(key, physicalAbility.ID);
 					}
 

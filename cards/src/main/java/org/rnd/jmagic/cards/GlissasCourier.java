@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Landwalk;
 import org.rnd.jmagic.engine.*;
 
 @Name("Glissa's Courier")
@@ -26,6 +27,6 @@ public final class GlissasCourier extends Card
 		this.setToughness(3);
 
 		// Mountainwalk
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Landwalk.Mountainwalk(state));
+		this.addAbility(new Landwalk.Mountainwalk(state));
 	}
 }

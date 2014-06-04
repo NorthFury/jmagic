@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Kicker;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -16,7 +18,7 @@ public final class OrimsThunder extends Card
 		super(state);
 
 		// Kicker (R)
-		org.rnd.jmagic.abilities.keywords.Kicker kicker = new org.rnd.jmagic.abilities.keywords.Kicker(state, "(R)");
+		Kicker kicker = new Kicker(state, "(R)");
 		this.addAbility(kicker);
 
 		// Destroy target artifact or enchantment.

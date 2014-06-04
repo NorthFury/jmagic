@@ -1,6 +1,10 @@
 package org.rnd.jmagic.engine.patterns;
 
 import org.rnd.jmagic.engine.*;
+import org.rnd.jmagic.engine.gameTypes.Planechase;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Used to determine whether an event matches a set of criteria. Instead of
@@ -10,7 +14,7 @@ import org.rnd.jmagic.engine.*;
 public class SimpleEventPattern implements EventPattern
 {
 	private final EventType type;
-	private final java.util.Map<EventType.Parameter, SetPattern> parameters;
+	private final Map<EventType.Parameter, SetPattern> parameters;
 	private SetPattern result;
 
 	public boolean matchesManaAbilities;
@@ -18,7 +22,7 @@ public class SimpleEventPattern implements EventPattern
 	public SimpleEventPattern(EventType type)
 	{
 		this.type = type;
-		this.parameters = new java.util.HashMap<EventType.Parameter, SetPattern>();
+		this.parameters = new HashMap<EventType.Parameter, SetPattern>();
 		this.result = null;
 	}
 
@@ -50,7 +54,7 @@ public class SimpleEventPattern implements EventPattern
 		if(EventType.UNATTACH == this.type)
 			return true;
 
-		if(org.rnd.jmagic.engine.gameTypes.Planechase.PLANESWALK == this.type && this.result != null)
+		if(Planechase.PLANESWALK == this.type && this.result != null)
 			return true;
 
 		return false;

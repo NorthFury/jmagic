@@ -1,7 +1,10 @@
 package org.rnd.jmagic.engine.gameTypes;
 
+import org.rnd.jmagic.abilities.TapForAnyColor;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+
+import java.util.Map;
 
 @Name("Utopia lands")
 @Description("Basic lands can tap for mana of any color")
@@ -16,7 +19,7 @@ public class UtopiaLands extends GameType.SimpleGameTypeRule
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
+		public void apply(GameState state, ContinuousEffect effect, Map<Parameter, MagicSet> parameters)
 		{
 			ContinuousEffectType.REMOVE_ABILITY_FROM_OBJECT.apply(state, effect, parameters);
 		}
@@ -38,7 +41,7 @@ public class UtopiaLands extends GameType.SimpleGameTypeRule
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
+		public void apply(GameState state, ContinuousEffect effect, Map<Parameter, MagicSet> parameters)
 		{
 			ContinuousEffectType.ADD_ABILITY_TO_OBJECT.apply(state, effect, parameters);
 		}
@@ -62,7 +65,7 @@ public class UtopiaLands extends GameType.SimpleGameTypeRule
 
 		ContinuousEffect.Part part2 = new ContinuousEffect.Part(UTOPIA_ADD_ABILITY);
 		part2.parameters.put(ContinuousEffectType.Parameter.OBJECT, basicLandsInPlay);
-		part2.parameters.put(ContinuousEffectType.Parameter.ABILITY, Identity.instance(new org.rnd.jmagic.engine.SimpleAbilityFactory(org.rnd.jmagic.abilities.TapForAnyColor.class)));
+		part2.parameters.put(ContinuousEffectType.Parameter.ABILITY, Identity.instance(new SimpleAbilityFactory(TapForAnyColor.class)));
 
 		EventFactory factory = new EventFactory(EventType.CREATE_FLOATING_CONTINUOUS_EFFECT, "Basic lands have \"(T): Add one mana of any color to your mana pool.\"");
 		factory.parameters.put(EventType.Parameter.CAUSE, CurrentGame.instance());

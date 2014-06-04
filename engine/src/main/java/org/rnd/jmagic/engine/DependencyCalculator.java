@@ -1,5 +1,20 @@
 package org.rnd.jmagic.engine;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.NoSuchElementException;
+import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
+
 /**
  * 613.7. Within a layer or sublayer, determining which order effects are
  * applied in is sometimes done using a dependency system. If a dependency
@@ -27,32 +42,32 @@ package org.rnd.jmagic.engine;
  */
 public class DependencyCalculator
 {
-	private java.util.Map<ContinuousEffect, java.util.Set<ContinuousEffect>> calculatedDependencies;
-	private java.util.Comparator<ContinuousEffect> comparator;
-	private java.util.Map<ContinuousEffect, java.util.Collection<ContinuousEffect>> ignoredEffects;
+	private Map<ContinuousEffect, Set<ContinuousEffect>> calculatedDependencies;
+	private Comparator<ContinuousEffect> comparator;
+	private Map<ContinuousEffect, Collection<ContinuousEffect>> ignoredEffects;
 
 	private GameState stateX;
 	private GameState stateXY;
 	private GameState stateY;
 
-	public DependencyCalculator(java.util.Comparator<ContinuousEffect> comparator)
+	public DependencyCalculator(Comparator<ContinuousEffect> comparator)
 	{
 		this.calculatedDependencies = null;
 		this.comparator = comparator;
-		this.ignoredEffects = new java.util.HashMap<ContinuousEffect, java.util.Collection<ContinuousEffect>>();
+		this.ignoredEffects = new HashMap<ContinuousEffect, Collection<ContinuousEffect>>();
 
 		this.stateX = null;
 		this.stateXY = null;
 		this.stateY = null;
 	}
 
-	public void applyEffectsInOrder(java.util.Map<ContinuousEffect, Identified> effects, GameState state, ContinuousEffectType.Layer layer)
+	public void applyEffectsInOrder(Map<ContinuousEffect, Identified> effects, GameState state, ContinuousEffectType.Layer layer)
 	{
 		if(effects.isEmpty())
 			return;
 
-		java.util.SortedMap<ContinuousEffect, Identified> ordered = new java.util.TreeMap<ContinuousEffect, Identified>(this.comparator);
-		for(java.util.Map.Entry<ContinuousEffect, Identified> e: effects.entrySet())
+		SortedMap<ContinuousEffect, Identified> ordered = new TreeMap<ContinuousEffect, Identified>(this.comparator);
+		for(Map.Entry<ContinuousEffect, Identified> e: effects.entrySet())
 			if(e.getKey().appliesIn(layer))
 				ordered.put(e.getKey(), e.getValue());
 
@@ -64,10 +79,10 @@ public class DependencyCalculator
 		}
 	}
 
-	public void applyEffectsInOrder(java.util.Map<ContinuousEffect, Identified> effects, GameState state, ContinuousEffectType.SubLayer subLayer)
+	public void applyEffectsInOrder(Map<ContinuousEffect, Identified> effects, GameState state, ContinuousEffectType.SubLayer subLayer)
 	{
-		java.util.SortedMap<ContinuousEffect, Identified> ordered = new java.util.TreeMap<ContinuousEffect, Identified>(this.comparator);
-		for(java.util.Map.Entry<ContinuousEffect, Identified> e: effects.entrySet())
+		SortedMap<ContinuousEffect, Identified> ordered = new TreeMap<ContinuousEffect, Identified>(this.comparator);
+		for(Map.Entry<ContinuousEffect, Identified> e: effects.entrySet())
 			if(e.getKey().appliesIn(subLayer))
 				ordered.put(e.getKey(), e.getValue());
 
@@ -79,12 +94,12 @@ public class DependencyCalculator
 		}
 	}
 
-	private java.util.Set<ContinuousEffect> getDependenciesFor(ContinuousEffectType.Layer layer, ContinuousEffectType.SubLayer sublayer, ContinuousEffect effectY, java.util.Map<ContinuousEffect, Identified> effects)
+	private Set<ContinuousEffect> getDependenciesFor(ContinuousEffectType.Layer layer, ContinuousEffectType.SubLayer sublayer, ContinuousEffect effectY, Map<ContinuousEffect, Identified> effects)
 	{
 		if(this.calculatedDependencies.containsKey(effectY))
 			return this.calculatedDependencies.get(effectY);
 
-		java.util.Set<ContinuousEffect> ret = new java.util.HashSet<ContinuousEffect>();
+		Set<ContinuousEffect> ret = new HashSet<ContinuousEffect>();
 		ContinuousEffect.Part partY = sublayer == null ? effectY.partInLayer(layer) : effectY.partInSubLayer(sublayer);
 		Identified sourceOfY = effects.get(effectY);
 		boolean YcanApplyBefore = effectY.canApply();
@@ -113,9 +128,9 @@ public class DependencyCalculator
 		return ret;
 	}
 
-	public ContinuousEffect getNext(ContinuousEffectType.Layer layer, java.util.SortedMap<ContinuousEffect, Identified> effects)
+	public ContinuousEffect getNext(ContinuousEffectType.Layer layer, SortedMap<ContinuousEffect, Identified> effects)
 	{
-		this.calculatedDependencies = new java.util.HashMap<ContinuousEffect, java.util.Set<ContinuousEffect>>();
+		this.calculatedDependencies = new HashMap<ContinuousEffect, Set<ContinuousEffect>>();
 		ContinuousEffect ret = getNextAux(layer, null, effects);
 		this.stateX = null;
 		this.stateY = null;
@@ -124,9 +139,9 @@ public class DependencyCalculator
 		return ret;
 	}
 
-	public ContinuousEffect getNext(ContinuousEffectType.SubLayer sublayer, java.util.SortedMap<ContinuousEffect, Identified> effects)
+	public ContinuousEffect getNext(ContinuousEffectType.SubLayer sublayer, SortedMap<ContinuousEffect, Identified> effects)
 	{
-		this.calculatedDependencies = new java.util.HashMap<ContinuousEffect, java.util.Set<ContinuousEffect>>();
+		this.calculatedDependencies = new HashMap<ContinuousEffect, Set<ContinuousEffect>>();
 		ContinuousEffect ret = getNextAux(null, sublayer, effects);
 		this.stateX = null;
 		this.stateY = null;
@@ -135,14 +150,14 @@ public class DependencyCalculator
 		return ret;
 	}
 
-	private ContinuousEffect getNextAux(ContinuousEffectType.Layer layer, ContinuousEffectType.SubLayer sublayer, java.util.SortedMap<ContinuousEffect, Identified> effects)
+	private ContinuousEffect getNextAux(ContinuousEffectType.Layer layer, ContinuousEffectType.SubLayer sublayer, SortedMap<ContinuousEffect, Identified> effects)
 	{
 		for(ContinuousEffect effect: effects.keySet())
 		{
 			if((sublayer == null && !effect.appliesIn(layer)) || (sublayer != null && !effect.appliesIn(sublayer)))
 				continue;
 
-			java.util.Set<ContinuousEffect> dependencies = new java.util.HashSet<ContinuousEffect>(getDependenciesFor(layer, sublayer, effect, effects));
+			Set<ContinuousEffect> dependencies = new HashSet<ContinuousEffect>(getDependenciesFor(layer, sublayer, effect, effects));
 
 			if(this.ignoredEffects.containsKey(effect))
 				dependencies.removeAll(this.ignoredEffects.get(effect));
@@ -150,11 +165,11 @@ public class DependencyCalculator
 			if(dependencies.isEmpty())
 				return effect;
 
-			java.util.List<ContinuousEffect> currentPath = new java.util.LinkedList<ContinuousEffect>();
+			List<ContinuousEffect> currentPath = new LinkedList<ContinuousEffect>();
 			currentPath.add(effect);
-			java.util.Set<java.util.List<ContinuousEffect>> loops = checkForDependencyLoops(layer, sublayer, currentPath, effects);
+			Set<List<ContinuousEffect>> loops = checkForDependencyLoops(layer, sublayer, currentPath, effects);
 
-			for(java.util.List<ContinuousEffect> loop: loops)
+			for(List<ContinuousEffect> loop: loops)
 			{
 				dependencies.removeAll(loop);
 
@@ -164,7 +179,7 @@ public class DependencyCalculator
 					if(depender != null)
 					{
 						if(!this.ignoredEffects.containsKey(depender))
-							this.ignoredEffects.put(depender, new java.util.HashSet<ContinuousEffect>());
+							this.ignoredEffects.put(depender, new HashSet<ContinuousEffect>());
 						this.ignoredEffects.get(depender).add(dependee);
 					}
 
@@ -179,13 +194,13 @@ public class DependencyCalculator
 		throw new RuntimeException("I wasn't expecting this... go away...");
 	}
 
-	public java.util.Set<java.util.List<ContinuousEffect>> checkForDependencyLoops(ContinuousEffectType.Layer layer, ContinuousEffectType.SubLayer sublayer, java.util.List<ContinuousEffect> currentPath, java.util.Map<ContinuousEffect, Identified> effects)
+	public Set<List<ContinuousEffect>> checkForDependencyLoops(ContinuousEffectType.Layer layer, ContinuousEffectType.SubLayer sublayer, List<ContinuousEffect> currentPath, Map<ContinuousEffect, Identified> effects)
 	{
-		java.util.Set<java.util.List<ContinuousEffect>> loops = new java.util.HashSet<java.util.List<ContinuousEffect>>();
+		Set<List<ContinuousEffect>> loops = new HashSet<List<ContinuousEffect>>();
 
 		ContinuousEffect effect = currentPath.get(currentPath.size() - 1);
 
-		java.util.Set<ContinuousEffect> dependencies = getDependenciesFor(layer, sublayer, effect, effects);
+		Set<ContinuousEffect> dependencies = getDependenciesFor(layer, sublayer, effect, effects);
 
 		for(ContinuousEffect dependency: dependencies)
 		{
@@ -193,7 +208,7 @@ public class DependencyCalculator
 			if(index > -1)
 			{
 				if(index == 0)
-					loops.add(new java.util.LinkedList<ContinuousEffect>(currentPath));
+					loops.add(new LinkedList<ContinuousEffect>(currentPath));
 			}
 			else
 			{
@@ -277,12 +292,12 @@ public class DependencyCalculator
 		// function).
 
 		// --- ORIGINAL STATE ---
-		java.util.List<GameObject> freshInOrder = new java.util.ArrayList<GameObject>(affectedByYinOriginalState.getAll(GameObject.class));
-		java.util.Collections.sort(freshInOrder);
+		List<GameObject> freshInOrder = new ArrayList<GameObject>(affectedByYinOriginalState.getAll(GameObject.class));
+		Collections.sort(freshInOrder);
 
 		// --- STATE WHERE ONLY X HAS APPLIED ---
-		java.util.List<GameObject> afterXinOrder = new java.util.ArrayList<GameObject>(affectedByYinStateX.getAll(GameObject.class));
-		java.util.Collections.sort(afterXinOrder);
+		List<GameObject> afterXinOrder = new ArrayList<GameObject>(affectedByYinStateX.getAll(GameObject.class));
+		Collections.sort(afterXinOrder);
 
 		// --- STATE WHERE ONLY Y HAS APPLIED ---
 		if(this.stateY == null)
@@ -291,8 +306,8 @@ public class DependencyCalculator
 		MagicSet objectsAffectedByEffectYinStateY = partY.apply(this.stateY, sourceOfYinStateY, this.stateY.<ContinuousEffect>get(effectY.ID));
 
 		MagicSet evalAfterY = affectedByEffectY.evaluate(this.stateY, sourceOfYinStateY);
-		java.util.List<GameObject> afterYinOrder = new java.util.ArrayList<GameObject>(evalAfterY.getAll(GameObject.class));
-		java.util.Collections.sort(afterYinOrder);
+		List<GameObject> afterYinOrder = new ArrayList<GameObject>(evalAfterY.getAll(GameObject.class));
+		Collections.sort(afterYinOrder);
 
 		// --- STATE WHERE X THEN Y HAVE APPLIED ---
 		if(this.stateXY == null)
@@ -305,15 +320,15 @@ public class DependencyCalculator
 		MagicSet objectsAffectedByEffectYinStateXY = partY.apply(this.stateXY, sourceOfYinStateXY, this.stateXY.<ContinuousEffect>get(effectY.ID));
 
 		MagicSet evalAfterBoth = affectedByEffectY.evaluate(this.stateXY, sourceOfYinStateXY);
-		java.util.List<GameObject> afterBothInOrder = new java.util.ArrayList<GameObject>(evalAfterBoth.getAll(GameObject.class));
-		java.util.Collections.sort(afterBothInOrder);
+		List<GameObject> afterBothInOrder = new ArrayList<GameObject>(evalAfterBoth.getAll(GameObject.class));
+		Collections.sort(afterBothInOrder);
 
 		ContinuousEffectType.Layer layer = partY.type.layer();
 		ContinuousEffectType.SubLayer sublayer = partY.type.subLayer();
-		java.util.Iterator<GameObject> freshIt = freshInOrder.iterator();
-		java.util.Iterator<GameObject> afterYit = afterYinOrder.iterator();
-		java.util.Iterator<GameObject> afterXit = afterXinOrder.iterator();
-		java.util.Iterator<GameObject> afterBothIt = afterBothInOrder.iterator();
+		Iterator<GameObject> freshIt = freshInOrder.iterator();
+		Iterator<GameObject> afterYit = afterYinOrder.iterator();
+		Iterator<GameObject> afterXit = afterXinOrder.iterator();
+		Iterator<GameObject> afterBothIt = afterBothInOrder.iterator();
 		try
 		{
 			while(true)
@@ -348,7 +363,7 @@ public class DependencyCalculator
 				}
 			}
 		}
-		catch(java.util.NoSuchElementException e)
+		catch(NoSuchElementException e)
 		{
 			// intentionally left blank
 		}

@@ -1,5 +1,6 @@
 package org.rnd.jmagic.engine.generators;
 
+import org.rnd.jmagic.CardLoader;
 import org.rnd.jmagic.engine.*;
 
 public class NonLandCardNames extends SetGenerator
@@ -20,7 +21,7 @@ public class NonLandCardNames extends SetGenerator
 		if(set == null)
 		{
 			MagicSet ret = new MagicSet();
-			cardLoop: for(Class<? extends Card> card: org.rnd.jmagic.CardLoader.getAllCards())
+			cardLoop: for(Class<? extends Card> card: CardLoader.getAllCards())
 			{
 				Types types = card.getAnnotation(Types.class);
 				if(types != null)

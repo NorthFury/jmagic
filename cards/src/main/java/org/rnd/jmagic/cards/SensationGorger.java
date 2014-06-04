@@ -1,7 +1,11 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilityTemplates.Kinship;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Name("Sensation Gorger")
 @Types({Type.CREATURE})
@@ -11,7 +15,7 @@ import org.rnd.jmagic.engine.generators.*;
 @ColorIdentity({Color.RED})
 public final class SensationGorger extends Card
 {
-	public static final class WheelOfKinship extends org.rnd.jmagic.abilityTemplates.Kinship
+	public static final class WheelOfKinship extends Kinship
 	{
 		/**
 		 * We only need this custom event type because it is used in the THEN
@@ -31,20 +35,20 @@ public final class SensationGorger extends Card
 			}
 
 			@Override
-			public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+			public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 			{
 				MagicSet cards = new MagicSet();
 
 				for(Player player: parameters.get(Parameter.PLAYER).getAll(Player.class))
 					cards.addAll(player.getHand(game.actualState).objects);
 
-				java.util.Map<Parameter, MagicSet> discardParameters = new java.util.HashMap<Parameter, MagicSet>();
+				Map<Parameter, MagicSet> discardParameters = new HashMap<Parameter, MagicSet>();
 				discardParameters.put(EventType.Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 				discardParameters.put(EventType.Parameter.CARD, cards);
 				Event discardEvent = createEvent(game, "Each player discards his or her hand", EventType.DISCARD_CARDS, discardParameters);
 				discardEvent.perform(event, true);
 
-				java.util.Map<Parameter, MagicSet> drawParameters = new java.util.HashMap<Parameter, MagicSet>();
+				Map<Parameter, MagicSet> drawParameters = new HashMap<Parameter, MagicSet>();
 				drawParameters.put(EventType.Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 				drawParameters.put(EventType.Parameter.PLAYER, parameters.get(Parameter.PLAYER));
 				drawParameters.put(EventType.Parameter.NUMBER, new MagicSet(4));

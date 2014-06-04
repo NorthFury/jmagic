@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Intimidate;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -19,7 +21,7 @@ public final class KorozdaGuildmage extends Card
 			super(state, "(1)(B)(G): Target creature gets +1/+1 and gains intimidate until end of turn.");
 			this.setManaCost(new ManaPool("(1)(B)(G)"));
 			SetGenerator target = targetedBy(this.addTarget(CreaturePermanents.instance(), "target creature"));
-			this.addEffect(ptChangeAndAbilityUntilEndOfTurn(target, +1, +1, "Target creature gets +1/+1 and gains intimidate until end of turn.", org.rnd.jmagic.abilities.keywords.Intimidate.class));
+			this.addEffect(ptChangeAndAbilityUntilEndOfTurn(target, +1, +1, "Target creature gets +1/+1 and gains intimidate until end of turn.", Intimidate.class));
 		}
 	}
 

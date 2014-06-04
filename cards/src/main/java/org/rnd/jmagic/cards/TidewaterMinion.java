@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Defender;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -22,7 +23,7 @@ public final class TidewaterMinion extends Card
 
 			ContinuousEffect.Part part = new ContinuousEffect.Part(ContinuousEffectType.REMOVE_ABILITY_FROM_OBJECT);
 			part.parameters.put(ContinuousEffectType.Parameter.OBJECT, ABILITY_SOURCE_OF_THIS);
-			part.parameters.put(ContinuousEffectType.Parameter.ABILITY, Identity.instance(org.rnd.jmagic.abilities.keywords.Defender.class));
+			part.parameters.put(ContinuousEffectType.Parameter.ABILITY, Identity.instance(Defender.class));
 
 			this.addEffect(createFloatingEffect("Tidewater Minion loses defender until end of turn.", part));
 		}
@@ -49,7 +50,7 @@ public final class TidewaterMinion extends Card
 		this.setToughness(4);
 
 		// Defender (This creature can't attack.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Defender(state));
+		this.addAbility(new Defender(state));
 
 		// (4): Tidewater Minion loses defender until end of turn.
 		this.addAbility(new CanAttack(state));

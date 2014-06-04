@@ -5,6 +5,10 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+
 @Name("Awe Strike")
 @Types({Type.INSTANT})
 @ManaCost("W")
@@ -39,10 +43,10 @@ public final class AweStrike extends Card
 		}
 
 		@Override
-		public java.util.List<EventFactory> prevent(DamageAssignment.Batch damageAssignments)
+		public List<EventFactory> prevent(DamageAssignment.Batch damageAssignments)
 		{
 			if(damageAssignments.isEmpty())
-				return new java.util.LinkedList<EventFactory>();
+				return new LinkedList<EventFactory>();
 
 			EventFactory gainLife = new EventFactory(EventType.GAIN_LIFE, "You gain life equal to the damage prevented this way");
 			gainLife.parameters.put(EventType.Parameter.CAUSE, IdentifiedWithID.instance(damageAssignments.iterator().next().sourceID));
@@ -50,7 +54,7 @@ public final class AweStrike extends Card
 			gainLife.parameters.put(EventType.Parameter.NUMBER, numberGenerator(damageAssignments.size()));
 
 			damageAssignments.clear();
-			return java.util.Collections.singletonList(gainLife);
+			return Collections.singletonList(gainLife);
 		}
 	}
 

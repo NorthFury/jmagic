@@ -3,6 +3,9 @@ package org.rnd.jmagic.abilities.keywords;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * 702.39. Entwine
  * 
@@ -42,9 +45,9 @@ public final class Entwine extends Keyword
 	}
 
 	@Override
-	public java.util.List<StaticAbility> createStaticAbilities()
+	public List<StaticAbility> createStaticAbilities()
 	{
-		java.util.List<StaticAbility> ret = new java.util.LinkedList<StaticAbility>();
+		List<StaticAbility> ret = new LinkedList<StaticAbility>();
 		ret.add(new EntwineIncreaseModeChoices(this.state));
 		ret.add(new EntwineAdditionalCost(this.state, this.costCollection, this.costName));
 		return ret;

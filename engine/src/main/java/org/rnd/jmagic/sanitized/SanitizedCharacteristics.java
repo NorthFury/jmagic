@@ -2,30 +2,39 @@ package org.rnd.jmagic.sanitized;
 
 import org.rnd.jmagic.engine.*;
 
-public class SanitizedCharacteristics implements java.io.Serializable
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+public class SanitizedCharacteristics implements Serializable
 {
 	private static final long serialVersionUID = 1L;
 
 	public String name;
-	public java.util.Collection<String> costs;
+	public Collection<String> costs;
 	public ManaPool manaCost;
 
-	public java.util.Set<SuperType> superTypes;
-	public java.util.Set<Type> types;
-	public java.util.Set<SubType> subTypes;
-	public java.util.Set<Color> colors;
-	public java.util.Set<Color> colorIndicator;
+	public Set<SuperType> superTypes;
+	public Set<Type> types;
+	public Set<SubType> subTypes;
+	public Set<Color> colors;
+	public Set<Color> colorIndicator;
 
 	public int power, toughness;
 	public int printedLoyalty;
 
-	public java.util.List<Integer> abilities;
-	public java.util.List<Integer> hiddenAbilities;
+	public List<Integer> abilities;
+	public List<Integer> hiddenAbilities;
 
-	public java.util.List<SanitizedMode> modes;
-	public java.util.List<SanitizedMode> selectedModes;
+	public List<SanitizedMode> modes;
+	public List<SanitizedMode> selectedModes;
 	public MagicSet numModes;
-	public final java.util.Map<SanitizedTarget, java.util.List<SanitizedTarget>> chosenTargets;
+	public final Map<SanitizedTarget, List<SanitizedTarget>> chosenTargets;
 
 	// this method takes a game state because it needs to get the keyword
 	// abilities from the object
@@ -33,7 +42,7 @@ public class SanitizedCharacteristics implements java.io.Serializable
 	{
 		this.name = c.name;
 
-		this.costs = new java.util.LinkedList<String>();
+		this.costs = new LinkedList<String>();
 		for(EventFactory f: c.costs)
 			this.costs.add(f.name);
 		this.manaCost = c.manaCost;
@@ -41,19 +50,19 @@ public class SanitizedCharacteristics implements java.io.Serializable
 		this.superTypes = c.superTypes;
 		this.types = c.types;
 		this.subTypes = c.subTypes;
-		this.colors = java.util.EnumSet.copyOf(c.colors);
-		this.colorIndicator = java.util.EnumSet.copyOf(c.colorIndicator);
+		this.colors = EnumSet.copyOf(c.colors);
+		this.colorIndicator = EnumSet.copyOf(c.colorIndicator);
 
 		this.power = c.power;
 		this.toughness = c.toughness;
 
 		this.printedLoyalty = c.loyalty;
 
-		this.abilities = new java.util.LinkedList<Integer>();
-		this.hiddenAbilities = new java.util.LinkedList<Integer>();
+		this.abilities = new LinkedList<Integer>();
+		this.hiddenAbilities = new LinkedList<Integer>();
 		this.abilities.addAll(c.abilityIDsInOrder);
 
-		java.util.List<Integer> keywordIDs = c.keywordAbilities;
+		List<Integer> keywordIDs = c.keywordAbilities;
 		for(int keywordID: keywordIDs)
 		{
 			Keyword k = state.get(keywordID);
@@ -64,9 +73,9 @@ public class SanitizedCharacteristics implements java.io.Serializable
 			}
 		}
 
-		this.modes = new java.util.LinkedList<SanitizedMode>();
-		this.selectedModes = new java.util.LinkedList<SanitizedMode>();
-		this.chosenTargets = new java.util.HashMap<SanitizedTarget, java.util.List<SanitizedTarget>>();
+		this.modes = new LinkedList<SanitizedMode>();
+		this.selectedModes = new LinkedList<SanitizedMode>();
+		this.chosenTargets = new HashMap<SanitizedTarget, List<SanitizedTarget>>();
 		int index = 0;
 		for(Mode m: c.modes)
 		{
@@ -82,7 +91,7 @@ public class SanitizedCharacteristics implements java.io.Serializable
 					Target target = m.targets.get(targetIndex);
 					if(c.chosenTargets.containsKey(target))
 					{
-						java.util.List<SanitizedTarget> sanitizedChosenTargets = new java.util.LinkedList<SanitizedTarget>();
+						List<SanitizedTarget> sanitizedChosenTargets = new LinkedList<SanitizedTarget>();
 						for(Target t: c.chosenTargets.get(target))
 							if(null != t)
 								sanitizedChosenTargets.add(new SanitizedTarget(t));

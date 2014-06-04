@@ -6,6 +6,11 @@ import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.DamageAssignment.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
+import org.rnd.util.SeparatedList;
+
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * <p>
@@ -36,7 +41,7 @@ public abstract class Protection extends Keyword
 				// see Great Sable Stag
 				return colors[0].toString() + " and from " + colors[1].toString();
 			// see Oversoul of Dusk
-			return org.rnd.util.SeparatedList.get(", and from ", "", (Object[])colors).toString();
+			return SeparatedList.get(", and from ", "", (Object[])colors).toString();
 		}
 
 		private SetPattern quality;
@@ -111,15 +116,15 @@ public abstract class Protection extends Keyword
 		switch(c)
 		{
 		case WHITE:
-			return org.rnd.jmagic.abilities.keywords.Protection.FromWhite.class;
+			return Protection.FromWhite.class;
 		case BLUE:
-			return org.rnd.jmagic.abilities.keywords.Protection.FromBlue.class;
+			return Protection.FromBlue.class;
 		case BLACK:
-			return org.rnd.jmagic.abilities.keywords.Protection.FromBlack.class;
+			return Protection.FromBlack.class;
 		case RED:
-			return org.rnd.jmagic.abilities.keywords.Protection.FromRed.class;
+			return Protection.FromRed.class;
 		case GREEN:
-			return org.rnd.jmagic.abilities.keywords.Protection.FromGreen.class;
+			return Protection.FromGreen.class;
 		}
 		throw new RuntimeException("This can't happen (blame RulesGuru if it does)");
 	}
@@ -224,10 +229,10 @@ public abstract class Protection extends Keyword
 			}
 
 			@Override
-			public java.util.List<EventFactory> prevent(Batch damageAssignments)
+			public List<EventFactory> prevent(Batch damageAssignments)
 			{
 				damageAssignments.clear();
-				return new java.util.LinkedList<EventFactory>();
+				return new LinkedList<EventFactory>();
 			}
 		}
 
@@ -360,9 +365,9 @@ public abstract class Protection extends Keyword
 	}
 
 	@Override
-	protected final java.util.List<StaticAbility> createStaticAbilities()
+	protected final List<StaticAbility> createStaticAbilities()
 	{
-		return java.util.Collections.<StaticAbility>singletonList(getProtectionStatic());
+		return Collections.<StaticAbility>singletonList(getProtectionStatic());
 	}
 
 	protected ProtectionStatic getProtectionStatic()

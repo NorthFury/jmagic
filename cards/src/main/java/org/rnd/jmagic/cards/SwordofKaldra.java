@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.StaticPTChange;
+import org.rnd.jmagic.abilities.keywords.Equip;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -28,13 +31,13 @@ public final class SwordofKaldra extends Card
 		super(state);
 
 		// Equipped creature gets +5/+5.
-		this.addAbility(new org.rnd.jmagic.abilities.StaticPTChange(state, EquippedBy.instance(This.instance()), "Equipped creature", +5, +5, false));
+		this.addAbility(new StaticPTChange(state, EquippedBy.instance(This.instance()), "Equipped creature", +5, +5, false));
 
 		// Whenever equipped creature deals damage to a creature, exile that
 		// creature.
 		this.addAbility(new DamageKillsHard(state));
 
 		// Equip (4)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Equip(state, "(4)"));
+		this.addAbility(new Equip(state, "(4)"));
 	}
 }

@@ -3,27 +3,39 @@ package org.rnd.jmagic.gui.dialogs;
 import org.rnd.jmagic.gui.*;
 import org.rnd.jmagic.sanitized.*;
 
-public class ObjectChoosePanel extends javax.swing.JPanel
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import java.awt.Dimension;
+import java.awt.Image;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
+public class ObjectChoosePanel extends JPanel
 {
 	private static final long serialVersionUID = 1L;
 
 	public static final int ZONE_PADDING = 15;
 
-	private java.awt.Dimension maxSize;
+	private Dimension maxSize;
 
-	public ObjectChoosePanel(Play gui, java.util.Collection<Integer> choices)
+	public ObjectChoosePanel(Play gui, Collection<Integer> choices)
 	{
 		this.maxSize = null;
 
-		this.setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.PAGE_AXIS));
+		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
 		// This order is somewhat arbitrary, and I'm not passionate about any
 		// particular ordering. However I do believe there should be *some*
 		// consistent order here, just so that the player isn't disoriented by
 		// having different zones be in different orders between resolving
 		// multiple Cranial Extractions. (for example) -RulesGuru
-		java.util.List<Integer> zones = new java.util.LinkedList<Integer>();
-		java.util.Map<Integer, String> zoneNames = new java.util.HashMap<Integer, String>();
+		List<Integer> zones = new LinkedList<Integer>();
+		Map<Integer, String> zoneNames = new HashMap<Integer, String>();
 		zones.add(gui.state.battlefield);
 		zoneNames.put(gui.state.battlefield, "Battlefield");
 		zones.add(gui.state.stack);
@@ -62,13 +74,13 @@ public class ObjectChoosePanel extends javax.swing.JPanel
 		zoneNames.put(-1, "Other");
 
 		// keys are zone IDs, values are lists of choices in that zone
-		java.util.Map<Integer, java.util.List<Integer>> objects = new java.util.HashMap<Integer, java.util.List<Integer>>();
+		Map<Integer, List<Integer>> objects = new HashMap<Integer, List<Integer>>();
 		for(int choice: choices)
 		{
 			SanitizedGameObject object = (SanitizedGameObject)gui.state.get(choice);
 			int zoneID = (zones.contains(object.zoneID) ? object.zoneID : -1);
 			if(!objects.containsKey(zoneID))
-				objects.put(zoneID, new java.util.LinkedList<Integer>());
+				objects.put(zoneID, new LinkedList<Integer>());
 			objects.get(zoneID).add(choice);
 		}
 
@@ -80,21 +92,21 @@ public class ObjectChoosePanel extends javax.swing.JPanel
 				continue;
 
 			if(!firstZone)
-				this.add(javax.swing.Box.createRigidArea(new java.awt.Dimension(0, ZONE_PADDING)));
+				this.add(Box.createRigidArea(new Dimension(0, ZONE_PADDING)));
 
 			String zoneName = zoneNames.get(zoneID);
-			javax.swing.JLabel zoneLabel = new javax.swing.JLabel(zoneName);
+			JLabel zoneLabel = new JLabel(zoneName);
 			zoneLabel.setAlignmentX(CENTER_ALIGNMENT);
 			this.add(zoneLabel);
 
-			java.util.List<Integer> theseObjects = objects.remove(zoneID);
+			List<Integer> theseObjects = objects.remove(zoneID);
 
 			ScrollingCardPanel.InnerCardPanel<Integer> thisZone = new ScrollingCardPanel.InnerCardPanel<Integer>(gui)
 			{
 				private static final long serialVersionUID = 1L;
 
 				@Override
-				public java.awt.Image getImage(Integer ref)
+				public Image getImage(Integer ref)
 				{
 					return this.gui.getSmallCardImage(this.gui.state.get(ref), false, false, this.getFont());
 				}
@@ -106,7 +118,7 @@ public class ObjectChoosePanel extends javax.swing.JPanel
 				}
 			};
 			ScrollingCardPanel scrollingPanel = new ScrollingCardPanel(thisZone);
-			scrollingPanel.setMaximumSize(new java.awt.Dimension(Integer.MAX_VALUE, maxPanelWidth));
+			scrollingPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, maxPanelWidth));
 			thisZone.update(theseObjects, true);
 			scrollingPanel.setAlignmentX(CENTER_ALIGNMENT);
 			this.add(scrollingPanel);
@@ -114,21 +126,21 @@ public class ObjectChoosePanel extends javax.swing.JPanel
 			firstZone = false;
 		}
 
-		this.setMaximumSize(new java.awt.Dimension(maxPanelWidth, this.getMaximumSize().height));
+		this.setMaximumSize(new Dimension(maxPanelWidth, this.getMaximumSize().height));
 	}
 
 	@Override
-	public java.awt.Dimension getPreferredSize()
+	public Dimension getPreferredSize()
 	{
 		if(this.maxSize == null)
 			return super.getPreferredSize();
-		java.awt.Dimension prefer = super.getPreferredSize();
-		java.awt.Dimension max = this.maxSize;
-		return new java.awt.Dimension(Math.min(prefer.width, max.width), Math.min(prefer.height, max.height));
+		Dimension prefer = super.getPreferredSize();
+		Dimension max = this.maxSize;
+		return new Dimension(Math.min(prefer.width, max.width), Math.min(prefer.height, max.height));
 	}
 
 	@Override
-	public void setMaximumSize(java.awt.Dimension size)
+	public void setMaximumSize(Dimension size)
 	{
 		super.setMaximumSize(size);
 		this.maxSize = size;

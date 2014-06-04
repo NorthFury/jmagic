@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.TapForB;
 import org.rnd.jmagic.engine.*;
 
 @Name("Leaden Myr")
@@ -18,6 +19,6 @@ public final class LeadenMyr extends Card
 		this.setToughness(1);
 
 		// (T): Add (B) to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapForB(state));
+		this.addAbility(new TapForB(state));
 	}
 }

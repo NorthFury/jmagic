@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 
 @Name("Armada Wurm")
@@ -21,7 +23,7 @@ public final class ArmadaWurm extends Card
 			CreateTokensFactory factory = new CreateTokensFactory(1, 5, 5, "Put a 5/5 green Wurm creature token with trample onto the battlefield.");
 			factory.setColors(Color.GREEN);
 			factory.setSubTypes(SubType.WURM);
-			factory.addAbility(org.rnd.jmagic.abilities.keywords.Trample.class);
+			factory.addAbility(Trample.class);
 			this.addEffect(factory.getEventFactory());
 		}
 	}
@@ -34,7 +36,7 @@ public final class ArmadaWurm extends Card
 		this.setToughness(5);
 
 		// Trample
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Trample(state));
+		this.addAbility(new Trample(state));
 
 		// When Armada Wurm enters the battlefield, put a 5/5 green Wurm
 		// creature token with trample onto the battlefield.

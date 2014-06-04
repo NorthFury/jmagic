@@ -3,6 +3,9 @@ package org.rnd.jmagic.cards;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Name("Kodama's Reach")
 @Types({Type.SORCERY})
 @SubTypes({SubType.ARCANE})
@@ -26,7 +29,7 @@ public final class KodamasReach extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			event.setResult(Empty.set);
 
@@ -34,7 +37,7 @@ public final class KodamasReach extends Card
 			Player you = parameters.get(Parameter.PLAYER).getOne(Player.class);
 			MagicSet choices = parameters.get(Parameter.CHOICE);
 
-			java.util.Map<Parameter, MagicSet> searchParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> searchParameters = new HashMap<Parameter, MagicSet>();
 			searchParameters.put(Parameter.CAUSE, cause);
 			searchParameters.put(Parameter.PLAYER, new MagicSet(you));
 			searchParameters.put(Parameter.NUMBER, new MagicSet(2));
@@ -47,7 +50,7 @@ public final class KodamasReach extends Card
 			you = you.getActual();
 			MagicSet chosen = new MagicSet(you.sanitizeAndChoose(game.actualState, 1, found.getAll(GameObject.class), PlayerInterface.ChoiceType.OBJECTS, PlayerInterface.ChooseReason.PUT_ONTO_BATTLEFIELD));
 
-			java.util.Map<Parameter, MagicSet> battlefieldParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> battlefieldParameters = new HashMap<Parameter, MagicSet>();
 			battlefieldParameters.put(Parameter.CAUSE, cause);
 			battlefieldParameters.put(Parameter.CONTROLLER, new MagicSet(you));
 			battlefieldParameters.put(Parameter.OBJECT, chosen);
@@ -55,7 +58,7 @@ public final class KodamasReach extends Card
 			putOntoBattlefield.perform(event, false);
 
 			you = you.getActual();
-			java.util.Map<Parameter, MagicSet> handParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> handParameters = new HashMap<Parameter, MagicSet>();
 			handParameters.put(Parameter.CAUSE, cause);
 			handParameters.put(Parameter.TO, new MagicSet(you.getHand(game.actualState)));
 			handParameters.put(Parameter.OBJECT, found);

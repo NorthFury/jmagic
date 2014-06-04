@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 
 @Name("Cloudheath Drake")
@@ -18,7 +20,7 @@ public final class CloudheathDrake extends Card
 			super(state, "(1)(W): Cloudheath Drake gains vigilance until end of turn.");
 			this.setManaCost(new ManaPool("(1)(W)"));
 
-			this.addEffect(addAbilityUntilEndOfTurn(ABILITY_SOURCE_OF_THIS, org.rnd.jmagic.abilities.keywords.Flying.class, "Cloudheath Drake gains vigilance until end of turn."));
+			this.addEffect(addAbilityUntilEndOfTurn(ABILITY_SOURCE_OF_THIS, Flying.class, "Cloudheath Drake gains vigilance until end of turn."));
 		}
 	}
 
@@ -30,7 +32,7 @@ public final class CloudheathDrake extends Card
 		this.setToughness(3);
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// (1)(W): Cloudheath Drake gains vigilance until end of turn.
 		this.addAbility(new CloudheathDrakeAbility1(state));

@@ -1,8 +1,15 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Protection;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @Name("Apostle's Blessing")
 @Types({Type.INSTANT})
@@ -28,39 +35,39 @@ public final class ApostlesBlessing extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			event.setResult(Empty.set);
 
-			java.util.Set<Answer> choices = Answer.artifactOrAColorChoices();
+			Set<Answer> choices = Answer.artifactOrAColorChoices();
 			Player player = parameters.get(Parameter.PLAYER).getOne(Player.class);
 
-			java.util.List<Answer> chosenList = player.choose(1, choices, PlayerInterface.ChoiceType.ENUM, APOSTLES_BLESSING_REASON);
+			List<Answer> chosenList = player.choose(1, choices, PlayerInterface.ChoiceType.ENUM, APOSTLES_BLESSING_REASON);
 			if(chosenList.isEmpty())
 				return false;
 
 			Answer choice = chosenList.get(0);
 
-			Class<? extends org.rnd.jmagic.abilities.keywords.Protection> ability = null;
+			Class<? extends Protection> ability = null;
 			switch(choice)
 			{
 			case ARTIFACT:
-				ability = org.rnd.jmagic.abilities.keywords.Protection.FromArtifacts.class;
+				ability = Protection.FromArtifacts.class;
 				break;
 			case WHITE:
-				ability = org.rnd.jmagic.abilities.keywords.Protection.FromWhite.class;
+				ability = Protection.FromWhite.class;
 				break;
 			case BLUE:
-				ability = org.rnd.jmagic.abilities.keywords.Protection.FromBlue.class;
+				ability = Protection.FromBlue.class;
 				break;
 			case BLACK:
-				ability = org.rnd.jmagic.abilities.keywords.Protection.FromBlack.class;
+				ability = Protection.FromBlack.class;
 				break;
 			case RED:
-				ability = org.rnd.jmagic.abilities.keywords.Protection.FromRed.class;
+				ability = Protection.FromRed.class;
 				break;
 			case GREEN:
-				ability = org.rnd.jmagic.abilities.keywords.Protection.FromGreen.class;
+				ability = Protection.FromGreen.class;
 				break;
 			default:
 				break;
@@ -68,9 +75,9 @@ public final class ApostlesBlessing extends Card
 
 			ContinuousEffect.Part part = new ContinuousEffect.Part(ContinuousEffectType.ADD_ABILITY_TO_OBJECT);
 			part.parameters.put(ContinuousEffectType.Parameter.OBJECT, Identity.instance(parameters.get(Parameter.TARGET)));
-			part.parameters.put(ContinuousEffectType.Parameter.ABILITY, Identity.instance(new org.rnd.jmagic.engine.SimpleAbilityFactory(ability)));
+			part.parameters.put(ContinuousEffectType.Parameter.ABILITY, Identity.instance(new SimpleAbilityFactory(ability)));
 
-			java.util.Map<Parameter, MagicSet> fceParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> fceParameters = new HashMap<Parameter, MagicSet>();
 			fceParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 			fceParameters.put(Parameter.EFFECT, new MagicSet(part));
 			Event protection = createEvent(game, "Target artifact or creature you control gains protection from artifact or the color of your choice until end of turn.", EventType.CREATE_FLOATING_CONTINUOUS_EFFECT, fceParameters);

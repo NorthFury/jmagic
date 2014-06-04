@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.BattleCry;
 import org.rnd.jmagic.engine.*;
 
 @Name("Hero of Bladehold")
@@ -35,7 +37,7 @@ public final class HeroofBladehold extends Card
 
 		// Battle cry (Whenever this creature attacks, each other attacking
 		// creature gets +1/+0 until end of turn.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.BattleCry(state));
+		this.addAbility(new BattleCry(state));
 
 		// Whenever Hero of Bladehold attacks, put two 1/1 white Soldier
 		// creature tokens onto the battlefield tapped and attacking.

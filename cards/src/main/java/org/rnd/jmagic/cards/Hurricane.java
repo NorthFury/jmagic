@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -16,7 +17,7 @@ public final class Hurricane extends Card
 	{
 		super(state);
 
-		SetGenerator takers = Union.instance(Intersect.instance(CreaturePermanents.instance(), HasKeywordAbility.instance(org.rnd.jmagic.abilities.keywords.Flying.class)), Players.instance());
+		SetGenerator takers = Union.instance(Intersect.instance(CreaturePermanents.instance(), HasKeywordAbility.instance(Flying.class)), Players.instance());
 		this.addEffect(spellDealDamage(ValueOfX.instance(This.instance()), takers, "Hurricane deals X damage to each creature with flying and each player."));
 	}
 }

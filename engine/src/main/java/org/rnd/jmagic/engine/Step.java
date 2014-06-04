@@ -2,8 +2,19 @@ package org.rnd.jmagic.engine;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Deathtouch;
+import org.rnd.jmagic.abilities.keywords.DoubleStrike;
+import org.rnd.jmagic.abilities.keywords.FirstStrike;
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /** Represents a step (e.g. untap) within a phase (e.g. beginning). */
 public class Step implements Ownable
@@ -64,7 +75,7 @@ public class Step implements Ownable
 					}
 
 					@Override
-					public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+					public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 					{
 						boolean ret = true;
 						for(Event untapEvent: untapEvents.getAll(Event.class))
@@ -246,8 +257,8 @@ public class Step implements Ownable
 
 				// Create a new combat damage step for first- and
 				// double-strikers if applicable
-				SetGenerator firstStrike = HasKeywordAbility.instance(org.rnd.jmagic.abilities.keywords.FirstStrike.class);
-				SetGenerator doubleStrike = HasKeywordAbility.instance(org.rnd.jmagic.abilities.keywords.DoubleStrike.class);
+				SetGenerator firstStrike = HasKeywordAbility.instance(FirstStrike.class);
+				SetGenerator doubleStrike = HasKeywordAbility.instance(DoubleStrike.class);
 				SetGenerator attackers = Attacking.instance();
 				SetGenerator blockers = Blocking.instance();
 				SetGenerator toCreate = Intersect.instance(Union.instance(firstStrike, doubleStrike), Union.instance(attackers, blockers));
@@ -269,28 +280,28 @@ public class Step implements Ownable
 		 */
 		COMBAT_DAMAGE(Phase.PhaseType.COMBAT)
 		{
-			public java.util.Map<GameObject, java.util.List<Target>> getLegalAttackAssignment(Game game, MagicSet attackers)
+			public Map<GameObject, List<Target>> getLegalAttackAssignment(Game game, MagicSet attackers)
 			{
-				java.util.Map<GameObject, java.util.List<Target>> assignment = new java.util.HashMap<GameObject, java.util.List<Target>>();
+				Map<GameObject, List<Target>> assignment = new HashMap<GameObject, List<Target>>();
 
-				MagicSet hasTrample = HasKeywordAbility.instance(org.rnd.jmagic.abilities.keywords.Trample.class).evaluate(game, null);
+				MagicSet hasTrample = HasKeywordAbility.instance(Trample.class).evaluate(game, null);
 
 				// Each entry in this map needs to be verified for rules
 				// regarding assignment ordering and trample damage
-				java.util.Map<Target, java.util.Set<Target>> makeSureTheseWereAssignedLethal = new java.util.HashMap<Target, java.util.Set<Target>>();
+				Map<Target, Set<Target>> makeSureTheseWereAssignedLethal = new HashMap<Target, Set<Target>>();
 
 				// Anything assigned damage from a source with deathtouch is
 				// considered to have been assigned lethal damage
-				java.util.List<GameObject> assignedFromDeathtouch = new java.util.LinkedList<GameObject>();
+				List<GameObject> assignedFromDeathtouch = new LinkedList<GameObject>();
 
 				// Each entry in this map needs to be verified for rules
 				// regarding objects which 'may assign combat damage as though
 				// unblocked'
-				java.util.Map<Target, java.util.Set<Target>> makeSureTheseWerentAssignedDamage = new java.util.HashMap<Target, java.util.Set<Target>>();
+				Map<Target, Set<Target>> makeSureTheseWerentAssignedDamage = new HashMap<Target, Set<Target>>();
 
 				// This is a map from the blocker's ID to the damage thats been
 				// assigned to it
-				java.util.Map<Integer, Integer> damageAssignedToBlocker = new java.util.HashMap<Integer, Integer>();
+				Map<Integer, Integer> damageAssignedToBlocker = new HashMap<Integer, Integer>();
 
 				for(GameObject attacker: attackers.getAll(GameObject.class))
 				{
@@ -311,7 +322,7 @@ public class Step implements Ownable
 							// make sure we have Set(List(items)), not
 							// Set(items)
 							MagicSet targetParameter = new MagicSet();
-							java.util.List<Target> assignTo = new java.util.LinkedList<Target>();
+							List<Target> assignTo = new LinkedList<Target>();
 							assignTo.add(new Target(beingAttacked));
 							targetParameter.add(assignTo);
 
@@ -324,7 +335,7 @@ public class Step implements Ownable
 						}
 						else
 						{
-							java.util.List<Target> assignTo = new java.util.LinkedList<Target>();
+							List<Target> assignTo = new LinkedList<Target>();
 							for(Integer i: attacker.getBlockedByIDs())
 							{
 								GameObject blocker = game.actualState.getByIDObject(i);
@@ -344,7 +355,7 @@ public class Step implements Ownable
 								defender = new Target(beingAttacked);
 
 								if(attacker.isDealDamageAsUnblocked())
-									makeSureTheseWerentAssignedDamage.put(defender, new java.util.HashSet<Target>(assignTo));
+									makeSureTheseWerentAssignedDamage.put(defender, new HashSet<Target>(assignTo));
 
 								assignTo.add(defender);
 							}
@@ -362,8 +373,8 @@ public class Step implements Ownable
 								assignDamage.perform(null, true);
 
 								attacker = attacker.getActual();
-								boolean hasDeathtouch = attacker.hasAbility(org.rnd.jmagic.abilities.keywords.Deathtouch.class);
-								java.util.Set<Target> previousAssignments = new java.util.HashSet<Target>();
+								boolean hasDeathtouch = attacker.hasAbility(Deathtouch.class);
+								Set<Target> previousAssignments = new HashSet<Target>();
 
 								// Add these assignments to the total damage
 								// assigned to each blocker. This is used to
@@ -376,7 +387,7 @@ public class Step implements Ownable
 										damageAssignedToBlocker.put(damageAssignment.targetID, damageAssignment.division);
 
 									if(!previousAssignments.isEmpty())
-										makeSureTheseWereAssignedLethal.put(damageAssignment, new java.util.HashSet<Target>(previousAssignments));
+										makeSureTheseWereAssignedLethal.put(damageAssignment, new HashSet<Target>(previousAssignments));
 									previousAssignments.add(damageAssignment);
 
 									if(hasDeathtouch && defender != damageAssignment)
@@ -396,7 +407,7 @@ public class Step implements Ownable
 				// damage to the defending player AND to a blocker, they
 				// don't pass this loop (but let the other loops check them
 				// if they exist there).
-				dealDamageAsThoughUnblockedChecking: for(java.util.Map.Entry<Target, java.util.Set<Target>> entry: makeSureTheseWerentAssignedDamage.entrySet())
+				dealDamageAsThoughUnblockedChecking: for(Map.Entry<Target, Set<Target>> entry: makeSureTheseWerentAssignedDamage.entrySet())
 				{
 					Target defender = entry.getKey();
 					if(defender.division > 0)
@@ -430,7 +441,7 @@ public class Step implements Ownable
 
 				// This loop ensures that damage assignment order is honored for
 				// blocking creatures.
-				for(java.util.Map.Entry<Target, java.util.Set<Target>> entry: makeSureTheseWereAssignedLethal.entrySet())
+				for(Map.Entry<Target, Set<Target>> entry: makeSureTheseWereAssignedLethal.entrySet())
 				{
 					// if the target was assigned any damage, make sure all
 					// the blockers were assigned fatal
@@ -461,21 +472,21 @@ public class Step implements Ownable
 				return assignment;
 			}
 
-			public java.util.Map<GameObject, java.util.List<Target>> getLegalBlockAssignment(Game game, MagicSet blockers)
+			public Map<GameObject, List<Target>> getLegalBlockAssignment(Game game, MagicSet blockers)
 			{
-				java.util.Map<GameObject, java.util.List<Target>> assignment = new java.util.HashMap<GameObject, java.util.List<Target>>();
+				Map<GameObject, List<Target>> assignment = new HashMap<GameObject, List<Target>>();
 
 				// Each entry in this map needs to be verified for rules
 				// regarding damage assignment order
-				java.util.Map<Target, java.util.Set<Target>> makeSureTheseWereAssignedLethal = new java.util.HashMap<Target, java.util.Set<Target>>();
+				Map<Target, Set<Target>> makeSureTheseWereAssignedLethal = new HashMap<Target, Set<Target>>();
 
 				// Anything assigned damage from a source with deathtouch is
 				// considered to have been assigned lethal damage
-				java.util.List<GameObject> assignedFromDeathtouch = new java.util.LinkedList<GameObject>();
+				List<GameObject> assignedFromDeathtouch = new LinkedList<GameObject>();
 
 				// This is a map from the blocker's ID to the damage thats been
 				// assigned to it
-				java.util.Map<Integer, Integer> damageAssignedToBlocker = new java.util.HashMap<Integer, Integer>();
+				Map<Integer, Integer> damageAssignedToBlocker = new HashMap<Integer, Integer>();
 
 				for(GameObject blocker: blockers.getAll(GameObject.class))
 				{
@@ -489,7 +500,7 @@ public class Step implements Ownable
 					if(blocker.getTypes().contains(Type.CREATURE) && damageAmount > 0)
 					{
 
-						java.util.List<Target> assignTo = new java.util.LinkedList<Target>();
+						List<Target> assignTo = new LinkedList<Target>();
 						for(Integer i: blocker.getBlockingIDs())
 						{
 							GameObject attacker = game.actualState.getByIDObject(i);
@@ -511,8 +522,8 @@ public class Step implements Ownable
 							assignDamage.perform(null, true);
 
 							blocker = blocker.getActual();
-							boolean hasDeathtouch = blocker.hasAbility(org.rnd.jmagic.abilities.keywords.Deathtouch.class);
-							java.util.Set<Target> previousAssignments = new java.util.HashSet<Target>();
+							boolean hasDeathtouch = blocker.hasAbility(Deathtouch.class);
+							Set<Target> previousAssignments = new HashSet<Target>();
 
 							// Add these assignments to the total damage
 							// assigned to each blocker. This is used to
@@ -525,7 +536,7 @@ public class Step implements Ownable
 									damageAssignedToBlocker.put(damageAssignment.targetID, damageAssignment.division);
 
 								if(!previousAssignments.isEmpty())
-									makeSureTheseWereAssignedLethal.put(damageAssignment, new java.util.HashSet<Target>(previousAssignments));
+									makeSureTheseWereAssignedLethal.put(damageAssignment, new HashSet<Target>(previousAssignments));
 								previousAssignments.add(damageAssignment);
 
 								if(hasDeathtouch)
@@ -538,7 +549,7 @@ public class Step implements Ownable
 
 				// The following loop does checking for legality of the various
 				// rules modifying ways to assign damage
-				for(java.util.Map.Entry<Target, java.util.Set<Target>> entry: makeSureTheseWereAssignedLethal.entrySet())
+				for(Map.Entry<Target, Set<Target>> entry: makeSureTheseWereAssignedLethal.entrySet())
 				{
 					// if the target was assigned any damage, make sure all
 					// other targets were assigned fatal
@@ -606,14 +617,14 @@ public class Step implements Ownable
 				// double-strike assign and deal damage
 				if(thisIsFirstStrike)
 				{
-					MagicSet firstStrike = HasKeywordAbility.instance(org.rnd.jmagic.abilities.keywords.FirstStrike.class).evaluate(game, null);
-					SetGenerator doubleStrike = HasKeywordAbility.instance(org.rnd.jmagic.abilities.keywords.DoubleStrike.class);
+					MagicSet firstStrike = HasKeywordAbility.instance(FirstStrike.class).evaluate(game, null);
+					SetGenerator doubleStrike = HasKeywordAbility.instance(DoubleStrike.class);
 					MagicSet hasStrikeAbility = Union.instance(Identity.instance(firstStrike), doubleStrike).evaluate(game, null);
 
 					attackers = Intersect.get(attackers, hasStrikeAbility);
 					blockers = Intersect.get(blockers, hasStrikeAbility);
 
-					step.creaturesWithFirstStrike = new java.util.HashSet<Integer>();
+					step.creaturesWithFirstStrike = new HashSet<Integer>();
 					for(GameObject o: firstStrike.getAll(GameObject.class))
 						step.creaturesWithFirstStrike.add(o.ID);
 				}
@@ -628,23 +639,23 @@ public class Step implements Ownable
 					MagicSet firstStrike = new MagicSet();
 					for(Integer i: previousCombatStep.creaturesWithFirstStrike)
 						firstStrike.add(game.actualState.get(i));
-					MagicSet creaturesToRemove = RelativeComplement.get(firstStrike, HasKeywordAbility.instance(org.rnd.jmagic.abilities.keywords.DoubleStrike.class).evaluate(game, null));
+					MagicSet creaturesToRemove = RelativeComplement.get(firstStrike, HasKeywordAbility.instance(DoubleStrike.class).evaluate(game, null));
 					attackers = RelativeComplement.get(attackers, creaturesToRemove);
 					blockers = RelativeComplement.get(blockers, creaturesToRemove);
 				}
 
-				java.util.Map<GameObject, java.util.List<Target>> attackingAssignment;
+				Map<GameObject, List<Target>> attackingAssignment;
 				while((attackingAssignment = getLegalAttackAssignment(game, attackers)) == null)
 				{
 					// TODO : notify the player that they messed up and the
 					// division is restarting
 				}
 
-				for(java.util.Map.Entry<GameObject, java.util.List<Target>> entry: attackingAssignment.entrySet())
+				for(Map.Entry<GameObject, List<Target>> entry: attackingAssignment.entrySet())
 				{
 					// Remove all zero-damage assignments
-					java.util.Set<Target> toRemove = new java.util.HashSet<Target>();
-					java.util.List<Target> assignments = entry.getValue();
+					Set<Target> toRemove = new HashSet<Target>();
+					List<Target> assignments = entry.getValue();
 					for(Target damageAssignment: assignments)
 						if(damageAssignment.division == 0)
 							toRemove.add(damageAssignment);
@@ -667,7 +678,7 @@ public class Step implements Ownable
 					}
 				}
 
-				java.util.Map<Player, java.util.Set<GameObject>> blockersByController = new java.util.HashMap<Player, java.util.Set<GameObject>>();
+				Map<Player, Set<GameObject>> blockersByController = new HashMap<Player, Set<GameObject>>();
 
 				for(GameObject o: blockers.getAll(GameObject.class))
 				{
@@ -678,26 +689,26 @@ public class Step implements Ownable
 						blockersByController.get(controller).add(o);
 					else
 					{
-						java.util.HashSet<GameObject> controlled = new java.util.HashSet<GameObject>();
+						HashSet<GameObject> controlled = new HashSet<GameObject>();
 						controlled.add(o);
 						blockersByController.put(controller, controlled);
 					}
 				}
 
-				java.util.Map<GameObject, java.util.List<Target>> blockingAssignment = new java.util.HashMap<GameObject, java.util.List<Target>>();
-				for(java.util.Set<GameObject> onePlayersBlockers: blockersByController.values())
+				Map<GameObject, List<Target>> blockingAssignment = new HashMap<GameObject, List<Target>>();
+				for(Set<GameObject> onePlayersBlockers: blockersByController.values())
 					while((blockingAssignment = getLegalBlockAssignment(game, new MagicSet(onePlayersBlockers))) == null)
 					{
 						// continue until you get a legal assignment
 					}
 
-				for(java.util.Map.Entry<GameObject, java.util.List<Target>> block: blockingAssignment.entrySet())
+				for(Map.Entry<GameObject, List<Target>> block: blockingAssignment.entrySet())
 				{
 					GameObject object = block.getKey().getActual();
 
 					// Remove all zero-damage assignments
-					java.util.Set<Target> toRemove = new java.util.HashSet<Target>();
-					java.util.List<Target> assignments = block.getValue();
+					Set<Target> toRemove = new HashSet<Target>();
+					List<Target> assignments = block.getValue();
 					for(Target damageAssignment: assignments)
 						if(damageAssignment.division == 0)
 							toRemove.add(damageAssignment);
@@ -895,7 +906,7 @@ public class Step implements Ownable
 	 * the first strike combat damage step began, so it will store it in here
 	 * for later reference. Apologies to all non-combat steps.
 	 */
-	public java.util.Set<Integer> creaturesWithFirstStrike;
+	public Set<Integer> creaturesWithFirstStrike;
 
 	/**
 	 * @param owner Whose step is being made.

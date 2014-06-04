@@ -2,6 +2,7 @@ package org.rnd.jmagic.cardTemplates;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.TapForMana;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -68,7 +69,7 @@ public abstract class VividLand extends Card
 
 		this.addAbility(new Charged(state, this.getName()));
 
-		this.addAbility(new org.rnd.jmagic.abilities.TapForMana.Final(state, "(" + color.getLetter() + ")"));
+		this.addAbility(new TapForMana.Final(state, "(" + color.getLetter() + ")"));
 
 		this.addAbility(new VividMana(state, this.getName()));
 	}

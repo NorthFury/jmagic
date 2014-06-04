@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 
 @Name("Broodmate Dragon")
@@ -21,7 +23,7 @@ public final class BroodmateDragon extends Card
 			CreateTokensFactory token = new CreateTokensFactory(1, 4, 4, "Put a 4/4 red Dragon creature token with flying onto the battlefield.");
 			token.setColors(Color.RED);
 			token.setSubTypes(SubType.DRAGON);
-			token.addAbility(org.rnd.jmagic.abilities.keywords.Flying.class);
+			token.addAbility(Flying.class);
 			this.addEffect(token.getEventFactory());
 		}
 	}
@@ -34,7 +36,7 @@ public final class BroodmateDragon extends Card
 		this.setToughness(4);
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// When Broodmate Dragon enters the battlefield, put a 4/4 red Dragon
 		// creature token with flying onto the battlefield.

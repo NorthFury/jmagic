@@ -1,10 +1,13 @@
 package org.rnd.util;
 
+import java.io.Serializable;
+import java.util.Comparator;
+
 /**
  * Compare objects based on their String representations. If their string
  * representations are identical, compares their hash codes.
  */
-public class CompareOnToString<T> implements java.util.Comparator<T>, java.io.Serializable
+public class CompareOnToString<T> implements Comparator<T>, Serializable
 {
 	private static final long serialVersionUID = 1L;
 

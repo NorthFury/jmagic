@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Fear;
+import org.rnd.jmagic.abilities.keywords.TypeCycling;
 import org.rnd.jmagic.engine.*;
 
 @Name("Jhessian Zombies")
@@ -24,9 +26,9 @@ public final class JhessianZombies extends Card
 		// your library for an Island or Swamp card, reveal it, and put it into
 		// your hand. Then shuffle your library.)
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Fear(state));
+		this.addAbility(new Fear(state));
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.TypeCycling.IslandCycling(state, "(2)"));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.TypeCycling.SwampCycling(state, "(2)"));
+		this.addAbility(new TypeCycling.IslandCycling(state, "(2)"));
+		this.addAbility(new TypeCycling.SwampCycling(state, "(2)"));
 	}
 }

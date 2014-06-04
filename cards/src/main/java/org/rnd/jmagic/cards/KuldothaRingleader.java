@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.AttacksEachTurnIfAble;
+import org.rnd.jmagic.abilities.keywords.BattleCry;
 import org.rnd.jmagic.engine.*;
 
 @Name("Kuldotha Ringleader")
@@ -19,9 +21,9 @@ public final class KuldothaRingleader extends Card
 
 		// Battle cry (Whenever this creature attacks, each other attacking
 		// creature gets +1/+0 until end of turn.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.BattleCry(state));
+		this.addAbility(new BattleCry(state));
 
 		// Kuldotha Ringleader attacks each turn if able.
-		this.addAbility(new org.rnd.jmagic.abilities.AttacksEachTurnIfAble(state, this.getName()));
+		this.addAbility(new AttacksEachTurnIfAble(state, this.getName()));
 	}
 }

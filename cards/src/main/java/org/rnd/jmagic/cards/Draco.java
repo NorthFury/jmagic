@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -56,7 +58,7 @@ public final class Draco extends Card
 		this.addAbility(new DracoAbility0(state));
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// Domain \u2014 At the beginning of your upkeep, sacrifice Draco unless
 		// you pay (10). This cost is reduced by (2) for each basic land type

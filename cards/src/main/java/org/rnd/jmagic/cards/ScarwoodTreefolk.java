@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.EntersTheBattlefieldTapped;
 import org.rnd.jmagic.engine.*;
 
 @Name("Scarwood Treefolk")
@@ -17,6 +18,6 @@ public final class ScarwoodTreefolk extends Card
 		this.setPower(3);
 		this.setToughness(5);
 
-		this.addAbility(new org.rnd.jmagic.abilities.EntersTheBattlefieldTapped(state, this.getName()));
+		this.addAbility(new EntersTheBattlefieldTapped(state, this.getName()));
 	}
 }

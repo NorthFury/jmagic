@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Splice;
 import org.rnd.jmagic.engine.*;
 
 @Name("Desperate Ritual")
@@ -21,6 +23,6 @@ public final class DesperateRitual extends Card
 		// Splice onto Arcane (1)(R) (As you cast an Arcane spell, you may
 		// reveal this card from your hand and pay its splice cost. If you do,
 		// add this card's effects to that spell.)
-		this.addAbility(org.rnd.jmagic.abilities.keywords.Splice.ontoArcane(state, "(1)(R)"));
+		this.addAbility(Splice.ontoArcane(state, "(1)(R)"));
 	}
 }

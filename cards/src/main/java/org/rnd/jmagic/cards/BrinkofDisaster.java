@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Enchant;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -29,7 +31,7 @@ public final class BrinkofDisaster extends Card
 		}
 	}
 
-	public static final class EnchantCreatureOrLand extends org.rnd.jmagic.abilities.keywords.Enchant
+	public static final class EnchantCreatureOrLand extends Enchant
 	{
 		public EnchantCreatureOrLand(GameState state)
 		{

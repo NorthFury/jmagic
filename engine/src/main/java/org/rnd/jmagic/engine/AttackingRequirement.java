@@ -1,5 +1,8 @@
 package org.rnd.jmagic.engine;
 
+import java.util.Map;
+import java.util.Set;
+
 public class AttackingRequirement
 {
 	private int attackingID;
@@ -61,14 +64,14 @@ public class AttackingRequirement
 			if(-1 != attacker.getAttackingID())
 				return true;
 
-			java.util.Map<Integer, java.util.Set<Integer>> successfullyAttacked = state.getTracker(SuccessfullyAttacked.class).getValue(state);
+			Map<Integer, Set<Integer>> successfullyAttacked = state.getTracker(SuccessfullyAttacked.class).getValue(state);
 			return (successfullyAttacked.containsKey(attacker.ID)) && !(successfullyAttacked.get(attacker.ID).isEmpty());
 		}
 
 		if(this.whoToAttackID == attacker.getAttackingID())
 			return true;
 
-		java.util.Map<Integer, java.util.Set<Integer>> successfullyAttacked = state.getTracker(SuccessfullyAttacked.class).getValue(state);
+		Map<Integer, Set<Integer>> successfullyAttacked = state.getTracker(SuccessfullyAttacked.class).getValue(state);
 		return (successfullyAttacked.containsKey(attacker.ID)) && successfullyAttacked.get(attacker.ID).contains(this.whoToAttackID);
 	}
 }

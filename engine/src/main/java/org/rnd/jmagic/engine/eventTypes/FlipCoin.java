@@ -3,6 +3,11 @@ package org.rnd.jmagic.engine.eventTypes;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.Arrays;
+import java.util.Map;
+import java.util.Random;
+import java.util.Set;
+
 public final class FlipCoin extends EventType
 {	public static final EventType INSTANCE = new FlipCoin();
 
@@ -11,7 +16,7 @@ public final class FlipCoin extends EventType
 		super("FLIP_COIN");
 	}
 
-	private final java.util.Random generator = new java.util.Random();
+	private final Random generator = new Random();
 
 	@Override
 	public Parameter affects()
@@ -20,12 +25,12 @@ public final class FlipCoin extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		Answer[] possibleResults = {Answer.WIN, Answer.LOSE};
 		if(parameters.containsKey(Parameter.TYPE))
 		{
-			java.util.Set<Answer> typeParameter = parameters.get(Parameter.TYPE).getAll(Answer.class);
+			Set<Answer> typeParameter = parameters.get(Parameter.TYPE).getAll(Answer.class);
 			if(typeParameter.size() != 2)
 				throw new UnsupportedOperationException("Coin flip type " + typeParameter + " does not contain exactly two Answer objects!");
 			possibleResults = typeParameter.toArray(possibleResults);
@@ -35,7 +40,7 @@ public final class FlipCoin extends EventType
 		if(game.noRandom)
 		{
 			Player player = parameters.get(Parameter.PLAYER).getOne(Player.class);
-			flipResult = player.choose(1, java.util.Arrays.asList(possibleResults), PlayerInterface.ChoiceType.COIN_FLIP, PlayerInterface.ChooseReason.MANIPULATE_COIN_FLIP).get(0);
+			flipResult = player.choose(1, Arrays.asList(possibleResults), PlayerInterface.ChoiceType.COIN_FLIP, PlayerInterface.ChooseReason.MANIPULATE_COIN_FLIP).get(0);
 		}
 
 		event.setResult(Identity.instance(flipResult));

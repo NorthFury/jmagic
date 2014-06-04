@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Unearth;
 import org.rnd.jmagic.engine.*;
 
 @Name("Etherium Abomination")
@@ -17,6 +18,6 @@ public final class EtheriumAbomination extends Card
 		this.setPower(4);
 		this.setToughness(3);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Unearth(state, "(1)(U)(B)"));
+		this.addAbility(new Unearth(state, "(1)(U)(B)"));
 	}
 }

@@ -3,6 +3,14 @@ package org.rnd.jmagic.engine.eventTypes;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
 public final class MulliganSimultaneous extends EventType
 {	public static final EventType INSTANCE = new MulliganSimultaneous();
 
@@ -18,17 +26,17 @@ public final class MulliganSimultaneous extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		boolean ret = true;
 
-		java.util.List<Player> orderedPlayers = new java.util.LinkedList<Player>(game.physicalState.players);
+		List<Player> orderedPlayers = new LinkedList<Player>(game.physicalState.players);
 		orderedPlayers.retainAll(parameters.get(Parameter.PLAYER).getAll(Player.class));
 
-		java.util.Iterator<Player> iter = orderedPlayers.iterator();
+		Iterator<Player> iter = orderedPlayers.iterator();
 		// keys are player ids, values are event ids (no entry in the map
 		// means that the player chose to keep)
-		java.util.Map<Integer, Integer> mulligans = new java.util.HashMap<Integer, Integer>();
+		Map<Integer, Integer> mulligans = new HashMap<Integer, Integer>();
 		while(iter.hasNext())
 		{
 			Player player = iter.next();
@@ -36,7 +44,7 @@ public final class MulliganSimultaneous extends EventType
 
 			if(!keep)
 			{
-				java.util.Map<Parameter, MagicSet> mulliganParameters = new java.util.HashMap<Parameter, MagicSet>();
+				Map<Parameter, MagicSet> mulliganParameters = new HashMap<Parameter, MagicSet>();
 				mulliganParameters.put(EventType.Parameter.PLAYER, new MagicSet(player));
 				Event mulligan = createEvent(game, "Mulligan", EventType.MULLIGAN, mulliganParameters);
 
@@ -54,12 +62,12 @@ public final class MulliganSimultaneous extends EventType
 				// to take a mulligan.
 				while(!(keep || mulligans.containsKey(player.ID)))
 				{
-					java.util.Collection<Event> choices = new java.util.HashSet<Event>();
+					Collection<Event> choices = new HashSet<Event>();
 					choices.add(mulligan);
-					for(java.util.Map.Entry<Integer, EventFactory> e: player.getActual().mulliganOptions.entrySet())
+					for(Map.Entry<Integer, EventFactory> e: player.getActual().mulliganOptions.entrySet())
 						choices.add(e.getValue().createEvent(game, game.actualState.<GameObject>get(e.getKey())));
 
-					java.util.List<Event> chosen = player.sanitizeAndChoose(game.physicalState, 0, 1, choices, PlayerInterface.ChoiceType.EVENT, PlayerInterface.ChooseReason.MULLIGAN);
+					List<Event> chosen = player.sanitizeAndChoose(game.physicalState, 0, 1, choices, PlayerInterface.ChoiceType.EVENT, PlayerInterface.ChooseReason.MULLIGAN);
 
 					if(chosen.isEmpty())
 						keep = true;

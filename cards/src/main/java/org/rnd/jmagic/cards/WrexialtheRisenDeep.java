@@ -1,8 +1,14 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Landwalk;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+import org.rnd.jmagic.engine.patterns.SimpleZoneChangePattern;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Name("Wrexial, the Risen Deep")
 @SuperTypes({SuperType.LEGENDARY})
@@ -29,11 +35,11 @@ public final class WrexialtheRisenDeep extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			MagicSet cause = parameters.get(Parameter.CAUSE);
 
-			java.util.Map<EventType.Parameter, MagicSet> castParameters = new java.util.HashMap<EventType.Parameter, MagicSet>();
+			Map<EventType.Parameter, MagicSet> castParameters = new HashMap<EventType.Parameter, MagicSet>();
 			castParameters.put(Parameter.CAUSE, cause);
 			castParameters.put(Parameter.PLAYER, parameters.get(Parameter.PLAYER));
 			castParameters.put(Parameter.OBJECT, parameters.get(Parameter.OBJECT));
@@ -45,7 +51,7 @@ public final class WrexialtheRisenDeep extends Card
 			MagicSet thatCard = cast.getResult();
 
 			ZoneChangeReplacementEffect replacement = new ZoneChangeReplacementEffect(game, "If that card would be put into a graveyard this turn, exile it instead.");
-			replacement.addPattern(new org.rnd.jmagic.engine.patterns.SimpleZoneChangePattern(Stack.instance(), aGraveyard, cast.getResultGenerator(), true));
+			replacement.addPattern(new SimpleZoneChangePattern(Stack.instance(), aGraveyard, cast.getResultGenerator(), true));
 			replacement.changeDestination(ExileZone.instance());
 
 			EventFactory replaceFactory = createFloatingReplacement(replacement, "If that card would be put into a graveyard this turn, exile it instead.");
@@ -88,8 +94,8 @@ public final class WrexialtheRisenDeep extends Card
 		this.setToughness(8);
 
 		// Islandwalk, swampwalk
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Landwalk.Islandwalk(state));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Landwalk.Swampwalk(state));
+		this.addAbility(new Landwalk.Islandwalk(state));
+		this.addAbility(new Landwalk.Swampwalk(state));
 
 		// Whenever Wrexial, the Risen Deep deals combat damage to a player, you
 		// may cast target instant or sorcery card from that player's graveyard

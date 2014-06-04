@@ -3,6 +3,9 @@ package org.rnd.jmagic.engine.eventTypes;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.List;
+import java.util.Map;
+
 public final class AssignCombatDamage extends EventType
 {	public static final EventType INSTANCE = new AssignCombatDamage();
 
@@ -19,7 +22,7 @@ public final class AssignCombatDamage extends EventType
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		event.setResult(Empty.set);
 
@@ -31,7 +34,7 @@ public final class AssignCombatDamage extends EventType
 			amount = assigning.getToughness();
 		amount = Math.max(amount, 0);
 
-		java.util.List<Target> assignTo = parameters.get(Parameter.TARGET).getOne(java.util.List.class);
+		List<Target> assignTo = parameters.get(Parameter.TARGET).getOne(List.class);
 
 		if(amount == 0)
 			for(Target t: assignTo)

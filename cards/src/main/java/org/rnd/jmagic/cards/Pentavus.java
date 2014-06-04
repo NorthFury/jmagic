@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.EntersTheBattlefieldWithCounters;
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -23,7 +26,7 @@ public final class Pentavus extends Card
 			CreateTokensFactory f = new CreateTokensFactory(1, 1, 1, "Put a 1/1 colorless Pentavite artifact creature token with flying onto the battlefield.");
 			f.setSubTypes(SubType.PENTAVITE);
 			f.setArtifact();
-			f.addAbility(org.rnd.jmagic.abilities.keywords.Flying.class);
+			f.addAbility(Flying.class);
 			this.addEffect(f.getEventFactory());
 		}
 	}
@@ -47,7 +50,7 @@ public final class Pentavus extends Card
 		this.setToughness(0);
 
 		// Pentavus enters the battlefield with five +1/+1 counters on it.
-		this.addAbility(new org.rnd.jmagic.abilities.EntersTheBattlefieldWithCounters(state, this.getName(), 5, Counter.CounterType.PLUS_ONE_PLUS_ONE));
+		this.addAbility(new EntersTheBattlefieldWithCounters(state, this.getName(), 5, Counter.CounterType.PLUS_ONE_PLUS_ONE));
 
 		// (1), Remove a +1/+1 counter from Pentavus: Put a 1/1 colorless
 		// Pentavite artifact creature token with flying onto the battlefield.

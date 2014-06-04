@@ -3,8 +3,17 @@ package org.rnd.jmagic.testing;
 import org.junit.*;
 import static org.junit.Assert.*;
 
+import org.rnd.jmagic.cardTemplates.FetchLand;
 import org.rnd.jmagic.cards.*;
+import org.rnd.jmagic.comms.StreamPlayer;
 import org.rnd.jmagic.engine.*;
+import org.rnd.util.ChannelRouter;
+
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.nio.channels.Pipe;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class SerializingTest extends JUnitTest
 {
@@ -47,7 +56,7 @@ public class SerializingTest extends JUnitTest
 		pass();
 		pass();
 
-		respondWith(getAbilityAction(org.rnd.jmagic.cardTemplates.FetchLand.Fetch.class));
+		respondWith(getAbilityAction(FetchLand.Fetch.class));
 		pass();
 		pass();
 		respondWith(pullChoice(Forest.class));
@@ -242,17 +251,17 @@ public class SerializingTest extends JUnitTest
 	}
 
 	@Test
-	public void serializable() throws ClassNotFoundException, java.io.IOException, InterruptedException
+	public void serializable() throws ClassNotFoundException, IOException, InterruptedException
 	{
-		final java.nio.channels.Pipe gameToPlayerOne = java.nio.channels.Pipe.open();
-		final java.nio.channels.Pipe gameToPlayerTwo = java.nio.channels.Pipe.open();
-		final java.nio.channels.Pipe playerOneToGame = java.nio.channels.Pipe.open();
-		final java.nio.channels.Pipe playerTwoToGame = java.nio.channels.Pipe.open();
+		final Pipe gameToPlayerOne = Pipe.open();
+		final Pipe gameToPlayerTwo = Pipe.open();
+		final Pipe playerOneToGame = Pipe.open();
+		final Pipe playerTwoToGame = Pipe.open();
 
 		final PlayerInterface playerOneTest = createInterface(AridMesa.class, AridMesa.class, AridMesa.class, AridMesa.class, ScaldingTarn.class, ScaldingTarn.class, ScaldingTarn.class, ScaldingTarn.class, VerdantCatacombs.class, VerdantCatacombs.class, VerdantCatacombs.class, Forest.class, Mountain.class, Plains.class, SacredFoundry.class, SacredFoundry.class, StompingGround.class, StompingGround.class, StompingGround.class, TempleGarden.class, TreetopVillage.class, KirdApe.class, KirdApe.class, KirdApe.class, KirdApe.class, SteppeLynx.class, SteppeLynx.class, SteppeLynx.class, WildNacatl.class, WildNacatl.class, WildNacatl.class, WildNacatl.class, Tarmogoyf.class, Tarmogoyf.class, Tarmogoyf.class, PlatedGeopede.class, PlatedGeopede.class, PlatedGeopede.class, PlatedGeopede.class, KnightoftheReliquary.class, KnightoftheReliquary.class, LightningBolt.class, LightningBolt.class, LightningBolt.class, LightningBolt.class, LightningHelix.class, LightningHelix.class, LightningHelix.class, LightningHelix.class, MoltenRain.class, MoltenRain.class, MoltenRain.class, MoltenRain.class, PathtoExile.class, PathtoExile.class, PathtoExile.class, Tarmogoyf.class, SteppeLynx.class, SacredFoundry.class, VerdantCatacombs.class);
 		final PlayerInterface playerTwoTest = createInterface(Island.class, Island.class, Island.class, Island.class, Island.class, Island.class, Island.class, Island.class, Island.class, Island.class, FloodedStrand.class, FloodedStrand.class, FloodedStrand.class, PollutedDelta.class, PollutedDelta.class, PollutedDelta.class, Brainstorm.class, Brainstorm.class, Brainstorm.class, Brainstorm.class, CrypticCommand.class, CrypticCommand.class, CrypticCommand.class, CrypticCommand.class, FlashofInsight.class, FlashofInsight.class, FlashofInsight.class, FlashofInsight.class, Impulse.class, Impulse.class, Impulse.class, Impulse.class, Meditate.class, Meditate.class, Opt.class, Opt.class, Opt.class, Peek.class, Reset.class, Reset.class, Turnabout.class, Turnabout.class, Turnabout.class, Disrupt.class, Disrupt.class, Disrupt.class, Remand.class, Remand.class, BrainFreeze.class, Remand.class, BrainFreeze.class, Meditate.class, HighTide.class, HighTide.class, HighTide.class, Reset.class, Reset.class, Island.class, HighTide.class, Island.class);
 
-		final java.util.concurrent.atomic.AtomicReference<Exception> playerOneException = new java.util.concurrent.atomic.AtomicReference<Exception>();
+		final AtomicReference<Exception> playerOneException = new AtomicReference<Exception>();
 		Thread playerOne = new Thread("PlayerOne")
 		{
 			@Override
@@ -263,12 +272,12 @@ public class SerializingTest extends JUnitTest
 					// Always create the output stream first and flush it before
 					// creating the input stream so a stream header is
 					// immediately available
-					java.io.ObjectOutputStream out = org.rnd.util.ChannelRouter.wrapChannelInObjectOutputStream(playerOneToGame.sink());
+					ObjectOutputStream out = ChannelRouter.wrapChannelInObjectOutputStream(playerOneToGame.sink());
 					out.flush();
 
-					java.io.ObjectInputStream in = org.rnd.util.ChannelRouter.wrapChannelInObjectInputStream(gameToPlayerOne.source());
+					ObjectInputStream in = ChannelRouter.wrapChannelInObjectInputStream(gameToPlayerOne.source());
 
-					org.rnd.jmagic.comms.StreamPlayer.run(in, out, playerOneTest);
+					StreamPlayer.run(in, out, playerOneTest);
 				}
 				catch(Game.InterruptedGameException e)
 				{
@@ -279,7 +288,7 @@ public class SerializingTest extends JUnitTest
 				{
 					playerOneException.set(e);
 				}
-				catch(java.io.IOException e)
+				catch(IOException e)
 				{
 					playerOneException.set(e);
 				}
@@ -287,7 +296,7 @@ public class SerializingTest extends JUnitTest
 		};
 		playerOne.start();
 
-		final java.util.concurrent.atomic.AtomicReference<Exception> playerTwoException = new java.util.concurrent.atomic.AtomicReference<Exception>();
+		final AtomicReference<Exception> playerTwoException = new AtomicReference<Exception>();
 		Thread playerTwo = new Thread("PlayerTwo")
 		{
 			@Override
@@ -298,12 +307,12 @@ public class SerializingTest extends JUnitTest
 					// Always create the output stream first and flush it before
 					// creating the input stream so a stream header is
 					// immediately available
-					java.io.ObjectOutputStream out = org.rnd.util.ChannelRouter.wrapChannelInObjectOutputStream(playerTwoToGame.sink());
+					ObjectOutputStream out = ChannelRouter.wrapChannelInObjectOutputStream(playerTwoToGame.sink());
 					out.flush();
 
-					java.io.ObjectInputStream in = org.rnd.util.ChannelRouter.wrapChannelInObjectInputStream(gameToPlayerTwo.source());
+					ObjectInputStream in = ChannelRouter.wrapChannelInObjectInputStream(gameToPlayerTwo.source());
 
-					org.rnd.jmagic.comms.StreamPlayer.run(in, out, playerTwoTest);
+					StreamPlayer.run(in, out, playerTwoTest);
 				}
 				catch(Game.InterruptedGameException e)
 				{
@@ -314,7 +323,7 @@ public class SerializingTest extends JUnitTest
 				{
 					playerTwoException.set(e);
 				}
-				catch(java.io.IOException e)
+				catch(IOException e)
 				{
 					playerTwoException.set(e);
 				}
@@ -325,22 +334,22 @@ public class SerializingTest extends JUnitTest
 		// Always create the output stream first and flush it before
 		// creating the input stream so a stream header is immediately
 		// available
-		java.io.ObjectOutputStream out = org.rnd.util.ChannelRouter.wrapChannelInObjectOutputStream(gameToPlayerOne.sink());
+		ObjectOutputStream out = ChannelRouter.wrapChannelInObjectOutputStream(gameToPlayerOne.sink());
 		out.flush();
 
-		java.io.ObjectInputStream in = org.rnd.util.ChannelRouter.wrapChannelInObjectInputStream(playerOneToGame.source());
+		ObjectInputStream in = ChannelRouter.wrapChannelInObjectInputStream(playerOneToGame.source());
 
-		addInterface(new org.rnd.jmagic.comms.StreamPlayer(in, out));
+		addInterface(new StreamPlayer(in, out));
 
 		// Always create the output stream first and flush it before
 		// creating the input stream so a stream header is immediately
 		// available
-		out = org.rnd.util.ChannelRouter.wrapChannelInObjectOutputStream(gameToPlayerTwo.sink());
+		out = ChannelRouter.wrapChannelInObjectOutputStream(gameToPlayerTwo.sink());
 		out.flush();
 
-		in = org.rnd.util.ChannelRouter.wrapChannelInObjectInputStream(playerTwoToGame.source());
+		in = ChannelRouter.wrapChannelInObjectInputStream(playerTwoToGame.source());
 
-		addInterface(new org.rnd.jmagic.comms.StreamPlayer(in, out));
+		addInterface(new StreamPlayer(in, out));
 
 		// Change "false" to "true" here to run a stress-test
 		this.common(false);
@@ -352,8 +361,8 @@ public class SerializingTest extends JUnitTest
 		{
 			if(e instanceof ClassNotFoundException)
 				throw (ClassNotFoundException)e;
-			else if(e instanceof java.io.IOException)
-				throw (java.io.IOException)e;
+			else if(e instanceof IOException)
+				throw (IOException)e;
 			else
 				fail("Player one thread threw unexpected exception " + e);
 		}
@@ -365,8 +374,8 @@ public class SerializingTest extends JUnitTest
 		{
 			if(e instanceof ClassNotFoundException)
 				throw (ClassNotFoundException)e;
-			else if(e instanceof java.io.IOException)
-				throw (java.io.IOException)e;
+			else if(e instanceof IOException)
+				throw (IOException)e;
 			else
 				fail("Player one thread threw unexpected exception " + e);
 		}

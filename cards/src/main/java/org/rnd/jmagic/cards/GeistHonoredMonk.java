@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Vigilance;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -33,7 +36,7 @@ public final class GeistHonoredMonk extends Card
 			CreateTokensFactory factory = new CreateTokensFactory(2, 1, 1, "Put two 1/1 white Spirit creature tokens with flying onto the battlefield.");
 			factory.setColors(Color.WHITE);
 			factory.setSubTypes(SubType.SPIRIT);
-			factory.addAbility(org.rnd.jmagic.abilities.keywords.Flying.class);
+			factory.addAbility(Flying.class);
 			this.addEffect(factory.getEventFactory());
 		}
 	}
@@ -46,7 +49,7 @@ public final class GeistHonoredMonk extends Card
 		this.setToughness(0);
 
 		// Vigilance
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Vigilance(state));
+		this.addAbility(new Vigilance(state));
 
 		// Geist-Honored Monk's power and toughness are each equal to the number
 		// of creatures you control.

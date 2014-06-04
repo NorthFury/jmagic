@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Defender;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -18,7 +20,7 @@ public final class StalwartShieldBearers extends Card
 		{
 			super(state, "Other creatures you control with defender get +0/+2.");
 
-			SetGenerator defenders = Intersect.instance(CREATURES_YOU_CONTROL, HasKeywordAbility.instance(org.rnd.jmagic.abilities.keywords.Defender.class));
+			SetGenerator defenders = Intersect.instance(CREATURES_YOU_CONTROL, HasKeywordAbility.instance(Defender.class));
 			SetGenerator otherDefenders = RelativeComplement.instance(defenders, This.instance());
 			this.addEffectPart(modifyPowerAndToughness(otherDefenders, +0, +2));
 		}
@@ -32,7 +34,7 @@ public final class StalwartShieldBearers extends Card
 		this.setToughness(3);
 
 		// Defender
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Defender(state));
+		this.addAbility(new Defender(state));
 
 		// Other creatures you control with defender get +0/+2.
 		this.addAbility(new StalwartShieldBearersAbility1(state));

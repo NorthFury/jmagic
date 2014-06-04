@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Enchant;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -33,7 +35,7 @@ public final class ComaVeil extends Card
 
 		// Enchant artifact or creature
 		SetGenerator artifactOrCreature = Intersect.instance(CreaturePermanents.instance(), ArtifactPermanents.instance());
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Enchant.Final(state, "artifact or creature", artifactOrCreature));
+		this.addAbility(new Enchant.Final(state, "artifact or creature", artifactOrCreature));
 
 		// Enchanted permanent doesn't untap during its controller's untap step.
 		this.addAbility(new ComaVeilAbility1(state));

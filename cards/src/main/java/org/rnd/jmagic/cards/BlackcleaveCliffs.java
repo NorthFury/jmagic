@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.ScarsTappedLandAbility;
+import org.rnd.jmagic.abilities.TapForMana;
 import org.rnd.jmagic.engine.*;
 
 @Name("Blackcleave Cliffs")
@@ -14,9 +16,9 @@ public final class BlackcleaveCliffs extends Card
 
 		// Blackcleave Cliffs enters the battlefield tapped unless you control
 		// two or fewer other lands.
-		this.addAbility(new org.rnd.jmagic.abilities.ScarsTappedLandAbility(state, "Blackcleave Cliffs"));
+		this.addAbility(new ScarsTappedLandAbility(state, "Blackcleave Cliffs"));
 
 		// (T): Add (B) or (R) to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapForMana.Final(state, "(BR)"));
+		this.addAbility(new TapForMana.Final(state, "(BR)"));
 	}
 }

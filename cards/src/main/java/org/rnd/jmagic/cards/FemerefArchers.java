@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -21,7 +22,7 @@ public final class FemerefArchers extends Card
 
 			this.costsTap = true;
 
-			Target target = this.addTarget(Intersect.instance(Intersect.instance(Attacking.instance(), CreaturePermanents.instance()), HasKeywordAbility.instance(org.rnd.jmagic.abilities.keywords.Flying.class)), "target attacking creature with flying");
+			Target target = this.addTarget(Intersect.instance(Intersect.instance(Attacking.instance(), CreaturePermanents.instance()), HasKeywordAbility.instance(Flying.class)), "target attacking creature with flying");
 
 			this.addEffect(permanentDealDamage(4, targetedBy(target), "Femeref Archers deals 4 damage to target attacking creature with flying."));
 		}

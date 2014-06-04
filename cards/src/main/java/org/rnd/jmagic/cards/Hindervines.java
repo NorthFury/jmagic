@@ -3,6 +3,9 @@ package org.rnd.jmagic.cards;
 import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 
+import java.util.Collections;
+import java.util.List;
+
 @Name("Hindervines")
 @Types({Type.INSTANT})
 @ManaCost("2G")
@@ -34,10 +37,10 @@ public final class Hindervines extends Card
 		}
 
 		@Override
-		public java.util.List<EventFactory> prevent(DamageAssignment.Batch damageAssignments)
+		public List<EventFactory> prevent(DamageAssignment.Batch damageAssignments)
 		{
 			damageAssignments.clear();
-			return java.util.Collections.emptyList();
+			return Collections.emptyList();
 		}
 	}
 

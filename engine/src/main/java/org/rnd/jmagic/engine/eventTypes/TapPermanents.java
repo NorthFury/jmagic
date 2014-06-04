@@ -3,6 +3,9 @@ package org.rnd.jmagic.engine.eventTypes;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public final class TapPermanents extends EventType
 {	public static final EventType INSTANCE = new TapPermanents();
 
@@ -18,7 +21,7 @@ public final class TapPermanents extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean attempt(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		for(GameObject object: parameters.get(Parameter.OBJECT).getAll(GameObject.class))
 			if(object.isTapped())
@@ -28,14 +31,14 @@ public final class TapPermanents extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		MagicSet result = new MagicSet();
 
 		boolean allTapped = true;
 		for(GameObject actualObject: parameters.get(Parameter.OBJECT).getAll(GameObject.class))
 		{
-			java.util.Map<Parameter, MagicSet> tapOneParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> tapOneParameters = new HashMap<Parameter, MagicSet>();
 			tapOneParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 			tapOneParameters.put(Parameter.OBJECT, new MagicSet(actualObject));
 			Event tapOne = createEvent(game, "Tap " + actualObject + ".", TAP_ONE_PERMANENT, tapOneParameters);

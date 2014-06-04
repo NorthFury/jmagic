@@ -2,6 +2,8 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Level;
+import org.rnd.jmagic.abilities.keywords.LevelUp;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -44,16 +46,16 @@ public final class EnclaveCryptologist extends Card
 		this.setToughness(1);
 
 		// Level up (1)(U)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.LevelUp(state, "(1)(U)"));
+		this.addAbility(new LevelUp(state, "(1)(U)"));
 
 		// LEVEL 1-2
 		// 0/1
 		// (T): Draw a card, then discard a card.
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Level(state, 1, 2, 0, 1, "(T): Draw a card, then discard a card.", DrawDiscard.class));
+		this.addAbility(new Level(state, 1, 2, 0, 1, "(T): Draw a card, then discard a card.", DrawDiscard.class));
 
 		// LEVEL 3+
 		// 0/1
 		// (T): Draw a card.
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Level(state, 3, 0, 1, "(T): Draw a card.", Draw.class));
+		this.addAbility(new Level(state, 3, 0, 1, "(T): Draw a card.", Draw.class));
 	}
 }

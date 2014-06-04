@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Undying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -19,6 +21,6 @@ public final class UndyingEvil extends Card
 		// had no +1/+1 counters on it, return it to the battlefield under its
 		// owner's control with a +1/+1 counter on it.)
 		SetGenerator target = targetedBy(this.addTarget(CreaturePermanents.instance(), "target creature"));
-		this.addEffect(addAbilityUntilEndOfTurn(target, org.rnd.jmagic.abilities.keywords.Undying.class, "Target creature gains undying until end of turn."));
+		this.addEffect(addAbilityUntilEndOfTurn(target, Undying.class, "Target creature gains undying until end of turn."));
 	}
 }

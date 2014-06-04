@@ -1,16 +1,39 @@
 package org.rnd.util;
 
-public abstract class Graphics2DAdapter extends java.awt.Graphics2D
-{
-	private java.awt.Graphics2D delegate;
+import java.awt.Color;
+import java.awt.Composite;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics2D;
+import java.awt.GraphicsConfiguration;
+import java.awt.Image;
+import java.awt.Paint;
+import java.awt.Rectangle;
+import java.awt.RenderingHints;
+import java.awt.Shape;
+import java.awt.Stroke;
+import java.awt.font.FontRenderContext;
+import java.awt.font.GlyphVector;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
+import java.awt.image.BufferedImageOp;
+import java.awt.image.ImageObserver;
+import java.awt.image.RenderedImage;
+import java.awt.image.renderable.RenderableImage;
+import java.text.AttributedCharacterIterator;
+import java.util.Map;
 
-	protected Graphics2DAdapter(java.awt.Graphics2D graphics)
+public abstract class Graphics2DAdapter extends Graphics2D
+{
+	private Graphics2D delegate;
+
+	protected Graphics2DAdapter(Graphics2D graphics)
 	{
 		this.delegate = graphics;
 	}
 
 	@Override
-	public void addRenderingHints(java.util.Map<?, ?> hints)
+	public void addRenderingHints(Map<?, ?> hints)
 	{
 		this.delegate.addRenderingHints(hints);
 	}
@@ -22,7 +45,7 @@ public abstract class Graphics2DAdapter extends java.awt.Graphics2D
 	}
 
 	@Override
-	public void clip(java.awt.Shape s)
+	public void clip(Shape s)
 	{
 		this.delegate.clip(s);
 	}
@@ -46,7 +69,7 @@ public abstract class Graphics2DAdapter extends java.awt.Graphics2D
 	}
 
 	@Override
-	public void draw(java.awt.Shape s)
+	public void draw(Shape s)
 	{
 		this.delegate.draw(s);
 	}
@@ -58,55 +81,55 @@ public abstract class Graphics2DAdapter extends java.awt.Graphics2D
 	}
 
 	@Override
-	public void drawGlyphVector(java.awt.font.GlyphVector g, float x, float y)
+	public void drawGlyphVector(GlyphVector g, float x, float y)
 	{
 		this.delegate.drawGlyphVector(g, x, y);
 	}
 
 	@Override
-	public void drawImage(java.awt.image.BufferedImage img, java.awt.image.BufferedImageOp op, int x, int y)
+	public void drawImage(BufferedImage img, BufferedImageOp op, int x, int y)
 	{
 		this.delegate.drawImage(img, op, x, y);
 	}
 
 	@Override
-	public boolean drawImage(java.awt.Image img, java.awt.geom.AffineTransform xform, java.awt.image.ImageObserver obs)
+	public boolean drawImage(Image img, AffineTransform xform, ImageObserver obs)
 	{
 		return this.delegate.drawImage(img, xform, obs);
 	}
 
 	@Override
-	public boolean drawImage(java.awt.Image img, int x, int y, java.awt.image.ImageObserver observer)
+	public boolean drawImage(Image img, int x, int y, ImageObserver observer)
 	{
 		return this.delegate.drawImage(img, x, y, observer);
 	}
 
 	@Override
-	public boolean drawImage(java.awt.Image img, int x, int y, int width, int height, java.awt.image.ImageObserver observer)
+	public boolean drawImage(Image img, int x, int y, int width, int height, ImageObserver observer)
 	{
 		return this.delegate.drawImage(img, x, y, width, height, observer);
 	}
 
 	@Override
-	public boolean drawImage(java.awt.Image img, int dx1, int dy1, int dx2, int dy2, int sx1, int sy1, int sx2, int sy2, java.awt.image.ImageObserver observer)
+	public boolean drawImage(Image img, int dx1, int dy1, int dx2, int dy2, int sx1, int sy1, int sx2, int sy2, ImageObserver observer)
 	{
 		return this.delegate.drawImage(img, dx1, dy1, dx2, dy2, sx1, sy1, sx2, sy2, observer);
 	}
 
 	@Override
-	public boolean drawImage(java.awt.Image img, int dx1, int dy1, int dx2, int dy2, int sx1, int sy1, int sx2, int sy2, java.awt.Color bgcolor, java.awt.image.ImageObserver observer)
+	public boolean drawImage(Image img, int dx1, int dy1, int dx2, int dy2, int sx1, int sy1, int sx2, int sy2, Color bgcolor, ImageObserver observer)
 	{
 		return this.delegate.drawImage(img, dx1, dy1, dx2, dy2, sx1, sy1, sx2, sy2, bgcolor, observer);
 	}
 
 	@Override
-	public boolean drawImage(java.awt.Image img, int x, int y, int width, int height, java.awt.Color bgcolor, java.awt.image.ImageObserver observer)
+	public boolean drawImage(Image img, int x, int y, int width, int height, Color bgcolor, ImageObserver observer)
 	{
 		return this.delegate.drawImage(img, x, y, width, height, bgcolor, observer);
 	}
 
 	@Override
-	public boolean drawImage(java.awt.Image img, int x, int y, java.awt.Color bgcolor, java.awt.image.ImageObserver observer)
+	public boolean drawImage(Image img, int x, int y, Color bgcolor, ImageObserver observer)
 	{
 		return this.delegate.drawImage(img, x, y, bgcolor, observer);
 	}
@@ -136,13 +159,13 @@ public abstract class Graphics2DAdapter extends java.awt.Graphics2D
 	}
 
 	@Override
-	public void drawRenderableImage(java.awt.image.renderable.RenderableImage img, java.awt.geom.AffineTransform xform)
+	public void drawRenderableImage(RenderableImage img, AffineTransform xform)
 	{
 		this.delegate.drawRenderableImage(img, xform);
 	}
 
 	@Override
-	public void drawRenderedImage(java.awt.image.RenderedImage img, java.awt.geom.AffineTransform xform)
+	public void drawRenderedImage(RenderedImage img, AffineTransform xform)
 	{
 		this.delegate.drawRenderedImage(img, xform);
 	}
@@ -154,13 +177,13 @@ public abstract class Graphics2DAdapter extends java.awt.Graphics2D
 	}
 
 	@Override
-	public void drawString(java.text.AttributedCharacterIterator iterator, float x, float y)
+	public void drawString(AttributedCharacterIterator iterator, float x, float y)
 	{
 		this.delegate.drawString(iterator, x, y);
 	}
 
 	@Override
-	public void drawString(java.text.AttributedCharacterIterator iterator, int x, int y)
+	public void drawString(AttributedCharacterIterator iterator, int x, int y)
 	{
 		this.delegate.drawString(iterator, x, y);
 	}
@@ -178,7 +201,7 @@ public abstract class Graphics2DAdapter extends java.awt.Graphics2D
 	}
 
 	@Override
-	public void fill(java.awt.Shape s)
+	public void fill(Shape s)
 	{
 		this.delegate.fill(s);
 	}
@@ -214,91 +237,91 @@ public abstract class Graphics2DAdapter extends java.awt.Graphics2D
 	}
 
 	@Override
-	public java.awt.Color getBackground()
+	public Color getBackground()
 	{
 		return this.delegate.getBackground();
 	}
 
 	@Override
-	public java.awt.Shape getClip()
+	public Shape getClip()
 	{
 		return this.delegate.getClip();
 	}
 
 	@Override
-	public java.awt.Rectangle getClipBounds()
+	public Rectangle getClipBounds()
 	{
 		return this.delegate.getClipBounds();
 	}
 
 	@Override
-	public java.awt.Color getColor()
+	public Color getColor()
 	{
 		return this.delegate.getColor();
 	}
 
 	@Override
-	public java.awt.Composite getComposite()
+	public Composite getComposite()
 	{
 		return this.delegate.getComposite();
 	}
 
 	@Override
-	public java.awt.GraphicsConfiguration getDeviceConfiguration()
+	public GraphicsConfiguration getDeviceConfiguration()
 	{
 		return this.delegate.getDeviceConfiguration();
 	}
 
 	@Override
-	public java.awt.Font getFont()
+	public Font getFont()
 	{
 		return this.delegate.getFont();
 	}
 
 	@Override
-	public java.awt.FontMetrics getFontMetrics(java.awt.Font f)
+	public FontMetrics getFontMetrics(Font f)
 	{
 		return this.delegate.getFontMetrics(f);
 	}
 
 	@Override
-	public java.awt.font.FontRenderContext getFontRenderContext()
+	public FontRenderContext getFontRenderContext()
 	{
 		return this.delegate.getFontRenderContext();
 	}
 
 	@Override
-	public java.awt.Paint getPaint()
+	public Paint getPaint()
 	{
 		return this.delegate.getPaint();
 	}
 
 	@Override
-	public Object getRenderingHint(java.awt.RenderingHints.Key hintKey)
+	public Object getRenderingHint(RenderingHints.Key hintKey)
 	{
 		return this.delegate.getRenderingHint(hintKey);
 	}
 
 	@Override
-	public java.awt.RenderingHints getRenderingHints()
+	public RenderingHints getRenderingHints()
 	{
 		return this.delegate.getRenderingHints();
 	}
 
 	@Override
-	public java.awt.Stroke getStroke()
+	public Stroke getStroke()
 	{
 		return this.delegate.getStroke();
 	}
 
 	@Override
-	public java.awt.geom.AffineTransform getTransform()
+	public AffineTransform getTransform()
 	{
 		return this.delegate.getTransform();
 	}
 
 	@Override
-	public boolean hit(java.awt.Rectangle rect, java.awt.Shape s, boolean onStroke)
+	public boolean hit(Rectangle rect, Shape s, boolean onStroke)
 	{
 		return this.delegate.hit(rect, s, onStroke);
 	}
@@ -322,7 +345,7 @@ public abstract class Graphics2DAdapter extends java.awt.Graphics2D
 	}
 
 	@Override
-	public void setBackground(java.awt.Color color)
+	public void setBackground(Color color)
 	{
 		this.delegate.setBackground(color);
 	}
@@ -334,31 +357,31 @@ public abstract class Graphics2DAdapter extends java.awt.Graphics2D
 	}
 
 	@Override
-	public void setClip(java.awt.Shape clip)
+	public void setClip(Shape clip)
 	{
 		this.delegate.setClip(clip);
 	}
 
 	@Override
-	public void setColor(java.awt.Color c)
+	public void setColor(Color c)
 	{
 		this.delegate.setColor(c);
 	}
 
 	@Override
-	public void setComposite(java.awt.Composite comp)
+	public void setComposite(Composite comp)
 	{
 		this.delegate.setComposite(comp);
 	}
 
 	@Override
-	public void setFont(java.awt.Font font)
+	public void setFont(Font font)
 	{
 		this.delegate.setFont(font);
 	}
 
 	@Override
-	public void setPaint(java.awt.Paint paint)
+	public void setPaint(Paint paint)
 	{
 		this.delegate.setPaint(paint);
 	}
@@ -370,31 +393,31 @@ public abstract class Graphics2DAdapter extends java.awt.Graphics2D
 	}
 
 	@Override
-	public void setRenderingHint(java.awt.RenderingHints.Key hintKey, Object hintValue)
+	public void setRenderingHint(RenderingHints.Key hintKey, Object hintValue)
 	{
 		this.delegate.setRenderingHint(hintKey, hintValue);
 	}
 
 	@Override
-	public void setRenderingHints(java.util.Map<?, ?> hints)
+	public void setRenderingHints(Map<?, ?> hints)
 	{
 		this.delegate.setRenderingHints(hints);
 	}
 
 	@Override
-	public void setStroke(java.awt.Stroke s)
+	public void setStroke(Stroke s)
 	{
 		this.delegate.setStroke(s);
 	}
 
 	@Override
-	public void setTransform(java.awt.geom.AffineTransform Tx)
+	public void setTransform(AffineTransform Tx)
 	{
 		this.delegate.setTransform(Tx);
 	}
 
 	@Override
-	public void setXORMode(java.awt.Color c1)
+	public void setXORMode(Color c1)
 	{
 		this.delegate.setXORMode(c1);
 	}
@@ -406,7 +429,7 @@ public abstract class Graphics2DAdapter extends java.awt.Graphics2D
 	}
 
 	@Override
-	public void transform(java.awt.geom.AffineTransform Tx)
+	public void transform(AffineTransform Tx)
 	{
 		this.delegate.transform(Tx);
 	}

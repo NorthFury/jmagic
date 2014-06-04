@@ -9,7 +9,7 @@ public abstract class PainLand extends Card
 	{
 		super(state);
 
-		this.addAbility(new org.rnd.jmagic.abilities.TapFor1(state));
+		this.addAbility(new TapFor1(state));
 		this.addAbility(new TapForManaPain(state, this.getName(), painMana));
 	}
 }

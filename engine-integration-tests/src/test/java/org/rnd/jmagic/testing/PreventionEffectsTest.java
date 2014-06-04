@@ -3,9 +3,12 @@ package org.rnd.jmagic.testing;
 import org.junit.*;
 import static org.junit.Assert.*;
 
+import org.rnd.jmagic.abilities.Ping;
 import org.rnd.jmagic.cards.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.sanitized.*;
+
+import java.util.Iterator;
 
 public class PreventionEffectsTest extends JUnitTest
 {
@@ -208,7 +211,7 @@ public class PreventionEffectsTest extends JUnitTest
 			// one
 			// whose ability is on the stack)
 			{
-				java.util.Iterator<SanitizedIdentified> iter = this.choices.getAll(SanitizedIdentified.class).iterator();
+				Iterator<SanitizedIdentified> iter = this.choices.getAll(SanitizedIdentified.class).iterator();
 				GameObject MoggA = this.game.actualState.get(iter.next().ID);
 				GameObject MoggB = this.game.actualState.get(iter.next().ID);
 
@@ -365,7 +368,7 @@ public class PreventionEffectsTest extends JUnitTest
 			castAndResolveSpell(AweStrike.class);
 			// Automatically target Excruciator
 
-			respondWith(getAbilityAction(org.rnd.jmagic.abilities.Ping.class));
+			respondWith(getAbilityAction(Ping.class));
 			respondWith(getTarget(player(1)));
 			pass();
 			pass();

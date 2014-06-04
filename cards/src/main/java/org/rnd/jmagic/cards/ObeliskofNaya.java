@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.cardTemplates.ShardsObelisk;
 import org.rnd.jmagic.engine.*;
 
 @Name("Obelisk of Naya")
@@ -7,7 +8,7 @@ import org.rnd.jmagic.engine.*;
 @Types({Type.ARTIFACT})
 @Printings({@Printings.Printed(ex = Expansion.SHARDS_OF_ALARA, r = Rarity.COMMON)})
 @ColorIdentity({Color.WHITE, Color.GREEN, Color.RED})
-public final class ObeliskofNaya extends org.rnd.jmagic.cardTemplates.ShardsObelisk
+public final class ObeliskofNaya extends ShardsObelisk
 {
 	public ObeliskofNaya(GameState state)
 	{

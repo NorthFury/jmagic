@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flashback;
 import org.rnd.jmagic.engine.*;
 
 @Name("Think Twice")
@@ -16,6 +18,6 @@ public final class ThinkTwice extends Card
 
 		this.addEffect(drawACard());
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flashback(state, "(2)(U)"));
+		this.addAbility(new Flashback(state, "(2)(U)"));
 	}
 }

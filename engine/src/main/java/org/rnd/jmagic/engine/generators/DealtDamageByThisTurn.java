@@ -2,29 +2,35 @@ package org.rnd.jmagic.engine.generators;
 
 import org.rnd.jmagic.engine.*;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
 /**
  * Evaluates to all objects and players that were dealt damage by any of the
  * given objects this turn.
  */
 public class DealtDamageByThisTurn extends SetGenerator
 {
-	public static class DealtDamageByTracker extends Tracker<java.util.Map<Integer, java.util.Set<Integer>>>
+	public static class DealtDamageByTracker extends Tracker<Map<Integer, Set<Integer>>>
 	{
-		private java.util.HashMap<Integer, java.util.Set<Integer>> ids = new java.util.HashMap<Integer, java.util.Set<Integer>>();
-		private java.util.Map<Integer, java.util.Set<Integer>> unmodifiable = java.util.Collections.unmodifiableMap(this.ids);
+		private HashMap<Integer, Set<Integer>> ids = new HashMap<Integer, Set<Integer>>();
+		private Map<Integer, Set<Integer>> unmodifiable = Collections.unmodifiableMap(this.ids);
 
 		@SuppressWarnings("unchecked")
 		@Override
 		public DealtDamageByTracker clone()
 		{
 			DealtDamageByTracker ret = (DealtDamageByTracker)super.clone();
-			ret.ids = (java.util.HashMap<Integer, java.util.Set<Integer>>)this.ids.clone();
-			ret.unmodifiable = java.util.Collections.unmodifiableMap(ret.ids);
+			ret.ids = (HashMap<Integer, Set<Integer>>)this.ids.clone();
+			ret.unmodifiable = Collections.unmodifiableMap(ret.ids);
 			return ret;
 		}
 
 		@Override
-		protected java.util.Map<Integer, java.util.Set<Integer>> getValueInternal()
+		protected Map<Integer, Set<Integer>> getValueInternal()
 		{
 			return this.unmodifiable;
 		}
@@ -44,34 +50,34 @@ public class DealtDamageByThisTurn extends SetGenerator
 		@Override
 		protected void update(GameState state, Event event)
 		{
-			java.util.Set<DamageAssignment> assignments = event.parameters.get(EventType.Parameter.TARGET).evaluate(state, null).getAll(DamageAssignment.class);
+			Set<DamageAssignment> assignments = event.parameters.get(EventType.Parameter.TARGET).evaluate(state, null).getAll(DamageAssignment.class);
 			for(DamageAssignment assignment: assignments)
 			{
 				if(!this.ids.containsKey(assignment.sourceID))
-					this.ids.put(assignment.sourceID, new java.util.HashSet<Integer>());
+					this.ids.put(assignment.sourceID, new HashSet<Integer>());
 				this.ids.get(assignment.sourceID).add(assignment.takerID);
 			}
 		}
 
 	}
 
-	public static class DealtCombatDamageByTracker extends Tracker<java.util.Map<Integer, java.util.Set<Integer>>>
+	public static class DealtCombatDamageByTracker extends Tracker<Map<Integer, Set<Integer>>>
 	{
-		private java.util.HashMap<Integer, java.util.Set<Integer>> ids = new java.util.HashMap<Integer, java.util.Set<Integer>>();
-		private java.util.Map<Integer, java.util.Set<Integer>> unmodifiable = java.util.Collections.unmodifiableMap(this.ids);
+		private HashMap<Integer, Set<Integer>> ids = new HashMap<Integer, Set<Integer>>();
+		private Map<Integer, Set<Integer>> unmodifiable = Collections.unmodifiableMap(this.ids);
 
 		@SuppressWarnings("unchecked")
 		@Override
 		public DealtCombatDamageByTracker clone()
 		{
 			DealtCombatDamageByTracker ret = (DealtCombatDamageByTracker)super.clone();
-			ret.ids = (java.util.HashMap<Integer, java.util.Set<Integer>>)this.ids.clone();
-			ret.unmodifiable = java.util.Collections.unmodifiableMap(ret.ids);
+			ret.ids = (HashMap<Integer, Set<Integer>>)this.ids.clone();
+			ret.unmodifiable = Collections.unmodifiableMap(ret.ids);
 			return ret;
 		}
 
 		@Override
-		protected java.util.Map<Integer, java.util.Set<Integer>> getValueInternal()
+		protected Map<Integer, Set<Integer>> getValueInternal()
 		{
 			return this.unmodifiable;
 		}
@@ -91,13 +97,13 @@ public class DealtDamageByThisTurn extends SetGenerator
 		@Override
 		protected void update(GameState state, Event event)
 		{
-			java.util.Set<DamageAssignment> assignments = event.parameters.get(EventType.Parameter.TARGET).evaluate(state, null).getAll(DamageAssignment.class);
+			Set<DamageAssignment> assignments = event.parameters.get(EventType.Parameter.TARGET).evaluate(state, null).getAll(DamageAssignment.class);
 			for(DamageAssignment assignment: assignments)
 			{
 				if(!assignment.isCombatDamage)
 					continue;
 				if(!this.ids.containsKey(assignment.sourceID))
-					this.ids.put(assignment.sourceID, new java.util.HashSet<Integer>());
+					this.ids.put(assignment.sourceID, new HashSet<Integer>());
 				this.ids.get(assignment.sourceID).add(assignment.takerID);
 			}
 		}
@@ -126,20 +132,20 @@ public class DealtDamageByThisTurn extends SetGenerator
 	@Override
 	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		Tracker<java.util.Map<Integer, java.util.Set<Integer>>> flag = null;
+		Tracker<Map<Integer, Set<Integer>>> flag = null;
 		if(this.combatDamage)
 			flag = state.getTracker(DealtCombatDamageByTracker.class);
 		else
 			flag = state.getTracker(DealtDamageByTracker.class);
 
-		java.util.Map<Integer, java.util.Set<Integer>> flagValue = flag.getValue(state);
+		Map<Integer, Set<Integer>> flagValue = flag.getValue(state);
 
-		java.util.Set<Integer> ids = new java.util.HashSet<Integer>();
+		Set<Integer> ids = new HashSet<Integer>();
 		MagicSet what = this.what.evaluate(state, thisObject);
 		for(GameObject dealer: what.getAll(GameObject.class))
 			if(flagValue.containsKey(dealer.ID))
 			{
-				java.util.Set<Integer> dealtDamageByThis = flagValue.get(dealer.ID);
+				Set<Integer> dealtDamageByThis = flagValue.get(dealer.ID);
 				ids.addAll(dealtDamageByThis);
 			}
 		return IdentifiedWithID.instance(ids).evaluate(state, null);

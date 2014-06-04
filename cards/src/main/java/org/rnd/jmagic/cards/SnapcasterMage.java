@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flash;
+import org.rnd.jmagic.abilities.keywords.Flashback;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -22,7 +25,7 @@ public final class SnapcasterMage extends Card
 			SetGenerator target = targetedBy(this.addTarget(Intersect.instance(HasType.instance(Type.INSTANT, Type.SORCERY), InZone.instance(GraveyardOf.instance(You.instance()))), "target instant or sorcery card in your graveyard"));
 
 			ContinuousEffect.Part part = new ContinuousEffect.Part(ContinuousEffectType.GRANT_COSTED_KEYWORD);
-			part.parameters.put(ContinuousEffectType.Parameter.ABILITY, Identity.instance(org.rnd.jmagic.abilities.keywords.Flashback.class));
+			part.parameters.put(ContinuousEffectType.Parameter.ABILITY, Identity.instance(Flashback.class));
 			part.parameters.put(ContinuousEffectType.Parameter.OBJECT, target);
 			this.addEffect(createFloatingEffect("Target instant or sorcery card in your graveyard gains flashback until end of turn. The flashback cost is equal to its mana cost.", part));
 		}
@@ -36,7 +39,7 @@ public final class SnapcasterMage extends Card
 		this.setToughness(1);
 
 		// Flash
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flash(state));
+		this.addAbility(new Flash(state));
 
 		// When Snapcaster Mage enters the battlefield, target instant or
 		// sorcery card in your graveyard gains flashback until end of turn. The

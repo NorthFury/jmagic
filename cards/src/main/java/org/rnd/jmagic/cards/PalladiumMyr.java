@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.TapForMana;
 import org.rnd.jmagic.engine.*;
 
 @Name("Palladium Myr")
@@ -18,6 +19,6 @@ public final class PalladiumMyr extends Card
 		this.setToughness(2);
 
 		// (T): Add (2) to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapForMana.Final(state, "(2)"));
+		this.addAbility(new TapForMana.Final(state, "(2)"));
 	}
 }

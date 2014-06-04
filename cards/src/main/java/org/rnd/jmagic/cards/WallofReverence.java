@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Defender;
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -31,8 +34,8 @@ public final class WallofReverence extends Card
 		this.setToughness(6);
 
 		// Defender, flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Defender(state));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Defender(state));
+		this.addAbility(new Flying(state));
 
 		// At the beginning of your end step, you may gain life equal to the
 		// power of target creature you control.

@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Evoke;
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -32,13 +35,13 @@ public final class Wispmare extends Card
 		this.setToughness(3);
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// When Wispmare enters the battlefield, destroy target enchantment.
 		this.addAbility(new WispmareAbility1(state));
 
 		// Evoke (W) (You may cast this spell for its evoke cost. If you do,
 		// it's sacrificed when it enters the battlefield.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Evoke(state, "(W)"));
+		this.addAbility(new Evoke(state, "(W)"));
 	}
 }

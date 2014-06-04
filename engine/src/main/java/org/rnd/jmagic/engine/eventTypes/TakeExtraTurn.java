@@ -6,6 +6,9 @@ import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public final class TakeExtraTurn extends EventType
 {	public static final EventType INSTANCE = new TakeExtraTurn();
 
@@ -21,7 +24,7 @@ public final class TakeExtraTurn extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		Player player = parameters.get(Parameter.PLAYER).getOne(Player.class);
 
@@ -44,7 +47,7 @@ public final class TakeExtraTurn extends EventType
 					ContinuousEffect.Part part = new ContinuousEffect.Part(ContinuousEffectType.REPLACEMENT_EFFECT);
 					part.parameters.put(ContinuousEffectType.Parameter.OBJECT, Identity.instance(skipReplacement));
 
-					java.util.Map<Parameter, MagicSet> skipParameters = new java.util.HashMap<Parameter, MagicSet>();
+					Map<Parameter, MagicSet> skipParameters = new HashMap<Parameter, MagicSet>();
 					skipParameters.put(EventType.Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 					skipParameters.put(EventType.Parameter.EFFECT, new MagicSet(part));
 					skipParameters.put(EventType.Parameter.EXPIRES, new MagicSet(Empty.instance()));

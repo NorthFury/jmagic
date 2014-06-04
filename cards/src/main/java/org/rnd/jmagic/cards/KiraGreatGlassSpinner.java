@@ -2,9 +2,15 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
+
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 @Name("Kira, Great Glass-Spinner")
 @SuperTypes({SuperType.LEGENDARY})
@@ -17,22 +23,22 @@ public final class KiraGreatGlassSpinner extends Card
 {
 	public static final class TargetedThisTurn extends SetGenerator
 	{
-		public static final class Tracker extends org.rnd.jmagic.engine.Tracker<java.util.Collection<Integer>>
+		public static final class Tracker extends org.rnd.jmagic.engine.Tracker<Collection<Integer>>
 		{
-			private java.util.Set<Integer> values = new java.util.HashSet<Integer>();
-			private java.util.Set<Integer> unmodifiable = java.util.Collections.unmodifiableSet(this.values);
+			private Set<Integer> values = new HashSet<Integer>();
+			private Set<Integer> unmodifiable = Collections.unmodifiableSet(this.values);
 
 			@Override
 			protected Tracker clone()
 			{
 				Tracker ret = (Tracker)super.clone();
-				ret.values = new java.util.HashSet<Integer>(this.values);
-				ret.unmodifiable = java.util.Collections.unmodifiableSet(ret.values);
+				ret.values = new HashSet<Integer>(this.values);
+				ret.unmodifiable = Collections.unmodifiableSet(ret.values);
 				return ret;
 			}
 
 			@Override
-			protected java.util.Collection<Integer> getValueInternal()
+			protected Collection<Integer> getValueInternal()
 			{
 				return this.unmodifiable;
 			}
@@ -72,7 +78,7 @@ public final class KiraGreatGlassSpinner extends Card
 		}
 
 		@Override
-		public org.rnd.jmagic.engine.MagicSet evaluate(GameState state, Identified thisObject)
+		public MagicSet evaluate(GameState state, Identified thisObject)
 		{
 			MagicSet ret = new MagicSet();
 			for(int ID: state.getTracker(Tracker.class).getValue(state))
@@ -114,7 +120,7 @@ public final class KiraGreatGlassSpinner extends Card
 		this.setToughness(2);
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// Creatures you control have
 		// "Whenever this creature becomes the target of a spell or ability for the first time in a turn, counter that spell or ability."

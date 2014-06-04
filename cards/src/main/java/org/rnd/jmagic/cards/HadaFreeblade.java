@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.ZendikarAllyCounter;
 import org.rnd.jmagic.engine.*;
 
 @Name("Hada Freeblade")
@@ -19,6 +20,6 @@ public final class HadaFreeblade extends Card
 
 		// Whenever Hada Freeblade or another Ally enters the battlefield under
 		// your control, you may put a +1/+1 counter on Hada Freeblade.
-		this.addAbility(new org.rnd.jmagic.abilities.ZendikarAllyCounter(state, this.getName()));
+		this.addAbility(new ZendikarAllyCounter(state, this.getName()));
 	}
 }

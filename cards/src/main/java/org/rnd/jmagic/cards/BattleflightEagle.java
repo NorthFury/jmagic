@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -21,7 +23,7 @@ public final class BattleflightEagle extends Card
 
 			SetGenerator target = targetedBy(this.addTarget(CreaturePermanents.instance(), "target creature"));
 			ContinuousEffect.Part pt = modifyPowerAndToughness(target, +2, +2);
-			ContinuousEffect.Part flying = addAbilityToObject(target, org.rnd.jmagic.abilities.keywords.Flying.class);
+			ContinuousEffect.Part flying = addAbilityToObject(target, Flying.class);
 			this.addEffect(createFloatingEffect("Target creature gets +2/+2 and gains flying until end of turn.", pt, flying));
 
 		}
@@ -35,7 +37,7 @@ public final class BattleflightEagle extends Card
 		this.setToughness(2);
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// When Battleflight Eagle enters the battlefield, target creature gets
 		// +2/+2 and gains flying until end of turn.

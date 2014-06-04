@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.TapForB;
 import org.rnd.jmagic.engine.*;
 
 @Name("Vault of Whispers")
@@ -13,6 +14,6 @@ public final class VaultofWhispers extends Card
 		super(state);
 
 		// (T): Add (B) to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapForB(state));
+		this.addAbility(new TapForB(state));
 	}
 }

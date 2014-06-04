@@ -4,6 +4,11 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
 @Name("Myr Superion")
 @Types({Type.CREATURE, Type.ARTIFACT})
 @SubTypes({SubType.MYR})
@@ -14,23 +19,23 @@ public final class MyrSuperion extends Card
 {
 	public static final class ManaFromCreatures extends SetGenerator
 	{
-		public static final class Tracker extends org.rnd.jmagic.engine.Tracker<java.util.Collection<ManaSymbol>>
+		public static final class Tracker extends org.rnd.jmagic.engine.Tracker<Collection<ManaSymbol>>
 		{
-			private java.util.HashSet<ManaSymbol> mana = new java.util.HashSet<ManaSymbol>();
-			private java.util.Set<ManaSymbol> unmodifiable = java.util.Collections.unmodifiableSet(this.mana);
+			private HashSet<ManaSymbol> mana = new HashSet<ManaSymbol>();
+			private Set<ManaSymbol> unmodifiable = Collections.unmodifiableSet(this.mana);
 
 			@SuppressWarnings("unchecked")
 			@Override
 			public Tracker clone()
 			{
 				Tracker ret = (Tracker)super.clone();
-				ret.mana = (java.util.HashSet<ManaSymbol>)this.mana.clone();
-				ret.unmodifiable = java.util.Collections.unmodifiableSet(ret.mana);
+				ret.mana = (HashSet<ManaSymbol>)this.mana.clone();
+				ret.unmodifiable = Collections.unmodifiableSet(ret.mana);
 				return ret;
 			}
 
 			@Override
-			protected java.util.Collection<ManaSymbol> getValueInternal()
+			protected Collection<ManaSymbol> getValueInternal()
 			{
 				return this.unmodifiable;
 			}

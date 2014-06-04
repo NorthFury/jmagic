@@ -1,30 +1,32 @@
 package org.rnd.jmagic.gui;
 
+import java.awt.Color;
+
 public class Arrow
 {
 	public enum ArrowType
 	{
-		ATTACHMENT(java.awt.Color.BLUE, "Attachments"), //
-		ATTACKING(java.awt.Color.ORANGE, "Attacking"), //
-		BLOCKING(java.awt.Color.GREEN, "Blocking"), //
-		CAUSE(java.awt.Color.MAGENTA, "Cause", true), //
-		CONTROLLER(java.awt.Color.DARK_GRAY, "Controller", true), //
-		LINK(java.awt.Color.MAGENTA, "Linked Objects"), //
-		PAIR(java.awt.Color.MAGENTA, "Paired Creatures"), //
-		SOURCE(new java.awt.Color(0, 51, 102), "Source of Ability", true), //
-		TARGET(java.awt.Color.RED, "Targetting"), //
+		ATTACHMENT(Color.BLUE, "Attachments"), //
+		ATTACKING(Color.ORANGE, "Attacking"), //
+		BLOCKING(Color.GREEN, "Blocking"), //
+		CAUSE(Color.MAGENTA, "Cause", true), //
+		CONTROLLER(Color.DARK_GRAY, "Controller", true), //
+		LINK(Color.MAGENTA, "Linked Objects"), //
+		PAIR(Color.MAGENTA, "Paired Creatures"), //
+		SOURCE(new Color(0, 51, 102), "Source of Ability", true), //
+		TARGET(Color.RED, "Targetting"), //
 		;
 
-		private final java.awt.Color defaultColor;
+		private final Color defaultColor;
 		public final String description;
 		private final boolean hollow;
 
-		ArrowType(java.awt.Color color, String description)
+		ArrowType(Color color, String description)
 		{
 			this(color, description, false);
 		}
 
-		ArrowType(java.awt.Color defaultColor, String description, boolean hollow)
+		ArrowType(Color defaultColor, String description, boolean hollow)
 		{
 			this.defaultColor = defaultColor;
 			this.description = description;
@@ -36,7 +38,7 @@ public class Arrow
 			return this.hollow;
 		}
 
-		public java.awt.Color getDefaultColor()
+		public Color getDefaultColor()
 		{
 			return this.defaultColor;
 		}

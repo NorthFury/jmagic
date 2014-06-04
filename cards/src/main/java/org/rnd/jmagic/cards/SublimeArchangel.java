@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Exalted;
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -17,7 +20,7 @@ public final class SublimeArchangel extends Card
 		public SublimeArchangelAbility2(GameState state)
 		{
 			super(state, "Other creatures you control have exalted.");
-			this.addEffectPart(addAbilityToObject(RelativeComplement.instance(CREATURES_YOU_CONTROL, This.instance()), new SimpleAbilityFactory(org.rnd.jmagic.abilities.keywords.Exalted.class)));
+			this.addEffectPart(addAbilityToObject(RelativeComplement.instance(CREATURES_YOU_CONTROL, This.instance()), new SimpleAbilityFactory(Exalted.class)));
 		}
 	}
 
@@ -29,11 +32,11 @@ public final class SublimeArchangel extends Card
 		this.setToughness(3);
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// Exalted (Whenever a creature you control attacks alone, that creature
 		// gets +1/+1 until end of turn.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Exalted(state));
+		this.addAbility(new Exalted(state));
 
 		// Other creatures you control have exalted. (If a creature has multiple
 		// instances of exalted, each triggers separately.)

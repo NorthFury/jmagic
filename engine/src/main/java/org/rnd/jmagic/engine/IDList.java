@@ -1,5 +1,13 @@
 package org.rnd.jmagic.engine;
 
+import java.lang.reflect.Array;
+import java.util.AbstractCollection;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.ListIterator;
+
 /**
  * IDList is a special kind of List that allows one to hold Identified instances
  * that belong to a GameState where those Identified might not exist yet.
@@ -10,7 +18,7 @@ package org.rnd.jmagic.engine;
  * long as every Identified in the IDList is in this GameState, any other
  * collection copying this list will work correctly.
  */
-public class IDList<T extends Identified> extends java.util.AbstractCollection<T> implements java.util.List<T>
+public class IDList<T extends Identified> extends AbstractCollection<T> implements List<T>
 {
 	/**
 	 * This is where the magic happens. For the most part, this iterator acts
@@ -18,9 +26,9 @@ public class IDList<T extends Identified> extends java.util.AbstractCollection<T
 	 * an Identified whenever you're expecting one (next() and previous()) and
 	 * takes an Identified whenever you're expecting it to (add() and set())
 	 */
-	private class IDListIterator implements java.util.ListIterator<T>
+	private class IDListIterator implements ListIterator<T>
 	{
-		private java.util.ListIterator<Integer> IDiterator;
+		private ListIterator<Integer> IDiterator;
 
 		IDListIterator(int index)
 		{
@@ -87,7 +95,7 @@ public class IDList<T extends Identified> extends java.util.AbstractCollection<T
 	 */
 	private final GameState state;
 
-	private java.util.List<Integer> IDs;
+	private List<Integer> IDs;
 
 	/**
 	 * Create an empty IDList.
@@ -97,7 +105,7 @@ public class IDList<T extends Identified> extends java.util.AbstractCollection<T
 	IDList(GameState state)
 	{
 		this.state = state;
-		this.IDs = new java.util.LinkedList<Integer>();
+		this.IDs = new LinkedList<Integer>();
 	}
 
 	/**
@@ -108,7 +116,7 @@ public class IDList<T extends Identified> extends java.util.AbstractCollection<T
 	 * @param ids The collection of ids to put into the backing store
 	 * @param dummy Unused parameter to avoid type erasure collision
 	 */
-	IDList(GameState state, java.util.Collection<Integer> ids, boolean dummy)
+	IDList(GameState state, Collection<Integer> ids, boolean dummy)
 	{
 		this(state);
 		this.IDs.addAll(ids);
@@ -120,7 +128,7 @@ public class IDList<T extends Identified> extends java.util.AbstractCollection<T
 	 * @param state The state that the objects will be retrieved from
 	 * @param copy The collection to copy.
 	 */
-	IDList(GameState state, java.util.Collection<T> copy)
+	IDList(GameState state, Collection<T> copy)
 	{
 		this(state);
 		if(copy instanceof IDList<?>)
@@ -143,9 +151,9 @@ public class IDList<T extends Identified> extends java.util.AbstractCollection<T
 	}
 
 	@Override
-	public boolean addAll(int index, java.util.Collection<? extends T> c)
+	public boolean addAll(int index, Collection<? extends T> c)
 	{
-		java.util.Collection<Integer> newIDs = new java.util.LinkedList<Integer>();
+		Collection<Integer> newIDs = new LinkedList<Integer>();
 		for(T t: c)
 			newIDs.add(t.ID);
 
@@ -153,7 +161,7 @@ public class IDList<T extends Identified> extends java.util.AbstractCollection<T
 	}
 
 	@Override
-	public boolean addAll(java.util.Collection<? extends T> c)
+	public boolean addAll(Collection<? extends T> c)
 	{
 		boolean changed = false;
 		for(T t: c)
@@ -182,7 +190,7 @@ public class IDList<T extends Identified> extends java.util.AbstractCollection<T
 	}
 
 	@Override
-	public boolean containsAll(java.util.Collection<?> c)
+	public boolean containsAll(Collection<?> c)
 	{
 		for(Object o: c)
 			if(!this.contains(o))
@@ -213,7 +221,7 @@ public class IDList<T extends Identified> extends java.util.AbstractCollection<T
 	}
 
 	@Override
-	public java.util.Iterator<T> iterator()
+	public Iterator<T> iterator()
 	{
 		return this.listIterator();
 	}
@@ -228,13 +236,13 @@ public class IDList<T extends Identified> extends java.util.AbstractCollection<T
 	}
 
 	@Override
-	public java.util.ListIterator<T> listIterator()
+	public ListIterator<T> listIterator()
 	{
 		return this.listIterator(0);
 	}
 
 	@Override
-	public java.util.ListIterator<T> listIterator(int index)
+	public ListIterator<T> listIterator(int index)
 	{
 		return new IDListIterator(index);
 	}
@@ -257,7 +265,7 @@ public class IDList<T extends Identified> extends java.util.AbstractCollection<T
 	}
 
 	@Override
-	public boolean removeAll(java.util.Collection<?> c)
+	public boolean removeAll(Collection<?> c)
 	{
 		boolean changed = false;
 		for(Object o: c)
@@ -268,9 +276,9 @@ public class IDList<T extends Identified> extends java.util.AbstractCollection<T
 	}
 
 	@Override
-	public boolean retainAll(java.util.Collection<?> c)
+	public boolean retainAll(Collection<?> c)
 	{
-		java.util.Collection<Integer> newIDs = new java.util.LinkedList<Integer>();
+		Collection<Integer> newIDs = new LinkedList<Integer>();
 		for(Object o: c)
 			if(o instanceof Identified)
 				newIDs.add(((Identified)o).ID);
@@ -291,7 +299,7 @@ public class IDList<T extends Identified> extends java.util.AbstractCollection<T
 	}
 
 	@Override
-	public java.util.List<T> subList(int fromIndex, int toIndex)
+	public List<T> subList(int fromIndex, int toIndex)
 	{
 		return new IDList<T>(this.state, this.IDs.subList(fromIndex, toIndex), false);
 	}
@@ -301,7 +309,7 @@ public class IDList<T extends Identified> extends java.util.AbstractCollection<T
 	{
 		Object[] a = new Object[this.IDs.size()];
 		int index = 0;
-		java.util.Iterator<T> iter = this.iterator();
+		Iterator<T> iter = this.iterator();
 		while(iter.hasNext())
 			a[index++] = iter.next();
 		return a;
@@ -312,10 +320,10 @@ public class IDList<T extends Identified> extends java.util.AbstractCollection<T
 	public <S> S[] toArray(S[] a)
 	{
 		if(a.length < this.size())
-			a = (S[])java.lang.reflect.Array.newInstance(a.getClass().getComponentType(), this.size());
+			a = (S[]) Array.newInstance(a.getClass().getComponentType(), this.size());
 		int i = 0;
 		Object[] result = a;
-		java.util.Iterator<T> iter = this.iterator();
+		Iterator<T> iter = this.iterator();
 		while(iter.hasNext())
 		{
 			result[i++] = iter.next();

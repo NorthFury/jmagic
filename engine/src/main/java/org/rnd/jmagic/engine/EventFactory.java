@@ -1,5 +1,12 @@
 package org.rnd.jmagic.engine;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Map;
+
 /**
  * A class containing all the necessary parts to construct an event except for a
  * gamestate. This provides a non-stateful way to store event information. Flags
@@ -27,9 +34,9 @@ public class EventFactory
 
 	public final String name;
 	public final EventType type;
-	public final java.util.Map<EventType.Parameter, SetGenerator> parameters;
+	public final Map<EventType.Parameter, SetGenerator> parameters;
 
-	private java.util.Collection<Integer> cantMoveIDs;
+	private Collection<Integer> cantMoveIDs;
 	private boolean preserve;
 	private boolean usesX;
 	private int linkID;
@@ -45,13 +52,13 @@ public class EventFactory
 
 	protected boolean finalized;
 
-	public EventFactory(EventType type, java.util.Map<EventType.Parameter, SetGenerator> parameters, String name)
+	public EventFactory(EventType type, Map<EventType.Parameter, SetGenerator> parameters, String name)
 	{
 		this.type = type;
 		this.parameters = parameters;
 		this.preserve = false;
 		this.name = name;
-		this.cantMoveIDs = new java.util.LinkedList<Integer>();
+		this.cantMoveIDs = new LinkedList<Integer>();
 
 		this.usesX = false;
 		this.linkID = -1;
@@ -62,7 +69,7 @@ public class EventFactory
 
 	public EventFactory(EventType type, String name)
 	{
-		this(type, new java.util.HashMap<EventType.Parameter, SetGenerator>(), name);
+		this(type, new HashMap<EventType.Parameter, SetGenerator>(), name);
 	}
 
 	/**
@@ -90,7 +97,7 @@ public class EventFactory
 
 		Event event = new Event(state, this.name, this.type);
 		event.parameters.putAll(this.parameters);
-		event.cantMoveIDs = java.util.Collections.unmodifiableCollection(this.cantMoveIDs);
+		event.cantMoveIDs = Collections.unmodifiableCollection(this.cantMoveIDs);
 		event.passResultID = this.passResultID;
 		event.preserve = this.preserve;
 		event.usesX = this.usesX;
@@ -117,7 +124,7 @@ public class EventFactory
 		{
 			GameObject physical = event.getSource().getPhysical();
 			if(null == physical.effectsGenerated)
-				physical.effectsGenerated = new java.util.HashMap<EventFactory, Integer>();
+				physical.effectsGenerated = new HashMap<EventFactory, Integer>();
 			physical.effectsGenerated.put(this, event.ID);
 		}
 		return event;
@@ -142,9 +149,9 @@ public class EventFactory
 	 * Determines which objects this event refers to; used by
 	 * {@link org.rnd.jmagic.engine.generators.AllSourcesOfDamage}.
 	 */
-	public java.util.Collection<GameObject> refersTo(GameState state, Identified thisObject)
+	public Collection<GameObject> refersTo(GameState state, Identified thisObject)
 	{
-		java.util.Collection<GameObject> ret = new java.util.HashSet<GameObject>();
+		Collection<GameObject> ret = new HashSet<GameObject>();
 
 		for(SetGenerator parameter: this.parameters.values())
 			for(GameObject referencedObject: parameter.evaluate(state, thisObject).getAll(GameObject.class))

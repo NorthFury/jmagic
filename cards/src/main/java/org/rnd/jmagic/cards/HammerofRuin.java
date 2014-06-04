@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.StaticPTChange;
+import org.rnd.jmagic.abilities.keywords.Equip;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -33,13 +36,13 @@ public final class HammerofRuin extends Card
 
 		// Equipped creature gets +2/+0.
 		SetGenerator enchantedCreature = EquippedBy.instance(This.instance());
-		this.addAbility(new org.rnd.jmagic.abilities.StaticPTChange(state, enchantedCreature, "Equipped creature", +2, +0, false));
+		this.addAbility(new StaticPTChange(state, enchantedCreature, "Equipped creature", +2, +0, false));
 
 		// Whenever equipped creature deals combat damage to a player, you may
 		// destroy target Equipment that player controls.
 		this.addAbility(new HammerofRuinAbility1(state));
 
 		// Equip (2)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Equip(state, "(2)"));
+		this.addAbility(new Equip(state, "(2)"));
 	}
 }

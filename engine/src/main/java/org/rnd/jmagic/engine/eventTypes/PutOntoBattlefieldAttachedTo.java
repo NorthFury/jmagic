@@ -3,6 +3,8 @@ package org.rnd.jmagic.engine.eventTypes;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.Map;
+
 public final class PutOntoBattlefieldAttachedTo extends EventType
 {	public static final EventType INSTANCE = new PutOntoBattlefieldAttachedTo();
 
@@ -18,7 +20,7 @@ public final class PutOntoBattlefieldAttachedTo extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean attempt(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		GameObject target = parameters.get(Parameter.TARGET).getOne(GameObject.class);
 
@@ -37,7 +39,7 @@ public final class PutOntoBattlefieldAttachedTo extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		for(GameObject attachment: parameters.get(Parameter.OBJECT).getAll(GameObject.class))
 		{

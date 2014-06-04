@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.AllSliversHave;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -36,6 +38,6 @@ public final class ScreechingSliver extends Card
 
 		// All Slivers have
 		// "(T): Target player puts the top card of his or her library into his or her graveyard."
-		this.addAbility(new org.rnd.jmagic.abilities.AllSliversHave(state, SliverMill.class, "All Slivers have \"(T): Target player puts the top card of his or her library into his or her graveyard.\""));
+		this.addAbility(new AllSliversHave(state, SliverMill.class, "All Slivers have \"(T): Target player puts the top card of his or her library into his or her graveyard.\""));
 	}
 }

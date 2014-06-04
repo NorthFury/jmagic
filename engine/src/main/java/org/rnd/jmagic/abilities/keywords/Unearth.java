@@ -6,6 +6,11 @@ import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
 
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
 public final class Unearth extends Keyword
 {
 	public static final class UnearthAbility extends ActivatedAbility
@@ -25,7 +30,7 @@ public final class Unearth extends Keyword
 			}
 
 			@Override
-			public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+			public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 			{
 				Event moveEvent;
 				boolean ret = true;
@@ -36,7 +41,7 @@ public final class Unearth extends Keyword
 
 				// Return this card from your graveyard to play.
 				{
-					java.util.Map<EventType.Parameter, MagicSet> moveParameters = new java.util.HashMap<EventType.Parameter, MagicSet>();
+					Map<EventType.Parameter, MagicSet> moveParameters = new HashMap<EventType.Parameter, MagicSet>();
 					moveParameters.put(EventType.Parameter.CAUSE, cause);
 					moveParameters.put(EventType.Parameter.CONTROLLER, controller);
 					moveParameters.put(EventType.Parameter.OBJECT, thisCard);
@@ -50,9 +55,9 @@ public final class Unearth extends Keyword
 				{
 					ContinuousEffect.Part part = new ContinuousEffect.Part(ContinuousEffectType.ADD_ABILITY_TO_OBJECT);
 					part.parameters.put(ContinuousEffectType.Parameter.OBJECT, Identity.instance(it));
-					part.parameters.put(ContinuousEffectType.Parameter.ABILITY, Identity.instance(new org.rnd.jmagic.engine.SimpleAbilityFactory(Haste.class)));
+					part.parameters.put(ContinuousEffectType.Parameter.ABILITY, Identity.instance(new SimpleAbilityFactory(Haste.class)));
 
-					java.util.Map<EventType.Parameter, MagicSet> hasteParameters = new java.util.HashMap<EventType.Parameter, MagicSet>();
+					Map<EventType.Parameter, MagicSet> hasteParameters = new HashMap<EventType.Parameter, MagicSet>();
 					hasteParameters.put(EventType.Parameter.CAUSE, cause);
 					hasteParameters.put(EventType.Parameter.EFFECT, new MagicSet(part));
 					hasteParameters.put(EventType.Parameter.EXPIRES, new MagicSet(Empty.instance()));
@@ -72,7 +77,7 @@ public final class Unearth extends Keyword
 					exileFactory.parameters.put(EventType.Parameter.OBJECT, Identity.instance(it));
 
 					// Delayed trigger parameter map
-					java.util.Map<EventType.Parameter, MagicSet> trigParameters = new java.util.HashMap<EventType.Parameter, MagicSet>();
+					Map<EventType.Parameter, MagicSet> trigParameters = new HashMap<EventType.Parameter, MagicSet>();
 					trigParameters.put(EventType.Parameter.CAUSE, cause);
 					trigParameters.put(EventType.Parameter.EVENT, new MagicSet(eot));
 					trigParameters.put(EventType.Parameter.EFFECT, new MagicSet(exileFactory));
@@ -87,7 +92,7 @@ public final class Unearth extends Keyword
 
 					ContinuousEffect.Part part = replacementEffectPart(rfgEffect);
 
-					java.util.Map<EventType.Parameter, MagicSet> replacementParameters = new java.util.HashMap<EventType.Parameter, MagicSet>();
+					Map<EventType.Parameter, MagicSet> replacementParameters = new HashMap<EventType.Parameter, MagicSet>();
 					replacementParameters.put(EventType.Parameter.CAUSE, cause);
 					replacementParameters.put(EventType.Parameter.EFFECT, new MagicSet(part));
 					replacementParameters.put(EventType.Parameter.EXPIRES, new MagicSet(Empty.instance()));
@@ -145,9 +150,9 @@ public final class Unearth extends Keyword
 	}
 
 	@Override
-	protected java.util.List<NonStaticAbility> createNonStaticAbilities()
+	protected List<NonStaticAbility> createNonStaticAbilities()
 	{
-		java.util.List<NonStaticAbility> ret = new java.util.LinkedList<NonStaticAbility>();
+		List<NonStaticAbility> ret = new LinkedList<NonStaticAbility>();
 		ret.add(new UnearthAbility(this.state, this.cost));
 		return ret;
 	}

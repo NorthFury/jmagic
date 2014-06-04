@@ -1,14 +1,16 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.TapFor1;
+import org.rnd.jmagic.abilities.TapForMana;
 import org.rnd.jmagic.engine.*;
 
 @Name("An-Havva Township")
 @Types({Type.LAND})
 @Printings({@Printings.Printed(ex = Expansion.HOMELANDS, r = Rarity.UNCOMMON)})
 @ColorIdentity({Color.WHITE, Color.GREEN, Color.RED})
-public final class AnHavvaTownship extends org.rnd.jmagic.engine.Card
+public final class AnHavvaTownship extends Card
 {
-	public static final class TapForG extends org.rnd.jmagic.abilities.TapForMana
+	public static final class TapForG extends TapForMana
 	{
 		public TapForG(GameState state)
 		{
@@ -18,7 +20,7 @@ public final class AnHavvaTownship extends org.rnd.jmagic.engine.Card
 		}
 	}
 
-	public static final class TapForROrW extends org.rnd.jmagic.abilities.TapForMana
+	public static final class TapForROrW extends TapForMana
 	{
 		public TapForROrW(GameState state)
 		{
@@ -34,6 +36,6 @@ public final class AnHavvaTownship extends org.rnd.jmagic.engine.Card
 
 		this.addAbility(new TapForG(state));
 		this.addAbility(new TapForROrW(state));
-		this.addAbility(new org.rnd.jmagic.abilities.TapFor1(state));
+		this.addAbility(new TapFor1(state));
 	}
 }

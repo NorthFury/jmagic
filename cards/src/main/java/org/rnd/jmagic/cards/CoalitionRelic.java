@@ -1,9 +1,13 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.TapForAnyColor;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
+
+import java.util.Map;
 
 @Name("Coalition Relic")
 @Types({Type.ARTIFACT})
@@ -34,7 +38,7 @@ public final class CoalitionRelic extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			GameObject coalitionRelic = parameters.get(Parameter.SOURCE).getOne(GameObject.class);
 			int num = CountersOn.get(coalitionRelic, Counter.CounterType.CHARGE).size();
@@ -73,7 +77,7 @@ public final class CoalitionRelic extends Card
 		super(state);
 
 		// (T): Add one mana of any color to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapForAnyColor(state));
+		this.addAbility(new TapForAnyColor(state));
 
 		// (T): Put a charge counter on Coalition Relic.
 		this.addAbility(new CoalitionRelicAbility1(state));

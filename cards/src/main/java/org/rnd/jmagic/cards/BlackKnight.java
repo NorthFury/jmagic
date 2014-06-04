@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.FirstStrike;
+import org.rnd.jmagic.abilities.keywords.Protection;
 import org.rnd.jmagic.engine.*;
 
 @Name("Black Knight")
@@ -17,7 +19,7 @@ public final class BlackKnight extends Card
 		this.setPower(2);
 		this.setToughness(2);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.FirstStrike(state));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Protection.FromWhite(state));
+		this.addAbility(new FirstStrike(state));
+		this.addAbility(new Protection.FromWhite(state));
 	}
 }

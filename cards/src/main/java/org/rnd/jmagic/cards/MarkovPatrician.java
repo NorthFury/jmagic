@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Lifelink;
 import org.rnd.jmagic.engine.*;
 
 @Name("Markov Patrician")
@@ -19,6 +20,6 @@ public final class MarkovPatrician extends Card
 
 		// Lifelink (Damage dealt by this creature also causes you to gain that
 		// much life.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Lifelink(state));
+		this.addAbility(new Lifelink(state));
 	}
 }

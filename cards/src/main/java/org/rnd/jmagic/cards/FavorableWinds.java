@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -17,7 +19,7 @@ public final class FavorableWinds extends Card
 		{
 			super(state, "Creatures you control with flying get +1/+1.");
 
-			SetGenerator hasFlying = HasKeywordAbility.instance(org.rnd.jmagic.abilities.keywords.Flying.class);
+			SetGenerator hasFlying = HasKeywordAbility.instance(Flying.class);
 			this.addEffectPart(modifyPowerAndToughness(Intersect.instance(CREATURES_YOU_CONTROL, hasFlying), +1, +1));
 		}
 	}

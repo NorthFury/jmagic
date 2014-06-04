@@ -3,6 +3,7 @@ package org.rnd.jmagic.cards;
 import static org.junit.Assert.*;
 
 import org.junit.*;
+import org.rnd.jmagic.abilities.keywords.Equip;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.testing.*;
 
@@ -24,7 +25,7 @@ public class GraftedExoskeletonTest extends JUnitTest
 		castAndResolveSpell(GraftedExoskeleton.class);
 		castAndResolveSpell(GrizzlyBears.class);
 
-		respondWith(getAbilityAction(org.rnd.jmagic.abilities.keywords.Equip.EquipAbility.class));
+		respondWith(getAbilityAction(Equip.EquipAbility.class));
 		addMana("2");
 		donePlayingManaAbilities();
 		pass();

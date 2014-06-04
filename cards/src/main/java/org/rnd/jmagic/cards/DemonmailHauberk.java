@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Equip;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -30,6 +32,6 @@ public final class DemonmailHauberk extends Card
 
 		// Equip\u2014Sacrifice a creature.
 		EventFactory sacrifice = sacrifice(You.instance(), 1, CreaturePermanents.instance(), "Sacrifice a creature");
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Equip(state, new CostCollection(org.rnd.jmagic.abilities.keywords.Equip.COST_TYPE, sacrifice)));
+		this.addAbility(new Equip(state, new CostCollection(Equip.COST_TYPE, sacrifice)));
 	}
 }

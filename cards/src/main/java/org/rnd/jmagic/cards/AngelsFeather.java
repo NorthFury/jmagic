@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilityTemplates.ColorTriggeredLife;
 import org.rnd.jmagic.engine.*;
 
 @Name("Angel's Feather")
@@ -9,7 +10,7 @@ import org.rnd.jmagic.engine.*;
 @ColorIdentity({})
 public final class AngelsFeather extends Card
 {
-	public static final class WhiteLife extends org.rnd.jmagic.abilityTemplates.ColorTriggeredLife
+	public static final class WhiteLife extends ColorTriggeredLife
 	{
 		public WhiteLife(GameState state)
 		{

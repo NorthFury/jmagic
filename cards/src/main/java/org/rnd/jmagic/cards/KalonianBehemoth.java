@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Shroud;
 import org.rnd.jmagic.engine.*;
 
 @Name("Kalonian Behemoth")
@@ -17,6 +18,6 @@ public final class KalonianBehemoth extends Card
 		this.setPower(9);
 		this.setToughness(9);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Shroud(state));
+		this.addAbility(new Shroud(state));
 	}
 }

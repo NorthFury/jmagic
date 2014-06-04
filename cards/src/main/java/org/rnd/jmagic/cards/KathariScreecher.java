@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Unearth;
 import org.rnd.jmagic.engine.*;
 
 @Name("Kathari Screecher")
@@ -17,8 +19,8 @@ public final class KathariScreecher extends Card
 		this.setPower(2);
 		this.setToughness(2);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Unearth(state, "(2)(U)"));
+		this.addAbility(new Unearth(state, "(2)(U)"));
 	}
 }

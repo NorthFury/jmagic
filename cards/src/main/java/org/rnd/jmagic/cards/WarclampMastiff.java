@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.FirstStrike;
 import org.rnd.jmagic.engine.*;
 
 @Name("Warclamp Mastiff")
@@ -19,6 +20,6 @@ public final class WarclampMastiff extends Card
 
 		// First strike (This creature deals combat damage before creatures
 		// without first strike.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.FirstStrike(state));
+		this.addAbility(new FirstStrike(state));
 	}
 }

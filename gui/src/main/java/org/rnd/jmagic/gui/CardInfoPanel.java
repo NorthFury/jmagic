@@ -2,10 +2,23 @@ package org.rnd.jmagic.gui;
 
 import org.rnd.jmagic.sanitized.*;
 
-class CardInfoPanel extends javax.swing.JPanel
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.border.EmptyBorder;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Rectangle;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+
+class CardInfoPanel extends JPanel
 {
 	private static final long serialVersionUID = 1L;
-	private static final java.awt.Rectangle TOP_LEFT_PIXEL = new java.awt.Rectangle(0, 0, 1, 1);
+	private static final Rectangle TOP_LEFT_PIXEL = new Rectangle(0, 0, 1, 1);
 
 	private static final class ImageCacheKey
 	{
@@ -52,14 +65,14 @@ class CardInfoPanel extends javax.swing.JPanel
 	/**
 	 * This is just a storage place for
 	 * {@link #setFocus(int, SanitizedGameState)} to communicate to
-	 * {@link #paintComponent(java.awt.Graphics)} what to render. To change the
+	 * {@link #paintComponent(Graphics)} what to render. To change the
 	 * actual focus, see {@link #focusID}.
 	 */
 	private SanitizedIdentified focus;
 
 	/**
 	 * The ID of the focus to render. This will be used to look-up the actual
-	 * focus object for {@link #paintComponent(java.awt.Graphics)} to use.
+	 * focus object for {@link #paintComponent(Graphics)} to use.
 	 */
 	private int focusID;
 
@@ -67,9 +80,9 @@ class CardInfoPanel extends javax.swing.JPanel
 
 	private final Play gui;
 
-	private java.util.Map<ImageCacheKey, java.awt.Image> largeImageCache;
+	private Map<ImageCacheKey, Image> largeImageCache;
 
-	final javax.swing.JScrollPane scroll;
+	final JScrollPane scroll;
 
 	private final JMagicTextPane textbox;
 
@@ -81,13 +94,13 @@ class CardInfoPanel extends javax.swing.JPanel
 		this.focus = null;
 		this.forceUpdate = false;
 		this.gui = play;
-		this.largeImageCache = new java.util.HashMap<ImageCacheKey, java.awt.Image>();
+		this.largeImageCache = new HashMap<ImageCacheKey, Image>();
 
 		this.textbox = new JMagicTextPane();
 
-		this.scroll = new javax.swing.JScrollPane(this.textbox, javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		this.scroll.setBorder(new javax.swing.border.EmptyBorder(0, 0, 0, 0));
-		this.scroll.setBounds(new java.awt.Rectangle(CardGraphics.LARGE_CARD_PADDING_LEFT, CardGraphics.LARGE_CARD_TEXT_BOX_TOP, CardGraphics.LARGE_CARD_TEXT_WIDTH, CardGraphics.LARGE_CARD_TEXT_BOX_HEIGHT));
+		this.scroll = new JScrollPane(this.textbox, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		this.scroll.setBorder(new EmptyBorder(0, 0, 0, 0));
+		this.scroll.setBounds(new Rectangle(CardGraphics.LARGE_CARD_PADDING_LEFT, CardGraphics.LARGE_CARD_TEXT_BOX_TOP, CardGraphics.LARGE_CARD_TEXT_WIDTH, CardGraphics.LARGE_CARD_TEXT_BOX_HEIGHT));
 		this.scroll.setOpaque(false);
 		this.scroll.getViewport().setOpaque(false);
 
@@ -102,7 +115,7 @@ class CardInfoPanel extends javax.swing.JPanel
 		for(int id: new int[] {arrow.sourceID, arrow.targetID})
 		{
 			if(!this.gui.arrows.containsKey(id))
-				this.gui.arrows.put(id, new java.util.HashSet<Arrow>());
+				this.gui.arrows.put(id, new HashSet<Arrow>());
 			this.gui.arrows.get(id).add(arrow);
 		}
 	}
@@ -123,7 +136,7 @@ class CardInfoPanel extends javax.swing.JPanel
 		return (!this.displayArrows || this.focus == null ? -1 : this.focus.ID);
 	}
 
-	private java.awt.Image getLargeCardImage(SanitizedIdentified card, SanitizedGameObject.CharacteristicSet option, java.awt.Font font)
+	private Image getLargeCardImage(SanitizedIdentified card, SanitizedGameObject.CharacteristicSet option, Font font)
 	{
 		if(card == null)
 			return CardGraphics.getLargeCard(null, option, this.gui.state, font);
@@ -137,7 +150,7 @@ class CardInfoPanel extends javax.swing.JPanel
 	}
 
 	@Override
-	protected void paintComponent(java.awt.Graphics g)
+	protected void paintComponent(Graphics g)
 	{
 		super.paintComponent(g);
 		CardGraphics cardGraphics = new CardGraphics(g, this.gui.state);
@@ -210,11 +223,11 @@ class CardInfoPanel extends javax.swing.JPanel
 		this.setFocus((card == null ? -1 : card.ID), state);
 
 		if(null == card)
-			this.textbox.setForeground(java.awt.Color.WHITE);
+			this.textbox.setForeground(Color.WHITE);
 		else if(card.faceDown && this.displayType == SanitizedGameObject.CharacteristicSet.ACTUAL)
-			this.textbox.setForeground(java.awt.Color.WHITE);
+			this.textbox.setForeground(Color.WHITE);
 		else
-			this.textbox.setForeground(java.awt.Color.BLACK);
+			this.textbox.setForeground(Color.BLACK);
 	}
 
 	public void setFocusToNonGameObject(int ID, SanitizedGameState state)

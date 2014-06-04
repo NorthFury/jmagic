@@ -3,9 +3,24 @@ package org.rnd.jmagic.testing;
 import static org.junit.Assert.*;
 
 import org.junit.*;
+import org.rnd.jmagic.abilities.TapForG;
+import org.rnd.jmagic.abilities.keywords.Cycling;
+import org.rnd.jmagic.abilities.keywords.Equip;
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Fortify;
+import org.rnd.jmagic.abilities.keywords.Lifelink;
+import org.rnd.jmagic.abilities.keywords.Overload;
+import org.rnd.jmagic.abilities.keywords.Reinforce;
+import org.rnd.jmagic.abilities.keywords.Scavenge;
+import org.rnd.jmagic.abilities.keywords.Soulbond;
+import org.rnd.jmagic.abilities.keywords.Suspend;
+import org.rnd.jmagic.abilities.keywords.TypeCycling;
+import org.rnd.jmagic.abilities.keywords.Unearth;
 import org.rnd.jmagic.cards.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.sanitized.*;
+
+import java.io.Serializable;
 
 public class KeywordsNonCombatTest extends JUnitTest
 {
@@ -819,7 +834,7 @@ public class KeywordsNonCombatTest extends JUnitTest
 
 		respondWith(getSpellAction(ScattertheSeeds.class));
 		// convoke:
-		respondWith((java.io.Serializable)this.choices.iterator().next());
+		respondWith((Serializable)this.choices.iterator().next());
 		// tap two saprolings:
 		respondWith(pullChoice(Token.class), pullChoice(Token.class));
 		// reduce the cost by 1G:
@@ -831,7 +846,7 @@ public class KeywordsNonCombatTest extends JUnitTest
 		// game state will reverse, allowing me to cast the scatter again:
 		respondWith(getSpellAction(ScattertheSeeds.class));
 		// convoke:
-		respondWith((java.io.Serializable)this.choices.iterator().next());
+		respondWith((Serializable)this.choices.iterator().next());
 		// tap two saprolings:
 		respondWith(pullChoice(Token.class), pullChoice(Token.class));
 		// reduce the cost by 1G:
@@ -1057,10 +1072,10 @@ public class KeywordsNonCombatTest extends JUnitTest
 
 		GameObject etchings = this.game.physicalState.battlefield().objects.get(0);
 		etchings.getName().equals("Phyrexian Etchings");
-		etchings.counters.add(new org.rnd.jmagic.engine.Counter(org.rnd.jmagic.engine.Counter.CounterType.AGE, etchings.ID));
-		etchings.counters.add(new org.rnd.jmagic.engine.Counter(org.rnd.jmagic.engine.Counter.CounterType.AGE, etchings.ID));
-		etchings.counters.add(new org.rnd.jmagic.engine.Counter(org.rnd.jmagic.engine.Counter.CounterType.AGE, etchings.ID));
-		etchings.counters.add(new org.rnd.jmagic.engine.Counter(org.rnd.jmagic.engine.Counter.CounterType.AGE, etchings.ID));
+		etchings.counters.add(new Counter(Counter.CounterType.AGE, etchings.ID));
+		etchings.counters.add(new Counter(Counter.CounterType.AGE, etchings.ID));
+		etchings.counters.add(new Counter(Counter.CounterType.AGE, etchings.ID));
+		etchings.counters.add(new Counter(Counter.CounterType.AGE, etchings.ID));
 
 		respondWith(getLandAction(Plains.class));
 
@@ -1136,7 +1151,7 @@ public class KeywordsNonCombatTest extends JUnitTest
 
 		assertEquals(7, player(0).pool.converted());
 
-		respondWith(getAbilityAction(org.rnd.jmagic.abilities.keywords.Cycling.CyclingAbility.class));
+		respondWith(getAbilityAction(Cycling.CyclingAbility.class));
 
 		// Cycle
 		assertEquals(1, this.game.actualState.stack().objects.size());
@@ -1201,7 +1216,7 @@ public class KeywordsNonCombatTest extends JUnitTest
 		// 2x Plains
 		assertEquals(2, getLibrary(0).objects.size());
 
-		respondWith(getAbilityAction(org.rnd.jmagic.abilities.keywords.Cycling.CyclingAbility.class));
+		respondWith(getAbilityAction(Cycling.CyclingAbility.class));
 
 		// Cycle
 		assertEquals(1, this.game.actualState.stack().objects.size());
@@ -1236,7 +1251,7 @@ public class KeywordsNonCombatTest extends JUnitTest
 		// 2x Plains
 		assertEquals(2, getLibrary(0).objects.size());
 
-		respondWith(getAbilityAction(org.rnd.jmagic.abilities.keywords.Cycling.CyclingAbility.class));
+		respondWith(getAbilityAction(Cycling.CyclingAbility.class));
 
 		// Cycle, Pump, Cycle
 		assertEquals(3, this.game.actualState.stack().objects.size());
@@ -1361,7 +1376,7 @@ public class KeywordsNonCombatTest extends JUnitTest
 		pass();
 		pass();
 
-		respondWith(getAbilityAction(org.rnd.jmagic.abilities.keywords.Cycling.CyclingAbility.class));
+		respondWith(getAbilityAction(Cycling.CyclingAbility.class));
 		respondWith(getAbilityAction(BlackLotus.BlackLotusMana.class));
 		respondWith(Color.BLACK);
 		respondWith(getAbilityAction(BlackLotus.BlackLotusMana.class));
@@ -1407,7 +1422,7 @@ public class KeywordsNonCombatTest extends JUnitTest
 		pass();
 		pass();
 
-		respondWith(getAbilityAction(org.rnd.jmagic.abilities.keywords.Cycling.CyclingAbility.class));
+		respondWith(getAbilityAction(Cycling.CyclingAbility.class));
 		respondWith(getAbilityAction(BlackLotus.BlackLotusMana.class));
 		respondWith(Color.BLACK);
 		respondWith(getAbilityAction(BlackLotus.BlackLotusMana.class));
@@ -1961,7 +1976,7 @@ public class KeywordsNonCombatTest extends JUnitTest
 		assertEquals(1, this.game.actualState.battlefield().objects.get(1).getToughness());
 		assertTrue(this.game.actualState.battlefield().objects.get(1).getAttachments().isEmpty());
 
-		respondWith(getAbilityAction(org.rnd.jmagic.abilities.keywords.Equip.EquipAbility.class));
+		respondWith(getAbilityAction(Equip.EquipAbility.class));
 		// auto-target Raging Goblin
 		donePlayingManaAbilities();
 		// auto-select final R in mana pool
@@ -1990,7 +2005,7 @@ public class KeywordsNonCombatTest extends JUnitTest
 
 		Identified ragingGoblinSecond = this.game.physicalState.battlefield().objects.get(0);
 
-		respondWith(getAbilityAction(org.rnd.jmagic.abilities.keywords.Equip.EquipAbility.class));
+		respondWith(getAbilityAction(Equip.EquipAbility.class));
 		respondWith(getTarget(ragingGoblinSecond));
 		donePlayingManaAbilities();
 		respondWith(getMana(Color.RED));
@@ -2008,7 +2023,7 @@ public class KeywordsNonCombatTest extends JUnitTest
 		assertEquals(1, this.game.actualState.battlefield().objects.get(2).getToughness());
 		assertTrue(this.game.actualState.battlefield().objects.get(2).getAttachments().isEmpty());
 
-		respondWith(getAbilityAction(org.rnd.jmagic.abilities.keywords.Equip.EquipAbility.class));
+		respondWith(getAbilityAction(Equip.EquipAbility.class));
 		respondWith(getTarget(ragingGoblinSecond));
 		donePlayingManaAbilities();
 		// auto-select final R in mana pool
@@ -2042,8 +2057,8 @@ public class KeywordsNonCombatTest extends JUnitTest
 
 		assertEquals(14, this.choices.size());
 
-		java.io.Serializable choice = null;
-		for(java.io.Serializable c: this.choices.getAll(java.io.Serializable.class))
+		Serializable choice = null;
+		for(Serializable c: this.choices.getAll(Serializable.class))
 		{
 			if(c.toString().equals("Cast Mulldrifter"))
 			{
@@ -2076,7 +2091,7 @@ public class KeywordsNonCombatTest extends JUnitTest
 		assertEquals(1, this.game.actualState.battlefield().objects.size());
 		assertEquals(8, player(0).getHand(this.game.actualState).objects.size());
 
-		for(java.io.Serializable c: this.choices.getAll(java.io.Serializable.class))
+		for(Serializable c: this.choices.getAll(Serializable.class))
 		{
 			if(c.toString().equals("Cast Mulldrifter for its evoke cost"))
 			{
@@ -2482,7 +2497,7 @@ public class KeywordsNonCombatTest extends JUnitTest
 		pass();
 		pass();
 
-		respondWith(getAbilityAction(org.rnd.jmagic.abilities.keywords.Fortify.FortifyAbility.class));
+		respondWith(getAbilityAction(Fortify.FortifyAbility.class));
 		// auto-target Arbor
 		respondWith(getAbilityAction(BlackLotus.BlackLotusMana.class));
 		respondWith(Color.RED);
@@ -2532,7 +2547,7 @@ public class KeywordsNonCombatTest extends JUnitTest
 		assertTrue(this.game.actualState.battlefield().objects.get(0).isTapped() == true);
 		assertEquals(1, this.game.actualState.battlefield().objects.get(0).counters.size());
 
-		respondWith(getAbilityAction(org.rnd.jmagic.abilities.TapForG.class));
+		respondWith(getAbilityAction(TapForG.class));
 
 		// since the land is tapped, the action is illegal and gets reversed
 		assertTrue(this.choices.size() == 1.0);
@@ -2569,7 +2584,7 @@ public class KeywordsNonCombatTest extends JUnitTest
 		assertTrue(this.game.actualState.battlefield().objects.get(0).isTapped() == true);
 		assertEquals(1, this.game.actualState.battlefield().objects.get(0).counters.size());
 
-		respondWith(getAbilityAction(org.rnd.jmagic.abilities.TapForG.class));
+		respondWith(getAbilityAction(TapForG.class));
 
 		// since the land is tapped, the action is illegal and gets reversed
 		assertTrue(this.choices.size() == 1.0);
@@ -2779,7 +2794,7 @@ public class KeywordsNonCombatTest extends JUnitTest
 		goToPhase(Phase.PhaseType.PRECOMBAT_MAIN);
 
 		respondWith(getSpellAction(GatekeeperofMalakir.class));
-		respondWith((java.io.Serializable)this.choices.iterator().next());
+		respondWith((Serializable)this.choices.iterator().next());
 		addMana("BBB");
 		donePlayingManaAbilities();
 
@@ -2805,9 +2820,9 @@ public class KeywordsNonCombatTest extends JUnitTest
 		respondWith(getSpellAction(BurstLightning.class));
 		// Check that it can only be kicked once. The engine should reject this
 		// choice and re-ask.
-		respondWith((java.io.Serializable)this.choices.iterator().next(), (java.io.Serializable)this.choices.iterator().next());
+		respondWith((Serializable)this.choices.iterator().next(), (Serializable)this.choices.iterator().next());
 		// Respond validly this time.
-		respondWith((java.io.Serializable)this.choices.iterator().next());
+		respondWith((Serializable)this.choices.iterator().next());
 		respondWith(getTarget(player(0)));
 		addMana("4R");
 		donePlayingManaAbilities();
@@ -2843,7 +2858,7 @@ public class KeywordsNonCombatTest extends JUnitTest
 
 		respondWith(getSpellAction(EverflowingChalice.class));
 		// three kicks:
-		respondWith(this.choices.getOne(java.io.Serializable.class), this.choices.getOne(java.io.Serializable.class), this.choices.getOne(java.io.Serializable.class));
+		respondWith(this.choices.getOne(Serializable.class), this.choices.getOne(Serializable.class), this.choices.getOne(Serializable.class));
 		addMana("6");
 		donePlayingManaAbilities();
 		// trigger target:
@@ -2881,7 +2896,7 @@ public class KeywordsNonCombatTest extends JUnitTest
 		pass();
 		pass();
 
-		respondWith(getAbilityAction(org.rnd.jmagic.abilities.keywords.Equip.EquipAbility.class));
+		respondWith(getAbilityAction(Equip.EquipAbility.class));
 		addMana("3");
 		donePlayingManaAbilities();
 		pass();
@@ -2922,7 +2937,7 @@ public class KeywordsNonCombatTest extends JUnitTest
 		assertEquals(18, player(1).lifeTotal);
 		assertEquals(22, player(0).lifeTotal);
 		assertEquals("Brion Stoutarm", BrionStoutarm.getName());
-		assertEquals(2, new MagicSet(BrionStoutarm.getKeywordAbilities()).getAll(org.rnd.jmagic.abilities.keywords.Lifelink.class).size());
+		assertEquals(2, new MagicSet(BrionStoutarm.getKeywordAbilities()).getAll(Lifelink.class).size());
 	}
 
 	@Test
@@ -3062,7 +3077,7 @@ public class KeywordsNonCombatTest extends JUnitTest
 		pass();
 
 		respondWith(getSpellAction(Electrickery.class));
-		assertEquals(org.rnd.jmagic.engine.PlayerInterface.ChoiceType.ALTERNATE_COST, this.choiceType);
+		assertEquals(PlayerInterface.ChoiceType.ALTERNATE_COST, this.choiceType);
 		respondWith(getCostCollection(CostCollection.TYPE_MANA, "(R)"));
 		respondWith(getTarget(SleeperAgent.class));
 		addMana("R");
@@ -3081,8 +3096,8 @@ public class KeywordsNonCombatTest extends JUnitTest
 		assertEquals(20, player(1).lifeTotal);
 
 		respondWith(getSpellAction(Electrickery.class));
-		assertEquals(org.rnd.jmagic.engine.PlayerInterface.ChoiceType.ALTERNATE_COST, this.choiceType);
-		respondWith(getCostCollection(org.rnd.jmagic.abilities.keywords.Overload.OVERLOAD_MANA, "(1)(R)"));
+		assertEquals(PlayerInterface.ChoiceType.ALTERNATE_COST, this.choiceType);
+		respondWith(getCostCollection(Overload.OVERLOAD_MANA, "(1)(R)"));
 		addMana("1R");
 		donePlayingManaAbilities();
 		pass();
@@ -3121,8 +3136,8 @@ public class KeywordsNonCombatTest extends JUnitTest
 		castAndResolveSpell(Progenitus.class);
 
 		respondWith(getSpellAction(Dynacharge.class));
-		assertEquals(org.rnd.jmagic.engine.PlayerInterface.ChoiceType.ALTERNATE_COST, this.choiceType);
-		respondWith(getCostCollection(org.rnd.jmagic.abilities.keywords.Overload.OVERLOAD_MANA, "(2)(R)"));
+		assertEquals(PlayerInterface.ChoiceType.ALTERNATE_COST, this.choiceType);
+		respondWith(getCostCollection(Overload.OVERLOAD_MANA, "(2)(R)"));
 		addMana("2R");
 		donePlayingManaAbilities();
 		pass();
@@ -3654,7 +3669,7 @@ public class KeywordsNonCombatTest extends JUnitTest
 		pass();
 
 		assertEquals(5, this.choices.size());
-		assertTrue(this.choices.containsAll(org.rnd.jmagic.engine.Color.allColors()));
+		assertTrue(this.choices.containsAll(Color.allColors()));
 
 		respondWith(Color.RED);
 
@@ -4008,7 +4023,7 @@ public class KeywordsNonCombatTest extends JUnitTest
 		pass();
 		pass();
 
-		respondWith(getAbilityAction(org.rnd.jmagic.abilities.keywords.Reinforce.ReinforceAbility.class));
+		respondWith(getAbilityAction(Reinforce.ReinforceAbility.class));
 		respondWith(getAbilityAction(BlackLotus.BlackLotusMana.class));
 		respondWith(Color.GREEN);
 		donePlayingManaAbilities();
@@ -4053,7 +4068,7 @@ public class KeywordsNonCombatTest extends JUnitTest
 
 		goToPhase(Phase.PhaseType.POSTCOMBAT_MAIN);
 
-		respondWith(getAbilityAction(org.rnd.jmagic.abilities.keywords.Scavenge.ExileForCounters.class));
+		respondWith(getAbilityAction(Scavenge.ExileForCounters.class));
 		// Automatically target the Raging Goblin
 		addMana("2BB");
 		donePlayingManaAbilities();
@@ -4092,7 +4107,7 @@ public class KeywordsNonCombatTest extends JUnitTest
 			GameObject wingcrafter = this.game.actualState.battlefield().objects.get(0);
 			assertEquals("Wingcrafter", wingcrafter.getName());
 			assertEquals(1, wingcrafter.getKeywordAbilities().size());
-			assertEquals(org.rnd.jmagic.abilities.keywords.Soulbond.class, wingcrafter.getKeywordAbilities().get(0).getClass());
+			assertEquals(Soulbond.class, wingcrafter.getKeywordAbilities().get(0).getClass());
 
 			GameObject statuary = this.game.actualState.battlefield().objects.get(1);
 			assertEquals("Dread Statuary", statuary.getName());
@@ -4110,13 +4125,13 @@ public class KeywordsNonCombatTest extends JUnitTest
 			GameObject wingcrafter = this.game.actualState.battlefield().objects.get(0);
 			assertEquals("Wingcrafter", wingcrafter.getName());
 			assertEquals(2, wingcrafter.getKeywordAbilities().size());
-			assertEquals(org.rnd.jmagic.abilities.keywords.Soulbond.class, wingcrafter.getKeywordAbilities().get(0).getClass());
-			assertEquals(org.rnd.jmagic.abilities.keywords.Flying.class, wingcrafter.getKeywordAbilities().get(1).getClass());
+			assertEquals(Soulbond.class, wingcrafter.getKeywordAbilities().get(0).getClass());
+			assertEquals(Flying.class, wingcrafter.getKeywordAbilities().get(1).getClass());
 
 			GameObject statuary = this.game.actualState.battlefield().objects.get(1);
 			assertEquals("Dread Statuary", statuary.getName());
 			assertEquals(1, statuary.getKeywordAbilities().size());
-			assertEquals(org.rnd.jmagic.abilities.keywords.Flying.class, statuary.getKeywordAbilities().get(0).getClass());
+			assertEquals(Flying.class, statuary.getKeywordAbilities().get(0).getClass());
 		}
 
 		castAndResolveSpell(Wingcrafter.class);
@@ -4137,12 +4152,12 @@ public class KeywordsNonCombatTest extends JUnitTest
 		{
 			GameObject bears = this.game.actualState.battlefield().objects.get(0);
 			assertEquals(1, bears.getKeywordAbilities().size());
-			assertEquals(org.rnd.jmagic.abilities.keywords.Flying.class, bears.getKeywordAbilities().get(0).getClass());
+			assertEquals(Flying.class, bears.getKeywordAbilities().get(0).getClass());
 
 			GameObject wingcrafter2 = this.game.actualState.battlefield().objects.get(1);
 			assertEquals(2, wingcrafter2.getKeywordAbilities().size());
-			assertEquals(org.rnd.jmagic.abilities.keywords.Soulbond.class, wingcrafter2.getKeywordAbilities().get(0).getClass());
-			assertEquals(org.rnd.jmagic.abilities.keywords.Flying.class, wingcrafter2.getKeywordAbilities().get(1).getClass());
+			assertEquals(Soulbond.class, wingcrafter2.getKeywordAbilities().get(0).getClass());
+			assertEquals(Flying.class, wingcrafter2.getKeywordAbilities().get(1).getClass());
 		}
 
 		castAndResolveSpell(DoomBlade.class, GrizzlyBears.class);
@@ -4150,7 +4165,7 @@ public class KeywordsNonCombatTest extends JUnitTest
 		{
 			GameObject wingcrafter2 = this.game.actualState.battlefield().objects.get(0);
 			assertEquals(1, wingcrafter2.getKeywordAbilities().size());
-			assertEquals(org.rnd.jmagic.abilities.keywords.Soulbond.class, wingcrafter2.getKeywordAbilities().get(0).getClass());
+			assertEquals(Soulbond.class, wingcrafter2.getKeywordAbilities().get(0).getClass());
 		}
 
 		goToPhase(Phase.PhaseType.BEGINNING);
@@ -4160,7 +4175,7 @@ public class KeywordsNonCombatTest extends JUnitTest
 			// first Wingcrafter should be unpaired
 			GameObject wingcrafter1 = this.game.actualState.battlefield().objects.get(1);
 			assertEquals(1, wingcrafter1.getKeywordAbilities().size());
-			assertEquals(org.rnd.jmagic.abilities.keywords.Soulbond.class, wingcrafter1.getKeywordAbilities().get(0).getClass());
+			assertEquals(Soulbond.class, wingcrafter1.getKeywordAbilities().get(0).getClass());
 
 			GameObject statuary = this.game.actualState.battlefield().objects.get(2);
 			assertEquals(0, statuary.getKeywordAbilities().size());
@@ -4637,13 +4652,13 @@ public class KeywordsNonCombatTest extends JUnitTest
 		respondWith(pullChoice(AncestralVision.class));
 
 		assertEquals(1, this.game.actualState.stack().objects.size());
-		assertEquals(org.rnd.jmagic.abilities.keywords.Suspend.SuspendRemoveCounter.class, this.game.actualState.stack().objects.get(0).getClass());
+		assertEquals(Suspend.SuspendRemoveCounter.class, this.game.actualState.stack().objects.get(0).getClass());
 
 		pass();
 		pass();
 
 		assertEquals(1, this.game.actualState.stack().objects.size());
-		assertEquals(org.rnd.jmagic.abilities.keywords.Suspend.SuspendCastSpell.class, this.game.actualState.stack().objects.get(0).getClass());
+		assertEquals(Suspend.SuspendCastSpell.class, this.game.actualState.stack().objects.get(0).getClass());
 
 		pass();
 		pass();
@@ -4688,7 +4703,7 @@ public class KeywordsNonCombatTest extends JUnitTest
 		assertTrue(this.game.actualState.battlefield().objects.get(0).getName().equals("Indomitable Ancients"));
 		assertEquals(5, this.game.actualState.battlefield().objects.get(0).getDamage());
 
-		respondWith(getAbilityAction(org.rnd.jmagic.abilities.keywords.TypeCycling.TypeCyclingAbility.class));
+		respondWith(getAbilityAction(TypeCycling.TypeCyclingAbility.class));
 		addMana("1R");
 		donePlayingManaAbilities();
 		pass();
@@ -4731,7 +4746,7 @@ public class KeywordsNonCombatTest extends JUnitTest
 		assertTrue(this.game.actualState.battlefield().objects.get(0).getName().equals("Stoic Champion"));
 		assertEquals(2, this.game.actualState.battlefield().objects.get(0).getPower());
 
-		respondWith(getAbilityAction(org.rnd.jmagic.abilities.keywords.TypeCycling.TypeCyclingAbility.class));
+		respondWith(getAbilityAction(TypeCycling.TypeCyclingAbility.class));
 		addMana("1R");
 		donePlayingManaAbilities();
 
@@ -4778,7 +4793,7 @@ public class KeywordsNonCombatTest extends JUnitTest
 		respondWith(getLandAction(Swamp.class));
 
 		// Cycle the Viscera Dragger
-		respondWith(getAbilityAction(org.rnd.jmagic.abilities.keywords.Cycling.CyclingAbility.class));
+		respondWith(getAbilityAction(Cycling.CyclingAbility.class));
 		respondWith(getAbilityAction(BlackLotus.BlackLotusMana.class));
 		respondWith(Color.RED);
 		donePlayingManaAbilities();
@@ -4789,7 +4804,7 @@ public class KeywordsNonCombatTest extends JUnitTest
 		assertEquals(2, getGraveyard(0).objects.size());
 		assertTrue(getGraveyard(0).objects.get(0).getName().equals("Viscera Dragger"));
 
-		respondWith(getAbilityAction(org.rnd.jmagic.abilities.keywords.Unearth.UnearthAbility.class));
+		respondWith(getAbilityAction(Unearth.UnearthAbility.class));
 		respondWith(getIntrinsicAbilityAction(SubType.SWAMP));
 		donePlayingManaAbilities();
 		// Auto-choose the remaining two mana
@@ -4881,7 +4896,7 @@ public class KeywordsNonCombatTest extends JUnitTest
 		pass();
 		pass();
 
-		respondWith(getAbilityAction(org.rnd.jmagic.abilities.keywords.Cycling.CyclingAbility.class));
+		respondWith(getAbilityAction(Cycling.CyclingAbility.class));
 		respondWith(getAbilityAction(BlackLotus.BlackLotusMana.class));
 		respondWith(Color.BLACK);
 		donePlayingManaAbilities();
@@ -4889,7 +4904,7 @@ public class KeywordsNonCombatTest extends JUnitTest
 		pass();
 		pass();
 
-		respondWith(getAbilityAction(org.rnd.jmagic.abilities.keywords.Unearth.UnearthAbility.class));
+		respondWith(getAbilityAction(Unearth.UnearthAbility.class));
 		respondWith(getAbilityAction(BlackLotus.BlackLotusMana.class));
 		respondWith(Color.RED);
 		donePlayingManaAbilities();
@@ -4945,7 +4960,7 @@ public class KeywordsNonCombatTest extends JUnitTest
 		pass();
 		pass();
 
-		respondWith(getAbilityAction(org.rnd.jmagic.abilities.keywords.Cycling.CyclingAbility.class));
+		respondWith(getAbilityAction(Cycling.CyclingAbility.class));
 		respondWith(getAbilityAction(BlackLotus.BlackLotusMana.class));
 		respondWith(Color.BLACK);
 		respondWith(getAbilityAction(BlackLotus.BlackLotusMana.class));
@@ -4955,7 +4970,7 @@ public class KeywordsNonCombatTest extends JUnitTest
 		pass();
 		pass();
 
-		respondWith(getAbilityAction(org.rnd.jmagic.abilities.keywords.Unearth.UnearthAbility.class));
+		respondWith(getAbilityAction(Unearth.UnearthAbility.class));
 		donePlayingManaAbilities();
 		respondWith(getMana(Color.BLACK, Color.WHITE));
 		pass();

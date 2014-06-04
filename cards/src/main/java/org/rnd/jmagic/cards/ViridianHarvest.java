@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Enchant;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -28,7 +30,7 @@ public final class ViridianHarvest extends Card
 		super(state);
 
 		// Enchant artifact
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Enchant.Artifact(state));
+		this.addAbility(new Enchant.Artifact(state));
 
 		// When enchanted artifact is put into a graveyard, you gain 6 life.
 		this.addAbility(new ViridianHarvestAbility1(state));

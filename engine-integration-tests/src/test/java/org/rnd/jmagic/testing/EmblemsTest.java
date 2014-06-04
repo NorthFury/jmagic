@@ -5,6 +5,9 @@ import static org.junit.Assert.*;
 import org.rnd.jmagic.cards.*;
 import org.rnd.jmagic.engine.*;
 
+import java.util.Collection;
+import java.util.LinkedList;
+
 public class EmblemsTest extends JUnitTest
 {
 	@Test
@@ -22,7 +25,7 @@ public class EmblemsTest extends JUnitTest
 
 		castAndResolveSpell(ElspethKnightErrant.class, "2WW");
 
-		java.util.Collection<Counter> eightLoyaltyCounters = new java.util.LinkedList<Counter>();
+		Collection<Counter> eightLoyaltyCounters = new LinkedList<Counter>();
 		GameObject elspeth = this.game.physicalState.battlefield().objects.get(0);
 		for(int i = 0; i < 8; i++)
 			eightLoyaltyCounters.add(new Counter(Counter.CounterType.LOYALTY, elspeth.ID));

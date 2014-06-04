@@ -7,6 +7,9 @@ import org.rnd.jmagic.engine.gameTypes.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Name("The \u00C6ther Flues")
 @Types({Type.PLANE})
 @SubTypes({SubType.IQUATANA})
@@ -30,7 +33,7 @@ public final class TheAEtherFlues extends Card
 			}
 
 			@Override
-			public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+			public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 			{
 				boolean ret;
 
@@ -52,20 +55,20 @@ public final class TheAEtherFlues extends Card
 				MagicSet cause = parameters.get(EventType.Parameter.CAUSE);
 				MagicSet playerSet = new MagicSet(player);
 
-				java.util.Map<EventType.Parameter, MagicSet> revealParameters = new java.util.HashMap<EventType.Parameter, MagicSet>();
+				Map<EventType.Parameter, MagicSet> revealParameters = new HashMap<EventType.Parameter, MagicSet>();
 				revealParameters.put(EventType.Parameter.CAUSE, cause);
 				revealParameters.put(EventType.Parameter.OBJECT, toReveal);
 				Event revealEvent = createEvent(game, "Reveal cards form the top of your library until you reveal a creature card.", EventType.REVEAL, revealParameters);
 				ret = revealEvent.perform(event, true);
 
-				java.util.Map<EventType.Parameter, MagicSet> moveParameters = new java.util.HashMap<EventType.Parameter, MagicSet>();
+				Map<EventType.Parameter, MagicSet> moveParameters = new HashMap<EventType.Parameter, MagicSet>();
 				moveParameters.put(EventType.Parameter.CAUSE, cause);
 				moveParameters.put(EventType.Parameter.CONTROLLER, playerSet);
 				moveParameters.put(EventType.Parameter.OBJECT, toMove);
 				Event move = createEvent(game, "Put that card onto the battlefield.", EventType.PUT_ONTO_BATTLEFIELD, moveParameters);
 				ret = move.perform(event, true) && ret;
 
-				java.util.Map<EventType.Parameter, MagicSet> shuffleParameters = new java.util.HashMap<EventType.Parameter, MagicSet>();
+				Map<EventType.Parameter, MagicSet> shuffleParameters = new HashMap<EventType.Parameter, MagicSet>();
 				shuffleParameters.put(EventType.Parameter.CAUSE, cause);
 				shuffleParameters.put(EventType.Parameter.PLAYER, playerSet);
 				Event shuffle = createEvent(game, "Shuffle all other cards revealed this way into your library.", EventType.SHUFFLE_LIBRARY, shuffleParameters);

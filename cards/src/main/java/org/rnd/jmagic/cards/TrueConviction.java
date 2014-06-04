@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.DoubleStrike;
+import org.rnd.jmagic.abilities.keywords.Lifelink;
 import org.rnd.jmagic.engine.*;
 
 @Name("True Conviction")
@@ -16,7 +19,7 @@ public final class TrueConviction extends Card
 		{
 			super(state, "Creatures you control have double strike and lifelink.");
 
-			this.addEffectPart(addAbilityToObject(CREATURES_YOU_CONTROL, org.rnd.jmagic.abilities.keywords.DoubleStrike.class, org.rnd.jmagic.abilities.keywords.Lifelink.class));
+			this.addEffectPart(addAbilityToObject(CREATURES_YOU_CONTROL, DoubleStrike.class, Lifelink.class));
 		}
 	}
 

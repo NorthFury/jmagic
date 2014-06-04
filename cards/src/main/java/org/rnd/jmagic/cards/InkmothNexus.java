@@ -1,6 +1,10 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.TapFor1;
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Infect;
 import org.rnd.jmagic.engine.*;
 
 @Name("Inkmoth Nexus")
@@ -19,8 +23,8 @@ public final class InkmothNexus extends Card
 			Animator animator = new Animator(ABILITY_SOURCE_OF_THIS, 1, 1);
 			animator.addSubType(SubType.BLINKMOTH);
 			animator.addType(Type.ARTIFACT);
-			animator.addAbility(org.rnd.jmagic.abilities.keywords.Flying.class);
-			animator.addAbility(org.rnd.jmagic.abilities.keywords.Infect.class);
+			animator.addAbility(Flying.class);
+			animator.addAbility(Infect.class);
 			this.addEffect(createFloatingEffect("Inkmoth Nexus becomes a 1/1 Blinkmoth artifact creature with flying and infect until end of turn. It's still a land.", animator.getParts()));
 		}
 	}
@@ -30,7 +34,7 @@ public final class InkmothNexus extends Card
 		super(state);
 
 		// (T): Add (1) to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapFor1(state));
+		this.addAbility(new TapFor1(state));
 
 		// (1): Inkmoth Nexus becomes a 1/1 Blinkmoth artifact creature with
 		// flying and infect until end of turn. It's still a land. (It deals

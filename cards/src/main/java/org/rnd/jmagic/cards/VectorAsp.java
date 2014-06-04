@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Infect;
 import org.rnd.jmagic.engine.*;
 
 @Name("Vector Asp")
@@ -17,7 +19,7 @@ public final class VectorAsp extends Card
 		{
 			super(state, "(B): Vector Asp gains infect until end of turn. ");
 			this.setManaCost(new ManaPool("(B)"));
-			this.addEffect(createFloatingEffect("Vector Asp gains infect until end of turn.", addAbilityToObject(ABILITY_SOURCE_OF_THIS, org.rnd.jmagic.abilities.keywords.Infect.class)));
+			this.addEffect(createFloatingEffect("Vector Asp gains infect until end of turn.", addAbilityToObject(ABILITY_SOURCE_OF_THIS, Infect.class)));
 		}
 	}
 

@@ -4,6 +4,9 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.LinkedList;
+import java.util.List;
+
 @Name("Relentless Assault")
 @Types({Type.SORCERY})
 @ManaCost("2RR")
@@ -22,7 +25,7 @@ public final class RelentlessAssault extends Card
 		// an additional main phase.
 		SetGenerator thisMainPhase = Intersect.instance(CurrentPhase.instance(), MainPhaseOf.instance(Players.instance()));
 
-		java.util.List<Phase.PhaseType> combatAndMain = new java.util.LinkedList<Phase.PhaseType>();
+		List<Phase.PhaseType> combatAndMain = new LinkedList<Phase.PhaseType>();
 		combatAndMain.add(Phase.PhaseType.COMBAT);
 		combatAndMain.add(Phase.PhaseType.POSTCOMBAT_MAIN);
 

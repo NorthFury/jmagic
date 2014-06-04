@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.SplitSecond;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -16,7 +18,7 @@ public final class KrosanGrip extends Card
 		super(state);
 
 		// Split second
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.SplitSecond(state));
+		this.addAbility(new SplitSecond(state));
 
 		// Destroy target artifact or enchantment.
 		SetGenerator target = targetedBy(this.addTarget(Union.instance(ArtifactPermanents.instance(), EnchantmentPermanents.instance()), "target artifact or enchantment"));

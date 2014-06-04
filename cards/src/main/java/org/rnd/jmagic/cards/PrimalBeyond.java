@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.RevealOrThisEntersTapped;
+import org.rnd.jmagic.abilities.TapFor1;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -32,8 +35,8 @@ public final class PrimalBeyond extends Card
 	{
 		super(state);
 
-		this.addAbility(new org.rnd.jmagic.abilities.RevealOrThisEntersTapped(state, this.getName(), SubType.ELEMENTAL));
-		this.addAbility(new org.rnd.jmagic.abilities.TapFor1(state));
+		this.addAbility(new RevealOrThisEntersTapped(state, this.getName(), SubType.ELEMENTAL));
+		this.addAbility(new TapFor1(state));
 		this.addAbility(new MakeElementalMana(state));
 	}
 }

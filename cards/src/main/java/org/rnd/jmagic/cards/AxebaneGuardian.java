@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Defender;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -19,7 +21,7 @@ public final class AxebaneGuardian extends Card
 			super(state, "(T): Add X mana in any combination of colors to your mana pool, where X is the number of creatures with defender you control.");
 			this.costsTap = true;
 
-			SetGenerator X = Count.instance(Intersect.instance(CREATURES_YOU_CONTROL, HasKeywordAbility.instance(org.rnd.jmagic.abilities.keywords.Defender.class)));
+			SetGenerator X = Count.instance(Intersect.instance(CREATURES_YOU_CONTROL, HasKeywordAbility.instance(Defender.class)));
 
 			EventFactory mana = new EventFactory(EventType.ADD_MANA, "Add X mana in any combination of colors to your mana pool, where X is the number of creatures with defender you control.");
 			mana.parameters.put(EventType.Parameter.SOURCE, This.instance());
@@ -38,7 +40,7 @@ public final class AxebaneGuardian extends Card
 		this.setToughness(3);
 
 		// Defender
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Defender(state));
+		this.addAbility(new Defender(state));
 
 		// (T): Add X mana in any combination of colors to your mana pool, where
 		// X is the number of creatures with defender you control.

@@ -1,6 +1,11 @@
 package org.rnd.jmagic.sanitized;
 
-public class SanitizedIdentified implements java.io.Serializable
+import org.rnd.jmagic.abilities.keywords.Level;
+import org.rnd.jmagic.engine.Identified;
+
+import java.io.Serializable;
+
+public class SanitizedIdentified implements Serializable
 {
 	private static final long serialVersionUID = 1L;
 
@@ -8,15 +13,15 @@ public class SanitizedIdentified implements java.io.Serializable
 	public final boolean isKeyword;
 	public final String name;
 
-	public SanitizedIdentified(org.rnd.jmagic.engine.Identified i)
+	public SanitizedIdentified(Identified i)
 	{
 		this(i, i.getName());
 	}
 
-	public SanitizedIdentified(org.rnd.jmagic.engine.Identified i, String nameOverride)
+	public SanitizedIdentified(Identified i, String nameOverride)
 	{
 		this.ID = i.ID;
-		this.isKeyword = i.isKeyword() && !(i instanceof org.rnd.jmagic.abilities.keywords.Level);
+		this.isKeyword = i.isKeyword() && !(i instanceof Level);
 		this.name = nameOverride;
 	}
 

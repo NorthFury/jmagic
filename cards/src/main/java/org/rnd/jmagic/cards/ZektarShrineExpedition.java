@@ -1,6 +1,10 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.LandfallForQuestCounter;
+import org.rnd.jmagic.abilities.keywords.Haste;
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -23,8 +27,8 @@ public final class ZektarShrineExpedition extends Card
 			CreateTokensFactory token = new CreateTokensFactory(1, 7, 1, "Put a 7/1 red Elemental creature token with trample and haste onto the battlefield.");
 			token.setColors(Color.RED);
 			token.setSubTypes(SubType.ELEMENTAL);
-			token.addAbility(org.rnd.jmagic.abilities.keywords.Trample.class);
-			token.addAbility(org.rnd.jmagic.abilities.keywords.Haste.class);
+			token.addAbility(Trample.class);
+			token.addAbility(Haste.class);
 			EventFactory factory = token.getEventFactory();
 			this.addEffect(factory);
 
@@ -45,7 +49,7 @@ public final class ZektarShrineExpedition extends Card
 
 		// Landfall - Whenever a land enters the battlefield under your
 		// control, you may put a quest counter on Zektar Shrine Expedition.
-		this.addAbility(new org.rnd.jmagic.abilities.LandfallForQuestCounter(state, this.getName()));
+		this.addAbility(new LandfallForQuestCounter(state, this.getName()));
 
 		// Remove three quest counters from Zektar Shrine Expedition and
 		// sacrifice it: Put a 7/1 red Elemental creature token with trample and

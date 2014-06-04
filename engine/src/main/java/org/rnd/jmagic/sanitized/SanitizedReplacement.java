@@ -1,6 +1,8 @@
 package org.rnd.jmagic.sanitized;
 
-public interface SanitizedReplacement extends java.io.Serializable
+import java.io.Serializable;
+
+public interface SanitizedReplacement extends Serializable
 {
 	public boolean isOptionalForMe();
 }

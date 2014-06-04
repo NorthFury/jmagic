@@ -2,6 +2,8 @@ package org.rnd.jmagic.engine.generators;
 
 import org.rnd.jmagic.engine.*;
 
+import java.util.Set;
+
 /**
  * Evaluates to the smallest contiguous set containing {@code N} members of
  * {@code cards} starting from the top of the ordered {@code zone}. (READ: The
@@ -34,7 +36,7 @@ public class TopMost extends SetGenerator
 			return Empty.set;
 
 		Zone zone = this.zone.evaluate(state, thisObject).getOne(Zone.class);
-		java.util.Set<GameObject> cards = this.cards.evaluate(state, thisObject).getAll(GameObject.class);
+		Set<GameObject> cards = this.cards.evaluate(state, thisObject).getAll(GameObject.class);
 
 		int count = 0;
 		MagicSet ret = new MagicSet();

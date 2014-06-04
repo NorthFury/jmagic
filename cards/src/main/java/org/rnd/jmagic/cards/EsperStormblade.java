@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.cardTemplates.*;
 import org.rnd.jmagic.engine.*;
 
@@ -13,6 +14,6 @@ public final class EsperStormblade extends AlaraRebornBlade
 {
 	public EsperStormblade(GameState state)
 	{
-		super(state, org.rnd.jmagic.abilities.keywords.Flying.class);
+		super(state, Flying.class);
 	}
 }

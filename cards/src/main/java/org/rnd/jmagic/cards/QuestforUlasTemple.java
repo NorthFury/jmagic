@@ -5,6 +5,9 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Name("Quest for Ula's Temple")
 @Types({Type.ENCHANTMENT})
 @ManaCost("U")
@@ -26,12 +29,12 @@ public final class QuestforUlasTemple extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			MagicSet cause = parameters.get(Parameter.CAUSE);
 			MagicSet card = parameters.get(Parameter.OBJECT);
 
-			java.util.Map<Parameter, MagicSet> revealParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> revealParameters = new HashMap<Parameter, MagicSet>();
 			revealParameters.put(Parameter.CAUSE, cause);
 			revealParameters.put(Parameter.OBJECT, card);
 			Event reveal = createEvent(game, "Reveal " + card, EventType.REVEAL, revealParameters);

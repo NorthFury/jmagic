@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Storm;
 import org.rnd.jmagic.engine.*;
 
 @Name("Grapeshot")
@@ -20,6 +22,6 @@ public final class Grapeshot extends Card
 
 		// Storm (When you cast this spell, copy it for each spell cast before
 		// it this turn. You may choose new targets for the copies.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Storm(state));
+		this.addAbility(new Storm(state));
 	}
 }

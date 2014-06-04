@@ -5,6 +5,11 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 @Name("Cruel Ultimatum")
 @Types({Type.SORCERY})
 @ManaCost("UUBBBRR")
@@ -28,16 +33,16 @@ public final class CruelUltimatum extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			MagicSet ultimatum = parameters.get(Parameter.CAUSE);
 			Player you = parameters.get(Parameter.PLAYER).getOne(Player.class);
-			java.util.Set<GameObject> cards = parameters.get(Parameter.CHOICE).getAll(GameObject.class);
+			Set<GameObject> cards = parameters.get(Parameter.CHOICE).getAll(GameObject.class);
 
-			java.util.List<GameObject> choice = you.sanitizeAndChoose(game.actualState, 1, cards, PlayerInterface.ChoiceType.OBJECTS, REASON);
+			List<GameObject> choice = you.sanitizeAndChoose(game.actualState, 1, cards, PlayerInterface.ChoiceType.OBJECTS, REASON);
 
 			Zone hand = you.getHand(game.actualState);
-			java.util.Map<Parameter, MagicSet> handParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> handParameters = new HashMap<Parameter, MagicSet>();
 			handParameters.put(Parameter.CAUSE, ultimatum);
 			handParameters.put(Parameter.OBJECT, new MagicSet(choice));
 			handParameters.put(Parameter.TO, new MagicSet(hand));

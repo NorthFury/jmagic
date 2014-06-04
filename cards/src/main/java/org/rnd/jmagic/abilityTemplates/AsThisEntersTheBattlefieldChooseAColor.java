@@ -5,6 +5,8 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.Map;
+
 public abstract class AsThisEntersTheBattlefieldChooseAColor extends StaticAbility
 {
 	/**
@@ -22,7 +24,7 @@ public abstract class AsThisEntersTheBattlefieldChooseAColor extends StaticAbili
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			Player player = parameters.get(Parameter.PLAYER).getOne(Player.class);
 			Linkable link = parameters.get(Parameter.SOURCE).getOne(Linkable.class).getPhysical();

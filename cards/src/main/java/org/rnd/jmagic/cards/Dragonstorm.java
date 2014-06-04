@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Storm;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -35,6 +36,6 @@ public final class Dragonstorm extends Card
 
 		// Storm (When you cast this spell, copy it for each spell cast before
 		// it this turn.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Storm(state));
+		this.addAbility(new Storm(state));
 	}
 }

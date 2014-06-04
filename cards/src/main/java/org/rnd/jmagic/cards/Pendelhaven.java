@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.TapForG;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -28,7 +30,7 @@ public final class Pendelhaven extends Card
 		super(state);
 
 		// (T): Add (G) to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapForG(state));
+		this.addAbility(new TapForG(state));
 
 		// (T): Target 1/1 creature gets +1/+2 until end of turn.
 		this.addAbility(new PendelhavenAbility1(state));

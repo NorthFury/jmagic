@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Affinity;
 import org.rnd.jmagic.engine.*;
 
 @Name("Myr Enforcer")
@@ -18,6 +19,6 @@ public final class MyrEnforcer extends Card
 		this.setToughness(4);
 
 		// Affinity for artifacts
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Affinity.ForArtifacts(state));
+		this.addAbility(new Affinity.ForArtifacts(state));
 	}
 }

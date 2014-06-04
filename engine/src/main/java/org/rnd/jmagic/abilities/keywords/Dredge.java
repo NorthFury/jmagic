@@ -5,6 +5,10 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
+import org.rnd.util.NumberNames;
+
+import java.util.LinkedList;
+import java.util.List;
 
 public final class Dredge extends Keyword
 {
@@ -23,9 +27,9 @@ public final class Dredge extends Keyword
 	}
 
 	@Override
-	protected java.util.List<StaticAbility> createStaticAbilities()
+	protected List<StaticAbility> createStaticAbilities()
 	{
-		java.util.List<StaticAbility> ret = new java.util.LinkedList<StaticAbility>();
+		List<StaticAbility> ret = new LinkedList<StaticAbility>();
 
 		ret.add(new DredgeAbility(this.state, this.N));
 
@@ -38,7 +42,7 @@ public final class Dredge extends Keyword
 
 		public DredgeAbility(GameState state, int N)
 		{
-			super(state, "If you would draw a card, instead you may put exactly " + org.rnd.util.NumberNames.get(N) + " card" + (N == 1 ? "" : "s") + " from the top of your library into your graveyard. If you do, return this card from your graveyard to your hand. Otherwise, draw a card.");
+			super(state, "If you would draw a card, instead you may put exactly " + NumberNames.get(N) + " card" + (N == 1 ? "" : "s") + " from the top of your library into your graveyard. If you do, return this card from your graveyard to your hand. Otherwise, draw a card.");
 			this.N = N;
 
 			SetGenerator thisCard = This.instance();

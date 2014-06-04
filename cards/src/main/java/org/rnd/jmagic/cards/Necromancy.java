@@ -15,7 +15,7 @@ public final class Necromancy extends Card
 {
 	public static final class NecromancyAbility1 extends EventTriggeredAbility
 	{
-		public static final class EnchantAnimated extends org.rnd.jmagic.abilities.EnchantAnimatedCreature
+		public static final class EnchantAnimated extends EnchantAnimatedCreature
 		{
 			public static final class Tracker extends ReanimationTracker
 			{

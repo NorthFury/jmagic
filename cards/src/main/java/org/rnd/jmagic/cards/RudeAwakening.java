@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Entwine;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -26,6 +27,6 @@ public final class RudeAwakening extends Card
 
 		this.addEffect(2, createFloatingEffect("until end of turn, lands you control become 2/2 creatures that are still lands.", typePart, setPowerAndToughness(landsYouControl, 2, 2)));
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Entwine(state, "(2)(G)"));
+		this.addAbility(new Entwine(state, "(2)(G)"));
 	}
 }

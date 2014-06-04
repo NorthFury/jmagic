@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Enchant;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -44,7 +46,7 @@ public final class VolitionReins extends Card
 		super(state);
 
 		// Enchant permanent
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Enchant.Permanent(state));
+		this.addAbility(new Enchant.Permanent(state));
 
 		// When Volition Reins enters the battlefield, if enchanted permanent is
 		// tapped, untap it.

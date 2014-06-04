@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.Werewolves;
 import org.rnd.jmagic.engine.*;
 
 @Name("Villagers of Estwald")
@@ -20,6 +21,6 @@ public final class VillagersofEstwald extends Card
 
 		// At the beginning of each upkeep, if no spells were cast last turn,
 		// transform Villagers of Estwald.
-		this.addAbility(new org.rnd.jmagic.abilities.Werewolves.BecomeFuzzy(state, this.getName()));
+		this.addAbility(new Werewolves.BecomeFuzzy(state, this.getName()));
 	}
 }

@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Haste;
 import org.rnd.jmagic.engine.*;
 
 @Name("Crimson Mage")
@@ -18,7 +20,7 @@ public final class CrimsonMage extends Card
 			super(state, "(R): Target creature you control gains haste until end of turn.");
 			this.setManaCost(new ManaPool("(R)"));
 			SetGenerator target = targetedBy(this.addTarget(CREATURES_YOU_CONTROL, "target creature you control"));
-			this.addEffect(addAbilityUntilEndOfTurn(target, org.rnd.jmagic.abilities.keywords.Haste.class, "Target creature you control gains haste until end of turn."));
+			this.addEffect(addAbilityUntilEndOfTurn(target, Haste.class, "Target creature you control gains haste until end of turn."));
 		}
 	}
 

@@ -1,6 +1,10 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.PreventCombatDamageDealtToOrBy;
+import org.rnd.jmagic.abilities.keywords.Enchant;
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -17,7 +21,7 @@ public final class GhostlyPossession extends Card
 		public GhostlyPossessionAbility1(GameState state)
 		{
 			super(state, "Enchanted creature has flying.");
-			this.addEffectPart(addAbilityToObject(EnchantedBy.instance(This.instance()), org.rnd.jmagic.abilities.keywords.Flying.class));
+			this.addEffectPart(addAbilityToObject(EnchantedBy.instance(This.instance()), Flying.class));
 		}
 	}
 
@@ -27,7 +31,7 @@ public final class GhostlyPossession extends Card
 		{
 			super(state, "Prevent all combat damage that would be dealt to and dealt by enchanted creature.");
 			SetGenerator enchantedCreature = EnchantedBy.instance(This.instance());
-			ReplacementEffect replacement = new org.rnd.jmagic.abilities.PreventCombatDamageDealtToOrBy(state.game, enchantedCreature, "enchanted creature");
+			ReplacementEffect replacement = new PreventCombatDamageDealtToOrBy(state.game, enchantedCreature, "enchanted creature");
 			this.addEffectPart(replacementEffectPart(replacement));
 		}
 	}
@@ -37,7 +41,7 @@ public final class GhostlyPossession extends Card
 		super(state);
 
 		// Enchant creature
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Enchant.Creature(state));
+		this.addAbility(new Enchant.Creature(state));
 
 		// Enchanted creature has flying.
 		this.addAbility(new GhostlyPossessionAbility1(state));

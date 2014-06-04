@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.Ping;
+import org.rnd.jmagic.abilities.keywords.Equip;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -17,7 +20,7 @@ public final class ViridianLongbow extends Card
 		public ShootableBow(GameState state)
 		{
 			super(state, "Equipped creature has \"(T): This creature deals 1 damage to target creature or player.\"");
-			this.addEffectPart(addAbilityToObject(EquippedBy.instance(This.instance()), org.rnd.jmagic.abilities.Ping.class));
+			this.addEffectPart(addAbilityToObject(EquippedBy.instance(This.instance()), Ping.class));
 		}
 	}
 
@@ -28,6 +31,6 @@ public final class ViridianLongbow extends Card
 		this.addAbility(new ShootableBow(state));
 
 		// Equip (3)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Equip(state, "(3)"));
+		this.addAbility(new Equip(state, "(3)"));
 	}
 }

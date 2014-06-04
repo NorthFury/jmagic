@@ -1,5 +1,11 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.CantBeCountered;
+import org.rnd.jmagic.abilities.Firebreathing;
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Morph;
+import org.rnd.jmagic.abilities.keywords.Protection;
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -20,17 +26,17 @@ public final class AkromaAngelofFury extends Card
 		this.setToughness(6);
 
 		// Akroma, Angel of Fury can't be countered.
-		this.addAbility(new org.rnd.jmagic.abilities.CantBeCountered(state, this.getName()));
+		this.addAbility(new CantBeCountered(state, this.getName()));
 
 		// Flying, trample, protection from white and from blue
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Trample(state));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Protection.From(state, HasColor.instance(Color.WHITE, Color.BLUE), "white and from blue"));
+		this.addAbility(new Flying(state));
+		this.addAbility(new Trample(state));
+		this.addAbility(new Protection.From(state, HasColor.instance(Color.WHITE, Color.BLUE), "white and from blue"));
 
 		// (R): Akroma, Angel of Fury gets +1/+0 until end of turn.
-		this.addAbility(new org.rnd.jmagic.abilities.Firebreathing(state, this.getName()));
+		this.addAbility(new Firebreathing(state, this.getName()));
 
 		// Morph (3)(R)(R)(R)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Morph(state, "(3)(R)(R)(R)"));
+		this.addAbility(new Morph(state, "(3)(R)(R)(R)"));
 	}
 }

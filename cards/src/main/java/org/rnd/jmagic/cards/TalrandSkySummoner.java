@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -29,7 +31,7 @@ public final class TalrandSkySummoner extends Card
 			CreateTokensFactory factory = new CreateTokensFactory(1, 2, 2, "Put a 2/2 blue Drake creature token with flying onto the battlefield.");
 			factory.setColors(Color.BLUE);
 			factory.setSubTypes(SubType.DRAKE);
-			factory.addAbility(org.rnd.jmagic.abilities.keywords.Flying.class);
+			factory.addAbility(Flying.class);
 			this.addEffect(factory.getEventFactory());
 		}
 	}

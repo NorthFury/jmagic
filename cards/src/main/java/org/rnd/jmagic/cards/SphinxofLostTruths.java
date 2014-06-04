@@ -2,6 +2,8 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Kicker;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -51,7 +53,7 @@ public final class SphinxofLostTruths extends Card
 
 		this.setPower(3);
 		this.setToughness(5);
-		org.rnd.jmagic.abilities.keywords.Kicker ability = new org.rnd.jmagic.abilities.keywords.Kicker(state, "1U");
+		Kicker ability = new Kicker(state, "1U");
 		this.addAbility(ability);
 
 		// Kicker (1)(U) (You may pay an additional (1)(U) as you cast this
@@ -59,7 +61,7 @@ public final class SphinxofLostTruths extends Card
 		CostCollection kickerCost = ability.costCollections[0];
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// When Sphinx of Lost Truths enters the battlefield, draw three cards.
 		// Then if it wasn't kicked, discard three cards.

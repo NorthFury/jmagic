@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.TapForMana;
 import org.rnd.jmagic.engine.*;
 
 @Name("Copper Myr")
@@ -18,6 +19,6 @@ public final class CopperMyr extends Card
 		this.setToughness(1);
 
 		// (T): Add (G) to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapForMana.Final(state, "(G)"));
+		this.addAbility(new TapForMana.Final(state, "(G)"));
 	}
 }

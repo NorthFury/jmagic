@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -17,7 +19,7 @@ public final class BowerPassage extends Card
 		{
 			super(state, "Creatures with flying can't block creatures you control.");
 
-			SetGenerator hasFlying = HasKeywordAbility.instance(org.rnd.jmagic.abilities.keywords.Flying.class);
+			SetGenerator hasFlying = HasKeywordAbility.instance(Flying.class);
 			SetGenerator restriction = Intersect.instance(hasFlying, Blocking.instance(CREATURES_YOU_CONTROL));
 
 			ContinuousEffect.Part cantBlock = new ContinuousEffect.Part(ContinuousEffectType.BLOCKING_RESTRICTION);

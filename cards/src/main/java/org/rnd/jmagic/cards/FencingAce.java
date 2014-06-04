@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.DoubleStrike;
 import org.rnd.jmagic.engine.*;
 
 @Name("Fencing Ace")
@@ -19,6 +20,6 @@ public final class FencingAce extends Card
 
 		// Double strike (This creature deals both first-strike and regular
 		// combat damage.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.DoubleStrike(state));
+		this.addAbility(new DoubleStrike(state));
 	}
 }

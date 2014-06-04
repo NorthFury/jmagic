@@ -5,6 +5,9 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public final class Clash extends EventType
 {	public static final EventType INSTANCE = new Clash();
 
@@ -20,7 +23,7 @@ public final class Clash extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		// 701.20. Clash
 		//
@@ -37,7 +40,7 @@ public final class Clash extends EventType
 		MagicSet players = parameters.get(Parameter.PLAYER);
 		MagicSet revealed = TopCards.instance(1, LibraryOf.instance(Identity.instance(players))).evaluate(game, null);
 
-		java.util.Map<Parameter, MagicSet> revealParameters = new java.util.HashMap<Parameter, MagicSet>();
+		Map<Parameter, MagicSet> revealParameters = new HashMap<Parameter, MagicSet>();
 		revealParameters.put(EventType.Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 		revealParameters.put(EventType.Parameter.OBJECT, revealed);
 		Event revealEvent = createEvent(game, "Each player clashing reveals the top card of his or her library.", EventType.REVEAL, revealParameters);

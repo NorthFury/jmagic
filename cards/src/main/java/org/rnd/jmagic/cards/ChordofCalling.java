@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Convoke;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -18,7 +19,7 @@ public final class ChordofCalling extends Card
 
 		// Convoke (Each creature you tap while casting this spell reduces its
 		// cost by (1) or by one mana of that creature's color.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Convoke(state));
+		this.addAbility(new Convoke(state));
 
 		// Search your library for a creature card with converted mana cost X or
 		// less and put it onto the battlefield. Then shuffle your library.

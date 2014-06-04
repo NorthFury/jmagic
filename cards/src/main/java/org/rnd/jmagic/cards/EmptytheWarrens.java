@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Storm;
 import org.rnd.jmagic.engine.*;
 
 @Name("Empty the Warrens")
@@ -22,6 +24,6 @@ public final class EmptytheWarrens extends Card
 
 		// Storm (When you cast this spell, copy it for each spell cast before
 		// it this turn.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Storm(state));
+		this.addAbility(new Storm(state));
 	}
 }

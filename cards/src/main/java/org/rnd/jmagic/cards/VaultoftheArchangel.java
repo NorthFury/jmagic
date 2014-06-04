@@ -1,6 +1,10 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.TapFor1;
+import org.rnd.jmagic.abilities.keywords.Deathtouch;
+import org.rnd.jmagic.abilities.keywords.Lifelink;
 import org.rnd.jmagic.engine.*;
 
 @Name("Vault of the Archangel")
@@ -17,7 +21,7 @@ public final class VaultoftheArchangel extends Card
 			this.setManaCost(new ManaPool("(2)(W)(B)"));
 			this.costsTap = true;
 
-			ContinuousEffect.Part part = addAbilityToObject(CREATURES_YOU_CONTROL, org.rnd.jmagic.abilities.keywords.Deathtouch.class, org.rnd.jmagic.abilities.keywords.Lifelink.class);
+			ContinuousEffect.Part part = addAbilityToObject(CREATURES_YOU_CONTROL, Deathtouch.class, Lifelink.class);
 			this.addEffect(createFloatingEffect("Creatures you control gain deathtouch and lifelink until end of turn.", part));
 		}
 	}
@@ -27,7 +31,7 @@ public final class VaultoftheArchangel extends Card
 		super(state);
 
 		// (T): Add (1) to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapFor1(state));
+		this.addAbility(new TapFor1(state));
 
 		// (2)(W)(B), (T): Creatures you control gain deathtouch and lifelink
 		// until end of turn.

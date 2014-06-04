@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Vigilance;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -20,7 +22,7 @@ public final class IntangibleVirtue extends Card
 			SetGenerator affected = Intersect.instance(CREATURES_YOU_CONTROL, Tokens.instance());
 
 			this.addEffectPart(modifyPowerAndToughness(affected, +1, +1));
-			this.addEffectPart(addAbilityToObject(affected, org.rnd.jmagic.abilities.keywords.Vigilance.class));
+			this.addEffectPart(addAbilityToObject(affected, Vigilance.class));
 		}
 	}
 

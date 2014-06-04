@@ -1,6 +1,10 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.EntersTheBattlefieldTapped;
+import org.rnd.jmagic.abilities.TapFor1;
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -25,7 +29,7 @@ public final class WardenoftheWall extends Card
 			typesPart.parameters.put(ContinuousEffectType.Parameter.OBJECT, This.instance());
 			typesPart.parameters.put(ContinuousEffectType.Parameter.TYPE, Identity.instance(SubType.GARGOYLE, Type.ARTIFACT, Type.CREATURE));
 
-			ContinuousEffect.Part abilityPart = addAbilityToObject(This.instance(), org.rnd.jmagic.abilities.keywords.Flying.class);
+			ContinuousEffect.Part abilityPart = addAbilityToObject(This.instance(), Flying.class);
 
 			this.addEffectPart(ptPart, typesPart, abilityPart);
 		}
@@ -36,10 +40,10 @@ public final class WardenoftheWall extends Card
 		super(state);
 
 		// Warden of the Wall enters the battlefield tapped.
-		this.addAbility(new org.rnd.jmagic.abilities.EntersTheBattlefieldTapped(state, this.getName()));
+		this.addAbility(new EntersTheBattlefieldTapped(state, this.getName()));
 
 		// (T): Add (1) to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapFor1(state));
+		this.addAbility(new TapFor1(state));
 
 		// As long as it's not your turn, Warden of the Wall is a 2/3 Gargoyle
 		// artifact creature with flying.

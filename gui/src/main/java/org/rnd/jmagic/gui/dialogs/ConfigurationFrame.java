@@ -1,8 +1,31 @@
 package org.rnd.jmagic.gui.dialogs;
 
-public class ConfigurationFrame extends javax.swing.JFrame
+import javax.swing.AbstractAction;
+import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JSplitPane;
+import javax.swing.KeyStroke;
+import javax.swing.WindowConstants;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import java.awt.CardLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import java.util.HashSet;
+import java.util.Properties;
+import java.util.Set;
+
+public class ConfigurationFrame extends JFrame
 {
-	public abstract static class OptionPanel extends javax.swing.JPanel
+	public abstract static class OptionPanel extends JPanel
 	{
 		private static final long serialVersionUID = 1L;
 
@@ -25,54 +48,54 @@ public class ConfigurationFrame extends javax.swing.JFrame
 		 * This is called before the panel is displayed to load the "current"
 		 * properties.
 		 */
-		public abstract void loadSettings(java.util.Properties properties);
+		public abstract void loadSettings(Properties properties);
 
 		/**
 		 * This is called when the panel is saved, to write the updated
 		 * properties to file.
 		 */
-		public abstract void saveChanges(java.util.Properties properties);
+		public abstract void saveChanges(Properties properties);
 	}
 
 	private static final long serialVersionUID = 1L;
 
-	private java.util.Set<OptionPanel> optionPanels;
-	private final javax.swing.DefaultListModel listModel;
-	private final javax.swing.JPanel content;
-	private final java.util.Properties properties;
+	private Set<OptionPanel> optionPanels;
+	private final DefaultListModel listModel;
+	private final JPanel content;
+	private final Properties properties;
 
-	public ConfigurationFrame(java.util.Properties properties)
+	public ConfigurationFrame(Properties properties)
 	{
 		super("jMagic Settings");
 
 		this.properties = properties;
 
-		this.optionPanels = new java.util.HashSet<OptionPanel>();
+		this.optionPanels = new HashSet<OptionPanel>();
 
-		this.listModel = new javax.swing.DefaultListModel();
-		final java.awt.CardLayout contentLayout = new java.awt.CardLayout();
-		this.content = new javax.swing.JPanel(contentLayout);
+		this.listModel = new DefaultListModel();
+		final CardLayout contentLayout = new CardLayout();
+		this.content = new JPanel(contentLayout);
 
-		javax.swing.JPanel buttonPanel = new javax.swing.JPanel(new java.awt.FlowLayout());
+		JPanel buttonPanel = new JPanel(new FlowLayout());
 		{
-			javax.swing.JButton applyButton = new javax.swing.JButton(new javax.swing.AbstractAction("Apply")
+			JButton applyButton = new JButton(new AbstractAction("Apply")
 			{
 				private static final long serialVersionUID = 1L;
 
 				@Override
-				public void actionPerformed(java.awt.event.ActionEvent e)
+				public void actionPerformed(ActionEvent e)
 				{
 					ConfigurationFrame.this.save();
 				}
 			});
 			buttonPanel.add(applyButton);
 
-			javax.swing.JButton okButton = new javax.swing.JButton(new javax.swing.AbstractAction("OK")
+			JButton okButton = new JButton(new AbstractAction("OK")
 			{
 				private static final long serialVersionUID = 1L;
 
 				@Override
-				public void actionPerformed(java.awt.event.ActionEvent e)
+				public void actionPerformed(ActionEvent e)
 				{
 					ConfigurationFrame.this.save();
 					ConfigurationFrame.this.dispose();
@@ -80,46 +103,46 @@ public class ConfigurationFrame extends javax.swing.JFrame
 			});
 			buttonPanel.add(okButton);
 
-			javax.swing.AbstractAction cancelAction = new javax.swing.AbstractAction("Cancel")
+			AbstractAction cancelAction = new AbstractAction("Cancel")
 			{
 				private static final long serialVersionUID = 1L;
 
 				@Override
-				public void actionPerformed(java.awt.event.ActionEvent e)
+				public void actionPerformed(ActionEvent e)
 				{
 					ConfigurationFrame.this.dispose();
 				}
 			};
-			javax.swing.JButton cancelButton = new javax.swing.JButton(cancelAction);
+			JButton cancelButton = new JButton(cancelAction);
 			buttonPanel.add(cancelButton);
 
-			javax.swing.KeyStroke cancelKeyStroke = javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_W, java.awt.Toolkit.getDefaultToolkit().getMenuShortcutKeyMask());
-			cancelButton.getInputMap(javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW).put(cancelKeyStroke, "Cancel");
+			KeyStroke cancelKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_W, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask());
+			cancelButton.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(cancelKeyStroke, "Cancel");
 			cancelButton.getActionMap().put("Cancel", cancelAction);
 		}
 
-		javax.swing.JPanel right = new javax.swing.JPanel();
-		right.setLayout(new javax.swing.BoxLayout(right, javax.swing.BoxLayout.Y_AXIS));
-		right.setPreferredSize(new java.awt.Dimension(600, 600));
+		JPanel right = new JPanel();
+		right.setLayout(new BoxLayout(right, BoxLayout.Y_AXIS));
+		right.setPreferredSize(new Dimension(600, 600));
 		right.add(this.content);
 		right.add(buttonPanel);
 
-		final javax.swing.JList tree = new javax.swing.JList(this.listModel);
-		tree.setPreferredSize(new java.awt.Dimension(150, 600));
-		tree.addListSelectionListener(new javax.swing.event.ListSelectionListener()
+		final JList tree = new JList(this.listModel);
+		tree.setPreferredSize(new Dimension(150, 600));
+		tree.addListSelectionListener(new ListSelectionListener()
 		{
 			@Override
-			public void valueChanged(javax.swing.event.ListSelectionEvent e)
+			public void valueChanged(ListSelectionEvent e)
 			{
 				String selected = (String)tree.getSelectedValue();
 
 				contentLayout.show(ConfigurationFrame.this.content, selected);
 			}
 		});
-		final javax.swing.JSplitPane split = new javax.swing.JSplitPane(javax.swing.JSplitPane.HORIZONTAL_SPLIT, tree, right);
+		final JSplitPane split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, tree, right);
 
 		this.add(split);
-		this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 	}
 
 	public void addOptionPanel(OptionPanel panel)

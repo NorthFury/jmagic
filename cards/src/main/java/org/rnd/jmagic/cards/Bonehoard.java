@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Equip;
+import org.rnd.jmagic.abilities.keywords.LivingWeapon;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -31,13 +34,13 @@ public final class Bonehoard extends Card
 		// Living weapon (When this Equipment enters the battlefield, put a 0/0
 		// black Germ creature token onto the battlefield, then attach this to
 		// it.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.LivingWeapon(state));
+		this.addAbility(new LivingWeapon(state));
 
 		// Equipped creature gets +X/+X, where X is the number of creature cards
 		// in all graveyards.
 		this.addAbility(new BonehoardAbility1(state));
 
 		// Equip (2)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Equip(state, "(2)"));
+		this.addAbility(new Equip(state, "(2)"));
 	}
 }

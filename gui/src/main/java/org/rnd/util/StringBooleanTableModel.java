@@ -1,6 +1,13 @@
 package org.rnd.util;
 
-public abstract class StringBooleanTableModel extends javax.swing.table.AbstractTableModel
+import javax.swing.JTable;
+import javax.swing.table.AbstractTableModel;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+
+public abstract class StringBooleanTableModel extends AbstractTableModel
 {
 	public static class TableEntry
 	{
@@ -22,11 +29,11 @@ public abstract class StringBooleanTableModel extends javax.swing.table.Abstract
 	private static final int COLUMN_NAME = 1;
 	private static final long serialVersionUID = 1L;
 
-	protected java.util.List<TableEntry> data;
+	protected List<TableEntry> data;
 
 	public StringBooleanTableModel()
 	{
-		this.data = new java.util.LinkedList<TableEntry>();
+		this.data = new LinkedList<TableEntry>();
 	}
 
 	public void addRow(String property, boolean enabled)
@@ -76,9 +83,9 @@ public abstract class StringBooleanTableModel extends javax.swing.table.Abstract
 	 * @return A map of the interface adapter's name, to its state (true is
 	 * enabled, false is disabled).
 	 */
-	public java.util.LinkedHashMap<String, Boolean> getData()
+	public LinkedHashMap<String, Boolean> getData()
 	{
-		java.util.LinkedHashMap<String, Boolean> copy = new java.util.LinkedHashMap<String, Boolean>();
+		LinkedHashMap<String, Boolean> copy = new LinkedHashMap<String, Boolean>();
 		for(TableEntry entry: this.data)
 			copy.put(entry.property, entry.enabled);
 		return copy;
@@ -131,10 +138,10 @@ public abstract class StringBooleanTableModel extends javax.swing.table.Abstract
 	 * @param up True to move the selected indices up; down otherwise.
 	 * @param table The table this is the data model for.
 	 */
-	public void moveSelected(boolean up, javax.swing.JTable table)
+	public void moveSelected(boolean up, JTable table)
 	{
 		int[] indices = table.getSelectedRows();
-		java.util.Arrays.sort(indices);
+		Arrays.sort(indices);
 		for(int iterator = 0; iterator < indices.length; ++iterator)
 		{
 			int startRange = indices[iterator];
@@ -164,10 +171,10 @@ public abstract class StringBooleanTableModel extends javax.swing.table.Abstract
 	 * 
 	 * @param table The table this is the data model for.
 	 */
-	public void removeSelected(javax.swing.JTable table)
+	public void removeSelected(JTable table)
 	{
 		int[] indices = table.getSelectedRows();
-		java.util.Arrays.sort(indices);
+		Arrays.sort(indices);
 
 		for(int i = indices.length - 1; i >= 0; --i)
 		{

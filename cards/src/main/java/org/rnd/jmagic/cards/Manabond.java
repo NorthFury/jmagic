@@ -5,6 +5,9 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Name("Manabond")
 @Types({Type.ENCHANTMENT})
 @ManaCost("G")
@@ -27,12 +30,12 @@ public final class Manabond extends Card
 		}
 
 		@Override
-		public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean attempt(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			MagicSet cause = parameters.get(Parameter.CAUSE);
 			MagicSet hand = parameters.get(Parameter.FROM);
 
-			java.util.Map<Parameter, MagicSet> revealParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> revealParameters = new HashMap<Parameter, MagicSet>();
 			revealParameters.put(Parameter.CAUSE, cause);
 			revealParameters.put(Parameter.OBJECT, hand);
 			Event reveal = createEvent(game, "Reveal your hand", EventType.REVEAL, revealParameters);
@@ -42,7 +45,7 @@ public final class Manabond extends Card
 			MagicSet you = parameters.get(Parameter.PLAYER);
 			MagicSet lands = parameters.get(Parameter.CARD);
 
-			java.util.Map<Parameter, MagicSet> dropParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> dropParameters = new HashMap<Parameter, MagicSet>();
 			dropParameters.put(Parameter.CAUSE, cause);
 			dropParameters.put(Parameter.CONTROLLER, you);
 			dropParameters.put(Parameter.OBJECT, lands);
@@ -51,12 +54,12 @@ public final class Manabond extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			MagicSet cause = parameters.get(Parameter.CAUSE);
 			MagicSet hand = parameters.get(Parameter.FROM);
 
-			java.util.Map<Parameter, MagicSet> revealParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> revealParameters = new HashMap<Parameter, MagicSet>();
 			revealParameters.put(Parameter.CAUSE, cause);
 			revealParameters.put(Parameter.OBJECT, hand);
 			Event reveal = createEvent(game, "Reveal your hand", EventType.REVEAL, revealParameters);
@@ -65,7 +68,7 @@ public final class Manabond extends Card
 			MagicSet you = parameters.get(Parameter.PLAYER);
 			MagicSet lands = parameters.get(Parameter.CARD);
 
-			java.util.Map<Parameter, MagicSet> dropParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> dropParameters = new HashMap<Parameter, MagicSet>();
 			dropParameters.put(Parameter.CAUSE, cause);
 			dropParameters.put(Parameter.CONTROLLER, you);
 			dropParameters.put(Parameter.OBJECT, lands);

@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.AttacksEachTurnIfAble;
+import org.rnd.jmagic.abilities.MeleeGetPlusOnePlusOneCounters;
 import org.rnd.jmagic.engine.*;
 
 @Name("Bloodcrazed Neonate")
@@ -18,10 +20,10 @@ public final class BloodcrazedNeonate extends Card
 		this.setToughness(1);
 
 		// Bloodcrazed Neonate attacks each turn if able.
-		this.addAbility(new org.rnd.jmagic.abilities.AttacksEachTurnIfAble(state, "Bloodcrazed Neonate"));
+		this.addAbility(new AttacksEachTurnIfAble(state, "Bloodcrazed Neonate"));
 
 		// Whenever Bloodcrazed Neonate deals combat damage to a player, put a
 		// +1/+1 counter on it.
-		this.addAbility(new org.rnd.jmagic.abilities.MeleeGetPlusOnePlusOneCounters(state, "Bloodcrazed Neonate", 1));
+		this.addAbility(new MeleeGetPlusOnePlusOneCounters(state, "Bloodcrazed Neonate", 1));
 	}
 }

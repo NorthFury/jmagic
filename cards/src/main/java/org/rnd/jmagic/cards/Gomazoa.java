@@ -1,8 +1,14 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Defender;
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Name("Gomazoa")
 @Types({Type.CREATURE})
@@ -25,12 +31,12 @@ public final class Gomazoa extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			MagicSet cause = parameters.get(Parameter.CAUSE);
 			MagicSet stuff = parameters.get(Parameter.OBJECT);
 
-			java.util.Map<Parameter, MagicSet> moveParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> moveParameters = new HashMap<Parameter, MagicSet>();
 			moveParameters.put(Parameter.CAUSE, cause);
 			moveParameters.put(Parameter.INDEX, NEGATIVE_ONE);
 			moveParameters.put(Parameter.OBJECT, stuff);
@@ -42,7 +48,7 @@ public final class Gomazoa extends Card
 			for(ZoneChange z: moved.getAll(ZoneChange.class))
 				owners.add(game.actualState.<GameObject>get(z.oldObjectID).getOwner(game.actualState));
 
-			java.util.Map<Parameter, MagicSet> shuffleParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> shuffleParameters = new HashMap<Parameter, MagicSet>();
 			shuffleParameters.put(Parameter.CAUSE, cause);
 			shuffleParameters.put(Parameter.PLAYER, owners);
 			Event shuffle = createEvent(game, "Those players shuffle their libraries", EventType.SHUFFLE_LIBRARY, shuffleParameters);
@@ -78,8 +84,8 @@ public final class Gomazoa extends Card
 		this.setToughness(3);
 
 		// Defender, flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Defender(state));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Defender(state));
+		this.addAbility(new Flying(state));
 
 		// (T): Put Gomazoa and each creature it's blocking on top of their
 		// owners' libraries, then those players shuffle their libraries.

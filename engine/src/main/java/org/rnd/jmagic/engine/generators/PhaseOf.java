@@ -2,6 +2,9 @@ package org.rnd.jmagic.engine.generators;
 
 import org.rnd.jmagic.engine.*;
 
+import java.util.Collection;
+import java.util.EnumSet;
+
 /**
  * Evaluates to each given players phase of the given PhaseType
  */
@@ -15,13 +18,13 @@ public class PhaseOf extends SetGenerator
 	protected PhaseOf(SetGenerator players, Phase.PhaseType phaseType)
 	{
 		this.players = players;
-		this.phaseTypes = java.util.EnumSet.of(phaseType);
+		this.phaseTypes = EnumSet.of(phaseType);
 	}
 
 	PhaseOf(SetGenerator players, Phase.PhaseType precombatMain, Phase.PhaseType postcombatMain)
 	{
 		this.players = players;
-		this.phaseTypes = java.util.EnumSet.of(precombatMain, postcombatMain);
+		this.phaseTypes = EnumSet.of(precombatMain, postcombatMain);
 	}
 
 	@Override
@@ -48,5 +51,5 @@ public class PhaseOf extends SetGenerator
 	}
 
 	private final SetGenerator players;
-	private final java.util.Collection<Phase.PhaseType> phaseTypes;
+	private final Collection<Phase.PhaseType> phaseTypes;
 }

@@ -1,8 +1,15 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 @Name("Scalpelexis")
 @Types({Type.CREATURE})
@@ -27,7 +34,7 @@ public final class Scalpelexis extends Card
 			}
 
 			@Override
-			public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+			public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 			{
 				boolean ret = true;
 				MagicSet cause = parameters.get(EventType.Parameter.CAUSE);
@@ -44,7 +51,7 @@ public final class Scalpelexis extends Card
 							exile.add(card);
 					}
 
-					java.util.Map<EventType.Parameter, MagicSet> millParameters = new java.util.HashMap<EventType.Parameter, MagicSet>();
+					Map<EventType.Parameter, MagicSet> millParameters = new HashMap<EventType.Parameter, MagicSet>();
 					millParameters.put(EventType.Parameter.CAUSE, cause);
 					millParameters.put(EventType.Parameter.TO, new MagicSet(game.actualState.exileZone()));
 					millParameters.put(EventType.Parameter.OBJECT, exile);
@@ -52,9 +59,9 @@ public final class Scalpelexis extends Card
 
 					ret = millEvent.perform(event, true) && ret;
 
-					java.util.Set<Card> result = NewObjectOf.instance(millEvent.getResultGenerator()).evaluate(game.physicalState, null).getAll(Card.class);
+					Set<Card> result = NewObjectOf.instance(millEvent.getResultGenerator()).evaluate(game.physicalState, null).getAll(Card.class);
 
-					java.util.Iterator<Card> iter = result.iterator();
+					Iterator<Card> iter = result.iterator();
 
 					while(iter.hasNext())
 					{
@@ -103,7 +110,7 @@ public final class Scalpelexis extends Card
 		this.setPower(1);
 		this.setToughness(5);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 		this.addAbility(new Scalp(state));
 	}
 }

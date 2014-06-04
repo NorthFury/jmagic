@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.TapForMana;
 import org.rnd.jmagic.engine.*;
 
 @Name("Thran Dynamo")
@@ -14,6 +15,6 @@ public final class ThranDynamo extends Card
 		super(state);
 
 		// (T): Add (3) to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapForMana.Final(state, "(3)"));
+		this.addAbility(new TapForMana.Final(state, "(3)"));
 	}
 }

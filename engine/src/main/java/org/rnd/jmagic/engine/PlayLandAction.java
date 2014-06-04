@@ -1,6 +1,9 @@
 package org.rnd.jmagic.engine;
 
 import org.rnd.jmagic.engine.generators.*;
+import org.rnd.jmagic.sanitized.SanitizedPlayLandAction;
+
+import java.io.Serializable;
 
 /** Represents the action of playing a land. */
 public final class PlayLandAction extends PlayerAction
@@ -81,9 +84,9 @@ public final class PlayLandAction extends PlayerAction
 	}
 
 	@Override
-	public java.io.Serializable sanitize(GameState state, Player whoFor)
+	public Serializable sanitize(GameState state, Player whoFor)
 	{
-		return new org.rnd.jmagic.sanitized.SanitizedPlayLandAction(this);
+		return new SanitizedPlayLandAction(this);
 	}
 
 	@Override

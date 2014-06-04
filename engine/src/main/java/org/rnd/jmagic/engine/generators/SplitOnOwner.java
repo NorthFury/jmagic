@@ -2,6 +2,9 @@ package org.rnd.jmagic.engine.generators;
 
 import org.rnd.jmagic.engine.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Evaluates to a Set of Sets. Each Set contains objects owned by a single
  * player.
@@ -23,7 +26,7 @@ public class SplitOnOwner extends SetGenerator
 	@Override
 	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		java.util.Map<Integer, MagicSet> whoControlsWhat = new java.util.HashMap<Integer, MagicSet>();
+		Map<Integer, MagicSet> whoControlsWhat = new HashMap<Integer, MagicSet>();
 		for(Player p: state.players)
 			whoControlsWhat.put(p.ID, new MagicSet());
 		for(GameObject object: this.what.evaluate(state, thisObject).getAll(GameObject.class))

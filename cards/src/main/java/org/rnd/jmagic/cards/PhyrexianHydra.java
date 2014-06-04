@@ -1,8 +1,13 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Infect;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+
+import java.util.LinkedList;
+import java.util.List;
 
 @Name("Phyrexian Hydra")
 @Types({Type.CREATURE})
@@ -41,12 +46,12 @@ public final class PhyrexianHydra extends Card
 		}
 
 		@Override
-		public java.util.List<EventFactory> prevent(DamageAssignment.Batch damageAssignments)
+		public List<EventFactory> prevent(DamageAssignment.Batch damageAssignments)
 		{
 			if(damageAssignments.isEmpty())
-				return new java.util.LinkedList<EventFactory>();
+				return new LinkedList<EventFactory>();
 
-			java.util.List<EventFactory> ret = new java.util.LinkedList<EventFactory>();
+			List<EventFactory> ret = new LinkedList<EventFactory>();
 			SetGenerator sourceOfDamage = IdentifiedWithID.instance(damageAssignments.iterator().next().sourceID);
 
 			EventFactory counterEvent = new EventFactory(EventType.PUT_COUNTERS, "Put a -1/-1 counter on Phyrexian Hydra for each 1 damage prevented this way.");
@@ -80,7 +85,7 @@ public final class PhyrexianHydra extends Card
 
 		// Infect (This creature deals damage to creatures in the form of -1/-1
 		// counters and to players in the form of poison counters.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Infect(state));
+		this.addAbility(new Infect(state));
 
 		// If damage would be dealt to Phyrexian Hydra, prevent that damage. Put
 		// a -1/-1 counter on Phyrexian Hydra for each 1 damage prevented this

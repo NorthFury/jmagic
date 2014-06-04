@@ -2,7 +2,33 @@ package org.rnd.jmagic.gui.dialogs;
 
 import org.rnd.jmagic.comms.GameFinder;
 
-public class GameFinderDialog extends javax.swing.JDialog
+import javax.swing.AbstractAction;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.KeyStroke;
+import javax.swing.WindowConstants;
+import javax.swing.table.AbstractTableModel;
+import java.awt.BorderLayout;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public class GameFinderDialog extends JDialog
 {
 	public interface ExceptionListener<E extends Exception>
 	{
@@ -29,48 +55,48 @@ public class GameFinderDialog extends javax.swing.JDialog
 
 	private GameFinder finder;
 
-	private java.util.List<GameFinder.Game> games = java.util.Collections.emptyList();
+	private List<GameFinder.Game> games = Collections.emptyList();
 
 	private Object gamesLock = new Object();
 
 	private ExceptionListener<GameFinder.GameFinderException> gameFinderExceptionListener = null;
 
-	private ExceptionListener<java.io.IOException> ioExceptionListener = null;
+	private ExceptionListener<IOException> ioExceptionListener = null;
 
 	private JoinGameListener joinGameListener = null;
 
-	private javax.swing.JTable table;
+	private JTable table;
 
-	private javax.swing.table.AbstractTableModel tableModel;
+	private AbstractTableModel tableModel;
 
-	public GameFinderDialog(String location, javax.swing.JFrame parent) throws java.net.URISyntaxException, IllegalArgumentException, java.net.MalformedURLException, java.io.IOException, GameFinder.GameFinderException
+	public GameFinderDialog(String location, JFrame parent) throws URISyntaxException, IllegalArgumentException, MalformedURLException, IOException, GameFinder.GameFinderException
 	{
 		super(parent, "Game Finder (double-click to join)", true);
-		this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
 		this.finder = new GameFinder(location);
 
-		this.addWindowListener(new java.awt.event.WindowAdapter()
+		this.addWindowListener(new WindowAdapter()
 		{
 			@Override
-			public void windowOpened(java.awt.event.WindowEvent e)
+			public void windowOpened(WindowEvent e)
 			{
 				new UpdateGamesThread().start();
 			}
 		});
 
-		javax.swing.JButton refreshButton = new javax.swing.JButton("Refresh");
-		refreshButton.addActionListener(new java.awt.event.ActionListener()
+		JButton refreshButton = new JButton("Refresh");
+		refreshButton.addActionListener(new ActionListener()
 		{
 			@Override
-			public void actionPerformed(java.awt.event.ActionEvent e)
+			public void actionPerformed(ActionEvent e)
 			{
 				new UpdateGamesThread().start();
 			}
 		});
-		this.add(refreshButton, java.awt.BorderLayout.PAGE_START);
+		this.add(refreshButton, BorderLayout.PAGE_START);
 
-		this.tableModel = new javax.swing.table.AbstractTableModel()
+		this.tableModel = new AbstractTableModel()
 		{
 			private static final long serialVersionUID = 1L;
 
@@ -119,11 +145,11 @@ public class GameFinderDialog extends javax.swing.JDialog
 			}
 		};
 
-		this.table = new javax.swing.JTable(this.tableModel);
-		this.table.addMouseListener(new java.awt.event.MouseAdapter()
+		this.table = new JTable(this.tableModel);
+		this.table.addMouseListener(new MouseAdapter()
 		{
 			@Override
-			public void mouseClicked(java.awt.event.MouseEvent e)
+			public void mouseClicked(MouseEvent e)
 			{
 				if(2 == e.getClickCount())
 					joinSelectedGame();
@@ -132,32 +158,32 @@ public class GameFinderDialog extends javax.swing.JDialog
 		this.table.setAutoCreateRowSorter(true);
 		this.table.setFillsViewportHeight(true);
 
-		javax.swing.JButton joinButton = new javax.swing.JButton("Join Game");
-		joinButton.addActionListener(new java.awt.event.ActionListener()
+		JButton joinButton = new JButton("Join Game");
+		joinButton.addActionListener(new ActionListener()
 		{
 			@Override
-			public void actionPerformed(java.awt.event.ActionEvent e)
+			public void actionPerformed(ActionEvent e)
 			{
 				joinSelectedGame();
 			}
 		});
-		this.add(joinButton, java.awt.BorderLayout.PAGE_END);
+		this.add(joinButton, BorderLayout.PAGE_END);
 
-		javax.swing.JScrollPane scroll = new javax.swing.JScrollPane(this.table);
-		this.add(scroll, java.awt.BorderLayout.CENTER);
+		JScrollPane scroll = new JScrollPane(this.table);
+		this.add(scroll, BorderLayout.CENTER);
 
-		javax.swing.AbstractAction cancel = new javax.swing.AbstractAction()
+		AbstractAction cancel = new AbstractAction()
 		{
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public void actionPerformed(java.awt.event.ActionEvent e)
+			public void actionPerformed(ActionEvent e)
 			{
 				GameFinderDialog.this.dispose();
 			}
 		};
-		javax.swing.KeyStroke cancelKeyStroke = javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_W, java.awt.Toolkit.getDefaultToolkit().getMenuShortcutKeyMask());
-		this.getRootPane().getInputMap(javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW).put(cancelKeyStroke, "Cancel");
+		KeyStroke cancelKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_W, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask());
+		this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(cancelKeyStroke, "Cancel");
 		this.getRootPane().getActionMap().put("Cancel", cancel);
 
 		this.pack();
@@ -173,7 +199,7 @@ public class GameFinderDialog extends javax.swing.JDialog
 		this.joinGameListener = listener;
 	}
 
-	public void setIOExceptionListener(ExceptionListener<java.io.IOException> listener)
+	public void setIOExceptionListener(ExceptionListener<IOException> listener)
 	{
 		this.ioExceptionListener = listener;
 	}
@@ -189,14 +215,14 @@ public class GameFinderDialog extends javax.swing.JDialog
 	{
 		try
 		{
-			java.util.List<GameFinder.Game> newGames = new java.util.ArrayList<GameFinder.Game>(this.finder.list());
+			List<GameFinder.Game> newGames = new ArrayList<GameFinder.Game>(this.finder.list());
 			synchronized(this.gamesLock)
 			{
 				this.games = newGames;
 			}
 			this.tableModel.fireTableDataChanged();
 		}
-		catch(java.io.IOException e)
+		catch(IOException e)
 		{
 			if(null != this.ioExceptionListener)
 				this.ioExceptionListener.handleException(e);

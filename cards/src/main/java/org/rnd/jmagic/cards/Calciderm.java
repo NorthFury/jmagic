@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Shroud;
+import org.rnd.jmagic.abilities.keywords.Vanishing;
 import org.rnd.jmagic.engine.*;
 
 @Name("Calciderm")
@@ -18,9 +20,9 @@ public final class Calciderm extends Card
 		this.setToughness(5);
 
 		// Shroud
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Shroud(state));
+		this.addAbility(new Shroud(state));
 
 		// Vanishing 4
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Vanishing(state, 4));
+		this.addAbility(new Vanishing(state, 4));
 	}
 }

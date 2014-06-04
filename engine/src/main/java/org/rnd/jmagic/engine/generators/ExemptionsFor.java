@@ -2,6 +2,8 @@ package org.rnd.jmagic.engine.generators;
 
 import org.rnd.jmagic.engine.*;
 
+import java.util.Map;
+
 /**
  * Lets an ability implement exemptions to its rules. For instance, Hexproof
  * uses this generator to fetch the objects that can target its source as though
@@ -29,7 +31,7 @@ public class ExemptionsFor extends SetGenerator
 		MagicSet ret = new MagicSet();
 		if(state.abilityExemptions.containsKey(this.from.getName()))
 		{
-			java.util.Map<Integer, MagicSet> exemptions = state.abilityExemptions.get(this.from.getName());
+			Map<Integer, MagicSet> exemptions = state.abilityExemptions.get(this.from.getName());
 			for(Identified object: this.what.evaluate(state, thisObject).getAll(Identified.class))
 				if(exemptions.containsKey(object.ID))
 					ret.addAll(exemptions.get(object.ID));

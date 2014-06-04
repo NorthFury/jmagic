@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Enchant;
+import org.rnd.jmagic.abilities.keywords.Vigilance;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -22,7 +25,7 @@ public final class SecurityBlockade extends Card
 			CreateTokensFactory token = new CreateTokensFactory(1, 2, 2, "Put a 2/2 white Knight creature token with vigilance onto the battlefield.");
 			token.setColors(Color.WHITE);
 			token.setSubTypes(SubType.KNIGHT);
-			token.addAbility(org.rnd.jmagic.abilities.keywords.Vigilance.class);
+			token.addAbility(Vigilance.class);
 			this.addEffect(token.getEventFactory());
 		}
 	}
@@ -55,7 +58,7 @@ public final class SecurityBlockade extends Card
 		super(state);
 
 		// Enchant land
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Enchant.Land(state));
+		this.addAbility(new Enchant.Land(state));
 
 		// When Security Blockade enters the battlefield, put a 2/2 white Knight
 		// creature token with vigilance onto the battlefield.

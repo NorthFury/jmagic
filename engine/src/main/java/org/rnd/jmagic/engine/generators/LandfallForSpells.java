@@ -2,6 +2,8 @@ package org.rnd.jmagic.engine.generators;
 
 import org.rnd.jmagic.engine.*;
 
+import java.util.Map;
+
 /**
  * If a land entered the battlefield under your control this turn...
  * 
@@ -25,7 +27,7 @@ public class LandfallForSpells extends SetGenerator
 	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
 		int controller = state.<GameObject>get(thisObject.ID).controllerID;
-		java.util.Map<Integer, Integer> flagValue = state.getTracker(LandsPutOntoTheBattlefieldThisTurnCounter.class).getValue(state);
+		Map<Integer, Integer> flagValue = state.getTracker(LandsPutOntoTheBattlefieldThisTurnCounter.class).getValue(state);
 
 		if(!flagValue.containsKey(controller))
 			return Empty.set;

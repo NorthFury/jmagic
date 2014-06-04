@@ -44,7 +44,7 @@ public final class DoublingChant extends Card
 					if(o.getTypes().contains(Type.CREATURE) && o.getName().equals(creatureName) && !found.contains(o))
 						findable.add(o);
 
-				java.util.Map<Parameter, MagicSet> searchParameters = new java.util.HashMap<Parameter, MagicSet>();
+				Map<Parameter, MagicSet> searchParameters = new HashMap<Parameter, MagicSet>();
 				searchParameters.put(EventType.Parameter.CAUSE, cause);
 				searchParameters.put(EventType.Parameter.PLAYER, you);
 				searchParameters.put(EventType.Parameter.NUMBER, ONE);

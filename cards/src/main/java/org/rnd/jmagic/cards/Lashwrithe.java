@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Equip;
+import org.rnd.jmagic.abilities.keywords.LivingWeapon;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -30,12 +33,12 @@ public final class Lashwrithe extends Card
 		// Living weapon (When this Equipment enters the battlefield, put a 0/0
 		// black Germ creature token onto the battlefield, then attach this to
 		// it.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.LivingWeapon(state));
+		this.addAbility(new LivingWeapon(state));
 
 		// Equipped creature gets +1/+1 for each Swamp you control.
 		this.addAbility(new LashwritheAbility1(state));
 
 		// Equip (b/p)(b/p) ((b/p) can be paid with either (B) or 2 life.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Equip(state, "(b/p)(b/p)"));
+		this.addAbility(new Equip(state, "(b/p)(b/p)"));
 	}
 }

@@ -3,6 +3,7 @@ package org.rnd.jmagic.engine.generators;
 import static org.rnd.jmagic.Convenience.*;
 
 import org.rnd.jmagic.engine.*;
+import org.rnd.util.NumberRange;
 
 /**
  * Evaluates to a numberrange
@@ -58,6 +59,6 @@ public class Between extends SetGenerator
 	{
 		Integer lowerNumber = this.lowerBound.evaluate(state, thisObject).getOne(Integer.class);
 		Integer upperNumber = this.upperBound.evaluate(state, thisObject).getOne(Integer.class);
-		return new MagicSet(new org.rnd.util.NumberRange(lowerNumber, upperNumber));
+		return new MagicSet(new NumberRange(lowerNumber, upperNumber));
 	}
 }

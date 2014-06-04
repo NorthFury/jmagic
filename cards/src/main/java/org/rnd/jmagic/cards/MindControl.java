@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.YouControlEnchantedCreature;
+import org.rnd.jmagic.abilities.keywords.Enchant;
 import org.rnd.jmagic.engine.*;
 
 @Name("Mind Control")
@@ -14,7 +16,7 @@ public final class MindControl extends Card
 	{
 		super(state);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Enchant.Creature(state));
-		this.addAbility(new org.rnd.jmagic.abilities.YouControlEnchantedCreature(state));
+		this.addAbility(new Enchant.Creature(state));
+		this.addAbility(new YouControlEnchantedCreature(state));
 	}
 }

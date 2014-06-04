@@ -2,7 +2,13 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Shroud;
 import org.rnd.jmagic.engine.*;
+
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 @Name("Empyrial Archangel")
 @Types({Type.CREATURE})
@@ -37,14 +43,14 @@ public final class EmpyrialArchangel extends Card
 			}
 
 			@Override
-			public java.util.List<EventFactory> redirect(java.util.Map<DamageAssignment, DamageAssignment> damageAssignments)
+			public List<EventFactory> redirect(Map<DamageAssignment, DamageAssignment> damageAssignments)
 			{
 				GameObject thisCard = (GameObject)this.getSourceObject(this.game.actualState);
 
 				for(DamageAssignment assignment: damageAssignments.keySet())
 					damageAssignments.put(assignment, new DamageAssignment(this.game.actualState.<GameObject>get(assignment.sourceID), thisCard));
 
-				return new java.util.LinkedList<EventFactory>();
+				return new LinkedList<EventFactory>();
 			}
 		}
 
@@ -63,8 +69,8 @@ public final class EmpyrialArchangel extends Card
 		this.setPower(5);
 		this.setToughness(8);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Shroud(state));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Shroud(state));
+		this.addAbility(new Flying(state));
 		this.addAbility(new EmpyrialShield(state));
 	}
 }

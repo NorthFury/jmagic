@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.FirstStrike;
 import org.rnd.jmagic.engine.*;
 
 @Name("Disciple of the Old Ways")
@@ -17,7 +19,7 @@ public final class DiscipleoftheOldWays extends Card
 		{
 			super(state, "(R): Disciple of the Old Ways gains first strike until end of turn.");
 			this.setManaCost(new ManaPool("(R)"));
-			this.addEffect(addAbilityUntilEndOfTurn(ABILITY_SOURCE_OF_THIS, org.rnd.jmagic.abilities.keywords.FirstStrike.class, "Disciple of the Old Ways gains first strike until end of turn."));
+			this.addEffect(addAbilityUntilEndOfTurn(ABILITY_SOURCE_OF_THIS, FirstStrike.class, "Disciple of the Old Ways gains first strike until end of turn."));
 		}
 	}
 

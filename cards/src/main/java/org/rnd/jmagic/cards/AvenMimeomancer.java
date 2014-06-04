@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -25,7 +26,7 @@ public final class AvenMimeomancer extends Card
 
 			ContinuousEffect.Part part1 = setPowerAndToughness(targetedBy(target), 3, 1);
 
-			ContinuousEffect.Part part2 = addAbilityToObject(targetedBy(target), org.rnd.jmagic.abilities.keywords.Flying.class);
+			ContinuousEffect.Part part2 = addAbilityToObject(targetedBy(target), Flying.class);
 
 			EventFactory fceFactory = createFloatingEffect(Not.instance(CountersOn.instance(targetedBy(target), Counter.CounterType.FEATHER)), "That creature is 3/1 and has flying for as long as it has a feather counter on it.", part1, part2);
 
@@ -43,7 +44,7 @@ public final class AvenMimeomancer extends Card
 		this.setPower(3);
 		this.setToughness(1);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		this.addAbility(new AvianFlu(state));
 	}

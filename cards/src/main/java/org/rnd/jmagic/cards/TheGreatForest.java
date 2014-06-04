@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.gameTypes.*;
 
@@ -32,7 +33,7 @@ public final class TheGreatForest extends Card
 
 			this.addPattern(Planechase.wheneverYouRollChaos());
 
-			this.addEffect(createFloatingEffect("Creatures you control get +0/+2 and gain trample until end of turn.", modifyPowerAndToughness(CREATURES_YOU_CONTROL, 0, 2), addAbilityToObject(CREATURES_YOU_CONTROL, org.rnd.jmagic.abilities.keywords.Trample.class)));
+			this.addEffect(createFloatingEffect("Creatures you control get +0/+2 and gain trample until end of turn.", modifyPowerAndToughness(CREATURES_YOU_CONTROL, 0, 2), addAbilityToObject(CREATURES_YOU_CONTROL, Trample.class)));
 
 			this.canTrigger = Planechase.triggeredAbilityCanTrigger;
 		}

@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.CantBlock;
+import org.rnd.jmagic.abilities.ZendikarAllyCounter;
 import org.rnd.jmagic.engine.*;
 
 @Name("Bojuka Brigand")
@@ -18,10 +20,10 @@ public final class BojukaBrigand extends Card
 		this.setToughness(1);
 
 		// Bojuka Brigand can't block.
-		this.addAbility(new org.rnd.jmagic.abilities.CantBlock(state, this.getName()));
+		this.addAbility(new CantBlock(state, this.getName()));
 
 		// Whenever Bojuka Brigand or another Ally enters the battlefield under
 		// your control, you may put a +1/+1 counter on Bojuka Brigand.
-		this.addAbility(new org.rnd.jmagic.abilities.ZendikarAllyCounter(state, this.getName()));
+		this.addAbility(new ZendikarAllyCounter(state, this.getName()));
 	}
 }

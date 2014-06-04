@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.FirstStrike;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -18,6 +20,6 @@ public final class FuriousResistance extends Card
 		// Target blocking creature gets +3/+0 and gains first strike until end
 		// of turn.
 		SetGenerator target = targetedBy(this.addTarget(Blocking.instance(), "target blocking creature"));
-		this.addEffect(ptChangeAndAbilityUntilEndOfTurn(target, +3, +0, "Target blocking creature gets +3/+0 and gains first strike until end of turn.", org.rnd.jmagic.abilities.keywords.FirstStrike.class));
+		this.addEffect(ptChangeAndAbilityUntilEndOfTurn(target, +3, +0, "Target blocking creature gets +3/+0 and gains first strike until end of turn.", FirstStrike.class));
 	}
 }

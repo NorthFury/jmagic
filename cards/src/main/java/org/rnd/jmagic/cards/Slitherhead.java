@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Scavenge;
 import org.rnd.jmagic.engine.*;
 
 @Name("Slitherhead")
@@ -20,6 +21,6 @@ public final class Slitherhead extends Card
 		// Scavenge (0) ((0), Exile this card from your graveyard: Put a number
 		// of +1/+1 counters equal to this card's power on target creature.
 		// Scavenge only as a sorcery.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Scavenge(state, "(0)"));
+		this.addAbility(new Scavenge(state, "(0)"));
 	}
 }

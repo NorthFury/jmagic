@@ -7,6 +7,10 @@ import org.rnd.jmagic.engine.gameTypes.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
 
+import java.util.LinkedList;
+import java.util.List;
+import java.util.ListIterator;
+
 @Name("Cliffside Market")
 @Types({Type.PLANE})
 @SubTypes({SubType.MERCADIA})
@@ -33,9 +37,9 @@ public final class CliffsideMarket extends Card
 		{
 			MagicSet ret = new MagicSet();
 
-			java.util.List<GameObject> targets = new java.util.LinkedList<GameObject>(Permanents.instance().evaluate(state, thisObject).getAll(GameObject.class));
+			List<GameObject> targets = new LinkedList<GameObject>(Permanents.instance().evaluate(state, thisObject).getAll(GameObject.class));
 
-			java.util.ListIterator<GameObject> firstIter = targets.listIterator();
+			ListIterator<GameObject> firstIter = targets.listIterator();
 			int size = targets.size();
 
 			firstLoop: while(firstIter.hasNext())
@@ -44,7 +48,7 @@ public final class CliffsideMarket extends Card
 				int nextIndex = firstIter.nextIndex();
 				if(nextIndex == size)
 					return ret;
-				java.util.ListIterator<GameObject> secIter = targets.listIterator(nextIndex);
+				ListIterator<GameObject> secIter = targets.listIterator(nextIndex);
 				while(secIter.hasNext())
 				{
 					GameObject secObj = secIter.next();

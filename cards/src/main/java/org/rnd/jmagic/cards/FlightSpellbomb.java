@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.ScarsSpellbomb;
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -19,7 +22,7 @@ public final class FlightSpellbomb extends Card
 			this.costsTap = true;
 			this.addCost(sacrificeThis("Flight Spellbomb"));
 			SetGenerator target = targetedBy(this.addTarget(CreaturePermanents.instance(), "target creature"));
-			this.addEffect(addAbilityUntilEndOfTurn(target, org.rnd.jmagic.abilities.keywords.Flying.class, "Target creature gains flying until end of turn."));
+			this.addEffect(addAbilityUntilEndOfTurn(target, Flying.class, "Target creature gains flying until end of turn."));
 		}
 	}
 
@@ -33,6 +36,6 @@ public final class FlightSpellbomb extends Card
 
 		// When Flight Spellbomb is put into a graveyard from the battlefield,
 		// you may pay (U). If you do, draw a card.
-		this.addAbility(new org.rnd.jmagic.abilities.ScarsSpellbomb(state, this.getName(), "(U)"));
+		this.addAbility(new ScarsSpellbomb(state, this.getName(), "(U)"));
 	}
 }

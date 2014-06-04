@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.DoesntUntapDuringYourUntapStep;
+import org.rnd.jmagic.abilities.TapForMana;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -45,7 +48,7 @@ public final class ManaVault extends Card
 		super(state);
 
 		// Mana Vault doesn't untap during your untap step.
-		this.addAbility(new org.rnd.jmagic.abilities.DoesntUntapDuringYourUntapStep(state, this.getName()));
+		this.addAbility(new DoesntUntapDuringYourUntapStep(state, this.getName()));
 
 		// At the beginning of your upkeep, you may pay (4). If you do, untap
 		// Mana Vault.
@@ -56,6 +59,6 @@ public final class ManaVault extends Card
 		this.addAbility(new ManaVaultAbility2(state));
 
 		// (T): Add (3) to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapForMana.Final(state, "(3)"));
+		this.addAbility(new TapForMana.Final(state, "(3)"));
 	}
 }

@@ -3,6 +3,12 @@ package org.rnd.jmagic.abilities.keywords;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
 import static org.rnd.jmagic.Convenience.*;
 
 @Name("Cipher")
@@ -28,13 +34,13 @@ public final class Cipher extends Keyword
 		}
 
 		@Override
-		public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean attempt(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			return !parameters.get(Parameter.CHOICE).isEmpty();
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			GameObject thisCard = event.getSource();
 			Player you = thisCard.getController(game.actualState);
@@ -50,9 +56,9 @@ public final class Cipher extends Keyword
 	};
 
 	@Override
-	protected java.util.List<EventFactory> createSpellAbilities()
+	protected List<EventFactory> createSpellAbilities()
 	{
-		java.util.LinkedList<EventFactory> ret = new java.util.LinkedList<EventFactory>();
+		LinkedList<EventFactory> ret = new LinkedList<EventFactory>();
 
 		EventFactory encode = new EventFactory(ENCODE, "Exile this card encoded on a creature you control");
 		encode.parameters.put(EventType.Parameter.CHOICE, CREATURES_YOU_CONTROL);
@@ -64,9 +70,9 @@ public final class Cipher extends Keyword
 	}
 
 	@Override
-	protected java.util.List<StaticAbility> createStaticAbilities()
+	protected List<StaticAbility> createStaticAbilities()
 	{
-		java.util.LinkedList<StaticAbility> ret = new java.util.LinkedList<StaticAbility>();
+		LinkedList<StaticAbility> ret = new LinkedList<StaticAbility>();
 		ret.add(new CipherStatic(this.state));
 		return ret;
 	}
@@ -96,24 +102,24 @@ public final class Cipher extends Keyword
 		}
 	}
 
-	public static final class EncodeTracker extends Tracker<java.util.Map<Integer, Integer>>
+	public static final class EncodeTracker extends Tracker<Map<Integer, Integer>>
 	{
 		// keys are spell cards' IDs, values are IDs of creatures those cards
 		// are encoded on
-		private java.util.HashMap<Integer, Integer> values = new java.util.HashMap<Integer, Integer>();
-		private java.util.Map<Integer, Integer> unmodifiable = java.util.Collections.unmodifiableMap(this.values);
+		private HashMap<Integer, Integer> values = new HashMap<Integer, Integer>();
+		private Map<Integer, Integer> unmodifiable = Collections.unmodifiableMap(this.values);
 
 		@Override
 		public EncodeTracker clone()
 		{
 			EncodeTracker ret = (EncodeTracker)super.clone();
-			ret.values = new java.util.HashMap<Integer, Integer>(this.values);
-			ret.unmodifiable = java.util.Collections.unmodifiableMap(ret.values);
+			ret.values = new HashMap<Integer, Integer>(this.values);
+			ret.unmodifiable = Collections.unmodifiableMap(ret.values);
 			return ret;
 		}
 
 		@Override
-		protected java.util.Map<Integer, Integer> getValueInternal()
+		protected Map<Integer, Integer> getValueInternal()
 		{
 			return this.unmodifiable;
 		}
@@ -160,7 +166,7 @@ public final class Cipher extends Keyword
 		public MagicSet evaluate(GameState state, Identified thisObject)
 		{
 			GameObject spellCard = this.spellCard.evaluate(state, thisObject).getOne(GameObject.class);
-			java.util.Map<Integer, Integer> trackerValue = state.getTracker(EncodeTracker.class).getValue(state);
+			Map<Integer, Integer> trackerValue = state.getTracker(EncodeTracker.class).getValue(state);
 			if(trackerValue.containsKey(spellCard.ID))
 			{
 				GameObject encoded = state.getByIDObject(trackerValue.get(spellCard.ID));

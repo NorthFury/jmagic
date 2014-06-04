@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Intimidate;
 import org.rnd.jmagic.engine.*;
 
 @Name("Hideous Visage")
@@ -17,6 +19,6 @@ public final class HideousVisage extends Card
 		// Creatures you control gain intimidate until end of turn. (Each of
 		// those creatures can't be blocked except by artifact creatures and/or
 		// creatures that share a color with it.)
-		this.addEffect(addAbilityUntilEndOfTurn(CREATURES_YOU_CONTROL, org.rnd.jmagic.abilities.keywords.Intimidate.class, "Creatures you control gain intimidate until end of turn."));
+		this.addEffect(addAbilityUntilEndOfTurn(CREATURES_YOU_CONTROL, Intimidate.class, "Creatures you control gain intimidate until end of turn."));
 	}
 }

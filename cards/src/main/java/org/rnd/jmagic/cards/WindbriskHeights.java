@@ -1,8 +1,18 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.TapForW;
+import org.rnd.jmagic.abilities.keywords.Hideaway;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 @Name("Windbrisk Heights")
 @Types({Type.LAND})
@@ -10,9 +20,9 @@ import org.rnd.jmagic.engine.generators.*;
 @ColorIdentity({Color.WHITE})
 public final class WindbriskHeights extends Card
 {
-	public static final class WindbriskHideaway extends org.rnd.jmagic.abilities.keywords.Hideaway
+	public static final class WindbriskHideaway extends Hideaway
 	{
-		public static final class WindbriskExile extends org.rnd.jmagic.abilities.keywords.Hideaway.Exile
+		public static final class WindbriskExile extends Hideaway.Exile
 		{
 			public WindbriskExile(GameState state)
 			{
@@ -26,13 +36,13 @@ public final class WindbriskHeights extends Card
 		}
 
 		@Override
-		protected java.util.List<NonStaticAbility> createNonStaticAbilities()
+		protected List<NonStaticAbility> createNonStaticAbilities()
 		{
-			return java.util.Collections.<NonStaticAbility>singletonList(new WindbriskExile(this.state));
+			return Collections.<NonStaticAbility>singletonList(new WindbriskExile(this.state));
 		}
 	}
 
-	public static final class AttackTracker extends Tracker<java.util.Map<Integer, java.util.Collection<Integer>>>
+	public static final class AttackTracker extends Tracker<Map<Integer, Collection<Integer>>>
 	{
 		public static final class Generator extends SetGenerator
 		{
@@ -52,7 +62,7 @@ public final class WindbriskHeights extends Card
 			public MagicSet evaluate(GameState state, Identified thisObject)
 			{
 				AttackTracker tracker = state.getTracker(AttackTracker.class);
-				java.util.Map<Integer, java.util.Collection<Integer>> trackerValue = tracker.getValue(state);
+				Map<Integer, Collection<Integer>> trackerValue = tracker.getValue(state);
 				Player you = ((GameObject)thisObject).getController(state);
 				if(!trackerValue.containsKey(you.ID))
 					return new MagicSet();
@@ -66,20 +76,20 @@ public final class WindbriskHeights extends Card
 
 		// keys are playerIDs, values are IDs of creatures that player attacked
 		// with this turn
-		private java.util.Map<Integer, java.util.Collection<Integer>> values = new java.util.HashMap<Integer, java.util.Collection<Integer>>();
-		private java.util.Map<Integer, java.util.Collection<Integer>> unmodifiable = java.util.Collections.unmodifiableMap(this.values);
+		private Map<Integer, Collection<Integer>> values = new HashMap<Integer, Collection<Integer>>();
+		private Map<Integer, Collection<Integer>> unmodifiable = Collections.unmodifiableMap(this.values);
 
 		@Override
 		protected AttackTracker clone()
 		{
 			AttackTracker ret = (AttackTracker)super.clone();
-			ret.values = new java.util.HashMap<Integer, java.util.Collection<Integer>>(this.values);
-			ret.unmodifiable = java.util.Collections.unmodifiableMap(ret.values);
+			ret.values = new HashMap<Integer, Collection<Integer>>(this.values);
+			ret.unmodifiable = Collections.unmodifiableMap(ret.values);
 			return ret;
 		}
 
 		@Override
-		protected java.util.Map<Integer, java.util.Collection<Integer>> getValueInternal()
+		protected Map<Integer, Collection<Integer>> getValueInternal()
 		{
 			return this.unmodifiable;
 		}
@@ -100,10 +110,10 @@ public final class WindbriskHeights extends Card
 		protected void update(GameState state, Event event)
 		{
 			GameObject attacker = event.parametersNow.get(EventType.Parameter.OBJECT).evaluate(state, null).getOne(GameObject.class);
-			java.util.Collection<Integer> value = this.values.get(attacker.controllerID);
+			Collection<Integer> value = this.values.get(attacker.controllerID);
 			if(value == null)
 			{
-				value = new java.util.LinkedList<Integer>();
+				value = new LinkedList<Integer>();
 				this.values.put(attacker.controllerID, value);
 			}
 			value.add(attacker.ID);
@@ -146,7 +156,7 @@ public final class WindbriskHeights extends Card
 		this.addAbility(new WindbriskHideaway(state));
 
 		// (T): Add (W) to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapForW(state));
+		this.addAbility(new TapForW(state));
 
 		// (W), (T): You may play the exiled card without paying its mana cost
 		// if you attacked with three or more creatures this turn.

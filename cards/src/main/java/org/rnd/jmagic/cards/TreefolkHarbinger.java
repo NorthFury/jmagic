@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.HarbingerAbility;
 import org.rnd.jmagic.engine.*;
 
 @Name("Treefolk Harbinger")
@@ -20,6 +21,6 @@ public final class TreefolkHarbinger extends Card
 		// When Treefolk Harbinger enters the battlefield, you may search your
 		// library for a Treefolk or Forest card, reveal it, then shuffle your
 		// library and put that card on top of it.
-		this.addAbility(new org.rnd.jmagic.abilities.HarbingerAbility(state, this.getName(), SubType.TREEFOLK, SubType.FOREST));
+		this.addAbility(new HarbingerAbility(state, this.getName(), SubType.TREEFOLK, SubType.FOREST));
 	}
 }

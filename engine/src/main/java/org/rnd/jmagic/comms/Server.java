@@ -1,27 +1,63 @@
 package org.rnd.jmagic.comms;
 
+import org.rnd.jmagic.Version;
+import org.rnd.jmagic.engine.Game;
+import org.rnd.jmagic.engine.GameType;
+import org.rnd.jmagic.engine.Player;
+import org.rnd.jmagic.engine.PlayerInterface;
+import org.rnd.util.ChannelRouter;
+import org.rnd.util.ExceptionListener;
+import org.teleal.cling.UpnpService;
+import org.teleal.cling.UpnpServiceImpl;
+import org.teleal.cling.model.types.UnsignedIntegerFourBytes;
+import org.teleal.cling.support.igd.PortMappingListener;
+import org.teleal.cling.support.model.PortMapping;
+
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.UnknownHostException;
+import java.nio.channels.Channel;
+import java.nio.channels.ClosedSelectorException;
+import java.nio.channels.SelectionKey;
+import java.nio.channels.Selector;
+import java.nio.channels.ServerSocketChannel;
+import java.nio.channels.SocketChannel;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  * <p>
  * A reference implementation for playing jMagic over a socket. After
  * constructing the object, call
- * {@link #addLocalPlayer(org.rnd.jmagic.engine.PlayerInterface)} for each
+ * {@link #addLocalPlayer(PlayerInterface)} for each
  * player which will be playing within the same VM as the server.
  * </p>
  * <p>
  * For players connecting via socket, all communication is via serialized
- * objects created by {@link java.io.ObjectOutputStream} as follows:
+ * objects created by {@link ObjectOutputStream} as follows:
  * </p>
  * <ol>
  * <li>Write the serialization stream header by calling the constructor
- * {@link java.io.ObjectOutputStream#ObjectOutputStream(java.io.OutputStream)}</li>
- * <li>Write a {@link org.rnd.jmagic.Version} representing the version of the
- * client using {@link java.io.ObjectOutputStream#writeObject(Object)}</li>
+ * {@link ObjectOutputStream#ObjectOutputStream(java.io.OutputStream)}</li>
+ * <li>Write a {@link Version} representing the version of the
+ * client using {@link ObjectOutputStream#writeObject(Object)}</li>
  * <li>Write a {@link Server.SocketType} representing the type of socket using
- * {@link java.io.ObjectOutputStream#writeObject(Object)}</li>
+ * {@link ObjectOutputStream#writeObject(Object)}</li>
  * <li>Flush the connection to make sure the server receives it by calling
- * {@link java.io.ObjectOutputStream#flush()}</li>
- * <li>Read a {@link org.rnd.jmagic.Version} using
- * {@link java.io.ObjectInputStream#readObject()} to verify a version match or
+ * {@link ObjectOutputStream#flush()}</li>
+ * <li>Read a {@link Version} using
+ * {@link ObjectInputStream#readObject()} to verify a version match or
  * mismatch</li>
  * </ol>
  */
@@ -34,8 +70,8 @@ public class Server implements Runnable
 	{
 		/**
 		 * This must be the first socket connected. After verifying version
-		 * compatibility, the client must read a {@link java.util.UUID} using
-		 * {@link java.io.ObjectInputStream#readObject()} which serves as a key
+		 * compatibility, the client must read a {@link UUID} using
+		 * {@link ObjectInputStream#readObject()} which serves as a key
 		 * for any other sockets. All traffic afterwards must be handled using
 		 * {@link StreamPlayer}.
 		 */
@@ -45,10 +81,10 @@ public class Server implements Runnable
 		 * {@link #ENGINE} socket. Immediately after writing {@link #CHAT} in
 		 * the protocol described by {@link Server}, the client must write the
 		 * key to the socket using
-		 * {@link java.io.ObjectOutputStream#writeObject(Object)}. After
-		 * receiving a {@link org.rnd.jmagic.Version} from the server, the
+		 * {@link ObjectOutputStream#writeObject(Object)}. After
+		 * receiving a {@link Version} from the server, the
 		 * client must continually call
-		 * {@link java.io.ObjectInputStream#readUTF()} to receive chat messages
+		 * {@link ObjectInputStream#readUTF()} to receive chat messages
 		 * from all players (including the player connected by this socket)
 		 * prefixed by the name of that player.
 		 */
@@ -57,29 +93,29 @@ public class Server implements Runnable
 
 	private static final int HEARTBEAT_MILLISECONDS = 15000;
 
-	private static final java.util.logging.Logger LOG = java.util.logging.Logger.getLogger(Server.class.getName());
+	private static final Logger LOG = Logger.getLogger(Server.class.getName());
 
-	private org.rnd.util.ChannelRouter channelRouter;
+	private ChannelRouter channelRouter;
 
-	private java.util.List<java.nio.channels.Channel> channels;
+	private List<Channel> channels;
 
 	private ChatManager chatManager;
 
-	private java.util.List<Thread> chatThreads;
+	private List<Thread> chatThreads;
 
 	private Thread connectionThread = null;
 
-	private org.rnd.jmagic.engine.Game game;
+	private Game game;
 
 	private String gameDescription = null;
 
 	private GameFinder gameFinder = null;
 
-	private org.rnd.jmagic.engine.GameType gameType;
+	private GameType gameType;
 
 	private String hostPlayerName = null;
 
-	private java.util.concurrent.ConcurrentMap<java.util.UUID, org.rnd.jmagic.engine.Player> players;
+	private ConcurrentMap<UUID, Player> players;
 
 	private int playerLimit;
 
@@ -87,39 +123,39 @@ public class Server implements Runnable
 
 	private boolean readyToRun = true;
 
-	private java.nio.channels.Selector selector = null;
+	private Selector selector = null;
 
-	private java.nio.channels.ServerSocketChannel serverChannel = null;
+	private ServerSocketChannel serverChannel = null;
 
-	private org.teleal.cling.UpnpService upnpService = null;
+	private UpnpService upnpService = null;
 
-	private org.rnd.jmagic.Version version;
+	private Version version;
 
-	public Server(org.rnd.jmagic.engine.GameType gameType, int numPlayers, int port)
+	public Server(GameType gameType, int numPlayers, int port)
 	{
 		try
 		{
-			this.channelRouter = new org.rnd.util.ChannelRouter(new org.rnd.util.ExceptionListener<java.io.IOException>()
+			this.channelRouter = new ChannelRouter(new ExceptionListener<IOException>()
 			{
 				@Override
-				public void exceptionThrown(java.io.IOException exception)
+				public void exceptionThrown(IOException exception)
 				{
-					LOG.log(java.util.logging.Level.SEVERE, "IO error while routing across channels", exception);
+					LOG.log(Level.SEVERE, "IO error while routing across channels", exception);
 				}
 			});
 		}
-		catch(java.io.IOException e)
+		catch(IOException e)
 		{
-			LOG.log(java.util.logging.Level.SEVERE, "IO error while setting up channel router", e);
+			LOG.log(Level.SEVERE, "IO error while setting up channel router", e);
 		}
 
-		this.channels = new java.util.LinkedList<java.nio.channels.Channel>();
+		this.channels = new LinkedList<Channel>();
 
 		this.chatManager = new ChatManager();
 
-		this.chatThreads = new java.util.LinkedList<Thread>();
+		this.chatThreads = new LinkedList<Thread>();
 
-		this.game = new org.rnd.jmagic.engine.Game(gameType);
+		this.game = new Game(gameType);
 
 		if(null == gameType)
 		{
@@ -135,7 +171,7 @@ public class Server implements Runnable
 		}
 		this.playerLimit = numPlayers;
 
-		this.players = new java.util.concurrent.ConcurrentHashMap<java.util.UUID, org.rnd.jmagic.engine.Player>();
+		this.players = new ConcurrentHashMap<UUID, Player>();
 
 		if((port < 0) || (65535 < port))
 		{
@@ -144,13 +180,13 @@ public class Server implements Runnable
 		}
 		this.port = port;
 
-		this.version = new org.rnd.jmagic.Version();
+		this.version = new Version();
 	}
 
 	private boolean acceptConnections()
 	{
 		final Object connectionLock = new Object();
-		final java.util.concurrent.atomic.AtomicBoolean error = new java.util.concurrent.atomic.AtomicBoolean(false);
+		final AtomicBoolean error = new AtomicBoolean(false);
 
 		this.connectionThread = new Thread("AcceptConnections")
 		{
@@ -164,20 +200,20 @@ public class Server implements Runnable
 					{
 						numKeys = Server.this.selector.select(HEARTBEAT_MILLISECONDS);
 					}
-					catch(java.nio.channels.ClosedSelectorException e)
+					catch(ClosedSelectorException e)
 					{
 						// The main thread is telling us to stop, so gracefully
 						// exit
 						return;
 					}
-					catch(java.io.IOException e)
+					catch(IOException e)
 					{
 						error.set(true);
 						synchronized(connectionLock)
 						{
 							connectionLock.notify();
 						}
-						LOG.log(java.util.logging.Level.WARNING, "IO error while selecting", e);
+						LOG.log(Level.WARNING, "IO error while selecting", e);
 						return;
 					}
 
@@ -233,25 +269,25 @@ public class Server implements Runnable
 		try
 		{
 			LOG.info("Accepting a connection");
-			java.nio.channels.SocketChannel channel = this.serverChannel.accept();
+			SocketChannel channel = this.serverChannel.accept();
 			channel.configureBlocking(false);
 			this.channels.add(channel);
 
 			// Always create the output stream first and flush it before
 			// creating the input stream so a stream header is immediately
 			// available
-			java.io.ObjectOutputStream out = this.channelRouter.addRouteFromObjectOutputStream(channel);
+			ObjectOutputStream out = this.channelRouter.addRouteFromObjectOutputStream(channel);
 			out.writeObject(this.version);
 			out.flush();
 
-			java.io.ObjectInputStream in = this.channelRouter.addRouteToObjectInputStream(channel);
+			ObjectInputStream in = this.channelRouter.addRouteToObjectInputStream(channel);
 
 			// Read a Version object from the other side to see if we're
 			// compatible
-			org.rnd.jmagic.Version otherVersion = (org.rnd.jmagic.Version)in.readObject();
+			Version otherVersion = (Version)in.readObject();
 			if(!this.version.isCompatibleWith(otherVersion))
 			{
-				LOG.log(java.util.logging.Level.INFO, "The player attempted to connect with a non-compatible version (local: " + this.version + ", remote: " + otherVersion + "); rejecting player");
+				LOG.log(Level.INFO, "The player attempted to connect with a non-compatible version (local: " + this.version + ", remote: " + otherVersion + "); rejecting player");
 				return;
 			}
 
@@ -269,13 +305,13 @@ public class Server implements Runnable
 
 				// Generate a random key for the player to use for future
 				// connections
-				java.util.UUID newKey = java.util.UUID.randomUUID();
+				UUID newKey = UUID.randomUUID();
 
 				out.writeObject(newKey);
 				out.flush();
 
-				org.rnd.jmagic.engine.PlayerInterface playerInterface = new StreamPlayer(in, out);
-				org.rnd.jmagic.engine.Player player = this.game.addInterface(playerInterface);
+				PlayerInterface playerInterface = new StreamPlayer(in, out);
+				Player player = this.game.addInterface(playerInterface);
 				if(null == player)
 				{
 					LOG.info("Player " + playerInterface.getName() + " deck error; rejecting player");
@@ -291,7 +327,7 @@ public class Server implements Runnable
 				break;
 
 			case CHAT:
-				java.util.UUID oldKey = (java.util.UUID)(in.readObject());
+				UUID oldKey = (UUID)(in.readObject());
 				if(!this.players.containsKey(oldKey))
 				{
 					LOG.info("Player with key " + oldKey + " does not exist in players map");
@@ -302,12 +338,12 @@ public class Server implements Runnable
 				final String playerName = this.players.get(oldKey).getName();
 				this.channels.add(channel);
 
-				StreamChatterServer chatter = new StreamChatterServer(in, out, new org.rnd.util.ExceptionListener<java.io.IOException>()
+				StreamChatterServer chatter = new StreamChatterServer(in, out, new ExceptionListener<IOException>()
 				{
 					@Override
-					public void exceptionThrown(java.io.IOException exception)
+					public void exceptionThrown(IOException exception)
 					{
-						LOG.log(java.util.logging.Level.WARNING, "IO error for player " + playerName, exception);
+						LOG.log(Level.WARNING, "IO error for player " + playerName, exception);
 					}
 				});
 				chatter.setMessagePoster(this.chatManager.addClient(playerName, chatter));
@@ -319,25 +355,25 @@ public class Server implements Runnable
 		}
 		catch(ClassCastException e)
 		{
-			LOG.log(java.util.logging.Level.INFO, "A connection attempt was made without following the protocol", e);
+			LOG.log(Level.INFO, "A connection attempt was made without following the protocol", e);
 		}
 		catch(ClassNotFoundException e)
 		{
-			LOG.log(java.util.logging.Level.INFO, "The player sent an unrecognized class; rejecting player", e);
+			LOG.log(Level.INFO, "The player sent an unrecognized class; rejecting player", e);
 		}
-		catch(java.io.IOException e)
+		catch(IOException e)
 		{
-			LOG.log(java.util.logging.Level.INFO, "An IO error occured during the player connecting; rejecting player", e);
+			LOG.log(Level.INFO, "An IO error occured during the player connecting; rejecting player", e);
 		}
-		catch(org.rnd.jmagic.engine.Game.InterruptedGameException e)
+		catch(Game.InterruptedGameException e)
 		{
 			LOG.fine("Interrupting listening for clients due to user interrupt");
 		}
 	}
 
-	public ChatManager.MessagePoster addLocalPlayer(org.rnd.jmagic.engine.PlayerInterface playerInterface, ChatManager.Callback chatCallback)
+	public ChatManager.MessagePoster addLocalPlayer(PlayerInterface playerInterface, ChatManager.Callback chatCallback)
 	{
-		org.rnd.jmagic.engine.Player player = this.game.addInterface(playerInterface);
+		Player player = this.game.addInterface(playerInterface);
 		if(null == player)
 		{
 			// Don't log anything as any errors are passed to
@@ -349,7 +385,7 @@ public class Server implements Runnable
 		if(null == this.hostPlayerName)
 			this.hostPlayerName = playerName;
 		// Generate a fake key for the local player
-		this.players.put(java.util.UUID.randomUUID(), player);
+		this.players.put(UUID.randomUUID(), player);
 		return this.chatManager.addClient(playerName, chatCallback);
 	}
 
@@ -357,14 +393,14 @@ public class Server implements Runnable
 	{
 		try
 		{
-			for(org.rnd.jmagic.engine.Player p: this.game.actualState.players)
-				p.comm.alertError(new org.rnd.jmagic.engine.PlayerInterface.ErrorParameters.HostError());
+			for(Player p: this.game.actualState.players)
+				p.comm.alertError(new PlayerInterface.ErrorParameters.HostError());
 		}
 		// We have to catch RuntimeException here because alertError has no
 		// other way to indicate an error
 		catch(RuntimeException e)
 		{
-			LOG.log(java.util.logging.Level.SEVERE, "Error while alerting players to the game error", e);
+			LOG.log(Level.SEVERE, "Error while alerting players to the game error", e);
 		}
 	}
 
@@ -378,9 +414,9 @@ public class Server implements Runnable
 				this.gameFinder.cancel();
 			}
 		}
-		catch(java.io.IOException e)
+		catch(IOException e)
 		{
-			LOG.log(java.util.logging.Level.WARNING, "Error cancelling game on game-finder; state of game might not be accurate on game-finder", e);
+			LOG.log(Level.WARNING, "Error cancelling game on game-finder; state of game might not be accurate on game-finder", e);
 		}
 	}
 
@@ -396,20 +432,20 @@ public class Server implements Runnable
 			this.serverChannel.close();
 			this.selector.close();
 		}
-		catch(java.io.IOException e)
+		catch(IOException e)
 		{
-			LOG.log(java.util.logging.Level.WARNING, "IO error while cleaning up", e);
+			LOG.log(Level.WARNING, "IO error while cleaning up", e);
 		}
 
-		for(java.nio.channels.Channel c: this.channels)
+		for(Channel c: this.channels)
 		{
 			try
 			{
 				c.close();
 			}
-			catch(java.io.IOException e)
+			catch(IOException e)
 			{
-				LOG.log(java.util.logging.Level.WARNING, "IO error while closing connection", e);
+				LOG.log(Level.WARNING, "IO error while closing connection", e);
 			}
 		}
 	}
@@ -418,18 +454,18 @@ public class Server implements Runnable
 	{
 		try
 		{
-			String localHostIP = java.net.InetAddress.getLocalHost().getHostAddress();
+			String localHostIP = InetAddress.getLocalHost().getHostAddress();
 			String description = "jMagic at " + localHostIP + ":" + this.port;
-			org.teleal.cling.support.model.PortMapping portMapping;
-			portMapping = new org.teleal.cling.support.model.PortMapping(this.port, localHostIP, org.teleal.cling.support.model.PortMapping.Protocol.TCP, description);
+			PortMapping portMapping;
+			portMapping = new PortMapping(this.port, localHostIP, PortMapping.Protocol.TCP, description);
 			// No game should last more than a day, right?
-			portMapping.setLeaseDurationSeconds(new org.teleal.cling.model.types.UnsignedIntegerFourBytes(86400));
-			this.upnpService = new org.teleal.cling.UpnpServiceImpl(new org.teleal.cling.support.igd.PortMappingListener(portMapping));
+			portMapping.setLeaseDurationSeconds(new UnsignedIntegerFourBytes(86400));
+			this.upnpService = new UpnpServiceImpl(new PortMappingListener(portMapping));
 			this.upnpService.getControlPoint().search();
 		}
-		catch(java.net.UnknownHostException e)
+		catch(UnknownHostException e)
 		{
-			LOG.log(java.util.logging.Level.WARNING, "Could not look up local IP address", e);
+			LOG.log(Level.WARNING, "Could not look up local IP address", e);
 		}
 	}
 
@@ -440,9 +476,9 @@ public class Server implements Runnable
 			if(null != this.gameFinder)
 				this.gameFinder.heartbeat();
 		}
-		catch(java.io.IOException e)
+		catch(IOException e)
 		{
-			LOG.log(java.util.logging.Level.WARNING, "Error heartbeating game on game-finder; game may be removed from game-finder", e);
+			LOG.log(Level.WARNING, "Error heartbeating game on game-finder; game may be removed from game-finder", e);
 		}
 	}
 
@@ -450,19 +486,19 @@ public class Server implements Runnable
 	{
 		try
 		{
-			this.serverChannel = java.nio.channels.ServerSocketChannel.open();
+			this.serverChannel = ServerSocketChannel.open();
 			this.serverChannel.configureBlocking(false);
-			this.serverChannel.socket().bind(new java.net.InetSocketAddress(this.port));
+			this.serverChannel.socket().bind(new InetSocketAddress(this.port));
 			LOG.info("Listening for connections on port " + this.port);
 
-			this.selector = java.nio.channels.Selector.open();
-			this.serverChannel.register(this.selector, java.nio.channels.SelectionKey.OP_ACCEPT);
+			this.selector = Selector.open();
+			this.serverChannel.register(this.selector, SelectionKey.OP_ACCEPT);
 
 			return true;
 		}
-		catch(java.io.IOException e)
+		catch(IOException e)
 		{
-			LOG.log(java.util.logging.Level.SEVERE, "Could not open port to listen for connections", e);
+			LOG.log(Level.SEVERE, "Could not open port to listen for connections", e);
 			return false;
 		}
 	}
@@ -477,9 +513,9 @@ public class Server implements Runnable
 			this.gameFinder.create(this.hostPlayerName, this.port, this.gameDescription, this.playerLimit, this.gameType.getName());
 			LOG.info("Game registered with game-finder");
 		}
-		catch(java.io.IOException e)
+		catch(IOException e)
 		{
-			LOG.log(java.util.logging.Level.WARNING, "Error reading from game-finder; not using game-finder", e);
+			LOG.log(Level.WARNING, "Error reading from game-finder; not using game-finder", e);
 			this.gameFinder = null;
 		}
 		catch(GameFinder.GameFinderException e)
@@ -515,17 +551,17 @@ public class Server implements Runnable
 
 		try
 		{
-			org.rnd.jmagic.engine.Player winner = this.game.run();
+			Player winner = this.game.run();
 			LOG.info("Game completed successfully with winner " + winner);
 		}
-		catch(org.rnd.jmagic.engine.Game.InterruptedGameException e)
+		catch(Game.InterruptedGameException e)
 		{
 			LOG.fine("Host thread interrupted");
 			alertHostError();
 		}
 		catch(RuntimeException e)
 		{
-			LOG.log(java.util.logging.Level.SEVERE, "Error while hosting the game", e);
+			LOG.log(Level.SEVERE, "Error while hosting the game", e);
 			alertHostError();
 		}
 	}
@@ -568,9 +604,9 @@ public class Server implements Runnable
 				this.gameFinder.update();
 			}
 		}
-		catch(java.io.IOException e)
+		catch(IOException e)
 		{
-			LOG.log(java.util.logging.Level.WARNING, "Error updating game-finder; state of game might not be accurate on game-finder", e);
+			LOG.log(Level.WARNING, "Error updating game-finder; state of game might not be accurate on game-finder", e);
 		}
 	}
 
@@ -585,21 +621,21 @@ public class Server implements Runnable
 
 			this.gameFinder = new GameFinder(url);
 		}
-		catch(java.net.URISyntaxException e)
+		catch(URISyntaxException e)
 		{
-			LOG.log(java.util.logging.Level.WARNING, "Can't understand game-finder URL; not using game-finder", e);
+			LOG.log(Level.WARNING, "Can't understand game-finder URL; not using game-finder", e);
 		}
 		catch(IllegalArgumentException e)
 		{
-			LOG.log(java.util.logging.Level.WARNING, "Game-finder URL is not absolute; not using game-finder", e);
+			LOG.log(Level.WARNING, "Game-finder URL is not absolute; not using game-finder", e);
 		}
-		catch(java.net.MalformedURLException e)
+		catch(MalformedURLException e)
 		{
-			LOG.log(java.util.logging.Level.WARNING, "Game-finder URL is malformed; not using game-finder", e);
+			LOG.log(Level.WARNING, "Game-finder URL is malformed; not using game-finder", e);
 		}
-		catch(java.io.IOException e)
+		catch(IOException e)
 		{
-			LOG.log(java.util.logging.Level.WARNING, "Error reading from game-finder; not using game-finder", e);
+			LOG.log(Level.WARNING, "Error reading from game-finder; not using game-finder", e);
 		}
 		catch(GameFinder.GameFinderException e)
 		{

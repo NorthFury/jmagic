@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.EntersTheBattlefieldWithCounters;
 import org.rnd.jmagic.engine.*;
 
 @Name("Trigon of Thought")
@@ -39,7 +41,7 @@ public final class TrigonofThought extends Card
 
 		// Trigon of Thought enters the battlefield with three charge counters
 		// on it.
-		this.addAbility(new org.rnd.jmagic.abilities.EntersTheBattlefieldWithCounters(state, "Trigon of Thought", 3, Counter.CounterType.CHARGE));
+		this.addAbility(new EntersTheBattlefieldWithCounters(state, "Trigon of Thought", 3, Counter.CounterType.CHARGE));
 
 		// (U)(U), (T): Put a charge counter on Trigon of Thought.
 		this.addAbility(new TrigonofThoughtAbility1(state));

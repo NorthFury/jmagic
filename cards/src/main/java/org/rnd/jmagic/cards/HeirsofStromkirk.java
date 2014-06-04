@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.MeleeGetPlusOnePlusOneCounters;
+import org.rnd.jmagic.abilities.keywords.Intimidate;
 import org.rnd.jmagic.engine.*;
 
 @Name("Heirs of Stromkirk")
@@ -19,10 +21,10 @@ public final class HeirsofStromkirk extends Card
 
 		// Intimidate (This creature can't be blocked except by artifact
 		// creatures and/or creatures that share a color with it.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Intimidate(state));
+		this.addAbility(new Intimidate(state));
 
 		// Whenever Heirs of Stromkirk deals combat damage to a player, put a
 		// +1/+1 counter on it.
-		this.addAbility(new org.rnd.jmagic.abilities.MeleeGetPlusOnePlusOneCounters(state, "Heirs of Stromkirk", 1));
+		this.addAbility(new MeleeGetPlusOnePlusOneCounters(state, "Heirs of Stromkirk", 1));
 	}
 }

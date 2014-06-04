@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Enchant;
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -20,7 +23,7 @@ public final class Rancor extends Card
 
 			SetGenerator enchanted = EnchantedBy.instance(This.instance());
 			this.addEffectPart(modifyPowerAndToughness(enchanted, +2, +0));
-			this.addEffectPart(addAbilityToObject(enchanted, new SimpleAbilityFactory(org.rnd.jmagic.abilities.keywords.Trample.class)));
+			this.addEffectPart(addAbilityToObject(enchanted, new SimpleAbilityFactory(Trample.class)));
 		}
 	}
 
@@ -46,7 +49,7 @@ public final class Rancor extends Card
 		super(state);
 
 		// Enchant creature
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Enchant.Creature(state));
+		this.addAbility(new Enchant.Creature(state));
 
 		// Enchanted creature gets +2/+0 and has trample.
 		this.addAbility(new RancorAbility1(state));

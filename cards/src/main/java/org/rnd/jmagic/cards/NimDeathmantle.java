@@ -1,8 +1,12 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Equip;
+import org.rnd.jmagic.abilities.keywords.Intimidate;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+import org.rnd.jmagic.engine.patterns.SimpleZoneChangePattern;
 
 @Name("Nim Deathmantle")
 @Types({Type.ARTIFACT})
@@ -20,7 +24,7 @@ public final class NimDeathmantle extends Card
 
 			SetGenerator equipped = EquippedBy.instance(This.instance());
 			this.addEffectPart(modifyPowerAndToughness(equipped, +2, +2));
-			this.addEffectPart(addAbilityToObject(equipped, org.rnd.jmagic.abilities.keywords.Intimidate.class));
+			this.addEffectPart(addAbilityToObject(equipped, Intimidate.class));
 
 			ContinuousEffect.Part black = new ContinuousEffect.Part(ContinuousEffectType.SET_COLOR);
 			black.parameters.put(ContinuousEffectType.Parameter.OBJECT, equipped);
@@ -39,7 +43,7 @@ public final class NimDeathmantle extends Card
 		public NimDeathmantleAbility1(GameState state)
 		{
 			super(state, "Whenever a nontoken creature is put into your graveyard from the battlefield, you may pay (4). If you do, return that card to the battlefield and attach Nim Deathmantle to it.");
-			this.addPattern(new org.rnd.jmagic.engine.patterns.SimpleZoneChangePattern(Battlefield.instance(), GraveyardOf.instance(You.instance()), Intersect.instance(NonToken.instance(), HasType.instance(Type.CREATURE)), true));
+			this.addPattern(new SimpleZoneChangePattern(Battlefield.instance(), GraveyardOf.instance(You.instance()), Intersect.instance(NonToken.instance(), HasType.instance(Type.CREATURE)), true));
 
 			EventFactory mayPay = new EventFactory(EventType.PLAYER_MAY_PAY_MANA, "You may pay (4).");
 			mayPay.parameters.put(EventType.Parameter.CAUSE, This.instance());
@@ -77,6 +81,6 @@ public final class NimDeathmantle extends Card
 		this.addAbility(new NimDeathmantleAbility1(state));
 
 		// Equip (4)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Equip(state, "(4)"));
+		this.addAbility(new Equip(state, "(4)"));
 	}
 }

@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.cardTemplates.ShardsHerald;
 import org.rnd.jmagic.engine.*;
 
 @Name("Behemoth's Herald")
@@ -8,7 +9,7 @@ import org.rnd.jmagic.engine.*;
 @ManaCost("G")
 @Printings({@Printings.Printed(ex = Expansion.SHARDS_OF_ALARA, r = Rarity.UNCOMMON)})
 @ColorIdentity({Color.GREEN})
-public final class BehemothsHerald extends org.rnd.jmagic.cardTemplates.ShardsHerald
+public final class BehemothsHerald extends ShardsHerald
 {
 	public BehemothsHerald(GameState state)
 	{

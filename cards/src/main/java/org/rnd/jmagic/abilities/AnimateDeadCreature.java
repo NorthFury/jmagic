@@ -1,5 +1,6 @@
 package org.rnd.jmagic.abilities;
 
+import org.rnd.jmagic.abilities.keywords.Enchant;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -9,11 +10,11 @@ import static org.rnd.jmagic.Convenience.*;
 public final class AnimateDeadCreature extends EventTriggeredAbility
 {
 	private final String cardName;
-	private final Class<? extends org.rnd.jmagic.abilities.keywords.Enchant> enchantDead;
-	private final Class<? extends org.rnd.jmagic.abilities.keywords.Enchant> enchantAnimated;
+	private final Class<? extends Enchant> enchantDead;
+	private final Class<? extends Enchant> enchantAnimated;
 	private final boolean tapped;
 
-	public static final class Tracker extends org.rnd.jmagic.abilities.EnchantAnimatedCreature.ReanimationTracker
+	public static final class Tracker extends EnchantAnimatedCreature.ReanimationTracker
 	{
 		@Override
 		protected Class<? extends TriggeredAbility> triggerClass()
@@ -27,7 +28,7 @@ public final class AnimateDeadCreature extends EventTriggeredAbility
 	 * @param cardName The name of the card doing the animating
 	 * @param enchantDead The enchant ability to lose
 	 */
-	public AnimateDeadCreature(GameState state, String cardName, Class<? extends org.rnd.jmagic.abilities.keywords.Enchant> enchantDead, Class<? extends org.rnd.jmagic.abilities.keywords.Enchant> enchantAnimated, boolean tapped)
+	public AnimateDeadCreature(GameState state, String cardName, Class<? extends Enchant> enchantDead, Class<? extends Enchant> enchantAnimated, boolean tapped)
 	{
 		super(state, "When " + cardName + " enters the battlefield, if it's on the battlefield, it loses \"enchant creature card in a graveyard\" and gains \"enchant creature put onto the battlefield with " + cardName + ".\" Return enchanted creature card to the battlefield under your control " + (tapped ? "tapped " : "") + "and attach " + cardName + " to it. When " + cardName + " leaves the battlefield, that creature's controller sacrifices it.");
 		this.cardName = cardName;

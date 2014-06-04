@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Suspend;
 import org.rnd.jmagic.engine.*;
 
 @Name("Rift Bolt")
@@ -21,6 +22,6 @@ public final class RiftBolt extends Card
 		this.addEffect(spellDealDamage(3, targetedBy(target), "Rift Bolt deals 3 damage to target creature or player."));
 
 		// Suspend 1-(R)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Suspend(state, 1, "(R)"));
+		this.addAbility(new Suspend(state, 1, "(R)"));
 	}
 }

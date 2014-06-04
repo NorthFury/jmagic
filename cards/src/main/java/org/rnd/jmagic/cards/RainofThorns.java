@@ -3,6 +3,7 @@ package org.rnd.jmagic.cards;
 import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+import org.rnd.util.NumberRange;
 
 @Name("Rain of Thorns")
 @Types({Type.SORCERY})
@@ -17,7 +18,7 @@ public final class RainofThorns extends Card
 
 		// Choose one or more \u2014 Destroy target artifact; destroy target
 		// enchantment; and/or destroy target land.
-		this.setNumModes(new MagicSet(new org.rnd.util.NumberRange(1, null)));
+		this.setNumModes(new MagicSet(new NumberRange(1, null)));
 
 		{
 			SetGenerator target = targetedBy(this.addTarget(1, ArtifactPermanents.instance(), "target artifact"));

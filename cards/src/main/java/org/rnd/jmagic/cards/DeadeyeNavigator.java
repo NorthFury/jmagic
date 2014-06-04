@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.AbilityIfPaired;
+import org.rnd.jmagic.abilities.keywords.Soulbond;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -36,11 +39,11 @@ public final class DeadeyeNavigator extends Card
 		// Soulbond (You may pair this creature with another unpaired creature
 		// when either enters the battlefield. They remain paired for as long as
 		// you control both of them.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Soulbond(state));
+		this.addAbility(new Soulbond(state));
 
 		// As long as Deadeye Navigator is paired with another creature, each of
 		// those creatures has
 		// "(1)(U): Exile this creature, then return it to the battlefield under your control."
-		this.addAbility(new org.rnd.jmagic.abilities.AbilityIfPaired.Final(state, "As long as Deadeye Navigator is paired with another creature, each of those creatures has \"(1)(U): Exile this creature, then return it to the battlefield under your control.\"", DeadeyeNavigatorAbility1.class));
+		this.addAbility(new AbilityIfPaired.Final(state, "As long as Deadeye Navigator is paired with another creature, each of those creatures has \"(1)(U): Exile this creature, then return it to the battlefield under your control.\"", DeadeyeNavigatorAbility1.class));
 	}
 }

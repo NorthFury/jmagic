@@ -2,8 +2,13 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.EntersTheBattlefieldTapped;
+import org.rnd.jmagic.abilities.TapFor1;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Name("Krosan Verge")
 @Types({Type.LAND})
@@ -25,7 +30,7 @@ public final class KrosanVerge extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			MagicSet cause = parameters.get(Parameter.CAUSE);
 			Player player = parameters.get(Parameter.PLAYER).getOne(Player.class);
@@ -34,7 +39,7 @@ public final class KrosanVerge extends Card
 
 			for(SubType type: new SubType[] {SubType.FOREST, SubType.PLAINS})
 			{
-				java.util.Map<Parameter, MagicSet> searchParameters = new java.util.HashMap<Parameter, MagicSet>();
+				Map<Parameter, MagicSet> searchParameters = new HashMap<Parameter, MagicSet>();
 				searchParameters.put(Parameter.CAUSE, cause);
 				searchParameters.put(Parameter.PLAYER, new MagicSet(player));
 				searchParameters.put(Parameter.NUMBER, ONE);
@@ -44,7 +49,7 @@ public final class KrosanVerge extends Card
 				Event searchEvent = createEvent(game, "Search your library", EventType.SEARCH, searchParameters);
 				searchEvent.perform(event, true);
 
-				java.util.Map<Parameter, MagicSet> shuffleParameters = new java.util.HashMap<Parameter, MagicSet>();
+				Map<Parameter, MagicSet> shuffleParameters = new HashMap<Parameter, MagicSet>();
 				shuffleParameters.put(Parameter.CAUSE, cause);
 				shuffleParameters.put(Parameter.PLAYER, new MagicSet(player));
 
@@ -57,7 +62,7 @@ public final class KrosanVerge extends Card
 					object.add(game.actualState.get(oldObject.getPhysical().futureSelf));
 			}
 
-			java.util.Map<Parameter, MagicSet> ontoBattlefieldTappedParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> ontoBattlefieldTappedParameters = new HashMap<Parameter, MagicSet>();
 			ontoBattlefieldTappedParameters.put(Parameter.CAUSE, cause);
 			ontoBattlefieldTappedParameters.put(Parameter.CONTROLLER, new MagicSet(player));
 			ontoBattlefieldTappedParameters.put(Parameter.OBJECT, object);
@@ -93,9 +98,9 @@ public final class KrosanVerge extends Card
 	{
 		super(state);
 
-		this.addAbility(new org.rnd.jmagic.abilities.EntersTheBattlefieldTapped(state, "Krosan Verge"));
+		this.addAbility(new EntersTheBattlefieldTapped(state, "Krosan Verge"));
 
-		this.addAbility(new org.rnd.jmagic.abilities.TapFor1(state));
+		this.addAbility(new TapFor1(state));
 
 		this.addAbility(new KrosanSearch(state));
 	}

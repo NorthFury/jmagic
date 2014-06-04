@@ -2,6 +2,8 @@ package org.rnd.jmagic.engine.generators;
 
 import org.rnd.jmagic.engine.*;
 
+import java.util.Set;
+
 /**
  * Evaluates to the unique elements of the first set, compared to the second
  */
@@ -35,10 +37,10 @@ public class RelativeComplement extends SetGenerator
 	}
 
 	@Override
-	public java.util.Set<ManaSymbol.ManaType> extractColors(Game game, GameObject thisObject, java.util.Set<SetGenerator> ignoreThese) throws NoSuchMethodException
+	public Set<ManaSymbol.ManaType> extractColors(Game game, GameObject thisObject, Set<SetGenerator> ignoreThese) throws NoSuchMethodException
 	{
-		java.util.Set<ManaSymbol.ManaType> a = this.a.extractColors(game, thisObject, ignoreThese);
-		java.util.Set<ManaSymbol.ManaType> b = this.b.extractColors(game, thisObject, ignoreThese);
+		Set<ManaSymbol.ManaType> a = this.a.extractColors(game, thisObject, ignoreThese);
+		Set<ManaSymbol.ManaType> b = this.b.extractColors(game, thisObject, ignoreThese);
 		a.removeAll(b);
 		return a;
 	}

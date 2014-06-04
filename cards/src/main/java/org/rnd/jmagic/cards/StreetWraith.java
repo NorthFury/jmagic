@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Cycling;
+import org.rnd.jmagic.abilities.keywords.Landwalk;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -20,11 +23,11 @@ public final class StreetWraith extends Card
 		this.setToughness(4);
 
 		// Swampwalk
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Landwalk.Swampwalk(state));
+		this.addAbility(new Landwalk.Swampwalk(state));
 
 		// Cycling\u2014Pay 2 life.
 		EventFactory pay2life = payLife(You.instance(), 2, "Pay 2 life");
-		CostCollection cost = new CostCollection(org.rnd.jmagic.abilities.keywords.Cycling.COST_TYPE, pay2life);
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Cycling(state, cost));
+		CostCollection cost = new CostCollection(Cycling.COST_TYPE, pay2life);
+		this.addAbility(new Cycling(state, cost));
 	}
 }

@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Annihilator;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -47,6 +49,6 @@ public final class ArtisanofKozilek extends Card
 		this.addAbility(new WhenYouCastRaiseDead(state));
 
 		// Annihilator 2
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Annihilator.Final(state, 2));
+		this.addAbility(new Annihilator.Final(state, 2));
 	}
 }

@@ -1,8 +1,13 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Rebound;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Name("Consuming Vapors")
 @Types({Type.SORCERY})
@@ -27,7 +32,7 @@ public final class ConsumingVapors extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			event.setResult(Empty.set);
 
@@ -35,7 +40,7 @@ public final class ConsumingVapors extends Card
 			MagicSet creatures = parameters.get(Parameter.OBJECT);
 			MagicSet target = parameters.get(Parameter.TARGET);
 
-			java.util.Map<Parameter, MagicSet> sacParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> sacParameters = new HashMap<Parameter, MagicSet>();
 			sacParameters.put(Parameter.CAUSE, cause);
 			sacParameters.put(Parameter.NUMBER, ONE);
 			sacParameters.put(Parameter.CHOICE, creatures);
@@ -50,7 +55,7 @@ public final class ConsumingVapors extends Card
 			GameObject thatCreature = game.actualState.get(sacResult.oldObjectID);
 			MagicSet you = parameters.get(Parameter.PLAYER);
 
-			java.util.Map<Parameter, MagicSet> gainParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> gainParameters = new HashMap<Parameter, MagicSet>();
 			gainParameters.put(Parameter.CAUSE, cause);
 			gainParameters.put(Parameter.PLAYER, you);
 			gainParameters.put(Parameter.NUMBER, new MagicSet(thatCreature.getToughness()));
@@ -77,6 +82,6 @@ public final class ConsumingVapors extends Card
 		this.addEffect(effect);
 
 		// Rebound
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Rebound(state));
+		this.addAbility(new Rebound(state));
 	}
 }

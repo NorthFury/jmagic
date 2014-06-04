@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Bloodthirst;
+import org.rnd.jmagic.abilities.keywords.FirstStrike;
 import org.rnd.jmagic.engine.*;
 
 @Name("Blood Ogre")
@@ -19,10 +21,10 @@ public final class BloodOgre extends Card
 
 		// Bloodthirst 1 (If an opponent was dealt damage this turn, this
 		// creature enters the battlefield with a +1/+1 counter on it.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Bloodthirst.Final(state, 1));
+		this.addAbility(new Bloodthirst.Final(state, 1));
 
 		// First strike (This creature deals combat damage before creatures
 		// without first strike.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.FirstStrike(state));
+		this.addAbility(new FirstStrike(state));
 	}
 }

@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.Regenerate;
+import org.rnd.jmagic.abilities.keywords.Landwalk;
 import org.rnd.jmagic.engine.*;
 
 @Name("River Boa")
@@ -17,8 +19,8 @@ public final class RiverBoa extends Card
 		this.setPower(2);
 		this.setToughness(1);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Landwalk.Islandwalk(state));
+		this.addAbility(new Landwalk.Islandwalk(state));
 
-		this.addAbility(new org.rnd.jmagic.abilities.Regenerate.Final(state, "(G)", "River Boa"));
+		this.addAbility(new Regenerate.Final(state, "(G)", "River Boa"));
 	}
 }

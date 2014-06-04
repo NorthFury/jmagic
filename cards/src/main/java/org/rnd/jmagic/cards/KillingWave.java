@@ -6,6 +6,11 @@ import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.PlayerInterface.ChooseParameters;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map;
+
 @Name("Killing Wave")
 @Types({Type.SORCERY})
 @ManaCost("XB")
@@ -29,18 +34,18 @@ public final class KillingWave extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
-			java.util.Map<Player, java.util.Collection<GameObject>> creatures = new java.util.HashMap<Player, java.util.Collection<GameObject>>();
+			Map<Player, Collection<GameObject>> creatures = new HashMap<Player, Collection<GameObject>>();
 			for(Player p: game.actualState.players)
-				creatures.put(p, new java.util.LinkedList<GameObject>());
+				creatures.put(p, new LinkedList<GameObject>());
 			for(GameObject o: game.actualState.battlefield().objects)
 				if(o.getTypes().contains(Type.CREATURE))
 					creatures.get(o.getController(game.actualState)).add(o);
 
 			// keys are creatures, values are whether the player chose to pay
 			// life
-			java.util.Map<GameObject, EventFactory> choices = new java.util.HashMap<GameObject, EventFactory>();
+			Map<GameObject, EventFactory> choices = new HashMap<GameObject, EventFactory>();
 			int X = parameters.get(Parameter.NUMBER).getOne(Integer.class);
 			for(Player controller: game.actualState.apnapOrder(new MagicSet(game.actualState.players)))
 			{
@@ -60,7 +65,7 @@ public final class KillingWave extends Card
 						break;
 					}
 
-					ChooseParameters<Answer> chooseParameters = new PlayerInterface.ChooseParameters<Answer>(1, 1, new java.util.LinkedList<Answer>(Answer.mayChoices()), PlayerInterface.ChoiceType.ENUM, KILLING_WAVE_REASON);
+					ChooseParameters<Answer> chooseParameters = new PlayerInterface.ChooseParameters<Answer>(1, 1, new LinkedList<Answer>(Answer.mayChoices()), PlayerInterface.ChoiceType.ENUM, KILLING_WAVE_REASON);
 					chooseParameters.whatForID = creature.ID;
 					Answer a = controller.choose(chooseParameters).get(0);
 					if(a == Answer.YES)

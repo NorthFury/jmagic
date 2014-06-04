@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Vigilance;
 import org.rnd.jmagic.engine.*;
 
 @Name("Knight Watch")
@@ -19,7 +21,7 @@ public final class KnightWatch extends Card
 		CreateTokensFactory factory = new CreateTokensFactory(2, 2, 2, "Put two 2/2 white Knight creature tokens with vigilance onto the battlefield.");
 		factory.setColors(Color.WHITE);
 		factory.setSubTypes(SubType.KNIGHT);
-		factory.addAbility(org.rnd.jmagic.abilities.keywords.Vigilance.class);
+		factory.addAbility(Vigilance.class);
 		this.addEffect(factory.getEventFactory());
 	}
 }

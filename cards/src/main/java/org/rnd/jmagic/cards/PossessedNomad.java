@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Vigilance;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -42,7 +44,7 @@ public final class PossessedNomad extends Card
 
 			ContinuousEffect.Part killStuff = new ContinuousEffect.Part(ContinuousEffectType.ADD_ABILITY_TO_OBJECT);
 			killStuff.parameters.put(ContinuousEffectType.Parameter.OBJECT, This.instance());
-			killStuff.parameters.put(ContinuousEffectType.Parameter.ABILITY, Identity.instance(new org.rnd.jmagic.engine.SimpleAbilityFactory(KillStuff.class)));
+			killStuff.parameters.put(ContinuousEffectType.Parameter.ABILITY, Identity.instance(new SimpleAbilityFactory(KillStuff.class)));
 			this.addEffectPart(killStuff);
 		}
 	}
@@ -55,7 +57,7 @@ public final class PossessedNomad extends Card
 		this.setToughness(3);
 
 		// Vigilance
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Vigilance(state));
+		this.addAbility(new Vigilance(state));
 
 		// As long as seven or more cards are in your graveyard, Possessed Nomad
 		// gets +1/+1, is black, and has

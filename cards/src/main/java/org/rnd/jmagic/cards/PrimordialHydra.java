@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.EntersTheBattlefieldWithCounters;
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -34,7 +37,7 @@ public final class PrimordialHydra extends Card
 			SetGenerator condition = Intersect.instance(counters, Between.instance(10, null));
 			this.canApply = Both.instance(this.canApply, condition);
 
-			this.addEffectPart(addAbilityToObject(This.instance(), org.rnd.jmagic.abilities.keywords.Trample.class));
+			this.addEffectPart(addAbilityToObject(This.instance(), Trample.class));
 		}
 	}
 
@@ -46,7 +49,7 @@ public final class PrimordialHydra extends Card
 		this.setToughness(0);
 
 		// Primordial Hydra enters the battlefield with X +1/+1 counters on it.
-		this.addAbility(new org.rnd.jmagic.abilities.EntersTheBattlefieldWithCounters(state, this.getName(), ValueOfX.instance(This.instance()), "X +1/+1 counters on it", Counter.CounterType.PLUS_ONE_PLUS_ONE));
+		this.addAbility(new EntersTheBattlefieldWithCounters(state, this.getName(), ValueOfX.instance(This.instance()), "X +1/+1 counters on it", Counter.CounterType.PLUS_ONE_PLUS_ONE));
 
 		// At the beginning of your upkeep, double the number of +1/+1 counters
 		// on Primordial Hydra.

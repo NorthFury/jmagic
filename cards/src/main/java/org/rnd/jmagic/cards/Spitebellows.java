@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Evoke;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -37,6 +39,6 @@ public final class Spitebellows extends Card
 
 		// Evoke (1)(R)(R) (You may cast this spell for its evoke cost. If you
 		// do, it's sacrificed when it enters the battlefield.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Evoke(state, "(1)(R)(R)"));
+		this.addAbility(new Evoke(state, "(1)(R)(R)"));
 	}
 }

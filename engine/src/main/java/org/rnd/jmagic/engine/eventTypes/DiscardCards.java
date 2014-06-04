@@ -3,6 +3,9 @@ package org.rnd.jmagic.engine.eventTypes;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public final class DiscardCards extends EventType
 {	public static final EventType INSTANCE = new DiscardCards();
 
@@ -18,7 +21,7 @@ public final class DiscardCards extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean attempt(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		for(GameObject object: parameters.get(Parameter.CARD).getAll(Card.class))
 		{
@@ -33,13 +36,13 @@ public final class DiscardCards extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		boolean allDiscarded = true;
 		MagicSet result = new MagicSet();
 		for(GameObject card: parameters.get(Parameter.CARD).getAll(Card.class))
 		{
-			java.util.Map<Parameter, MagicSet> discardParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> discardParameters = new HashMap<Parameter, MagicSet>();
 			discardParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 			discardParameters.put(Parameter.CARD, new MagicSet(card));
 			Event discard = createEvent(game, card.getActual().getOwner(game.actualState) + " discards " + card + ".", DISCARD_ONE_CARD, discardParameters);

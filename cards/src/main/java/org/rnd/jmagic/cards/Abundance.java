@@ -5,6 +5,10 @@ import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
 
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.Map;
+
 @Name("Abundance")
 @Types({Type.ENCHANTMENT})
 @ManaCost("2GG")
@@ -30,12 +34,12 @@ public final class Abundance extends Card
 			}
 
 			@Override
-			public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+			public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 			{
 				boolean ret;
 
 				Player player = parameters.get(EventType.Parameter.PLAYER).getOne(Player.class);
-				Answer choice = player.choose(1, java.util.EnumSet.of(Answer.LAND, Answer.NONLAND), PlayerInterface.ChoiceType.ENUM, REASON).iterator().next();
+				Answer choice = player.choose(1, EnumSet.of(Answer.LAND, Answer.NONLAND), PlayerInterface.ChoiceType.ENUM, REASON).iterator().next();
 
 				MagicSet toReveal = new MagicSet();
 				MagicSet toDraw = new MagicSet();
@@ -53,20 +57,20 @@ public final class Abundance extends Card
 				}
 
 				MagicSet cause = parameters.get(EventType.Parameter.CAUSE);
-				java.util.Map<EventType.Parameter, MagicSet> revealParameters = new java.util.HashMap<EventType.Parameter, MagicSet>();
+				Map<EventType.Parameter, MagicSet> revealParameters = new HashMap<EventType.Parameter, MagicSet>();
 				revealParameters.put(EventType.Parameter.CAUSE, cause);
 				revealParameters.put(EventType.Parameter.OBJECT, toReveal);
 				Event revealEvent = createEvent(game, "Reveal cards form the top of your library until you reveal a card of the chosen kind", EventType.REVEAL, revealParameters);
 				ret = revealEvent.perform(event, true);
 
-				java.util.Map<EventType.Parameter, MagicSet> moveToHandParameters = new java.util.HashMap<EventType.Parameter, MagicSet>();
+				Map<EventType.Parameter, MagicSet> moveToHandParameters = new HashMap<EventType.Parameter, MagicSet>();
 				moveToHandParameters.put(EventType.Parameter.CAUSE, cause);
 				moveToHandParameters.put(EventType.Parameter.TO, new MagicSet(player.getHand(game.actualState)));
 				moveToHandParameters.put(EventType.Parameter.OBJECT, toDraw);
 				Event moveToHand = createEvent(game, "Put that card into your hand", EventType.MOVE_OBJECTS, moveToHandParameters);
 				ret = moveToHand.perform(event, true) && ret;
 
-				java.util.Map<EventType.Parameter, MagicSet> moveToLibraryParameters = new java.util.HashMap<EventType.Parameter, MagicSet>();
+				Map<EventType.Parameter, MagicSet> moveToLibraryParameters = new HashMap<EventType.Parameter, MagicSet>();
 				moveToLibraryParameters.put(EventType.Parameter.CAUSE, cause);
 				moveToLibraryParameters.put(EventType.Parameter.TO, new MagicSet(library));
 				moveToLibraryParameters.put(EventType.Parameter.INDEX, NEGATIVE_ONE);

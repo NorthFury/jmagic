@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.FirstStrike;
+import org.rnd.jmagic.abilities.keywords.Lifelink;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -18,6 +21,6 @@ public final class SwiftJustice extends Card
 		// Until end of turn, target creature gets +1/+0 and gains first strike
 		// and lifelink.
 		SetGenerator target = targetedBy(this.addTarget(CreaturePermanents.instance(), "target creature"));
-		this.addEffect(ptChangeAndAbilityUntilEndOfTurn(target, +1, +0, "Until end of turn, target creature gets +1/+0 and gains first strike and lifelink.", org.rnd.jmagic.abilities.keywords.FirstStrike.class, org.rnd.jmagic.abilities.keywords.Lifelink.class));
+		this.addEffect(ptChangeAndAbilityUntilEndOfTurn(target, +1, +0, "Until end of turn, target creature gets +1/+0 and gains first strike and lifelink.", FirstStrike.class, Lifelink.class));
 	}
 }

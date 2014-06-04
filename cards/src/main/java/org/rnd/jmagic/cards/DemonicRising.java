@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -22,7 +24,7 @@ public final class DemonicRising extends Card
 			CreateTokensFactory factory = new CreateTokensFactory(1, 5, 5, "Put a 5/5 black Demon creature token with flying onto the battlefield.");
 			factory.setColors(Color.BLACK);
 			factory.setSubTypes(SubType.DEMON);
-			factory.addAbility(org.rnd.jmagic.abilities.keywords.Flying.class);
+			factory.addAbility(Flying.class);
 			this.addEffect(factory.getEventFactory());
 		}
 	}

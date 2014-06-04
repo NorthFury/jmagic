@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.RevealTopOfLibrary;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -62,7 +64,7 @@ public final class MulDayaChannelers extends Card
 		this.setToughness(2);
 
 		// Play with the top card of your library revealed.
-		this.addAbility(new org.rnd.jmagic.abilities.RevealTopOfLibrary(state));
+		this.addAbility(new RevealTopOfLibrary(state));
 
 		// As long as the top card of your library is a creature card, Mul Daya
 		// Channelers gets +3/+3.

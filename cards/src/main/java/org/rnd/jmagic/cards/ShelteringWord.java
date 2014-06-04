@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Hexproof;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -20,7 +22,7 @@ public final class ShelteringWord extends Card
 		// hexproof can't be the target of spells or abilities opponents
 		// control.)
 		SetGenerator target = targetedBy(this.addTarget(CREATURES_YOU_CONTROL, "target creature you control"));
-		this.addEffect(addAbilityUntilEndOfTurn(target, org.rnd.jmagic.abilities.keywords.Hexproof.class, "Target creature you control gains hexproof until end of turn."));
+		this.addEffect(addAbilityUntilEndOfTurn(target, Hexproof.class, "Target creature you control gains hexproof until end of turn."));
 		this.addEffect(gainLife(You.instance(), ToughnessOf.instance(target), "You gain life equal to that creature's toughness."));
 	}
 }

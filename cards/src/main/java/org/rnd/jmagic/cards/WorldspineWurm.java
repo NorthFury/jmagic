@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -23,7 +25,7 @@ public final class WorldspineWurm extends Card
 			CreateTokensFactory tokens = new CreateTokensFactory(3, 5, 5, "Put three 5/5 green Wurm creature tokens with trample onto the battlefield.");
 			tokens.setColors(Color.GREEN);
 			tokens.setSubTypes(SubType.WURM);
-			tokens.addAbility(org.rnd.jmagic.abilities.keywords.Trample.class);
+			tokens.addAbility(Trample.class);
 			this.addEffect(tokens.getEventFactory());
 		}
 	}
@@ -52,7 +54,7 @@ public final class WorldspineWurm extends Card
 		this.setToughness(15);
 
 		// Trample
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Trample(state));
+		this.addAbility(new Trample(state));
 
 		// When Worldspine Wurm dies, put three 5/5 green Wurm creature tokens
 		// with trample onto the battlefield.

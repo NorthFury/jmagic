@@ -3,6 +3,11 @@ package org.rnd.jmagic.engine;
 import org.rnd.jmagic.engine.ContinuousEffectType.*;
 import org.rnd.jmagic.engine.generators.Identity;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
 /**
  * Represents a continuous effect.
  */
@@ -15,7 +20,7 @@ public class ContinuousEffect extends Identified
 	 */
 	public static class Part implements Cloneable
 	{
-		public java.util.Map<ContinuousEffectType.Parameter, SetGenerator> parameters;
+		public Map<ContinuousEffectType.Parameter, SetGenerator> parameters;
 		public final ContinuousEffectType type;
 
 		/**
@@ -25,7 +30,7 @@ public class ContinuousEffect extends Identified
 		 */
 		public Part(ContinuousEffectType type)
 		{
-			this.parameters = new java.util.HashMap<ContinuousEffectType.Parameter, SetGenerator>();
+			this.parameters = new HashMap<ContinuousEffectType.Parameter, SetGenerator>();
 			this.type = type;
 		}
 
@@ -53,7 +58,7 @@ public class ContinuousEffect extends Identified
 		 */
 		public MagicSet apply(GameState state, Identified object, ContinuousEffect effect)
 		{
-			java.util.Map<ContinuousEffectType.Parameter, MagicSet> parametersNow = new java.util.HashMap<ContinuousEffectType.Parameter, MagicSet>();
+			Map<ContinuousEffectType.Parameter, MagicSet> parametersNow = new HashMap<ContinuousEffectType.Parameter, MagicSet>();
 
 			for(ContinuousEffectType.Parameter parameter: this.parameters.keySet())
 			{
@@ -92,7 +97,7 @@ public class ContinuousEffect extends Identified
 				{
 					// If this is the first part applied, then the affected
 					// objects parameter needs to be cleaned of ghosts.
-					java.util.Set<GameObject> ghostsToRemove = new java.util.HashSet<GameObject>();
+					Set<GameObject> ghostsToRemove = new HashSet<GameObject>();
 					for(GameObject o: affectedParameterObjects.getAll(GameObject.class))
 						if(o.isGhost())
 							ghostsToRemove.add(o);
@@ -101,8 +106,8 @@ public class ContinuousEffect extends Identified
 
 				// Clone any identifieds being modified and replace them
 				// in parametersNow
-				java.util.Set<Identified> originalsToRemove = new java.util.HashSet<Identified>();
-				java.util.Set<Identified> clonesToAdd = new java.util.HashSet<Identified>();
+				Set<Identified> originalsToRemove = new HashSet<Identified>();
+				Set<Identified> clonesToAdd = new HashSet<Identified>();
 				for(Identified i: affectedParameterObjects.getAll(Identified.class))
 				{
 					originalsToRemove.add(i);
@@ -156,7 +161,7 @@ public class ContinuousEffect extends Identified
 			try
 			{
 				Part ret = (Part)super.clone();
-				ret.parameters = new java.util.HashMap<ContinuousEffectType.Parameter, SetGenerator>(this.parameters);
+				ret.parameters = new HashMap<ContinuousEffectType.Parameter, SetGenerator>(this.parameters);
 				return ret;
 			}
 			catch(CloneNotSupportedException ex)
@@ -169,7 +174,7 @@ public class ContinuousEffect extends Identified
 	/**
 	 * The parts that comprise this effect.
 	 */
-	public java.util.Set<Part> parts;
+	public Set<Part> parts;
 
 	/**
 	 * The objects this continuous effect is acting on.
@@ -194,7 +199,7 @@ public class ContinuousEffect extends Identified
 
 		this.setName(name);
 
-		this.parts = new java.util.HashSet<Part>();
+		this.parts = new HashSet<Part>();
 		this.staticSourceID = -1;
 		this.affectedObjects = null;
 	}
@@ -313,7 +318,7 @@ public class ContinuousEffect extends Identified
 	{
 		ContinuousEffect ret = (ContinuousEffect)super.clone(state);
 		ret.affectedObjects = null;
-		ret.parts = new java.util.HashSet<Part>();
+		ret.parts = new HashSet<Part>();
 		for(Part p: this.parts)
 			ret.parts.add(p.clone());
 		return ret;

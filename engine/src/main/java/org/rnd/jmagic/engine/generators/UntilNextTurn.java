@@ -2,13 +2,19 @@ package org.rnd.jmagic.engine.generators;
 
 import org.rnd.jmagic.engine.*;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
 public class UntilNextTurn extends SetGenerator
 {
-	public static abstract class EventAndBeginTurnTracker extends org.rnd.jmagic.engine.Tracker<java.util.Map<Integer, java.util.Set<Integer>>>
+	public static abstract class EventAndBeginTurnTracker extends Tracker<Map<Integer, Set<Integer>>>
 	{
 		private EventType eventType;
-		private java.util.Map<Integer, java.util.Set<Integer>> values = new java.util.HashMap<Integer, java.util.Set<Integer>>();
-		private java.util.Map<Integer, java.util.Set<Integer>> unmodifiable = java.util.Collections.unmodifiableMap(this.values);
+		private Map<Integer, Set<Integer>> values = new HashMap<Integer, Set<Integer>>();
+		private Map<Integer, Set<Integer>> unmodifiable = Collections.unmodifiableMap(this.values);
 
 		protected EventAndBeginTurnTracker(EventType eventType)
 		{
@@ -19,15 +25,15 @@ public class UntilNextTurn extends SetGenerator
 		protected EventAndBeginTurnTracker clone()
 		{
 			EventAndBeginTurnTracker ret = (EventAndBeginTurnTracker)super.clone();
-			ret.values = new java.util.HashMap<Integer, java.util.Set<Integer>>();
-			for(java.util.Map.Entry<Integer, java.util.Set<Integer>> entry: this.values.entrySet())
-				ret.values.put(entry.getKey(), new java.util.HashSet<Integer>(entry.getValue()));
-			ret.unmodifiable = java.util.Collections.unmodifiableMap(ret.values);
+			ret.values = new HashMap<Integer, Set<Integer>>();
+			for(Map.Entry<Integer, Set<Integer>> entry: this.values.entrySet())
+				ret.values.put(entry.getKey(), new HashSet<Integer>(entry.getValue()));
+			ret.unmodifiable = Collections.unmodifiableMap(ret.values);
 			return ret;
 		}
 
 		@Override
-		protected java.util.Map<Integer, java.util.Set<Integer>> getValueInternal()
+		protected Map<Integer, Set<Integer>> getValueInternal()
 		{
 			return this.unmodifiable;
 		}
@@ -54,7 +60,7 @@ public class UntilNextTurn extends SetGenerator
 				{
 					Player controller = o.getController(state);
 					if(!this.values.containsKey(controller.ID))
-						this.values.put(controller.ID, new java.util.HashSet<Integer>());
+						this.values.put(controller.ID, new HashSet<Integer>());
 					this.values.get(controller.ID).add(o.ID);
 				}
 			}
@@ -85,7 +91,7 @@ public class UntilNextTurn extends SetGenerator
 	{
 		MagicSet ret = new MagicSet();
 		EventAndBeginTurnTracker tracker = state.getTracker(this.trackerClass);
-		for(java.util.Map.Entry<Integer, java.util.Set<Integer>> entry: tracker.getValue(state).entrySet())
+		for(Map.Entry<Integer, Set<Integer>> entry: tracker.getValue(state).entrySet())
 			for(Integer id: entry.getValue())
 				ret.add(state.get(id));
 		return ret;

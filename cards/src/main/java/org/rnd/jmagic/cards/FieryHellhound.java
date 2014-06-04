@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.Firebreathing;
 import org.rnd.jmagic.engine.*;
 
 @Name("Fiery Hellhound")
@@ -18,6 +19,6 @@ public final class FieryHellhound extends Card
 		this.setToughness(2);
 
 		// (R): Fiery Hellhound gets +1/+0 until end of turn.
-		this.addAbility(new org.rnd.jmagic.abilities.Firebreathing(state, this.getName()));
+		this.addAbility(new Firebreathing(state, this.getName()));
 	}
 }

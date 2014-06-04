@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Haste;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -38,8 +41,8 @@ public final class FalkenrathAristocrat extends Card
 		this.setToughness(1);
 
 		// Flying, haste
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Haste(state));
+		this.addAbility(new Flying(state));
+		this.addAbility(new Haste(state));
 
 		// Sacrifice a creature: Falkenrath Aristocrat is indestructible this
 		// turn. If the sacrificed creature was a Human, put a +1/+1 counter on

@@ -2,6 +2,14 @@ package org.rnd.jmagic.comms;
 
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.sanitized.*;
+import org.rnd.util.NumberRange;
+
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.nio.channels.ClosedByInterruptException;
+import java.util.List;
 
 public class StreamPlayer implements PlayerInterface
 {
@@ -10,7 +18,7 @@ public class StreamPlayer implements PlayerInterface
 		ALERT_CHOICE
 		{
 			@Override
-			public void run(java.io.ObjectInputStream in, java.io.ObjectOutputStream out, PlayerInterface local) throws java.io.IOException, ClassNotFoundException
+			public void run(ObjectInputStream in, ObjectOutputStream out, PlayerInterface local) throws IOException, ClassNotFoundException
 			{
 				int playerID = in.readInt();
 				ChooseParameters<?> choice = (ChooseParameters<?>)in.readObject();
@@ -20,7 +28,7 @@ public class StreamPlayer implements PlayerInterface
 		ALERT_ERROR
 		{
 			@Override
-			public void run(java.io.ObjectInputStream in, java.io.ObjectOutputStream out, PlayerInterface local) throws java.io.IOException, ClassNotFoundException
+			public void run(ObjectInputStream in, ObjectOutputStream out, PlayerInterface local) throws IOException, ClassNotFoundException
 			{
 				local.alertError((ErrorParameters)in.readObject());
 				Thread.currentThread().interrupt();
@@ -29,7 +37,7 @@ public class StreamPlayer implements PlayerInterface
 		ALERT_EVENT
 		{
 			@Override
-			public void run(java.io.ObjectInputStream in, java.io.ObjectOutputStream out, PlayerInterface local) throws java.io.IOException, ClassNotFoundException
+			public void run(ObjectInputStream in, ObjectOutputStream out, PlayerInterface local) throws IOException, ClassNotFoundException
 			{
 				local.alertEvent((SanitizedEvent)in.readObject());
 			}
@@ -37,7 +45,7 @@ public class StreamPlayer implements PlayerInterface
 		ALERT_STATE
 		{
 			@Override
-			public void run(java.io.ObjectInputStream in, java.io.ObjectOutputStream out, PlayerInterface local) throws java.io.IOException, ClassNotFoundException
+			public void run(ObjectInputStream in, ObjectOutputStream out, PlayerInterface local) throws IOException, ClassNotFoundException
 			{
 				local.alertState((SanitizedGameState)in.readObject());
 			}
@@ -45,7 +53,7 @@ public class StreamPlayer implements PlayerInterface
 		ALERT_STATE_REVERSION
 		{
 			@Override
-			public void run(java.io.ObjectInputStream in, java.io.ObjectOutputStream out, PlayerInterface local) throws java.io.IOException, ClassNotFoundException
+			public void run(ObjectInputStream in, ObjectOutputStream out, PlayerInterface local) throws IOException, ClassNotFoundException
 			{
 				local.alertStateReversion((PlayerInterface.ReversionParameters)in.readObject());
 			}
@@ -53,7 +61,7 @@ public class StreamPlayer implements PlayerInterface
 		ALERT_WAITING
 		{
 			@Override
-			public void run(java.io.ObjectInputStream in, java.io.ObjectOutputStream out, PlayerInterface local) throws java.io.IOException, ClassNotFoundException
+			public void run(ObjectInputStream in, ObjectOutputStream out, PlayerInterface local) throws IOException, ClassNotFoundException
 			{
 				local.alertWaiting((SanitizedPlayer)in.readObject());
 			}
@@ -61,7 +69,7 @@ public class StreamPlayer implements PlayerInterface
 		CHOOSE
 		{
 			@Override
-			public void run(java.io.ObjectInputStream in, java.io.ObjectOutputStream out, PlayerInterface local) throws java.io.IOException, ClassNotFoundException
+			public void run(ObjectInputStream in, ObjectOutputStream out, PlayerInterface local) throws IOException, ClassNotFoundException
 			{
 				out.writeObject(local.choose((ChooseParameters<?>)in.readObject()));
 				out.reset();
@@ -71,9 +79,9 @@ public class StreamPlayer implements PlayerInterface
 		CHOOSE_NUMBER
 		{
 			@Override
-			public void run(java.io.ObjectInputStream in, java.io.ObjectOutputStream out, PlayerInterface local) throws java.io.IOException, ClassNotFoundException
+			public void run(ObjectInputStream in, ObjectOutputStream out, PlayerInterface local) throws IOException, ClassNotFoundException
 			{
-				org.rnd.util.NumberRange range = (org.rnd.util.NumberRange)in.readObject();
+				NumberRange range = (NumberRange)in.readObject();
 				String description = in.readUTF();
 				out.writeInt(local.chooseNumber(range, description));
 				out.reset();
@@ -83,13 +91,13 @@ public class StreamPlayer implements PlayerInterface
 		DIVIDE
 		{
 			@Override
-			public void run(java.io.ObjectInputStream in, java.io.ObjectOutputStream out, PlayerInterface local) throws java.io.IOException, ClassNotFoundException
+			public void run(ObjectInputStream in, ObjectOutputStream out, PlayerInterface local) throws IOException, ClassNotFoundException
 			{
 				int quantity = in.readInt();
 				int minimum = in.readInt();
 				int whatFrom = in.readInt();
 				String beingDivided = in.readUTF();
-				@SuppressWarnings("unchecked") java.util.List<SanitizedTarget> targets = (java.util.List<SanitizedTarget>)in.readObject();
+				@SuppressWarnings("unchecked") List<SanitizedTarget> targets = (List<SanitizedTarget>)in.readObject();
 				local.divide(quantity, minimum, whatFrom, beingDivided, targets);
 				out.writeObject(targets);
 				out.reset();
@@ -99,7 +107,7 @@ public class StreamPlayer implements PlayerInterface
 		GET_DECK
 		{
 			@Override
-			public void run(java.io.ObjectInputStream in, java.io.ObjectOutputStream out, PlayerInterface local) throws java.io.IOException
+			public void run(ObjectInputStream in, ObjectOutputStream out, PlayerInterface local) throws IOException
 			{
 				out.writeObject(local.getDeck());
 				out.reset();
@@ -109,7 +117,7 @@ public class StreamPlayer implements PlayerInterface
 		GET_NAME
 		{
 			@Override
-			public void run(java.io.ObjectInputStream in, java.io.ObjectOutputStream out, PlayerInterface local) throws java.io.IOException
+			public void run(ObjectInputStream in, ObjectOutputStream out, PlayerInterface local) throws IOException
 			{
 				out.writeUTF(local.getName());
 				out.reset();
@@ -119,13 +127,13 @@ public class StreamPlayer implements PlayerInterface
 		SET_PLAYER_ID
 		{
 			@Override
-			public void run(java.io.ObjectInputStream in, java.io.ObjectOutputStream out, PlayerInterface local) throws java.io.IOException
+			public void run(ObjectInputStream in, ObjectOutputStream out, PlayerInterface local) throws IOException
 			{
 				local.setPlayerID(in.readInt());
 			}
 		};
 
-		public abstract void run(java.io.ObjectInputStream in, java.io.ObjectOutputStream out, PlayerInterface local) throws java.io.IOException, ClassNotFoundException;
+		public abstract void run(ObjectInputStream in, ObjectOutputStream out, PlayerInterface local) throws IOException, ClassNotFoundException;
 	}
 
 	/**
@@ -149,24 +157,24 @@ public class StreamPlayer implements PlayerInterface
 	 * stream of a StreamPlayer instance)
 	 * @param local The PlayerInterface to call functions on
 	 */
-	public static void run(java.io.ObjectInputStream in, java.io.ObjectOutputStream out, PlayerInterface local) throws ClassNotFoundException, java.io.IOException
+	public static void run(ObjectInputStream in, ObjectOutputStream out, PlayerInterface local) throws ClassNotFoundException, IOException
 	{
 		try
 		{
 			while(true)
 				((Function)in.readObject()).run(in, out, local);
 		}
-		catch(java.nio.channels.ClosedByInterruptException e)
+		catch(ClosedByInterruptException e)
 		{
 			throw new Game.InterruptedGameException();
 		}
 	}
 
-	private java.io.ObjectInputStream in;
+	private ObjectInputStream in;
 
-	private java.io.ObjectOutputStream out;
+	private ObjectOutputStream out;
 
-	public StreamPlayer(java.io.ObjectInputStream in, java.io.ObjectOutputStream out)
+	public StreamPlayer(ObjectInputStream in, ObjectOutputStream out)
 	{
 		this.in = in;
 		this.out = out;
@@ -183,11 +191,11 @@ public class StreamPlayer implements PlayerInterface
 			this.out.reset();
 			this.out.flush();
 		}
-		catch(java.nio.channels.ClosedByInterruptException e)
+		catch(ClosedByInterruptException e)
 		{
 			throw new Game.InterruptedGameException();
 		}
-		catch(java.io.IOException e)
+		catch(IOException e)
 		{
 			throw new RuntimeException(e);
 		}
@@ -203,11 +211,11 @@ public class StreamPlayer implements PlayerInterface
 			this.out.reset();
 			this.out.flush();
 		}
-		catch(java.nio.channels.ClosedByInterruptException e)
+		catch(ClosedByInterruptException e)
 		{
 			throw new Game.InterruptedGameException();
 		}
-		catch(java.io.IOException e)
+		catch(IOException e)
 		{
 			throw new RuntimeException(e);
 		}
@@ -223,11 +231,11 @@ public class StreamPlayer implements PlayerInterface
 			this.out.reset();
 			this.out.flush();
 		}
-		catch(java.nio.channels.ClosedByInterruptException e)
+		catch(ClosedByInterruptException e)
 		{
 			throw new Game.InterruptedGameException();
 		}
-		catch(java.io.IOException e)
+		catch(IOException e)
 		{
 			throw new RuntimeException(e);
 		}
@@ -243,11 +251,11 @@ public class StreamPlayer implements PlayerInterface
 			this.out.reset();
 			this.out.flush();
 		}
-		catch(java.nio.channels.ClosedByInterruptException e)
+		catch(ClosedByInterruptException e)
 		{
 			throw new Game.InterruptedGameException();
 		}
-		catch(java.io.IOException e)
+		catch(IOException e)
 		{
 			throw new RuntimeException(e);
 		}
@@ -263,11 +271,11 @@ public class StreamPlayer implements PlayerInterface
 			this.out.reset();
 			this.out.flush();
 		}
-		catch(java.nio.channels.ClosedByInterruptException e)
+		catch(ClosedByInterruptException e)
 		{
 			throw new Game.InterruptedGameException();
 		}
-		catch(java.io.IOException e)
+		catch(IOException e)
 		{
 			throw new RuntimeException(e);
 		}
@@ -283,11 +291,11 @@ public class StreamPlayer implements PlayerInterface
 			this.out.reset();
 			this.out.flush();
 		}
-		catch(java.nio.channels.ClosedByInterruptException e)
+		catch(ClosedByInterruptException e)
 		{
 			throw new Game.InterruptedGameException();
 		}
-		catch(java.io.IOException e)
+		catch(IOException e)
 		{
 			throw new RuntimeException(e);
 		}
@@ -295,7 +303,7 @@ public class StreamPlayer implements PlayerInterface
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public <T extends java.io.Serializable> java.util.List<Integer> choose(ChooseParameters<T> parameterObject)
+	public <T extends Serializable> List<Integer> choose(ChooseParameters<T> parameterObject)
 	{
 		try
 		{
@@ -304,13 +312,13 @@ public class StreamPlayer implements PlayerInterface
 			this.out.reset();
 			this.out.flush();
 
-			return (java.util.List<Integer>)this.in.readObject();
+			return (List<Integer>)this.in.readObject();
 		}
-		catch(java.nio.channels.ClosedByInterruptException e)
+		catch(ClosedByInterruptException e)
 		{
 			throw new Game.InterruptedGameException();
 		}
-		catch(java.io.IOException e)
+		catch(IOException e)
 		{
 			throw new RuntimeException(e);
 		}
@@ -321,7 +329,7 @@ public class StreamPlayer implements PlayerInterface
 	}
 
 	@Override
-	public int chooseNumber(org.rnd.util.NumberRange range, String description)
+	public int chooseNumber(NumberRange range, String description)
 	{
 		try
 		{
@@ -333,18 +341,18 @@ public class StreamPlayer implements PlayerInterface
 
 			return this.in.readInt();
 		}
-		catch(java.nio.channels.ClosedByInterruptException e)
+		catch(ClosedByInterruptException e)
 		{
 			throw new Game.InterruptedGameException();
 		}
-		catch(java.io.IOException e)
+		catch(IOException e)
 		{
 			throw new RuntimeException(e);
 		}
 	}
 
 	@Override
-	public void divide(int quantity, int minimum, int whatFrom, String beingDivided, java.util.List<SanitizedTarget> targets)
+	public void divide(int quantity, int minimum, int whatFrom, String beingDivided, List<SanitizedTarget> targets)
 	{
 		try
 		{
@@ -357,15 +365,15 @@ public class StreamPlayer implements PlayerInterface
 			this.out.reset();
 			this.out.flush();
 
-			@SuppressWarnings("unchecked") java.util.List<SanitizedTarget> divisions = (java.util.List<SanitizedTarget>)this.in.readObject();
+			@SuppressWarnings("unchecked") List<SanitizedTarget> divisions = (List<SanitizedTarget>)this.in.readObject();
 			for(int i = 0; i < targets.size(); ++i)
 				targets.get(i).division = divisions.get(i).division;
 		}
-		catch(java.nio.channels.ClosedByInterruptException e)
+		catch(ClosedByInterruptException e)
 		{
 			throw new Game.InterruptedGameException();
 		}
-		catch(java.io.IOException e)
+		catch(IOException e)
 		{
 			throw new RuntimeException(e);
 		}
@@ -386,11 +394,11 @@ public class StreamPlayer implements PlayerInterface
 
 			return (Deck)this.in.readObject();
 		}
-		catch(java.nio.channels.ClosedByInterruptException e)
+		catch(ClosedByInterruptException e)
 		{
 			throw new Game.InterruptedGameException();
 		}
-		catch(java.io.IOException e)
+		catch(IOException e)
 		{
 			throw new RuntimeException(e);
 		}
@@ -411,11 +419,11 @@ public class StreamPlayer implements PlayerInterface
 
 			return this.in.readUTF();
 		}
-		catch(java.nio.channels.ClosedByInterruptException e)
+		catch(ClosedByInterruptException e)
 		{
 			throw new Game.InterruptedGameException();
 		}
-		catch(java.io.IOException e)
+		catch(IOException e)
 		{
 			throw new RuntimeException(e);
 		}
@@ -431,11 +439,11 @@ public class StreamPlayer implements PlayerInterface
 			this.out.reset();
 			this.out.flush();
 		}
-		catch(java.nio.channels.ClosedByInterruptException e)
+		catch(ClosedByInterruptException e)
 		{
 			throw new Game.InterruptedGameException();
 		}
-		catch(java.io.IOException e)
+		catch(IOException e)
 		{
 			throw new RuntimeException(e);
 		}

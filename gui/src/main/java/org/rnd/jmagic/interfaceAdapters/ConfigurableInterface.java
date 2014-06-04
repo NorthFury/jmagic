@@ -1,12 +1,16 @@
 package org.rnd.jmagic.interfaceAdapters;
 
 import org.rnd.jmagic.engine.*;
+import org.rnd.jmagic.gui.dialogs.ConfigurationFrame;
+
+import java.util.Properties;
+import java.util.SortedSet;
 
 public interface ConfigurableInterface extends PlayerInterface
 {
-	public org.rnd.jmagic.gui.dialogs.ConfigurationFrame.OptionPanel getOptionPanel();
+	public ConfigurationFrame.OptionPanel getOptionPanel();
 
-	public java.util.SortedSet<org.rnd.jmagic.gui.dialogs.ConfigurationFrame.OptionPanel> getOptions();
+	public SortedSet<ConfigurationFrame.OptionPanel> getOptions();
 
-	public void setProperties(java.util.Properties properties);
+	public void setProperties(Properties properties);
 }

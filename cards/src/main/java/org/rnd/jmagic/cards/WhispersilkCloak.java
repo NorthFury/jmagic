@@ -2,6 +2,8 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Equip;
+import org.rnd.jmagic.abilities.keywords.Shroud;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -23,7 +25,7 @@ public final class WhispersilkCloak extends Card
 
 			this.addEffectPart(unblockable(equippedCreature));
 
-			this.addEffectPart(addAbilityToObject(equippedCreature, org.rnd.jmagic.abilities.keywords.Shroud.class));
+			this.addEffectPart(addAbilityToObject(equippedCreature, Shroud.class));
 		}
 	}
 
@@ -32,6 +34,6 @@ public final class WhispersilkCloak extends Card
 		super(state);
 
 		this.addAbility(new Untouchable(state));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Equip(state, "(2)"));
+		this.addAbility(new Equip(state, "(2)"));
 	}
 }

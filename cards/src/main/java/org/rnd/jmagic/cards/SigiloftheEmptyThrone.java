@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -26,7 +28,7 @@ public final class SigiloftheEmptyThrone extends Card
 			CreateTokensFactory f = new CreateTokensFactory(1, 4, 4, "Put a 4/4 white Angel creature token with flying onto the battlefield.");
 			f.setColors(Color.WHITE);
 			f.setSubTypes(SubType.ANGEL);
-			f.addAbility(org.rnd.jmagic.abilities.keywords.Flying.class);
+			f.addAbility(Flying.class);
 			this.addEffect(f.getEventFactory());
 		}
 	}

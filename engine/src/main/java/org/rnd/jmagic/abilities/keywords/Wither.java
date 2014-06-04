@@ -2,6 +2,9 @@ package org.rnd.jmagic.abilities.keywords;
 
 import org.rnd.jmagic.engine.*;
 
+import java.util.LinkedList;
+import java.util.List;
+
 @Name("Wither")
 public final class Wither extends Keyword
 {
@@ -11,9 +14,9 @@ public final class Wither extends Keyword
 	}
 
 	@Override
-	protected java.util.List<StaticAbility> createStaticAbilities()
+	protected List<StaticAbility> createStaticAbilities()
 	{
-		java.util.LinkedList<StaticAbility> ret = new java.util.LinkedList<StaticAbility>();
+		LinkedList<StaticAbility> ret = new LinkedList<StaticAbility>();
 		ret.add(new WitherStatic(this.state));
 		return ret;
 	}

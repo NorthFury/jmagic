@@ -3,6 +3,10 @@ package org.rnd.jmagic.engine.eventTypes;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
 public final class DiscardForce extends EventType
 {	public static final EventType INSTANCE = new DiscardForce();
 
@@ -18,7 +22,7 @@ public final class DiscardForce extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean attempt(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		int successes = 0;
 		MagicSet cause = parameters.get(Parameter.CAUSE);
@@ -38,7 +42,7 @@ public final class DiscardForce extends EventType
 		{
 			GameObject thisCard = cards.getOne(GameObject.class);
 			cards.remove(thisCard);
-			java.util.Map<Parameter, MagicSet> newParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> newParameters = new HashMap<Parameter, MagicSet>();
 			parameters.put(Parameter.CAUSE, cause);
 			parameters.put(Parameter.CARD, new MagicSet(thisCard));
 			if(createEvent(game, thisCard.getOwner(game.actualState) + " discards " + thisCard + ".", DISCARD_ONE_CARD, newParameters).attempt(event))
@@ -51,7 +55,7 @@ public final class DiscardForce extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		// get the number of cards out of the parameters
 		int numberOfCards = 1;
@@ -68,7 +72,7 @@ public final class DiscardForce extends EventType
 
 		// offer the choices to the player
 		// TODO : "Search" is a keyword action. This should not be a search.
-		java.util.Map<Parameter, MagicSet> chooseParameters = new java.util.HashMap<Parameter, MagicSet>();
+		Map<Parameter, MagicSet> chooseParameters = new HashMap<Parameter, MagicSet>();
 		chooseParameters.put(Parameter.CAUSE, cause);
 		chooseParameters.put(Parameter.PLAYER, parameters.get(Parameter.PLAYER));
 		chooseParameters.put(Parameter.NUMBER, new MagicSet(numberOfCards));
@@ -78,7 +82,7 @@ public final class DiscardForce extends EventType
 		Event chooseEvent = createEvent(game, "Choose cards to discard", EventType.SEARCH, chooseParameters);
 		chooseEvent.perform(event, false);
 
-		java.util.Set<GameObject> choices = chooseEvent.getResult().getAll(GameObject.class);
+		Set<GameObject> choices = chooseEvent.getResult().getAll(GameObject.class);
 		if(choices.size() != numberOfCards)
 			allDiscarded = false;
 		if(choices.size() != 0)
@@ -87,7 +91,7 @@ public final class DiscardForce extends EventType
 			MagicSet discardThese = new MagicSet(choices);
 
 			// perform the discard event
-			java.util.Map<Parameter, MagicSet> discardParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> discardParameters = new HashMap<Parameter, MagicSet>();
 			discardParameters.put(Parameter.CAUSE, cause);
 			discardParameters.put(Parameter.CARD, discardThese);
 			Event discard = createEvent(game, target + " discards " + discardThese + ".", DISCARD_CARDS, discardParameters);

@@ -3,6 +3,9 @@ package org.rnd.jmagic.abilities.keywords;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public final class Changeling extends Keyword
 {
 	public Changeling(GameState state)
@@ -11,9 +14,9 @@ public final class Changeling extends Keyword
 	}
 
 	@Override
-	protected java.util.List<StaticAbility> createStaticAbilities()
+	protected List<StaticAbility> createStaticAbilities()
 	{
-		java.util.LinkedList<StaticAbility> ret = new java.util.LinkedList<StaticAbility>();
+		LinkedList<StaticAbility> ret = new LinkedList<StaticAbility>();
 		ret.add(new ChangelingAbility(this.state));
 		return ret;
 	}

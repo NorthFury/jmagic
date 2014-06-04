@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Hexproof;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -25,7 +27,7 @@ public final class LazavDimirMastermind extends Card
 			SetGenerator thatCard = NewObjectOf.instance(TriggerZoneChange.instance(This.instance()));
 
 			ContinuousEffect.Part part = new ContinuousEffect.Part(ContinuousEffectType.COPY_OBJECT);
-			part.parameters.put(ContinuousEffectType.Parameter.ABILITY, Identity.instance(new SimpleAbilityFactory(LazavDimirMastermindAbility1.class), new SimpleAbilityFactory(org.rnd.jmagic.abilities.keywords.Hexproof.class)));
+			part.parameters.put(ContinuousEffectType.Parameter.ABILITY, Identity.instance(new SimpleAbilityFactory(LazavDimirMastermindAbility1.class), new SimpleAbilityFactory(Hexproof.class)));
 			part.parameters.put(ContinuousEffectType.Parameter.OBJECT, ABILITY_SOURCE_OF_THIS);
 			part.parameters.put(ContinuousEffectType.Parameter.ORIGINAL, thatCard);
 			part.parameters.put(ContinuousEffectType.Parameter.RETAIN, Identity.instance(Characteristics.Characteristic.NAME));
@@ -44,7 +46,7 @@ public final class LazavDimirMastermind extends Card
 		this.setToughness(3);
 
 		// Hexproof
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Hexproof(state));
+		this.addAbility(new Hexproof(state));
 
 		// Whenever a creature card is put into an opponent's graveyard from
 		// anywhere, you may have Lazav, Dimir Mastermind become a copy of that

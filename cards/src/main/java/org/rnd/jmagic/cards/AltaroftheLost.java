@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.EntersTheBattlefieldTapped;
+import org.rnd.jmagic.abilities.keywords.Flashback;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -18,7 +21,7 @@ public final class AltaroftheLost extends Card
 		{
 			for(GameObject o: set.getAll(GameObject.class))
 			{
-				if(!o.hasAbility(org.rnd.jmagic.abilities.keywords.Flashback.class))
+				if(!o.hasAbility(Flashback.class))
 					continue;
 				if(!state.<Zone>get(o.zoneCastFrom).isGraveyard())
 					continue;
@@ -66,7 +69,7 @@ public final class AltaroftheLost extends Card
 		super(state);
 
 		// Altar of the Lost enters the battlefield tapped.
-		this.addAbility(new org.rnd.jmagic.abilities.EntersTheBattlefieldTapped(state, this.getName()));
+		this.addAbility(new EntersTheBattlefieldTapped(state, this.getName()));
 
 		// (T): Add two mana in any combination of colors to your mana pool.
 		// Spend this mana only to cast spells with flashback from a graveyard.

@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.FirstStrike;
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 
 @Name("Voiceless Spirit")
@@ -18,7 +20,7 @@ public final class VoicelessSpirit extends Card
 		this.setToughness(1);
 
 		// Flying, first strike
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.FirstStrike(state));
+		this.addAbility(new Flying(state));
+		this.addAbility(new FirstStrike(state));
 	}
 }

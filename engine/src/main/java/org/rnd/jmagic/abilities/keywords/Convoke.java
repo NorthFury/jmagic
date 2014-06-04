@@ -4,10 +4,16 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.io.Serializable;
+import java.lang.String;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+
 @Name("Convoke")
 public final class Convoke extends Keyword
 {
-	public static class ConvokeCostType implements java.io.Serializable
+	public static class ConvokeCostType implements Serializable
 	{
 		private static final long serialVersionUID = 1L;
 
@@ -43,7 +49,7 @@ public final class Convoke extends Keyword
 		}
 
 		@Override
-		public java.lang.String toString()
+		public String toString()
 		{
 			return "Convoke";
 		}
@@ -55,9 +61,9 @@ public final class Convoke extends Keyword
 	}
 
 	@Override
-	protected java.util.List<org.rnd.jmagic.engine.StaticAbility> createStaticAbilities()
+	protected List<StaticAbility> createStaticAbilities()
 	{
-		return java.util.Collections.<StaticAbility>singletonList(new ConvokeAbility(this.state));
+		return Collections.<StaticAbility>singletonList(new ConvokeAbility(this.state));
 	}
 
 	/**
@@ -75,7 +81,7 @@ public final class Convoke extends Keyword
 		}
 
 		@Override
-		public void apply(GameState state, ContinuousEffect effect, java.util.Map<Parameter, MagicSet> parameters)
+		public void apply(GameState state, ContinuousEffect effect, Map<Parameter, MagicSet> parameters)
 		{
 			GameObject object = parameters.get(Parameter.OBJECT).getOne(GameObject.class);
 			CostCollection costCollection = parameters.get(Parameter.COST).getOne(CostCollection.class);

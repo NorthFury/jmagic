@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.TapForMana;
+import org.rnd.jmagic.abilities.keywords.Exalted;
 import org.rnd.jmagic.engine.*;
 
 @Name("Noble Hierarch")
@@ -10,7 +12,7 @@ import org.rnd.jmagic.engine.*;
 @ColorIdentity({Color.BLUE, Color.WHITE, Color.GREEN})
 public final class NobleHierarch extends Card
 {
-	public static final class TapForBant extends org.rnd.jmagic.abilities.TapForMana
+	public static final class TapForBant extends TapForMana
 	{
 		public TapForBant(GameState state)
 		{
@@ -27,7 +29,7 @@ public final class NobleHierarch extends Card
 
 		// Exalted (Whenever a creature you control attacks alone, that creature
 		// gets +1/+1 until end of turn.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Exalted(state));
+		this.addAbility(new Exalted(state));
 
 		// (T): Add (G), (W), or (U) to your mana pool.
 		this.addAbility(new TapForBant(state));

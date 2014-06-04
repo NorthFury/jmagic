@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.Regenerate;
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -32,12 +35,12 @@ public final class LotlethTroll extends Card
 		this.setToughness(1);
 
 		// Trample
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Trample(state));
+		this.addAbility(new Trample(state));
 
 		// Discard a creature card: Put a +1/+1 counter on Lotleth Troll.
 		this.addAbility(new LotlethTrollAbility1(state));
 
 		// (B): Regenerate Lotleth Troll.
-		this.addAbility(new org.rnd.jmagic.abilities.Regenerate.Final(state, "(B)", "Lotleth Troll"));
+		this.addAbility(new Regenerate.Final(state, "(B)", "Lotleth Troll"));
 	}
 }

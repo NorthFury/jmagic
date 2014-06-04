@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.StaticPTChange;
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -76,11 +79,11 @@ public final class AngelofJubilation extends Card
 		this.setToughness(3);
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// Other nonblack creatures you control get +1/+1.
 		SetGenerator otherNonBlack = RelativeComplement.instance(CREATURES_YOU_CONTROL, Union.instance(HasColor.instance(Color.BLACK), This.instance()));
-		this.addAbility(new org.rnd.jmagic.abilities.StaticPTChange(state, otherNonBlack, "Other nonblack creatures you control", +1, +1, true));
+		this.addAbility(new StaticPTChange(state, otherNonBlack, "Other nonblack creatures you control", +1, +1, true));
 
 		// Players can't pay life or sacrifice creatures to cast spells or
 		// activate abilities.

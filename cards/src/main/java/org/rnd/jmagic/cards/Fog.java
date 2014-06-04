@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.PreventCombatDamage;
 import org.rnd.jmagic.engine.*;
 
 @Name("Fog")
@@ -16,6 +17,6 @@ public final class Fog extends Card
 		super(state);
 
 		// Prevent all combat damage that would be dealt this turn.
-		this.addEffect(createFloatingReplacement(new org.rnd.jmagic.abilities.PreventCombatDamage(this.game), "Prevent all combat damage that would be dealt this turn."));
+		this.addEffect(createFloatingReplacement(new PreventCombatDamage(this.game), "Prevent all combat damage that would be dealt this turn."));
 	}
 }

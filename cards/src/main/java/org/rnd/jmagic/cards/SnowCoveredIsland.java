@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.cardTemplates.BasicLand;
 import org.rnd.jmagic.engine.*;
 
 @Name("Snow-Covered Island")
@@ -8,7 +9,7 @@ import org.rnd.jmagic.engine.*;
 @SubTypes({SubType.ISLAND})
 @Printings({@Printings.Printed(ex = Expansion.COLDSNAP, r = Rarity.COMMON), @Printings.Printed(ex = Expansion.ICE_AGE, r = Rarity.LAND)})
 @ColorIdentity({})
-public final class SnowCoveredIsland extends org.rnd.jmagic.cardTemplates.BasicLand
+public final class SnowCoveredIsland extends BasicLand
 {
 	public SnowCoveredIsland(GameState state)
 	{

@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -23,7 +25,7 @@ public final class KitesailApprentice extends Card
 			this.canApply = Both.instance(this.canApply, thisIsEquipped);
 
 			this.addEffectPart(modifyPowerAndToughness(This.instance(), +1, +1));
-			this.addEffectPart(addAbilityToObject(This.instance(), org.rnd.jmagic.abilities.keywords.Flying.class));
+			this.addEffectPart(addAbilityToObject(This.instance(), Flying.class));
 		}
 	}
 

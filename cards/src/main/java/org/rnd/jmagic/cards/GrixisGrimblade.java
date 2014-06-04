@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.keywords.Deathtouch;
 import org.rnd.jmagic.cardTemplates.*;
 import org.rnd.jmagic.engine.*;
 
@@ -13,6 +14,6 @@ public final class GrixisGrimblade extends AlaraRebornBlade
 {
 	public GrixisGrimblade(GameState state)
 	{
-		super(state, org.rnd.jmagic.abilities.keywords.Deathtouch.class);
+		super(state, Deathtouch.class);
 	}
 }

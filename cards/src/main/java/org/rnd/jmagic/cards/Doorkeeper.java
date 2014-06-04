@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Defender;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -22,7 +24,7 @@ public final class Doorkeeper extends Card
 
 			SetGenerator target = targetedBy(this.addTarget(Players.instance(), "target player"));
 
-			SetGenerator X = Count.instance(Intersect.instance(HasKeywordAbility.instance(org.rnd.jmagic.abilities.keywords.Defender.class), CREATURES_YOU_CONTROL));
+			SetGenerator X = Count.instance(Intersect.instance(HasKeywordAbility.instance(Defender.class), CREATURES_YOU_CONTROL));
 			this.addEffect(millCards(target, X, "Target player puts the top X cards of his or her library into his or her graveyard, where X is the number of creatures with defender you control."));
 		}
 	}
@@ -35,7 +37,7 @@ public final class Doorkeeper extends Card
 		this.setToughness(4);
 
 		// Defender
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Defender(state));
+		this.addAbility(new Defender(state));
 
 		// (2)(U), (T): Target player puts the top X cards of his or her library
 		// into his or her graveyard, where X is the number of creatures with

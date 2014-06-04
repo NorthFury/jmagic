@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Ninjutsu;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -32,7 +33,7 @@ public final class NinjaoftheDeepHours extends Card
 		this.setPower(2);
 		this.setToughness(2);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Ninjutsu(state, "(1)(U)"));
+		this.addAbility(new Ninjutsu(state, "(1)(U)"));
 		this.addAbility(new NinjaDraw(state));
 	}
 }

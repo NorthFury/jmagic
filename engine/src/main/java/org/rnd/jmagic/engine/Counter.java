@@ -1,9 +1,12 @@
 package org.rnd.jmagic.engine;
 
+import java.io.Serializable;
+import java.lang.String;
+
 /**
  * Represents a counter (the noun).
  */
-public class Counter implements java.io.Serializable, Comparable<Counter>
+public class Counter implements Serializable, Comparable<Counter>
 {
 	/**
 	 * Represents the different types of counters.
@@ -259,7 +262,7 @@ public class Counter implements java.io.Serializable, Comparable<Counter>
 	}
 
 	@Override
-	public java.lang.String toString()
+	public String toString()
 	{
 		return this.type.toString();
 	}

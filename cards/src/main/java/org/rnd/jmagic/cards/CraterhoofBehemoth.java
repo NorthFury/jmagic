@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Haste;
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -20,7 +23,7 @@ public final class CraterhoofBehemoth extends Card
 			this.addPattern(whenThisEntersTheBattlefield());
 
 			SetGenerator X = Count.instance(CREATURES_YOU_CONTROL);
-			this.addEffect(ptChangeAndAbilityUntilEndOfTurn(CREATURES_YOU_CONTROL, X, X, "Creatures you control gain trample and get +X/+X until end of turn, where X is the number of creatures you control.", org.rnd.jmagic.abilities.keywords.Trample.class));
+			this.addEffect(ptChangeAndAbilityUntilEndOfTurn(CREATURES_YOU_CONTROL, X, X, "Creatures you control gain trample and get +X/+X until end of turn, where X is the number of creatures you control.", Trample.class));
 		}
 	}
 
@@ -32,7 +35,7 @@ public final class CraterhoofBehemoth extends Card
 		this.setToughness(5);
 
 		// Haste
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Haste(state));
+		this.addAbility(new Haste(state));
 
 		// When Craterhoof Behemoth enters the battlefield, creatures you
 		// control gain trample and get +X/+X until end of turn, where X is the

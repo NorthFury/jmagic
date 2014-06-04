@@ -1,6 +1,11 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Equip;
+import org.rnd.jmagic.abilities.keywords.Lifelink;
+import org.rnd.jmagic.abilities.keywords.LivingWeapon;
+import org.rnd.jmagic.abilities.keywords.Vigilance;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -21,7 +26,7 @@ public final class Batterskull extends Card
 			SetGenerator equippedCreature = EquippedBy.instance(This.instance());
 
 			this.addEffectPart(modifyPowerAndToughness(equippedCreature, +4, +4));
-			this.addEffectPart(addAbilityToObject(equippedCreature, org.rnd.jmagic.abilities.keywords.Vigilance.class, org.rnd.jmagic.abilities.keywords.Lifelink.class));
+			this.addEffectPart(addAbilityToObject(equippedCreature, Vigilance.class, Lifelink.class));
 		}
 	}
 
@@ -42,7 +47,7 @@ public final class Batterskull extends Card
 		// Living weapon (When this Equipment enters the battlefield, put a 0/0
 		// black Germ creature token onto the battlefield, then attach this to
 		// it.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.LivingWeapon(state));
+		this.addAbility(new LivingWeapon(state));
 
 		// Equipped creature gets +4/+4 and has vigilance and lifelink.
 		this.addAbility(new BatterskullAbility1(state));
@@ -51,6 +56,6 @@ public final class Batterskull extends Card
 		this.addAbility(new BatterskullAbility2(state));
 
 		// Equip (5)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Equip(state, "(5)"));
+		this.addAbility(new Equip(state, "(5)"));
 	}
 }

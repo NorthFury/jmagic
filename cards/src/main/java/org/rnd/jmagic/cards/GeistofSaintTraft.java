@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Hexproof;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -24,7 +27,7 @@ public final class GeistofSaintTraft extends Card
 			CreateTokensFactory token = new CreateTokensFactory(1, 4, 4, "put a 4/4 white Angel creature token with flying onto the battlefield tapped and attacking.");
 			token.setColors(Color.WHITE);
 			token.setSubTypes(SubType.ANGEL);
-			token.addAbility(org.rnd.jmagic.abilities.keywords.Flying.class);
+			token.addAbility(Flying.class);
 			token.setTappedAndAttacking(null);
 
 			EventFactory putToken = token.getEventFactory();
@@ -52,7 +55,7 @@ public final class GeistofSaintTraft extends Card
 
 		// Hexproof (This creature can't be the target of spells or abilities
 		// your opponents control.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Hexproof(state));
+		this.addAbility(new Hexproof(state));
 
 		// Whenever Geist of Saint Traft attacks, put a 4/4 white Angel creature
 		// token with flying onto the battlefield tapped and attacking. Exile

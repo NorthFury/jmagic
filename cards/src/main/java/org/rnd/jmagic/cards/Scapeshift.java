@@ -2,6 +2,10 @@ package org.rnd.jmagic.cards;
 
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+import org.rnd.util.NumberRange;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Name("Scapeshift")
 @Types({Type.SORCERY})
@@ -24,23 +28,23 @@ public final class Scapeshift extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			Player player = parameters.get(Parameter.PLAYER).getOne(Player.class);
 
-			java.util.Map<Parameter, MagicSet> sacParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> sacParameters = new HashMap<Parameter, MagicSet>();
 			sacParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
-			sacParameters.put(Parameter.NUMBER, new MagicSet(new org.rnd.util.NumberRange(0, null)));
+			sacParameters.put(Parameter.NUMBER, new MagicSet(new NumberRange(0, null)));
 			sacParameters.put(Parameter.CHOICE, HasType.instance(Type.LAND).evaluate(game, null));
 			sacParameters.put(Parameter.PLAYER, new MagicSet(player));
 			Event sacEvent = createEvent(game, "Sacrifice any number of lands.", EventType.SACRIFICE_CHOICE, sacParameters);
 			sacEvent.perform(event, true);
 
-			java.util.Map<Parameter, MagicSet> searchParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> searchParameters = new HashMap<Parameter, MagicSet>();
 			searchParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 			searchParameters.put(Parameter.CONTROLLER, new MagicSet(player));
 			searchParameters.put(Parameter.PLAYER, new MagicSet(player));
-			searchParameters.put(Parameter.NUMBER, new MagicSet(new org.rnd.util.NumberRange(0, sacEvent.getResult().size())));
+			searchParameters.put(Parameter.NUMBER, new MagicSet(new NumberRange(0, sacEvent.getResult().size())));
 			searchParameters.put(Parameter.TO, new MagicSet(game.actualState.battlefield()));
 			searchParameters.put(Parameter.TAPPED, Empty.set);
 			searchParameters.put(Parameter.TYPE, new MagicSet(HasType.instance(Type.LAND)));

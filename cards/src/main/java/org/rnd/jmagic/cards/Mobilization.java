@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Vigilance;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -17,7 +19,7 @@ public final class Mobilization extends Card
 		{
 			super(state, "Soldier creatures have vigilance.");
 
-			this.addEffectPart(addAbilityToObject(Intersect.instance(CreaturePermanents.instance(), HasSubType.instance(SubType.SOLDIER)), org.rnd.jmagic.abilities.keywords.Vigilance.class));
+			this.addEffectPart(addAbilityToObject(Intersect.instance(CreaturePermanents.instance(), HasSubType.instance(SubType.SOLDIER)), Vigilance.class));
 		}
 	}
 

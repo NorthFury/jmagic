@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 
 @Name("Daring Skyjek")
@@ -17,7 +19,7 @@ public final class DaringSkyjek extends Card
 		{
 			super(state, "Whenever Daring Skyjek and at least two other creatures attack, Daring Skyjek gains flying until end of turn.");
 			this.addPattern(battalion());
-			this.addEffect(addAbilityUntilEndOfTurn(ABILITY_SOURCE_OF_THIS, org.rnd.jmagic.abilities.keywords.Flying.class, "Daring Skyjek gains flying until end of turn."));
+			this.addEffect(addAbilityUntilEndOfTurn(ABILITY_SOURCE_OF_THIS, Flying.class, "Daring Skyjek gains flying until end of turn."));
 		}
 	}
 

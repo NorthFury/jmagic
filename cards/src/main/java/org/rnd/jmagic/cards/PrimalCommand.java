@@ -3,6 +3,7 @@ package org.rnd.jmagic.cards;
 import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+import org.rnd.util.NumberRange;
 
 @Name("Primal Command")
 @Types({Type.SORCERY})
@@ -16,7 +17,7 @@ public final class PrimalCommand extends Card
 		super(state);
 
 		// Choose two \u2014
-		this.setNumModes(new MagicSet(new org.rnd.util.NumberRange(2, 2)));
+		this.setNumModes(new MagicSet(new NumberRange(2, 2)));
 
 		// Target player gains 7 life;
 		SetGenerator target1 = targetedBy(this.addTarget(1, Players.instance(), "target player to gain 7 life"));

@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.Werewolves;
 import org.rnd.jmagic.engine.*;
 
 @Name("Tormented Pariah")
@@ -15,7 +16,7 @@ public final class TormentedPariah extends Card
 	{
 		super(state);
 
-		this.addAbility(new org.rnd.jmagic.abilities.Werewolves.BecomeFuzzy(state, this.getName()));
+		this.addAbility(new Werewolves.BecomeFuzzy(state, this.getName()));
 
 		this.setPower(3);
 		this.setToughness(2);

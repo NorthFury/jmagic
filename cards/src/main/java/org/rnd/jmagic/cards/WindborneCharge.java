@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 
 @Name("Windborne Charge")
@@ -18,6 +20,6 @@ public final class WindborneCharge extends Card
 		target.setNumber(2, 2);
 
 		// each get +2/+2 and gain flying until end of turn.
-		this.addEffect(ptChangeAndAbilityUntilEndOfTurn(targetedBy(target), +2, +2, "Two target creatures you control each get +2/+2 and gain flying until end of turn.", org.rnd.jmagic.abilities.keywords.Flying.class));
+		this.addEffect(ptChangeAndAbilityUntilEndOfTurn(targetedBy(target), +2, +2, "Two target creatures you control each get +2/+2 and gain flying until end of turn.", Flying.class));
 	}
 }

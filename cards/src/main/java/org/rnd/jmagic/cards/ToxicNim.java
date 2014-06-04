@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.Regenerate;
+import org.rnd.jmagic.abilities.keywords.Infect;
 import org.rnd.jmagic.engine.*;
 
 @Name("Toxic Nim")
@@ -19,9 +21,9 @@ public final class ToxicNim extends Card
 
 		// Infect (This creature deals damage to creatures in the form of -1/-1
 		// counters and to players in the form of poison counters.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Infect(state));
+		this.addAbility(new Infect(state));
 
 		// (B): Regenerate Toxic Nim.
-		this.addAbility(new org.rnd.jmagic.abilities.Regenerate.Final(state, "(B)", "Toxic Nim"));
+		this.addAbility(new Regenerate.Final(state, "(B)", "Toxic Nim"));
 	}
 }

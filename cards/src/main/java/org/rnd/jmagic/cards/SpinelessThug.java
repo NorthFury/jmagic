@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.CantBlock;
 import org.rnd.jmagic.engine.*;
 
 @Name("Spineless Thug")
@@ -17,6 +18,6 @@ public final class SpinelessThug extends Card
 		this.setPower(2);
 		this.setToughness(2);
 
-		this.addAbility(new org.rnd.jmagic.abilities.CantBlock(state, this.getName()));
+		this.addAbility(new CantBlock(state, this.getName()));
 	}
 }

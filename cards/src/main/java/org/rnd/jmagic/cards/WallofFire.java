@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.Firebreathing;
+import org.rnd.jmagic.abilities.keywords.Defender;
 import org.rnd.jmagic.engine.*;
 
 @Name("Wall of Fire")
@@ -17,7 +19,7 @@ public final class WallofFire extends Card
 		this.setPower(0);
 		this.setToughness(5);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Defender(state));
-		this.addAbility(new org.rnd.jmagic.abilities.Firebreathing(state, this.getName()));
+		this.addAbility(new Defender(state));
+		this.addAbility(new Firebreathing(state, this.getName()));
 	}
 }

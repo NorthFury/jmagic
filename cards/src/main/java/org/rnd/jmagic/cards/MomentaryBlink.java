@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Flashback;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -24,6 +25,6 @@ public final class MomentaryBlink extends Card
 		blinkParameters.put(EventType.Parameter.PLAYER, OwnerOf.instance(targetedBy(target)));
 		this.addEffect(new EventFactory(BLINK, blinkParameters, "Exile target creature you control, then return it to the battlefield under its owner's control."));
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flashback(state, "(3)(U)"));
+		this.addAbility(new Flashback(state, "(3)(U)"));
 	}
 }

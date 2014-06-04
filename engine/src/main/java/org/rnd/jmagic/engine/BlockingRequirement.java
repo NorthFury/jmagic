@@ -1,10 +1,16 @@
 package org.rnd.jmagic.engine;
 
+import org.rnd.util.NumberRange;
+
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedList;
+
 public class BlockingRequirement
 {
-	private java.util.Collection<Integer> attacking;
-	private org.rnd.util.NumberRange blockingRange;
-	private java.util.Collection<Integer> blocking;
+	private Collection<Integer> attacking;
+	private NumberRange blockingRange;
+	private Collection<Integer> blocking;
 
 	/**
 	 * @param attacking The set of creatures that can be blocked to satisfy this
@@ -15,13 +21,13 @@ public class BlockingRequirement
 	 * @param blocking The set of creatures that can block to satisfy this
 	 * requirement.
 	 */
-	public BlockingRequirement(java.util.Collection<GameObject> attacking, org.rnd.util.NumberRange blockingRange, java.util.Collection<GameObject> blocking)
+	public BlockingRequirement(Collection<GameObject> attacking, NumberRange blockingRange, Collection<GameObject> blocking)
 	{
-		this.attacking = new java.util.LinkedList<Integer>();
+		this.attacking = new LinkedList<Integer>();
 		for(GameObject o: attacking)
 			this.attacking.add(o.ID);
 		this.blockingRange = blockingRange;
-		this.blocking = new java.util.LinkedList<Integer>();
+		this.blocking = new LinkedList<Integer>();
 		for(GameObject o: blocking)
 			this.blocking.add(o.ID);
 	}
@@ -37,7 +43,7 @@ public class BlockingRequirement
 	 */
 	public boolean defendingPlayerIs(Player defender, GameState state)
 	{
-		java.util.Iterator<Integer> i = this.blocking.iterator();
+		Iterator<Integer> i = this.blocking.iterator();
 		while(i.hasNext())
 			if(state.getByIDObject(i.next()).controllerID != defender.ID)
 				i.remove();

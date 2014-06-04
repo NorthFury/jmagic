@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -19,7 +21,7 @@ public final class TajuruArcher extends Card
 			super(state, "Whenever Tajuru Archer or another Ally enters the battlefield under your control, you may have Tajuru Archer deal damage to target creature with flying equal to the number of Allies you control.");
 			this.addPattern(allyTrigger());
 
-			Target target = this.addTarget(Intersect.instance(CreaturePermanents.instance(), HasKeywordAbility.instance(org.rnd.jmagic.abilities.keywords.Flying.class)), "target creature with flying");
+			Target target = this.addTarget(Intersect.instance(CreaturePermanents.instance(), HasKeywordAbility.instance(Flying.class)), "target creature with flying");
 
 			EventFactory damage = permanentDealDamage(Count.instance(ALLIES_YOU_CONTROL), targetedBy(target), "Tajuru Archer deals damage to target creature with flying equal to the number of Allies you control.");
 			this.addEffect(youMay(damage, "You may have Tajuru Archer deal damage to target creature with flying equal to the number of Allies you control."));

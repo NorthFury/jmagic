@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -26,7 +28,7 @@ public final class UtvaraHellkite extends Card
 			CreateTokensFactory tokens = new CreateTokensFactory(1, 6, 6, "Put a 6/6 red Dragon creature token with flying onto the battlefield.");
 			tokens.setColors(Color.RED);
 			tokens.setSubTypes(SubType.DRAGON);
-			tokens.addAbility(org.rnd.jmagic.abilities.keywords.Flying.class);
+			tokens.addAbility(Flying.class);
 			this.addEffect(tokens.getEventFactory());
 		}
 	}
@@ -39,7 +41,7 @@ public final class UtvaraHellkite extends Card
 		this.setToughness(6);
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// Whenever a Dragon you control attacks, put a 6/6 red Dragon creature
 		// token with flying onto the battlefield.

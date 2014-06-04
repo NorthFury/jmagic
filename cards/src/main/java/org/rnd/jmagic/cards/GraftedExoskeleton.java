@@ -2,6 +2,8 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Equip;
+import org.rnd.jmagic.abilities.keywords.Infect;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -24,7 +26,7 @@ public final class GraftedExoskeleton extends Card
 
 			this.addEffectPart(modifyPowerAndToughness(equipped, +2, +2));
 
-			this.addEffectPart(addAbilityToObject(equipped, org.rnd.jmagic.abilities.keywords.Infect.class));
+			this.addEffectPart(addAbilityToObject(equipped, Infect.class));
 		}
 	}
 
@@ -61,6 +63,6 @@ public final class GraftedExoskeleton extends Card
 		this.addAbility(new GraftedExoskeletonAbility1(state));
 
 		// Equip (2)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Equip(state, "(2)"));
+		this.addAbility(new Equip(state, "(2)"));
 	}
 }

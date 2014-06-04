@@ -3,6 +3,12 @@ package org.rnd.jmagic.engine.eventTypes;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+
 public final class ExchangeControl extends EventType
 {	public static final EventType INSTANCE = new ExchangeControl();
 
@@ -18,12 +24,12 @@ public final class ExchangeControl extends EventType
 	}
 
 	@Override
-	public boolean attempt(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean attempt(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		return this.attemptEvents(event, this.getEvents(game, parameters));
 	}
 
-	private boolean attemptEvents(Event parentEvent, java.util.Set<Event> events)
+	private boolean attemptEvents(Event parentEvent, Set<Event> events)
 	{
 		if(events == null)
 			return false;
@@ -33,15 +39,15 @@ public final class ExchangeControl extends EventType
 		return true;
 	}
 
-	private java.util.Set<Event> getEvents(Game game, java.util.Map<Parameter, MagicSet> parameters)
+	private Set<Event> getEvents(Game game, Map<Parameter, MagicSet> parameters)
 	{
-		java.util.Set<GameObject> objects = parameters.get(Parameter.OBJECT).getAll(GameObject.class);
+		Set<GameObject> objects = parameters.get(Parameter.OBJECT).getAll(GameObject.class);
 
 		if(objects.size() != 2)
 			return null;
 
-		java.util.Set<Event> ret = new java.util.HashSet<Event>();
-		java.util.Iterator<GameObject> iter = objects.iterator();
+		Set<Event> ret = new HashSet<Event>();
+		Iterator<GameObject> iter = objects.iterator();
 		GameObject objectOne = iter.next();
 		GameObject objectTwo = iter.next();
 		Player controllerOne = objectOne.getController(game.actualState);
@@ -52,7 +58,7 @@ public final class ExchangeControl extends EventType
 			controlPart.parameters.put(ContinuousEffectType.Parameter.OBJECT, Identity.instance(objectTwo));
 			controlPart.parameters.put(ContinuousEffectType.Parameter.PLAYER, Identity.instance(controllerOne));
 
-			java.util.Map<Parameter, MagicSet> controlParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> controlParameters = new HashMap<Parameter, MagicSet>();
 			controlParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 			controlParameters.put(Parameter.EFFECT, new MagicSet(controlPart));
 			controlParameters.put(Parameter.EXPIRES, new MagicSet(Empty.instance()));
@@ -64,7 +70,7 @@ public final class ExchangeControl extends EventType
 			controlPart.parameters.put(ContinuousEffectType.Parameter.OBJECT, Identity.instance(objectOne));
 			controlPart.parameters.put(ContinuousEffectType.Parameter.PLAYER, Identity.instance(controllerTwo));
 
-			java.util.Map<Parameter, MagicSet> controlParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> controlParameters = new HashMap<Parameter, MagicSet>();
 			controlParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 			controlParameters.put(Parameter.EFFECT, new MagicSet(controlPart));
 			controlParameters.put(Parameter.EXPIRES, new MagicSet(Empty.instance()));
@@ -75,11 +81,11 @@ public final class ExchangeControl extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		event.setResult(Empty.set);
 
-		java.util.Set<Event> events = this.getEvents(game, parameters);
+		Set<Event> events = this.getEvents(game, parameters);
 		if(!this.attemptEvents(event, events))
 			return false;
 

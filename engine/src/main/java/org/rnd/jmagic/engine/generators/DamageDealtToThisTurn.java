@@ -2,6 +2,10 @@ package org.rnd.jmagic.engine.generators;
 
 import org.rnd.jmagic.engine.*;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Evaluates to the total amount of damage taken by all given players and
  * objects this turn. This includes damage that was dealt to an object and then
@@ -10,22 +14,22 @@ import org.rnd.jmagic.engine.*;
 public class DamageDealtToThisTurn extends SetGenerator
 {
 	/** Keys are Player IDs, values are amounts of damage that player has taken. */
-	public static final class Tracker extends org.rnd.jmagic.engine.Tracker<java.util.Map<Integer, Integer>>
+	public static final class Tracker extends org.rnd.jmagic.engine.Tracker<Map<Integer, Integer>>
 	{
-		private java.util.HashMap<Integer, Integer> values = new java.util.HashMap<Integer, Integer>();
-		private java.util.Map<Integer, Integer> unmodifiable = java.util.Collections.unmodifiableMap(this.values);
+		private HashMap<Integer, Integer> values = new HashMap<Integer, Integer>();
+		private Map<Integer, Integer> unmodifiable = Collections.unmodifiableMap(this.values);
 
 		@Override
 		protected Tracker clone()
 		{
 			Tracker ret = (Tracker)super.clone();
-			ret.values = new java.util.HashMap<Integer, Integer>(this.values);
-			ret.unmodifiable = java.util.Collections.unmodifiableMap(ret.values);
+			ret.values = new HashMap<Integer, Integer>(this.values);
+			ret.unmodifiable = Collections.unmodifiableMap(ret.values);
 			return ret;
 		}
 
 		@Override
-		protected java.util.Map<Integer, Integer> getValueInternal()
+		protected Map<Integer, Integer> getValueInternal()
 		{
 			return this.unmodifiable;
 		}
@@ -77,7 +81,7 @@ public class DamageDealtToThisTurn extends SetGenerator
 		int total = 0;
 		MagicSet what = this.what.evaluate(state, thisObject);
 
-		java.util.Map<Integer, Integer> flagValue = state.getTracker(Tracker.class).getValue(state);
+		Map<Integer, Integer> flagValue = state.getTracker(Tracker.class).getValue(state);
 		for(Identified i: what.getAll(Identified.class))
 			if(flagValue.containsKey(i.ID))
 				total += flagValue.get(i.ID);

@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.AllSliverCreaturesHave;
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 
 @Name("Winged Sliver")
@@ -18,6 +20,6 @@ public final class WingedSliver extends Card
 		this.setToughness(1);
 
 		// All Sliver creatures have flying.
-		this.addAbility(new org.rnd.jmagic.abilities.AllSliverCreaturesHave(state, org.rnd.jmagic.abilities.keywords.Flying.class, "All Sliver creatures have flying."));
+		this.addAbility(new AllSliverCreaturesHave(state, Flying.class, "All Sliver creatures have flying."));
 	}
 }

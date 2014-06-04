@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Vigilance;
 import org.rnd.jmagic.engine.*;
 
 @Name("Joraga Bard")
@@ -19,7 +20,7 @@ public final class JoragaBard extends Card
 			super(state, "Whenever Joraga Bard or another Ally enters the battlefield under your control, you may have Ally creatures you control gain vigilance until end of turn.");
 
 			this.addPattern(allyTrigger());
-			EventFactory abilityFactory = addAbilityUntilEndOfTurn(ALLY_CREATURES_YOU_CONTROL, org.rnd.jmagic.abilities.keywords.Vigilance.class, "Ally creatures you control gain vigilance until end of turn");
+			EventFactory abilityFactory = addAbilityUntilEndOfTurn(ALLY_CREATURES_YOU_CONTROL, Vigilance.class, "Ally creatures you control gain vigilance until end of turn");
 			this.addEffect(youMay(abilityFactory, "You may have Ally creatures you control gain vigilance until end of turn."));
 		}
 	}

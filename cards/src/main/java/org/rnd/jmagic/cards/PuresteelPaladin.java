@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Equip;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 import org.rnd.jmagic.engine.patterns.*;
@@ -32,7 +34,7 @@ public final class PuresteelPaladin extends Card
 
 			SetGenerator equipment = HasSubType.instance(SubType.EQUIPMENT);
 			SetGenerator youControl = ControlledBy.instance(You.instance());
-			this.addEffectPart(addAbilityToObject(Intersect.instance(equipment, youControl), org.rnd.jmagic.abilities.keywords.Equip.class));
+			this.addEffectPart(addAbilityToObject(Intersect.instance(equipment, youControl), Equip.class));
 
 			this.canApply = Both.instance(this.canApply, Metalcraft.instance());
 		}

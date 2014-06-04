@@ -1,8 +1,17 @@
 package org.rnd.jmagic.abilities.keywords;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.EntersTheBattlefieldTapped;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * 702.72. Hideaway
@@ -19,9 +28,9 @@ public abstract class Hideaway extends Keyword
 	}
 
 	@Override
-	protected java.util.List<StaticAbility> createStaticAbilities()
+	protected List<StaticAbility> createStaticAbilities()
 	{
-		return java.util.Collections.<StaticAbility>singletonList(new org.rnd.jmagic.abilities.EntersTheBattlefieldTapped(this.state, "This permanent"));
+		return Collections.<StaticAbility>singletonList(new EntersTheBattlefieldTapped(this.state, "This permanent"));
 	}
 
 	public static abstract class Exile extends EventTriggeredAbility
@@ -45,7 +54,7 @@ public abstract class Hideaway extends Keyword
 			{
 				MagicSet ret = new MagicSet();
 
-				java.util.Map<Integer, Integer> exiledBy = state.getTracker(ExiledBy.class).getValue(state);
+				Map<Integer, Integer> exiledBy = state.getTracker(ExiledBy.class).getValue(state);
 				if(exiledBy.containsKey(thisObject.ID))
 				{
 					int exilerID = exiledBy.get(thisObject.ID);
@@ -54,7 +63,7 @@ public abstract class Hideaway extends Keyword
 						Identified exiler = state.get(exilerID);
 						if(exiler.isPermanent())
 						{
-							java.util.Map<Integer, java.util.Set<Integer>> controlledBy = state.getTracker(ControlledBy.class).getValue(state);
+							Map<Integer, Set<Integer>> controlledBy = state.getTracker(ControlledBy.class).getValue(state);
 							if(controlledBy.containsKey(exilerID))
 								for(Integer ID: controlledBy.get(exilerID))
 									ret.add(state.get(ID));
@@ -71,24 +80,24 @@ public abstract class Hideaway extends Keyword
 		 * the {@link GameObject} being controlled to a {@link java.util.Set} of
 		 * IDs of {@link Player} who controlled it.
 		 */
-		public static final class ControlledBy extends Tracker<java.util.Map<Integer, java.util.Set<Integer>>>
+		public static final class ControlledBy extends Tracker<Map<Integer, Set<Integer>>>
 		{
-			private java.util.Map<Integer, java.util.Set<Integer>> controlledBy = new java.util.HashMap<Integer, java.util.Set<Integer>>();
-			private java.util.Map<Integer, java.util.Set<Integer>> unmodifiable = java.util.Collections.unmodifiableMap(this.controlledBy);
+			private Map<Integer, Set<Integer>> controlledBy = new HashMap<Integer, Set<Integer>>();
+			private Map<Integer, Set<Integer>> unmodifiable = Collections.unmodifiableMap(this.controlledBy);
 
 			@Override
-			protected Tracker<java.util.Map<Integer, java.util.Set<Integer>>> clone()
+			protected Tracker<Map<Integer, Set<Integer>>> clone()
 			{
 				ControlledBy ret = (ControlledBy)(super.clone());
-				ret.controlledBy = new java.util.HashMap<Integer, java.util.Set<Integer>>();
-				for(java.util.Map.Entry<Integer, java.util.Set<Integer>> e: this.controlledBy.entrySet())
-					ret.controlledBy.put(e.getKey(), new java.util.HashSet<Integer>(e.getValue()));
-				ret.unmodifiable = java.util.Collections.unmodifiableMap(this.controlledBy);
+				ret.controlledBy = new HashMap<Integer, Set<Integer>>();
+				for(Map.Entry<Integer, Set<Integer>> e: this.controlledBy.entrySet())
+					ret.controlledBy.put(e.getKey(), new HashSet<Integer>(e.getValue()));
+				ret.unmodifiable = Collections.unmodifiableMap(this.controlledBy);
 				return ret;
 			}
 
 			@Override
-			protected java.util.Map<Integer, java.util.Set<Integer>> getValueInternal()
+			protected Map<Integer, Set<Integer>> getValueInternal()
 			{
 				return this.unmodifiable;
 			}
@@ -119,12 +128,12 @@ public abstract class Hideaway extends Keyword
 
 				int objectID = objects.getOne(GameObject.class).ID;
 
-				java.util.Set<Integer> controlledBy;
+				Set<Integer> controlledBy;
 				if(this.controlledBy.containsKey(objectID))
 					controlledBy = this.controlledBy.get(objectID);
 				else
 				{
-					controlledBy = new java.util.HashSet<Integer>();
+					controlledBy = new HashSet<Integer>();
 					this.controlledBy.put(objectID, controlledBy);
 				}
 
@@ -152,22 +161,22 @@ public abstract class Hideaway extends Keyword
 		 * {@link GameObject} to the ID of the {@link GameObject} (or 0 for the
 		 * {@link Game}) that exiled it.
 		 */
-		public static final class ExiledBy extends Tracker<java.util.Map<Integer, Integer>>
+		public static final class ExiledBy extends Tracker<Map<Integer, Integer>>
 		{
-			private java.util.Map<Integer, Integer> exiled = new java.util.HashMap<Integer, Integer>();
-			private java.util.Map<Integer, Integer> unmodifiable = java.util.Collections.unmodifiableMap(this.exiled);
+			private Map<Integer, Integer> exiled = new HashMap<Integer, Integer>();
+			private Map<Integer, Integer> unmodifiable = Collections.unmodifiableMap(this.exiled);
 
 			@Override
-			protected Tracker<java.util.Map<Integer, Integer>> clone()
+			protected Tracker<Map<Integer, Integer>> clone()
 			{
 				ExiledBy ret = (ExiledBy)(super.clone());
-				ret.exiled = new java.util.HashMap<Integer, Integer>(this.exiled);
-				ret.unmodifiable = java.util.Collections.unmodifiableMap(this.exiled);
+				ret.exiled = new HashMap<Integer, Integer>(this.exiled);
+				ret.unmodifiable = Collections.unmodifiableMap(this.exiled);
 				return ret;
 			}
 
 			@Override
-			protected java.util.Map<Integer, Integer> getValueInternal()
+			protected Map<Integer, Integer> getValueInternal()
 			{
 				return this.unmodifiable;
 			}

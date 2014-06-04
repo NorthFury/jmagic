@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Kicker;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.patterns.*;
 import org.rnd.jmagic.engine.generators.*;
@@ -17,7 +19,7 @@ public final class OrimsChant extends Card
 		super(state);
 
 		// Kicker (W) (You may pay an additional (W) as you cast this spell.)
-		org.rnd.jmagic.abilities.keywords.Kicker ability = new org.rnd.jmagic.abilities.keywords.Kicker(state, "(W)");
+		Kicker ability = new Kicker(state, "(W)");
 		this.addAbility(ability);
 
 		// Target player can't cast spells this turn.

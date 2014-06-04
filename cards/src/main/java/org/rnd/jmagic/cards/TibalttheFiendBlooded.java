@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Haste;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -53,7 +54,7 @@ public final class TibalttheFiendBlooded extends Card
 			this.addEffect(createFloatingEffect("Gain control of all creatures until end of turn.", controlPart));
 
 			this.addEffect(untap(CreaturePermanents.instance(), "Untap them."));
-			this.addEffect(createFloatingEffect("They gain haste until end of turn.", addAbilityToObject(CreaturePermanents.instance(), org.rnd.jmagic.abilities.keywords.Haste.class)));
+			this.addEffect(createFloatingEffect("They gain haste until end of turn.", addAbilityToObject(CreaturePermanents.instance(), Haste.class)));
 		}
 	}
 

@@ -5,6 +5,10 @@ import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.patterns.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @Name("Mossbridge Troll")
 @Types({Type.CREATURE})
 @SubTypes({SubType.TROLL})
@@ -51,7 +55,7 @@ public final class MossbridgeTroll extends Card
 		}
 
 		@Override
-		public void makeChoices(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public void makeChoices(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			MagicSet cause = parameters.get(Parameter.CAUSE);
 			MagicSet creatures = parameters.get(Parameter.OBJECT);
@@ -60,7 +64,7 @@ public final class MossbridgeTroll extends Card
 			int totalPowerAvailable = 0;
 			for(GameObject creature: creatures.getAll(GameObject.class))
 			{
-				java.util.Map<Parameter, MagicSet> tapParameters = new java.util.HashMap<Parameter, MagicSet>();
+				Map<Parameter, MagicSet> tapParameters = new HashMap<Parameter, MagicSet>();
 				tapParameters.put(Parameter.CAUSE, cause);
 				tapParameters.put(Parameter.OBJECT, new MagicSet(creature));
 				Event tap = createEvent(game, "Tap " + creature, TAP_PERMANENTS, tapParameters);
@@ -85,7 +89,7 @@ public final class MossbridgeTroll extends Card
 			creatures.removeAll(cantBeTapped);
 			while(true)
 			{
-				java.util.List<GameObject> choices = you.sanitizeAndChoose(game.actualState, 0, null, creatures.getAll(GameObject.class), PlayerInterface.ChoiceType.OBJECTS, PlayerInterface.ChooseReason.TAP);
+				List<GameObject> choices = you.sanitizeAndChoose(game.actualState, 0, null, creatures.getAll(GameObject.class), PlayerInterface.ChoiceType.OBJECTS, PlayerInterface.ChooseReason.TAP);
 				int totalPower = 0;
 				for(GameObject chosen: choices)
 				{
@@ -101,13 +105,13 @@ public final class MossbridgeTroll extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			event.setResult(Empty.set);
 			if(!event.allChoicesMade)
 				return false;
 
-			java.util.Map<Parameter, MagicSet> tapParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> tapParameters = new HashMap<Parameter, MagicSet>();
 			tapParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 			tapParameters.put(Parameter.OBJECT, event.getChoices(parameters.get(Parameter.PLAYER).getOne(Player.class)));
 			Event tap = createEvent(game, "Tap stuff", TAP_PERMANENTS, tapParameters);

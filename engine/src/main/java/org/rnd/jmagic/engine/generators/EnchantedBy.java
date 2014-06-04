@@ -2,6 +2,9 @@ package org.rnd.jmagic.engine.generators;
 
 import org.rnd.jmagic.engine.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Evaluates to everything any of the specified objects, if they're auras, are
  * enchanted by.
@@ -23,7 +26,7 @@ public class EnchantedBy extends SetGenerator
 	@Override
 	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
-		java.util.Set<Integer> attachments = new java.util.HashSet<Integer>();
+		Set<Integer> attachments = new HashSet<Integer>();
 		for(GameObject o: this.what.evaluate(state, thisObject).getAll(GameObject.class))
 			if(o.getSubTypes().contains(SubType.AURA) && (-1 != o.getAttachedTo()))
 				attachments.add(o.getAttachedTo());

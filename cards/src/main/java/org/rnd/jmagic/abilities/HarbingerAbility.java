@@ -4,6 +4,7 @@ import static org.rnd.jmagic.Convenience.*;
 
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+import org.rnd.util.SeparatedList;
 
 public final class HarbingerAbility extends EventTriggeredAbility
 {
@@ -26,7 +27,7 @@ public final class HarbingerAbility extends EventTriggeredAbility
 
 	public HarbingerAbility(GameState state, String cardName, SubType... whichType)
 	{
-		this(state, cardName, org.rnd.util.SeparatedList.get(" ", "or", (Object[])whichType).toString(), whichType);
+		this(state, cardName, SeparatedList.get(" ", "or", (Object[])whichType).toString(), whichType);
 	}
 
 	@Override

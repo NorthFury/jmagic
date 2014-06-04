@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.TapFor1;
+import org.rnd.jmagic.abilities.keywords.Vigilance;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -31,7 +34,7 @@ public final class GroveoftheGuardian extends Card
 			CreateTokensFactory factory = new CreateTokensFactory(1, 8, 8, "Put an 8/8 green and white Elemental creature token with vigilance onto the battlefield.");
 			factory.setColors(Color.GREEN, Color.WHITE);
 			factory.setSubTypes(SubType.ELEMENTAL);
-			factory.addAbility(org.rnd.jmagic.abilities.keywords.Vigilance.class);
+			factory.addAbility(Vigilance.class);
 			this.addEffect(factory.getEventFactory());
 		}
 	}
@@ -41,7 +44,7 @@ public final class GroveoftheGuardian extends Card
 		super(state);
 
 		// (T): Add (1) to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapFor1(state));
+		this.addAbility(new TapFor1(state));
 
 		// (3)(G)(W), (T), Tap two untapped creatures you control, Sacrifice
 		// Grove of the Guardian: Put an 8/8 green and white Elemental creature

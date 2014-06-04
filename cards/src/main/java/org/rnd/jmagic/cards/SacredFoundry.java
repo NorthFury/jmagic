@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.RavnicaShockLandAbility;
 import org.rnd.jmagic.engine.*;
 
 @Name("Sacred Foundry")
@@ -13,6 +14,6 @@ public final class SacredFoundry extends Card
 	{
 		super(state);
 
-		this.addAbility(new org.rnd.jmagic.abilities.RavnicaShockLandAbility(state, this.getName()));
+		this.addAbility(new RavnicaShockLandAbility(state, this.getName()));
 	}
 }

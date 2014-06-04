@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.CostsYouLessToCast;
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -19,8 +21,8 @@ public final class StormscapeFamiliar extends Card
 		this.setToughness(1);
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
-		this.addAbility(new org.rnd.jmagic.abilities.CostsYouLessToCast(state, HasColor.instance(Color.WHITE, Color.BLACK), "(1)", "White spells and black spells you cast cost (1) less to cast."));
+		this.addAbility(new CostsYouLessToCast(state, HasColor.instance(Color.WHITE, Color.BLACK), "(1)", "White spells and black spells you cast cost (1) less to cast."));
 	}
 }

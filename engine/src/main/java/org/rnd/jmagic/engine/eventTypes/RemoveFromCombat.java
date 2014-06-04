@@ -3,6 +3,10 @@ package org.rnd.jmagic.engine.eventTypes;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Map;
+
 public final class RemoveFromCombat extends EventType
 {	public static final EventType INSTANCE = new RemoveFromCombat();
 
@@ -18,7 +22,7 @@ public final class RemoveFromCombat extends EventType
 	}
 
 	@Override
-	public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+	public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 	{
 		MagicSet results = new MagicSet();
 
@@ -31,8 +35,8 @@ public final class RemoveFromCombat extends EventType
 			GameObject physical = o.getPhysical();
 			physical.setAttackingID(-1);
 			physical.setBlockedByIDs(null);
-			physical.setBlockingIDs(new java.util.LinkedList<Integer>());
-			physical.setDefendingIDs(new java.util.HashSet<Integer>());
+			physical.setBlockingIDs(new LinkedList<Integer>());
+			physical.setDefendingIDs(new HashSet<Integer>());
 			results.add(physical);
 		}
 

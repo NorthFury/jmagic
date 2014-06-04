@@ -1,6 +1,8 @@
 package org.rnd.jmagic;
 
-public class Version implements java.io.Serializable
+import java.io.Serializable;
+
+public class Version implements Serializable
 {
 	private static final long serialVersionUID = 1L;
 

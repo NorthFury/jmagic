@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.VampireKill;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -36,6 +37,6 @@ public final class BloodCultist extends Card
 
 		this.addAbility(new CreaturePing(state));
 
-		this.addAbility(new org.rnd.jmagic.abilities.VampireKill(state, "Blood Cultist"));
+		this.addAbility(new VampireKill(state, "Blood Cultist"));
 	}
 }

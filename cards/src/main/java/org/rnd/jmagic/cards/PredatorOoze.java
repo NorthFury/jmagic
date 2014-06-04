@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Indestructible;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -47,7 +49,7 @@ public final class PredatorOoze extends Card
 		this.setToughness(1);
 
 		// Predator Ooze is indestructible.
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Indestructible(state));
+		this.addAbility(new Indestructible(state));
 
 		// Whenever Predator Ooze attacks, put a +1/+1 counter on it.
 		this.addAbility(new PredatorOozeAbility1(state));

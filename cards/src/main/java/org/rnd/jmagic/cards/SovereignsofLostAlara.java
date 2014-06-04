@@ -1,8 +1,14 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Exalted;
+import org.rnd.jmagic.abilityTemplates.ExaltedBase;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Name("Sovereigns of Lost Alara")
 @Types({Type.CREATURE})
@@ -27,7 +33,7 @@ public final class SovereignsofLostAlara extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			event.setResult(Empty.set);
 
@@ -39,7 +45,7 @@ public final class SovereignsofLostAlara extends Card
 			for(GameObject o: cardsInLibrary.getAll(GameObject.class))
 				if(o.getSubTypes().contains(SubType.AURA))
 				{
-					java.util.Map<Parameter, MagicSet> attachParameters = new java.util.HashMap<Parameter, MagicSet>();
+					Map<Parameter, MagicSet> attachParameters = new HashMap<Parameter, MagicSet>();
 					attachParameters.put(EventType.Parameter.OBJECT, new MagicSet(o));
 					attachParameters.put(EventType.Parameter.TARGET, new MagicSet(thatCreature));
 					if(ATTACH.attempt(game, event, attachParameters))
@@ -49,7 +55,7 @@ public final class SovereignsofLostAlara extends Card
 			MagicSet cause = parameters.get(Parameter.CAUSE);
 			MagicSet you = parameters.get(Parameter.PLAYER);
 
-			java.util.Map<Parameter, MagicSet> searchParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> searchParameters = new HashMap<Parameter, MagicSet>();
 			searchParameters.put(EventType.Parameter.CAUSE, cause);
 			searchParameters.put(EventType.Parameter.PLAYER, you);
 			searchParameters.put(EventType.Parameter.NUMBER, ONE);
@@ -59,7 +65,7 @@ public final class SovereignsofLostAlara extends Card
 			search.perform(event, true);
 
 			// put it onto the battlefield attached to that creature,
-			java.util.Map<Parameter, MagicSet> moveParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> moveParameters = new HashMap<Parameter, MagicSet>();
 			moveParameters.put(EventType.Parameter.CAUSE, cause);
 			moveParameters.put(EventType.Parameter.CONTROLLER, you);
 			moveParameters.put(EventType.Parameter.OBJECT, search.getResult());
@@ -68,7 +74,7 @@ public final class SovereignsofLostAlara extends Card
 			move.perform(event, true);
 
 			// then shuffle your library.
-			java.util.Map<Parameter, MagicSet> shuffleParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> shuffleParameters = new HashMap<Parameter, MagicSet>();
 			shuffleParameters.put(EventType.Parameter.CAUSE, cause);
 			shuffleParameters.put(EventType.Parameter.PLAYER, you);
 			Event shuffle = createEvent(game, "Shuffle your library", SHUFFLE_LIBRARY, shuffleParameters);
@@ -78,7 +84,7 @@ public final class SovereignsofLostAlara extends Card
 		}
 	};
 
-	public static final class GetEldraziConscription extends org.rnd.jmagic.abilityTemplates.ExaltedBase
+	public static final class GetEldraziConscription extends ExaltedBase
 	{
 		public GetEldraziConscription(GameState state)
 		{
@@ -101,7 +107,7 @@ public final class SovereignsofLostAlara extends Card
 		this.setToughness(5);
 
 		// Exalted
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Exalted(state));
+		this.addAbility(new Exalted(state));
 
 		// Whenever a creature you control attacks alone, you may search your
 		// library for an Aura card that could enchant that creature, put it

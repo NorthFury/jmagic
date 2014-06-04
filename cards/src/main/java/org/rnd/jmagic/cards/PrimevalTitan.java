@@ -1,8 +1,11 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
+import org.rnd.util.NumberRange;
 
 @Name("Primeval Titan")
 @Types({Type.CREATURE})
@@ -24,7 +27,7 @@ public final class PrimevalTitan extends Card
 			search.parameters.put(EventType.Parameter.CAUSE, This.instance());
 			search.parameters.put(EventType.Parameter.CONTROLLER, You.instance());
 			search.parameters.put(EventType.Parameter.PLAYER, You.instance());
-			search.parameters.put(EventType.Parameter.NUMBER, Identity.instance(new org.rnd.util.NumberRange(1, 2)));
+			search.parameters.put(EventType.Parameter.NUMBER, Identity.instance(new NumberRange(1, 2)));
 			search.parameters.put(EventType.Parameter.TO, Battlefield.instance());
 			search.parameters.put(EventType.Parameter.TAPPED, NonEmpty.instance());
 			search.parameters.put(EventType.Parameter.TYPE, Identity.instance(HasType.instance(Type.LAND)));
@@ -40,7 +43,7 @@ public final class PrimevalTitan extends Card
 		this.setToughness(6);
 
 		// Trample
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Trample(state));
+		this.addAbility(new Trample(state));
 
 		// Whenever Primeval Titan enters the battlefield or attacks, you may
 		// search your library for up to two land cards, put them onto the

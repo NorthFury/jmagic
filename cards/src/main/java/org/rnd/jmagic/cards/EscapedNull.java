@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Lifelink;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.patterns.*;
 
@@ -37,7 +38,7 @@ public final class EscapedNull extends Card
 		this.setToughness(2);
 
 		// Lifelink
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Lifelink(state));
+		this.addAbility(new Lifelink(state));
 
 		// Whenever Escaped Null blocks or becomes blocked, it gets +5/+0 until
 		// end of turn.

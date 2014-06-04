@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.YouMayHaveThisEnterTheBattlefieldAsACopy;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -22,7 +23,7 @@ public final class BodyDouble extends Card
 		// creature card in a graveyard.
 		SetGenerator deadGuys = Intersect.instance(HasType.instance(Type.CREATURE), InZone.instance(GraveyardOf.instance(Players.instance())));
 
-		org.rnd.jmagic.abilities.YouMayHaveThisEnterTheBattlefieldAsACopy etb = new org.rnd.jmagic.abilities.YouMayHaveThisEnterTheBattlefieldAsACopy(deadGuys);
+		YouMayHaveThisEnterTheBattlefieldAsACopy etb = new YouMayHaveThisEnterTheBattlefieldAsACopy(deadGuys);
 		etb.generateName(this.getName(), "any creature card in a graveyard");
 		this.addAbility(etb.getStaticAbility(state));
 	}

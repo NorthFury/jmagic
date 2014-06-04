@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -24,7 +26,7 @@ public final class ThopterAssembly extends Card
 			CreateTokensFactory factory = new CreateTokensFactory(5, 1, 1, "Put five 1/1 colorless Thopter artifact creature tokens with flying onto the battlefield.");
 			factory.setSubTypes(SubType.THOPTER);
 			factory.setArtifact();
-			factory.addAbility(org.rnd.jmagic.abilities.keywords.Flying.class);
+			factory.addAbility(Flying.class);
 			this.addEffect(factory.getEventFactory());
 		}
 	}
@@ -37,7 +39,7 @@ public final class ThopterAssembly extends Card
 		this.setToughness(5);
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// At the beginning of your upkeep, if you control no Thopters other
 		// than Thopter Assembly, return Thopter Assembly to its owner's hand

@@ -1,6 +1,18 @@
 package org.rnd.jmagic.engine;
 
 import org.rnd.jmagic.engine.generators.*;
+import org.rnd.jmagic.sanitized.SanitizedEvent;
+
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * "Anything that happens in a game is an event." (Glossary entry for Event.)
@@ -63,13 +75,13 @@ public class Event extends Identified implements Sanitizable
 	 * Tells this Event that it can't move the specified objects in accordance
 	 * with this rule.
 	 */
-	public java.util.Collection<Integer> cantMoveIDs;
+	public Collection<Integer> cantMoveIDs;
 
 	/**
 	 * Keys are events this event has performed, values are return values from
 	 * {@link Event#perform()}
 	 */
-	public java.util.Map<Event, Boolean> children;
+	public Map<Event, Boolean> children;
 	/**
 	 * Choices made for this event; for example, what to sacrifice for Innocent
 	 * Blood, or what to put onto the battlefield from Hunted Wumpus. Null when
@@ -77,7 +89,7 @@ public class Event extends Identified implements Sanitizable
 	 * 
 	 * Keys are player IDs, values are the choices those players made.
 	 */
-	private java.util.Map<Integer, Identity> choices;
+	private Map<Integer, Identity> choices;
 
 	/**
 	 * Damage to be dealt during this event.
@@ -101,27 +113,27 @@ public class Event extends Identified implements Sanitizable
 	 * Objects needing new timestamps as a result of this event (only applies to
 	 * top-level events)
 	 */
-	private java.util.Set<GameObject> needNewTimestamps;
+	private Set<GameObject> needNewTimestamps;
 
 	/**
 	 * Cards which were moved by this event or its children (only applies to
 	 * top-level events) and that should be ordered by their owners
 	 */
-	private java.util.Map<IndexedZone, java.util.Set<Integer>> objectsToOrderByChoice;
+	private Map<IndexedZone, Set<Integer>> objectsToOrderByChoice;
 
 	/**
 	 * Cards which were moved by this event or its children (only applies to
 	 * top-level events) and that should be ordered randomly
 	 */
-	private java.util.Map<IndexedZone, java.util.Set<Integer>> objectsToOrderRandomly;
+	private Map<IndexedZone, Set<Integer>> objectsToOrderRandomly;
 
 	/**
 	 * The parameters of this event.
 	 */
-	public java.util.Map<EventType.Parameter, SetGenerator> parameters;
+	public Map<EventType.Parameter, SetGenerator> parameters;
 
 	/** The parameters of this event as they were most recently evaluated. */
-	public java.util.Map<EventType.Parameter, Identity> parametersNow;
+	public Map<EventType.Parameter, Identity> parametersNow;
 
 	/** The event that performed this event. */
 	public Event parent;
@@ -140,7 +152,7 @@ public class Event extends Identified implements Sanitizable
 	public boolean preserve;
 
 	/** IDs of replacement effects that have replaced this event */
-	public final java.util.Collection<ReplacementEffect> replacedBy;
+	public final Collection<ReplacementEffect> replacedBy;
 
 	private Identity result;
 
@@ -148,7 +160,7 @@ public class Event extends Identified implements Sanitizable
 	 * IDs of libraries to shuffle after performing zone changes from this
 	 * event.
 	 */
-	private java.util.Set<Integer> shuffles;
+	private Set<Integer> shuffles;
 
 	private int sourceID;
 
@@ -173,7 +185,7 @@ public class Event extends Identified implements Sanitizable
 	/**
 	 * Zone changes to perform during this event.
 	 */
-	private java.util.List<ZoneChange> zoneChanges;
+	private List<ZoneChange> zoneChanges;
 
 	/**
 	 * @param state The game state in which this event is to be performed.
@@ -189,29 +201,29 @@ public class Event extends Identified implements Sanitizable
 		this.setName(name);
 
 		this.allChoicesMade = true;
-		this.cantMoveIDs = java.util.Collections.emptyList();
-		this.children = new java.util.HashMap<Event, Boolean>();
+		this.cantMoveIDs = Collections.emptyList();
+		this.children = new HashMap<Event, Boolean>();
 		this.choices = null;
 		this.damage = new DamageAssignment.Batch();
 		this.forceZoneChanges = false;
 		this.isCost = false;
 		this.isEffect = true;
-		this.needNewTimestamps = new java.util.HashSet<GameObject>();
-		this.objectsToOrderByChoice = new java.util.HashMap<IndexedZone, java.util.Set<Integer>>();
-		this.objectsToOrderRandomly = new java.util.HashMap<IndexedZone, java.util.Set<Integer>>();
+		this.needNewTimestamps = new HashSet<GameObject>();
+		this.objectsToOrderByChoice = new HashMap<IndexedZone, Set<Integer>>();
+		this.objectsToOrderRandomly = new HashMap<IndexedZone, Set<Integer>>();
 		this.passResultID = -1;
-		this.parameters = new java.util.HashMap<EventType.Parameter, SetGenerator>();
-		this.parametersNow = new java.util.HashMap<EventType.Parameter, Identity>();
+		this.parameters = new HashMap<EventType.Parameter, SetGenerator>();
+		this.parametersNow = new HashMap<EventType.Parameter, Identity>();
 		this.parent = null;
 		this.preserve = false;
-		this.replacedBy = new java.util.LinkedList<ReplacementEffect>();
+		this.replacedBy = new LinkedList<ReplacementEffect>();
 		this.result = null;
-		this.shuffles = new java.util.HashSet<Integer>();
+		this.shuffles = new HashSet<Integer>();
 		this.sourceID = -1;
 		this.storeIn = -1;
 		this.topLevel = false;
 		this.type = type;
-		this.zoneChanges = new java.util.LinkedList<ZoneChange>();
+		this.zoneChanges = new LinkedList<ZoneChange>();
 	}
 
 	/**
@@ -234,7 +246,7 @@ public class Event extends Identified implements Sanitizable
 	 * 
 	 * @param assignments The damage to deal.
 	 */
-	public final void addDamage(java.util.Collection<DamageAssignment> assignments)
+	public final void addDamage(Collection<DamageAssignment> assignments)
 	{
 		this.damage.addAll(assignments);
 	}
@@ -277,7 +289,7 @@ public class Event extends Identified implements Sanitizable
 
 		IndexedZone indexedZone = new IndexedZone(index, zone);
 		if(!this.objectsToOrderByChoice.containsKey(indexedZone))
-			this.objectsToOrderByChoice.put(indexedZone, new java.util.HashSet<Integer>());
+			this.objectsToOrderByChoice.put(indexedZone, new HashSet<Integer>());
 
 		// add the object to the zone
 		this.objectsToOrderByChoice.get(indexedZone).add(object.ID);
@@ -301,7 +313,7 @@ public class Event extends Identified implements Sanitizable
 
 		IndexedZone indexedZone = new IndexedZone(index, zone);
 		if(!this.objectsToOrderRandomly.containsKey(indexedZone))
-			this.objectsToOrderRandomly.put(indexedZone, new java.util.HashSet<Integer>());
+			this.objectsToOrderRandomly.put(indexedZone, new HashSet<Integer>());
 
 		// add the object to the zone
 		this.objectsToOrderRandomly.get(indexedZone).add(object.ID);
@@ -343,7 +355,7 @@ public class Event extends Identified implements Sanitizable
 
 			this.ensureValidZoneChanges();
 
-			java.util.Collection<ZoneChangeReplacementEffect> zcrEffectsUsed = new java.util.LinkedList<ZoneChangeReplacementEffect>();
+			Collection<ZoneChangeReplacementEffect> zcrEffectsUsed = new LinkedList<ZoneChangeReplacementEffect>();
 			// This loops until there are no more zone-change replacements to
 			// apply
 			while(true)
@@ -371,7 +383,7 @@ public class Event extends Identified implements Sanitizable
 			if(!this.zoneChanges.isEmpty())
 			{
 				{
-					java.util.Iterator<ZoneChange> z = this.zoneChanges.iterator();
+					Iterator<ZoneChange> z = this.zoneChanges.iterator();
 					while(z.hasNext())
 						if(this.cantMoveIDs.contains(z.next().oldObjectID))
 							z.remove();
@@ -382,7 +394,7 @@ public class Event extends Identified implements Sanitizable
 				{
 					this.ensureValidZoneChanges();
 
-					java.util.Map<EventType.Parameter, MagicSet> zoneChangeParameters = new java.util.HashMap<EventType.Parameter, MagicSet>();
+					Map<EventType.Parameter, MagicSet> zoneChangeParameters = new HashMap<EventType.Parameter, MagicSet>();
 					zoneChangeParameters.put(EventType.Parameter.TARGET, new MagicSet(this.zoneChanges));
 					EventType.createEvent(this.game, "Movements", EventType.MOVE_BATCH, zoneChangeParameters).perform(this, false);
 
@@ -432,9 +444,9 @@ public class Event extends Identified implements Sanitizable
 		}
 	}
 
-	private final void allSuccessfulDescendants(java.util.Collection<Event> descendants)
+	private final void allSuccessfulDescendants(Collection<Event> descendants)
 	{
-		for(java.util.Map.Entry<Event, Boolean> child: this.children.entrySet())
+		for(Map.Entry<Event, Boolean> child: this.children.entrySet())
 		{
 			Event childEvent = child.getKey();
 			if(child.getValue())
@@ -467,13 +479,13 @@ public class Event extends Identified implements Sanitizable
 
 	private void checkForTriggeredAbilities(GameState previousGameState)
 	{
-		java.util.Collection<Event> eventsRecentlyPerformed = new java.util.LinkedList<Event>();
+		Collection<Event> eventsRecentlyPerformed = new LinkedList<Event>();
 		this.allSuccessfulDescendants(eventsRecentlyPerformed);
 		eventsRecentlyPerformed.add(this);
 
 		// collect all state- and event-triggered abilities in this game state
-		java.util.List<StateTriggeredAbility> stateTriggers = new java.util.LinkedList<StateTriggeredAbility>();
-		java.util.List<EventTriggeredAbility> eventTriggers = new java.util.LinkedList<EventTriggeredAbility>();
+		List<StateTriggeredAbility> stateTriggers = new LinkedList<StateTriggeredAbility>();
+		List<EventTriggeredAbility> eventTriggers = new LinkedList<EventTriggeredAbility>();
 		for(GameObject o: this.game.actualState.getAllObjects())
 			if(o.zoneID != -1)
 				for(NonStaticAbility a: o.getNonStaticAbilities())
@@ -490,7 +502,7 @@ public class Event extends Identified implements Sanitizable
 			eventTriggers.add(a);
 
 		// collect lookback triggers
-		java.util.List<EventTriggeredAbility> lookbackTriggers = new java.util.LinkedList<EventTriggeredAbility>();
+		List<EventTriggeredAbility> lookbackTriggers = new LinkedList<EventTriggeredAbility>();
 		for(GameObject o: previousGameState.getAllObjects())
 			if(o.zoneID != -1)
 				for(NonStaticAbility a: o.getNonStaticAbilities())
@@ -520,7 +532,7 @@ public class Event extends Identified implements Sanitizable
 		do
 		{
 			trigger = null;
-			outerFor: for(java.util.Collection<TriggeredAbility> collection: this.game.physicalState.waitingTriggers.values())
+			outerFor: for(Collection<TriggeredAbility> collection: this.game.physicalState.waitingTriggers.values())
 				for(TriggeredAbility ability: collection)
 					if(ability.isManaAbility())
 					{
@@ -545,9 +557,9 @@ public class Event extends Identified implements Sanitizable
 		while(true);
 	}
 
-	private java.util.List<Event> checkReplacements()
+	private List<Event> checkReplacements()
 	{
-		java.util.List<EventReplacementEffect> effects = new java.util.LinkedList<EventReplacementEffect>();
+		List<EventReplacementEffect> effects = new LinkedList<EventReplacementEffect>();
 		for(EventReplacementEffect effect: this.game.actualState.eventReplacementEffects)
 			if(effect.appliesTo(this))
 				effects.add(effect);
@@ -560,9 +572,9 @@ public class Event extends Identified implements Sanitizable
 
 		// competing replacement effects:
 		if(null == this.type.affects())
-			return new java.util.LinkedList<Event>();
+			return new LinkedList<Event>();
 		MagicSet affected = this.parametersNow.get(this.type.affects()).evaluate(this.game, null);
-		java.util.Set<Player> affectedPlayers = affected.getAll(Player.class);
+		Set<Player> affectedPlayers = affected.getAll(Player.class);
 		for(Controllable c: affected.getAll(Controllable.class))
 			affectedPlayers.add(c.getController(this.game.actualState));
 		// TODO : solve picking order issue -- it's APNAP
@@ -573,9 +585,9 @@ public class Event extends Identified implements Sanitizable
 		for(Player player: affectedPlayers)
 			affectedPlayer = player;
 
-		PlayerInterface.ChooseParameters<java.io.Serializable> chooseParameters = new PlayerInterface.ChooseParameters<java.io.Serializable>(1, 1, PlayerInterface.ChoiceType.REPLACEMENT_EFFECT, PlayerInterface.ChooseReason.REPLACE_EVENT);
+		PlayerInterface.ChooseParameters<Serializable> chooseParameters = new PlayerInterface.ChooseParameters<Serializable>(1, 1, PlayerInterface.ChoiceType.REPLACEMENT_EFFECT, PlayerInterface.ChooseReason.REPLACE_EVENT);
 		chooseParameters.thisID = this.ID;
-		java.util.List<EventReplacementEffect> choice = affectedPlayer.sanitizeAndChoose(this.game.actualState, effects, chooseParameters);
+		List<EventReplacementEffect> choice = affectedPlayer.sanitizeAndChoose(this.game.actualState, effects, chooseParameters);
 		return choice.get(0).apply(this);
 	}
 
@@ -613,7 +625,7 @@ public class Event extends Identified implements Sanitizable
 			ret.parameters = null;
 		else
 		{
-			ret.parameters = new java.util.HashMap<EventType.Parameter, SetGenerator>();
+			ret.parameters = new HashMap<EventType.Parameter, SetGenerator>();
 			for(EventType.Parameter parameterName: this.parameters.keySet())
 				ret.parameters.put(parameterName, this.parameters.get(parameterName));
 		}
@@ -625,12 +637,12 @@ public class Event extends Identified implements Sanitizable
 
 		// parent, children, objects moved, and needNewTimestamps don't need to
 		// be preserved between backups
-		ret.children = new java.util.HashMap<Event, Boolean>();
+		ret.children = new HashMap<Event, Boolean>();
 		ret.parent = null;
-		ret.shuffles = new java.util.HashSet<Integer>(this.shuffles);
-		ret.needNewTimestamps = new java.util.HashSet<GameObject>();
-		ret.objectsToOrderByChoice = new java.util.HashMap<IndexedZone, java.util.Set<Integer>>();
-		ret.objectsToOrderRandomly = new java.util.HashMap<IndexedZone, java.util.Set<Integer>>();
+		ret.shuffles = new HashSet<Integer>(this.shuffles);
+		ret.needNewTimestamps = new HashSet<GameObject>();
+		ret.objectsToOrderByChoice = new HashMap<IndexedZone, Set<Integer>>();
+		ret.objectsToOrderRandomly = new HashMap<IndexedZone, Set<Integer>>();
 		return ret;
 	}
 
@@ -687,17 +699,17 @@ public class Event extends Identified implements Sanitizable
 	 * @return An unmodifiable view of damage this event would deal or has
 	 * dealt.
 	 */
-	public final java.util.Collection<DamageAssignment> getDamage()
+	public final Collection<DamageAssignment> getDamage()
 	{
-		return java.util.Collections.unmodifiableCollection(this.damage);
+		return Collections.unmodifiableCollection(this.damage);
 	}
 
-	public final java.util.Map<IndexedZone, java.util.Set<GameObject>> getObjectsMoved(GameState state)
+	public final Map<IndexedZone, Set<GameObject>> getObjectsMoved(GameState state)
 	{
-		java.util.Map<IndexedZone, java.util.Set<GameObject>> ret = new java.util.HashMap<IndexedZone, java.util.Set<GameObject>>();
-		for(java.util.Map.Entry<IndexedZone, java.util.Set<Integer>> entry: this.objectsToOrderByChoice.entrySet())
+		Map<IndexedZone, Set<GameObject>> ret = new HashMap<IndexedZone, Set<GameObject>>();
+		for(Map.Entry<IndexedZone, Set<Integer>> entry: this.objectsToOrderByChoice.entrySet())
 		{
-			java.util.Set<GameObject> objects = new java.util.HashSet<GameObject>();
+			Set<GameObject> objects = new HashSet<GameObject>();
 			for(Integer i: entry.getValue())
 				objects.add(state.<GameObject>get(i));
 			ret.put(entry.getKey(), objects);
@@ -746,9 +758,9 @@ public class Event extends Identified implements Sanitizable
 		return this.parent.getTopLevelParent();
 	}
 
-	public java.util.List<ZoneChange> getZoneChanges()
+	public List<ZoneChange> getZoneChanges()
 	{
-		return new java.util.LinkedList<ZoneChange>(this.zoneChanges);
+		return new LinkedList<ZoneChange>(this.zoneChanges);
 	}
 
 	/**
@@ -793,14 +805,14 @@ public class Event extends Identified implements Sanitizable
 	 */
 	private void orderMovedCards()
 	{
-		for(java.util.Map.Entry<IndexedZone, java.util.Set<Integer>> objectsMovedEntry: this.objectsToOrderByChoice.entrySet())
+		for(Map.Entry<IndexedZone, Set<Integer>> objectsMovedEntry: this.objectsToOrderByChoice.entrySet())
 		{
 			IndexedZone indexedZone = objectsMovedEntry.getKey();
 			Zone zone = this.game.physicalState.get(indexedZone.zoneID);
 
 			// only give the player choices for cards that are still in the
 			// indexed zone
-			java.util.Collection<GameObject> choices = new java.util.HashSet<GameObject>();
+			Collection<GameObject> choices = new HashSet<GameObject>();
 			for(Integer i: objectsMovedEntry.getValue())
 			{
 				GameObject object = this.game.actualState.get(i);
@@ -842,22 +854,22 @@ public class Event extends Identified implements Sanitizable
 				if(2 <= choices.size())
 				{
 					// Break the objects up by controller
-					java.util.Map<Player, java.util.Set<GameObject>> controllers = new java.util.HashMap<Player, java.util.Set<GameObject>>();
+					Map<Player, Set<GameObject>> controllers = new HashMap<Player, Set<GameObject>>();
 					for(GameObject o: choices)
 					{
-						java.util.Set<GameObject> controlledBy;
+						Set<GameObject> controlledBy;
 						Player controller = o.getController(this.game.actualState);
 						if(controllers.containsKey(controller))
 							controlledBy = controllers.get(controller);
 						else
 						{
-							controlledBy = new java.util.HashSet<GameObject>();
+							controlledBy = new HashSet<GameObject>();
 							controllers.put(controller, controlledBy);
 						}
 						controlledBy.add(o);
 					}
 
-					for(java.util.Map.Entry<Player, java.util.Set<GameObject>> controllersEntry: controllers.entrySet())
+					for(Map.Entry<Player, Set<GameObject>> controllersEntry: controllers.entrySet())
 					{
 						choices = controllersEntry.getValue();
 						if(1 < choices.size())
@@ -870,12 +882,12 @@ public class Event extends Identified implements Sanitizable
 				}
 			}
 		}
-		for(java.util.Map.Entry<IndexedZone, java.util.Set<Integer>> objectsMovedEntry: this.objectsToOrderRandomly.entrySet())
+		for(Map.Entry<IndexedZone, Set<Integer>> objectsMovedEntry: this.objectsToOrderRandomly.entrySet())
 		{
 			IndexedZone indexedZone = objectsMovedEntry.getKey();
 			Zone zone = this.game.physicalState.get(indexedZone.zoneID);
 
-			java.util.List<GameObject> choices = new java.util.LinkedList<GameObject>();
+			List<GameObject> choices = new LinkedList<GameObject>();
 			for(Integer i: objectsMovedEntry.getValue())
 			{
 				GameObject object = this.game.actualState.get(i);
@@ -883,7 +895,7 @@ public class Event extends Identified implements Sanitizable
 					choices.add(object);
 			}
 
-			java.util.Collections.shuffle(choices);
+			Collections.shuffle(choices);
 			for(GameObject object: choices)
 				if(zone.objects.remove(object))
 					zone.addAtPosition(object, indexedZone.index);
@@ -907,8 +919,8 @@ public class Event extends Identified implements Sanitizable
 		}
 
 		Player activePlayer = this.game.actualState.currentTurn().getOwner(this.game.actualState);
-		java.util.Set<GameObject> needNewTimestamps = new java.util.HashSet<GameObject>(this.needNewTimestamps);
-		java.util.Iterator<GameObject> iter = needNewTimestamps.iterator();
+		Set<GameObject> needNewTimestamps = new HashSet<GameObject>(this.needNewTimestamps);
+		Iterator<GameObject> iter = needNewTimestamps.iterator();
 		while(iter.hasNext())
 		{
 			GameObject o = iter.next();
@@ -938,15 +950,15 @@ public class Event extends Identified implements Sanitizable
 		// simultaneously, such as by entering a zone simultaneously or becoming
 		// attached simultaneously, the active player determines their timestamp
 		// order at that time.
-		java.util.List<GameObject> ordered = activePlayer.sanitizeAndChoose(this.game.actualState, needNewTimestamps.size(), needNewTimestamps, PlayerInterface.ChoiceType.TIMESTAMPS, PlayerInterface.ChooseReason.TIMESTAMP);
+		List<GameObject> ordered = activePlayer.sanitizeAndChoose(this.game.actualState, needNewTimestamps.size(), needNewTimestamps, PlayerInterface.ChoiceType.TIMESTAMPS, PlayerInterface.ChooseReason.TIMESTAMP);
 		for(GameObject o: ordered)
 			o.getPhysical().setNewTimestamp();
 	}
 
-	private java.util.Map<EventType.Parameter, MagicSet> parametersNowAsSets()
+	private Map<EventType.Parameter, MagicSet> parametersNowAsSets()
 	{
-		java.util.Map<EventType.Parameter, MagicSet> ret = new java.util.HashMap<EventType.Parameter, MagicSet>();
-		for(java.util.Map.Entry<EventType.Parameter, Identity> parameter: this.parametersNow.entrySet())
+		Map<EventType.Parameter, MagicSet> ret = new HashMap<EventType.Parameter, MagicSet>();
+		for(Map.Entry<EventType.Parameter, Identity> parameter: this.parametersNow.entrySet())
 			ret.put(parameter.getKey(), parameter.getValue().evaluate(this.game, null));
 		return ret;
 	}
@@ -996,7 +1008,7 @@ public class Event extends Identified implements Sanitizable
 			// Game.refreshActualState() clears the old actual state. -CommsGuy
 			previousGameState = this.game.actualState.clone(true);
 
-		java.util.List<Event> replacedEvents = checkReplacements();
+		List<Event> replacedEvents = checkReplacements();
 		if(replacedEvents != null)
 		{
 			boolean status = true;
@@ -1021,7 +1033,7 @@ public class Event extends Identified implements Sanitizable
 		}
 
 		// go go go!
-		java.util.Map<EventType.Parameter, MagicSet> parametersNow = this.parametersNowAsSets();
+		Map<EventType.Parameter, MagicSet> parametersNow = this.parametersNowAsSets();
 		if(this.choices == null)
 			this.type.makeChoices(this.game, this, parametersNow);
 		boolean eventPerformed = this.type.perform(this.game, this, parametersNow);
@@ -1130,7 +1142,7 @@ public class Event extends Identified implements Sanitizable
 	 * @param madeChoices Who made the choice.
 	 * @param choices What things were chosen.
 	 */
-	public void putChoices(Player madeChoices, java.util.Collection<?> choices)
+	public void putChoices(Player madeChoices, Collection<?> choices)
 	{
 		// This should be sufficient to initialize the choice map, since if no
 		// player makes a choice for the event, this function should never be
@@ -1138,7 +1150,7 @@ public class Event extends Identified implements Sanitizable
 		// "makeChoices" that initializes this map and calls type.makeChoices,
 		// then change outside calls to type.makeChoices to Event.makeChoices.
 		if(this.choices == null)
-			this.choices = new java.util.HashMap<Integer, Identity>();
+			this.choices = new HashMap<Integer, Identity>();
 
 		this.choices.put(madeChoices.ID, Identity.instance(choices));
 	}
@@ -1192,7 +1204,7 @@ public class Event extends Identified implements Sanitizable
 			return;
 		}
 
-		java.util.List<IndexedZone> toRemove = new java.util.LinkedList<IndexedZone>();
+		List<IndexedZone> toRemove = new LinkedList<IndexedZone>();
 		for(IndexedZone indexedZone: this.objectsToOrderByChoice.keySet())
 			if(indexedZone.zoneID == zone.ID)
 				toRemove.add(indexedZone);
@@ -1212,7 +1224,7 @@ public class Event extends Identified implements Sanitizable
 	{
 		// find all the things that could replace the damage in this
 		// event
-		java.util.Collection<DamageAssignment.Replacement> effects = new java.util.LinkedList<DamageAssignment.Replacement>();
+		Collection<DamageAssignment.Replacement> effects = new LinkedList<DamageAssignment.Replacement>();
 		for(DamageReplacementEffect effect: this.game.actualState.damageReplacementEffects)
 		{
 			// if this effect is out of uses or damage, it can't do diddly
@@ -1236,7 +1248,7 @@ public class Event extends Identified implements Sanitizable
 			return false;
 
 		// figure out who cares
-		java.util.Set<Player> affectedPlayers = new java.util.HashSet<Player>();
+		Set<Player> affectedPlayers = new HashSet<Player>();
 		for(DamageAssignment.Replacement replacement: effects)
 		{
 			DamageAssignment.Batch batch = replacement.batch;
@@ -1251,7 +1263,7 @@ public class Event extends Identified implements Sanitizable
 		}
 
 		// APNAP order
-		java.util.List<Player> players = this.state.getPlayerCycle(this.game.actualState.currentTurn().getOwner(this.game.actualState));
+		List<Player> players = this.state.getPlayerCycle(this.game.actualState.currentTurn().getOwner(this.game.actualState));
 		// the majority of this "loop" actually only runs once; the if at the
 		// top of the loop selects which player will be choosing
 		for(Player player: players)
@@ -1259,12 +1271,12 @@ public class Event extends Identified implements Sanitizable
 			if(!affectedPlayers.contains(player))
 				continue;
 
-			java.util.Collection<DamageAssignment.Replacement> choices = new java.util.LinkedList<DamageAssignment.Replacement>();
+			Collection<DamageAssignment.Replacement> choices = new LinkedList<DamageAssignment.Replacement>();
 			for(DamageAssignment.Replacement replacement: effects)
 			{
 				// from this replacement's batch, remove all damage that does
 				// not concern this player
-				java.util.Collection<DamageAssignment> toRemove = new java.util.LinkedList<DamageAssignment>();
+				Collection<DamageAssignment> toRemove = new LinkedList<DamageAssignment>();
 				for(DamageAssignment assignment: replacement.batch)
 				{
 					Identified taker = this.state.get(assignment.takerID);
@@ -1296,7 +1308,7 @@ public class Event extends Identified implements Sanitizable
 
 			// Replace the damage, performing any events that result from those
 			// replacements
-			java.util.List<EventFactory> events = new java.util.LinkedList<EventFactory>();
+			List<EventFactory> events = new LinkedList<EventFactory>();
 			int prevented = choice.effect.apply(choice.batch, player, events);
 
 			// if this effect is out of uses, it can't do diddly
@@ -1326,7 +1338,7 @@ public class Event extends Identified implements Sanitizable
 	{
 		{
 			Identified thisObject = this.getSource();
-			java.util.Collection<ZoneChange> toRemove = new java.util.LinkedList<ZoneChange>();
+			Collection<ZoneChange> toRemove = new LinkedList<ZoneChange>();
 			for(ZoneChange zoneChange: this.zoneChanges)
 				for(ZoneChangePattern prohibition: this.game.actualState.zoneChangeProhibitions)
 					if(prohibition.match(zoneChange, thisObject, this.game.actualState))
@@ -1335,7 +1347,7 @@ public class Event extends Identified implements Sanitizable
 		}
 
 		// find all the things that could replace the zone changes in this event
-		java.util.Collection<ZoneChange.Replacement> replacements = new java.util.LinkedList<ZoneChange.Replacement>();
+		Collection<ZoneChange.Replacement> replacements = new LinkedList<ZoneChange.Replacement>();
 		for(ZoneChangeReplacementEffect effect: this.game.actualState.zoneChangeReplacementEffects)
 		{
 			// if this effect is out of uses, it can't do diddly
@@ -1345,7 +1357,7 @@ public class Event extends Identified implements Sanitizable
 
 			// if this effect has replaced some of the zone-changes, don't try
 			// to replace that zone-change again with this effect
-			java.util.Collection<ZoneChange> relevantZoneChanges = new java.util.LinkedList<ZoneChange>();
+			Collection<ZoneChange> relevantZoneChanges = new LinkedList<ZoneChange>();
 			for(ZoneChange change: this.zoneChanges)
 				if(!change.replacedBy.contains(effect))
 					relevantZoneChanges.add(change);
@@ -1358,12 +1370,12 @@ public class Event extends Identified implements Sanitizable
 			return null;
 
 		// figure out who cares
-		java.util.Set<Player> affectedPlayers = new java.util.HashSet<Player>();
+		Set<Player> affectedPlayers = new HashSet<Player>();
 		for(ZoneChange.Replacement replacement: replacements)
 			affectedPlayers.add(this.game.actualState.<GameObject>get(replacement.zoneChange.oldObjectID).getController(this.game.actualState));
 
 		// APNAP order
-		java.util.List<Player> players = this.state.players;
+		List<Player> players = this.state.players;
 		if(this.game.hasStarted())
 			players = this.state.getPlayerCycle(this.game.actualState.currentTurn().getOwner(this.game.actualState));
 		// the majority of this "loop" actually only runs once; the if at the
@@ -1373,7 +1385,7 @@ public class Event extends Identified implements Sanitizable
 			if(!affectedPlayers.contains(player))
 				continue;
 
-			java.util.Collection<ZoneChange.Replacement> choices = new java.util.LinkedList<ZoneChange.Replacement>();
+			Collection<ZoneChange.Replacement> choices = new LinkedList<ZoneChange.Replacement>();
 			for(ZoneChange.Replacement replacement: replacements)
 				if(this.game.actualState.<GameObject>get(replacement.zoneChange.oldObjectID).getController(this.game.actualState).equals(player))
 					choices.add(replacement);
@@ -1396,14 +1408,14 @@ public class Event extends Identified implements Sanitizable
 			}
 			if(gatherSpecimens)
 			{
-				java.util.Iterator<ZoneChange.Replacement> i = choices.iterator();
+				Iterator<ZoneChange.Replacement> i = choices.iterator();
 				while(i.hasNext())
 					if(!i.next().effect.isGatherSpecimensEffect())
 						i.remove();
 			}
 			else if(clone)
 			{
-				java.util.Iterator<ZoneChange.Replacement> i = choices.iterator();
+				Iterator<ZoneChange.Replacement> i = choices.iterator();
 				while(i.hasNext())
 					if(!i.next().effect.isCloneEffect())
 						i.remove();
@@ -1425,7 +1437,7 @@ public class Event extends Identified implements Sanitizable
 
 			// Replace the zone-changes, performing any events that result from
 			// those replacements
-			java.util.Collection<ZoneChange> singleChange = new java.util.LinkedList<ZoneChange>();
+			Collection<ZoneChange> singleChange = new LinkedList<ZoneChange>();
 			singleChange.add(choice.zoneChange);
 			for(EventFactory factory: choice.effect.apply(singleChange))
 			{
@@ -1445,9 +1457,9 @@ public class Event extends Identified implements Sanitizable
 	}
 
 	@Override
-	public java.io.Serializable sanitize(GameState state, Player whoFor)
+	public Serializable sanitize(GameState state, Player whoFor)
 	{
-		return new org.rnd.jmagic.sanitized.SanitizedEvent(state.<Event>get(this.ID));
+		return new SanitizedEvent(state.<Event>get(this.ID));
 	}
 
 	/** Tells this Event what result it has. */
@@ -1503,7 +1515,7 @@ public class Event extends Identified implements Sanitizable
 		}
 
 		if(!this.game.noRandom)
-			java.util.Collections.shuffle(library.objects);
+			Collections.shuffle(library.objects);
 	}
 
 	/**
@@ -1518,7 +1530,7 @@ public class Event extends Identified implements Sanitizable
 		GameObject eventSource = this.getSource();
 
 		// initialize the parameters now map
-		this.parametersNow = new java.util.HashMap<EventType.Parameter, Identity>();
+		this.parametersNow = new HashMap<EventType.Parameter, Identity>();
 		for(EventType.Parameter parameterName: this.parameters.keySet())
 		{
 			// evaluate one parameter
@@ -1529,7 +1541,7 @@ public class Event extends Identified implements Sanitizable
 			if(parameterName == this.type.affects())
 			{
 				// ... remove all ghosts from this parameter
-				java.util.Set<GameObject> toRemove = new java.util.HashSet<GameObject>();
+				Set<GameObject> toRemove = new HashSet<GameObject>();
 				for(GameObject o: newParameter.getAll(GameObject.class))
 					if(o.isGhost())
 						toRemove.add(o);

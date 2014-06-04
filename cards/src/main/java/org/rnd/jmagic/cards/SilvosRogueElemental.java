@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 
 @Name("Silvos, Rogue Elemental")
@@ -30,7 +32,7 @@ public final class SilvosRogueElemental extends Card
 		this.setToughness(5);
 
 		// Trample
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Trample(state));
+		this.addAbility(new Trample(state));
 
 		// (G): Regenerate Silvos, Rogue Elemental.
 		this.addAbility(new SilvosRogueElementalAbility1(state));

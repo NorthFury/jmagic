@@ -2,6 +2,7 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Storm;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -20,6 +21,6 @@ public final class BrainFreeze extends Card
 
 		this.addEffect(millCards(targetedBy(target), 3, "Target player puts the top three cards of his or her library into his or her graveyard."));
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Storm(state));
+		this.addAbility(new Storm(state));
 	}
 }

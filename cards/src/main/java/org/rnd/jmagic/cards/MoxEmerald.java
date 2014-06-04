@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.TapForG;
 import org.rnd.jmagic.engine.*;
 
 @Name("Mox Emerald")
@@ -14,6 +15,6 @@ public final class MoxEmerald extends Card
 		super(state);
 
 		// (T): Add (G) to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapForG(state));
+		this.addAbility(new TapForG(state));
 	}
 }

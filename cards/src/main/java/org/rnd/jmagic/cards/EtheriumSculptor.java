@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.CostsYouLessToCast;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -18,6 +19,6 @@ public final class EtheriumSculptor extends Card
 		this.setPower(1);
 		this.setToughness(2);
 
-		this.addAbility(new org.rnd.jmagic.abilities.CostsYouLessToCast(state, HasType.instance(Type.ARTIFACT), "1", "Artifact spells you cast cost (1) less to cast."));
+		this.addAbility(new CostsYouLessToCast(state, HasType.instance(Type.ARTIFACT), "1", "Artifact spells you cast cost (1) less to cast."));
 	}
 }

@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Trample;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -19,6 +21,6 @@ public final class ChorusofMight extends Card
 		// control and gains trample.
 		SetGenerator target = targetedBy(this.addTarget(CreaturePermanents.instance(), "target creature"));
 		SetGenerator num = Count.instance(CREATURES_YOU_CONTROL);
-		this.addEffect(ptChangeAndAbilityUntilEndOfTurn(target, num, num, "Target creature gets +1/+1 for each creature you control and gains trample.", org.rnd.jmagic.abilities.keywords.Trample.class));
+		this.addEffect(ptChangeAndAbilityUntilEndOfTurn(target, num, num, "Target creature gets +1/+1 for each creature you control and gains trample.", Trample.class));
 	}
 }

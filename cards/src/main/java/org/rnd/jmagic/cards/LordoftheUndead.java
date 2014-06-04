@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.StaticPTChange;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -42,7 +44,7 @@ public final class LordoftheUndead extends Card
 
 		SetGenerator zombieCreatures = Intersect.instance(CreaturePermanents.instance(), HasSubType.instance(SubType.ZOMBIE));
 		SetGenerator others = RelativeComplement.instance(zombieCreatures, This.instance());
-		this.addAbility(new org.rnd.jmagic.abilities.StaticPTChange(state, others, "Other Zombie creatures", +1, +1, true));
+		this.addAbility(new StaticPTChange(state, others, "Other Zombie creatures", +1, +1, true));
 
 		this.addAbility(new Harvest(state));
 	}

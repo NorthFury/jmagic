@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.EntersTheBattlefieldWithAPlusOnePlusOneCounterForEachTimeItWasKicked;
+import org.rnd.jmagic.abilities.keywords.Kicker;
 import org.rnd.jmagic.engine.*;
 
 @Name("Gnarlid Pack")
@@ -19,11 +21,11 @@ public final class GnarlidPack extends Card
 
 		// Multikicker (1)(G) (You may pay an additional (1)(G) any number of
 		// times as you cast this spell.)
-		org.rnd.jmagic.abilities.keywords.Kicker kicker = new org.rnd.jmagic.abilities.keywords.Kicker(state, true, "(1)(G)");
+		Kicker kicker = new Kicker(state, true, "(1)(G)");
 		this.addAbility(kicker);
 
 		// Gnarlid Pack enters the battlefield with a +1/+1 counter on it for
 		// each time it was kicked.
-		this.addAbility(new org.rnd.jmagic.abilities.EntersTheBattlefieldWithAPlusOnePlusOneCounterForEachTimeItWasKicked(state, "Gnarlid Pack", kicker.costCollections[0]));
+		this.addAbility(new EntersTheBattlefieldWithAPlusOnePlusOneCounterForEachTimeItWasKicked(state, "Gnarlid Pack", kicker.costCollections[0]));
 	}
 }

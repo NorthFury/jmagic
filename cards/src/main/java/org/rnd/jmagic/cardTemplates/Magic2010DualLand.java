@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cardTemplates;
 
+import org.rnd.jmagic.abilities.EntersTheBattlefieldTappedUnless;
+import org.rnd.jmagic.abilities.TapForMana;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -16,9 +18,9 @@ public abstract class Magic2010DualLand extends Card
 		String conditionText = "you control " + //
 		(a.toString().matches("[aeiouAEIOU].*") ? "an " : "a ") + a + " or " + //
 		(b.toString().matches("[aeiouAEIOU].*") ? "an " : "a ") + b;
-		this.addAbility(new org.rnd.jmagic.abilities.EntersTheBattlefieldTappedUnless(state, this.getName(), condition, conditionText));
+		this.addAbility(new EntersTheBattlefieldTappedUnless(state, this.getName(), condition, conditionText));
 
 		// (T): Add {A} or {B} to your mana pool.
-		this.addAbility(new org.rnd.jmagic.abilities.TapForMana.Final(state, "(" + Color.getColorForType(a).getLetter() + Color.getColorForType(b).getLetter() + ")"));
+		this.addAbility(new TapForMana.Final(state, "(" + Color.getColorForType(a).getLetter() + Color.getColorForType(b).getLetter() + ")"));
 	}
 }

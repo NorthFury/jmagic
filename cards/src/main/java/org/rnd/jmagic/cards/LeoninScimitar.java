@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.StaticPTChange;
+import org.rnd.jmagic.abilities.keywords.Equip;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -15,9 +17,9 @@ public final class LeoninScimitar extends Card
 	{
 		super(state);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Equip(state, "(1)"));
+		this.addAbility(new Equip(state, "(1)"));
 
 		SetGenerator enchantedCreature = EquippedBy.instance(This.instance());
-		this.addAbility(new org.rnd.jmagic.abilities.StaticPTChange(state, enchantedCreature, "Equipped creature", +1, +1, false));
+		this.addAbility(new StaticPTChange(state, enchantedCreature, "Equipped creature", +1, +1, false));
 	}
 }

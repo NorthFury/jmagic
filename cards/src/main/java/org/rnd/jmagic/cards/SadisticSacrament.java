@@ -1,6 +1,8 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Kicker;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -16,7 +18,7 @@ public final class SadisticSacrament extends Card
 		super(state);
 
 		// Kicker (7) (You may pay an additional (7) as you cast this spell.)
-		org.rnd.jmagic.abilities.keywords.Kicker ability = new org.rnd.jmagic.abilities.keywords.Kicker(state, "7");
+		Kicker ability = new Kicker(state, "7");
 		this.addAbility(ability);
 		CostCollection kickerCost = ability.costCollections[0];
 

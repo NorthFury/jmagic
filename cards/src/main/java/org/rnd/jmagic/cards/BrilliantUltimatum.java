@@ -5,6 +5,11 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
 @Name("Brilliant Ultimatum")
 @Types({Type.SORCERY})
 @ManaCost("WWUUUBB")
@@ -28,21 +33,21 @@ public final class BrilliantUltimatum extends Card
 		}
 
 		@Override
-		public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+		public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 		{
 			Event exile = exile(Identity.instance(parameters.get(Parameter.CARD)), "Exile the top five cards of your library").createEvent(game, event.getSource());
 			exile.perform(event, true);
 
 			Player you = parameters.get(Parameter.PLAYER).getOne(Player.class).getActual();
-			java.util.Set<Player> opponents = OpponentsOf.get(game.actualState, you).getAll(Player.class);
+			Set<Player> opponents = OpponentsOf.get(game.actualState, you).getAll(Player.class);
 			Player anOpponent = you.sanitizeAndChoose(game.actualState, 1, opponents, PlayerInterface.ChoiceType.PLAYER, PlayerInterface.ChooseReason.AN_OPPONENT).iterator().next();
 
 			MagicSet thoseCards = NewObjectOf.instance(exile.getResultGenerator()).evaluate(game, null);
-			java.util.Collection<Pile> piles = anOpponent.separateIntoPiles(2, thoseCards);
+			Collection<Pile> piles = anOpponent.separateIntoPiles(2, thoseCards);
 
 			Pile chosenPile = you.sanitizeAndChoose(game.actualState, 1, piles, PlayerInterface.ChoiceType.PILE, REASON).iterator().next();
 
-			java.util.Map<Parameter, MagicSet> playParameters = new java.util.HashMap<Parameter, MagicSet>();
+			Map<Parameter, MagicSet> playParameters = new HashMap<Parameter, MagicSet>();
 			playParameters.put(Parameter.CAUSE, parameters.get(Parameter.CAUSE));
 			playParameters.put(Parameter.PLAYER, new MagicSet(you));
 			playParameters.put(Parameter.OBJECT, new MagicSet(chosenPile));

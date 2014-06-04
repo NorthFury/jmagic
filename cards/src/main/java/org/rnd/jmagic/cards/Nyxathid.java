@@ -5,6 +5,9 @@ import static org.rnd.jmagic.Convenience.*;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
+import java.util.List;
+import java.util.Map;
+
 @Name("Nyxathid")
 @Types({Type.CREATURE})
 @SubTypes({SubType.ELEMENTAL})
@@ -33,10 +36,10 @@ public final class Nyxathid extends Card
 			}
 
 			@Override
-			public boolean perform(Game game, Event event, java.util.Map<Parameter, MagicSet> parameters)
+			public boolean perform(Game game, Event event, Map<Parameter, MagicSet> parameters)
 			{
 				Player player = parameters.get(Parameter.PLAYER).getOne(Player.class);
-				java.util.List<Player> named = player.sanitizeAndChoose(game.actualState, 1, parameters.get(Parameter.CHOICE).getAll(Player.class), PlayerInterface.ChoiceType.PLAYER, REASON);
+				List<Player> named = player.sanitizeAndChoose(game.actualState, 1, parameters.get(Parameter.CHOICE).getAll(Player.class), PlayerInterface.ChoiceType.PLAYER, REASON);
 				Linkable link = parameters.get(Parameter.SOURCE).getOne(Linkable.class).getPhysical();
 				for(Object object: named)
 					link.getLinkManager().addLinkInformation(object);

@@ -2,6 +2,8 @@ package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
 
+import org.rnd.jmagic.abilities.keywords.Flying;
+import org.rnd.jmagic.abilities.keywords.Kicker;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -25,7 +27,7 @@ public final class KorAeronaut extends Card
 			this.addPattern(whenThisEntersTheBattlefield());
 			this.interveningIf = ThisPermanentWasKicked.instance(kickerCost);
 			Target target = this.addTarget(CreaturePermanents.instance(), "target creature");
-			this.addEffect(addAbilityUntilEndOfTurn(targetedBy(target), org.rnd.jmagic.abilities.keywords.Flying.class, "Target creature gains flying until end of turn."));
+			this.addEffect(addAbilityUntilEndOfTurn(targetedBy(target), Flying.class, "Target creature gains flying until end of turn."));
 		}
 
 		@Override
@@ -41,7 +43,7 @@ public final class KorAeronaut extends Card
 
 		this.setPower(2);
 		this.setToughness(2);
-		org.rnd.jmagic.abilities.keywords.Kicker ability = new org.rnd.jmagic.abilities.keywords.Kicker(state, "(1)(W)");
+		Kicker ability = new Kicker(state, "(1)(W)");
 		this.addAbility(ability);
 
 		// Kicker (1)(W) (You may pay an additional (1)(W) as you cast this
@@ -49,7 +51,7 @@ public final class KorAeronaut extends Card
 		CostCollection kickerCost = ability.costCollections[0];
 
 		// Flying
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flying(state));
+		this.addAbility(new Flying(state));
 
 		// When Kor Aeronaut enters the battlefield, if it was kicked, target
 		// creature gains flying until end of turn.

@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.CostsYouLessToCast;
+import org.rnd.jmagic.abilities.keywords.Haste;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -18,8 +20,8 @@ public final class FrogtosserBanneret extends Card
 		this.setPower(1);
 		this.setToughness(1);
 
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Haste(state));
+		this.addAbility(new Haste(state));
 
-		this.addAbility(new org.rnd.jmagic.abilities.CostsYouLessToCast(state, HasSubType.instance(SubType.GOBLIN, SubType.ROGUE), "(1)", "Goblin spells and Rogue spells you cast cost (1) less to cast."));
+		this.addAbility(new CostsYouLessToCast(state, HasSubType.instance(SubType.GOBLIN, SubType.ROGUE), "(1)", "Goblin spells and Rogue spells you cast cost (1) less to cast."));
 	}
 }

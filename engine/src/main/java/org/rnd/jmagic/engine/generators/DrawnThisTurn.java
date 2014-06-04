@@ -2,24 +2,28 @@ package org.rnd.jmagic.engine.generators;
 
 import org.rnd.jmagic.engine.*;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+
 public final class DrawnThisTurn extends SetGenerator
 {
-	public static final class DrawTracker extends Tracker<java.util.Collection<ZoneChange>>
+	public static final class DrawTracker extends Tracker<Collection<ZoneChange>>
 	{
-		private java.util.HashSet<ZoneChange> values = new java.util.HashSet<ZoneChange>();
-		private java.util.Collection<ZoneChange> unmodifiable = java.util.Collections.unmodifiableSet(this.values);
+		private HashSet<ZoneChange> values = new HashSet<ZoneChange>();
+		private Collection<ZoneChange> unmodifiable = Collections.unmodifiableSet(this.values);
 
 		@Override
 		public DrawnThisTurn.DrawTracker clone()
 		{
 			DrawnThisTurn.DrawTracker ret = (DrawnThisTurn.DrawTracker)super.clone();
-			ret.values = new java.util.HashSet<ZoneChange>(this.values);
-			ret.unmodifiable = java.util.Collections.unmodifiableSet(ret.values);
+			ret.values = new HashSet<ZoneChange>(this.values);
+			ret.unmodifiable = Collections.unmodifiableSet(ret.values);
 			return ret;
 		}
 
 		@Override
-		protected java.util.Collection<ZoneChange> getValueInternal()
+		protected Collection<ZoneChange> getValueInternal()
 		{
 			return this.unmodifiable;
 		}
@@ -59,7 +63,7 @@ public final class DrawnThisTurn extends SetGenerator
 	}
 
 	@Override
-	public org.rnd.jmagic.engine.MagicSet evaluate(GameState state, Identified thisObject)
+	public MagicSet evaluate(GameState state, Identified thisObject)
 	{
 		MagicSet ret = new MagicSet();
 		for(ZoneChange z: state.getTracker(DrawnThisTurn.DrawTracker.class).getValue(state))

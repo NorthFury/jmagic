@@ -1,5 +1,6 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.Regenerate;
 import org.rnd.jmagic.engine.*;
 
 @Name("Drudge Skeletons")
@@ -17,6 +18,6 @@ public final class DrudgeSkeletons extends Card
 		this.setPower(1);
 		this.setToughness(1);
 
-		this.addAbility(new org.rnd.jmagic.abilities.Regenerate.Final(state, "(B)", this.getName()));
+		this.addAbility(new Regenerate.Final(state, "(B)", this.getName()));
 	}
 }

@@ -39,7 +39,7 @@ public final class ShoalAbility extends StaticAbility
 	}
 
 	@Override
-	public ShoalAbility create(org.rnd.jmagic.engine.Game game)
+	public ShoalAbility create(Game game)
 	{
 		return new ShoalAbility(game.physicalState, this.color, this.cardName);
 	}

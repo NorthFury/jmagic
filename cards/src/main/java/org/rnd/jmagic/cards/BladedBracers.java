@@ -1,6 +1,9 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.keywords.Equip;
+import org.rnd.jmagic.abilities.keywords.Vigilance;
 import org.rnd.jmagic.engine.*;
 import org.rnd.jmagic.engine.generators.*;
 
@@ -28,7 +31,7 @@ public final class BladedBracers extends Card
 			super(state, "As long as equipped creature is a Human or an Angel, it has vigilance.");
 			SetGenerator equipped = EquippedBy.instance(This.instance());
 			this.canApply = Intersect.instance(equipped, HasSubType.instance(SubType.HUMAN, SubType.ANGEL));
-			this.addEffectPart(addAbilityToObject(equipped, org.rnd.jmagic.abilities.keywords.Vigilance.class));
+			this.addEffectPart(addAbilityToObject(equipped, Vigilance.class));
 		}
 	}
 
@@ -45,6 +48,6 @@ public final class BladedBracers extends Card
 
 		// Equip (2) ((2): Attach to target creature you control. Equip only as
 		// a sorcery.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Equip(state, "(2)"));
+		this.addAbility(new Equip(state, "(2)"));
 	}
 }

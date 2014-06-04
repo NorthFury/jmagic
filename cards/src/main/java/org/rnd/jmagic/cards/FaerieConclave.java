@@ -1,6 +1,10 @@
 package org.rnd.jmagic.cards;
 
 import static org.rnd.jmagic.Convenience.*;
+
+import org.rnd.jmagic.abilities.EntersTheBattlefieldTapped;
+import org.rnd.jmagic.abilities.TapForU;
+import org.rnd.jmagic.abilities.keywords.Flying;
 import org.rnd.jmagic.engine.*;
 
 @Name("Faerie Conclave")
@@ -20,7 +24,7 @@ public final class FaerieConclave extends Card
 			Animator animator = new Animator(ABILITY_SOURCE_OF_THIS, 2, 1);
 			animator.addColor(Color.BLUE);
 			animator.addSubType(SubType.FAERIE);
-			animator.addAbility(org.rnd.jmagic.abilities.keywords.Flying.class);
+			animator.addAbility(Flying.class);
 			this.addEffect(createFloatingEffect("Faerie Conclave becomes a 2/1 blue Faerie creature with flying until end of turn. It's still a land.", animator.getParts()));
 		}
 	}
@@ -29,8 +33,8 @@ public final class FaerieConclave extends Card
 	{
 		super(state);
 
-		this.addAbility(new org.rnd.jmagic.abilities.EntersTheBattlefieldTapped(state, this.getName()));
-		this.addAbility(new org.rnd.jmagic.abilities.TapForU(state));
+		this.addAbility(new EntersTheBattlefieldTapped(state, this.getName()));
+		this.addAbility(new TapForU(state));
 		this.addAbility(new AnimateConclave(state));
 	}
 }

@@ -1,5 +1,7 @@
 package org.rnd.jmagic.cards;
 
+import org.rnd.jmagic.abilities.Regenerate;
+import org.rnd.jmagic.abilities.keywords.Flash;
 import org.rnd.jmagic.engine.*;
 
 @Name("Wolfir Avenger")
@@ -18,9 +20,9 @@ public final class WolfirAvenger extends Card
 		this.setToughness(3);
 
 		// Flash (You may cast this spell any time you could cast an instant.)
-		this.addAbility(new org.rnd.jmagic.abilities.keywords.Flash(state));
+		this.addAbility(new Flash(state));
 
 		// (1)(G): Regenerate Wolfir Avenger.
-		this.addAbility(new org.rnd.jmagic.abilities.Regenerate.Final(state, "(1)(G)", this.getName()));
+		this.addAbility(new Regenerate.Final(state, "(1)(G)", this.getName()));
 	}
 }
