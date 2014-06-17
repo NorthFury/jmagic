@@ -974,10 +974,10 @@ public abstract class EventType
 	 * @eparam PLAYER: who is choosing
 	 * @eparam NUMBER: how many choices are required [optional; default is 1]
 	 * @eparam CHOICE: what to choose from
-	 * @eparam TYPE: a {@link PlayerInterface#ChoiceType} and a
-	 * {@link PlayerInterface#ChooseReason}
+	 * @eparam TYPE: a {@link PlayerInterface.ChoiceType} and a
+	 * {@link PlayerInterface.ChooseReason}
 	 * @eparam OBJECT: what object is causing the choice [required when the
-	 * {@link PlayerInterface#ChooseReason} in TYPE contains a "~", prohibited
+	 * {@link PlayerInterface.ChooseReason} in TYPE contains a "~", prohibited
 	 * otherwise]
 	 * @eparam RESULT: what was chosen
 	 */
@@ -1499,7 +1499,7 @@ public abstract class EventType
 	 * 2. because we're lazy and there used to be a rule saying to reveal the
 	 * chosen cards if there was a restriction on the search.<br>
 	 * <br>
-	 * If you need to do a {@link EventType#SHUFFLE} after searching, you need
+	 * If you need to do a {@link EventType#SHUFFLE_LIBRARY} after searching, you need
 	 * to do it manually.<br>
 	 * <br>
 	 * To trigger from a search, reference this event type. To prohibit or

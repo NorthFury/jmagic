@@ -40,7 +40,7 @@ import java.util.logging.Logger;
  * <p>
  * A reference implementation for playing jMagic over a socket. After
  * constructing the object, call
- * {@link #addLocalPlayer(PlayerInterface)} for each
+ * {@link #addLocalPlayer(PlayerInterface, ChatManager.Callback)}  for each
  * player which will be playing within the same VM as the server.
  * </p>
  * <p>

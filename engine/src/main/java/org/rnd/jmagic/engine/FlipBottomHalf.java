@@ -15,7 +15,7 @@ package org.rnd.jmagic.engine;
  * 
  * Extend this class when you want to write the other half of a flip card. The
  * top half should be the card's "normal" characteristics, and set
- * {@link GameObject#flippedClass} to represent that card's alternative
+ * {@link BottomHalf} to represent that card's alternative
  * characteristics. Annotate the instance of this class with a {@link Flipped}
  * annotation, setting the value to the top half of the flip card.
  */

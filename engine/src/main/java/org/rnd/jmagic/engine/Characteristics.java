@@ -88,12 +88,11 @@ public class Characteristics implements Sanitizable, Cloneable
 
 	/**
 	 * For each {@link Target} in any selected {@link Mode}, what {@link Target}
-	 * were chosen during {@link #selectTargets()}. Multiple selected
+	 * were chosen during {@link #chosenTargets}. Multiple selected
 	 * {@link Target} for each {@link Target} in a {@link Mode} are supported
 	 * for {@link Card} like {@link org.rnd.jmagic.cards.Fireball} where the
 	 * single {@link Target} becomes one or more. Any null-entry in the
-	 * collection indicates a {@link Target} determined to be illegal by
-	 * {@link #followInstructions()}.
+	 * collection indicates a {@link Target} determined to be illegal.
 	 */
 	public Map<Target, List<Target>> chosenTargets;
 

@@ -2641,10 +2641,6 @@ public class Convenience
 	/**
 	 * [Player] may play [n] additional land(s) this turn.
 	 * 
-	 * @param game The game in which this effect is created; required to create
-	 * the action factories.
-	 * @param creator The resolving spell/ability creating the effect. Typically
-	 * <code>this</code>.
 	 * @param who SetGenerator describing who can play the lands.
 	 * @param number How many additional lands can be played.
 	 * @param effectName Text of the effect.

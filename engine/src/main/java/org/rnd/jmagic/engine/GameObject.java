@@ -242,7 +242,6 @@ abstract public class GameObject extends Identified implements AttachableTo, Att
 	 * Constructs a game object that is blank (except for its name.)
 	 * 
 	 * @param state The game state in which this object exists.
-	 * @param name The object's name.
 	 */
 	GameObject(GameState state)
 	{
@@ -1873,7 +1872,7 @@ abstract public class GameObject extends Identified implements AttachableTo, Att
 	 * the player has selected the specified mode.
 	 * 
 	 * @param modeNum The mode.
-	 * @param divisionAmount A set generator representing what the player
+	 * @param division A set generator representing what the player
 	 * playing this object will be dividing.
 	 */
 	public void setDivision(int modeNum, SetGenerator division)
@@ -1885,7 +1884,7 @@ abstract public class GameObject extends Identified implements AttachableTo, Att
 	 * Tells this object what it should ask the player playing it to divide. Use
 	 * this method only on objects that "have no modes".
 	 * 
-	 * @param divisionAmount A set generator representing what the player
+	 * @param division A set generator representing what the player
 	 * playing this object will be dividing.
 	 */
 	public void setDivision(SetGenerator division)

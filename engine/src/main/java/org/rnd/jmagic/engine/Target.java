@@ -215,7 +215,7 @@ public class Target implements Cloneable, Sanitizable
 
 	/**
 	 * If you think you need to override this method, you probably want to
-	 * override {@link #checkSpecialRestrictions(java.util.List)} instead.
+	 * override {@link #checkSpecialRestrictions(GameState, java.util.List)} instead.
 	 * 
 	 * @param game The game in which to check.
 	 * @param thisObject The object that should be used for any This generators.

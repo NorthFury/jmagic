@@ -50,9 +50,9 @@ public abstract class CardPool implements GameTypeRule
 	}
 
 	@Override
-	public boolean checkExpansion(Expansion ex)
+	public boolean checkExpansion(Expansion expansion)
 	{
-		return this.allowedSets.contains(ex);
+		return this.allowedSets.contains(expansion);
 	}
 
 	@Override

@@ -47,7 +47,7 @@ public final class GameType
 		 * @param expansion The expansion to check
 		 * @return Whether cards from the expansion are allowed.
 		 */
-		public boolean checkExpansion(Expansion ex);
+		public boolean checkExpansion(Expansion expansion);
 
 		/**
 		 * @param deck The deck to check
@@ -98,7 +98,7 @@ public final class GameType
 		 * @return true. See {@link GameTypeRule#checkExpansion}.
 		 */
 		@Override
-		public boolean checkExpansion(Expansion ex)
+		public boolean checkExpansion(Expansion expansion)
 		{
 			return true;
 		}
